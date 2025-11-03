@@ -35,9 +35,7 @@ const config: runtime.GetPrismaClientConfig = {
         "native": true
       }
     ],
-    "previewFeatures": [
-      "prismaSchemaFolder"
-    ],
+    "previewFeatures": [],
     "sourceFilePath": "D:\\Thrill-Bazaar Backend\\thrill-bazaar-backend\\prisma\\schema\\schema.prisma",
     "isCustomOutput": true
   },
@@ -48,6 +46,7 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -56,8 +55,8 @@ const config: runtime.GetPrismaClientConfig = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider        = \"prisma-client\"\n  output          = \"../src/generated/prisma\"\n  previewFeatures = [\"prismaSchemaFolder\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// --- Global Enums ---\n\nenum UserType {\n  customer\n  operator\n  admin\n  super_admin\n}\n\nmodel User {\n  id          String    @id @default(uuid()) @map(\"user_id\")\n  userType    UserType  @default(customer) @map(\"user_type\")\n  email       String?   @unique\n  phone       String?   @unique\n  password    String?   @map(\"password_hash\")\n  firstName   String?   @map(\"first_name\")\n  lastName    String?   @map(\"last_name\")\n  profileImg  String?   @map(\"profile_image_url\")\n  isVerified  Boolean   @default(false) @map(\"is_verified\")\n  isActive    Boolean   @default(true) @map(\"is_active\")\n  createdAt   DateTime  @default(now()) @map(\"created_at\")\n  updatedAt   DateTime  @updatedAt @map(\"updated_at\")\n  lastLoginAt DateTime? @map(\"last_login_at\")\n}\n",
-  "inlineSchemaHash": "24803363a92ad8b83258bde6920b3ff1a3380494be3ad5008b3d4d80fc579613",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// --- Global Enums ---\n\nenum UserType {\n  customer\n  operator\n  admin\n  super_admin\n}\n\nmodel User {\n  id          String    @id @default(uuid()) @map(\"user_id\")\n  userType    UserType  @default(customer) @map(\"user_type\")\n  email       String?   @unique\n  phone       String?   @unique\n  password    String?   @map(\"password_hash\")\n  firstName   String?   @map(\"first_name\")\n  lastName    String?   @map(\"last_name\")\n  profileImg  String?   @map(\"profile_image_url\")\n  isVerified  Boolean   @default(false) @map(\"is_verified\")\n  isActive    Boolean   @default(true) @map(\"is_active\")\n  createdAt   DateTime  @default(now()) @map(\"created_at\")\n  updatedAt   DateTime  @updatedAt @map(\"updated_at\")\n  lastLoginAt DateTime? @map(\"last_login_at\")\n}\n",
+  "inlineSchemaHash": "3cc175d3b859b6c9181c277667a2af963f7d66c9d46b01532627271f07973d76",
   "copyEngine": true,
   "runtimeDataModel": {
     "models": {},
