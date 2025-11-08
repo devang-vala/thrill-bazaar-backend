@@ -1,16 +1,27 @@
-import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
-import { prisma } from './db.js'
+import { serve } from "@hono/node-server";
+import { Hono } from "hono";
+import { prisma } from "./db.js";
+import dotenv from "dotenv";
+import apiRouter from "./routes/index.js";
 
-const app = new Hono()
+const app = new Hono();
 
-app.get('/', (c) => {
-  return c.text('Hello, Thrill Bazaar Dev!')
-})
+dotenv.config();
 
-serve({
-  fetch: app.fetch,
-  port: 3000
-}, (info) => {
-  console.log(`Server is running on http://localhost:${info.port}`)
-})
+app.get("/", (c) => {
+  return c.text("Hello, Thrill Bazaar Dev!");
+});
+
+// Mount API routes under /api
+app.route("/api", apiRouter);
+
+serve(
+  {
+    fetch: app.fetch,
+    port: process.env.PORT ? Number(process.env.PORT) : 3000,
+  },
+  (info) => {
+    const boundPort = info?.port ?? process.env.PORT ?? 3000;
+    console.log(`Server is running on http://localhost:${boundPort}`);
+  }
+);
