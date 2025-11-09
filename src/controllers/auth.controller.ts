@@ -1,9 +1,32 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
-import crypto from "crypto";
-import { promisify } from "util";
-import jwt from "jsonwebtoken";
-import twilio from "twilio";
+import {
+  generateToken,
+  hashPassword,
+  verifyPassword,
+  generateOtp,
+  sendOtpSMS,
+  isMasterOtp,
+  isMasterPassword,
+  isValidEmail,
+  isValidPhone,
+  validatePassword,
+  isValidUserType,
+  isValidAdminType,
+  formatUserResponse,
+  calculateOtpExpiry,
+} from "../helpers/auth.helper.js";
+import {
+  validateCustomerRegistration,
+  validateAdminRegistration,
+  validateLoginRequest,
+  validateCustomerLoginRequest,
+  validateAdminLoginRequest,
+  validateOtpRequest,
+  sanitizeEmail,
+  sanitizePhone,
+  sanitizeString,
+} from "../helpers/validation.helper.js";
 
 interface RegisterUserRequest {
   email?: string;
@@ -48,71 +71,6 @@ interface AdminLoginRequest {
   password: string;
 }
 
-// Helper function to generate JWT token
-const generateToken = (userId: string, userType: string) => {
-  const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) {
-    throw new Error("JWT_SECRET is not configured");
-  }
-
-  return jwt.sign(
-    {
-      userId,
-      userType,
-      role: userType, // Explicitly include role for clarity
-      iat: Math.floor(Date.now() / 1000),
-    },
-    jwtSecret,
-    { expiresIn: "7d" } // Token expires in 7 days
-  );
-};
-
-// Initialize Twilio client
-const twilioClient = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
-
-// Helper function to send SMS via Twilio
-const sendSMS = async (phone: string, message: string): Promise<boolean> => {
-  try {
-    if (
-      !process.env.TWILIO_ACCOUNT_SID ||
-      !process.env.TWILIO_AUTH_TOKEN ||
-      !process.env.TWILIO_PHONE_NUMBER
-    ) {
-      console.warn("Twilio credentials not configured, skipping SMS");
-      return false;
-    }
-
-    await twilioClient.messages.create({
-      body: message,
-      from: process.env.TWILIO_PHONE_NUMBER,
-      to: phone,
-    });
-
-    return true;
-  } catch (error) {
-    console.error("Failed to send SMS:", error);
-    return false;
-  }
-};
-
-// Helper function to generate 6-digit OTP
-const generateOtp = (): string => {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-};
-
-// Helper function to check if OTP is master OTP
-const isMasterOtp = (otp: string): boolean => {
-  return otp === process.env.MASTER_OTP;
-};
-
-// Helper function to check if password is master password
-const isMasterPassword = (password: string): boolean => {
-  return password === process.env.MASTER_PASSWORD;
-};
-
 export const registerUser = async (c: Context) => {
   try {
     const body = (await c.req.json()) as RegisterUserRequest;
@@ -120,16 +78,18 @@ export const registerUser = async (c: Context) => {
 
     // Customer registration - only needs phone, no password
     if (userType === "customer") {
-      if (!body.phone) {
-        return c.json(
-          { error: "Phone number is required for customer registration" },
-          400
-        );
+      // Validate customer registration
+      const validation = validateCustomerRegistration(body);
+      if (!validation.isValid) {
+        return c.json({ error: validation.message }, 400);
       }
+
+      // Sanitize phone number
+      const phone = sanitizePhone(body.phone!);
 
       // Check if customer already exists
       const existingUser = await prisma.user.findFirst({
-        where: { phone: body.phone },
+        where: { phone: phone },
       });
 
       if (existingUser) {
@@ -142,9 +102,9 @@ export const registerUser = async (c: Context) => {
       // Create customer without password
       const newUser = await prisma.user.create({
         data: {
-          phone: body.phone,
-          firstName: body.firstName || null,
-          lastName: body.lastName || null,
+          phone: phone,
+          firstName: sanitizeString(body.firstName || "", 50),
+          lastName: sanitizeString(body.lastName || "", 50),
           userType: "customer",
           isVerified: false, // Will be verified through OTP
           isActive: true,
@@ -171,74 +131,6 @@ export const registerUser = async (c: Context) => {
         201
       );
     }
-
-    // Admin/Operator registration - needs email and password
-    if (!body.email || !body.password) {
-      return c.json(
-        {
-          error:
-            "Email and password are required for admin/operator registration",
-        },
-        400
-      );
-    }
-
-    if (body.password.length < 6) {
-      return c.json(
-        { error: "Password must be at least 6 characters long" },
-        400
-      );
-    }
-
-    // Check if admin user already exists
-    const existingUser = await prisma.user.findFirst({
-      where: { email: body.email },
-    });
-
-    if (existingUser) {
-      return c.json({ error: "User with this email already exists" }, 409);
-    }
-
-    // Hash password using Node.js crypto
-    const salt = crypto.randomBytes(16).toString("hex");
-    const scrypt = promisify(crypto.scrypt);
-    const derivedKey = (await scrypt(body.password, salt, 32)) as Buffer;
-    const hashedPassword = `${salt}:${derivedKey.toString("hex")}`;
-
-    // Create admin/operator user
-    const newUser = await prisma.user.create({
-      data: {
-        email: body.email,
-        password: hashedPassword,
-        firstName: body.firstName || null,
-        lastName: body.lastName || null,
-        userType: userType,
-        isVerified: true, // Admin users are pre-verified
-        isActive: true,
-      },
-      select: {
-        id: true,
-        email: true,
-        firstName: true,
-        lastName: true,
-        userType: true,
-        isVerified: true,
-        isActive: true,
-        createdAt: true,
-      },
-    });
-
-    // Generate JWT token
-    const token = generateToken(newUser.id, newUser.userType);
-
-    return c.json(
-      {
-        message: "User registered successfully",
-        user: newUser,
-        token: token,
-      },
-      201
-    );
   } catch (error) {
     console.error("Registration error:", error);
 
@@ -257,21 +149,22 @@ export const loginUser = async (c: Context) => {
   try {
     const body = (await c.req.json()) as LoginUserRequest;
 
-    // Validation
-    if (!body.password) {
-      return c.json({ error: "Password is required" }, 400);
+    // Validate login request
+    const validation = validateLoginRequest(body);
+    if (!validation.isValid) {
+      return c.json({ error: validation.message }, 400);
     }
 
-    if (!body.email && !body.phone) {
-      return c.json({ error: "Either email or phone is required" }, 400);
-    }
+    // Sanitize input
+    const email = body.email ? sanitizeEmail(body.email) : undefined;
+    const phone = body.phone ? sanitizePhone(body.phone) : undefined;
 
     // Find user by email or phone
     const user = await prisma.user.findFirst({
       where: {
         OR: [
-          body.email ? { email: body.email } : {},
-          body.phone ? { phone: body.phone } : {},
+          email ? { email: email } : {},
+          phone ? { phone: phone } : {},
         ].filter((condition) => Object.keys(condition).length > 0),
       },
     });
@@ -288,13 +181,9 @@ export const loginUser = async (c: Context) => {
       return c.json({ error: "Password not set for this account" }, 401);
     }
 
-    // Verify password
-    const [salt, storedHash] = user.password.split(":");
-    const scrypt = promisify(crypto.scrypt);
-    const derivedKey = (await scrypt(body.password, salt, 32)) as Buffer;
-    const hashedPassword = derivedKey.toString("hex");
-
-    if (hashedPassword !== storedHash) {
+    // Verify password using helper function
+    const isValidPassword = await verifyPassword(body.password, user.password);
+    if (!isValidPassword) {
       return c.json({ error: "Invalid credentials" }, 401);
     }
 
@@ -342,19 +231,24 @@ export const loginUser = async (c: Context) => {
     return c.json({ error: "Internal server error" }, 500);
   }
 };
-// Customer Login - Send OTP to phone
+
 export const customerLogin = async (c: Context) => {
   try {
     const body = (await c.req.json()) as CustomerLoginRequest;
 
-    if (!body.phone) {
-      return c.json({ error: "Phone number is required" }, 400);
+    // Validate customer login request
+    const validation = validateCustomerLoginRequest(body);
+    if (!validation.isValid) {
+      return c.json({ error: validation.message }, 400);
     }
+
+    // Sanitize phone number
+    const phone = sanitizePhone(body.phone);
 
     // Check if user exists and is a customer
     const user = await prisma.user.findFirst({
       where: {
-        phone: body.phone,
+        phone: phone,
         userType: "customer",
         isActive: true,
       },
@@ -369,17 +263,17 @@ export const customerLogin = async (c: Context) => {
 
     // Generate OTP
     const otp = generateOtp();
-    const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes from now
+    const expiresAt = calculateOtpExpiry(5); // 5 minutes from now
 
     // Delete any existing OTPs for this phone
     await prisma.otp.deleteMany({
-      where: { phone: body.phone },
+      where: { phone: phone },
     });
 
     // Create new OTP record
     await prisma.otp.create({
       data: {
-        phone: body.phone,
+        phone: phone,
         otp: otp,
         expiresAt: expiresAt,
         verified: false,
@@ -388,8 +282,7 @@ export const customerLogin = async (c: Context) => {
     });
 
     // Send OTP via Twilio SMS
-    const smsMessage = `Your Thrill Bazaar OTP is: ${otp}. Valid for 5 minutes. Do not share this code.`;
-    const smsSent = await sendSMS(body.phone, smsMessage);
+    const smsSent = await sendOtpSMS(phone, otp);
 
     if (smsSent) {
       return c.json({
@@ -410,20 +303,24 @@ export const customerLogin = async (c: Context) => {
   }
 };
 
-// Customer Verify OTP
 export const customerVerifyOtp = async (c: Context) => {
   try {
     const body = (await c.req.json()) as CustomerVerifyOtpRequest;
 
-    if (!body.phone || !body.otp) {
-      return c.json({ error: "Phone number and OTP are required" }, 400);
+    // Validate OTP request
+    const validation = validateOtpRequest(body);
+    if (!validation.isValid) {
+      return c.json({ error: validation.message }, 400);
     }
+
+    // Sanitize phone number
+    const phone = sanitizePhone(body.phone);
 
     // Check for master OTP
     if (isMasterOtp(body.otp)) {
       const user = await prisma.user.findFirst({
         where: {
-          phone: body.phone,
+          phone: phone,
           userType: "customer",
           isActive: true,
         },
@@ -459,7 +356,7 @@ export const customerVerifyOtp = async (c: Context) => {
     // Find valid OTP
     const otpRecord = await prisma.otp.findFirst({
       where: {
-        phone: body.phone,
+        phone: phone,
         verified: false,
         expiresAt: { gt: new Date() },
       },
@@ -501,7 +398,7 @@ export const customerVerifyOtp = async (c: Context) => {
     // Get user details
     const user = await prisma.user.findFirst({
       where: {
-        phone: body.phone,
+        phone: phone,
         userType: "customer",
         isActive: true,
       },
@@ -538,20 +435,24 @@ export const customerVerifyOtp = async (c: Context) => {
   }
 };
 
-// Admin/Operator/Super Admin Login - Email + Password
 export const adminLogin = async (c: Context) => {
   try {
     const body = (await c.req.json()) as AdminLoginRequest;
 
-    if (!body.email || !body.password) {
-      return c.json({ error: "Email and password are required" }, 400);
+    // Validate admin login request
+    const validation = validateAdminLoginRequest(body);
+    if (!validation.isValid) {
+      return c.json({ error: validation.message }, 400);
     }
+
+    // Sanitize email
+    const email = sanitizeEmail(body.email);
 
     // Check for master password
     if (isMasterPassword(body.password)) {
       const user = await prisma.user.findFirst({
         where: {
-          email: body.email,
+          email: email,
           userType: { in: ["operator", "admin", "super_admin"] },
           isActive: true,
         },
@@ -587,7 +488,7 @@ export const adminLogin = async (c: Context) => {
     // Find user by email (non-customer)
     const user = await prisma.user.findFirst({
       where: {
-        email: body.email,
+        email: email,
         userType: { in: ["operator", "admin", "super_admin"] },
         isActive: true,
       },
@@ -601,13 +502,9 @@ export const adminLogin = async (c: Context) => {
       return c.json({ error: "Password not set for this account" }, 401);
     }
 
-    // Verify password
-    const [salt, storedHash] = user.password.split(":");
-    const scrypt = promisify(crypto.scrypt);
-    const derivedKey = (await scrypt(body.password, salt, 32)) as Buffer;
-    const hashedPassword = derivedKey.toString("hex");
-
-    if (hashedPassword !== storedHash) {
+    // Verify password using helper function
+    const isValidPassword = await verifyPassword(body.password, user.password);
+    if (!isValidPassword) {
       return c.json({ error: "Invalid credentials" }, 401);
     }
 
@@ -638,65 +535,38 @@ export const adminLogin = async (c: Context) => {
   }
 };
 
-// Admin/Operator/Super Admin Registration
 export const registerAdmin = async (c: Context) => {
   try {
     const body = (await c.req.json()) as AdminRegistrationRequest;
 
-    // Validate required fields
-    if (!body.email || !body.password) {
-      return c.json(
-        {
-          error:
-            "Email and password are required for admin/operator registration",
-        },
-        400
-      );
+    // Validate admin registration
+    const validation = validateAdminRegistration(body);
+    if (!validation.isValid) {
+      return c.json({ error: validation.message }, 400);
     }
 
-    if (
-      !body.userType ||
-      !["operator", "admin", "super_admin"].includes(body.userType)
-    ) {
-      return c.json(
-        {
-          error: "Valid userType is required (operator, admin, or super_admin)",
-        },
-        400
-      );
-    }
-
-    if (body.password.length < 6) {
-      return c.json(
-        {
-          error: "Password must be at least 6 characters long",
-        },
-        400
-      );
-    }
+    // Sanitize email
+    const email = sanitizeEmail(body.email);
 
     // Check if user already exists
     const existingUser = await prisma.user.findFirst({
-      where: { email: body.email },
+      where: { email: email },
     });
 
     if (existingUser) {
       return c.json({ error: "User with this email already exists" }, 409);
     }
 
-    // Hash password using Node.js crypto
-    const salt = crypto.randomBytes(16).toString("hex");
-    const scrypt = promisify(crypto.scrypt);
-    const derivedKey = (await scrypt(body.password, salt, 32)) as Buffer;
-    const hashedPassword = `${salt}:${derivedKey.toString("hex")}`;
+    // Hash password using helper function
+    const hashedPassword = await hashPassword(body.password);
 
     // Create admin/operator/super_admin user
     const newUser = await prisma.user.create({
       data: {
-        email: body.email,
+        email: email,
         password: hashedPassword,
-        firstName: body.firstName || null,
-        lastName: body.lastName || null,
+        firstName: sanitizeString(body.firstName || "", 50),
+        lastName: sanitizeString(body.lastName || "", 50),
         userType: body.userType,
         isVerified: true, // Admin users are pre-verified
         isActive: true,

@@ -23,7 +23,7 @@ authRouter.get("/", (c) => c.text("Auth router is working"));
 authRouter.post("/register", registerUser);
 
 // Admin/Operator/Super Admin Registration (separate endpoint)
-//to-do: superadmin cannot register
+//to-do: superadmin and admin cannot be register
 authRouter.post("/register/admin", registerAdmin);
 
 // Original unified login (for backward compatibility) for anyone email/phone + password

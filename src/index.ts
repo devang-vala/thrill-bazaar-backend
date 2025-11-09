@@ -8,6 +8,7 @@ const app = new Hono();
 
 dotenv.config();
 
+//test endpoint
 app.get("/", (c) => {
   return c.text("Hello, Thrill Bazaar Dev!");
 });

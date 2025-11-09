@@ -1,0 +1,480 @@
+//  Validation helper functions for authentication and user management
+import {
+  isValidEmail,
+  isValidPhone,
+  validatePassword,
+  isValidAdminType,
+  isValidUserType,
+} from "./auth.helper.js";
+
+export interface ValidationResult {
+  isValid: boolean;
+  message?: string;
+}
+
+export const validateCustomerRegistration = (data: {
+  phone?: string;
+  firstName?: string;
+  lastName?: string;
+}): ValidationResult => {
+  if (!data.phone) {
+    return {
+      isValid: false,
+      message: "Phone number is required for customer registration",
+    };
+  }
+
+  if (!isValidPhone(data.phone)) {
+    return { isValid: false, message: "Invalid phone number format" };
+  }
+
+  if (data.firstName && data.firstName.length > 50) {
+    return {
+      isValid: false,
+      message: "First name must be less than 50 characters",
+    };
+  }
+
+  if (data.lastName && data.lastName.length > 50) {
+    return {
+      isValid: false,
+      message: "Last name must be less than 50 characters",
+    };
+  }
+
+  return { isValid: true };
+};
+
+export const validateAdminRegistration = (data: {
+  email?: string;
+  password?: string;
+  userType?: string;
+  firstName?: string;
+  lastName?: string;
+}): ValidationResult => {
+  if (!data.email) {
+    return {
+      isValid: false,
+      message: "Email is required for admin registration",
+    };
+  }
+
+  if (!data.password) {
+    return {
+      isValid: false,
+      message: "Password is required for admin registration",
+    };
+  }
+
+  if (!isValidEmail(data.email)) {
+    return { isValid: false, message: "Invalid email format" };
+  }
+
+  const passwordValidation = validatePassword(data.password);
+  if (!passwordValidation.isValid) {
+    return passwordValidation;
+  }
+
+  if (!data.userType || !isValidAdminType(data.userType)) {
+    return {
+      isValid: false,
+      message: "Valid userType is required (operator, admin, or super_admin)",
+    };
+  }
+
+  if (data.firstName && data.firstName.length > 50) {
+    return {
+      isValid: false,
+      message: "First name must be less than 50 characters",
+    };
+  }
+
+  if (data.lastName && data.lastName.length > 50) {
+    return {
+      isValid: false,
+      message: "Last name must be less than 50 characters",
+    };
+  }
+
+  return { isValid: true };
+};
+
+export const validateLoginRequest = (data: {
+  email?: string;
+  phone?: string;
+  password?: string;
+}): ValidationResult => {
+  if (!data.password) {
+    return { isValid: false, message: "Password is required" };
+  }
+
+  if (!data.email && !data.phone) {
+    return { isValid: false, message: "Either email or phone is required" };
+  }
+
+  if (data.email && !isValidEmail(data.email)) {
+    return { isValid: false, message: "Invalid email format" };
+  }
+
+  if (data.phone && !isValidPhone(data.phone)) {
+    return { isValid: false, message: "Invalid phone number format" };
+  }
+
+  return { isValid: true };
+};
+
+export const validateCustomerLoginRequest = (data: {
+  phone?: string;
+}): ValidationResult => {
+  if (!data.phone) {
+    return { isValid: false, message: "Phone number is required" };
+  }
+
+  if (!isValidPhone(data.phone)) {
+    return { isValid: false, message: "Invalid phone number format" };
+  }
+
+  return { isValid: true };
+};
+
+export const validateAdminLoginRequest = (data: {
+  email?: string;
+  password?: string;
+}): ValidationResult => {
+  if (!data.email) {
+    return { isValid: false, message: "Email is required" };
+  }
+
+  if (!data.password) {
+    return { isValid: false, message: "Password is required" };
+  }
+
+  if (!isValidEmail(data.email)) {
+    return { isValid: false, message: "Invalid email format" };
+  }
+
+  return { isValid: true };
+};
+
+export const validateOtpRequest = (data: {
+  phone?: string;
+  otp?: string;
+}): ValidationResult => {
+  if (!data.phone) {
+    return { isValid: false, message: "Phone number is required" };
+  }
+
+  if (!data.otp) {
+    return { isValid: false, message: "OTP is required" };
+  }
+
+  if (!isValidPhone(data.phone)) {
+    return { isValid: false, message: "Invalid phone number format" };
+  }
+
+  if (!/^\d{6}$/.test(data.otp)) {
+    return { isValid: false, message: "OTP must be 6 digits" };
+  }
+
+  return { isValid: true };
+};
+
+export const sanitizeString = (
+  input: string,
+  maxLength: number = 255
+): string => {
+  if (!input) return "";
+  return input.trim().substring(0, maxLength);
+};
+
+export const sanitizePhone = (phone: string): string => {
+  if (!phone) return "";
+  return phone.replace(/[\s\-\(\)]/g, "");
+};
+
+export const sanitizeEmail = (email: string): string => {
+  if (!email) return "";
+  return email.toLowerCase().trim();
+};
+
+export const validateProfileUpdate = (
+  data: {
+    email?: string;
+    phone?: string;
+    firstName?: string;
+    lastName?: string;
+  },
+  userType: string
+): ValidationResult => {
+  // Customers can only update phone and names
+  if (userType === "customer") {
+    if (data.email) {
+      return {
+        isValid: false,
+        message: "Customers cannot update email address",
+      };
+    }
+
+    if (data.phone && !isValidPhone(data.phone)) {
+      return { isValid: false, message: "Invalid phone number format" };
+    }
+  } else {
+    // Admin users can only update email and names
+    if (data.phone) {
+      return {
+        isValid: false,
+        message: "Admin users cannot update phone number",
+      };
+    }
+
+    if (data.email && !isValidEmail(data.email)) {
+      return { isValid: false, message: "Invalid email format" };
+    }
+  }
+
+  if (data.firstName && data.firstName.length > 50) {
+    return {
+      isValid: false,
+      message: "First name must be less than 50 characters",
+    };
+  }
+
+  if (data.lastName && data.lastName.length > 50) {
+    return {
+      isValid: false,
+      message: "Last name must be less than 50 characters",
+    };
+  }
+
+  // Check if at least one field is provided
+  if (!data.email && !data.phone && !data.firstName && !data.lastName) {
+    return {
+      isValid: false,
+      message: "At least one field must be provided to update",
+    };
+  }
+
+  return { isValid: true };
+};
+
+export const validatePasswordChange = (data: {
+  currentPassword?: string;
+  newPassword?: string;
+  confirmPassword?: string;
+}): ValidationResult => {
+  if (!data.currentPassword) {
+    return { isValid: false, message: "Current password is required" };
+  }
+
+  if (!data.newPassword) {
+    return { isValid: false, message: "New password is required" };
+  }
+
+  if (!data.confirmPassword) {
+    return { isValid: false, message: "Password confirmation is required" };
+  }
+
+  if (data.newPassword !== data.confirmPassword) {
+    return {
+      isValid: false,
+      message: "New password and confirmation do not match",
+    };
+  }
+
+  if (data.currentPassword === data.newPassword) {
+    return {
+      isValid: false,
+      message: "New password must be different from current password",
+    };
+  }
+
+  const passwordValidation = validatePassword(data.newPassword);
+  if (!passwordValidation.isValid) {
+    return passwordValidation;
+  }
+
+  return { isValid: true };
+};
+
+export const validateUsersListQuery = (query: {
+  page?: string;
+  limit?: string;
+  userType?: string;
+  isActive?: string;
+  isVerified?: string;
+  search?: string;
+}): ValidationResult => {
+  // Validate page
+  if (query.page && (isNaN(Number(query.page)) || Number(query.page) < 1)) {
+    return { isValid: false, message: "Page must be a positive number" };
+  }
+
+  // Validate limit
+  if (
+    query.limit &&
+    (isNaN(Number(query.limit)) ||
+      Number(query.limit) < 1 ||
+      Number(query.limit) > 100)
+  ) {
+    return {
+      isValid: false,
+      message: "Limit must be a number between 1 and 100",
+    };
+  }
+
+  // Validate userType
+  if (query.userType && !isValidUserType(query.userType)) {
+    return { isValid: false, message: "Invalid user type" };
+  }
+
+  // Validate boolean fields
+  if (
+    query.isActive &&
+    !["true", "false"].includes(query.isActive.toLowerCase())
+  ) {
+    return { isValid: false, message: "isActive must be true or false" };
+  }
+
+  if (
+    query.isVerified &&
+    !["true", "false"].includes(query.isVerified.toLowerCase())
+  ) {
+    return { isValid: false, message: "isVerified must be true or false" };
+  }
+
+  // Validate search length
+  if (query.search && query.search.length < 2) {
+    return {
+      isValid: false,
+      message: "Search query must be at least 2 characters",
+    };
+  }
+
+  return { isValid: true };
+};
+
+export const validateUsersListBody = (body: {
+  page?: number;
+  limit?: number;
+  userType?: string;
+  isActive?: boolean;
+  isVerified?: boolean;
+  search?: string;
+}): ValidationResult => {
+  // Validate page
+  if (body.page && (typeof body.page !== "number" || body.page < 1)) {
+    return { isValid: false, message: "Page must be a positive number" };
+  }
+
+  // Validate limit
+  if (
+    body.limit &&
+    (typeof body.limit !== "number" || body.limit < 1 || body.limit > 100)
+  ) {
+    return {
+      isValid: false,
+      message: "Limit must be a number between 1 and 100",
+    };
+  }
+
+  // Validate userType
+  if (body.userType && !isValidUserType(body.userType)) {
+    return { isValid: false, message: "Invalid user type" };
+  }
+
+  // Validate boolean fields
+  if (body.isActive !== undefined && typeof body.isActive !== "boolean") {
+    return { isValid: false, message: "isActive must be a boolean" };
+  }
+
+  if (body.isVerified !== undefined && typeof body.isVerified !== "boolean") {
+    return { isValid: false, message: "isVerified must be a boolean" };
+  }
+
+  // Validate search length
+  if (body.search && body.search.length < 2) {
+    return {
+      isValid: false,
+      message: "Search query must be at least 2 characters",
+    };
+  }
+
+  return { isValid: true };
+};
+
+export const validateUpdateAnyUser = (data: {
+  email?: string;
+  phone?: string;
+  firstName?: string;
+  lastName?: string;
+  userType?: string;
+  isActive?: boolean;
+  isVerified?: boolean;
+  password?: string;
+}): ValidationResult => {
+  // Validate email format
+  if (data.email && !isValidEmail(data.email)) {
+    return { isValid: false, message: "Invalid email format" };
+  }
+
+  // Validate phone format
+  if (data.phone && !isValidPhone(data.phone)) {
+    return { isValid: false, message: "Invalid phone number format" };
+  }
+
+  // Validate name lengths
+  if (data.firstName && data.firstName.length > 50) {
+    return {
+      isValid: false,
+      message: "First name must be less than 50 characters",
+    };
+  }
+
+  if (data.lastName && data.lastName.length > 50) {
+    return {
+      isValid: false,
+      message: "Last name must be less than 50 characters",
+    };
+  }
+
+  // Validate user type
+  if (data.userType && !isValidUserType(data.userType)) {
+    return { isValid: false, message: "Invalid user type" };
+  }
+
+  // Validate boolean fields
+  if (data.isActive !== undefined && typeof data.isActive !== "boolean") {
+    return { isValid: false, message: "isActive must be a boolean" };
+  }
+
+  if (data.isVerified !== undefined && typeof data.isVerified !== "boolean") {
+    return { isValid: false, message: "isVerified must be a boolean" };
+  }
+
+  // Validate password
+  if (data.password) {
+    const passwordValidation = validatePassword(data.password);
+    if (!passwordValidation.isValid) {
+      return passwordValidation;
+    }
+  }
+
+  // Check if at least one field is provided
+  if (
+    !data.email &&
+    !data.phone &&
+    !data.firstName &&
+    !data.lastName &&
+    !data.userType &&
+    data.isActive === undefined &&
+    data.isVerified === undefined &&
+    !data.password
+  ) {
+    return {
+      isValid: false,
+      message: "At least one field must be provided to update",
+    };
+  }
+
+  return { isValid: true };
+};
