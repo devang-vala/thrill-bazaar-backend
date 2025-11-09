@@ -3,9 +3,9 @@ import {
   getUserProfile,
   updateUserProfile,
   changePassword,
-  deactivateAccount,
   getUsers,
   updateAnyUser,
+  manageUserStatus,
 } from "../controllers/user.controller.js";
 import {
   authenticateToken,
@@ -37,7 +37,7 @@ userRouter.put("/profile", updateUserProfile);
 // Change password (for admin/operator users)
 userRouter.put("/change-password", requireAnyAdmin, changePassword);
 
-// Deactivate user account
-userRouter.delete("/deactivate", deactivateAccount);
+// Manage user account status (superadmin only) - activate/deactivate
+userRouter.put("/status/:userId", requireSuperAdmin, manageUserStatus);
 
 export default userRouter;

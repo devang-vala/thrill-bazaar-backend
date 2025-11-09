@@ -10,6 +10,7 @@ import {
   validatePasswordChange,
   validateUsersListBody,
   validateUpdateAnyUser,
+  validateManageUserStatus,
   sanitizeEmail,
   sanitizePhone,
   sanitizeString,
@@ -57,6 +58,10 @@ interface UpdateAnyUserRequest {
   password?: string;
 }
 
+interface ManageUserStatusRequest {
+  isActive: boolean;
+}
+
 export const getUserProfile = async (c: Context) => {
   try {
     const user = c.get("user");
@@ -88,7 +93,24 @@ export const getUserProfile = async (c: Context) => {
 export const getUsers = async (c: Context) => {
   try {
     const currentUser = c.get("user");
-    const body = (await c.req.json()) as GetUsersQuery;
+
+    // Handle empty request body
+    let body: GetUsersQuery = {};
+    try {
+      const requestBody = await c.req.text();
+      if (requestBody.trim()) {
+        body = JSON.parse(requestBody) as GetUsersQuery;
+      }
+    } catch (jsonError) {
+      return c.json(
+        {
+          error: "Invalid JSON format in request body",
+          details:
+            "Please send a valid JSON object or an empty body for default pagination",
+        },
+        400
+      );
+    }
 
     // Validate request body
     const validation = validateUsersListBody(body);
@@ -122,10 +144,8 @@ export const getUsers = async (c: Context) => {
       criteria.phone = body.search;
     }
 
-    // Exclude superadmin users from results unless requester is superadmin
-    if (currentUser?.userType !== "super_admin") {
-      criteria.excludeSuperAdmin = true;
-    }
+    // Always exclude super_admin users from pagination results
+    criteria.excludeSuperAdmin = true;
 
     // Get users and total count
     const [users, totalCount] = await Promise.all([
@@ -317,38 +337,65 @@ export const changePassword = async (c: Context) => {
   }
 };
 
-export const deactivateAccount = async (c: Context) => {
+/**
+ * Manage user account status (superadmin only) - activate/deactivate
+ */
+export const manageUserStatus = async (c: Context) => {
   try {
-    const user = c.get("user");
+    const currentUser = c.get("user");
+    const userId = c.req.param("userId");
+    const body = (await c.req.json()) as ManageUserStatusRequest;
 
-    if (!user || !user.userId) {
+    // Check if current user is superadmin
+    if (currentUser?.userType !== "super_admin") {
+      return c.json({ error: "Only superadmin can manage user status" }, 403);
+    }
+
+    if (!userId) {
+      return c.json({ error: "User ID is required" }, 400);
+    }
+
+    // Validate request body
+    const validation = validateManageUserStatus(body);
+    if (!validation.isValid) {
+      return c.json({ error: validation.message }, 400);
+    }
+
+    // Get target user details
+    const targetUser = await getUserById(userId);
+    if (!targetUser) {
       return c.json({ error: "User not found" }, 404);
     }
 
-    // Check if user exists and is active
-    const currentUser = await getUserById(user.userId);
-    if (!currentUser) {
-      return c.json({ error: "User not found" }, 404);
+    // Prevent superadmin from deactivating themselves
+    if (userId === currentUser.userId && !body.isActive) {
+      return c.json({ error: "Cannot deactivate your own account" }, 400);
     }
 
-    if (!currentUser.isActive) {
-      return c.json({ error: "Account is already deactivated" }, 400);
+    // Check if status is already the same
+    if (targetUser.isActive === body.isActive) {
+      const action = body.isActive ? "activated" : "deactivated";
+      return c.json({ error: `Account is already ${action}` }, 400);
     }
 
-    // Deactivate account
-    const updatedUser = await updateUserById(user.userId, {
-      isActive: false,
+    // Update user status
+    const updatedUser = await updateUserById(userId, {
+      isActive: body.isActive,
     });
 
     if (!updatedUser) {
-      return c.json({ error: "Failed to deactivate account" }, 500);
+      return c.json({ error: "Failed to update user status" }, 500);
     }
 
+    const action = body.isActive ? "activated" : "deactivated";
+    const userResponse = formatUserResponse(updatedUser);
+
     return c.json({
-      message: "Account deactivated successfully",
+      message: `User account ${action} successfully`,
+      user: userResponse,
     });
   } catch (error) {
-    console.error("Deactivate account error:", error);
+    console.error("Manage user status error:", error);
     return c.json({ error: "Internal server error" }, 500);
   }
 };

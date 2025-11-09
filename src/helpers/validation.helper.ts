@@ -208,15 +208,11 @@ export const validateProfileUpdate = (
 ): ValidationResult => {
   // Customers can only update phone and names
   if (userType === "customer") {
-    if (data.email) {
+    if (data.phone) {
       return {
         isValid: false,
         message: "Customers cannot update email address",
       };
-    }
-
-    if (data.phone && !isValidPhone(data.phone)) {
-      return { isValid: false, message: "Invalid phone number format" };
     }
   } else {
     // Admin users can only update email and names
@@ -473,6 +469,26 @@ export const validateUpdateAnyUser = (data: {
     return {
       isValid: false,
       message: "At least one field must be provided to update",
+    };
+  }
+
+  return { isValid: true };
+};
+
+export const validateManageUserStatus = (data: {
+  isActive?: boolean;
+}): ValidationResult => {
+  if (data.isActive === undefined) {
+    return {
+      isValid: false,
+      message: "isActive field is required",
+    };
+  }
+
+  if (typeof data.isActive !== "boolean") {
+    return {
+      isValid: false,
+      message: "isActive must be a boolean value",
     };
   }
 
