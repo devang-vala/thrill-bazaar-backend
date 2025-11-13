@@ -4,7 +4,10 @@ import {
   createListingMedia,
   updateListingMedia,
 } from "../controllers/listingMedia.controller.js";
-import { authenticateToken } from "../middlewares/auth.middleware.js";
+import {
+  authenticateToken,
+  requireAnyAdmin,
+} from "../middlewares/auth.middleware.js";
 
 const listingMediaRouter = new Hono();
 
