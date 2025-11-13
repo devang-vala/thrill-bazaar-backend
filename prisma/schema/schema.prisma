@@ -16,3 +16,10 @@ enum UserType {
   admin
   super_admin
 }
+
+enum BookingFormat {
+  F1
+  F2
+  F3
+  F4
+}

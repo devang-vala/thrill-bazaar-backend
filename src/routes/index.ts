@@ -1,6 +1,8 @@
 import { Hono } from "hono";
 import authRouter from "./auth.route.js";
 import userRouter from "./user.route.js";
+import categoryRouter from "./category.route.js";
+import subCategoryRouter from "./subCategory.route.js";
 
 const router = new Hono();
 
@@ -12,5 +14,11 @@ router.route("/auth", authRouter);
 
 // Mount user routes
 router.route("/user", userRouter);
+
+// Mount category routes
+router.route("/categories", categoryRouter);
+
+// Mount sub-category routes
+router.route("/sub-categories", subCategoryRouter);
 
 export default router;

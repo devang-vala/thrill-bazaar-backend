@@ -484,10 +484,6 @@ export type EnumUserTypeFieldUpdateOperationsInput = {
   set?: $Enums.UserType
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }

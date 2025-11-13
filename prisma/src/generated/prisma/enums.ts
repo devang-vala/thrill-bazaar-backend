@@ -16,3 +16,13 @@ export const UserType = {
 } as const
 
 export type UserType = (typeof UserType)[keyof typeof UserType]
+
+
+export const BookingFormat = {
+  F1: 'F1',
+  F2: 'F2',
+  F3: 'F3',
+  F4: 'F4'
+} as const
+
+export type BookingFormat = (typeof BookingFormat)[keyof typeof BookingFormat]
