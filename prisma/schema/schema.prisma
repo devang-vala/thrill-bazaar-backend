@@ -23,3 +23,42 @@ enum BookingFormat {
   F3
   F4
 }
+
+enum ListingStatus {
+  draft
+  pending_approval
+  active
+  rejected
+  archived
+}
+
+enum ContentType {
+  overview
+  day_itinerary
+  pickup_dropoff
+  difficulty
+  fitness
+  things_to_carry
+  faq
+  why_choose_us
+  safety_commitment
+  how_to_reach
+}
+
+enum InclusionType {
+  inclusion
+  exclusion
+}
+
+enum MediaType {
+  image
+  video
+}
+
+enum PolicyType {
+  cancellation
+  rescheduling
+  exchange
+  terms_conditions
+  why_choose_us
+}
