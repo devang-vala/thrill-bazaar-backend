@@ -1,0 +1,13 @@
+model ListingPolicy {
+    id            String     @id @default(uuid()) @map("policy_id")
+    sellerId      String     @map("seller_id")
+    policyType    PolicyType @map("policy_type")
+    policyContent String     @map("policy_content") @db.Text
+    createdAt     DateTime   @default(now()) @map("created_at")
+    updatedAt     DateTime   @updatedAt @map("updated_at")
+
+    // Relations
+    seller User @relation("UserPolicies", fields: [sellerId], references: [id], onDelete: Cascade)
+
+    @@map("listing_policies")
+}

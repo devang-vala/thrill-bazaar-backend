@@ -208,15 +208,11 @@ export const validateProfileUpdate = (
 ): ValidationResult => {
   // Customers can only update phone and names
   if (userType === "customer") {
-    if (data.email) {
+    if (data.phone) {
       return {
         isValid: false,
         message: "Customers cannot update email address",
       };
-    }
-
-    if (data.phone && !isValidPhone(data.phone)) {
-      return { isValid: false, message: "Invalid phone number format" };
     }
   } else {
     // Admin users can only update email and names
@@ -474,6 +470,315 @@ export const validateUpdateAnyUser = (data: {
       isValid: false,
       message: "At least one field must be provided to update",
     };
+  }
+
+  return { isValid: true };
+};
+
+export const validateManageUserStatus = (data: {
+  isActive?: boolean;
+}): ValidationResult => {
+  if (data.isActive === undefined) {
+    return {
+      isValid: false,
+      message: "isActive field is required",
+    };
+  }
+
+  if (typeof data.isActive !== "boolean") {
+    return {
+      isValid: false,
+      message: "isActive must be a boolean value",
+    };
+  }
+
+  return { isValid: true };
+};
+
+// Slug generation utility
+export const generateSlug = (text: string): string => {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9 -]/g, "") // Remove special characters
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
+    .trim("-"); // Remove leading/trailing hyphens
+};
+
+// Booking format validation
+export const isValidBookingFormat = (format: string): boolean => {
+  return ["F1", "F2", "F3", "F4"].includes(format);
+};
+
+// Category validation functions
+export const validateCreateCategory = (data: {
+  categoryName?: string;
+  categorySlug?: string;
+  categoryIconUrl?: string;
+  categoryDescription?: string;
+  displayOrder?: number;
+  bookingFormat?: string;
+  isRental?: boolean;
+  hasVariantCatA?: boolean;
+  isActive?: boolean;
+}): ValidationResult => {
+  if (!data.categoryName) {
+    return { isValid: false, message: "Category name is required" };
+  }
+
+  if (data.categoryName.length > 100) {
+    return {
+      isValid: false,
+      message: "Category name must be less than 100 characters",
+    };
+  }
+
+  if (data.categorySlug && data.categorySlug.length > 100) {
+    return {
+      isValid: false,
+      message: "Category slug must be less than 100 characters",
+    };
+  }
+
+  if (data.categoryIconUrl && data.categoryIconUrl.length > 255) {
+    return {
+      isValid: false,
+      message: "Category icon URL must be less than 255 characters",
+    };
+  }
+
+  if (data.categoryDescription && data.categoryDescription.length > 500) {
+    return {
+      isValid: false,
+      message: "Category description must be less than 500 characters",
+    };
+  }
+
+  if (!data.bookingFormat) {
+    return { isValid: false, message: "Booking format is required" };
+  }
+
+  if (!isValidBookingFormat(data.bookingFormat)) {
+    return {
+      isValid: false,
+      message: "Invalid booking format. Must be F1, F2, F3, or F4",
+    };
+  }
+
+  if (
+    data.displayOrder !== undefined &&
+    (typeof data.displayOrder !== "number" || data.displayOrder < 0)
+  ) {
+    return {
+      isValid: false,
+      message: "Display order must be a non-negative number",
+    };
+  }
+
+  if (data.isRental !== undefined && typeof data.isRental !== "boolean") {
+    return { isValid: false, message: "isRental must be a boolean" };
+  }
+
+  if (
+    data.hasVariantCatA !== undefined &&
+    typeof data.hasVariantCatA !== "boolean"
+  ) {
+    return { isValid: false, message: "hasVariantCatA must be a boolean" };
+  }
+
+  if (data.isActive !== undefined && typeof data.isActive !== "boolean") {
+    return { isValid: false, message: "isActive must be a boolean" };
+  }
+
+  return { isValid: true };
+};
+
+export const validateUpdateCategory = (data: {
+  categoryName?: string;
+  categorySlug?: string;
+  categoryIconUrl?: string;
+  categoryDescription?: string;
+  displayOrder?: number;
+  bookingFormat?: string;
+  isRental?: boolean;
+  hasVariantCatA?: boolean;
+  isActive?: boolean;
+}): ValidationResult => {
+  // Check if at least one field is provided
+  if (
+    !data.categoryName &&
+    !data.categorySlug &&
+    data.categoryIconUrl === undefined &&
+    data.categoryDescription === undefined &&
+    data.displayOrder === undefined &&
+    !data.bookingFormat &&
+    data.isRental === undefined &&
+    data.hasVariantCatA === undefined &&
+    data.isActive === undefined
+  ) {
+    return {
+      isValid: false,
+      message: "At least one field must be provided to update",
+    };
+  }
+
+  if (data.categoryName && data.categoryName.length > 100) {
+    return {
+      isValid: false,
+      message: "Category name must be less than 100 characters",
+    };
+  }
+
+  if (data.categorySlug && data.categorySlug.length > 100) {
+    return {
+      isValid: false,
+      message: "Category slug must be less than 100 characters",
+    };
+  }
+
+  if (data.categoryIconUrl && data.categoryIconUrl.length > 255) {
+    return {
+      isValid: false,
+      message: "Category icon URL must be less than 255 characters",
+    };
+  }
+
+  if (data.categoryDescription && data.categoryDescription.length > 500) {
+    return {
+      isValid: false,
+      message: "Category description must be less than 500 characters",
+    };
+  }
+
+  if (data.bookingFormat && !isValidBookingFormat(data.bookingFormat)) {
+    return {
+      isValid: false,
+      message: "Invalid booking format. Must be F1, F2, F3, or F4",
+    };
+  }
+
+  if (
+    data.displayOrder !== undefined &&
+    (typeof data.displayOrder !== "number" || data.displayOrder < 0)
+  ) {
+    return {
+      isValid: false,
+      message: "Display order must be a non-negative number",
+    };
+  }
+
+  if (data.isRental !== undefined && typeof data.isRental !== "boolean") {
+    return { isValid: false, message: "isRental must be a boolean" };
+  }
+
+  if (
+    data.hasVariantCatA !== undefined &&
+    typeof data.hasVariantCatA !== "boolean"
+  ) {
+    return { isValid: false, message: "hasVariantCatA must be a boolean" };
+  }
+
+  if (data.isActive !== undefined && typeof data.isActive !== "boolean") {
+    return { isValid: false, message: "isActive must be a boolean" };
+  }
+
+  return { isValid: true };
+};
+
+// Sub-category validation functions
+export const validateCreateSubCategory = (data: {
+  categoryId?: string;
+  subCatName?: string;
+  subCatSlug?: string;
+  displayOrder?: number;
+  isActive?: boolean;
+}): ValidationResult => {
+  if (!data.categoryId) {
+    return { isValid: false, message: "Category ID is required" };
+  }
+
+  if (!data.subCatName) {
+    return { isValid: false, message: "Sub-category name is required" };
+  }
+
+  if (data.subCatName.length > 100) {
+    return {
+      isValid: false,
+      message: "Sub-category name must be less than 100 characters",
+    };
+  }
+
+  if (data.subCatSlug && data.subCatSlug.length > 100) {
+    return {
+      isValid: false,
+      message: "Sub-category slug must be less than 100 characters",
+    };
+  }
+
+  if (
+    data.displayOrder !== undefined &&
+    (typeof data.displayOrder !== "number" || data.displayOrder < 0)
+  ) {
+    return {
+      isValid: false,
+      message: "Display order must be a non-negative number",
+    };
+  }
+
+  if (data.isActive !== undefined && typeof data.isActive !== "boolean") {
+    return { isValid: false, message: "isActive must be a boolean" };
+  }
+
+  return { isValid: true };
+};
+
+export const validateUpdateSubCategory = (data: {
+  categoryId?: string;
+  subCatName?: string;
+  subCatSlug?: string;
+  displayOrder?: number;
+  isActive?: boolean;
+}): ValidationResult => {
+  // Check if at least one field is provided
+  if (
+    !data.categoryId &&
+    !data.subCatName &&
+    !data.subCatSlug &&
+    data.displayOrder === undefined &&
+    data.isActive === undefined
+  ) {
+    return {
+      isValid: false,
+      message: "At least one field must be provided to update",
+    };
+  }
+
+  if (data.subCatName && data.subCatName.length > 100) {
+    return {
+      isValid: false,
+      message: "Sub-category name must be less than 100 characters",
+    };
+  }
+
+  if (data.subCatSlug && data.subCatSlug.length > 100) {
+    return {
+      isValid: false,
+      message: "Sub-category slug must be less than 100 characters",
+    };
+  }
+
+  if (
+    data.displayOrder !== undefined &&
+    (typeof data.displayOrder !== "number" || data.displayOrder < 0)
+  ) {
+    return {
+      isValid: false,
+      message: "Display order must be a non-negative number",
+    };
+  }
+
+  if (data.isActive !== undefined && typeof data.isActive !== "boolean") {
+    return { isValid: false, message: "isActive must be a boolean" };
   }
 
   return { isValid: true };

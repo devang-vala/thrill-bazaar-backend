@@ -48,6 +48,8 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
+  Category: 'Category',
+  SubCategory: 'SubCategory',
   Otp: 'Otp',
   User: 'User'
 } as const
@@ -66,6 +68,38 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const CategoryScalarFieldEnum = {
+  id: 'id',
+  categoryName: 'categoryName',
+  categorySlug: 'categorySlug',
+  categoryIconUrl: 'categoryIconUrl',
+  categoryDescription: 'categoryDescription',
+  displayOrder: 'displayOrder',
+  bookingFormat: 'bookingFormat',
+  isRental: 'isRental',
+  hasVariantCatA: 'hasVariantCatA',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const SubCategoryScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  subCatName: 'subCatName',
+  subCatSlug: 'subCatSlug',
+  displayOrder: 'displayOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubCategoryScalarFieldEnum = (typeof SubCategoryScalarFieldEnum)[keyof typeof SubCategoryScalarFieldEnum]
 
 
 export const OtpScalarFieldEnum = {
