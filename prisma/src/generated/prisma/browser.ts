@@ -27,6 +27,41 @@ export type Category = Prisma.CategoryModel
  */
 export type SubCategory = Prisma.SubCategoryModel
 /**
+ * Model ListingAddon
+ * 
+ */
+export type ListingAddon = Prisma.ListingAddonModel
+/**
+ * Model ListingContent
+ * 
+ */
+export type ListingContent = Prisma.ListingContentModel
+/**
+ * Model ListingInclusionExclusion
+ * 
+ */
+export type ListingInclusionExclusion = Prisma.ListingInclusionExclusionModel
+/**
+ * Model ListingMedia
+ * 
+ */
+export type ListingMedia = Prisma.ListingMediaModel
+/**
+ * Model ListingPolicy
+ * 
+ */
+export type ListingPolicy = Prisma.ListingPolicyModel
+/**
+ * Model ListingVariant
+ * 
+ */
+export type ListingVariant = Prisma.ListingVariantModel
+/**
+ * Model Listing
+ * 
+ */
+export type Listing = Prisma.ListingModel
+/**
  * Model Otp
  * 
  */

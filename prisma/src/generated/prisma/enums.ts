@@ -26,3 +26,57 @@ export const BookingFormat = {
 } as const
 
 export type BookingFormat = (typeof BookingFormat)[keyof typeof BookingFormat]
+
+
+export const ListingStatus = {
+  draft: 'draft',
+  pending_approval: 'pending_approval',
+  active: 'active',
+  rejected: 'rejected',
+  archived: 'archived'
+} as const
+
+export type ListingStatus = (typeof ListingStatus)[keyof typeof ListingStatus]
+
+
+export const ContentType = {
+  overview: 'overview',
+  day_itinerary: 'day_itinerary',
+  pickup_dropoff: 'pickup_dropoff',
+  difficulty: 'difficulty',
+  fitness: 'fitness',
+  things_to_carry: 'things_to_carry',
+  faq: 'faq',
+  why_choose_us: 'why_choose_us',
+  safety_commitment: 'safety_commitment',
+  how_to_reach: 'how_to_reach'
+} as const
+
+export type ContentType = (typeof ContentType)[keyof typeof ContentType]
+
+
+export const InclusionType = {
+  inclusion: 'inclusion',
+  exclusion: 'exclusion'
+} as const
+
+export type InclusionType = (typeof InclusionType)[keyof typeof InclusionType]
+
+
+export const MediaType = {
+  image: 'image',
+  video: 'video'
+} as const
+
+export type MediaType = (typeof MediaType)[keyof typeof MediaType]
+
+
+export const PolicyType = {
+  cancellation: 'cancellation',
+  rescheduling: 'rescheduling',
+  exchange: 'exchange',
+  terms_conditions: 'terms_conditions',
+  why_choose_us: 'why_choose_us'
+} as const
+
+export type PolicyType = (typeof PolicyType)[keyof typeof PolicyType]

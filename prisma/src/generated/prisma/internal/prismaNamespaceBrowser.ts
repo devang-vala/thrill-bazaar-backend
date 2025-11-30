@@ -50,6 +50,13 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 export const ModelName = {
   Category: 'Category',
   SubCategory: 'SubCategory',
+  ListingAddon: 'ListingAddon',
+  ListingContent: 'ListingContent',
+  ListingInclusionExclusion: 'ListingInclusionExclusion',
+  ListingMedia: 'ListingMedia',
+  ListingPolicy: 'ListingPolicy',
+  ListingVariant: 'ListingVariant',
+  Listing: 'Listing',
   Otp: 'Otp',
   User: 'User'
 } as const
@@ -102,6 +109,131 @@ export const SubCategoryScalarFieldEnum = {
 export type SubCategoryScalarFieldEnum = (typeof SubCategoryScalarFieldEnum)[keyof typeof SubCategoryScalarFieldEnum]
 
 
+export const ListingAddonScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  addonName: 'addonName',
+  addonDescription: 'addonDescription',
+  price: 'price',
+  isMandatory: 'isMandatory',
+  maxQuantity: 'maxQuantity',
+  displayOrder: 'displayOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingAddonScalarFieldEnum = (typeof ListingAddonScalarFieldEnum)[keyof typeof ListingAddonScalarFieldEnum]
+
+
+export const ListingContentScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  contentType: 'contentType',
+  contentOrder: 'contentOrder',
+  title: 'title',
+  contentText: 'contentText',
+  imageUrls: 'imageUrls',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingContentScalarFieldEnum = (typeof ListingContentScalarFieldEnum)[keyof typeof ListingContentScalarFieldEnum]
+
+
+export const ListingInclusionExclusionScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  type: 'type',
+  description: 'description',
+  displayOrder: 'displayOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingInclusionExclusionScalarFieldEnum = (typeof ListingInclusionExclusionScalarFieldEnum)[keyof typeof ListingInclusionExclusionScalarFieldEnum]
+
+
+export const ListingMediaScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  contentId: 'contentId',
+  mediaType: 'mediaType',
+  mediaUrl: 'mediaUrl',
+  thumbnailUrl: 'thumbnailUrl',
+  isPrimary: 'isPrimary',
+  displayOrder: 'displayOrder',
+  caption: 'caption',
+  uploadedAt: 'uploadedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingMediaScalarFieldEnum = (typeof ListingMediaScalarFieldEnum)[keyof typeof ListingMediaScalarFieldEnum]
+
+
+export const ListingPolicyScalarFieldEnum = {
+  id: 'id',
+  sellerId: 'sellerId',
+  policyType: 'policyType',
+  policyContent: 'policyContent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingPolicyScalarFieldEnum = (typeof ListingPolicyScalarFieldEnum)[keyof typeof ListingPolicyScalarFieldEnum]
+
+
+export const ListingVariantScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  variantName: 'variantName',
+  variantOrder: 'variantOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingVariantScalarFieldEnum = (typeof ListingVariantScalarFieldEnum)[keyof typeof ListingVariantScalarFieldEnum]
+
+
+export const ListingScalarFieldEnum = {
+  id: 'id',
+  operatorId: 'operatorId',
+  categoryId: 'categoryId',
+  subCatId: 'subCatId',
+  listingName: 'listingName',
+  listingSlug: 'listingSlug',
+  tbaId: 'tbaId',
+  frontImageUrl: 'frontImageUrl',
+  bookingFormat: 'bookingFormat',
+  hasMultipleOptions: 'hasMultipleOptions',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  approvedByAdminId: 'approvedByAdminId',
+  approvedAt: 'approvedAt',
+  rejectionReason: 'rejectionReason',
+  startCountryId: 'startCountryId',
+  startPrimaryDivisionId: 'startPrimaryDivisionId',
+  startSecondaryDivisionId: 'startSecondaryDivisionId',
+  endCountryId: 'endCountryId',
+  endPrimaryDivisionId: 'endPrimaryDivisionId',
+  endSecondaryDivisionId: 'endSecondaryDivisionId',
+  startLocationName: 'startLocationName',
+  startLocationCoordinates: 'startLocationCoordinates',
+  startGoogleMapsUrl: 'startGoogleMapsUrl',
+  endLocationName: 'endLocationName',
+  endLocationCoordinates: 'endLocationCoordinates',
+  endGoogleMapsUrl: 'endGoogleMapsUrl',
+  taxRate: 'taxRate',
+  advanceBookingPercentage: 'advanceBookingPercentage',
+  basePriceDisplay: 'basePriceDisplay',
+  currency: 'currency'
+} as const
+
+export type ListingScalarFieldEnum = (typeof ListingScalarFieldEnum)[keyof typeof ListingScalarFieldEnum]
+
+
 export const OtpScalarFieldEnum = {
   id: 'id',
   phone: 'phone',
@@ -143,6 +275,14 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -157,4 +297,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
