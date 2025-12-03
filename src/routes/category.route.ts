@@ -6,6 +6,7 @@ import {
   updateCategory,
   deleteCategory,
   paginateCategories,
+  getCategoriesByBookingFormat,
 } from "../controllers/category.controller.js";
 import {
   authenticateToken,
@@ -14,10 +15,11 @@ import {
 
 const categoryRouter = new Hono();
 
-categoryRouter.use(authenticateToken);
+// categoryRouter.use(authenticateToken);
 
 // Public routes
 categoryRouter.get("/", getCategories);
+categoryRouter.get("/booking-format/:format", getCategoriesByBookingFormat);
 
 // Protected routes (Admin only)
 categoryRouter.post("/paginate", requireAdmin, paginateCategories);

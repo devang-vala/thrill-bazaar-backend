@@ -58,6 +58,69 @@ export const getCategories = async (c: Context) => {
   }
 };
 
+export const getCategoriesByBookingFormat = async (c: Context) => {
+  try {
+    const format = c.req.param("format");
+    const { includeInactive = "false" } = c.req.query();
+    const showInactive = includeInactive.toLowerCase() === "true";
+
+    // Validate booking format
+    const validFormats = ["F1", "F2", "F3", "F4"];
+    if (!format || !validFormats.includes(format.toUpperCase())) {
+      return c.json({ 
+        error: "Invalid booking format. Must be F1, F2, F3, or F4" 
+      }, 400);
+    }
+
+    const bookingFormat = format.toUpperCase() as "F1" | "F2" | "F3" | "F4";
+
+    // Debug: Check all categories first
+    const allCategories = await prisma.category.findMany({
+      select: {
+        id: true,
+        categoryName: true,
+        bookingFormat: true,
+        isActive: true,
+      },
+    });
+    console.log("All categories:", allCategories);
+    console.log("Looking for booking format:", bookingFormat);
+
+    // Query categories by booking format
+    const categories = await prisma.category.findMany({
+      where: {
+        bookingFormat: bookingFormat,
+        ...(showInactive ? {} : { isActive: true }),
+      },
+      orderBy: {
+        displayOrder: "asc",
+      },
+      include: {
+        subCategories: {
+          where: showInactive ? {} : { isActive: true },
+          orderBy: {
+            displayOrder: "asc",
+          },
+        },
+      },
+    });
+
+    return c.json({
+      success: true,
+      data: categories,
+      count: categories.length,
+      bookingFormat: bookingFormat,
+      debug: {
+        totalCategoriesInDb: allCategories.length,
+        allBookingFormats: [...new Set(allCategories.map(c => c.bookingFormat))],
+      },
+    });
+  } catch (error) {
+    console.error("Get categories by booking format error:", error);
+    return c.json({ error: "Failed to fetch categories" }, 500);
+  }
+};
+
 export const getCategory = async (c: Context) => {
   try {
     const categoryId = c.req.param("id");

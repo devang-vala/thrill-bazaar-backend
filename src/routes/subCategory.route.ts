@@ -14,14 +14,14 @@ import {
 
 const subCategoryRouter = new Hono();
 
-subCategoryRouter.use(authenticateToken);
+// subCategoryRouter.use(authenticateToken);
 
 // Public routes
 subCategoryRouter.get("/", getSubCategories);
 
 // Protected routes (Admin only)
 subCategoryRouter.get("/:id", requireAdmin, getSubCategory);
-subCategoryRouter.post("/paginate", requireAdmin, paginateSubCategories);
+subCategoryRouter.post("/paginate", paginateSubCategories);
 subCategoryRouter.post("/", requireAdmin, createSubCategoryHandler);
 subCategoryRouter.put("/:id", requireAdmin, updateSubCategory);
 
