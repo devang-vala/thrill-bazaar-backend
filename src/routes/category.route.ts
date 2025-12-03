@@ -22,9 +22,9 @@ categoryRouter.get("/", getCategories);
 categoryRouter.get("/booking-format/:format", getCategoriesByBookingFormat);
 
 // Protected routes (Admin only)
-categoryRouter.post("/paginate", requireAdmin, paginateCategories);
+categoryRouter.post("/paginate", paginateCategories);
 categoryRouter.get("/:id", requireAdmin, getCategory);
-categoryRouter.post("/", requireAdmin, createCategoryHandler);
-categoryRouter.put("/:id", requireAdmin, updateCategory);
+categoryRouter.post("/", createCategoryHandler);
+categoryRouter.put("/:id", updateCategory);
 
 export default categoryRouter;

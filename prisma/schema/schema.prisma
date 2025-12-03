@@ -61,3 +61,16 @@ enum PolicyType {
   terms_conditions
   why_choose_us
 }
+
+enum FieldType {
+  text
+  textarea
+  number
+  select
+  multiselect
+  boolean
+  date
+  time
+  datetime
+  json_array
+}

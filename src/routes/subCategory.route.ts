@@ -22,7 +22,7 @@ subCategoryRouter.get("/", getSubCategories);
 // Protected routes (Admin only)
 subCategoryRouter.get("/:id", requireAdmin, getSubCategory);
 subCategoryRouter.post("/paginate", paginateSubCategories);
-subCategoryRouter.post("/", requireAdmin, createSubCategoryHandler);
-subCategoryRouter.put("/:id", requireAdmin, updateSubCategory);
+subCategoryRouter.post("/", createSubCategoryHandler);
+subCategoryRouter.put("/:id", updateSubCategory);
 
 export default subCategoryRouter;
