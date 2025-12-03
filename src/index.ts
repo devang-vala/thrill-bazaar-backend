@@ -3,10 +3,15 @@ import { Hono } from "hono";
 import { prisma } from "./db.js";
 import dotenv from "dotenv";
 import apiRouter from "./routes/index.js";
+import { cors } from "hono/cors"; //
 
 const app = new Hono();
 
 dotenv.config();
+
+app.use('*', cors({
+  origin: '*', 
+}));
 
 //test endpoint
 app.get("/", (c) => {
