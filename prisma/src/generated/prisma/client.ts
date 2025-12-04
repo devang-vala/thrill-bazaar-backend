@@ -74,6 +74,11 @@ export type ListingInclusionExclusion = Prisma.ListingInclusionExclusionModel
  */
 export type ListingMedia = Prisma.ListingMediaModel
 /**
+ * Model ListingMetadataFieldDefinition
+ * 
+ */
+export type ListingMetadataFieldDefinition = Prisma.ListingMetadataFieldDefinitionModel
+/**
  * Model ListingPolicy
  * 
  */

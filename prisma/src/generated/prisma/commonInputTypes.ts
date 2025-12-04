@@ -322,6 +322,23 @@ export type EnumMediaTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumMediaTypeFilter<$PrismaModel>
 }
 
+export type EnumFieldTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.FieldType | Prisma.EnumFieldTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.FieldType[] | Prisma.ListEnumFieldTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FieldType[] | Prisma.ListEnumFieldTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFieldTypeFilter<$PrismaModel> | $Enums.FieldType
+}
+
+export type EnumFieldTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FieldType | Prisma.EnumFieldTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.FieldType[] | Prisma.ListEnumFieldTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FieldType[] | Prisma.ListEnumFieldTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFieldTypeWithAggregatesFilter<$PrismaModel> | $Enums.FieldType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFieldTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFieldTypeFilter<$PrismaModel>
+}
+
 export type EnumPolicyTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.PolicyType | Prisma.EnumPolicyTypeFieldRefInput<$PrismaModel>
   in?: $Enums.PolicyType[] | Prisma.ListEnumPolicyTypeFieldRefInput<$PrismaModel>
@@ -691,6 +708,23 @@ export type NestedEnumMediaTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumMediaTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumMediaTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumFieldTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.FieldType | Prisma.EnumFieldTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.FieldType[] | Prisma.ListEnumFieldTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FieldType[] | Prisma.ListEnumFieldTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFieldTypeFilter<$PrismaModel> | $Enums.FieldType
+}
+
+export type NestedEnumFieldTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FieldType | Prisma.EnumFieldTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.FieldType[] | Prisma.ListEnumFieldTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FieldType[] | Prisma.ListEnumFieldTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFieldTypeWithAggregatesFilter<$PrismaModel> | $Enums.FieldType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFieldTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFieldTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumPolicyTypeFilter<$PrismaModel = never> = {

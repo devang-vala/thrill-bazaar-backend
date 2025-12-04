@@ -395,6 +395,7 @@ export const ModelName = {
   ListingContent: 'ListingContent',
   ListingInclusionExclusion: 'ListingInclusionExclusion',
   ListingMedia: 'ListingMedia',
+  ListingMetadataFieldDefinition: 'ListingMetadataFieldDefinition',
   ListingPolicy: 'ListingPolicy',
   ListingVariant: 'ListingVariant',
   Listing: 'Listing',
@@ -415,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "category" | "subCategory" | "listingAddon" | "listingContent" | "listingInclusionExclusion" | "listingMedia" | "listingPolicy" | "listingVariant" | "listing" | "otp" | "user"
+    modelProps: "category" | "subCategory" | "listingAddon" | "listingContent" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingPolicy" | "listingVariant" | "listing" | "otp" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -860,6 +861,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ListingMediaCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ListingMediaCountAggregateOutputType> | number
+        }
+      }
+    }
+    ListingMetadataFieldDefinition: {
+      payload: Prisma.$ListingMetadataFieldDefinitionPayload<ExtArgs>
+      fields: Prisma.ListingMetadataFieldDefinitionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingMetadataFieldDefinitionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMetadataFieldDefinitionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingMetadataFieldDefinitionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMetadataFieldDefinitionPayload>
+        }
+        findFirst: {
+          args: Prisma.ListingMetadataFieldDefinitionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMetadataFieldDefinitionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingMetadataFieldDefinitionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMetadataFieldDefinitionPayload>
+        }
+        findMany: {
+          args: Prisma.ListingMetadataFieldDefinitionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMetadataFieldDefinitionPayload>[]
+        }
+        create: {
+          args: Prisma.ListingMetadataFieldDefinitionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMetadataFieldDefinitionPayload>
+        }
+        createMany: {
+          args: Prisma.ListingMetadataFieldDefinitionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingMetadataFieldDefinitionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMetadataFieldDefinitionPayload>[]
+        }
+        delete: {
+          args: Prisma.ListingMetadataFieldDefinitionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMetadataFieldDefinitionPayload>
+        }
+        update: {
+          args: Prisma.ListingMetadataFieldDefinitionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMetadataFieldDefinitionPayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingMetadataFieldDefinitionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingMetadataFieldDefinitionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingMetadataFieldDefinitionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMetadataFieldDefinitionPayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingMetadataFieldDefinitionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingMetadataFieldDefinitionPayload>
+        }
+        aggregate: {
+          args: Prisma.ListingMetadataFieldDefinitionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingMetadataFieldDefinition>
+        }
+        groupBy: {
+          args: Prisma.ListingMetadataFieldDefinitionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingMetadataFieldDefinitionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingMetadataFieldDefinitionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingMetadataFieldDefinitionCountAggregateOutputType> | number
         }
       }
     }
@@ -1367,6 +1442,29 @@ export const ListingMediaScalarFieldEnum = {
 export type ListingMediaScalarFieldEnum = (typeof ListingMediaScalarFieldEnum)[keyof typeof ListingMediaScalarFieldEnum]
 
 
+export const ListingMetadataFieldDefinitionScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  isFilter: 'isFilter',
+  fieldKey: 'fieldKey',
+  fieldLabel: 'fieldLabel',
+  fieldType: 'fieldType',
+  isRequired: 'isRequired',
+  validationRules: 'validationRules',
+  defaultValue: 'defaultValue',
+  helpText: 'helpText',
+  placeholderText: 'placeholderText',
+  displayOrder: 'displayOrder',
+  fieldGroup: 'fieldGroup',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdByAdminId: 'createdByAdminId'
+} as const
+
+export type ListingMetadataFieldDefinitionScalarFieldEnum = (typeof ListingMetadataFieldDefinitionScalarFieldEnum)[keyof typeof ListingMetadataFieldDefinitionScalarFieldEnum]
+
+
 export const ListingPolicyScalarFieldEnum = {
   id: 'id',
   sellerId: 'sellerId',
@@ -1643,6 +1741,20 @@ export type ListEnumMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
 
 
 /**
+ * Reference to a field of type 'FieldType'
+ */
+export type EnumFieldTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FieldType'>
+    
+
+
+/**
+ * Reference to a field of type 'FieldType[]'
+ */
+export type ListEnumFieldTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FieldType[]'>
+    
+
+
+/**
  * Reference to a field of type 'PolicyType'
  */
 export type EnumPolicyTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PolicyType'>
@@ -1790,6 +1902,7 @@ export type GlobalOmitConfig = {
   listingContent?: Prisma.ListingContentOmit
   listingInclusionExclusion?: Prisma.ListingInclusionExclusionOmit
   listingMedia?: Prisma.ListingMediaOmit
+  listingMetadataFieldDefinition?: Prisma.ListingMetadataFieldDefinitionOmit
   listingPolicy?: Prisma.ListingPolicyOmit
   listingVariant?: Prisma.ListingVariantOmit
   listing?: Prisma.ListingOmit

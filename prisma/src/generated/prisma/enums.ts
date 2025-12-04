@@ -80,3 +80,19 @@ export const PolicyType = {
 } as const
 
 export type PolicyType = (typeof PolicyType)[keyof typeof PolicyType]
+
+
+export const FieldType = {
+  text: 'text',
+  textarea: 'textarea',
+  number: 'number',
+  select: 'select',
+  multiselect: 'multiselect',
+  boolean: 'boolean',
+  date: 'date',
+  time: 'time',
+  datetime: 'datetime',
+  json_array: 'json_array'
+} as const
+
+export type FieldType = (typeof FieldType)[keyof typeof FieldType]

@@ -273,6 +273,7 @@ export type CategoryWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   subCategories?: Prisma.SubCategoryListRelationFilter
   listings?: Prisma.ListingListRelationFilter
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionListRelationFilter
 }
 
 export type CategoryOrderByWithRelationInput = {
@@ -290,6 +291,7 @@ export type CategoryOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   subCategories?: Prisma.SubCategoryOrderByRelationAggregateInput
   listings?: Prisma.ListingOrderByRelationAggregateInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionOrderByRelationAggregateInput
 }
 
 export type CategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -310,6 +312,7 @@ export type CategoryWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   subCategories?: Prisma.SubCategoryListRelationFilter
   listings?: Prisma.ListingListRelationFilter
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionListRelationFilter
 }, "id" | "categorySlug">
 
 export type CategoryOrderByWithAggregationInput = {
@@ -365,6 +368,7 @@ export type CategoryCreateInput = {
   updatedAt?: Date | string
   subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
   listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateInput = {
@@ -382,6 +386,7 @@ export type CategoryUncheckedCreateInput = {
   updatedAt?: Date | string
   subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUpdateInput = {
@@ -399,6 +404,7 @@ export type CategoryUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateInput = {
@@ -416,6 +422,7 @@ export type CategoryUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateManyInput = {
@@ -563,6 +570,20 @@ export type CategoryUpdateOneRequiredWithoutSubCategoriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutSubCategoriesInput, Prisma.CategoryUpdateWithoutSubCategoriesInput>, Prisma.CategoryUncheckedUpdateWithoutSubCategoriesInput>
 }
 
+export type CategoryCreateNestedOneWithoutMetadataFieldDefinitionsInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutMetadataFieldDefinitionsInput, Prisma.CategoryUncheckedCreateWithoutMetadataFieldDefinitionsInput>
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutMetadataFieldDefinitionsInput
+  connect?: Prisma.CategoryWhereUniqueInput
+}
+
+export type CategoryUpdateOneRequiredWithoutMetadataFieldDefinitionsNestedInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutMetadataFieldDefinitionsInput, Prisma.CategoryUncheckedCreateWithoutMetadataFieldDefinitionsInput>
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutMetadataFieldDefinitionsInput
+  upsert?: Prisma.CategoryUpsertWithoutMetadataFieldDefinitionsInput
+  connect?: Prisma.CategoryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutMetadataFieldDefinitionsInput, Prisma.CategoryUpdateWithoutMetadataFieldDefinitionsInput>, Prisma.CategoryUncheckedUpdateWithoutMetadataFieldDefinitionsInput>
+}
+
 export type CategoryCreateNestedOneWithoutListingsInput = {
   create?: Prisma.XOR<Prisma.CategoryCreateWithoutListingsInput, Prisma.CategoryUncheckedCreateWithoutListingsInput>
   connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutListingsInput
@@ -591,6 +612,7 @@ export type CategoryCreateWithoutSubCategoriesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutSubCategoriesInput = {
@@ -607,6 +629,7 @@ export type CategoryUncheckedCreateWithoutSubCategoriesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutSubCategoriesInput = {
@@ -639,6 +662,7 @@ export type CategoryUpdateWithoutSubCategoriesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutSubCategoriesInput = {
@@ -654,6 +678,91 @@ export type CategoryUncheckedUpdateWithoutSubCategoriesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
+}
+
+export type CategoryCreateWithoutMetadataFieldDefinitionsInput = {
+  id?: string
+  categoryName: string
+  categorySlug: string
+  categoryIconUrl?: string | null
+  categoryDescription?: string | null
+  displayOrder?: number
+  bookingFormat: $Enums.BookingFormat
+  isRental?: boolean
+  hasVariantCatA?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
+}
+
+export type CategoryUncheckedCreateWithoutMetadataFieldDefinitionsInput = {
+  id?: string
+  categoryName: string
+  categorySlug: string
+  categoryIconUrl?: string | null
+  categoryDescription?: string | null
+  displayOrder?: number
+  bookingFormat: $Enums.BookingFormat
+  isRental?: boolean
+  hasVariantCatA?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+}
+
+export type CategoryCreateOrConnectWithoutMetadataFieldDefinitionsInput = {
+  where: Prisma.CategoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutMetadataFieldDefinitionsInput, Prisma.CategoryUncheckedCreateWithoutMetadataFieldDefinitionsInput>
+}
+
+export type CategoryUpsertWithoutMetadataFieldDefinitionsInput = {
+  update: Prisma.XOR<Prisma.CategoryUpdateWithoutMetadataFieldDefinitionsInput, Prisma.CategoryUncheckedUpdateWithoutMetadataFieldDefinitionsInput>
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutMetadataFieldDefinitionsInput, Prisma.CategoryUncheckedCreateWithoutMetadataFieldDefinitionsInput>
+  where?: Prisma.CategoryWhereInput
+}
+
+export type CategoryUpdateToOneWithWhereWithoutMetadataFieldDefinitionsInput = {
+  where?: Prisma.CategoryWhereInput
+  data: Prisma.XOR<Prisma.CategoryUpdateWithoutMetadataFieldDefinitionsInput, Prisma.CategoryUncheckedUpdateWithoutMetadataFieldDefinitionsInput>
+}
+
+export type CategoryUpdateWithoutMetadataFieldDefinitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryName?: Prisma.StringFieldUpdateOperationsInput | string
+  categorySlug?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryIconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
+}
+
+export type CategoryUncheckedUpdateWithoutMetadataFieldDefinitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryName?: Prisma.StringFieldUpdateOperationsInput | string
+  categorySlug?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryIconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
@@ -671,6 +780,7 @@ export type CategoryCreateWithoutListingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutListingsInput = {
@@ -687,6 +797,7 @@ export type CategoryUncheckedCreateWithoutListingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutListingsInput = {
@@ -719,6 +830,7 @@ export type CategoryUpdateWithoutListingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutListingsInput = {
@@ -735,6 +847,7 @@ export type CategoryUncheckedUpdateWithoutListingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 
@@ -745,11 +858,13 @@ export type CategoryUncheckedUpdateWithoutListingsInput = {
 export type CategoryCountOutputType = {
   subCategories: number
   listings: number
+  metadataFieldDefinitions: number
 }
 
 export type CategoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subCategories?: boolean | CategoryCountOutputTypeCountSubCategoriesArgs
   listings?: boolean | CategoryCountOutputTypeCountListingsArgs
+  metadataFieldDefinitions?: boolean | CategoryCountOutputTypeCountMetadataFieldDefinitionsArgs
 }
 
 /**
@@ -776,6 +891,13 @@ export type CategoryCountOutputTypeCountListingsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.ListingWhereInput
 }
 
+/**
+ * CategoryCountOutputType without action
+ */
+export type CategoryCountOutputTypeCountMetadataFieldDefinitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingMetadataFieldDefinitionWhereInput
+}
+
 
 export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -792,6 +914,7 @@ export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   updatedAt?: boolean
   subCategories?: boolean | Prisma.Category$subCategoriesArgs<ExtArgs>
   listings?: boolean | Prisma.Category$listingsArgs<ExtArgs>
+  metadataFieldDefinitions?: boolean | Prisma.Category$metadataFieldDefinitionsArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["category"]>
 
@@ -844,6 +967,7 @@ export type CategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type CategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subCategories?: boolean | Prisma.Category$subCategoriesArgs<ExtArgs>
   listings?: boolean | Prisma.Category$listingsArgs<ExtArgs>
+  metadataFieldDefinitions?: boolean | Prisma.Category$metadataFieldDefinitionsArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CategoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -854,6 +978,7 @@ export type $CategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     subCategories: Prisma.$SubCategoryPayload<ExtArgs>[]
     listings: Prisma.$ListingPayload<ExtArgs>[]
+    metadataFieldDefinitions: Prisma.$ListingMetadataFieldDefinitionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1264,6 +1389,7 @@ export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   subCategories<T extends Prisma.Category$subCategoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$subCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   listings<T extends Prisma.Category$listingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  metadataFieldDefinitions<T extends Prisma.Category$metadataFieldDefinitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$metadataFieldDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMetadataFieldDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1738,6 +1864,30 @@ export type Category$listingsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ListingScalarFieldEnum | Prisma.ListingScalarFieldEnum[]
+}
+
+/**
+ * Category.metadataFieldDefinitions
+ */
+export type Category$metadataFieldDefinitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingMetadataFieldDefinition
+   */
+  select?: Prisma.ListingMetadataFieldDefinitionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingMetadataFieldDefinition
+   */
+  omit?: Prisma.ListingMetadataFieldDefinitionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingMetadataFieldDefinitionInclude<ExtArgs> | null
+  where?: Prisma.ListingMetadataFieldDefinitionWhereInput
+  orderBy?: Prisma.ListingMetadataFieldDefinitionOrderByWithRelationInput | Prisma.ListingMetadataFieldDefinitionOrderByWithRelationInput[]
+  cursor?: Prisma.ListingMetadataFieldDefinitionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingMetadataFieldDefinitionScalarFieldEnum | Prisma.ListingMetadataFieldDefinitionScalarFieldEnum[]
 }
 
 /**

@@ -54,6 +54,7 @@ export const ModelName = {
   ListingContent: 'ListingContent',
   ListingInclusionExclusion: 'ListingInclusionExclusion',
   ListingMedia: 'ListingMedia',
+  ListingMetadataFieldDefinition: 'ListingMetadataFieldDefinition',
   ListingPolicy: 'ListingPolicy',
   ListingVariant: 'ListingVariant',
   Listing: 'Listing',
@@ -170,6 +171,29 @@ export const ListingMediaScalarFieldEnum = {
 } as const
 
 export type ListingMediaScalarFieldEnum = (typeof ListingMediaScalarFieldEnum)[keyof typeof ListingMediaScalarFieldEnum]
+
+
+export const ListingMetadataFieldDefinitionScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  isFilter: 'isFilter',
+  fieldKey: 'fieldKey',
+  fieldLabel: 'fieldLabel',
+  fieldType: 'fieldType',
+  isRequired: 'isRequired',
+  validationRules: 'validationRules',
+  defaultValue: 'defaultValue',
+  helpText: 'helpText',
+  placeholderText: 'placeholderText',
+  displayOrder: 'displayOrder',
+  fieldGroup: 'fieldGroup',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdByAdminId: 'createdByAdminId'
+} as const
+
+export type ListingMetadataFieldDefinitionScalarFieldEnum = (typeof ListingMetadataFieldDefinitionScalarFieldEnum)[keyof typeof ListingMetadataFieldDefinitionScalarFieldEnum]
 
 
 export const ListingPolicyScalarFieldEnum = {
