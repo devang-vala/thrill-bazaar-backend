@@ -1,0 +1,28 @@
+model ListingMetadataFieldDefinition {
+    id                 String    @id @default(uuid()) @map("field_definition_id")
+    categoryId         String    @map("category_id")
+    isFilter           Boolean   @default(false) @map("is_it_a_filter")
+    fieldKey           String    @map("field_key")
+    fieldLabel         String    @map("field_label")
+    fieldType          FieldType @map("field_type")
+    isRequired         Boolean   @default(false) @map("is_required")
+    validationRules    Json?     @map("validation_rules")
+    defaultValue       String?   @map("default_value")
+    helpText           String?   @map("help_text")
+    placeholderText    String?   @map("placeholder_text")
+    displayOrder       Int       @default(0) @map("display_order")
+    fieldGroup         String?   @map("field_group")
+    isActive           Boolean   @default(true) @map("is_active")
+    createdAt          DateTime  @default(now()) @map("created_at")
+    updatedAt          DateTime  @updatedAt @map("updated_at")
+    createdByAdminId   String?   @map("created_by_admin_id")
+
+    // Relations
+    category         Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    createdByAdmin   User?    @relation(fields: [createdByAdminId], references: [id], onDelete: SetNull)
+
+    @@unique([categoryId, fieldKey])
+    @@index([categoryId])
+    @@index([isActive])
+    @@map("listing_metadata_field_definitions")
+}

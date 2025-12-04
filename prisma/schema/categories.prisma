@@ -13,8 +13,9 @@ model Category {
     updatedAt           DateTime      @updatedAt @map("updated_at")
 
     // Relations
-    subCategories SubCategory[]
-    listings      Listing[]
+    subCategories             SubCategory[]
+    listings                  Listing[]
+    metadataFieldDefinitions  ListingMetadataFieldDefinition[]
 
     @@map("categories")
 }
