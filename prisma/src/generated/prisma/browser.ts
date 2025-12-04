@@ -52,6 +52,11 @@ export type ListingMedia = Prisma.ListingMediaModel
  */
 export type ListingMetadataFieldDefinition = Prisma.ListingMetadataFieldDefinitionModel
 /**
+ * Model ListingMetadataFieldOptions
+ * 
+ */
+export type ListingMetadataFieldOptions = Prisma.ListingMetadataFieldOptionsModel
+/**
  * Model ListingPolicy
  * 
  */

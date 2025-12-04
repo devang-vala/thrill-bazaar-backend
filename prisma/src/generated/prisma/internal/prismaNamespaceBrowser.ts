@@ -55,6 +55,7 @@ export const ModelName = {
   ListingInclusionExclusion: 'ListingInclusionExclusion',
   ListingMedia: 'ListingMedia',
   ListingMetadataFieldDefinition: 'ListingMetadataFieldDefinition',
+  ListingMetadataFieldOptions: 'ListingMetadataFieldOptions',
   ListingPolicy: 'ListingPolicy',
   ListingVariant: 'ListingVariant',
   Listing: 'Listing',
@@ -194,6 +195,21 @@ export const ListingMetadataFieldDefinitionScalarFieldEnum = {
 } as const
 
 export type ListingMetadataFieldDefinitionScalarFieldEnum = (typeof ListingMetadataFieldDefinitionScalarFieldEnum)[keyof typeof ListingMetadataFieldDefinitionScalarFieldEnum]
+
+
+export const ListingMetadataFieldOptionsScalarFieldEnum = {
+  optionId: 'optionId',
+  fieldDefinitionId: 'fieldDefinitionId',
+  optionValue: 'optionValue',
+  optionLabel: 'optionLabel',
+  optionDescription: 'optionDescription',
+  displayOrder: 'displayOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingMetadataFieldOptionsScalarFieldEnum = (typeof ListingMetadataFieldOptionsScalarFieldEnum)[keyof typeof ListingMetadataFieldOptionsScalarFieldEnum]
 
 
 export const ListingPolicyScalarFieldEnum = {

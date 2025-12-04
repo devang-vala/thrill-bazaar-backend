@@ -20,6 +20,7 @@ model ListingMetadataFieldDefinition {
     // Relations
     category         Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
     createdByAdmin   User?    @relation(fields: [createdByAdminId], references: [id], onDelete: SetNull)
+    options          ListingMetadataFieldOptions[]
 
     @@unique([categoryId, fieldKey])
     @@index([categoryId])
