@@ -10,6 +10,8 @@ import listingContentRouter from "./listingContent.route.js";
 import listingAddonsRouter from "./listingAddons.route.js";
 import listingInclusionsExclusionsRouter from "./listingInclusionsExclusions.route.js";
 import listingPoliciesRouter from "./listingPolicies.route.js";
+import fieldDefinitionsRouter from "./listingMetadataFieldDefinitions.route.js";
+import fieldOptionsRouter from "./listingMetadataFieldOptions.route.js";
 
 const router = new Hono();
 
@@ -39,5 +41,7 @@ router.route(
   listingInclusionsExclusionsRouter
 );
 router.route("/listing-policies", listingPoliciesRouter);
+router.route("/field-definitions", fieldDefinitionsRouter);
+router.route("/field-options", fieldOptionsRouter);
 
 export default router;

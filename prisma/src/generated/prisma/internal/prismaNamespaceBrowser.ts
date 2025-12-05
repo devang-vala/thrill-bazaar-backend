@@ -268,7 +268,8 @@ export const ListingScalarFieldEnum = {
   taxRate: 'taxRate',
   advanceBookingPercentage: 'advanceBookingPercentage',
   basePriceDisplay: 'basePriceDisplay',
-  currency: 'currency'
+  currency: 'currency',
+  metadata: 'metadata'
 } as const
 
 export type ListingScalarFieldEnum = (typeof ListingScalarFieldEnum)[keyof typeof ListingScalarFieldEnum]

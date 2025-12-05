@@ -140,6 +140,7 @@ export type ListingCountAggregateOutputType = {
   advanceBookingPercentage: number
   basePriceDisplay: number
   currency: number
+  metadata: number
   _all: number
 }
 
@@ -259,6 +260,7 @@ export type ListingCountAggregateInputType = {
   advanceBookingPercentage?: true
   basePriceDisplay?: true
   currency?: true
+  metadata?: true
   _all?: true
 }
 
@@ -381,6 +383,7 @@ export type ListingGroupByOutputType = {
   advanceBookingPercentage: runtime.Decimal
   basePriceDisplay: runtime.Decimal
   currency: string
+  metadata: runtime.JsonValue | null
   _count: ListingCountAggregateOutputType | null
   _avg: ListingAvgAggregateOutputType | null
   _sum: ListingSumAggregateOutputType | null
@@ -439,6 +442,7 @@ export type ListingWhereInput = {
   advanceBookingPercentage?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Listing"> | string
+  metadata?: Prisma.JsonNullableFilter<"Listing">
   operator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   subCategory?: Prisma.XOR<Prisma.SubCategoryScalarRelationFilter, Prisma.SubCategoryWhereInput>
@@ -483,6 +487,7 @@ export type ListingOrderByWithRelationInput = {
   advanceBookingPercentage?: Prisma.SortOrder
   basePriceDisplay?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   operator?: Prisma.UserOrderByWithRelationInput
   category?: Prisma.CategoryOrderByWithRelationInput
   subCategory?: Prisma.SubCategoryOrderByWithRelationInput
@@ -530,6 +535,7 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   advanceBookingPercentage?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Listing"> | string
+  metadata?: Prisma.JsonNullableFilter<"Listing">
   operator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   subCategory?: Prisma.XOR<Prisma.SubCategoryScalarRelationFilter, Prisma.SubCategoryWhereInput>
@@ -574,6 +580,7 @@ export type ListingOrderByWithAggregationInput = {
   advanceBookingPercentage?: Prisma.SortOrder
   basePriceDisplay?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ListingCountOrderByAggregateInput
   _avg?: Prisma.ListingAvgOrderByAggregateInput
   _max?: Prisma.ListingMaxOrderByAggregateInput
@@ -617,6 +624,7 @@ export type ListingScalarWhereWithAggregatesInput = {
   advanceBookingPercentage?: Prisma.DecimalWithAggregatesFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalWithAggregatesFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringWithAggregatesFilter<"Listing"> | string
+  metadata?: Prisma.JsonNullableWithAggregatesFilter<"Listing">
 }
 
 export type ListingCreateInput = {
@@ -648,6 +656,7 @@ export type ListingCreateInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator: Prisma.UserCreateNestedOneWithoutListingsInput
   category: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
@@ -692,6 +701,7 @@ export type ListingUncheckedCreateInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
@@ -728,6 +738,7 @@ export type ListingUpdateInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
@@ -772,6 +783,7 @@ export type ListingUncheckedUpdateInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
@@ -812,6 +824,7 @@ export type ListingCreateManyInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingUpdateManyMutationInput = {
@@ -843,6 +856,7 @@ export type ListingUpdateManyMutationInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingUncheckedUpdateManyInput = {
@@ -878,6 +892,7 @@ export type ListingUncheckedUpdateManyInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingListRelationFilter = {
@@ -928,6 +943,7 @@ export type ListingCountOrderByAggregateInput = {
   advanceBookingPercentage?: Prisma.SortOrder
   basePriceDisplay?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
 }
 
 export type ListingAvgOrderByAggregateInput = {
@@ -1287,6 +1303,7 @@ export type ListingCreateWithoutCategoryInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator: Prisma.UserCreateNestedOneWithoutListingsInput
   subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
@@ -1329,6 +1346,7 @@ export type ListingUncheckedCreateWithoutCategoryInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
@@ -1398,6 +1416,7 @@ export type ListingScalarWhereInput = {
   advanceBookingPercentage?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Listing"> | string
+  metadata?: Prisma.JsonNullableFilter<"Listing">
 }
 
 export type ListingCreateWithoutSubCategoryInput = {
@@ -1429,6 +1448,7 @@ export type ListingCreateWithoutSubCategoryInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator: Prisma.UserCreateNestedOneWithoutListingsInput
   category: Prisma.CategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
@@ -1471,6 +1491,7 @@ export type ListingUncheckedCreateWithoutSubCategoryInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
@@ -1533,6 +1554,7 @@ export type ListingCreateWithoutAddonsInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator: Prisma.UserCreateNestedOneWithoutListingsInput
   category: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
@@ -1576,6 +1598,7 @@ export type ListingUncheckedCreateWithoutAddonsInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
@@ -1627,6 +1650,7 @@ export type ListingUpdateWithoutAddonsInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
@@ -1670,6 +1694,7 @@ export type ListingUncheckedUpdateWithoutAddonsInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
@@ -1705,6 +1730,7 @@ export type ListingCreateWithoutContentInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator: Prisma.UserCreateNestedOneWithoutListingsInput
   category: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
@@ -1748,6 +1774,7 @@ export type ListingUncheckedCreateWithoutContentInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
@@ -1799,6 +1826,7 @@ export type ListingUpdateWithoutContentInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
@@ -1842,6 +1870,7 @@ export type ListingUncheckedUpdateWithoutContentInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
@@ -1877,6 +1906,7 @@ export type ListingCreateWithoutInclusionsExclusionsInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator: Prisma.UserCreateNestedOneWithoutListingsInput
   category: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
@@ -1920,6 +1950,7 @@ export type ListingUncheckedCreateWithoutInclusionsExclusionsInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
@@ -1971,6 +2002,7 @@ export type ListingUpdateWithoutInclusionsExclusionsInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
@@ -2014,6 +2046,7 @@ export type ListingUncheckedUpdateWithoutInclusionsExclusionsInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
@@ -2049,6 +2082,7 @@ export type ListingCreateWithoutMediaInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator: Prisma.UserCreateNestedOneWithoutListingsInput
   category: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
@@ -2092,6 +2126,7 @@ export type ListingUncheckedCreateWithoutMediaInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
@@ -2143,6 +2178,7 @@ export type ListingUpdateWithoutMediaInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
@@ -2186,6 +2222,7 @@ export type ListingUncheckedUpdateWithoutMediaInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
@@ -2221,6 +2258,7 @@ export type ListingCreateWithoutVariantsInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator: Prisma.UserCreateNestedOneWithoutListingsInput
   category: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
@@ -2264,6 +2302,7 @@ export type ListingUncheckedCreateWithoutVariantsInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
@@ -2315,6 +2354,7 @@ export type ListingUpdateWithoutVariantsInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
@@ -2358,6 +2398,7 @@ export type ListingUncheckedUpdateWithoutVariantsInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
@@ -2393,6 +2434,7 @@ export type ListingCreateWithoutOperatorInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   category: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
@@ -2435,6 +2477,7 @@ export type ListingUncheckedCreateWithoutOperatorInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
@@ -2481,6 +2524,7 @@ export type ListingCreateWithoutApprovedByAdminInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator: Prisma.UserCreateNestedOneWithoutListingsInput
   category: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
@@ -2523,6 +2567,7 @@ export type ListingUncheckedCreateWithoutApprovedByAdminInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
@@ -2604,6 +2649,7 @@ export type ListingCreateManyCategoryInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingUpdateWithoutCategoryInput = {
@@ -2635,6 +2681,7 @@ export type ListingUpdateWithoutCategoryInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
@@ -2677,6 +2724,7 @@ export type ListingUncheckedUpdateWithoutCategoryInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
@@ -2716,6 +2764,7 @@ export type ListingUncheckedUpdateManyWithoutCategoryInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingCreateManySubCategoryInput = {
@@ -2750,6 +2799,7 @@ export type ListingCreateManySubCategoryInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingUpdateWithoutSubCategoryInput = {
@@ -2781,6 +2831,7 @@ export type ListingUpdateWithoutSubCategoryInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
@@ -2823,6 +2874,7 @@ export type ListingUncheckedUpdateWithoutSubCategoryInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
@@ -2862,6 +2914,7 @@ export type ListingUncheckedUpdateManyWithoutSubCategoryInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingCreateManyOperatorInput = {
@@ -2896,6 +2949,7 @@ export type ListingCreateManyOperatorInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingCreateManyApprovedByAdminInput = {
@@ -2930,6 +2984,7 @@ export type ListingCreateManyApprovedByAdminInput = {
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingUpdateWithoutOperatorInput = {
@@ -2961,6 +3016,7 @@ export type ListingUpdateWithoutOperatorInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
@@ -3003,6 +3059,7 @@ export type ListingUncheckedUpdateWithoutOperatorInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
@@ -3042,6 +3099,7 @@ export type ListingUncheckedUpdateManyWithoutOperatorInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingUpdateWithoutApprovedByAdminInput = {
@@ -3073,6 +3131,7 @@ export type ListingUpdateWithoutApprovedByAdminInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
@@ -3115,6 +3174,7 @@ export type ListingUncheckedUpdateWithoutApprovedByAdminInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
@@ -3154,6 +3214,7 @@ export type ListingUncheckedUpdateManyWithoutApprovedByAdminInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 
@@ -3256,6 +3317,7 @@ export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   advanceBookingPercentage?: boolean
   basePriceDisplay?: boolean
   currency?: boolean
+  metadata?: boolean
   operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   subCategory?: boolean | Prisma.SubCategoryDefaultArgs<ExtArgs>
@@ -3301,6 +3363,7 @@ export type ListingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   advanceBookingPercentage?: boolean
   basePriceDisplay?: boolean
   currency?: boolean
+  metadata?: boolean
   operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   subCategory?: boolean | Prisma.SubCategoryDefaultArgs<ExtArgs>
@@ -3340,6 +3403,7 @@ export type ListingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   advanceBookingPercentage?: boolean
   basePriceDisplay?: boolean
   currency?: boolean
+  metadata?: boolean
   operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   subCategory?: boolean | Prisma.SubCategoryDefaultArgs<ExtArgs>
@@ -3379,9 +3443,10 @@ export type ListingSelectScalar = {
   advanceBookingPercentage?: boolean
   basePriceDisplay?: boolean
   currency?: boolean
+  metadata?: boolean
 }
 
-export type ListingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "operatorId" | "categoryId" | "subCatId" | "listingName" | "listingSlug" | "tbaId" | "frontImageUrl" | "bookingFormat" | "hasMultipleOptions" | "status" | "createdAt" | "updatedAt" | "approvedByAdminId" | "approvedAt" | "rejectionReason" | "startCountryId" | "startPrimaryDivisionId" | "startSecondaryDivisionId" | "endCountryId" | "endPrimaryDivisionId" | "endSecondaryDivisionId" | "startLocationName" | "startLocationCoordinates" | "startGoogleMapsUrl" | "endLocationName" | "endLocationCoordinates" | "endGoogleMapsUrl" | "taxRate" | "advanceBookingPercentage" | "basePriceDisplay" | "currency", ExtArgs["result"]["listing"]>
+export type ListingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "operatorId" | "categoryId" | "subCatId" | "listingName" | "listingSlug" | "tbaId" | "frontImageUrl" | "bookingFormat" | "hasMultipleOptions" | "status" | "createdAt" | "updatedAt" | "approvedByAdminId" | "approvedAt" | "rejectionReason" | "startCountryId" | "startPrimaryDivisionId" | "startSecondaryDivisionId" | "endCountryId" | "endPrimaryDivisionId" | "endSecondaryDivisionId" | "startLocationName" | "startLocationCoordinates" | "startGoogleMapsUrl" | "endLocationName" | "endLocationCoordinates" | "endGoogleMapsUrl" | "taxRate" | "advanceBookingPercentage" | "basePriceDisplay" | "currency" | "metadata", ExtArgs["result"]["listing"]>
 export type ListingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -3453,6 +3518,7 @@ export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     advanceBookingPercentage: runtime.Decimal
     basePriceDisplay: runtime.Decimal
     currency: string
+    metadata: runtime.JsonValue | null
   }, ExtArgs["result"]["listing"]>
   composites: {}
 }
@@ -3917,6 +3983,7 @@ export interface ListingFieldRefs {
   readonly advanceBookingPercentage: Prisma.FieldRef<"Listing", 'Decimal'>
   readonly basePriceDisplay: Prisma.FieldRef<"Listing", 'Decimal'>
   readonly currency: Prisma.FieldRef<"Listing", 'String'>
+  readonly metadata: Prisma.FieldRef<"Listing", 'Json'>
 }
     
 
