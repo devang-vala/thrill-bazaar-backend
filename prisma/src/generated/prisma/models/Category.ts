@@ -528,6 +528,11 @@ export type CategoryScalarRelationFilter = {
   isNot?: Prisma.CategoryWhereInput
 }
 
+export type CategoryNullableScalarRelationFilter = {
+  is?: Prisma.CategoryWhereInput | null
+  isNot?: Prisma.CategoryWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -590,10 +595,12 @@ export type CategoryCreateNestedOneWithoutListingsInput = {
   connect?: Prisma.CategoryWhereUniqueInput
 }
 
-export type CategoryUpdateOneRequiredWithoutListingsNestedInput = {
+export type CategoryUpdateOneWithoutListingsNestedInput = {
   create?: Prisma.XOR<Prisma.CategoryCreateWithoutListingsInput, Prisma.CategoryUncheckedCreateWithoutListingsInput>
   connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutListingsInput
   upsert?: Prisma.CategoryUpsertWithoutListingsInput
+  disconnect?: Prisma.CategoryWhereInput | boolean
+  delete?: Prisma.CategoryWhereInput | boolean
   connect?: Prisma.CategoryWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutListingsInput, Prisma.CategoryUpdateWithoutListingsInput>, Prisma.CategoryUncheckedUpdateWithoutListingsInput>
 }

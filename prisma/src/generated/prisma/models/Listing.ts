@@ -352,14 +352,14 @@ export type ListingGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type ListingGroupByOutputType = {
   id: string
-  operatorId: string
-  categoryId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  operatorId: string | null
+  categoryId: string | null
+  subCatId: string | null
+  listingName: string | null
+  listingSlug: string | null
   tbaId: string | null
   frontImageUrl: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat: $Enums.BookingFormat | null
   hasMultipleOptions: boolean
   status: $Enums.ListingStatus
   createdAt: Date
@@ -411,14 +411,14 @@ export type ListingWhereInput = {
   OR?: Prisma.ListingWhereInput[]
   NOT?: Prisma.ListingWhereInput | Prisma.ListingWhereInput[]
   id?: Prisma.StringFilter<"Listing"> | string
-  operatorId?: Prisma.StringFilter<"Listing"> | string
-  categoryId?: Prisma.StringFilter<"Listing"> | string
-  subCatId?: Prisma.StringFilter<"Listing"> | string
-  listingName?: Prisma.StringFilter<"Listing"> | string
-  listingSlug?: Prisma.StringFilter<"Listing"> | string
+  operatorId?: Prisma.StringNullableFilter<"Listing"> | string | null
+  categoryId?: Prisma.StringNullableFilter<"Listing"> | string | null
+  subCatId?: Prisma.StringNullableFilter<"Listing"> | string | null
+  listingName?: Prisma.StringNullableFilter<"Listing"> | string | null
+  listingSlug?: Prisma.StringNullableFilter<"Listing"> | string | null
   tbaId?: Prisma.StringNullableFilter<"Listing"> | string | null
   frontImageUrl?: Prisma.StringNullableFilter<"Listing"> | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFilter<"Listing"> | $Enums.BookingFormat
+  bookingFormat?: Prisma.EnumBookingFormatNullableFilter<"Listing"> | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFilter<"Listing"> | boolean
   status?: Prisma.EnumListingStatusFilter<"Listing"> | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFilter<"Listing"> | Date | string
@@ -443,9 +443,9 @@ export type ListingWhereInput = {
   basePriceDisplay?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Listing"> | string
   metadata?: Prisma.JsonNullableFilter<"Listing">
-  operator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
-  subCategory?: Prisma.XOR<Prisma.SubCategoryScalarRelationFilter, Prisma.SubCategoryWhereInput>
+  operator?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
+  subCategory?: Prisma.XOR<Prisma.SubCategoryNullableScalarRelationFilter, Prisma.SubCategoryWhereInput> | null
   approvedByAdmin?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   variants?: Prisma.ListingVariantListRelationFilter
   content?: Prisma.ListingContentListRelationFilter
@@ -456,14 +456,14 @@ export type ListingWhereInput = {
 
 export type ListingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  operatorId?: Prisma.SortOrder
-  categoryId?: Prisma.SortOrder
-  subCatId?: Prisma.SortOrder
-  listingName?: Prisma.SortOrder
-  listingSlug?: Prisma.SortOrder
+  operatorId?: Prisma.SortOrderInput | Prisma.SortOrder
+  categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
+  subCatId?: Prisma.SortOrderInput | Prisma.SortOrder
+  listingName?: Prisma.SortOrderInput | Prisma.SortOrder
+  listingSlug?: Prisma.SortOrderInput | Prisma.SortOrder
   tbaId?: Prisma.SortOrderInput | Prisma.SortOrder
   frontImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  bookingFormat?: Prisma.SortOrder
+  bookingFormat?: Prisma.SortOrderInput | Prisma.SortOrder
   hasMultipleOptions?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -505,13 +505,13 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ListingWhereInput | Prisma.ListingWhereInput[]
   OR?: Prisma.ListingWhereInput[]
   NOT?: Prisma.ListingWhereInput | Prisma.ListingWhereInput[]
-  operatorId?: Prisma.StringFilter<"Listing"> | string
-  categoryId?: Prisma.StringFilter<"Listing"> | string
-  subCatId?: Prisma.StringFilter<"Listing"> | string
-  listingName?: Prisma.StringFilter<"Listing"> | string
+  operatorId?: Prisma.StringNullableFilter<"Listing"> | string | null
+  categoryId?: Prisma.StringNullableFilter<"Listing"> | string | null
+  subCatId?: Prisma.StringNullableFilter<"Listing"> | string | null
+  listingName?: Prisma.StringNullableFilter<"Listing"> | string | null
   tbaId?: Prisma.StringNullableFilter<"Listing"> | string | null
   frontImageUrl?: Prisma.StringNullableFilter<"Listing"> | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFilter<"Listing"> | $Enums.BookingFormat
+  bookingFormat?: Prisma.EnumBookingFormatNullableFilter<"Listing"> | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFilter<"Listing"> | boolean
   status?: Prisma.EnumListingStatusFilter<"Listing"> | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFilter<"Listing"> | Date | string
@@ -536,9 +536,9 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   basePriceDisplay?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Listing"> | string
   metadata?: Prisma.JsonNullableFilter<"Listing">
-  operator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
-  subCategory?: Prisma.XOR<Prisma.SubCategoryScalarRelationFilter, Prisma.SubCategoryWhereInput>
+  operator?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
+  subCategory?: Prisma.XOR<Prisma.SubCategoryNullableScalarRelationFilter, Prisma.SubCategoryWhereInput> | null
   approvedByAdmin?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   variants?: Prisma.ListingVariantListRelationFilter
   content?: Prisma.ListingContentListRelationFilter
@@ -549,14 +549,14 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
 
 export type ListingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  operatorId?: Prisma.SortOrder
-  categoryId?: Prisma.SortOrder
-  subCatId?: Prisma.SortOrder
-  listingName?: Prisma.SortOrder
-  listingSlug?: Prisma.SortOrder
+  operatorId?: Prisma.SortOrderInput | Prisma.SortOrder
+  categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
+  subCatId?: Prisma.SortOrderInput | Prisma.SortOrder
+  listingName?: Prisma.SortOrderInput | Prisma.SortOrder
+  listingSlug?: Prisma.SortOrderInput | Prisma.SortOrder
   tbaId?: Prisma.SortOrderInput | Prisma.SortOrder
   frontImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  bookingFormat?: Prisma.SortOrder
+  bookingFormat?: Prisma.SortOrderInput | Prisma.SortOrder
   hasMultipleOptions?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -593,14 +593,14 @@ export type ListingScalarWhereWithAggregatesInput = {
   OR?: Prisma.ListingScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ListingScalarWhereWithAggregatesInput | Prisma.ListingScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Listing"> | string
-  operatorId?: Prisma.StringWithAggregatesFilter<"Listing"> | string
-  categoryId?: Prisma.StringWithAggregatesFilter<"Listing"> | string
-  subCatId?: Prisma.StringWithAggregatesFilter<"Listing"> | string
-  listingName?: Prisma.StringWithAggregatesFilter<"Listing"> | string
-  listingSlug?: Prisma.StringWithAggregatesFilter<"Listing"> | string
+  operatorId?: Prisma.StringNullableWithAggregatesFilter<"Listing"> | string | null
+  categoryId?: Prisma.StringNullableWithAggregatesFilter<"Listing"> | string | null
+  subCatId?: Prisma.StringNullableWithAggregatesFilter<"Listing"> | string | null
+  listingName?: Prisma.StringNullableWithAggregatesFilter<"Listing"> | string | null
+  listingSlug?: Prisma.StringNullableWithAggregatesFilter<"Listing"> | string | null
   tbaId?: Prisma.StringNullableWithAggregatesFilter<"Listing"> | string | null
   frontImageUrl?: Prisma.StringNullableWithAggregatesFilter<"Listing"> | string | null
-  bookingFormat?: Prisma.EnumBookingFormatWithAggregatesFilter<"Listing"> | $Enums.BookingFormat
+  bookingFormat?: Prisma.EnumBookingFormatNullableWithAggregatesFilter<"Listing"> | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolWithAggregatesFilter<"Listing"> | boolean
   status?: Prisma.EnumListingStatusWithAggregatesFilter<"Listing"> | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Listing"> | Date | string
@@ -629,11 +629,11 @@ export type ListingScalarWhereWithAggregatesInput = {
 
 export type ListingCreateInput = {
   id?: string
-  listingName: string
-  listingSlug: string
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -657,9 +657,9 @@ export type ListingCreateInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator: Prisma.UserCreateNestedOneWithoutListingsInput
-  category: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
@@ -670,14 +670,14 @@ export type ListingCreateInput = {
 
 export type ListingUncheckedCreateInput = {
   id?: string
-  operatorId: string
-  categoryId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -711,11 +711,11 @@ export type ListingUncheckedCreateInput = {
 
 export type ListingUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -739,9 +739,9 @@ export type ListingUpdateInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
@@ -752,14 +752,14 @@ export type ListingUpdateInput = {
 
 export type ListingUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -793,14 +793,14 @@ export type ListingUncheckedUpdateInput = {
 
 export type ListingCreateManyInput = {
   id?: string
-  operatorId: string
-  categoryId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -829,11 +829,11 @@ export type ListingCreateManyInput = {
 
 export type ListingUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -861,14 +861,14 @@ export type ListingUpdateManyMutationInput = {
 
 export type ListingUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1182,6 +1182,10 @@ export type ListingUpdateOneRequiredWithoutVariantsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutVariantsInput, Prisma.ListingUpdateWithoutVariantsInput>, Prisma.ListingUncheckedUpdateWithoutVariantsInput>
 }
 
+export type NullableEnumBookingFormatFieldUpdateOperationsInput = {
+  set?: $Enums.BookingFormat | null
+}
+
 export type EnumListingStatusFieldUpdateOperationsInput = {
   set?: $Enums.ListingStatus
 }
@@ -1276,11 +1280,11 @@ export type ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput = {
 
 export type ListingCreateWithoutCategoryInput = {
   id?: string
-  listingName: string
-  listingSlug: string
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -1304,8 +1308,8 @@ export type ListingCreateWithoutCategoryInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator: Prisma.UserCreateNestedOneWithoutListingsInput
-  subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
@@ -1316,13 +1320,13 @@ export type ListingCreateWithoutCategoryInput = {
 
 export type ListingUncheckedCreateWithoutCategoryInput = {
   id?: string
-  operatorId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -1385,14 +1389,14 @@ export type ListingScalarWhereInput = {
   OR?: Prisma.ListingScalarWhereInput[]
   NOT?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
   id?: Prisma.StringFilter<"Listing"> | string
-  operatorId?: Prisma.StringFilter<"Listing"> | string
-  categoryId?: Prisma.StringFilter<"Listing"> | string
-  subCatId?: Prisma.StringFilter<"Listing"> | string
-  listingName?: Prisma.StringFilter<"Listing"> | string
-  listingSlug?: Prisma.StringFilter<"Listing"> | string
+  operatorId?: Prisma.StringNullableFilter<"Listing"> | string | null
+  categoryId?: Prisma.StringNullableFilter<"Listing"> | string | null
+  subCatId?: Prisma.StringNullableFilter<"Listing"> | string | null
+  listingName?: Prisma.StringNullableFilter<"Listing"> | string | null
+  listingSlug?: Prisma.StringNullableFilter<"Listing"> | string | null
   tbaId?: Prisma.StringNullableFilter<"Listing"> | string | null
   frontImageUrl?: Prisma.StringNullableFilter<"Listing"> | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFilter<"Listing"> | $Enums.BookingFormat
+  bookingFormat?: Prisma.EnumBookingFormatNullableFilter<"Listing"> | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFilter<"Listing"> | boolean
   status?: Prisma.EnumListingStatusFilter<"Listing"> | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFilter<"Listing"> | Date | string
@@ -1421,11 +1425,11 @@ export type ListingScalarWhereInput = {
 
 export type ListingCreateWithoutSubCategoryInput = {
   id?: string
-  listingName: string
-  listingSlug: string
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -1449,8 +1453,8 @@ export type ListingCreateWithoutSubCategoryInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator: Prisma.UserCreateNestedOneWithoutListingsInput
-  category: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
@@ -1461,13 +1465,13 @@ export type ListingCreateWithoutSubCategoryInput = {
 
 export type ListingUncheckedCreateWithoutSubCategoryInput = {
   id?: string
-  operatorId: string
-  categoryId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  categoryId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -1527,11 +1531,11 @@ export type ListingUpdateManyWithWhereWithoutSubCategoryInput = {
 
 export type ListingCreateWithoutAddonsInput = {
   id?: string
-  listingName: string
-  listingSlug: string
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -1555,9 +1559,9 @@ export type ListingCreateWithoutAddonsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator: Prisma.UserCreateNestedOneWithoutListingsInput
-  category: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
@@ -1567,14 +1571,14 @@ export type ListingCreateWithoutAddonsInput = {
 
 export type ListingUncheckedCreateWithoutAddonsInput = {
   id?: string
-  operatorId: string
-  categoryId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -1623,11 +1627,11 @@ export type ListingUpdateToOneWithWhereWithoutAddonsInput = {
 
 export type ListingUpdateWithoutAddonsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1651,9 +1655,9 @@ export type ListingUpdateWithoutAddonsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
@@ -1663,14 +1667,14 @@ export type ListingUpdateWithoutAddonsInput = {
 
 export type ListingUncheckedUpdateWithoutAddonsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1703,11 +1707,11 @@ export type ListingUncheckedUpdateWithoutAddonsInput = {
 
 export type ListingCreateWithoutContentInput = {
   id?: string
-  listingName: string
-  listingSlug: string
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -1731,9 +1735,9 @@ export type ListingCreateWithoutContentInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator: Prisma.UserCreateNestedOneWithoutListingsInput
-  category: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
@@ -1743,14 +1747,14 @@ export type ListingCreateWithoutContentInput = {
 
 export type ListingUncheckedCreateWithoutContentInput = {
   id?: string
-  operatorId: string
-  categoryId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -1799,11 +1803,11 @@ export type ListingUpdateToOneWithWhereWithoutContentInput = {
 
 export type ListingUpdateWithoutContentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1827,9 +1831,9 @@ export type ListingUpdateWithoutContentInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
@@ -1839,14 +1843,14 @@ export type ListingUpdateWithoutContentInput = {
 
 export type ListingUncheckedUpdateWithoutContentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1879,11 +1883,11 @@ export type ListingUncheckedUpdateWithoutContentInput = {
 
 export type ListingCreateWithoutInclusionsExclusionsInput = {
   id?: string
-  listingName: string
-  listingSlug: string
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -1907,9 +1911,9 @@ export type ListingCreateWithoutInclusionsExclusionsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator: Prisma.UserCreateNestedOneWithoutListingsInput
-  category: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
@@ -1919,14 +1923,14 @@ export type ListingCreateWithoutInclusionsExclusionsInput = {
 
 export type ListingUncheckedCreateWithoutInclusionsExclusionsInput = {
   id?: string
-  operatorId: string
-  categoryId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -1975,11 +1979,11 @@ export type ListingUpdateToOneWithWhereWithoutInclusionsExclusionsInput = {
 
 export type ListingUpdateWithoutInclusionsExclusionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2003,9 +2007,9 @@ export type ListingUpdateWithoutInclusionsExclusionsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
@@ -2015,14 +2019,14 @@ export type ListingUpdateWithoutInclusionsExclusionsInput = {
 
 export type ListingUncheckedUpdateWithoutInclusionsExclusionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2055,11 +2059,11 @@ export type ListingUncheckedUpdateWithoutInclusionsExclusionsInput = {
 
 export type ListingCreateWithoutMediaInput = {
   id?: string
-  listingName: string
-  listingSlug: string
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -2083,9 +2087,9 @@ export type ListingCreateWithoutMediaInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator: Prisma.UserCreateNestedOneWithoutListingsInput
-  category: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
@@ -2095,14 +2099,14 @@ export type ListingCreateWithoutMediaInput = {
 
 export type ListingUncheckedCreateWithoutMediaInput = {
   id?: string
-  operatorId: string
-  categoryId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -2151,11 +2155,11 @@ export type ListingUpdateToOneWithWhereWithoutMediaInput = {
 
 export type ListingUpdateWithoutMediaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2179,9 +2183,9 @@ export type ListingUpdateWithoutMediaInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
@@ -2191,14 +2195,14 @@ export type ListingUpdateWithoutMediaInput = {
 
 export type ListingUncheckedUpdateWithoutMediaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2231,11 +2235,11 @@ export type ListingUncheckedUpdateWithoutMediaInput = {
 
 export type ListingCreateWithoutVariantsInput = {
   id?: string
-  listingName: string
-  listingSlug: string
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -2259,9 +2263,9 @@ export type ListingCreateWithoutVariantsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator: Prisma.UserCreateNestedOneWithoutListingsInput
-  category: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
@@ -2271,14 +2275,14 @@ export type ListingCreateWithoutVariantsInput = {
 
 export type ListingUncheckedCreateWithoutVariantsInput = {
   id?: string
-  operatorId: string
-  categoryId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -2327,11 +2331,11 @@ export type ListingUpdateToOneWithWhereWithoutVariantsInput = {
 
 export type ListingUpdateWithoutVariantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2355,9 +2359,9 @@ export type ListingUpdateWithoutVariantsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
@@ -2367,14 +2371,14 @@ export type ListingUpdateWithoutVariantsInput = {
 
 export type ListingUncheckedUpdateWithoutVariantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2407,11 +2411,11 @@ export type ListingUncheckedUpdateWithoutVariantsInput = {
 
 export type ListingCreateWithoutOperatorInput = {
   id?: string
-  listingName: string
-  listingSlug: string
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -2435,8 +2439,8 @@ export type ListingCreateWithoutOperatorInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  category: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
@@ -2447,13 +2451,13 @@ export type ListingCreateWithoutOperatorInput = {
 
 export type ListingUncheckedCreateWithoutOperatorInput = {
   id?: string
-  categoryId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -2497,11 +2501,11 @@ export type ListingCreateManyOperatorInputEnvelope = {
 
 export type ListingCreateWithoutApprovedByAdminInput = {
   id?: string
-  listingName: string
-  listingSlug: string
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -2525,9 +2529,9 @@ export type ListingCreateWithoutApprovedByAdminInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator: Prisma.UserCreateNestedOneWithoutListingsInput
-  category: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
@@ -2537,14 +2541,14 @@ export type ListingCreateWithoutApprovedByAdminInput = {
 
 export type ListingUncheckedCreateWithoutApprovedByAdminInput = {
   id?: string
-  operatorId: string
-  categoryId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -2619,13 +2623,13 @@ export type ListingUpdateManyWithWhereWithoutApprovedByAdminInput = {
 
 export type ListingCreateManyCategoryInput = {
   id?: string
-  operatorId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -2654,11 +2658,11 @@ export type ListingCreateManyCategoryInput = {
 
 export type ListingUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2682,8 +2686,8 @@ export type ListingUpdateWithoutCategoryInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
@@ -2694,13 +2698,13 @@ export type ListingUpdateWithoutCategoryInput = {
 
 export type ListingUncheckedUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2734,13 +2738,13 @@ export type ListingUncheckedUpdateWithoutCategoryInput = {
 
 export type ListingUncheckedUpdateManyWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2769,13 +2773,13 @@ export type ListingUncheckedUpdateManyWithoutCategoryInput = {
 
 export type ListingCreateManySubCategoryInput = {
   id?: string
-  operatorId: string
-  categoryId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  categoryId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -2804,11 +2808,11 @@ export type ListingCreateManySubCategoryInput = {
 
 export type ListingUpdateWithoutSubCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2832,8 +2836,8 @@ export type ListingUpdateWithoutSubCategoryInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
@@ -2844,13 +2848,13 @@ export type ListingUpdateWithoutSubCategoryInput = {
 
 export type ListingUncheckedUpdateWithoutSubCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2884,13 +2888,13 @@ export type ListingUncheckedUpdateWithoutSubCategoryInput = {
 
 export type ListingUncheckedUpdateManyWithoutSubCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2919,13 +2923,13 @@ export type ListingUncheckedUpdateManyWithoutSubCategoryInput = {
 
 export type ListingCreateManyOperatorInput = {
   id?: string
-  categoryId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -2954,14 +2958,14 @@ export type ListingCreateManyOperatorInput = {
 
 export type ListingCreateManyApprovedByAdminInput = {
   id?: string
-  operatorId: string
-  categoryId: string
-  subCatId: string
-  listingName: string
-  listingSlug: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
   tbaId?: string | null
   frontImageUrl?: string | null
-  bookingFormat: $Enums.BookingFormat
+  bookingFormat?: $Enums.BookingFormat | null
   hasMultipleOptions?: boolean
   status?: $Enums.ListingStatus
   createdAt?: Date | string
@@ -2989,11 +2993,11 @@ export type ListingCreateManyApprovedByAdminInput = {
 
 export type ListingUpdateWithoutOperatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3017,8 +3021,8 @@ export type ListingUpdateWithoutOperatorInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
@@ -3029,13 +3033,13 @@ export type ListingUpdateWithoutOperatorInput = {
 
 export type ListingUncheckedUpdateWithoutOperatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3069,13 +3073,13 @@ export type ListingUncheckedUpdateWithoutOperatorInput = {
 
 export type ListingUncheckedUpdateManyWithoutOperatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3104,11 +3108,11 @@ export type ListingUncheckedUpdateManyWithoutOperatorInput = {
 
 export type ListingUpdateWithoutApprovedByAdminInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3132,9 +3136,9 @@ export type ListingUpdateWithoutApprovedByAdminInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneRequiredWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneRequiredWithoutListingsNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
@@ -3144,14 +3148,14 @@ export type ListingUpdateWithoutApprovedByAdminInput = {
 
 export type ListingUncheckedUpdateWithoutApprovedByAdminInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3184,14 +3188,14 @@ export type ListingUncheckedUpdateWithoutApprovedByAdminInput = {
 
 export type ListingUncheckedUpdateManyWithoutApprovedByAdminInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  subCatId?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.StringFieldUpdateOperationsInput | string
-  listingSlug?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
   hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3318,9 +3322,9 @@ export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   basePriceDisplay?: boolean
   currency?: boolean
   metadata?: boolean
-  operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
-  subCategory?: boolean | Prisma.SubCategoryDefaultArgs<ExtArgs>
+  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
+  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
+  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
   variants?: boolean | Prisma.Listing$variantsArgs<ExtArgs>
   content?: boolean | Prisma.Listing$contentArgs<ExtArgs>
@@ -3364,9 +3368,9 @@ export type ListingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   basePriceDisplay?: boolean
   currency?: boolean
   metadata?: boolean
-  operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
-  subCategory?: boolean | Prisma.SubCategoryDefaultArgs<ExtArgs>
+  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
+  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
+  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
 }, ExtArgs["result"]["listing"]>
 
@@ -3404,9 +3408,9 @@ export type ListingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   basePriceDisplay?: boolean
   currency?: boolean
   metadata?: boolean
-  operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
-  subCategory?: boolean | Prisma.SubCategoryDefaultArgs<ExtArgs>
+  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
+  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
+  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
 }, ExtArgs["result"]["listing"]>
 
@@ -3448,9 +3452,9 @@ export type ListingSelectScalar = {
 
 export type ListingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "operatorId" | "categoryId" | "subCatId" | "listingName" | "listingSlug" | "tbaId" | "frontImageUrl" | "bookingFormat" | "hasMultipleOptions" | "status" | "createdAt" | "updatedAt" | "approvedByAdminId" | "approvedAt" | "rejectionReason" | "startCountryId" | "startPrimaryDivisionId" | "startSecondaryDivisionId" | "endCountryId" | "endPrimaryDivisionId" | "endSecondaryDivisionId" | "startLocationName" | "startLocationCoordinates" | "startGoogleMapsUrl" | "endLocationName" | "endLocationCoordinates" | "endGoogleMapsUrl" | "taxRate" | "advanceBookingPercentage" | "basePriceDisplay" | "currency" | "metadata", ExtArgs["result"]["listing"]>
 export type ListingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
-  subCategory?: boolean | Prisma.SubCategoryDefaultArgs<ExtArgs>
+  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
+  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
+  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
   variants?: boolean | Prisma.Listing$variantsArgs<ExtArgs>
   content?: boolean | Prisma.Listing$contentArgs<ExtArgs>
@@ -3460,24 +3464,24 @@ export type ListingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   _count?: boolean | Prisma.ListingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ListingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
-  subCategory?: boolean | Prisma.SubCategoryDefaultArgs<ExtArgs>
+  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
+  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
+  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
 }
 export type ListingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
-  subCategory?: boolean | Prisma.SubCategoryDefaultArgs<ExtArgs>
+  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
+  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
+  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
 }
 
 export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Listing"
   objects: {
-    operator: Prisma.$UserPayload<ExtArgs>
-    category: Prisma.$CategoryPayload<ExtArgs>
-    subCategory: Prisma.$SubCategoryPayload<ExtArgs>
+    operator: Prisma.$UserPayload<ExtArgs> | null
+    category: Prisma.$CategoryPayload<ExtArgs> | null
+    subCategory: Prisma.$SubCategoryPayload<ExtArgs> | null
     approvedByAdmin: Prisma.$UserPayload<ExtArgs> | null
     variants: Prisma.$ListingVariantPayload<ExtArgs>[]
     content: Prisma.$ListingContentPayload<ExtArgs>[]
@@ -3487,14 +3491,14 @@ export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    operatorId: string
-    categoryId: string
-    subCatId: string
-    listingName: string
-    listingSlug: string
+    operatorId: string | null
+    categoryId: string | null
+    subCatId: string | null
+    listingName: string | null
+    listingSlug: string | null
     tbaId: string | null
     frontImageUrl: string | null
-    bookingFormat: $Enums.BookingFormat
+    bookingFormat: $Enums.BookingFormat | null
     hasMultipleOptions: boolean
     status: $Enums.ListingStatus
     createdAt: Date
@@ -3913,9 +3917,9 @@ readonly fields: ListingFieldRefs;
  */
 export interface Prisma__ListingClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  operator<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  subCategory<T extends Prisma.SubCategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubCategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__SubCategoryClient<runtime.Types.Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  operator<T extends Prisma.Listing$operatorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$operatorArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  category<T extends Prisma.Listing$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$categoryArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  subCategory<T extends Prisma.Listing$subCategoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$subCategoryArgs<ExtArgs>>): Prisma.Prisma__SubCategoryClient<runtime.Types.Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   approvedByAdmin<T extends Prisma.Listing$approvedByAdminArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$approvedByAdminArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   variants<T extends Prisma.Listing$variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   content<T extends Prisma.Listing$contentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$contentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4377,6 +4381,63 @@ export type ListingDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Listings to delete.
    */
   limit?: number
+}
+
+/**
+ * Listing.operator
+ */
+export type Listing$operatorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
+ * Listing.category
+ */
+export type Listing$categoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Category
+   */
+  select?: Prisma.CategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Category
+   */
+  omit?: Prisma.CategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CategoryInclude<ExtArgs> | null
+  where?: Prisma.CategoryWhereInput
+}
+
+/**
+ * Listing.subCategory
+ */
+export type Listing$subCategoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubCategory
+   */
+  select?: Prisma.SubCategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SubCategory
+   */
+  omit?: Prisma.SubCategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubCategoryInclude<ExtArgs> | null
+  where?: Prisma.SubCategoryWhereInput
 }
 
 /**
