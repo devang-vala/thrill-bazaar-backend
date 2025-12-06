@@ -433,9 +433,9 @@ export type SubCategorySumOrderByAggregateInput = {
   displayOrder?: Prisma.SortOrder
 }
 
-export type SubCategoryScalarRelationFilter = {
-  is?: Prisma.SubCategoryWhereInput
-  isNot?: Prisma.SubCategoryWhereInput
+export type SubCategoryNullableScalarRelationFilter = {
+  is?: Prisma.SubCategoryWhereInput | null
+  isNot?: Prisma.SubCategoryWhereInput | null
 }
 
 export type SubCategoryCreateNestedManyWithoutCategoryInput = {
@@ -486,10 +486,12 @@ export type SubCategoryCreateNestedOneWithoutListingsInput = {
   connect?: Prisma.SubCategoryWhereUniqueInput
 }
 
-export type SubCategoryUpdateOneRequiredWithoutListingsNestedInput = {
+export type SubCategoryUpdateOneWithoutListingsNestedInput = {
   create?: Prisma.XOR<Prisma.SubCategoryCreateWithoutListingsInput, Prisma.SubCategoryUncheckedCreateWithoutListingsInput>
   connectOrCreate?: Prisma.SubCategoryCreateOrConnectWithoutListingsInput
   upsert?: Prisma.SubCategoryUpsertWithoutListingsInput
+  disconnect?: Prisma.SubCategoryWhereInput | boolean
+  delete?: Prisma.SubCategoryWhereInput | boolean
   connect?: Prisma.SubCategoryWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.SubCategoryUpdateToOneWithWhereWithoutListingsInput, Prisma.SubCategoryUpdateWithoutListingsInput>, Prisma.SubCategoryUncheckedUpdateWithoutListingsInput>
 }

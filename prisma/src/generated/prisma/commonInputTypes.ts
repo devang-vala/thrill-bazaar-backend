@@ -356,6 +356,13 @@ export type EnumPolicyTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumPolicyTypeFilter<$PrismaModel>
 }
 
+export type EnumBookingFormatNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.BookingFormat | Prisma.EnumBookingFormatFieldRefInput<$PrismaModel> | null
+  in?: $Enums.BookingFormat[] | Prisma.ListEnumBookingFormatFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.BookingFormat[] | Prisma.ListEnumBookingFormatFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumBookingFormatNullableFilter<$PrismaModel> | $Enums.BookingFormat | null
+}
+
 export type EnumListingStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.ListingStatus | Prisma.EnumListingStatusFieldRefInput<$PrismaModel>
   in?: $Enums.ListingStatus[] | Prisma.ListEnumListingStatusFieldRefInput<$PrismaModel>
@@ -372,6 +379,16 @@ export type DateTimeNullableFilter<$PrismaModel = never> = {
   gt?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   gte?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   not?: Prisma.NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+}
+
+export type EnumBookingFormatNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.BookingFormat | Prisma.EnumBookingFormatFieldRefInput<$PrismaModel> | null
+  in?: $Enums.BookingFormat[] | Prisma.ListEnumBookingFormatFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.BookingFormat[] | Prisma.ListEnumBookingFormatFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumBookingFormatNullableWithAggregatesFilter<$PrismaModel> | $Enums.BookingFormat | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumBookingFormatNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumBookingFormatNullableFilter<$PrismaModel>
 }
 
 export type EnumListingStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -744,6 +761,13 @@ export type NestedEnumPolicyTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumPolicyTypeFilter<$PrismaModel>
 }
 
+export type NestedEnumBookingFormatNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.BookingFormat | Prisma.EnumBookingFormatFieldRefInput<$PrismaModel> | null
+  in?: $Enums.BookingFormat[] | Prisma.ListEnumBookingFormatFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.BookingFormat[] | Prisma.ListEnumBookingFormatFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumBookingFormatNullableFilter<$PrismaModel> | $Enums.BookingFormat | null
+}
+
 export type NestedEnumListingStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.ListingStatus | Prisma.EnumListingStatusFieldRefInput<$PrismaModel>
   in?: $Enums.ListingStatus[] | Prisma.ListEnumListingStatusFieldRefInput<$PrismaModel>
@@ -760,6 +784,16 @@ export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
   gt?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   gte?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   not?: Prisma.NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+}
+
+export type NestedEnumBookingFormatNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.BookingFormat | Prisma.EnumBookingFormatFieldRefInput<$PrismaModel> | null
+  in?: $Enums.BookingFormat[] | Prisma.ListEnumBookingFormatFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.BookingFormat[] | Prisma.ListEnumBookingFormatFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumBookingFormatNullableWithAggregatesFilter<$PrismaModel> | $Enums.BookingFormat | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumBookingFormatNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumBookingFormatNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumListingStatusWithAggregatesFilter<$PrismaModel = never> = {

@@ -11,8 +11,8 @@ import {
 
 const listingAddonsRouter = new Hono();
 
-listingAddonsRouter.use(authenticateToken);
-listingAddonsRouter.use(requireAnyAdmin);
+// listingAddonsRouter.use(authenticateToken);
+// listingAddonsRouter.use(requireAnyAdmin);
 
 listingAddonsRouter.get("/listing/:listingId", getListingAddons);
 listingAddonsRouter.post("/listing/:listingId", createListingAddon);

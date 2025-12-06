@@ -1,13 +1,13 @@
 model Listing {
-    id                 String        @id @default(uuid()) @map("listing_id")
-    operatorId         String        @map("operator_id")
-    categoryId         String        @map("category_id")
-    subCatId           String        @map("sub_cat_id")
-    listingName        String        @map("listing_name")
-    listingSlug        String        @unique @map("listing_slug")
-    tbaId              String?       @map("tba_id")
-    frontImageUrl      String?       @map("front_image_url")
-    bookingFormat      BookingFormat @map("booking_format")
+    id                 String         @id @default(uuid()) @map("listing_id")
+    operatorId         String?        @map("operator_id")
+    categoryId         String?        @map("category_id")
+    subCatId           String?        @map("sub_cat_id")
+    listingName        String?        @map("listing_name")
+    listingSlug        String?        @unique @map("listing_slug")
+    tbaId              String?        @map("tba_id")
+    frontImageUrl      String?        @map("front_image_url")
+    bookingFormat      BookingFormat? @map("booking_format")
     hasMultipleOptions Boolean       @default(false) @map("has_multiple_options")
     status             ListingStatus @default(draft)
     createdAt          DateTime      @default(now()) @map("created_at")
@@ -37,9 +37,9 @@ model Listing {
     currency                 String  @default("INR")
 
     // Relations
-    operator             User                        @relation(fields: [operatorId], references: [id], onDelete: Cascade)
-    category             Category                    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-    subCategory          SubCategory                 @relation(fields: [subCatId], references: [id], onDelete: Restrict)
+    operator             User?                       @relation(fields: [operatorId], references: [id], onDelete: Cascade)
+    category             Category?                   @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+    subCategory          SubCategory?                @relation(fields: [subCatId], references: [id], onDelete: Restrict)
     approvedByAdmin      User?                       @relation("ListingApprovals", fields: [approvedByAdminId], references: [id], onDelete: SetNull)
     variants             ListingVariant[]
     content              ListingContent[]

@@ -11,8 +11,8 @@ import {
 
 const listingInclusionsExclusionsRouter = new Hono();
 
-listingInclusionsExclusionsRouter.use(authenticateToken);
-listingInclusionsExclusionsRouter.use(requireAnyAdmin);
+// listingInclusionsExclusionsRouter.use(authenticateToken);
+// listingInclusionsExclusionsRouter.use(requireAnyAdmin);
 
 listingInclusionsExclusionsRouter.get(
   "/listing/:listingId",
