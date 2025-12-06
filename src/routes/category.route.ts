@@ -17,13 +17,11 @@ const categoryRouter = new Hono();
 
 // categoryRouter.use(authenticateToken);
 
-// Public routes
+// All routes are now public
 categoryRouter.get("/", getCategories);
 categoryRouter.get("/booking-format/:format", getCategoriesByBookingFormat);
-
-// Protected routes (Admin only)
 categoryRouter.post("/paginate", paginateCategories);
-categoryRouter.get("/:id", requireAdmin, getCategory);
+categoryRouter.get("/:id", getCategory);
 categoryRouter.post("/", createCategoryHandler);
 categoryRouter.put("/:id", updateCategory);
 
