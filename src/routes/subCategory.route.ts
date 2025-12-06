@@ -16,11 +16,9 @@ const subCategoryRouter = new Hono();
 
 // subCategoryRouter.use(authenticateToken);
 
-// Public routes
+// All routes are now public
 subCategoryRouter.get("/", getSubCategories);
-
-// Protected routes (Admin only)
-subCategoryRouter.get("/:id", requireAdmin, getSubCategory);
+subCategoryRouter.get("/:id", getSubCategory);
 subCategoryRouter.post("/paginate", paginateSubCategories);
 subCategoryRouter.post("/", createSubCategoryHandler);
 subCategoryRouter.put("/:id", updateSubCategory);
