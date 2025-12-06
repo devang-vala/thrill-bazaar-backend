@@ -48,4 +48,5 @@ model Listing {
     media                ListingMedia[]
 
     @@map("listings")
-}
+        metadata             Json?        @map("metadata")
+    }

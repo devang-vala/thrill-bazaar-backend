@@ -502,7 +502,7 @@ export const generateSlug = (text: string): string => {
     .replace(/[^a-z0-9 -]/g, "") // Remove special characters
     .replace(/\s+/g, "-") // Replace spaces with hyphens
     .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
-    .trim("-"); // Remove leading/trailing hyphens
+    .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
 };
 
 // Booking format validation
