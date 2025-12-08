@@ -249,6 +249,7 @@ export type UserWhereInput = {
   approvedListings?: Prisma.ListingListRelationFilter
   policies?: Prisma.ListingPolicyListRelationFilter
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionListRelationFilter
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -269,6 +270,7 @@ export type UserOrderByWithRelationInput = {
   approvedListings?: Prisma.ListingOrderByRelationAggregateInput
   policies?: Prisma.ListingPolicyOrderByRelationAggregateInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionOrderByRelationAggregateInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -292,6 +294,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   approvedListings?: Prisma.ListingListRelationFilter
   policies?: Prisma.ListingPolicyListRelationFilter
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionListRelationFilter
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionListRelationFilter
 }, "id" | "email" | "phone">
 
 export type UserOrderByWithAggregationInput = {
@@ -350,6 +353,7 @@ export type UserCreateInput = {
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -370,6 +374,7 @@ export type UserUncheckedCreateInput = {
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
 }
 
 export type UserUpdateInput = {
@@ -390,6 +395,7 @@ export type UserUpdateInput = {
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -410,6 +416,7 @@ export type UserUncheckedUpdateInput = {
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -548,6 +555,22 @@ export type UserUpdateOneRequiredWithoutPoliciesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPoliciesInput, Prisma.UserUpdateWithoutPoliciesInput>, Prisma.UserUncheckedUpdateWithoutPoliciesInput>
 }
 
+export type UserCreateNestedOneWithoutCreatedVariantMetadataDefinitionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedVariantMetadataDefinitionsInput, Prisma.UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedVariantMetadataDefinitionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutCreatedVariantMetadataDefinitionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedVariantMetadataDefinitionsInput, Prisma.UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedVariantMetadataDefinitionsInput
+  upsert?: Prisma.UserUpsertWithoutCreatedVariantMetadataDefinitionsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedVariantMetadataDefinitionsInput, Prisma.UserUpdateWithoutCreatedVariantMetadataDefinitionsInput>, Prisma.UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput>
+}
+
 export type UserCreateNestedOneWithoutListingsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutListingsInput, Prisma.UserUncheckedCreateWithoutListingsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingsInput
@@ -601,6 +624,7 @@ export type UserCreateWithoutCreatedMetadataDefinitionsInput = {
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
@@ -620,6 +644,7 @@ export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutCreatedMetadataDefinitionsInput = {
@@ -655,6 +680,7 @@ export type UserUpdateWithoutCreatedMetadataDefinitionsInput = {
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
@@ -674,6 +700,7 @@ export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
 }
 
 export type UserCreateWithoutPoliciesInput = {
@@ -693,6 +720,7 @@ export type UserCreateWithoutPoliciesInput = {
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutPoliciesInput = {
@@ -712,6 +740,7 @@ export type UserUncheckedCreateWithoutPoliciesInput = {
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutPoliciesInput = {
@@ -747,6 +776,7 @@ export type UserUpdateWithoutPoliciesInput = {
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPoliciesInput = {
@@ -765,6 +795,103 @@ export type UserUncheckedUpdateWithoutPoliciesInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+}
+
+export type UserCreateWithoutCreatedVariantMetadataDefinitionsInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutCreatedVariantMetadataDefinitionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedVariantMetadataDefinitionsInput, Prisma.UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput>
+}
+
+export type UserUpsertWithoutCreatedVariantMetadataDefinitionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedVariantMetadataDefinitionsInput, Prisma.UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedVariantMetadataDefinitionsInput, Prisma.UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCreatedVariantMetadataDefinitionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedVariantMetadataDefinitionsInput, Prisma.UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput>
+}
+
+export type UserUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
 }
 
@@ -785,6 +912,7 @@ export type UserCreateWithoutListingsInput = {
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutListingsInput = {
@@ -804,6 +932,7 @@ export type UserUncheckedCreateWithoutListingsInput = {
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutListingsInput = {
@@ -828,6 +957,7 @@ export type UserCreateWithoutApprovedListingsInput = {
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutApprovedListingsInput = {
@@ -847,6 +977,7 @@ export type UserUncheckedCreateWithoutApprovedListingsInput = {
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutApprovedListingsInput = {
@@ -882,6 +1013,7 @@ export type UserUpdateWithoutListingsInput = {
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutListingsInput = {
@@ -901,6 +1033,7 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
 }
 
 export type UserUpsertWithoutApprovedListingsInput = {
@@ -931,6 +1064,7 @@ export type UserUpdateWithoutApprovedListingsInput = {
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApprovedListingsInput = {
@@ -950,6 +1084,7 @@ export type UserUncheckedUpdateWithoutApprovedListingsInput = {
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
 }
 
 
@@ -962,6 +1097,7 @@ export type UserCountOutputType = {
   approvedListings: number
   policies: number
   createdMetadataDefinitions: number
+  createdVariantMetadataDefinitions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -969,6 +1105,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   approvedListings?: boolean | UserCountOutputTypeCountApprovedListingsArgs
   policies?: boolean | UserCountOutputTypeCountPoliciesArgs
   createdMetadataDefinitions?: boolean | UserCountOutputTypeCountCreatedMetadataDefinitionsArgs
+  createdVariantMetadataDefinitions?: boolean | UserCountOutputTypeCountCreatedVariantMetadataDefinitionsArgs
 }
 
 /**
@@ -1009,6 +1146,13 @@ export type UserCountOutputTypeCountCreatedMetadataDefinitionsArgs<ExtArgs exten
   where?: Prisma.ListingMetadataFieldDefinitionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCreatedVariantMetadataDefinitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingVariantMetadataFieldDefinitionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1028,6 +1172,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   approvedListings?: boolean | Prisma.User$approvedListingsArgs<ExtArgs>
   policies?: boolean | Prisma.User$policiesArgs<ExtArgs>
   createdMetadataDefinitions?: boolean | Prisma.User$createdMetadataDefinitionsArgs<ExtArgs>
+  createdVariantMetadataDefinitions?: boolean | Prisma.User$createdVariantMetadataDefinitionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1085,6 +1230,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   approvedListings?: boolean | Prisma.User$approvedListingsArgs<ExtArgs>
   policies?: boolean | Prisma.User$policiesArgs<ExtArgs>
   createdMetadataDefinitions?: boolean | Prisma.User$createdMetadataDefinitionsArgs<ExtArgs>
+  createdVariantMetadataDefinitions?: boolean | Prisma.User$createdVariantMetadataDefinitionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1097,6 +1243,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     approvedListings: Prisma.$ListingPayload<ExtArgs>[]
     policies: Prisma.$ListingPolicyPayload<ExtArgs>[]
     createdMetadataDefinitions: Prisma.$ListingMetadataFieldDefinitionPayload<ExtArgs>[]
+    createdVariantMetadataDefinitions: Prisma.$ListingVariantMetadataFieldDefinitionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1510,6 +1657,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   approvedListings<T extends Prisma.User$approvedListingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$approvedListingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   policies<T extends Prisma.User$policiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$policiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPolicyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdMetadataDefinitions<T extends Prisma.User$createdMetadataDefinitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdMetadataDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMetadataFieldDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  createdVariantMetadataDefinitions<T extends Prisma.User$createdVariantMetadataDefinitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdVariantMetadataDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2033,6 +2181,30 @@ export type User$createdMetadataDefinitionsArgs<ExtArgs extends runtime.Types.Ex
   take?: number
   skip?: number
   distinct?: Prisma.ListingMetadataFieldDefinitionScalarFieldEnum | Prisma.ListingMetadataFieldDefinitionScalarFieldEnum[]
+}
+
+/**
+ * User.createdVariantMetadataDefinitions
+ */
+export type User$createdVariantMetadataDefinitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingVariantMetadataFieldDefinition
+   */
+  select?: Prisma.ListingVariantMetadataFieldDefinitionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingVariantMetadataFieldDefinition
+   */
+  omit?: Prisma.ListingVariantMetadataFieldDefinitionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingVariantMetadataFieldDefinitionInclude<ExtArgs> | null
+  where?: Prisma.ListingVariantMetadataFieldDefinitionWhereInput
+  orderBy?: Prisma.ListingVariantMetadataFieldDefinitionOrderByWithRelationInput | Prisma.ListingVariantMetadataFieldDefinitionOrderByWithRelationInput[]
+  cursor?: Prisma.ListingVariantMetadataFieldDefinitionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingVariantMetadataFieldDefinitionScalarFieldEnum | Prisma.ListingVariantMetadataFieldDefinitionScalarFieldEnum[]
 }
 
 /**

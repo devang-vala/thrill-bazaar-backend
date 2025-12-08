@@ -37,6 +37,11 @@ export type ListingAddon = Prisma.ListingAddonModel
  */
 export type ListingContent = Prisma.ListingContentModel
 /**
+ * Model ListingFaq
+ * 
+ */
+export type ListingFaq = Prisma.ListingFaqModel
+/**
  * Model ListingInclusionExclusion
  * 
  */
@@ -61,6 +66,16 @@ export type ListingMetadataFieldOptions = Prisma.ListingMetadataFieldOptionsMode
  * 
  */
 export type ListingPolicy = Prisma.ListingPolicyModel
+/**
+ * Model ListingVariantMetadataFieldDefinition
+ * 
+ */
+export type ListingVariantMetadataFieldDefinition = Prisma.ListingVariantMetadataFieldDefinitionModel
+/**
+ * Model ListingVariantMetadataFieldOptions
+ * 
+ */
+export type ListingVariantMetadataFieldOptions = Prisma.ListingVariantMetadataFieldOptionsModel
 /**
  * Model ListingVariant
  * 

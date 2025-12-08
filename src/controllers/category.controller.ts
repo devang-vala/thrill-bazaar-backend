@@ -25,6 +25,9 @@ export interface CreateCategoryRequest {
   bookingFormat: "F1" | "F2" | "F3" | "F4";
   isRental?: boolean;
   hasVariantCatA?: boolean;
+  isInclusionsExclusionsAllowed?: boolean;
+  isAddonsAllowed?: boolean;
+  isBookingOptionAllowed?: boolean;
   isActive?: boolean;
 }
 
@@ -37,6 +40,9 @@ export interface UpdateCategoryRequest {
   bookingFormat?: "F1" | "F2" | "F3" | "F4";
   isRental?: boolean;
   hasVariantCatA?: boolean;
+  isInclusionsExclusionsAllowed?: boolean;
+  isAddonsAllowed?: boolean;
+  isBookingOptionAllowed?: boolean;
   isActive?: boolean;
 }
 
@@ -267,6 +273,9 @@ export const createCategoryHandler = async (c: Context) => {
       bookingFormat: body.bookingFormat,
       isRental: body.isRental || false,
       hasVariantCatA: body.hasVariantCatA || false,
+      isInclusionsExclusionsAllowed: body.isInclusionsExclusionsAllowed || false,
+      isAddonsAllowed: body.isAddonsAllowed || false,
+      isBookingOptionAllowed: body.isBookingOptionAllowed || false,
       isActive: body.isActive !== undefined ? body.isActive : true,
     };
 
@@ -357,6 +366,15 @@ export const updateCategory = async (c: Context) => {
     }
     if (body.hasVariantCatA !== undefined) {
       updateData.hasVariantCatA = body.hasVariantCatA;
+    }
+    if (body.isInclusionsExclusionsAllowed !== undefined) {
+      updateData.isInclusionsExclusionsAllowed = body.isInclusionsExclusionsAllowed;
+    }
+    if (body.isAddonsAllowed !== undefined) {
+      updateData.isAddonsAllowed = body.isAddonsAllowed;
+    }
+    if (body.isBookingOptionAllowed !== undefined) {
+      updateData.isBookingOptionAllowed = body.isBookingOptionAllowed;
     }
     if (body.isActive !== undefined) {
       updateData.isActive = body.isActive;

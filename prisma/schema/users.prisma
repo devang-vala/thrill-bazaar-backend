@@ -14,8 +14,9 @@ model User {
   lastLoginAt DateTime? @map("last_login_at")
 
   // Relations
-  listings                     Listing[]                        @relation
-  approvedListings             Listing[]                        @relation("ListingApprovals")
-  policies                     ListingPolicy[]                  @relation("UserPolicies")
-  createdMetadataDefinitions   ListingMetadataFieldDefinition[]
+  listings                            Listing[]                                   @relation
+  approvedListings                    Listing[]                                   @relation("ListingApprovals")
+  policies                            ListingPolicy[]                             @relation("UserPolicies")
+  createdMetadataDefinitions          ListingMetadataFieldDefinition[]
+  createdVariantMetadataDefinitions   ListingVariantMetadataFieldDefinition[]     @relation("VariantFieldDefinitionCreator")
 }
