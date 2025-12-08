@@ -177,12 +177,7 @@ export const ListingMediaScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   contentId: 'contentId',
-  mediaType: 'mediaType',
-  mediaUrl: 'mediaUrl',
-  thumbnailUrl: 'thumbnailUrl',
-  isPrimary: 'isPrimary',
-  displayOrder: 'displayOrder',
-  caption: 'caption',
+  media: 'media',
   uploadedAt: 'uploadedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

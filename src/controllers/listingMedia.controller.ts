@@ -7,11 +7,16 @@ import { sanitizeString } from "../helpers/validation.helper.js";
  */
 export const getListingMedia = async (c: Context) => {
   try {
-    const listingId = c.req.param("listingId");
+    const body = await c.req.json();
+    const listingId = body.listingId;
+
+    if (!listingId) {
+      return c.json({ error: "listingId is required" }, 400);
+    }
 
     const media = await prisma.listingMedia.findMany({
       where: { listingId },
-      orderBy: [{ isPrimary: "desc" }, { displayOrder: "asc" }],
+      orderBy: { createdAt: "asc" },
     });
 
     return c.json({
@@ -30,20 +35,25 @@ export const getListingMedia = async (c: Context) => {
  */
 export const createListingMedia = async (c: Context) => {
   try {
-    const listingId = c.req.param("listingId");
     const body = await c.req.json();
+    const listingId = body.listingId;
+
+    if (!listingId) {
+      return c.json({ error: "listingId is required" }, 400);
+    }
+
+    // Build media object
+    const mediaObject = {
+      mediaUrl: sanitizeString(body.mediaUrl, 500),
+      mediaType: body.mediaType,
+      displayOrder: body.displayOrder || 0,
+      caption: body.caption ? sanitizeString(body.caption, 255) : null,
+    };
 
     const mediaData = {
       listingId,
       contentId: body.contentId || null,
-      mediaType: body.mediaType,
-      mediaUrl: sanitizeString(body.mediaUrl, 500),
-      thumbnailUrl: body.thumbnailUrl
-        ? sanitizeString(body.thumbnailUrl, 500)
-        : null,
-      isPrimary: body.isPrimary || false,
-      displayOrder: body.displayOrder || 0,
-      caption: body.caption ? sanitizeString(body.caption, 255) : null,
+      media: mediaObject,
     };
 
     const media = await prisma.listingMedia.create({
@@ -72,31 +82,35 @@ export const updateListingMedia = async (c: Context) => {
     const mediaId = c.req.param("id");
     const body = await c.req.json();
 
-    const updateData: any = {};
+    // Get existing media to merge with updates
+    const existingMedia = await prisma.listingMedia.findUnique({
+      where: { id: mediaId },
+    });
 
-    if (body.mediaUrl !== undefined) {
-      updateData.mediaUrl = sanitizeString(body.mediaUrl, 500);
+    if (!existingMedia) {
+      return c.json({ error: "Media not found" }, 404);
     }
-    if (body.thumbnailUrl !== undefined) {
-      updateData.thumbnailUrl = body.thumbnailUrl
-        ? sanitizeString(body.thumbnailUrl, 500)
-        : null;
-    }
-    if (body.isPrimary !== undefined) {
-      updateData.isPrimary = body.isPrimary;
-    }
-    if (body.displayOrder !== undefined) {
-      updateData.displayOrder = body.displayOrder;
-    }
-    if (body.caption !== undefined) {
-      updateData.caption = body.caption
-        ? sanitizeString(body.caption, 255)
-        : null;
-    }
+
+    // Merge existing media object with updates
+    const currentMedia = existingMedia.media as any;
+    const updatedMediaObject = {
+      mediaUrl: body.mediaUrl !== undefined 
+        ? sanitizeString(body.mediaUrl, 500) 
+        : currentMedia.mediaUrl,
+      mediaType: body.mediaType !== undefined 
+        ? body.mediaType 
+        : currentMedia.mediaType,
+      displayOrder: body.displayOrder !== undefined 
+        ? body.displayOrder 
+        : currentMedia.displayOrder,
+      caption: body.caption !== undefined 
+        ? (body.caption ? sanitizeString(body.caption, 255) : null)
+        : currentMedia.caption,
+    };
 
     const updatedMedia = await prisma.listingMedia.update({
       where: { id: mediaId },
-      data: updateData,
+      data: { media: updatedMediaObject },
     });
 
     return c.json({

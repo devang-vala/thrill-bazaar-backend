@@ -1742,12 +1742,7 @@ export const ListingMediaScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   contentId: 'contentId',
-  mediaType: 'mediaType',
-  mediaUrl: 'mediaUrl',
-  thumbnailUrl: 'thumbnailUrl',
-  isPrimary: 'isPrimary',
-  displayOrder: 'displayOrder',
-  caption: 'caption',
+  media: 'media',
   uploadedAt: 'uploadedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2095,20 +2090,6 @@ export type EnumInclusionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'InclusionType[]'
  */
 export type ListEnumInclusionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InclusionType[]'>
-    
-
-
-/**
- * Reference to a field of type 'MediaType'
- */
-export type EnumMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MediaType'>
-    
-
-
-/**
- * Reference to a field of type 'MediaType[]'
- */
-export type ListEnumMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MediaType[]'>
     
 
 
