@@ -15,6 +15,7 @@ import fieldDefinitionsRouter from "./listingMetadataFieldDefinitions.route.js";
 import fieldOptionsRouter from "./listingMetadataFieldOptions.route.js";
 import variantFieldDefinitionsRouter from "./listingVariantMetadataFieldDefinitions.route.js";
 import variantFieldOptionsRouter from "./listingVariantMetadataFieldOptions.route.js";
+import uploadRouter from "./upload.route.js";
 
 const router = new Hono();
 
@@ -49,5 +50,6 @@ router.route("/field-definitions", fieldDefinitionsRouter);
 router.route("/field-options", fieldOptionsRouter);
 router.route("/variant-field-definitions", variantFieldDefinitionsRouter);
 router.route("/variant-field-options", variantFieldOptionsRouter);
+router.route("/upload", uploadRouter);
 
 export default router;

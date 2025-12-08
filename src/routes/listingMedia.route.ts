@@ -11,11 +11,11 @@ import {
 
 const listingMediaRouter = new Hono();
 
-listingMediaRouter.use(authenticateToken);
-listingMediaRouter.use(requireAnyAdmin);
+// listingMediaRouter.use(authenticateToken);
+// listingMediaRouter.use(requireAnyAdmin);
 
-listingMediaRouter.get("/listing/:listingId", getListingMedia);
-listingMediaRouter.post("/listing/:listingId", createListingMedia);
+listingMediaRouter.post("/get", getListingMedia);
+listingMediaRouter.post("/create", createListingMedia);
 listingMediaRouter.put("/:id", updateListingMedia);
 
 export default listingMediaRouter;

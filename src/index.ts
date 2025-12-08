@@ -1,13 +1,17 @@
+import dotenv from "dotenv";
+// Load environment variables FIRST before any other imports
+dotenv.config();
+
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { prisma } from "./db.js";
-import dotenv from "dotenv";
 import apiRouter from "./routes/index.js";
-import { cors } from "hono/cors"; //
+import { cors } from "hono/cors"; 
+import { configureCloudinary, cloudinarySecrets } from "./config/cloudinary.config.js";
+const cloudinary = configureCloudinary();
+console.log("Cloudinary Secrets Loaded:", cloudinarySecrets);
 
 const app = new Hono();
-
-dotenv.config();
 
 app.use('*', cors({
   origin: '*', 
