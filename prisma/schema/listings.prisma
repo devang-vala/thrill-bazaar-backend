@@ -46,6 +46,7 @@ model Listing {
     inclusionsExclusions ListingInclusionExclusion[]
     addons               ListingAddon[]
     media                ListingMedia[]
+    faqs                 ListingFaq?
 
     @@map("listings")
         metadata             Json?        @map("metadata")

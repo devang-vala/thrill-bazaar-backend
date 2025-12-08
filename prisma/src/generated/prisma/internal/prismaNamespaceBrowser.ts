@@ -52,11 +52,14 @@ export const ModelName = {
   SubCategory: 'SubCategory',
   ListingAddon: 'ListingAddon',
   ListingContent: 'ListingContent',
+  ListingFaq: 'ListingFaq',
   ListingInclusionExclusion: 'ListingInclusionExclusion',
   ListingMedia: 'ListingMedia',
   ListingMetadataFieldDefinition: 'ListingMetadataFieldDefinition',
   ListingMetadataFieldOptions: 'ListingMetadataFieldOptions',
   ListingPolicy: 'ListingPolicy',
+  ListingVariantMetadataFieldDefinition: 'ListingVariantMetadataFieldDefinition',
+  ListingVariantMetadataFieldOptions: 'ListingVariantMetadataFieldOptions',
   ListingVariant: 'ListingVariant',
   Listing: 'Listing',
   Otp: 'Otp',
@@ -89,6 +92,9 @@ export const CategoryScalarFieldEnum = {
   bookingFormat: 'bookingFormat',
   isRental: 'isRental',
   hasVariantCatA: 'hasVariantCatA',
+  isInclusionsExclusionsAllowed: 'isInclusionsExclusionsAllowed',
+  isAddonsAllowed: 'isAddonsAllowed',
+  isBookingOptionAllowed: 'isBookingOptionAllowed',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -141,6 +147,17 @@ export const ListingContentScalarFieldEnum = {
 } as const
 
 export type ListingContentScalarFieldEnum = (typeof ListingContentScalarFieldEnum)[keyof typeof ListingContentScalarFieldEnum]
+
+
+export const ListingFaqScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  faqs: 'faqs',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingFaqScalarFieldEnum = (typeof ListingFaqScalarFieldEnum)[keyof typeof ListingFaqScalarFieldEnum]
 
 
 export const ListingInclusionExclusionScalarFieldEnum = {
@@ -222,6 +239,41 @@ export const ListingPolicyScalarFieldEnum = {
 } as const
 
 export type ListingPolicyScalarFieldEnum = (typeof ListingPolicyScalarFieldEnum)[keyof typeof ListingPolicyScalarFieldEnum]
+
+
+export const ListingVariantMetadataFieldDefinitionScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  fieldKey: 'fieldKey',
+  fieldLabel: 'fieldLabel',
+  fieldType: 'fieldType',
+  isRequired: 'isRequired',
+  validationRules: 'validationRules',
+  helpText: 'helpText',
+  displayOrder: 'displayOrder',
+  fieldGroup: 'fieldGroup',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdByAdminId: 'createdByAdminId'
+} as const
+
+export type ListingVariantMetadataFieldDefinitionScalarFieldEnum = (typeof ListingVariantMetadataFieldDefinitionScalarFieldEnum)[keyof typeof ListingVariantMetadataFieldDefinitionScalarFieldEnum]
+
+
+export const ListingVariantMetadataFieldOptionsScalarFieldEnum = {
+  optionId: 'optionId',
+  variantFieldDefinitionId: 'variantFieldDefinitionId',
+  optionValue: 'optionValue',
+  optionLabel: 'optionLabel',
+  optionDescription: 'optionDescription',
+  displayOrder: 'displayOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingVariantMetadataFieldOptionsScalarFieldEnum = (typeof ListingVariantMetadataFieldOptionsScalarFieldEnum)[keyof typeof ListingVariantMetadataFieldOptionsScalarFieldEnum]
 
 
 export const ListingVariantScalarFieldEnum = {
@@ -322,6 +374,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

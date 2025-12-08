@@ -393,11 +393,14 @@ export const ModelName = {
   SubCategory: 'SubCategory',
   ListingAddon: 'ListingAddon',
   ListingContent: 'ListingContent',
+  ListingFaq: 'ListingFaq',
   ListingInclusionExclusion: 'ListingInclusionExclusion',
   ListingMedia: 'ListingMedia',
   ListingMetadataFieldDefinition: 'ListingMetadataFieldDefinition',
   ListingMetadataFieldOptions: 'ListingMetadataFieldOptions',
   ListingPolicy: 'ListingPolicy',
+  ListingVariantMetadataFieldDefinition: 'ListingVariantMetadataFieldDefinition',
+  ListingVariantMetadataFieldOptions: 'ListingVariantMetadataFieldOptions',
   ListingVariant: 'ListingVariant',
   Listing: 'Listing',
   Otp: 'Otp',
@@ -417,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "category" | "subCategory" | "listingAddon" | "listingContent" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingVariant" | "listing" | "otp" | "user"
+    modelProps: "category" | "subCategory" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "otp" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -714,6 +717,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ListingContentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ListingContentCountAggregateOutputType> | number
+        }
+      }
+    }
+    ListingFaq: {
+      payload: Prisma.$ListingFaqPayload<ExtArgs>
+      fields: Prisma.ListingFaqFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingFaqFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingFaqPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingFaqFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingFaqPayload>
+        }
+        findFirst: {
+          args: Prisma.ListingFaqFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingFaqPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingFaqFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingFaqPayload>
+        }
+        findMany: {
+          args: Prisma.ListingFaqFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingFaqPayload>[]
+        }
+        create: {
+          args: Prisma.ListingFaqCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingFaqPayload>
+        }
+        createMany: {
+          args: Prisma.ListingFaqCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingFaqCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingFaqPayload>[]
+        }
+        delete: {
+          args: Prisma.ListingFaqDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingFaqPayload>
+        }
+        update: {
+          args: Prisma.ListingFaqUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingFaqPayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingFaqDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingFaqUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingFaqUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingFaqPayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingFaqUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingFaqPayload>
+        }
+        aggregate: {
+          args: Prisma.ListingFaqAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingFaq>
+        }
+        groupBy: {
+          args: Prisma.ListingFaqGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingFaqGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingFaqCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingFaqCountAggregateOutputType> | number
         }
       }
     }
@@ -1087,6 +1164,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ListingVariantMetadataFieldDefinition: {
+      payload: Prisma.$ListingVariantMetadataFieldDefinitionPayload<ExtArgs>
+      fields: Prisma.ListingVariantMetadataFieldDefinitionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload>
+        }
+        findFirst: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload>
+        }
+        findMany: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload>[]
+        }
+        create: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload>
+        }
+        createMany: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload>[]
+        }
+        delete: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload>
+        }
+        update: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload>
+        }
+        aggregate: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingVariantMetadataFieldDefinition>
+        }
+        groupBy: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingVariantMetadataFieldDefinitionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingVariantMetadataFieldDefinitionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingVariantMetadataFieldDefinitionCountAggregateOutputType> | number
+        }
+      }
+    }
+    ListingVariantMetadataFieldOptions: {
+      payload: Prisma.$ListingVariantMetadataFieldOptionsPayload<ExtArgs>
+      fields: Prisma.ListingVariantMetadataFieldOptionsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingVariantMetadataFieldOptionsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldOptionsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingVariantMetadataFieldOptionsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldOptionsPayload>
+        }
+        findFirst: {
+          args: Prisma.ListingVariantMetadataFieldOptionsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldOptionsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingVariantMetadataFieldOptionsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldOptionsPayload>
+        }
+        findMany: {
+          args: Prisma.ListingVariantMetadataFieldOptionsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldOptionsPayload>[]
+        }
+        create: {
+          args: Prisma.ListingVariantMetadataFieldOptionsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldOptionsPayload>
+        }
+        createMany: {
+          args: Prisma.ListingVariantMetadataFieldOptionsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingVariantMetadataFieldOptionsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldOptionsPayload>[]
+        }
+        delete: {
+          args: Prisma.ListingVariantMetadataFieldOptionsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldOptionsPayload>
+        }
+        update: {
+          args: Prisma.ListingVariantMetadataFieldOptionsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldOptionsPayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingVariantMetadataFieldOptionsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingVariantMetadataFieldOptionsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingVariantMetadataFieldOptionsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldOptionsPayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingVariantMetadataFieldOptionsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingVariantMetadataFieldOptionsPayload>
+        }
+        aggregate: {
+          args: Prisma.ListingVariantMetadataFieldOptionsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingVariantMetadataFieldOptions>
+        }
+        groupBy: {
+          args: Prisma.ListingVariantMetadataFieldOptionsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingVariantMetadataFieldOptionsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingVariantMetadataFieldOptionsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingVariantMetadataFieldOptionsCountAggregateOutputType> | number
+        }
+      }
+    }
     ListingVariant: {
       payload: Prisma.$ListingVariantPayload<ExtArgs>
       fields: Prisma.ListingVariantFieldRefs
@@ -1432,6 +1657,9 @@ export const CategoryScalarFieldEnum = {
   bookingFormat: 'bookingFormat',
   isRental: 'isRental',
   hasVariantCatA: 'hasVariantCatA',
+  isInclusionsExclusionsAllowed: 'isInclusionsExclusionsAllowed',
+  isAddonsAllowed: 'isAddonsAllowed',
+  isBookingOptionAllowed: 'isBookingOptionAllowed',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1484,6 +1712,17 @@ export const ListingContentScalarFieldEnum = {
 } as const
 
 export type ListingContentScalarFieldEnum = (typeof ListingContentScalarFieldEnum)[keyof typeof ListingContentScalarFieldEnum]
+
+
+export const ListingFaqScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  faqs: 'faqs',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingFaqScalarFieldEnum = (typeof ListingFaqScalarFieldEnum)[keyof typeof ListingFaqScalarFieldEnum]
 
 
 export const ListingInclusionExclusionScalarFieldEnum = {
@@ -1565,6 +1804,41 @@ export const ListingPolicyScalarFieldEnum = {
 } as const
 
 export type ListingPolicyScalarFieldEnum = (typeof ListingPolicyScalarFieldEnum)[keyof typeof ListingPolicyScalarFieldEnum]
+
+
+export const ListingVariantMetadataFieldDefinitionScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  fieldKey: 'fieldKey',
+  fieldLabel: 'fieldLabel',
+  fieldType: 'fieldType',
+  isRequired: 'isRequired',
+  validationRules: 'validationRules',
+  helpText: 'helpText',
+  displayOrder: 'displayOrder',
+  fieldGroup: 'fieldGroup',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdByAdminId: 'createdByAdminId'
+} as const
+
+export type ListingVariantMetadataFieldDefinitionScalarFieldEnum = (typeof ListingVariantMetadataFieldDefinitionScalarFieldEnum)[keyof typeof ListingVariantMetadataFieldDefinitionScalarFieldEnum]
+
+
+export const ListingVariantMetadataFieldOptionsScalarFieldEnum = {
+  optionId: 'optionId',
+  variantFieldDefinitionId: 'variantFieldDefinitionId',
+  optionValue: 'optionValue',
+  optionLabel: 'optionLabel',
+  optionDescription: 'optionDescription',
+  displayOrder: 'displayOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingVariantMetadataFieldOptionsScalarFieldEnum = (typeof ListingVariantMetadataFieldOptionsScalarFieldEnum)[keyof typeof ListingVariantMetadataFieldOptionsScalarFieldEnum]
 
 
 export const ListingVariantScalarFieldEnum = {
@@ -1665,6 +1939,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -1991,11 +2272,14 @@ export type GlobalOmitConfig = {
   subCategory?: Prisma.SubCategoryOmit
   listingAddon?: Prisma.ListingAddonOmit
   listingContent?: Prisma.ListingContentOmit
+  listingFaq?: Prisma.ListingFaqOmit
   listingInclusionExclusion?: Prisma.ListingInclusionExclusionOmit
   listingMedia?: Prisma.ListingMediaOmit
   listingMetadataFieldDefinition?: Prisma.ListingMetadataFieldDefinitionOmit
   listingMetadataFieldOptions?: Prisma.ListingMetadataFieldOptionsOmit
   listingPolicy?: Prisma.ListingPolicyOmit
+  listingVariantMetadataFieldDefinition?: Prisma.ListingVariantMetadataFieldDefinitionOmit
+  listingVariantMetadataFieldOptions?: Prisma.ListingVariantMetadataFieldOptionsOmit
   listingVariant?: Prisma.ListingVariantOmit
   listing?: Prisma.ListingOmit
   otp?: Prisma.OtpOmit
