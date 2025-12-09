@@ -52,3 +52,6 @@ model Listing {
     dateRanges           InventoryDateRange[]       
     blockedDates         InventoryBlockedDate[]      
     metadata             Json?                       @map("metadata")
+
+    @@map("listings")
+}
