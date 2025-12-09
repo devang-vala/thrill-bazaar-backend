@@ -47,7 +47,8 @@ model Listing {
     addons               ListingAddon[]
     media                ListingMedia[]
     faqs                 ListingFaq?
-
-    @@map("listings")
-        metadata             Json?        @map("metadata")
-    }
+    slots                ListingSlot[]             
+    slotChanges          ListingSlotChange[]      
+    dateRanges           InventoryDateRange[]       
+    blockedDates         InventoryBlockedDate[]      
+    metadata             Json?                       @map("metadata")
