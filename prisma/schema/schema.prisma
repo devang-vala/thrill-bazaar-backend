@@ -75,3 +75,10 @@ enum FieldType {
   datetime
   json_array
 }
+
+enum TriggerType {
+  seller_update
+  customer_book
+  customer_cancel
+  customer_reschedule
+}
