@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import listingBatchRouter from "./listingBatch.route.js";
 import authRouter from "./auth.route.js";
 import userRouter from "./user.route.js";
 import categoryRouter from "./category.route.js";
@@ -53,6 +54,8 @@ router.route("/variant-field-definitions", variantFieldDefinitionsRouter);
 router.route("/variant-field-options", variantFieldOptionsRouter);
 router.route("/upload", uploadRouter);
 
+
+router.route("/listing-batch", listingBatchRouter);
 router.route("/inventory-date-ranges", inventoryDateRangesRouter);
 
 export default router;
