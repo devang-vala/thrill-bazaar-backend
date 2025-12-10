@@ -453,6 +453,10 @@ export type ListingWhereInput = {
   addons?: Prisma.ListingAddonListRelationFilter
   media?: Prisma.ListingMediaListRelationFilter
   faqs?: Prisma.XOR<Prisma.ListingFaqNullableScalarRelationFilter, Prisma.ListingFaqWhereInput> | null
+  slots?: Prisma.ListingSlotListRelationFilter
+  slotChanges?: Prisma.ListingSlotChangeListRelationFilter
+  dateRanges?: Prisma.InventoryDateRangeListRelationFilter
+  blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
 }
 
 export type ListingOrderByWithRelationInput = {
@@ -499,6 +503,10 @@ export type ListingOrderByWithRelationInput = {
   addons?: Prisma.ListingAddonOrderByRelationAggregateInput
   media?: Prisma.ListingMediaOrderByRelationAggregateInput
   faqs?: Prisma.ListingFaqOrderByWithRelationInput
+  slots?: Prisma.ListingSlotOrderByRelationAggregateInput
+  slotChanges?: Prisma.ListingSlotChangeOrderByRelationAggregateInput
+  dateRanges?: Prisma.InventoryDateRangeOrderByRelationAggregateInput
+  blockedDates?: Prisma.InventoryBlockedDateOrderByRelationAggregateInput
 }
 
 export type ListingWhereUniqueInput = Prisma.AtLeast<{
@@ -548,6 +556,10 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   addons?: Prisma.ListingAddonListRelationFilter
   media?: Prisma.ListingMediaListRelationFilter
   faqs?: Prisma.XOR<Prisma.ListingFaqNullableScalarRelationFilter, Prisma.ListingFaqWhereInput> | null
+  slots?: Prisma.ListingSlotListRelationFilter
+  slotChanges?: Prisma.ListingSlotChangeListRelationFilter
+  dateRanges?: Prisma.InventoryDateRangeListRelationFilter
+  blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
 }, "id" | "listingSlug">
 
 export type ListingOrderByWithAggregationInput = {
@@ -670,6 +682,10 @@ export type ListingCreateInput = {
   addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateInput = {
@@ -712,6 +728,10 @@ export type ListingUncheckedCreateInput = {
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingUpdateInput = {
@@ -754,6 +774,10 @@ export type ListingUpdateInput = {
   addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateInput = {
@@ -796,6 +820,10 @@ export type ListingUncheckedUpdateInput = {
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateManyInput = {
@@ -1119,6 +1147,34 @@ export type ListingUncheckedUpdateManyWithoutSubCategoryNestedInput = {
   deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
+export type ListingCreateNestedOneWithoutBlockedDatesInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutBlockedDatesInput, Prisma.ListingUncheckedCreateWithoutBlockedDatesInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutBlockedDatesInput
+  connect?: Prisma.ListingWhereUniqueInput
+}
+
+export type ListingUpdateOneRequiredWithoutBlockedDatesNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutBlockedDatesInput, Prisma.ListingUncheckedCreateWithoutBlockedDatesInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutBlockedDatesInput
+  upsert?: Prisma.ListingUpsertWithoutBlockedDatesInput
+  connect?: Prisma.ListingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutBlockedDatesInput, Prisma.ListingUpdateWithoutBlockedDatesInput>, Prisma.ListingUncheckedUpdateWithoutBlockedDatesInput>
+}
+
+export type ListingCreateNestedOneWithoutDateRangesInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutDateRangesInput, Prisma.ListingUncheckedCreateWithoutDateRangesInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutDateRangesInput
+  connect?: Prisma.ListingWhereUniqueInput
+}
+
+export type ListingUpdateOneRequiredWithoutDateRangesNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutDateRangesInput, Prisma.ListingUncheckedCreateWithoutDateRangesInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutDateRangesInput
+  upsert?: Prisma.ListingUpsertWithoutDateRangesInput
+  connect?: Prisma.ListingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutDateRangesInput, Prisma.ListingUpdateWithoutDateRangesInput>, Prisma.ListingUncheckedUpdateWithoutDateRangesInput>
+}
+
 export type ListingCreateNestedOneWithoutAddonsInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutAddonsInput, Prisma.ListingUncheckedCreateWithoutAddonsInput>
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutAddonsInput
@@ -1189,6 +1245,34 @@ export type ListingUpdateOneRequiredWithoutMediaNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutMediaInput, Prisma.ListingUpdateWithoutMediaInput>, Prisma.ListingUncheckedUpdateWithoutMediaInput>
 }
 
+export type ListingCreateNestedOneWithoutSlotChangesInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutSlotChangesInput, Prisma.ListingUncheckedCreateWithoutSlotChangesInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutSlotChangesInput
+  connect?: Prisma.ListingWhereUniqueInput
+}
+
+export type ListingUpdateOneRequiredWithoutSlotChangesNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutSlotChangesInput, Prisma.ListingUncheckedCreateWithoutSlotChangesInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutSlotChangesInput
+  upsert?: Prisma.ListingUpsertWithoutSlotChangesInput
+  connect?: Prisma.ListingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutSlotChangesInput, Prisma.ListingUpdateWithoutSlotChangesInput>, Prisma.ListingUncheckedUpdateWithoutSlotChangesInput>
+}
+
+export type ListingCreateNestedOneWithoutSlotsInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutSlotsInput, Prisma.ListingUncheckedCreateWithoutSlotsInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutSlotsInput
+  connect?: Prisma.ListingWhereUniqueInput
+}
+
+export type ListingUpdateOneRequiredWithoutSlotsNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutSlotsInput, Prisma.ListingUncheckedCreateWithoutSlotsInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutSlotsInput
+  upsert?: Prisma.ListingUpsertWithoutSlotsInput
+  connect?: Prisma.ListingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutSlotsInput, Prisma.ListingUpdateWithoutSlotsInput>, Prisma.ListingUncheckedUpdateWithoutSlotsInput>
+}
+
 export type ListingCreateNestedOneWithoutVariantsInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutVariantsInput, Prisma.ListingUncheckedCreateWithoutVariantsInput>
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutVariantsInput
@@ -1209,10 +1293,6 @@ export type NullableEnumBookingFormatFieldUpdateOperationsInput = {
 
 export type EnumListingStatusFieldUpdateOperationsInput = {
   set?: $Enums.ListingStatus
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
 }
 
 export type ListingCreateNestedManyWithoutOperatorInput = {
@@ -1338,6 +1418,10 @@ export type ListingCreateWithoutCategoryInput = {
   addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutCategoryInput = {
@@ -1379,6 +1463,10 @@ export type ListingUncheckedCreateWithoutCategoryInput = {
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutCategoryInput = {
@@ -1485,6 +1573,10 @@ export type ListingCreateWithoutSubCategoryInput = {
   addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutSubCategoryInput = {
@@ -1526,6 +1618,10 @@ export type ListingUncheckedCreateWithoutSubCategoryInput = {
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutSubCategoryInput = {
@@ -1552,6 +1648,398 @@ export type ListingUpdateWithWhereUniqueWithoutSubCategoryInput = {
 export type ListingUpdateManyWithWhereWithoutSubCategoryInput = {
   where: Prisma.ListingScalarWhereInput
   data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutSubCategoryInput>
+}
+
+export type ListingCreateWithoutBlockedDatesInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutBlockedDatesInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutBlockedDatesInput = {
+  where: Prisma.ListingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingCreateWithoutBlockedDatesInput, Prisma.ListingUncheckedCreateWithoutBlockedDatesInput>
+}
+
+export type ListingUpsertWithoutBlockedDatesInput = {
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutBlockedDatesInput, Prisma.ListingUncheckedUpdateWithoutBlockedDatesInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutBlockedDatesInput, Prisma.ListingUncheckedCreateWithoutBlockedDatesInput>
+  where?: Prisma.ListingWhereInput
+}
+
+export type ListingUpdateToOneWithWhereWithoutBlockedDatesInput = {
+  where?: Prisma.ListingWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutBlockedDatesInput, Prisma.ListingUncheckedUpdateWithoutBlockedDatesInput>
+}
+
+export type ListingUpdateWithoutBlockedDatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutBlockedDatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingCreateWithoutDateRangesInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutDateRangesInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutDateRangesInput = {
+  where: Prisma.ListingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingCreateWithoutDateRangesInput, Prisma.ListingUncheckedCreateWithoutDateRangesInput>
+}
+
+export type ListingUpsertWithoutDateRangesInput = {
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutDateRangesInput, Prisma.ListingUncheckedUpdateWithoutDateRangesInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutDateRangesInput, Prisma.ListingUncheckedCreateWithoutDateRangesInput>
+  where?: Prisma.ListingWhereInput
+}
+
+export type ListingUpdateToOneWithWhereWithoutDateRangesInput = {
+  where?: Prisma.ListingWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutDateRangesInput, Prisma.ListingUncheckedUpdateWithoutDateRangesInput>
+}
+
+export type ListingUpdateWithoutDateRangesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutDateRangesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutAddonsInput = {
@@ -1593,6 +2081,10 @@ export type ListingCreateWithoutAddonsInput = {
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutAddonsInput = {
@@ -1634,6 +2126,10 @@ export type ListingUncheckedCreateWithoutAddonsInput = {
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutAddonsInput = {
@@ -1691,6 +2187,10 @@ export type ListingUpdateWithoutAddonsInput = {
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutAddonsInput = {
@@ -1732,6 +2232,10 @@ export type ListingUncheckedUpdateWithoutAddonsInput = {
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutContentInput = {
@@ -1773,6 +2277,10 @@ export type ListingCreateWithoutContentInput = {
   addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutContentInput = {
@@ -1814,6 +2322,10 @@ export type ListingUncheckedCreateWithoutContentInput = {
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutContentInput = {
@@ -1871,6 +2383,10 @@ export type ListingUpdateWithoutContentInput = {
   addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutContentInput = {
@@ -1912,6 +2428,10 @@ export type ListingUncheckedUpdateWithoutContentInput = {
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutFaqsInput = {
@@ -1953,6 +2473,10 @@ export type ListingCreateWithoutFaqsInput = {
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
   addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutFaqsInput = {
@@ -1994,6 +2518,10 @@ export type ListingUncheckedCreateWithoutFaqsInput = {
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutFaqsInput = {
@@ -2051,6 +2579,10 @@ export type ListingUpdateWithoutFaqsInput = {
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
   addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutFaqsInput = {
@@ -2092,6 +2624,10 @@ export type ListingUncheckedUpdateWithoutFaqsInput = {
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutInclusionsExclusionsInput = {
@@ -2133,6 +2669,10 @@ export type ListingCreateWithoutInclusionsExclusionsInput = {
   addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutInclusionsExclusionsInput = {
@@ -2174,6 +2714,10 @@ export type ListingUncheckedCreateWithoutInclusionsExclusionsInput = {
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutInclusionsExclusionsInput = {
@@ -2231,6 +2775,10 @@ export type ListingUpdateWithoutInclusionsExclusionsInput = {
   addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutInclusionsExclusionsInput = {
@@ -2272,6 +2820,10 @@ export type ListingUncheckedUpdateWithoutInclusionsExclusionsInput = {
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutMediaInput = {
@@ -2313,6 +2865,10 @@ export type ListingCreateWithoutMediaInput = {
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
   addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutMediaInput = {
@@ -2354,6 +2910,10 @@ export type ListingUncheckedCreateWithoutMediaInput = {
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutMediaInput = {
@@ -2411,6 +2971,10 @@ export type ListingUpdateWithoutMediaInput = {
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
   addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutMediaInput = {
@@ -2452,6 +3016,402 @@ export type ListingUncheckedUpdateWithoutMediaInput = {
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingCreateWithoutSlotChangesInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutSlotChangesInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutSlotChangesInput = {
+  where: Prisma.ListingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingCreateWithoutSlotChangesInput, Prisma.ListingUncheckedCreateWithoutSlotChangesInput>
+}
+
+export type ListingUpsertWithoutSlotChangesInput = {
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutSlotChangesInput, Prisma.ListingUncheckedUpdateWithoutSlotChangesInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutSlotChangesInput, Prisma.ListingUncheckedCreateWithoutSlotChangesInput>
+  where?: Prisma.ListingWhereInput
+}
+
+export type ListingUpdateToOneWithWhereWithoutSlotChangesInput = {
+  where?: Prisma.ListingWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutSlotChangesInput, Prisma.ListingUncheckedUpdateWithoutSlotChangesInput>
+}
+
+export type ListingUpdateWithoutSlotChangesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutSlotChangesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingCreateWithoutSlotsInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutSlotsInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutSlotsInput = {
+  where: Prisma.ListingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingCreateWithoutSlotsInput, Prisma.ListingUncheckedCreateWithoutSlotsInput>
+}
+
+export type ListingUpsertWithoutSlotsInput = {
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutSlotsInput, Prisma.ListingUncheckedUpdateWithoutSlotsInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutSlotsInput, Prisma.ListingUncheckedCreateWithoutSlotsInput>
+  where?: Prisma.ListingWhereInput
+}
+
+export type ListingUpdateToOneWithWhereWithoutSlotsInput = {
+  where?: Prisma.ListingWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutSlotsInput, Prisma.ListingUncheckedUpdateWithoutSlotsInput>
+}
+
+export type ListingUpdateWithoutSlotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutSlotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutVariantsInput = {
@@ -2493,6 +3453,10 @@ export type ListingCreateWithoutVariantsInput = {
   addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutVariantsInput = {
@@ -2534,6 +3498,10 @@ export type ListingUncheckedCreateWithoutVariantsInput = {
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutVariantsInput = {
@@ -2591,6 +3559,10 @@ export type ListingUpdateWithoutVariantsInput = {
   addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutVariantsInput = {
@@ -2632,6 +3604,10 @@ export type ListingUncheckedUpdateWithoutVariantsInput = {
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutOperatorInput = {
@@ -2673,6 +3649,10 @@ export type ListingCreateWithoutOperatorInput = {
   addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutOperatorInput = {
@@ -2714,6 +3694,10 @@ export type ListingUncheckedCreateWithoutOperatorInput = {
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutOperatorInput = {
@@ -2765,6 +3749,10 @@ export type ListingCreateWithoutApprovedByAdminInput = {
   addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutApprovedByAdminInput = {
@@ -2806,6 +3794,10 @@ export type ListingUncheckedCreateWithoutApprovedByAdminInput = {
   addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutApprovedByAdminInput = {
@@ -2924,6 +3916,10 @@ export type ListingUpdateWithoutCategoryInput = {
   addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutCategoryInput = {
@@ -2965,6 +3961,10 @@ export type ListingUncheckedUpdateWithoutCategoryInput = {
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutCategoryInput = {
@@ -3076,6 +4076,10 @@ export type ListingUpdateWithoutSubCategoryInput = {
   addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutSubCategoryInput = {
@@ -3117,6 +4121,10 @@ export type ListingUncheckedUpdateWithoutSubCategoryInput = {
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutSubCategoryInput = {
@@ -3263,6 +4271,10 @@ export type ListingUpdateWithoutOperatorInput = {
   addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutOperatorInput = {
@@ -3304,6 +4316,10 @@ export type ListingUncheckedUpdateWithoutOperatorInput = {
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutOperatorInput = {
@@ -3380,6 +4396,10 @@ export type ListingUpdateWithoutApprovedByAdminInput = {
   addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutApprovedByAdminInput = {
@@ -3421,6 +4441,10 @@ export type ListingUncheckedUpdateWithoutApprovedByAdminInput = {
   addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutApprovedByAdminInput = {
@@ -3469,6 +4493,10 @@ export type ListingCountOutputType = {
   inclusionsExclusions: number
   addons: number
   media: number
+  slots: number
+  slotChanges: number
+  dateRanges: number
+  blockedDates: number
 }
 
 export type ListingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3477,6 +4505,10 @@ export type ListingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   inclusionsExclusions?: boolean | ListingCountOutputTypeCountInclusionsExclusionsArgs
   addons?: boolean | ListingCountOutputTypeCountAddonsArgs
   media?: boolean | ListingCountOutputTypeCountMediaArgs
+  slots?: boolean | ListingCountOutputTypeCountSlotsArgs
+  slotChanges?: boolean | ListingCountOutputTypeCountSlotChangesArgs
+  dateRanges?: boolean | ListingCountOutputTypeCountDateRangesArgs
+  blockedDates?: boolean | ListingCountOutputTypeCountBlockedDatesArgs
 }
 
 /**
@@ -3524,6 +4556,34 @@ export type ListingCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.ListingMediaWhereInput
 }
 
+/**
+ * ListingCountOutputType without action
+ */
+export type ListingCountOutputTypeCountSlotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingSlotWhereInput
+}
+
+/**
+ * ListingCountOutputType without action
+ */
+export type ListingCountOutputTypeCountSlotChangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingSlotChangeWhereInput
+}
+
+/**
+ * ListingCountOutputType without action
+ */
+export type ListingCountOutputTypeCountDateRangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InventoryDateRangeWhereInput
+}
+
+/**
+ * ListingCountOutputType without action
+ */
+export type ListingCountOutputTypeCountBlockedDatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InventoryBlockedDateWhereInput
+}
+
 
 export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3569,6 +4629,10 @@ export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   addons?: boolean | Prisma.Listing$addonsArgs<ExtArgs>
   media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
   faqs?: boolean | Prisma.Listing$faqsArgs<ExtArgs>
+  slots?: boolean | Prisma.Listing$slotsArgs<ExtArgs>
+  slotChanges?: boolean | Prisma.Listing$slotChangesArgs<ExtArgs>
+  dateRanges?: boolean | Prisma.Listing$dateRangesArgs<ExtArgs>
+  blockedDates?: boolean | Prisma.Listing$blockedDatesArgs<ExtArgs>
   _count?: boolean | Prisma.ListingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["listing"]>
 
@@ -3700,6 +4764,10 @@ export type ListingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   addons?: boolean | Prisma.Listing$addonsArgs<ExtArgs>
   media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
   faqs?: boolean | Prisma.Listing$faqsArgs<ExtArgs>
+  slots?: boolean | Prisma.Listing$slotsArgs<ExtArgs>
+  slotChanges?: boolean | Prisma.Listing$slotChangesArgs<ExtArgs>
+  dateRanges?: boolean | Prisma.Listing$dateRangesArgs<ExtArgs>
+  blockedDates?: boolean | Prisma.Listing$blockedDatesArgs<ExtArgs>
   _count?: boolean | Prisma.ListingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ListingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3728,6 +4796,10 @@ export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     addons: Prisma.$ListingAddonPayload<ExtArgs>[]
     media: Prisma.$ListingMediaPayload<ExtArgs>[]
     faqs: Prisma.$ListingFaqPayload<ExtArgs> | null
+    slots: Prisma.$ListingSlotPayload<ExtArgs>[]
+    slotChanges: Prisma.$ListingSlotChangePayload<ExtArgs>[]
+    dateRanges: Prisma.$InventoryDateRangePayload<ExtArgs>[]
+    blockedDates: Prisma.$InventoryBlockedDatePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4167,6 +5239,10 @@ export interface Prisma__ListingClient<T, Null = never, ExtArgs extends runtime.
   addons<T extends Prisma.Listing$addonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$addonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingAddonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   media<T extends Prisma.Listing$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   faqs<T extends Prisma.Listing$faqsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$faqsArgs<ExtArgs>>): Prisma.Prisma__ListingFaqClient<runtime.Types.Result.GetResult<Prisma.$ListingFaqPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  slots<T extends Prisma.Listing$slotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$slotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  slotChanges<T extends Prisma.Listing$slotChangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$slotChangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dateRanges<T extends Prisma.Listing$dateRangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$dateRangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryDateRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  blockedDates<T extends Prisma.Listing$blockedDatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$blockedDatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryBlockedDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4837,6 +5913,102 @@ export type Listing$faqsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   include?: Prisma.ListingFaqInclude<ExtArgs> | null
   where?: Prisma.ListingFaqWhereInput
+}
+
+/**
+ * Listing.slots
+ */
+export type Listing$slotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingSlot
+   */
+  select?: Prisma.ListingSlotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingSlot
+   */
+  omit?: Prisma.ListingSlotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingSlotInclude<ExtArgs> | null
+  where?: Prisma.ListingSlotWhereInput
+  orderBy?: Prisma.ListingSlotOrderByWithRelationInput | Prisma.ListingSlotOrderByWithRelationInput[]
+  cursor?: Prisma.ListingSlotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingSlotScalarFieldEnum | Prisma.ListingSlotScalarFieldEnum[]
+}
+
+/**
+ * Listing.slotChanges
+ */
+export type Listing$slotChangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingSlotChange
+   */
+  select?: Prisma.ListingSlotChangeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingSlotChange
+   */
+  omit?: Prisma.ListingSlotChangeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingSlotChangeInclude<ExtArgs> | null
+  where?: Prisma.ListingSlotChangeWhereInput
+  orderBy?: Prisma.ListingSlotChangeOrderByWithRelationInput | Prisma.ListingSlotChangeOrderByWithRelationInput[]
+  cursor?: Prisma.ListingSlotChangeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingSlotChangeScalarFieldEnum | Prisma.ListingSlotChangeScalarFieldEnum[]
+}
+
+/**
+ * Listing.dateRanges
+ */
+export type Listing$dateRangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InventoryDateRange
+   */
+  select?: Prisma.InventoryDateRangeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InventoryDateRange
+   */
+  omit?: Prisma.InventoryDateRangeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InventoryDateRangeInclude<ExtArgs> | null
+  where?: Prisma.InventoryDateRangeWhereInput
+  orderBy?: Prisma.InventoryDateRangeOrderByWithRelationInput | Prisma.InventoryDateRangeOrderByWithRelationInput[]
+  cursor?: Prisma.InventoryDateRangeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InventoryDateRangeScalarFieldEnum | Prisma.InventoryDateRangeScalarFieldEnum[]
+}
+
+/**
+ * Listing.blockedDates
+ */
+export type Listing$blockedDatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InventoryBlockedDate
+   */
+  select?: Prisma.InventoryBlockedDateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InventoryBlockedDate
+   */
+  omit?: Prisma.InventoryBlockedDateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InventoryBlockedDateInclude<ExtArgs> | null
+  where?: Prisma.InventoryBlockedDateWhereInput
+  orderBy?: Prisma.InventoryBlockedDateOrderByWithRelationInput | Prisma.InventoryBlockedDateOrderByWithRelationInput[]
+  cursor?: Prisma.InventoryBlockedDateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InventoryBlockedDateScalarFieldEnum | Prisma.InventoryBlockedDateScalarFieldEnum[]
 }
 
 /**

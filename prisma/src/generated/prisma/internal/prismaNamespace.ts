@@ -391,6 +391,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Category: 'Category',
   SubCategory: 'SubCategory',
+  InventoryBlockedDate: 'InventoryBlockedDate',
+  InventoryDateRange: 'InventoryDateRange',
   ListingAddon: 'ListingAddon',
   ListingContent: 'ListingContent',
   ListingFaq: 'ListingFaq',
@@ -399,6 +401,8 @@ export const ModelName = {
   ListingMetadataFieldDefinition: 'ListingMetadataFieldDefinition',
   ListingMetadataFieldOptions: 'ListingMetadataFieldOptions',
   ListingPolicy: 'ListingPolicy',
+  ListingSlotChange: 'ListingSlotChange',
+  ListingSlot: 'ListingSlot',
   ListingVariantMetadataFieldDefinition: 'ListingVariantMetadataFieldDefinition',
   ListingVariantMetadataFieldOptions: 'ListingVariantMetadataFieldOptions',
   ListingVariant: 'ListingVariant',
@@ -420,7 +424,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "category" | "subCategory" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "otp" | "user"
+    modelProps: "category" | "subCategory" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "otp" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -569,6 +573,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SubCategoryCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SubCategoryCountAggregateOutputType> | number
+        }
+      }
+    }
+    InventoryBlockedDate: {
+      payload: Prisma.$InventoryBlockedDatePayload<ExtArgs>
+      fields: Prisma.InventoryBlockedDateFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InventoryBlockedDateFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryBlockedDatePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InventoryBlockedDateFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryBlockedDatePayload>
+        }
+        findFirst: {
+          args: Prisma.InventoryBlockedDateFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryBlockedDatePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InventoryBlockedDateFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryBlockedDatePayload>
+        }
+        findMany: {
+          args: Prisma.InventoryBlockedDateFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryBlockedDatePayload>[]
+        }
+        create: {
+          args: Prisma.InventoryBlockedDateCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryBlockedDatePayload>
+        }
+        createMany: {
+          args: Prisma.InventoryBlockedDateCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InventoryBlockedDateCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryBlockedDatePayload>[]
+        }
+        delete: {
+          args: Prisma.InventoryBlockedDateDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryBlockedDatePayload>
+        }
+        update: {
+          args: Prisma.InventoryBlockedDateUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryBlockedDatePayload>
+        }
+        deleteMany: {
+          args: Prisma.InventoryBlockedDateDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InventoryBlockedDateUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InventoryBlockedDateUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryBlockedDatePayload>[]
+        }
+        upsert: {
+          args: Prisma.InventoryBlockedDateUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryBlockedDatePayload>
+        }
+        aggregate: {
+          args: Prisma.InventoryBlockedDateAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInventoryBlockedDate>
+        }
+        groupBy: {
+          args: Prisma.InventoryBlockedDateGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InventoryBlockedDateGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InventoryBlockedDateCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InventoryBlockedDateCountAggregateOutputType> | number
+        }
+      }
+    }
+    InventoryDateRange: {
+      payload: Prisma.$InventoryDateRangePayload<ExtArgs>
+      fields: Prisma.InventoryDateRangeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InventoryDateRangeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryDateRangePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InventoryDateRangeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryDateRangePayload>
+        }
+        findFirst: {
+          args: Prisma.InventoryDateRangeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryDateRangePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InventoryDateRangeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryDateRangePayload>
+        }
+        findMany: {
+          args: Prisma.InventoryDateRangeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryDateRangePayload>[]
+        }
+        create: {
+          args: Prisma.InventoryDateRangeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryDateRangePayload>
+        }
+        createMany: {
+          args: Prisma.InventoryDateRangeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InventoryDateRangeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryDateRangePayload>[]
+        }
+        delete: {
+          args: Prisma.InventoryDateRangeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryDateRangePayload>
+        }
+        update: {
+          args: Prisma.InventoryDateRangeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryDateRangePayload>
+        }
+        deleteMany: {
+          args: Prisma.InventoryDateRangeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InventoryDateRangeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InventoryDateRangeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryDateRangePayload>[]
+        }
+        upsert: {
+          args: Prisma.InventoryDateRangeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryDateRangePayload>
+        }
+        aggregate: {
+          args: Prisma.InventoryDateRangeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInventoryDateRange>
+        }
+        groupBy: {
+          args: Prisma.InventoryDateRangeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InventoryDateRangeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InventoryDateRangeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InventoryDateRangeCountAggregateOutputType> | number
         }
       }
     }
@@ -1164,6 +1316,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ListingSlotChange: {
+      payload: Prisma.$ListingSlotChangePayload<ExtArgs>
+      fields: Prisma.ListingSlotChangeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingSlotChangeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotChangePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingSlotChangeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotChangePayload>
+        }
+        findFirst: {
+          args: Prisma.ListingSlotChangeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotChangePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingSlotChangeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotChangePayload>
+        }
+        findMany: {
+          args: Prisma.ListingSlotChangeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotChangePayload>[]
+        }
+        create: {
+          args: Prisma.ListingSlotChangeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotChangePayload>
+        }
+        createMany: {
+          args: Prisma.ListingSlotChangeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingSlotChangeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotChangePayload>[]
+        }
+        delete: {
+          args: Prisma.ListingSlotChangeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotChangePayload>
+        }
+        update: {
+          args: Prisma.ListingSlotChangeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotChangePayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingSlotChangeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingSlotChangeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingSlotChangeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotChangePayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingSlotChangeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotChangePayload>
+        }
+        aggregate: {
+          args: Prisma.ListingSlotChangeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingSlotChange>
+        }
+        groupBy: {
+          args: Prisma.ListingSlotChangeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingSlotChangeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingSlotChangeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingSlotChangeCountAggregateOutputType> | number
+        }
+      }
+    }
+    ListingSlot: {
+      payload: Prisma.$ListingSlotPayload<ExtArgs>
+      fields: Prisma.ListingSlotFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingSlotFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingSlotFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotPayload>
+        }
+        findFirst: {
+          args: Prisma.ListingSlotFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingSlotFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotPayload>
+        }
+        findMany: {
+          args: Prisma.ListingSlotFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotPayload>[]
+        }
+        create: {
+          args: Prisma.ListingSlotCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotPayload>
+        }
+        createMany: {
+          args: Prisma.ListingSlotCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingSlotCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotPayload>[]
+        }
+        delete: {
+          args: Prisma.ListingSlotDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotPayload>
+        }
+        update: {
+          args: Prisma.ListingSlotUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotPayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingSlotDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingSlotUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingSlotUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotPayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingSlotUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingSlotPayload>
+        }
+        aggregate: {
+          args: Prisma.ListingSlotAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingSlot>
+        }
+        groupBy: {
+          args: Prisma.ListingSlotGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingSlotGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingSlotCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingSlotCountAggregateOutputType> | number
+        }
+      }
+    }
     ListingVariantMetadataFieldDefinition: {
       payload: Prisma.$ListingVariantMetadataFieldDefinitionPayload<ExtArgs>
       fields: Prisma.ListingVariantMetadataFieldDefinitionFieldRefs
@@ -1682,6 +1982,36 @@ export const SubCategoryScalarFieldEnum = {
 export type SubCategoryScalarFieldEnum = (typeof SubCategoryScalarFieldEnum)[keyof typeof SubCategoryScalarFieldEnum]
 
 
+export const InventoryBlockedDateScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  variantId: 'variantId',
+  blockedDate: 'blockedDate',
+  reason: 'reason',
+  createdByOperatorId: 'createdByOperatorId',
+  createdAt: 'createdAt'
+} as const
+
+export type InventoryBlockedDateScalarFieldEnum = (typeof InventoryBlockedDateScalarFieldEnum)[keyof typeof InventoryBlockedDateScalarFieldEnum]
+
+
+export const InventoryDateRangeScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  variantId: 'variantId',
+  availableFromDate: 'availableFromDate',
+  availableToDate: 'availableToDate',
+  basePricePerDay: 'basePricePerDay',
+  isActive: 'isActive',
+  primaryContactPhone: 'primaryContactPhone',
+  secondaryContactPhone: 'secondaryContactPhone',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InventoryDateRangeScalarFieldEnum = (typeof InventoryDateRangeScalarFieldEnum)[keyof typeof InventoryDateRangeScalarFieldEnum]
+
+
 export const ListingAddonScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
@@ -1799,6 +2129,45 @@ export const ListingPolicyScalarFieldEnum = {
 } as const
 
 export type ListingPolicyScalarFieldEnum = (typeof ListingPolicyScalarFieldEnum)[keyof typeof ListingPolicyScalarFieldEnum]
+
+
+export const ListingSlotChangeScalarFieldEnum = {
+  id: 'id',
+  slotId: 'slotId',
+  listingId: 'listingId',
+  variantId: 'variantId',
+  changeDate: 'changeDate',
+  basePrice: 'basePrice',
+  availableCount: 'availableCount',
+  bookedCount: 'bookedCount',
+  triggerType: 'triggerType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingSlotChangeScalarFieldEnum = (typeof ListingSlotChangeScalarFieldEnum)[keyof typeof ListingSlotChangeScalarFieldEnum]
+
+
+export const ListingSlotScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  variantId: 'variantId',
+  primaryContactPhone: 'primaryContactPhone',
+  secondaryContactPhone: 'secondaryContactPhone',
+  formatType: 'formatType',
+  batchStartDate: 'batchStartDate',
+  batchStartTime: 'batchStartTime',
+  batchEndDate: 'batchEndDate',
+  batchEndTime: 'batchEndTime',
+  basePrice: 'basePrice',
+  totalCapacity: 'totalCapacity',
+  availableCount: 'availableCount',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingSlotScalarFieldEnum = (typeof ListingSlotScalarFieldEnum)[keyof typeof ListingSlotScalarFieldEnum]
 
 
 export const ListingVariantMetadataFieldDefinitionScalarFieldEnum = {
@@ -2122,6 +2491,20 @@ export type ListEnumPolicyTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 
 
 /**
+ * Reference to a field of type 'TriggerType'
+ */
+export type EnumTriggerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TriggerType'>
+    
+
+
+/**
+ * Reference to a field of type 'TriggerType[]'
+ */
+export type ListEnumTriggerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TriggerType[]'>
+    
+
+
+/**
  * Reference to a field of type 'ListingStatus'
  */
 export type EnumListingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ListingStatus'>
@@ -2251,6 +2634,8 @@ export interface PrismaClientOptions {
 export type GlobalOmitConfig = {
   category?: Prisma.CategoryOmit
   subCategory?: Prisma.SubCategoryOmit
+  inventoryBlockedDate?: Prisma.InventoryBlockedDateOmit
+  inventoryDateRange?: Prisma.InventoryDateRangeOmit
   listingAddon?: Prisma.ListingAddonOmit
   listingContent?: Prisma.ListingContentOmit
   listingFaq?: Prisma.ListingFaqOmit
@@ -2259,6 +2644,8 @@ export type GlobalOmitConfig = {
   listingMetadataFieldDefinition?: Prisma.ListingMetadataFieldDefinitionOmit
   listingMetadataFieldOptions?: Prisma.ListingMetadataFieldOptionsOmit
   listingPolicy?: Prisma.ListingPolicyOmit
+  listingSlotChange?: Prisma.ListingSlotChangeOmit
+  listingSlot?: Prisma.ListingSlotOmit
   listingVariantMetadataFieldDefinition?: Prisma.ListingVariantMetadataFieldDefinitionOmit
   listingVariantMetadataFieldOptions?: Prisma.ListingVariantMetadataFieldOptionsOmit
   listingVariant?: Prisma.ListingVariantOmit

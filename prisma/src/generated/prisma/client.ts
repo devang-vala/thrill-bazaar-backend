@@ -54,6 +54,16 @@ export type Category = Prisma.CategoryModel
  */
 export type SubCategory = Prisma.SubCategoryModel
 /**
+ * Model InventoryBlockedDate
+ * 
+ */
+export type InventoryBlockedDate = Prisma.InventoryBlockedDateModel
+/**
+ * Model InventoryDateRange
+ * 
+ */
+export type InventoryDateRange = Prisma.InventoryDateRangeModel
+/**
  * Model ListingAddon
  * 
  */
@@ -93,6 +103,16 @@ export type ListingMetadataFieldOptions = Prisma.ListingMetadataFieldOptionsMode
  * 
  */
 export type ListingPolicy = Prisma.ListingPolicyModel
+/**
+ * Model ListingSlotChange
+ * 
+ */
+export type ListingSlotChange = Prisma.ListingSlotChangeModel
+/**
+ * Model ListingSlot
+ * 
+ */
+export type ListingSlot = Prisma.ListingSlotModel
 /**
  * Model ListingVariantMetadataFieldDefinition
  * 

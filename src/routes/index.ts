@@ -16,6 +16,7 @@ import fieldOptionsRouter from "./listingMetadataFieldOptions.route.js";
 import variantFieldDefinitionsRouter from "./listingVariantMetadataFieldDefinitions.route.js";
 import variantFieldOptionsRouter from "./listingVariantMetadataFieldOptions.route.js";
 import uploadRouter from "./upload.route.js";
+import inventoryDateRangesRouter from "./inventoryDateRanges.route.js";
 
 const router = new Hono();
 
@@ -51,5 +52,7 @@ router.route("/field-options", fieldOptionsRouter);
 router.route("/variant-field-definitions", variantFieldDefinitionsRouter);
 router.route("/variant-field-options", variantFieldOptionsRouter);
 router.route("/upload", uploadRouter);
+
+router.route("/inventory-date-ranges", inventoryDateRangesRouter);
 
 export default router;

@@ -96,3 +96,13 @@ export const FieldType = {
 } as const
 
 export type FieldType = (typeof FieldType)[keyof typeof FieldType]
+
+
+export const TriggerType = {
+  seller_update: 'seller_update',
+  customer_book: 'customer_book',
+  customer_cancel: 'customer_cancel',
+  customer_reschedule: 'customer_reschedule'
+} as const
+
+export type TriggerType = (typeof TriggerType)[keyof typeof TriggerType]

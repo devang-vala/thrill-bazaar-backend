@@ -50,6 +50,8 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 export const ModelName = {
   Category: 'Category',
   SubCategory: 'SubCategory',
+  InventoryBlockedDate: 'InventoryBlockedDate',
+  InventoryDateRange: 'InventoryDateRange',
   ListingAddon: 'ListingAddon',
   ListingContent: 'ListingContent',
   ListingFaq: 'ListingFaq',
@@ -58,6 +60,8 @@ export const ModelName = {
   ListingMetadataFieldDefinition: 'ListingMetadataFieldDefinition',
   ListingMetadataFieldOptions: 'ListingMetadataFieldOptions',
   ListingPolicy: 'ListingPolicy',
+  ListingSlotChange: 'ListingSlotChange',
+  ListingSlot: 'ListingSlot',
   ListingVariantMetadataFieldDefinition: 'ListingVariantMetadataFieldDefinition',
   ListingVariantMetadataFieldOptions: 'ListingVariantMetadataFieldOptions',
   ListingVariant: 'ListingVariant',
@@ -115,6 +119,36 @@ export const SubCategoryScalarFieldEnum = {
 } as const
 
 export type SubCategoryScalarFieldEnum = (typeof SubCategoryScalarFieldEnum)[keyof typeof SubCategoryScalarFieldEnum]
+
+
+export const InventoryBlockedDateScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  variantId: 'variantId',
+  blockedDate: 'blockedDate',
+  reason: 'reason',
+  createdByOperatorId: 'createdByOperatorId',
+  createdAt: 'createdAt'
+} as const
+
+export type InventoryBlockedDateScalarFieldEnum = (typeof InventoryBlockedDateScalarFieldEnum)[keyof typeof InventoryBlockedDateScalarFieldEnum]
+
+
+export const InventoryDateRangeScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  variantId: 'variantId',
+  availableFromDate: 'availableFromDate',
+  availableToDate: 'availableToDate',
+  basePricePerDay: 'basePricePerDay',
+  isActive: 'isActive',
+  primaryContactPhone: 'primaryContactPhone',
+  secondaryContactPhone: 'secondaryContactPhone',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InventoryDateRangeScalarFieldEnum = (typeof InventoryDateRangeScalarFieldEnum)[keyof typeof InventoryDateRangeScalarFieldEnum]
 
 
 export const ListingAddonScalarFieldEnum = {
@@ -234,6 +268,45 @@ export const ListingPolicyScalarFieldEnum = {
 } as const
 
 export type ListingPolicyScalarFieldEnum = (typeof ListingPolicyScalarFieldEnum)[keyof typeof ListingPolicyScalarFieldEnum]
+
+
+export const ListingSlotChangeScalarFieldEnum = {
+  id: 'id',
+  slotId: 'slotId',
+  listingId: 'listingId',
+  variantId: 'variantId',
+  changeDate: 'changeDate',
+  basePrice: 'basePrice',
+  availableCount: 'availableCount',
+  bookedCount: 'bookedCount',
+  triggerType: 'triggerType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingSlotChangeScalarFieldEnum = (typeof ListingSlotChangeScalarFieldEnum)[keyof typeof ListingSlotChangeScalarFieldEnum]
+
+
+export const ListingSlotScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  variantId: 'variantId',
+  primaryContactPhone: 'primaryContactPhone',
+  secondaryContactPhone: 'secondaryContactPhone',
+  formatType: 'formatType',
+  batchStartDate: 'batchStartDate',
+  batchStartTime: 'batchStartTime',
+  batchEndDate: 'batchEndDate',
+  batchEndTime: 'batchEndTime',
+  basePrice: 'basePrice',
+  totalCapacity: 'totalCapacity',
+  availableCount: 'availableCount',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingSlotScalarFieldEnum = (typeof ListingSlotScalarFieldEnum)[keyof typeof ListingSlotScalarFieldEnum]
 
 
 export const ListingVariantMetadataFieldDefinitionScalarFieldEnum = {

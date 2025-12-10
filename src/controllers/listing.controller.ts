@@ -110,7 +110,22 @@ export const createListing = async (c: Context) => {
       advanceBookingPercentage: body.advanceBookingPercentage || 25,
       basePriceDisplay: body.basePriceDisplay || 0,
       currency: body.currency || "INR",
+      metadata: body.metadata || undefined,
     };
+    // After existing listingData preparation
+if (body.bookingFormat === "F2" || body.bookingFormat === "F4") {
+  // Store rental-specific data in metadata
+  listingData.metadata = {
+    ...listingData. metadata,
+    isRental: true,
+    baseRentalPrice: body.baseRentalPrice || null,
+    minimumRentalDuration: body.minimumRentalDuration || null,
+    availableFrom: body.availableFrom || null,
+    availableTo:  body.availableTo || null,
+    // For F4 slot-based
+    rentalSlots: body.rentalSlots || null,
+  };
+}
 
     const listing = await prisma.listing.create({
       data: listingData,

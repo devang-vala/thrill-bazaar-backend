@@ -52,7 +52,7 @@ export const getListingVariantById = async (c: Context) => {
 
     return c.json({
       success: true,
-      data:  variant,
+      data: variant,
     });
   } catch (error) {
     console.error("Get listing variant by ID error:", error);
@@ -65,7 +65,7 @@ export const getListingVariantById = async (c: Context) => {
  */
 export const createListingVariant = async (c: Context) => {
   try {
-    const listingId = c.req. param("listingId");
+    const listingId = c.req.param("listingId");
     const body = await c.req.json();
 
     // Verify listing exists and check if it's a rental category
@@ -73,7 +73,7 @@ export const createListingVariant = async (c: Context) => {
       where: { id: listingId },
       include: {
         category: {
-          select:  {
+          select: {
             id: true,
             hasVariantCatA: true,
             isRental: true,
@@ -87,15 +87,15 @@ export const createListingVariant = async (c: Context) => {
       return c.json({ error: "Listing not found" }, 404);
     }
 
-    const variantData:  any = {
+    const variantData: any = {
       listingId,
       variantName: sanitizeString(body.variantName, 255),
       variantOrder: body.variantOrder || 0,
     };
 
-    // For Cat-A rentals, store variant-specific metadata
-    if (listing.category?. hasVariantCatA && body.variantMetadata) {
-      variantData.variantMetadata = body. variantMetadata;
+    // Store variant-specific metadata if provided
+    if (body.variantMetadata) {
+      variantData.variantMetadata = body.variantMetadata;
     }
 
     const variant = await prisma.listingVariant.create({
@@ -121,12 +121,12 @@ export const createListingVariant = async (c: Context) => {
  */
 export const updateListingVariant = async (c: Context) => {
   try {
-    const variantId = c. req.param("id");
-    const body = await c.req. json();
+    const variantId = c.req.param("id");
+    const body = await c.req.json();
 
     // Check if variant exists
-    const existingVariant = await prisma. listingVariant.findUnique({
-      where: { id:  variantId },
+    const existingVariant = await prisma.listingVariant.findUnique({
+      where: { id: variantId },
     });
 
     if (!existingVariant) {
@@ -142,10 +142,10 @@ export const updateListingVariant = async (c: Context) => {
       updateData.variantOrder = body.variantOrder;
     }
     if (body.variantMetadata !== undefined) {
-      updateData. variantMetadata = body.variantMetadata;
+      updateData.variantMetadata = body.variantMetadata;
     }
 
-    const updatedVariant = await prisma.listingVariant. update({
+    const updatedVariant = await prisma.listingVariant.update({
       where: { id: variantId },
       data: updateData,
     });
@@ -164,20 +164,20 @@ export const updateListingVariant = async (c: Context) => {
 /**
  * Delete listing variant
  */
-export const deleteListingVariant = async (c:  Context) => {
+export const deleteListingVariant = async (c: Context) => {
   try {
     const variantId = c.req.param("id");
 
     // Check if variant exists
-    const existingVariant = await prisma. listingVariant.findUnique({
-      where: { id:  variantId },
+    const existingVariant = await prisma.listingVariant.findUnique({
+      where: { id: variantId },
     });
 
     if (!existingVariant) {
       return c.json({ error: "Variant not found" }, 404);
     }
 
-    await prisma.listingVariant. delete({
+    await prisma.listingVariant.delete({
       where: { id: variantId },
     });
 
@@ -199,7 +199,7 @@ export const bulkCreateVariants = async (c: Context) => {
     const listingId = c.req.param("listingId");
     const body = await c.req.json();
 
-    if (!body.variants || ! Array.isArray(body.variants) || body.variants.length === 0) {
+    if (!body.variants || !Array.isArray(body.variants) || body.variants.length === 0) {
       return c.json({ error: "variants array is required" }, 400);
     }
 
@@ -222,18 +222,18 @@ export const bulkCreateVariants = async (c: Context) => {
     const variantsData = body.variants.map((variant: any, index: number) => ({
       listingId,
       variantName: sanitizeString(variant.variantName, 255),
-      variantOrder: variant.variantOrder ??  index,
-      variantMetadata: listing.category?.hasVariantCatA ?  variant.variantMetadata : null,
+      variantOrder: variant.variantOrder ?? index,
+      variantMetadata: variant.variantMetadata || null,
     }));
 
-    const createdVariants = await prisma. listingVariant.createMany({
+    const createdVariants = await prisma.listingVariant.createMany({
       data: variantsData,
     });
 
     // Fetch created variants to return
     const variants = await prisma.listingVariant.findMany({
       where: { listingId },
-      orderBy: { variantOrder:  "asc" },
+      orderBy: { variantOrder: "asc" },
     });
 
     return c.json(
@@ -297,13 +297,13 @@ export const getVariantFieldsForCategory = async (c: Context) => {
 
     return c.json({
       success: true,
-      data:  fieldDefinitions,
-      count:  fieldDefinitions.length,
+      data: fieldDefinitions,
+      count: fieldDefinitions.length,
       category: {
         id: category.id,
         name: category.categoryName,
         hasVariantCatA: category.hasVariantCatA,
-        isRental: category. isRental,
+        isRental: category.isRental,
       },
     });
   } catch (error) {
