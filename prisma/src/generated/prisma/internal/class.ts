@@ -22,7 +22,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "D:\\Thrill-Bazaar Backend\\thrill-bazaar-backend\\prisma\\src\\generated\\prisma",
+      "value": "D:\\Thrill bazzar\\thrill-bazaar-backend\\prisma\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -36,7 +36,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\Thrill-Bazaar Backend\\thrill-bazaar-backend\\prisma\\schema\\schema.prisma",
+    "sourceFilePath": "D:\\Thrill bazzar\\thrill-bazaar-backend\\prisma\\schema\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../schema",
