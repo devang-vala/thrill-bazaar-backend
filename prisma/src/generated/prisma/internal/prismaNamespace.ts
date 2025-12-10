@@ -1960,6 +1960,7 @@ export const CategoryScalarFieldEnum = {
   isInclusionsExclusionsAllowed: 'isInclusionsExclusionsAllowed',
   isAddonsAllowed: 'isAddonsAllowed',
   isBookingOptionAllowed: 'isBookingOptionAllowed',
+  isFaqAllowed: 'isFaqAllowed',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

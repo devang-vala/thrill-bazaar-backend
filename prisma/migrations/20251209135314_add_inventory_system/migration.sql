@@ -98,4 +98,4 @@ ALTER TABLE "inventory_blocked_dates" ADD CONSTRAINT "inventory_blocked_dates_li
 ALTER TABLE "inventory_blocked_dates" ADD CONSTRAINT "inventory_blocked_dates_variant_id_fkey" FOREIGN KEY ("variant_id") REFERENCES "listing_variants"("variant_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "inventory_blocked_dates" ADD CONSTRAINT "inventory_blocked_dates_created_by_operator_id_fkey" FOREIGN KEY ("created_by_operator_id") REFERENCES "users"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "inventory_blocked_dates" ADD CONSTRAINT "inventory_blocked_dates_created_by_operator_id_fkey" FOREIGN KEY ("created_by_operator_id") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;

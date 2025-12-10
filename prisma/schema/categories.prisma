@@ -11,6 +11,7 @@ model Category {
     isInclusionsExclusionsAllowed   Boolean       @default(false) @map("is_inclusions_exclusions_allowed")
     isAddonsAllowed                 Boolean       @default(false) @map("is_addons_allowed")
     isBookingOptionAllowed          Boolean       @default(false) @map("is_booking_option_allowed")
+    isFaqAllowed                    Boolean       @default(false) @map("is_faq_allowed")
     isActive                        Boolean       @default(true) @map("is_active")
     createdAt                       DateTime      @default(now()) @map("created_at")
     updatedAt                       DateTime      @updatedAt @map("updated_at")
