@@ -19,26 +19,13 @@ export type ListingInclusionExclusionModel = runtime.Types.Result.DefaultSelecti
 
 export type AggregateListingInclusionExclusion = {
   _count: ListingInclusionExclusionCountAggregateOutputType | null
-  _avg: ListingInclusionExclusionAvgAggregateOutputType | null
-  _sum: ListingInclusionExclusionSumAggregateOutputType | null
   _min: ListingInclusionExclusionMinAggregateOutputType | null
   _max: ListingInclusionExclusionMaxAggregateOutputType | null
-}
-
-export type ListingInclusionExclusionAvgAggregateOutputType = {
-  displayOrder: number | null
-}
-
-export type ListingInclusionExclusionSumAggregateOutputType = {
-  displayOrder: number | null
 }
 
 export type ListingInclusionExclusionMinAggregateOutputType = {
   id: string | null
   listingId: string | null
-  type: $Enums.InclusionType | null
-  description: string | null
-  displayOrder: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -46,9 +33,6 @@ export type ListingInclusionExclusionMinAggregateOutputType = {
 export type ListingInclusionExclusionMaxAggregateOutputType = {
   id: string | null
   listingId: string | null
-  type: $Enums.InclusionType | null
-  description: string | null
-  displayOrder: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,29 +40,17 @@ export type ListingInclusionExclusionMaxAggregateOutputType = {
 export type ListingInclusionExclusionCountAggregateOutputType = {
   id: number
   listingId: number
-  type: number
-  description: number
-  displayOrder: number
+  inclusions: number
+  exclusions: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
 
-export type ListingInclusionExclusionAvgAggregateInputType = {
-  displayOrder?: true
-}
-
-export type ListingInclusionExclusionSumAggregateInputType = {
-  displayOrder?: true
-}
-
 export type ListingInclusionExclusionMinAggregateInputType = {
   id?: true
   listingId?: true
-  type?: true
-  description?: true
-  displayOrder?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -86,9 +58,6 @@ export type ListingInclusionExclusionMinAggregateInputType = {
 export type ListingInclusionExclusionMaxAggregateInputType = {
   id?: true
   listingId?: true
-  type?: true
-  description?: true
-  displayOrder?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -96,9 +65,8 @@ export type ListingInclusionExclusionMaxAggregateInputType = {
 export type ListingInclusionExclusionCountAggregateInputType = {
   id?: true
   listingId?: true
-  type?: true
-  description?: true
-  displayOrder?: true
+  inclusions?: true
+  exclusions?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -142,18 +110,6 @@ export type ListingInclusionExclusionAggregateArgs<ExtArgs extends runtime.Types
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: ListingInclusionExclusionAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: ListingInclusionExclusionSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: ListingInclusionExclusionMinAggregateInputType
@@ -184,8 +140,6 @@ export type ListingInclusionExclusionGroupByArgs<ExtArgs extends runtime.Types.E
   take?: number
   skip?: number
   _count?: ListingInclusionExclusionCountAggregateInputType | true
-  _avg?: ListingInclusionExclusionAvgAggregateInputType
-  _sum?: ListingInclusionExclusionSumAggregateInputType
   _min?: ListingInclusionExclusionMinAggregateInputType
   _max?: ListingInclusionExclusionMaxAggregateInputType
 }
@@ -193,14 +147,11 @@ export type ListingInclusionExclusionGroupByArgs<ExtArgs extends runtime.Types.E
 export type ListingInclusionExclusionGroupByOutputType = {
   id: string
   listingId: string
-  type: $Enums.InclusionType
-  description: string
-  displayOrder: number
+  inclusions: string[]
+  exclusions: string[]
   createdAt: Date
   updatedAt: Date
   _count: ListingInclusionExclusionCountAggregateOutputType | null
-  _avg: ListingInclusionExclusionAvgAggregateOutputType | null
-  _sum: ListingInclusionExclusionSumAggregateOutputType | null
   _min: ListingInclusionExclusionMinAggregateOutputType | null
   _max: ListingInclusionExclusionMaxAggregateOutputType | null
 }
@@ -226,9 +177,8 @@ export type ListingInclusionExclusionWhereInput = {
   NOT?: Prisma.ListingInclusionExclusionWhereInput | Prisma.ListingInclusionExclusionWhereInput[]
   id?: Prisma.StringFilter<"ListingInclusionExclusion"> | string
   listingId?: Prisma.StringFilter<"ListingInclusionExclusion"> | string
-  type?: Prisma.EnumInclusionTypeFilter<"ListingInclusionExclusion"> | $Enums.InclusionType
-  description?: Prisma.StringFilter<"ListingInclusionExclusion"> | string
-  displayOrder?: Prisma.IntFilter<"ListingInclusionExclusion"> | number
+  inclusions?: Prisma.StringNullableListFilter<"ListingInclusionExclusion">
+  exclusions?: Prisma.StringNullableListFilter<"ListingInclusionExclusion">
   createdAt?: Prisma.DateTimeFilter<"ListingInclusionExclusion"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingInclusionExclusion"> | Date | string
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
@@ -237,9 +187,8 @@ export type ListingInclusionExclusionWhereInput = {
 export type ListingInclusionExclusionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  displayOrder?: Prisma.SortOrder
+  inclusions?: Prisma.SortOrder
+  exclusions?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   listing?: Prisma.ListingOrderByWithRelationInput
@@ -247,31 +196,27 @@ export type ListingInclusionExclusionOrderByWithRelationInput = {
 
 export type ListingInclusionExclusionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  listingId?: string
   AND?: Prisma.ListingInclusionExclusionWhereInput | Prisma.ListingInclusionExclusionWhereInput[]
   OR?: Prisma.ListingInclusionExclusionWhereInput[]
   NOT?: Prisma.ListingInclusionExclusionWhereInput | Prisma.ListingInclusionExclusionWhereInput[]
-  listingId?: Prisma.StringFilter<"ListingInclusionExclusion"> | string
-  type?: Prisma.EnumInclusionTypeFilter<"ListingInclusionExclusion"> | $Enums.InclusionType
-  description?: Prisma.StringFilter<"ListingInclusionExclusion"> | string
-  displayOrder?: Prisma.IntFilter<"ListingInclusionExclusion"> | number
+  inclusions?: Prisma.StringNullableListFilter<"ListingInclusionExclusion">
+  exclusions?: Prisma.StringNullableListFilter<"ListingInclusionExclusion">
   createdAt?: Prisma.DateTimeFilter<"ListingInclusionExclusion"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingInclusionExclusion"> | Date | string
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
-}, "id">
+}, "id" | "listingId">
 
 export type ListingInclusionExclusionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  displayOrder?: Prisma.SortOrder
+  inclusions?: Prisma.SortOrder
+  exclusions?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ListingInclusionExclusionCountOrderByAggregateInput
-  _avg?: Prisma.ListingInclusionExclusionAvgOrderByAggregateInput
   _max?: Prisma.ListingInclusionExclusionMaxOrderByAggregateInput
   _min?: Prisma.ListingInclusionExclusionMinOrderByAggregateInput
-  _sum?: Prisma.ListingInclusionExclusionSumOrderByAggregateInput
 }
 
 export type ListingInclusionExclusionScalarWhereWithAggregatesInput = {
@@ -280,18 +225,16 @@ export type ListingInclusionExclusionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ListingInclusionExclusionScalarWhereWithAggregatesInput | Prisma.ListingInclusionExclusionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ListingInclusionExclusion"> | string
   listingId?: Prisma.StringWithAggregatesFilter<"ListingInclusionExclusion"> | string
-  type?: Prisma.EnumInclusionTypeWithAggregatesFilter<"ListingInclusionExclusion"> | $Enums.InclusionType
-  description?: Prisma.StringWithAggregatesFilter<"ListingInclusionExclusion"> | string
-  displayOrder?: Prisma.IntWithAggregatesFilter<"ListingInclusionExclusion"> | number
+  inclusions?: Prisma.StringNullableListFilter<"ListingInclusionExclusion">
+  exclusions?: Prisma.StringNullableListFilter<"ListingInclusionExclusion">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ListingInclusionExclusion"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ListingInclusionExclusion"> | Date | string
 }
 
 export type ListingInclusionExclusionCreateInput = {
   id?: string
-  type: $Enums.InclusionType
-  description: string
-  displayOrder?: number
+  inclusions?: Prisma.ListingInclusionExclusionCreateinclusionsInput | string[]
+  exclusions?: Prisma.ListingInclusionExclusionCreateexclusionsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutInclusionsExclusionsInput
@@ -300,18 +243,16 @@ export type ListingInclusionExclusionCreateInput = {
 export type ListingInclusionExclusionUncheckedCreateInput = {
   id?: string
   listingId: string
-  type: $Enums.InclusionType
-  description: string
-  displayOrder?: number
+  inclusions?: Prisma.ListingInclusionExclusionCreateinclusionsInput | string[]
+  exclusions?: Prisma.ListingInclusionExclusionCreateexclusionsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ListingInclusionExclusionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumInclusionTypeFieldUpdateOperationsInput | $Enums.InclusionType
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  inclusions?: Prisma.ListingInclusionExclusionUpdateinclusionsInput | string[]
+  exclusions?: Prisma.ListingInclusionExclusionUpdateexclusionsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutInclusionsExclusionsNestedInput
@@ -320,9 +261,8 @@ export type ListingInclusionExclusionUpdateInput = {
 export type ListingInclusionExclusionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumInclusionTypeFieldUpdateOperationsInput | $Enums.InclusionType
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  inclusions?: Prisma.ListingInclusionExclusionUpdateinclusionsInput | string[]
+  exclusions?: Prisma.ListingInclusionExclusionUpdateexclusionsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -330,18 +270,16 @@ export type ListingInclusionExclusionUncheckedUpdateInput = {
 export type ListingInclusionExclusionCreateManyInput = {
   id?: string
   listingId: string
-  type: $Enums.InclusionType
-  description: string
-  displayOrder?: number
+  inclusions?: Prisma.ListingInclusionExclusionCreateinclusionsInput | string[]
+  exclusions?: Prisma.ListingInclusionExclusionCreateexclusionsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ListingInclusionExclusionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumInclusionTypeFieldUpdateOperationsInput | $Enums.InclusionType
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  inclusions?: Prisma.ListingInclusionExclusionUpdateinclusionsInput | string[]
+  exclusions?: Prisma.ListingInclusionExclusionUpdateexclusionsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -349,33 +287,32 @@ export type ListingInclusionExclusionUpdateManyMutationInput = {
 export type ListingInclusionExclusionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumInclusionTypeFieldUpdateOperationsInput | $Enums.InclusionType
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  inclusions?: Prisma.ListingInclusionExclusionUpdateinclusionsInput | string[]
+  exclusions?: Prisma.ListingInclusionExclusionUpdateexclusionsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type ListingInclusionExclusionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  displayOrder?: Prisma.SortOrder
+  inclusions?: Prisma.SortOrder
+  exclusions?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type ListingInclusionExclusionAvgOrderByAggregateInput = {
-  displayOrder?: Prisma.SortOrder
 }
 
 export type ListingInclusionExclusionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  displayOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -383,87 +320,77 @@ export type ListingInclusionExclusionMaxOrderByAggregateInput = {
 export type ListingInclusionExclusionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  displayOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type ListingInclusionExclusionSumOrderByAggregateInput = {
-  displayOrder?: Prisma.SortOrder
+export type ListingInclusionExclusionNullableScalarRelationFilter = {
+  is?: Prisma.ListingInclusionExclusionWhereInput | null
+  isNot?: Prisma.ListingInclusionExclusionWhereInput | null
 }
 
-export type ListingInclusionExclusionListRelationFilter = {
-  every?: Prisma.ListingInclusionExclusionWhereInput
-  some?: Prisma.ListingInclusionExclusionWhereInput
-  none?: Prisma.ListingInclusionExclusionWhereInput
+export type ListingInclusionExclusionCreateinclusionsInput = {
+  set: string[]
 }
 
-export type ListingInclusionExclusionOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type ListingInclusionExclusionCreateexclusionsInput = {
+  set: string[]
 }
 
-export type EnumInclusionTypeFieldUpdateOperationsInput = {
-  set?: $Enums.InclusionType
+export type ListingInclusionExclusionUpdateinclusionsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
-export type ListingInclusionExclusionCreateNestedManyWithoutListingInput = {
-  create?: Prisma.XOR<Prisma.ListingInclusionExclusionCreateWithoutListingInput, Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput> | Prisma.ListingInclusionExclusionCreateWithoutListingInput[] | Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput[]
-  connectOrCreate?: Prisma.ListingInclusionExclusionCreateOrConnectWithoutListingInput | Prisma.ListingInclusionExclusionCreateOrConnectWithoutListingInput[]
-  createMany?: Prisma.ListingInclusionExclusionCreateManyListingInputEnvelope
-  connect?: Prisma.ListingInclusionExclusionWhereUniqueInput | Prisma.ListingInclusionExclusionWhereUniqueInput[]
+export type ListingInclusionExclusionUpdateexclusionsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
-export type ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput = {
-  create?: Prisma.XOR<Prisma.ListingInclusionExclusionCreateWithoutListingInput, Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput> | Prisma.ListingInclusionExclusionCreateWithoutListingInput[] | Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput[]
-  connectOrCreate?: Prisma.ListingInclusionExclusionCreateOrConnectWithoutListingInput | Prisma.ListingInclusionExclusionCreateOrConnectWithoutListingInput[]
-  createMany?: Prisma.ListingInclusionExclusionCreateManyListingInputEnvelope
-  connect?: Prisma.ListingInclusionExclusionWhereUniqueInput | Prisma.ListingInclusionExclusionWhereUniqueInput[]
+export type ListingInclusionExclusionCreateNestedOneWithoutListingInput = {
+  create?: Prisma.XOR<Prisma.ListingInclusionExclusionCreateWithoutListingInput, Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput>
+  connectOrCreate?: Prisma.ListingInclusionExclusionCreateOrConnectWithoutListingInput
+  connect?: Prisma.ListingInclusionExclusionWhereUniqueInput
 }
 
-export type ListingInclusionExclusionUpdateManyWithoutListingNestedInput = {
-  create?: Prisma.XOR<Prisma.ListingInclusionExclusionCreateWithoutListingInput, Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput> | Prisma.ListingInclusionExclusionCreateWithoutListingInput[] | Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput[]
-  connectOrCreate?: Prisma.ListingInclusionExclusionCreateOrConnectWithoutListingInput | Prisma.ListingInclusionExclusionCreateOrConnectWithoutListingInput[]
-  upsert?: Prisma.ListingInclusionExclusionUpsertWithWhereUniqueWithoutListingInput | Prisma.ListingInclusionExclusionUpsertWithWhereUniqueWithoutListingInput[]
-  createMany?: Prisma.ListingInclusionExclusionCreateManyListingInputEnvelope
-  set?: Prisma.ListingInclusionExclusionWhereUniqueInput | Prisma.ListingInclusionExclusionWhereUniqueInput[]
-  disconnect?: Prisma.ListingInclusionExclusionWhereUniqueInput | Prisma.ListingInclusionExclusionWhereUniqueInput[]
-  delete?: Prisma.ListingInclusionExclusionWhereUniqueInput | Prisma.ListingInclusionExclusionWhereUniqueInput[]
-  connect?: Prisma.ListingInclusionExclusionWhereUniqueInput | Prisma.ListingInclusionExclusionWhereUniqueInput[]
-  update?: Prisma.ListingInclusionExclusionUpdateWithWhereUniqueWithoutListingInput | Prisma.ListingInclusionExclusionUpdateWithWhereUniqueWithoutListingInput[]
-  updateMany?: Prisma.ListingInclusionExclusionUpdateManyWithWhereWithoutListingInput | Prisma.ListingInclusionExclusionUpdateManyWithWhereWithoutListingInput[]
-  deleteMany?: Prisma.ListingInclusionExclusionScalarWhereInput | Prisma.ListingInclusionExclusionScalarWhereInput[]
+export type ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput = {
+  create?: Prisma.XOR<Prisma.ListingInclusionExclusionCreateWithoutListingInput, Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput>
+  connectOrCreate?: Prisma.ListingInclusionExclusionCreateOrConnectWithoutListingInput
+  connect?: Prisma.ListingInclusionExclusionWhereUniqueInput
 }
 
-export type ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput = {
-  create?: Prisma.XOR<Prisma.ListingInclusionExclusionCreateWithoutListingInput, Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput> | Prisma.ListingInclusionExclusionCreateWithoutListingInput[] | Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput[]
-  connectOrCreate?: Prisma.ListingInclusionExclusionCreateOrConnectWithoutListingInput | Prisma.ListingInclusionExclusionCreateOrConnectWithoutListingInput[]
-  upsert?: Prisma.ListingInclusionExclusionUpsertWithWhereUniqueWithoutListingInput | Prisma.ListingInclusionExclusionUpsertWithWhereUniqueWithoutListingInput[]
-  createMany?: Prisma.ListingInclusionExclusionCreateManyListingInputEnvelope
-  set?: Prisma.ListingInclusionExclusionWhereUniqueInput | Prisma.ListingInclusionExclusionWhereUniqueInput[]
-  disconnect?: Prisma.ListingInclusionExclusionWhereUniqueInput | Prisma.ListingInclusionExclusionWhereUniqueInput[]
-  delete?: Prisma.ListingInclusionExclusionWhereUniqueInput | Prisma.ListingInclusionExclusionWhereUniqueInput[]
-  connect?: Prisma.ListingInclusionExclusionWhereUniqueInput | Prisma.ListingInclusionExclusionWhereUniqueInput[]
-  update?: Prisma.ListingInclusionExclusionUpdateWithWhereUniqueWithoutListingInput | Prisma.ListingInclusionExclusionUpdateWithWhereUniqueWithoutListingInput[]
-  updateMany?: Prisma.ListingInclusionExclusionUpdateManyWithWhereWithoutListingInput | Prisma.ListingInclusionExclusionUpdateManyWithWhereWithoutListingInput[]
-  deleteMany?: Prisma.ListingInclusionExclusionScalarWhereInput | Prisma.ListingInclusionExclusionScalarWhereInput[]
+export type ListingInclusionExclusionUpdateOneWithoutListingNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingInclusionExclusionCreateWithoutListingInput, Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput>
+  connectOrCreate?: Prisma.ListingInclusionExclusionCreateOrConnectWithoutListingInput
+  upsert?: Prisma.ListingInclusionExclusionUpsertWithoutListingInput
+  disconnect?: Prisma.ListingInclusionExclusionWhereInput | boolean
+  delete?: Prisma.ListingInclusionExclusionWhereInput | boolean
+  connect?: Prisma.ListingInclusionExclusionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingInclusionExclusionUpdateToOneWithWhereWithoutListingInput, Prisma.ListingInclusionExclusionUpdateWithoutListingInput>, Prisma.ListingInclusionExclusionUncheckedUpdateWithoutListingInput>
+}
+
+export type ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingInclusionExclusionCreateWithoutListingInput, Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput>
+  connectOrCreate?: Prisma.ListingInclusionExclusionCreateOrConnectWithoutListingInput
+  upsert?: Prisma.ListingInclusionExclusionUpsertWithoutListingInput
+  disconnect?: Prisma.ListingInclusionExclusionWhereInput | boolean
+  delete?: Prisma.ListingInclusionExclusionWhereInput | boolean
+  connect?: Prisma.ListingInclusionExclusionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingInclusionExclusionUpdateToOneWithWhereWithoutListingInput, Prisma.ListingInclusionExclusionUpdateWithoutListingInput>, Prisma.ListingInclusionExclusionUncheckedUpdateWithoutListingInput>
 }
 
 export type ListingInclusionExclusionCreateWithoutListingInput = {
   id?: string
-  type: $Enums.InclusionType
-  description: string
-  displayOrder?: number
+  inclusions?: Prisma.ListingInclusionExclusionCreateinclusionsInput | string[]
+  exclusions?: Prisma.ListingInclusionExclusionCreateexclusionsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ListingInclusionExclusionUncheckedCreateWithoutListingInput = {
   id?: string
-  type: $Enums.InclusionType
-  description: string
-  displayOrder?: number
+  inclusions?: Prisma.ListingInclusionExclusionCreateinclusionsInput | string[]
+  exclusions?: Prisma.ListingInclusionExclusionCreateexclusionsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -473,72 +400,29 @@ export type ListingInclusionExclusionCreateOrConnectWithoutListingInput = {
   create: Prisma.XOR<Prisma.ListingInclusionExclusionCreateWithoutListingInput, Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput>
 }
 
-export type ListingInclusionExclusionCreateManyListingInputEnvelope = {
-  data: Prisma.ListingInclusionExclusionCreateManyListingInput | Prisma.ListingInclusionExclusionCreateManyListingInput[]
-  skipDuplicates?: boolean
-}
-
-export type ListingInclusionExclusionUpsertWithWhereUniqueWithoutListingInput = {
-  where: Prisma.ListingInclusionExclusionWhereUniqueInput
+export type ListingInclusionExclusionUpsertWithoutListingInput = {
   update: Prisma.XOR<Prisma.ListingInclusionExclusionUpdateWithoutListingInput, Prisma.ListingInclusionExclusionUncheckedUpdateWithoutListingInput>
   create: Prisma.XOR<Prisma.ListingInclusionExclusionCreateWithoutListingInput, Prisma.ListingInclusionExclusionUncheckedCreateWithoutListingInput>
+  where?: Prisma.ListingInclusionExclusionWhereInput
 }
 
-export type ListingInclusionExclusionUpdateWithWhereUniqueWithoutListingInput = {
-  where: Prisma.ListingInclusionExclusionWhereUniqueInput
+export type ListingInclusionExclusionUpdateToOneWithWhereWithoutListingInput = {
+  where?: Prisma.ListingInclusionExclusionWhereInput
   data: Prisma.XOR<Prisma.ListingInclusionExclusionUpdateWithoutListingInput, Prisma.ListingInclusionExclusionUncheckedUpdateWithoutListingInput>
-}
-
-export type ListingInclusionExclusionUpdateManyWithWhereWithoutListingInput = {
-  where: Prisma.ListingInclusionExclusionScalarWhereInput
-  data: Prisma.XOR<Prisma.ListingInclusionExclusionUpdateManyMutationInput, Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingInput>
-}
-
-export type ListingInclusionExclusionScalarWhereInput = {
-  AND?: Prisma.ListingInclusionExclusionScalarWhereInput | Prisma.ListingInclusionExclusionScalarWhereInput[]
-  OR?: Prisma.ListingInclusionExclusionScalarWhereInput[]
-  NOT?: Prisma.ListingInclusionExclusionScalarWhereInput | Prisma.ListingInclusionExclusionScalarWhereInput[]
-  id?: Prisma.StringFilter<"ListingInclusionExclusion"> | string
-  listingId?: Prisma.StringFilter<"ListingInclusionExclusion"> | string
-  type?: Prisma.EnumInclusionTypeFilter<"ListingInclusionExclusion"> | $Enums.InclusionType
-  description?: Prisma.StringFilter<"ListingInclusionExclusion"> | string
-  displayOrder?: Prisma.IntFilter<"ListingInclusionExclusion"> | number
-  createdAt?: Prisma.DateTimeFilter<"ListingInclusionExclusion"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"ListingInclusionExclusion"> | Date | string
-}
-
-export type ListingInclusionExclusionCreateManyListingInput = {
-  id?: string
-  type: $Enums.InclusionType
-  description: string
-  displayOrder?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type ListingInclusionExclusionUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumInclusionTypeFieldUpdateOperationsInput | $Enums.InclusionType
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  inclusions?: Prisma.ListingInclusionExclusionUpdateinclusionsInput | string[]
+  exclusions?: Prisma.ListingInclusionExclusionUpdateexclusionsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ListingInclusionExclusionUncheckedUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumInclusionTypeFieldUpdateOperationsInput | $Enums.InclusionType
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type ListingInclusionExclusionUncheckedUpdateManyWithoutListingInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumInclusionTypeFieldUpdateOperationsInput | $Enums.InclusionType
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  inclusions?: Prisma.ListingInclusionExclusionUpdateinclusionsInput | string[]
+  exclusions?: Prisma.ListingInclusionExclusionUpdateexclusionsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -548,9 +432,8 @@ export type ListingInclusionExclusionUncheckedUpdateManyWithoutListingInput = {
 export type ListingInclusionExclusionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   listingId?: boolean
-  type?: boolean
-  description?: boolean
-  displayOrder?: boolean
+  inclusions?: boolean
+  exclusions?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
@@ -559,9 +442,8 @@ export type ListingInclusionExclusionSelect<ExtArgs extends runtime.Types.Extens
 export type ListingInclusionExclusionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   listingId?: boolean
-  type?: boolean
-  description?: boolean
-  displayOrder?: boolean
+  inclusions?: boolean
+  exclusions?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
@@ -570,9 +452,8 @@ export type ListingInclusionExclusionSelectCreateManyAndReturn<ExtArgs extends r
 export type ListingInclusionExclusionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   listingId?: boolean
-  type?: boolean
-  description?: boolean
-  displayOrder?: boolean
+  inclusions?: boolean
+  exclusions?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
@@ -581,14 +462,13 @@ export type ListingInclusionExclusionSelectUpdateManyAndReturn<ExtArgs extends r
 export type ListingInclusionExclusionSelectScalar = {
   id?: boolean
   listingId?: boolean
-  type?: boolean
-  description?: boolean
-  displayOrder?: boolean
+  inclusions?: boolean
+  exclusions?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ListingInclusionExclusionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "type" | "description" | "displayOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["listingInclusionExclusion"]>
+export type ListingInclusionExclusionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "inclusions" | "exclusions" | "createdAt" | "updatedAt", ExtArgs["result"]["listingInclusionExclusion"]>
 export type ListingInclusionExclusionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
 }
@@ -607,9 +487,8 @@ export type $ListingInclusionExclusionPayload<ExtArgs extends runtime.Types.Exte
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     listingId: string
-    type: $Enums.InclusionType
-    description: string
-    displayOrder: number
+    inclusions: string[]
+    exclusions: string[]
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["listingInclusionExclusion"]>
@@ -1038,9 +917,8 @@ export interface Prisma__ListingInclusionExclusionClient<T, Null = never, ExtArg
 export interface ListingInclusionExclusionFieldRefs {
   readonly id: Prisma.FieldRef<"ListingInclusionExclusion", 'String'>
   readonly listingId: Prisma.FieldRef<"ListingInclusionExclusion", 'String'>
-  readonly type: Prisma.FieldRef<"ListingInclusionExclusion", 'InclusionType'>
-  readonly description: Prisma.FieldRef<"ListingInclusionExclusion", 'String'>
-  readonly displayOrder: Prisma.FieldRef<"ListingInclusionExclusion", 'Int'>
+  readonly inclusions: Prisma.FieldRef<"ListingInclusionExclusion", 'String[]'>
+  readonly exclusions: Prisma.FieldRef<"ListingInclusionExclusion", 'String[]'>
   readonly createdAt: Prisma.FieldRef<"ListingInclusionExclusion", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ListingInclusionExclusion", 'DateTime'>
 }

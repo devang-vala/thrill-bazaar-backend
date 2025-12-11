@@ -43,8 +43,8 @@ model Listing {
     approvedByAdmin      User?                       @relation("ListingApprovals", fields: [approvedByAdminId], references: [id], onDelete: SetNull)
     variants             ListingVariant[]
     content              ListingContent[]
-    inclusionsExclusions ListingInclusionExclusion[]
-    addons               ListingAddon[]
+    inclusionsExclusions ListingInclusionExclusion?
+    addons               ListingAddon?
     media                ListingMedia[]
     faqs                 ListingFaq?
     slots                ListingSlot[]             

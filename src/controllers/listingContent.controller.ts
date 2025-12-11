@@ -1,6 +1,15 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
 import { sanitizeString } from "../helpers/validation.helper.js";
+import { z } from "zod";
+
+// Zod schema for day itinerary
+const DayItinerarySchema = z.object({
+  dayNumber: z.number(),
+  title: z.string(),
+  details: z.string(),
+  imageUrl: z.string().optional().nullable(),
+});
 
 /**
  * Get content for a listing
@@ -140,5 +149,76 @@ export const getListingContentById = async (c: Context) => {
   } catch (error) {
     console.error("Get listing content by ID error:", error);
     return c.json({ error: "Failed to fetch content" }, 500);
+  }
+};
+
+/**
+ * Upsert day-wise itinerary for a listing
+ * Deletes existing day_itinerary content and creates new ones
+ */
+export const upsertDayWiseItinerary = async (c: Context) => {
+  try {
+    const listingId = c.req.param("listingId");
+    const body = await c.req.json();
+
+    // Validate request body
+    if (!Array.isArray(body.days)) {
+      return c.json({ error: "days must be an array" }, 400);
+    }
+
+    // Validate each day
+    const validationResults = body.days.map((day: any, index: number) => {
+      try {
+        return DayItinerarySchema.parse(day);
+      } catch (error) {
+        throw new Error(`Invalid day at index ${index}: ${error}`);
+      }
+    });
+
+    // Delete existing day_itinerary content for this listing
+    await prisma.listingContent.deleteMany({
+      where: {
+        listingId: listingId,
+        contentType: "day_itinerary",
+      },
+    });
+
+    // Create new day itinerary entries
+    if (validationResults.length > 0) {
+      const createData = validationResults.map((day) => ({
+        listingId: listingId,
+        contentType: "day_itinerary" as any,
+        contentOrder: day.dayNumber,
+        title: sanitizeString(day.title, 255),
+        contentText: sanitizeString(day.details, 10000),
+        imageUrls: day.imageUrl ? { url: day.imageUrl } : null,
+      }));
+
+      await prisma.listingContent.createMany({
+        data: createData,
+      });
+    }
+
+    // Fetch the created/updated content
+    const content = await prisma.listingContent.findMany({
+      where: {
+        listingId: listingId,
+        contentType: "day_itinerary",
+      },
+      orderBy: {
+        contentOrder: "asc",
+      },
+    });
+
+    return c.json({
+      success: true,
+      message: "Day-wise itinerary saved successfully",
+      data: content,
+    });
+  } catch (error) {
+    console.error("Upsert day-wise itinerary error:", error);
+    return c.json({ 
+      error: error instanceof Error ? error.message : "Failed to save day-wise itinerary" 
+    }, 500);
   }
 };

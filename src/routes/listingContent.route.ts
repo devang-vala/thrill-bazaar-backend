@@ -4,6 +4,7 @@ import {
   getListingContentById,
   createListingContent,
   updateListingContent,
+  upsertDayWiseItinerary,
 } from "../controllers/listingContent.controller.js";
 import {
   authenticateToken,
@@ -12,12 +13,13 @@ import {
 
 const listingContentRouter = new Hono();
 
-listingContentRouter.use(authenticateToken);
-listingContentRouter.use(requireAnyAdmin);
+// listingContentRouter.use(authenticateToken);
+// listingContentRouter.use(requireAnyAdmin);
 
 listingContentRouter.get("/listing/:listingId", getListingContent);
 listingContentRouter.get("/:id", getListingContentById);
 listingContentRouter.post("/listing/:listingId", createListingContent);
+listingContentRouter.post("/listing/:listingId/day-itinerary", upsertDayWiseItinerary);
 listingContentRouter.put("/:id", updateListingContent);
 
 export default listingContentRouter;

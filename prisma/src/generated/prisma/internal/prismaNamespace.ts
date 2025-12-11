@@ -1961,6 +1961,7 @@ export const CategoryScalarFieldEnum = {
   isAddonsAllowed: 'isAddonsAllowed',
   isBookingOptionAllowed: 'isBookingOptionAllowed',
   isFaqAllowed: 'isFaqAllowed',
+  isDayWiseAllowed: 'isDayWiseAllowed',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2016,13 +2017,7 @@ export type InventoryDateRangeScalarFieldEnum = (typeof InventoryDateRangeScalar
 export const ListingAddonScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
-  addonName: 'addonName',
-  addonDescription: 'addonDescription',
-  price: 'price',
-  isMandatory: 'isMandatory',
-  maxQuantity: 'maxQuantity',
-  displayOrder: 'displayOrder',
-  isActive: 'isActive',
+  addons: 'addons',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2059,9 +2054,8 @@ export type ListingFaqScalarFieldEnum = (typeof ListingFaqScalarFieldEnum)[keyof
 export const ListingInclusionExclusionScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
-  type: 'type',
-  description: 'description',
-  displayOrder: 'displayOrder',
+  inclusions: 'inclusions',
+  exclusions: 'exclusions',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2210,7 +2204,10 @@ export const ListingVariantScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   variantName: 'variantName',
+  variantDescription: 'variantDescription',
+  validParticipantNumbers: 'validParticipantNumbers',
   variantOrder: 'variantOrder',
+  variantMetadata: 'variantMetadata',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2298,19 +2295,19 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -2408,34 +2405,6 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'Decimal'
- */
-export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
-    
-
-
-/**
- * Reference to a field of type 'Decimal[]'
- */
-export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
-    
-
-
-/**
- * Reference to a field of type 'ContentType'
- */
-export type EnumContentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContentType'>
-    
-
-
-/**
- * Reference to a field of type 'ContentType[]'
- */
-export type ListEnumContentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContentType[]'>
-    
-
-
-/**
  * Reference to a field of type 'Json'
  */
 export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -2450,16 +2419,16 @@ export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 
 
 /**
- * Reference to a field of type 'InclusionType'
+ * Reference to a field of type 'ContentType'
  */
-export type EnumInclusionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InclusionType'>
+export type EnumContentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContentType'>
     
 
 
 /**
- * Reference to a field of type 'InclusionType[]'
+ * Reference to a field of type 'ContentType[]'
  */
-export type ListEnumInclusionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InclusionType[]'>
+export type ListEnumContentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContentType[]'>
     
 
 
@@ -2516,6 +2485,20 @@ export type EnumListingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'ListingStatus[]'
  */
 export type ListEnumListingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ListingStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 

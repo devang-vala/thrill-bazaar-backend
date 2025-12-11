@@ -1,6 +1,13 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
-import { sanitizeString } from "../helpers/validation.helper.js";
+import { z } from "zod";
+
+// Validation schema for inclusions/exclusions
+const inclusionExclusionSchema = z.object({
+  listingId: z.string().uuid("Invalid listing ID"),
+  inclusions: z.array(z.string()).optional().default([]),
+  exclusions: z.array(z.string()).optional().default([]),
+});
 
 /**
  * Get inclusions/exclusions for a listing
@@ -8,22 +15,21 @@ import { sanitizeString } from "../helpers/validation.helper.js";
 export const getListingInclusionsExclusions = async (c: Context) => {
   try {
     const listingId = c.req.param("listingId");
-    const { type } = c.req.query();
 
-    const whereClause: any = { listingId };
-    if (type && (type === "inclusion" || type === "exclusion")) {
-      whereClause.type = type;
-    }
-
-    const items = await prisma.listingInclusionExclusion.findMany({
-      where: whereClause,
-      orderBy: [{ type: "asc" }, { displayOrder: "asc" }],
+    const item = await prisma.listingInclusionExclusion.findUnique({
+      where: { listingId },
     });
+
+    if (!item) {
+      return c.json({
+        success: true,
+        data: { inclusions: [], exclusions: [] },
+      });
+    }
 
     return c.json({
       success: true,
-      data: items,
-      count: items.length,
+      data: item,
     });
   } catch (error) {
     console.error("Get listing inclusions/exclusions error:", error);
@@ -32,70 +38,78 @@ export const getListingInclusionsExclusions = async (c: Context) => {
 };
 
 /**
- * Create listing inclusion/exclusion
+ * Create or update listing inclusions/exclusions
  */
-export const createListingInclusionExclusion = async (c: Context) => {
+export const upsertListingInclusionsExclusions = async (c: Context) => {
   try {
-    const listingId = c.req.param("listingId");
     const body = await c.req.json();
+    const validatedData = inclusionExclusionSchema.parse(body);
 
-    const itemData = {
-      listingId,
-      type: body.type,
-      description: sanitizeString(body.description, 1000),
-      displayOrder: body.displayOrder || 0,
-    };
+    // Check if listing exists
+    const listing = await prisma.listing.findUnique({
+      where: { id: validatedData.listingId },
+    });
 
-    const item = await prisma.listingInclusionExclusion.create({
-      data: itemData,
+    if (!listing) {
+      return c.json({ error: "Listing not found" }, 404);
+    }
+
+    // Upsert inclusions/exclusions
+    const item = await prisma.listingInclusionExclusion.upsert({
+      where: { listingId: validatedData.listingId },
+      create: {
+        listingId: validatedData.listingId,
+        inclusions: validatedData.inclusions,
+        exclusions: validatedData.exclusions,
+      },
+      update: {
+        inclusions: validatedData.inclusions,
+        exclusions: validatedData.exclusions,
+      },
     });
 
     return c.json(
       {
         success: true,
-        message: "Inclusion/Exclusion created successfully",
+        message: "Inclusions/Exclusions saved successfully",
         data: item,
       },
-      201
+      200
     );
-  } catch (error) {
-    console.error("Create listing inclusion/exclusion error:", error);
-    return c.json({ error: "Failed to create inclusion/exclusion" }, 500);
+  } catch (error: any) {
+    console.error("Upsert listing inclusions/exclusions error:", error);
+    if (error.name === "ZodError") {
+      return c.json({ error: "Validation error", details: error.errors }, 400);
+    }
+    return c.json({ error: "Failed to save inclusions/exclusions" }, 500);
   }
 };
 
 /**
- * Update listing inclusion/exclusion
+ * Delete listing inclusions/exclusions
  */
-export const updateListingInclusionExclusion = async (c: Context) => {
+export const deleteListingInclusionsExclusions = async (c: Context) => {
   try {
-    const itemId = c.req.param("id");
-    const body = await c.req.json();
+    const listingId = c.req.param("listingId");
 
-    const updateData: any = {};
+    const existingItem = await prisma.listingInclusionExclusion.findUnique({
+      where: { listingId },
+    });
 
-    if (body.type !== undefined) {
-      updateData.type = body.type;
-    }
-    if (body.description !== undefined) {
-      updateData.description = sanitizeString(body.description, 1000);
-    }
-    if (body.displayOrder !== undefined) {
-      updateData.displayOrder = body.displayOrder;
+    if (!existingItem) {
+      return c.json({ error: "Inclusions/Exclusions not found" }, 404);
     }
 
-    const updatedItem = await prisma.listingInclusionExclusion.update({
-      where: { id: itemId },
-      data: updateData,
+    await prisma.listingInclusionExclusion.delete({
+      where: { listingId },
     });
 
     return c.json({
       success: true,
-      message: "Inclusion/Exclusion updated successfully",
-      data: updatedItem,
+      message: "Inclusions/Exclusions deleted successfully",
     });
   } catch (error) {
-    console.error("Update listing inclusion/exclusion error:", error);
-    return c.json({ error: "Failed to update inclusion/exclusion" }, 500);
+    console.error("Delete listing inclusions/exclusions error:", error);
+    return c.json({ error: "Failed to delete inclusions/exclusions" }, 500);
   }
 };

@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import {
   getListingInclusionsExclusions,
-  createListingInclusionExclusion,
-  updateListingInclusionExclusion,
+  upsertListingInclusionsExclusions,
+  deleteListingInclusionsExclusions,
 } from "../controllers/listingInclusionsExclusions.controller.js";
 import {
   authenticateToken,
@@ -14,14 +14,27 @@ const listingInclusionsExclusionsRouter = new Hono();
 // listingInclusionsExclusionsRouter.use(authenticateToken);
 // listingInclusionsExclusionsRouter.use(requireAnyAdmin);
 
+// Get inclusions/exclusions for a listing
 listingInclusionsExclusionsRouter.get(
   "/listing/:listingId",
   getListingInclusionsExclusions
 );
+
+// Create or update inclusions/exclusions
 listingInclusionsExclusionsRouter.post(
-  "/listing/:listingId",
-  createListingInclusionExclusion
+  "/",
+  upsertListingInclusionsExclusions
 );
-listingInclusionsExclusionsRouter.put("/:id", updateListingInclusionExclusion);
+
+listingInclusionsExclusionsRouter.put(
+  "/",
+  upsertListingInclusionsExclusions
+);
+
+// Delete inclusions/exclusions
+listingInclusionsExclusionsRouter.delete(
+  "/listing/:listingId",
+  deleteListingInclusionsExclusions
+);
 
 export default listingInclusionsExclusionsRouter;
