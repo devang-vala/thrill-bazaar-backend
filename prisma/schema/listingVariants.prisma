@@ -1,10 +1,13 @@
 model ListingVariant {
-    id           String   @id @default(uuid()) @map("variant_id")
-    listingId    String   @map("listing_id")
-    variantName  String   @map("variant_name")
-    variantOrder Int      @default(0) @map("variant_order")
-    createdAt    DateTime @default(now()) @map("created_at")
-    updatedAt    DateTime @updatedAt @map("updated_at")
+    id                      String   @id @default(uuid()) @map("variant_id")
+    listingId               String   @map("listing_id")
+    variantName             String   @map("variant_name")
+    variantDescription      String?  @map("variant_description") @db.Text
+    validParticipantNumbers Int[]    @map("valid_participant_numbers")
+    variantOrder            Int      @default(0) @map("variant_order")
+    variantMetadata         Json?    @map("variant_metadata")
+    createdAt               DateTime @default(now()) @map("created_at")
+    updatedAt               DateTime @updatedAt @map("updated_at")
 
     // Relations
     listing           Listing                   @relation(fields: [listingId], references: [id], onDelete: Cascade)

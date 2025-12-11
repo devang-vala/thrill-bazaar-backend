@@ -47,6 +47,7 @@ export type CategoryMinAggregateOutputType = {
   isAddonsAllowed: boolean | null
   isBookingOptionAllowed: boolean | null
   isFaqAllowed: boolean | null
+  isDayWiseAllowed: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -66,6 +67,7 @@ export type CategoryMaxAggregateOutputType = {
   isAddonsAllowed: boolean | null
   isBookingOptionAllowed: boolean | null
   isFaqAllowed: boolean | null
+  isDayWiseAllowed: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -85,6 +87,7 @@ export type CategoryCountAggregateOutputType = {
   isAddonsAllowed: number
   isBookingOptionAllowed: number
   isFaqAllowed: number
+  isDayWiseAllowed: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -114,6 +117,7 @@ export type CategoryMinAggregateInputType = {
   isAddonsAllowed?: true
   isBookingOptionAllowed?: true
   isFaqAllowed?: true
+  isDayWiseAllowed?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -133,6 +137,7 @@ export type CategoryMaxAggregateInputType = {
   isAddonsAllowed?: true
   isBookingOptionAllowed?: true
   isFaqAllowed?: true
+  isDayWiseAllowed?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -152,6 +157,7 @@ export type CategoryCountAggregateInputType = {
   isAddonsAllowed?: true
   isBookingOptionAllowed?: true
   isFaqAllowed?: true
+  isDayWiseAllowed?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -258,6 +264,7 @@ export type CategoryGroupByOutputType = {
   isAddonsAllowed: boolean
   isBookingOptionAllowed: boolean
   isFaqAllowed: boolean
+  isDayWiseAllowed: boolean
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -300,6 +307,7 @@ export type CategoryWhereInput = {
   isAddonsAllowed?: Prisma.BoolFilter<"Category"> | boolean
   isBookingOptionAllowed?: Prisma.BoolFilter<"Category"> | boolean
   isFaqAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isDayWiseAllowed?: Prisma.BoolFilter<"Category"> | boolean
   isActive?: Prisma.BoolFilter<"Category"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Category"> | Date | string
@@ -323,6 +331,7 @@ export type CategoryOrderByWithRelationInput = {
   isAddonsAllowed?: Prisma.SortOrder
   isBookingOptionAllowed?: Prisma.SortOrder
   isFaqAllowed?: Prisma.SortOrder
+  isDayWiseAllowed?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -349,6 +358,7 @@ export type CategoryWhereUniqueInput = Prisma.AtLeast<{
   isAddonsAllowed?: Prisma.BoolFilter<"Category"> | boolean
   isBookingOptionAllowed?: Prisma.BoolFilter<"Category"> | boolean
   isFaqAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isDayWiseAllowed?: Prisma.BoolFilter<"Category"> | boolean
   isActive?: Prisma.BoolFilter<"Category"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Category"> | Date | string
@@ -372,6 +382,7 @@ export type CategoryOrderByWithAggregationInput = {
   isAddonsAllowed?: Prisma.SortOrder
   isBookingOptionAllowed?: Prisma.SortOrder
   isFaqAllowed?: Prisma.SortOrder
+  isDayWiseAllowed?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -399,6 +410,7 @@ export type CategoryScalarWhereWithAggregatesInput = {
   isAddonsAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
   isBookingOptionAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
   isFaqAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
+  isDayWiseAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
   isActive?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Category"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Category"> | Date | string
@@ -418,6 +430,7 @@ export type CategoryCreateInput = {
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -441,6 +454,7 @@ export type CategoryUncheckedCreateInput = {
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -464,6 +478,7 @@ export type CategoryUpdateInput = {
   isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -487,6 +502,7 @@ export type CategoryUncheckedUpdateInput = {
   isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -510,6 +526,7 @@ export type CategoryCreateManyInput = {
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -529,6 +546,7 @@ export type CategoryUpdateManyMutationInput = {
   isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -548,6 +566,7 @@ export type CategoryUncheckedUpdateManyInput = {
   isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -567,6 +586,7 @@ export type CategoryCountOrderByAggregateInput = {
   isAddonsAllowed?: Prisma.SortOrder
   isBookingOptionAllowed?: Prisma.SortOrder
   isFaqAllowed?: Prisma.SortOrder
+  isDayWiseAllowed?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -590,6 +610,7 @@ export type CategoryMaxOrderByAggregateInput = {
   isAddonsAllowed?: Prisma.SortOrder
   isBookingOptionAllowed?: Prisma.SortOrder
   isFaqAllowed?: Prisma.SortOrder
+  isDayWiseAllowed?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -609,6 +630,7 @@ export type CategoryMinOrderByAggregateInput = {
   isAddonsAllowed?: Prisma.SortOrder
   isBookingOptionAllowed?: Prisma.SortOrder
   isFaqAllowed?: Prisma.SortOrder
+  isDayWiseAllowed?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -728,6 +750,7 @@ export type CategoryCreateWithoutSubCategoriesInput = {
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -750,6 +773,7 @@ export type CategoryUncheckedCreateWithoutSubCategoriesInput = {
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -788,6 +812,7 @@ export type CategoryUpdateWithoutSubCategoriesInput = {
   isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -810,6 +835,7 @@ export type CategoryUncheckedUpdateWithoutSubCategoriesInput = {
   isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -832,6 +858,7 @@ export type CategoryCreateWithoutMetadataFieldDefinitionsInput = {
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -854,6 +881,7 @@ export type CategoryUncheckedCreateWithoutMetadataFieldDefinitionsInput = {
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -892,6 +920,7 @@ export type CategoryUpdateWithoutMetadataFieldDefinitionsInput = {
   isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -914,6 +943,7 @@ export type CategoryUncheckedUpdateWithoutMetadataFieldDefinitionsInput = {
   isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -936,6 +966,7 @@ export type CategoryCreateWithoutVariantMetadataFieldDefinitionsInput = {
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -958,6 +989,7 @@ export type CategoryUncheckedCreateWithoutVariantMetadataFieldDefinitionsInput =
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -996,6 +1028,7 @@ export type CategoryUpdateWithoutVariantMetadataFieldDefinitionsInput = {
   isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1018,6 +1051,7 @@ export type CategoryUncheckedUpdateWithoutVariantMetadataFieldDefinitionsInput =
   isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1040,6 +1074,7 @@ export type CategoryCreateWithoutListingsInput = {
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1062,6 +1097,7 @@ export type CategoryUncheckedCreateWithoutListingsInput = {
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1100,6 +1136,7 @@ export type CategoryUpdateWithoutListingsInput = {
   isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1122,6 +1159,7 @@ export type CategoryUncheckedUpdateWithoutListingsInput = {
   isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1202,6 +1240,7 @@ export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1226,6 +1265,7 @@ export type CategorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1245,6 +1285,7 @@ export type CategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1264,12 +1305,13 @@ export type CategorySelectScalar = {
   isAddonsAllowed?: boolean
   isBookingOptionAllowed?: boolean
   isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "categoryName" | "categorySlug" | "categoryIconUrl" | "categoryDescription" | "displayOrder" | "bookingFormat" | "isRental" | "hasVariantCatA" | "isInclusionsExclusionsAllowed" | "isAddonsAllowed" | "isBookingOptionAllowed" | "isFaqAllowed" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
+export type CategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "categoryName" | "categorySlug" | "categoryIconUrl" | "categoryDescription" | "displayOrder" | "bookingFormat" | "isRental" | "hasVariantCatA" | "isInclusionsExclusionsAllowed" | "isAddonsAllowed" | "isBookingOptionAllowed" | "isFaqAllowed" | "isDayWiseAllowed" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
 export type CategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subCategories?: boolean | Prisma.Category$subCategoriesArgs<ExtArgs>
   listings?: boolean | Prisma.Category$listingsArgs<ExtArgs>
@@ -1302,6 +1344,7 @@ export type $CategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     isAddonsAllowed: boolean
     isBookingOptionAllowed: boolean
     isFaqAllowed: boolean
+    isDayWiseAllowed: boolean
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1745,6 +1788,7 @@ export interface CategoryFieldRefs {
   readonly isAddonsAllowed: Prisma.FieldRef<"Category", 'Boolean'>
   readonly isBookingOptionAllowed: Prisma.FieldRef<"Category", 'Boolean'>
   readonly isFaqAllowed: Prisma.FieldRef<"Category", 'Boolean'>
+  readonly isDayWiseAllowed: Prisma.FieldRef<"Category", 'Boolean'>
   readonly isActive: Prisma.FieldRef<"Category", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Category", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Category", 'DateTime'>

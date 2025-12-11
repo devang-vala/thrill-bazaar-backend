@@ -1,18 +1,13 @@
 model ListingAddon {
-    id               String   @id @default(uuid()) @map("addon_id")
-    listingId        String   @map("listing_id")
-    addonName        String   @map("addon_name")
-    addonDescription String?  @map("addon_description") @db.Text
-    price            Decimal  @db.Decimal(10, 2)
-    isMandatory      Boolean  @default(false) @map("is_mandatory")
-    maxQuantity      Int?     @map("max_quantity")
-    displayOrder     Int      @default(0) @map("display_order")
-    isActive         Boolean  @default(true) @map("is_active")
-    createdAt        DateTime @default(now()) @map("created_at")
-    updatedAt        DateTime @updatedAt @map("updated_at")
+    id        String   @id @default(uuid()) @map("addon_id")
+    listingId String   @unique @map("listing_id")
+    addons    Json     @map("addons") // addonname,price,addondescription,maxquantity,displayorder,,is mandatory,isactive
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
     // Relations
     listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 
     @@map("listing_addons")
+    @@index([listingId])
 }

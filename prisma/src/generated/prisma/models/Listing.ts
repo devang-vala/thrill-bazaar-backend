@@ -449,8 +449,8 @@ export type ListingWhereInput = {
   approvedByAdmin?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   variants?: Prisma.ListingVariantListRelationFilter
   content?: Prisma.ListingContentListRelationFilter
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionListRelationFilter
-  addons?: Prisma.ListingAddonListRelationFilter
+  inclusionsExclusions?: Prisma.XOR<Prisma.ListingInclusionExclusionNullableScalarRelationFilter, Prisma.ListingInclusionExclusionWhereInput> | null
+  addons?: Prisma.XOR<Prisma.ListingAddonNullableScalarRelationFilter, Prisma.ListingAddonWhereInput> | null
   media?: Prisma.ListingMediaListRelationFilter
   faqs?: Prisma.XOR<Prisma.ListingFaqNullableScalarRelationFilter, Prisma.ListingFaqWhereInput> | null
   slots?: Prisma.ListingSlotListRelationFilter
@@ -499,8 +499,8 @@ export type ListingOrderByWithRelationInput = {
   approvedByAdmin?: Prisma.UserOrderByWithRelationInput
   variants?: Prisma.ListingVariantOrderByRelationAggregateInput
   content?: Prisma.ListingContentOrderByRelationAggregateInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionOrderByRelationAggregateInput
-  addons?: Prisma.ListingAddonOrderByRelationAggregateInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionOrderByWithRelationInput
+  addons?: Prisma.ListingAddonOrderByWithRelationInput
   media?: Prisma.ListingMediaOrderByRelationAggregateInput
   faqs?: Prisma.ListingFaqOrderByWithRelationInput
   slots?: Prisma.ListingSlotOrderByRelationAggregateInput
@@ -552,8 +552,8 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   approvedByAdmin?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   variants?: Prisma.ListingVariantListRelationFilter
   content?: Prisma.ListingContentListRelationFilter
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionListRelationFilter
-  addons?: Prisma.ListingAddonListRelationFilter
+  inclusionsExclusions?: Prisma.XOR<Prisma.ListingInclusionExclusionNullableScalarRelationFilter, Prisma.ListingInclusionExclusionWhereInput> | null
+  addons?: Prisma.XOR<Prisma.ListingAddonNullableScalarRelationFilter, Prisma.ListingAddonWhereInput> | null
   media?: Prisma.ListingMediaListRelationFilter
   faqs?: Prisma.XOR<Prisma.ListingFaqNullableScalarRelationFilter, Prisma.ListingFaqWhereInput> | null
   slots?: Prisma.ListingSlotListRelationFilter
@@ -678,8 +678,8 @@ export type ListingCreateInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
@@ -724,8 +724,8 @@ export type ListingUncheckedCreateInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
@@ -770,8 +770,8 @@ export type ListingUpdateInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
@@ -816,8 +816,8 @@ export type ListingUncheckedUpdateInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
@@ -1295,6 +1295,14 @@ export type EnumListingStatusFieldUpdateOperationsInput = {
   set?: $Enums.ListingStatus
 }
 
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
 export type ListingCreateNestedManyWithoutOperatorInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutOperatorInput, Prisma.ListingUncheckedCreateWithoutOperatorInput> | Prisma.ListingCreateWithoutOperatorInput[] | Prisma.ListingUncheckedCreateWithoutOperatorInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutOperatorInput | Prisma.ListingCreateOrConnectWithoutOperatorInput[]
@@ -1414,8 +1422,8 @@ export type ListingCreateWithoutCategoryInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
@@ -1459,8 +1467,8 @@ export type ListingUncheckedCreateWithoutCategoryInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
@@ -1569,8 +1577,8 @@ export type ListingCreateWithoutSubCategoryInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
@@ -1614,8 +1622,8 @@ export type ListingUncheckedCreateWithoutSubCategoryInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
@@ -1686,8 +1694,8 @@ export type ListingCreateWithoutBlockedDatesInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
@@ -1731,8 +1739,8 @@ export type ListingUncheckedCreateWithoutBlockedDatesInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
@@ -1792,8 +1800,8 @@ export type ListingUpdateWithoutBlockedDatesInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
@@ -1837,8 +1845,8 @@ export type ListingUncheckedUpdateWithoutBlockedDatesInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
@@ -1882,8 +1890,8 @@ export type ListingCreateWithoutDateRangesInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
@@ -1927,8 +1935,8 @@ export type ListingUncheckedCreateWithoutDateRangesInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
@@ -1988,8 +1996,8 @@ export type ListingUpdateWithoutDateRangesInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
@@ -2033,8 +2041,8 @@ export type ListingUncheckedUpdateWithoutDateRangesInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
@@ -2078,7 +2086,7 @@ export type ListingCreateWithoutAddonsInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
@@ -2123,7 +2131,7 @@ export type ListingUncheckedCreateWithoutAddonsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
@@ -2184,7 +2192,7 @@ export type ListingUpdateWithoutAddonsInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
@@ -2229,7 +2237,7 @@ export type ListingUncheckedUpdateWithoutAddonsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
@@ -2273,8 +2281,8 @@ export type ListingCreateWithoutContentInput = {
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
@@ -2318,8 +2326,8 @@ export type ListingUncheckedCreateWithoutContentInput = {
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
@@ -2379,8 +2387,8 @@ export type ListingUpdateWithoutContentInput = {
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
@@ -2424,8 +2432,8 @@ export type ListingUncheckedUpdateWithoutContentInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
@@ -2470,8 +2478,8 @@ export type ListingCreateWithoutFaqsInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
@@ -2515,8 +2523,8 @@ export type ListingUncheckedCreateWithoutFaqsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
@@ -2576,8 +2584,8 @@ export type ListingUpdateWithoutFaqsInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
@@ -2621,8 +2629,8 @@ export type ListingUncheckedUpdateWithoutFaqsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
@@ -2666,7 +2674,7 @@ export type ListingCreateWithoutInclusionsExclusionsInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
@@ -2711,7 +2719,7 @@ export type ListingUncheckedCreateWithoutInclusionsExclusionsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
@@ -2772,7 +2780,7 @@ export type ListingUpdateWithoutInclusionsExclusionsInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
@@ -2817,7 +2825,7 @@ export type ListingUncheckedUpdateWithoutInclusionsExclusionsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
@@ -2862,8 +2870,8 @@ export type ListingCreateWithoutMediaInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
@@ -2907,8 +2915,8 @@ export type ListingUncheckedCreateWithoutMediaInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
@@ -2968,8 +2976,8 @@ export type ListingUpdateWithoutMediaInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
@@ -3013,8 +3021,8 @@ export type ListingUncheckedUpdateWithoutMediaInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
@@ -3058,8 +3066,8 @@ export type ListingCreateWithoutSlotChangesInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
@@ -3103,8 +3111,8 @@ export type ListingUncheckedCreateWithoutSlotChangesInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
@@ -3164,8 +3172,8 @@ export type ListingUpdateWithoutSlotChangesInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
@@ -3209,8 +3217,8 @@ export type ListingUncheckedUpdateWithoutSlotChangesInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
@@ -3254,8 +3262,8 @@ export type ListingCreateWithoutSlotsInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
@@ -3299,8 +3307,8 @@ export type ListingUncheckedCreateWithoutSlotsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
@@ -3360,8 +3368,8 @@ export type ListingUpdateWithoutSlotsInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
@@ -3405,8 +3413,8 @@ export type ListingUncheckedUpdateWithoutSlotsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
@@ -3449,8 +3457,8 @@ export type ListingCreateWithoutVariantsInput = {
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
@@ -3494,8 +3502,8 @@ export type ListingUncheckedCreateWithoutVariantsInput = {
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
@@ -3555,8 +3563,8 @@ export type ListingUpdateWithoutVariantsInput = {
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
@@ -3600,8 +3608,8 @@ export type ListingUncheckedUpdateWithoutVariantsInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
@@ -3645,8 +3653,8 @@ export type ListingCreateWithoutOperatorInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
@@ -3690,8 +3698,8 @@ export type ListingUncheckedCreateWithoutOperatorInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
@@ -3745,8 +3753,8 @@ export type ListingCreateWithoutApprovedByAdminInput = {
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
@@ -3790,8 +3798,8 @@ export type ListingUncheckedCreateWithoutApprovedByAdminInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
@@ -3912,8 +3920,8 @@ export type ListingUpdateWithoutCategoryInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
@@ -3957,8 +3965,8 @@ export type ListingUncheckedUpdateWithoutCategoryInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
@@ -4072,8 +4080,8 @@ export type ListingUpdateWithoutSubCategoryInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
@@ -4117,8 +4125,8 @@ export type ListingUncheckedUpdateWithoutSubCategoryInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
@@ -4267,8 +4275,8 @@ export type ListingUpdateWithoutOperatorInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
@@ -4312,8 +4320,8 @@ export type ListingUncheckedUpdateWithoutOperatorInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
@@ -4392,8 +4400,8 @@ export type ListingUpdateWithoutApprovedByAdminInput = {
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
@@ -4437,8 +4445,8 @@ export type ListingUncheckedUpdateWithoutApprovedByAdminInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
@@ -4490,8 +4498,6 @@ export type ListingUncheckedUpdateManyWithoutApprovedByAdminInput = {
 export type ListingCountOutputType = {
   variants: number
   content: number
-  inclusionsExclusions: number
-  addons: number
   media: number
   slots: number
   slotChanges: number
@@ -4502,8 +4508,6 @@ export type ListingCountOutputType = {
 export type ListingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   variants?: boolean | ListingCountOutputTypeCountVariantsArgs
   content?: boolean | ListingCountOutputTypeCountContentArgs
-  inclusionsExclusions?: boolean | ListingCountOutputTypeCountInclusionsExclusionsArgs
-  addons?: boolean | ListingCountOutputTypeCountAddonsArgs
   media?: boolean | ListingCountOutputTypeCountMediaArgs
   slots?: boolean | ListingCountOutputTypeCountSlotsArgs
   slotChanges?: boolean | ListingCountOutputTypeCountSlotChangesArgs
@@ -4533,20 +4537,6 @@ export type ListingCountOutputTypeCountVariantsArgs<ExtArgs extends runtime.Type
  */
 export type ListingCountOutputTypeCountContentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ListingContentWhereInput
-}
-
-/**
- * ListingCountOutputType without action
- */
-export type ListingCountOutputTypeCountInclusionsExclusionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ListingInclusionExclusionWhereInput
-}
-
-/**
- * ListingCountOutputType without action
- */
-export type ListingCountOutputTypeCountAddonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ListingAddonWhereInput
 }
 
 /**
@@ -4792,8 +4782,8 @@ export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     approvedByAdmin: Prisma.$UserPayload<ExtArgs> | null
     variants: Prisma.$ListingVariantPayload<ExtArgs>[]
     content: Prisma.$ListingContentPayload<ExtArgs>[]
-    inclusionsExclusions: Prisma.$ListingInclusionExclusionPayload<ExtArgs>[]
-    addons: Prisma.$ListingAddonPayload<ExtArgs>[]
+    inclusionsExclusions: Prisma.$ListingInclusionExclusionPayload<ExtArgs> | null
+    addons: Prisma.$ListingAddonPayload<ExtArgs> | null
     media: Prisma.$ListingMediaPayload<ExtArgs>[]
     faqs: Prisma.$ListingFaqPayload<ExtArgs> | null
     slots: Prisma.$ListingSlotPayload<ExtArgs>[]
@@ -5235,8 +5225,8 @@ export interface Prisma__ListingClient<T, Null = never, ExtArgs extends runtime.
   approvedByAdmin<T extends Prisma.Listing$approvedByAdminArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$approvedByAdminArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   variants<T extends Prisma.Listing$variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   content<T extends Prisma.Listing$contentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$contentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  inclusionsExclusions<T extends Prisma.Listing$inclusionsExclusionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$inclusionsExclusionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingInclusionExclusionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  addons<T extends Prisma.Listing$addonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$addonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingAddonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inclusionsExclusions<T extends Prisma.Listing$inclusionsExclusionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$inclusionsExclusionsArgs<ExtArgs>>): Prisma.Prisma__ListingInclusionExclusionClient<runtime.Types.Result.GetResult<Prisma.$ListingInclusionExclusionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  addons<T extends Prisma.Listing$addonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$addonsArgs<ExtArgs>>): Prisma.Prisma__ListingAddonClient<runtime.Types.Result.GetResult<Prisma.$ListingAddonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   media<T extends Prisma.Listing$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   faqs<T extends Prisma.Listing$faqsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$faqsArgs<ExtArgs>>): Prisma.Prisma__ListingFaqClient<runtime.Types.Result.GetResult<Prisma.$ListingFaqPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   slots<T extends Prisma.Listing$slotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$slotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5841,11 +5831,6 @@ export type Listing$inclusionsExclusionsArgs<ExtArgs extends runtime.Types.Exten
    */
   include?: Prisma.ListingInclusionExclusionInclude<ExtArgs> | null
   where?: Prisma.ListingInclusionExclusionWhereInput
-  orderBy?: Prisma.ListingInclusionExclusionOrderByWithRelationInput | Prisma.ListingInclusionExclusionOrderByWithRelationInput[]
-  cursor?: Prisma.ListingInclusionExclusionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ListingInclusionExclusionScalarFieldEnum | Prisma.ListingInclusionExclusionScalarFieldEnum[]
 }
 
 /**
@@ -5865,11 +5850,6 @@ export type Listing$addonsArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.ListingAddonInclude<ExtArgs> | null
   where?: Prisma.ListingAddonWhereInput
-  orderBy?: Prisma.ListingAddonOrderByWithRelationInput | Prisma.ListingAddonOrderByWithRelationInput[]
-  cursor?: Prisma.ListingAddonWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ListingAddonScalarFieldEnum | Prisma.ListingAddonScalarFieldEnum[]
 }
 
 /**

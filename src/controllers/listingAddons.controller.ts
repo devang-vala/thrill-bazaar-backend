@@ -1,6 +1,23 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
-import { sanitizeString } from "../helpers/validation.helper.js";
+import { z } from "zod";
+
+// Validation schema for addon item
+const addonItemSchema = z.object({
+  addonName: z.string().min(1, "Addon name is required"),
+  addonDescription: z.string().optional(),
+  price: z.number().min(0, "Price must be positive"),
+  isMandatory: z.boolean().default(false),
+  maxQuantity: z.number().int().positive().optional(),
+  displayOrder: z.number().int().default(0),
+  isActive: z.boolean().default(true),
+});
+
+// Validation schema for addons
+const addonsSchema = z.object({
+  listingId: z.string().uuid("Invalid listing ID"),
+  addons: z.array(addonItemSchema).optional().default([]),
+});
 
 /**
  * Get addons for a listing
@@ -9,15 +26,20 @@ export const getListingAddons = async (c: Context) => {
   try {
     const listingId = c.req.param("listingId");
 
-    const addons = await prisma.listingAddon.findMany({
-      where: { listingId, isActive: true },
-      orderBy: [{ isMandatory: "desc" }, { displayOrder: "asc" }],
+    const addonRecord = await prisma.listingAddon.findUnique({
+      where: { listingId },
     });
+
+    if (!addonRecord) {
+      return c.json({
+        success: true,
+        data: { addons: [] },
+      });
+    }
 
     return c.json({
       success: true,
-      data: addons,
-      count: addons.length,
+      data: addonRecord,
     });
   } catch (error) {
     console.error("Get listing addons error:", error);
@@ -26,90 +48,76 @@ export const getListingAddons = async (c: Context) => {
 };
 
 /**
- * Create listing addon
+ * Create or update listing addons
  */
-export const createListingAddon = async (c: Context) => {
+export const upsertListingAddons = async (c: Context) => {
   try {
-    const listingId = c.req.param("listingId");
     const body = await c.req.json();
+    const validatedData = addonsSchema.parse(body);
 
-    const addonData = {
-      listingId,
-      addonName: sanitizeString(body.addonName, 255),
-      addonDescription: body.addonDescription
-        ? sanitizeString(body.addonDescription, 1000)
-        : null,
-      price: body.price,
-      isMandatory: body.isMandatory || false,
-      maxQuantity: body.maxQuantity || null,
-      displayOrder: body.displayOrder || 0,
-      isActive: body.isActive !== undefined ? body.isActive : true,
-    };
+    // Check if listing exists
+    const listing = await prisma.listing.findUnique({
+      where: { id: validatedData.listingId },
+    });
 
-    const addon = await prisma.listingAddon.create({
-      data: addonData,
+    if (!listing) {
+      return c.json({ error: "Listing not found" }, 404);
+    }
+
+    // Upsert addons
+    const addonRecord = await prisma.listingAddon.upsert({
+      where: { listingId: validatedData.listingId },
+      create: {
+        listingId: validatedData.listingId,
+        addons: validatedData.addons,
+      },
+      update: {
+        addons: validatedData.addons,
+      },
     });
 
     return c.json(
       {
         success: true,
-        message: "Addon created successfully",
-        data: addon,
+        message: "Addons saved successfully",
+        data: addonRecord,
       },
-      201
+      200
     );
-  } catch (error) {
-    console.error("Create listing addon error:", error);
-    return c.json({ error: "Failed to create addon" }, 500);
+  } catch (error: any) {
+    console.error("Upsert listing addons error:", error);
+    if (error.name === "ZodError") {
+      return c.json({ error: "Validation error", details: error.errors }, 400);
+    }
+    return c.json({ error: "Failed to save addons" }, 500);
   }
 };
 
 /**
- * Update listing addon
+ * Delete listing addons
  */
-export const updateListingAddon = async (c: Context) => {
+export const deleteListingAddons = async (c: Context) => {
   try {
-    const addonId = c.req.param("id");
-    const body = await c.req.json();
+    const listingId = c.req.param("listingId");
 
-    const updateData: any = {};
+    const existingRecord = await prisma.listingAddon.findUnique({
+      where: { listingId },
+    });
 
-    if (body.addonName !== undefined) {
-      updateData.addonName = sanitizeString(body.addonName, 255);
-    }
-    if (body.addonDescription !== undefined) {
-      updateData.addonDescription = body.addonDescription
-        ? sanitizeString(body.addonDescription, 1000)
-        : null;
-    }
-    if (body.price !== undefined) {
-      updateData.price = body.price;
-    }
-    if (body.isMandatory !== undefined) {
-      updateData.isMandatory = body.isMandatory;
-    }
-    if (body.maxQuantity !== undefined) {
-      updateData.maxQuantity = body.maxQuantity;
-    }
-    if (body.displayOrder !== undefined) {
-      updateData.displayOrder = body.displayOrder;
-    }
-    if (body.isActive !== undefined) {
-      updateData.isActive = body.isActive;
+    if (!existingRecord) {
+      return c.json({ error: "Addons not found" }, 404);
     }
 
-    const updatedAddon = await prisma.listingAddon.update({
-      where: { id: addonId },
-      data: updateData,
+    await prisma.listingAddon.delete({
+      where: { listingId },
     });
 
     return c.json({
       success: true,
-      message: "Addon updated successfully",
-      data: updatedAddon,
+      message: "Addons deleted successfully",
     });
   } catch (error) {
-    console.error("Update listing addon error:", error);
-    return c.json({ error: "Failed to update addon" }, 500);
+    console.error("Delete listing addons error:", error);
+    return c.json({ error: "Failed to delete addons" }, 500);
   }
 };

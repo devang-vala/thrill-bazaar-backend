@@ -100,6 +100,7 @@ export const CategoryScalarFieldEnum = {
   isAddonsAllowed: 'isAddonsAllowed',
   isBookingOptionAllowed: 'isBookingOptionAllowed',
   isFaqAllowed: 'isFaqAllowed',
+  isDayWiseAllowed: 'isDayWiseAllowed',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -155,13 +156,7 @@ export type InventoryDateRangeScalarFieldEnum = (typeof InventoryDateRangeScalar
 export const ListingAddonScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
-  addonName: 'addonName',
-  addonDescription: 'addonDescription',
-  price: 'price',
-  isMandatory: 'isMandatory',
-  maxQuantity: 'maxQuantity',
-  displayOrder: 'displayOrder',
-  isActive: 'isActive',
+  addons: 'addons',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -198,9 +193,8 @@ export type ListingFaqScalarFieldEnum = (typeof ListingFaqScalarFieldEnum)[keyof
 export const ListingInclusionExclusionScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
-  type: 'type',
-  description: 'description',
-  displayOrder: 'displayOrder',
+  inclusions: 'inclusions',
+  exclusions: 'exclusions',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -349,7 +343,10 @@ export const ListingVariantScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   variantName: 'variantName',
+  variantDescription: 'variantDescription',
+  validParticipantNumbers: 'validParticipantNumbers',
   variantOrder: 'variantOrder',
+  variantMetadata: 'variantMetadata',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -437,19 +434,19 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

@@ -26,10 +26,12 @@ export type AggregateListingVariant = {
 }
 
 export type ListingVariantAvgAggregateOutputType = {
+  validParticipantNumbers: number | null
   variantOrder: number | null
 }
 
 export type ListingVariantSumAggregateOutputType = {
+  validParticipantNumbers: number[]
   variantOrder: number | null
 }
 
@@ -37,6 +39,7 @@ export type ListingVariantMinAggregateOutputType = {
   id: string | null
   listingId: string | null
   variantName: string | null
+  variantDescription: string | null
   variantOrder: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -46,6 +49,7 @@ export type ListingVariantMaxAggregateOutputType = {
   id: string | null
   listingId: string | null
   variantName: string | null
+  variantDescription: string | null
   variantOrder: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -55,7 +59,10 @@ export type ListingVariantCountAggregateOutputType = {
   id: number
   listingId: number
   variantName: number
+  variantDescription: number
+  validParticipantNumbers: number
   variantOrder: number
+  variantMetadata: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -63,10 +70,12 @@ export type ListingVariantCountAggregateOutputType = {
 
 
 export type ListingVariantAvgAggregateInputType = {
+  validParticipantNumbers?: true
   variantOrder?: true
 }
 
 export type ListingVariantSumAggregateInputType = {
+  validParticipantNumbers?: true
   variantOrder?: true
 }
 
@@ -74,6 +83,7 @@ export type ListingVariantMinAggregateInputType = {
   id?: true
   listingId?: true
   variantName?: true
+  variantDescription?: true
   variantOrder?: true
   createdAt?: true
   updatedAt?: true
@@ -83,6 +93,7 @@ export type ListingVariantMaxAggregateInputType = {
   id?: true
   listingId?: true
   variantName?: true
+  variantDescription?: true
   variantOrder?: true
   createdAt?: true
   updatedAt?: true
@@ -92,7 +103,10 @@ export type ListingVariantCountAggregateInputType = {
   id?: true
   listingId?: true
   variantName?: true
+  variantDescription?: true
+  validParticipantNumbers?: true
   variantOrder?: true
+  variantMetadata?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -188,7 +202,10 @@ export type ListingVariantGroupByOutputType = {
   id: string
   listingId: string
   variantName: string
+  variantDescription: string | null
+  validParticipantNumbers: number[]
   variantOrder: number
+  variantMetadata: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
   _count: ListingVariantCountAggregateOutputType | null
@@ -220,7 +237,10 @@ export type ListingVariantWhereInput = {
   id?: Prisma.StringFilter<"ListingVariant"> | string
   listingId?: Prisma.StringFilter<"ListingVariant"> | string
   variantName?: Prisma.StringFilter<"ListingVariant"> | string
+  variantDescription?: Prisma.StringNullableFilter<"ListingVariant"> | string | null
+  validParticipantNumbers?: Prisma.IntNullableListFilter<"ListingVariant">
   variantOrder?: Prisma.IntFilter<"ListingVariant"> | number
+  variantMetadata?: Prisma.JsonNullableFilter<"ListingVariant">
   createdAt?: Prisma.DateTimeFilter<"ListingVariant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingVariant"> | Date | string
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
@@ -234,7 +254,10 @@ export type ListingVariantOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantName?: Prisma.SortOrder
+  variantDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  validParticipantNumbers?: Prisma.SortOrder
   variantOrder?: Prisma.SortOrder
+  variantMetadata?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   listing?: Prisma.ListingOrderByWithRelationInput
@@ -251,7 +274,10 @@ export type ListingVariantWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ListingVariantWhereInput | Prisma.ListingVariantWhereInput[]
   listingId?: Prisma.StringFilter<"ListingVariant"> | string
   variantName?: Prisma.StringFilter<"ListingVariant"> | string
+  variantDescription?: Prisma.StringNullableFilter<"ListingVariant"> | string | null
+  validParticipantNumbers?: Prisma.IntNullableListFilter<"ListingVariant">
   variantOrder?: Prisma.IntFilter<"ListingVariant"> | number
+  variantMetadata?: Prisma.JsonNullableFilter<"ListingVariant">
   createdAt?: Prisma.DateTimeFilter<"ListingVariant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingVariant"> | Date | string
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
@@ -265,7 +291,10 @@ export type ListingVariantOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantName?: Prisma.SortOrder
+  variantDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  validParticipantNumbers?: Prisma.SortOrder
   variantOrder?: Prisma.SortOrder
+  variantMetadata?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ListingVariantCountOrderByAggregateInput
@@ -282,7 +311,10 @@ export type ListingVariantScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"ListingVariant"> | string
   listingId?: Prisma.StringWithAggregatesFilter<"ListingVariant"> | string
   variantName?: Prisma.StringWithAggregatesFilter<"ListingVariant"> | string
+  variantDescription?: Prisma.StringNullableWithAggregatesFilter<"ListingVariant"> | string | null
+  validParticipantNumbers?: Prisma.IntNullableListFilter<"ListingVariant">
   variantOrder?: Prisma.IntWithAggregatesFilter<"ListingVariant"> | number
+  variantMetadata?: Prisma.JsonNullableWithAggregatesFilter<"ListingVariant">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ListingVariant"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ListingVariant"> | Date | string
 }
@@ -290,7 +322,10 @@ export type ListingVariantScalarWhereWithAggregatesInput = {
 export type ListingVariantCreateInput = {
   id?: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutVariantsInput
@@ -304,7 +339,10 @@ export type ListingVariantUncheckedCreateInput = {
   id?: string
   listingId: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
@@ -316,7 +354,10 @@ export type ListingVariantUncheckedCreateInput = {
 export type ListingVariantUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutVariantsNestedInput
@@ -330,7 +371,10 @@ export type ListingVariantUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
@@ -343,7 +387,10 @@ export type ListingVariantCreateManyInput = {
   id?: string
   listingId: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -351,7 +398,10 @@ export type ListingVariantCreateManyInput = {
 export type ListingVariantUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -360,7 +410,10 @@ export type ListingVariantUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -370,16 +423,28 @@ export type ListingVariantNullableScalarRelationFilter = {
   isNot?: Prisma.ListingVariantWhereInput | null
 }
 
+export type IntNullableListFilter<$PrismaModel = never> = {
+  equals?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  has?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
+  hasEvery?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  hasSome?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type ListingVariantCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantName?: Prisma.SortOrder
+  variantDescription?: Prisma.SortOrder
+  validParticipantNumbers?: Prisma.SortOrder
   variantOrder?: Prisma.SortOrder
+  variantMetadata?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ListingVariantAvgOrderByAggregateInput = {
+  validParticipantNumbers?: Prisma.SortOrder
   variantOrder?: Prisma.SortOrder
 }
 
@@ -387,6 +452,7 @@ export type ListingVariantMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantName?: Prisma.SortOrder
+  variantDescription?: Prisma.SortOrder
   variantOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -396,12 +462,14 @@ export type ListingVariantMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantName?: Prisma.SortOrder
+  variantDescription?: Prisma.SortOrder
   variantOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ListingVariantSumOrderByAggregateInput = {
+  validParticipantNumbers?: Prisma.SortOrder
   variantOrder?: Prisma.SortOrder
 }
 
@@ -479,6 +547,15 @@ export type ListingVariantUpdateOneWithoutSlotsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ListingVariantUpdateToOneWithWhereWithoutSlotsInput, Prisma.ListingVariantUpdateWithoutSlotsInput>, Prisma.ListingVariantUncheckedUpdateWithoutSlotsInput>
 }
 
+export type ListingVariantCreatevalidParticipantNumbersInput = {
+  set: number[]
+}
+
+export type ListingVariantUpdatevalidParticipantNumbersInput = {
+  set?: number[]
+  push?: number | number[]
+}
+
 export type ListingVariantCreateNestedManyWithoutListingInput = {
   create?: Prisma.XOR<Prisma.ListingVariantCreateWithoutListingInput, Prisma.ListingVariantUncheckedCreateWithoutListingInput> | Prisma.ListingVariantCreateWithoutListingInput[] | Prisma.ListingVariantUncheckedCreateWithoutListingInput[]
   connectOrCreate?: Prisma.ListingVariantCreateOrConnectWithoutListingInput | Prisma.ListingVariantCreateOrConnectWithoutListingInput[]
@@ -524,7 +601,10 @@ export type ListingVariantUncheckedUpdateManyWithoutListingNestedInput = {
 export type ListingVariantCreateWithoutBlockedDatesInput = {
   id?: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutVariantsInput
@@ -537,7 +617,10 @@ export type ListingVariantUncheckedCreateWithoutBlockedDatesInput = {
   id?: string
   listingId: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
@@ -564,7 +647,10 @@ export type ListingVariantUpdateToOneWithWhereWithoutBlockedDatesInput = {
 export type ListingVariantUpdateWithoutBlockedDatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutVariantsNestedInput
@@ -577,7 +663,10 @@ export type ListingVariantUncheckedUpdateWithoutBlockedDatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
@@ -588,7 +677,10 @@ export type ListingVariantUncheckedUpdateWithoutBlockedDatesInput = {
 export type ListingVariantCreateWithoutDateRangesInput = {
   id?: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutVariantsInput
@@ -601,7 +693,10 @@ export type ListingVariantUncheckedCreateWithoutDateRangesInput = {
   id?: string
   listingId: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
@@ -628,7 +723,10 @@ export type ListingVariantUpdateToOneWithWhereWithoutDateRangesInput = {
 export type ListingVariantUpdateWithoutDateRangesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutVariantsNestedInput
@@ -641,7 +739,10 @@ export type ListingVariantUncheckedUpdateWithoutDateRangesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
@@ -652,7 +753,10 @@ export type ListingVariantUncheckedUpdateWithoutDateRangesInput = {
 export type ListingVariantCreateWithoutSlotChangesInput = {
   id?: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutVariantsInput
@@ -665,7 +769,10 @@ export type ListingVariantUncheckedCreateWithoutSlotChangesInput = {
   id?: string
   listingId: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
@@ -692,7 +799,10 @@ export type ListingVariantUpdateToOneWithWhereWithoutSlotChangesInput = {
 export type ListingVariantUpdateWithoutSlotChangesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutVariantsNestedInput
@@ -705,7 +815,10 @@ export type ListingVariantUncheckedUpdateWithoutSlotChangesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
@@ -716,7 +829,10 @@ export type ListingVariantUncheckedUpdateWithoutSlotChangesInput = {
 export type ListingVariantCreateWithoutSlotsInput = {
   id?: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutVariantsInput
@@ -729,7 +845,10 @@ export type ListingVariantUncheckedCreateWithoutSlotsInput = {
   id?: string
   listingId: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
@@ -756,7 +875,10 @@ export type ListingVariantUpdateToOneWithWhereWithoutSlotsInput = {
 export type ListingVariantUpdateWithoutSlotsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutVariantsNestedInput
@@ -769,7 +891,10 @@ export type ListingVariantUncheckedUpdateWithoutSlotsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
@@ -780,7 +905,10 @@ export type ListingVariantUncheckedUpdateWithoutSlotsInput = {
 export type ListingVariantCreateWithoutListingInput = {
   id?: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   slots?: Prisma.ListingSlotCreateNestedManyWithoutVariantInput
@@ -792,7 +920,10 @@ export type ListingVariantCreateWithoutListingInput = {
 export type ListingVariantUncheckedCreateWithoutListingInput = {
   id?: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
@@ -834,7 +965,10 @@ export type ListingVariantScalarWhereInput = {
   id?: Prisma.StringFilter<"ListingVariant"> | string
   listingId?: Prisma.StringFilter<"ListingVariant"> | string
   variantName?: Prisma.StringFilter<"ListingVariant"> | string
+  variantDescription?: Prisma.StringNullableFilter<"ListingVariant"> | string | null
+  validParticipantNumbers?: Prisma.IntNullableListFilter<"ListingVariant">
   variantOrder?: Prisma.IntFilter<"ListingVariant"> | number
+  variantMetadata?: Prisma.JsonNullableFilter<"ListingVariant">
   createdAt?: Prisma.DateTimeFilter<"ListingVariant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingVariant"> | Date | string
 }
@@ -842,7 +976,10 @@ export type ListingVariantScalarWhereInput = {
 export type ListingVariantCreateManyListingInput = {
   id?: string
   variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
   variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -850,7 +987,10 @@ export type ListingVariantCreateManyListingInput = {
 export type ListingVariantUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slots?: Prisma.ListingSlotUpdateManyWithoutVariantNestedInput
@@ -862,7 +1002,10 @@ export type ListingVariantUpdateWithoutListingInput = {
 export type ListingVariantUncheckedUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
@@ -874,7 +1017,10 @@ export type ListingVariantUncheckedUpdateWithoutListingInput = {
 export type ListingVariantUncheckedUpdateManyWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
   variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -941,7 +1087,10 @@ export type ListingVariantSelect<ExtArgs extends runtime.Types.Extensions.Intern
   id?: boolean
   listingId?: boolean
   variantName?: boolean
+  variantDescription?: boolean
+  validParticipantNumbers?: boolean
   variantOrder?: boolean
+  variantMetadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
@@ -956,7 +1105,10 @@ export type ListingVariantSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   id?: boolean
   listingId?: boolean
   variantName?: boolean
+  variantDescription?: boolean
+  validParticipantNumbers?: boolean
   variantOrder?: boolean
+  variantMetadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
@@ -966,7 +1118,10 @@ export type ListingVariantSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   id?: boolean
   listingId?: boolean
   variantName?: boolean
+  variantDescription?: boolean
+  validParticipantNumbers?: boolean
   variantOrder?: boolean
+  variantMetadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
@@ -976,12 +1131,15 @@ export type ListingVariantSelectScalar = {
   id?: boolean
   listingId?: boolean
   variantName?: boolean
+  variantDescription?: boolean
+  validParticipantNumbers?: boolean
   variantOrder?: boolean
+  variantMetadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ListingVariantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "variantName" | "variantOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["listingVariant"]>
+export type ListingVariantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "variantName" | "variantDescription" | "validParticipantNumbers" | "variantOrder" | "variantMetadata" | "createdAt" | "updatedAt", ExtArgs["result"]["listingVariant"]>
 export type ListingVariantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   slots?: boolean | Prisma.ListingVariant$slotsArgs<ExtArgs>
@@ -1010,7 +1168,10 @@ export type $ListingVariantPayload<ExtArgs extends runtime.Types.Extensions.Inte
     id: string
     listingId: string
     variantName: string
+    variantDescription: string | null
+    validParticipantNumbers: number[]
     variantOrder: number
+    variantMetadata: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["listingVariant"]>
@@ -1444,7 +1605,10 @@ export interface ListingVariantFieldRefs {
   readonly id: Prisma.FieldRef<"ListingVariant", 'String'>
   readonly listingId: Prisma.FieldRef<"ListingVariant", 'String'>
   readonly variantName: Prisma.FieldRef<"ListingVariant", 'String'>
+  readonly variantDescription: Prisma.FieldRef<"ListingVariant", 'String'>
+  readonly validParticipantNumbers: Prisma.FieldRef<"ListingVariant", 'Int[]'>
   readonly variantOrder: Prisma.FieldRef<"ListingVariant", 'Int'>
+  readonly variantMetadata: Prisma.FieldRef<"ListingVariant", 'Json'>
   readonly createdAt: Prisma.FieldRef<"ListingVariant", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ListingVariant", 'DateTime'>
 }

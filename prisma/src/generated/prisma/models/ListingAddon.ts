@@ -19,34 +19,13 @@ export type ListingAddonModel = runtime.Types.Result.DefaultSelection<Prisma.$Li
 
 export type AggregateListingAddon = {
   _count: ListingAddonCountAggregateOutputType | null
-  _avg: ListingAddonAvgAggregateOutputType | null
-  _sum: ListingAddonSumAggregateOutputType | null
   _min: ListingAddonMinAggregateOutputType | null
   _max: ListingAddonMaxAggregateOutputType | null
-}
-
-export type ListingAddonAvgAggregateOutputType = {
-  price: runtime.Decimal | null
-  maxQuantity: number | null
-  displayOrder: number | null
-}
-
-export type ListingAddonSumAggregateOutputType = {
-  price: runtime.Decimal | null
-  maxQuantity: number | null
-  displayOrder: number | null
 }
 
 export type ListingAddonMinAggregateOutputType = {
   id: string | null
   listingId: string | null
-  addonName: string | null
-  addonDescription: string | null
-  price: runtime.Decimal | null
-  isMandatory: boolean | null
-  maxQuantity: number | null
-  displayOrder: number | null
-  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,13 +33,6 @@ export type ListingAddonMinAggregateOutputType = {
 export type ListingAddonMaxAggregateOutputType = {
   id: string | null
   listingId: string | null
-  addonName: string | null
-  addonDescription: string | null
-  price: runtime.Decimal | null
-  isMandatory: boolean | null
-  maxQuantity: number | null
-  displayOrder: number | null
-  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -68,41 +40,16 @@ export type ListingAddonMaxAggregateOutputType = {
 export type ListingAddonCountAggregateOutputType = {
   id: number
   listingId: number
-  addonName: number
-  addonDescription: number
-  price: number
-  isMandatory: number
-  maxQuantity: number
-  displayOrder: number
-  isActive: number
+  addons: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
 
-export type ListingAddonAvgAggregateInputType = {
-  price?: true
-  maxQuantity?: true
-  displayOrder?: true
-}
-
-export type ListingAddonSumAggregateInputType = {
-  price?: true
-  maxQuantity?: true
-  displayOrder?: true
-}
-
 export type ListingAddonMinAggregateInputType = {
   id?: true
   listingId?: true
-  addonName?: true
-  addonDescription?: true
-  price?: true
-  isMandatory?: true
-  maxQuantity?: true
-  displayOrder?: true
-  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -110,13 +57,6 @@ export type ListingAddonMinAggregateInputType = {
 export type ListingAddonMaxAggregateInputType = {
   id?: true
   listingId?: true
-  addonName?: true
-  addonDescription?: true
-  price?: true
-  isMandatory?: true
-  maxQuantity?: true
-  displayOrder?: true
-  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -124,13 +64,7 @@ export type ListingAddonMaxAggregateInputType = {
 export type ListingAddonCountAggregateInputType = {
   id?: true
   listingId?: true
-  addonName?: true
-  addonDescription?: true
-  price?: true
-  isMandatory?: true
-  maxQuantity?: true
-  displayOrder?: true
-  isActive?: true
+  addons?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -174,18 +108,6 @@ export type ListingAddonAggregateArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: ListingAddonAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: ListingAddonSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: ListingAddonMinAggregateInputType
@@ -216,8 +138,6 @@ export type ListingAddonGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   _count?: ListingAddonCountAggregateInputType | true
-  _avg?: ListingAddonAvgAggregateInputType
-  _sum?: ListingAddonSumAggregateInputType
   _min?: ListingAddonMinAggregateInputType
   _max?: ListingAddonMaxAggregateInputType
 }
@@ -225,18 +145,10 @@ export type ListingAddonGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 export type ListingAddonGroupByOutputType = {
   id: string
   listingId: string
-  addonName: string
-  addonDescription: string | null
-  price: runtime.Decimal
-  isMandatory: boolean
-  maxQuantity: number | null
-  displayOrder: number
-  isActive: boolean
+  addons: runtime.JsonValue
   createdAt: Date
   updatedAt: Date
   _count: ListingAddonCountAggregateOutputType | null
-  _avg: ListingAddonAvgAggregateOutputType | null
-  _sum: ListingAddonSumAggregateOutputType | null
   _min: ListingAddonMinAggregateOutputType | null
   _max: ListingAddonMaxAggregateOutputType | null
 }
@@ -262,13 +174,7 @@ export type ListingAddonWhereInput = {
   NOT?: Prisma.ListingAddonWhereInput | Prisma.ListingAddonWhereInput[]
   id?: Prisma.StringFilter<"ListingAddon"> | string
   listingId?: Prisma.StringFilter<"ListingAddon"> | string
-  addonName?: Prisma.StringFilter<"ListingAddon"> | string
-  addonDescription?: Prisma.StringNullableFilter<"ListingAddon"> | string | null
-  price?: Prisma.DecimalFilter<"ListingAddon"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: Prisma.BoolFilter<"ListingAddon"> | boolean
-  maxQuantity?: Prisma.IntNullableFilter<"ListingAddon"> | number | null
-  displayOrder?: Prisma.IntFilter<"ListingAddon"> | number
-  isActive?: Prisma.BoolFilter<"ListingAddon"> | boolean
+  addons?: Prisma.JsonFilter<"ListingAddon">
   createdAt?: Prisma.DateTimeFilter<"ListingAddon"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingAddon"> | Date | string
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
@@ -277,13 +183,7 @@ export type ListingAddonWhereInput = {
 export type ListingAddonOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  addonName?: Prisma.SortOrder
-  addonDescription?: Prisma.SortOrderInput | Prisma.SortOrder
-  price?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
-  maxQuantity?: Prisma.SortOrderInput | Prisma.SortOrder
-  displayOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  addons?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   listing?: Prisma.ListingOrderByWithRelationInput
@@ -291,39 +191,25 @@ export type ListingAddonOrderByWithRelationInput = {
 
 export type ListingAddonWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  listingId?: string
   AND?: Prisma.ListingAddonWhereInput | Prisma.ListingAddonWhereInput[]
   OR?: Prisma.ListingAddonWhereInput[]
   NOT?: Prisma.ListingAddonWhereInput | Prisma.ListingAddonWhereInput[]
-  listingId?: Prisma.StringFilter<"ListingAddon"> | string
-  addonName?: Prisma.StringFilter<"ListingAddon"> | string
-  addonDescription?: Prisma.StringNullableFilter<"ListingAddon"> | string | null
-  price?: Prisma.DecimalFilter<"ListingAddon"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: Prisma.BoolFilter<"ListingAddon"> | boolean
-  maxQuantity?: Prisma.IntNullableFilter<"ListingAddon"> | number | null
-  displayOrder?: Prisma.IntFilter<"ListingAddon"> | number
-  isActive?: Prisma.BoolFilter<"ListingAddon"> | boolean
+  addons?: Prisma.JsonFilter<"ListingAddon">
   createdAt?: Prisma.DateTimeFilter<"ListingAddon"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingAddon"> | Date | string
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
-}, "id">
+}, "id" | "listingId">
 
 export type ListingAddonOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  addonName?: Prisma.SortOrder
-  addonDescription?: Prisma.SortOrderInput | Prisma.SortOrder
-  price?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
-  maxQuantity?: Prisma.SortOrderInput | Prisma.SortOrder
-  displayOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  addons?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ListingAddonCountOrderByAggregateInput
-  _avg?: Prisma.ListingAddonAvgOrderByAggregateInput
   _max?: Prisma.ListingAddonMaxOrderByAggregateInput
   _min?: Prisma.ListingAddonMinOrderByAggregateInput
-  _sum?: Prisma.ListingAddonSumOrderByAggregateInput
 }
 
 export type ListingAddonScalarWhereWithAggregatesInput = {
@@ -332,26 +218,14 @@ export type ListingAddonScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ListingAddonScalarWhereWithAggregatesInput | Prisma.ListingAddonScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ListingAddon"> | string
   listingId?: Prisma.StringWithAggregatesFilter<"ListingAddon"> | string
-  addonName?: Prisma.StringWithAggregatesFilter<"ListingAddon"> | string
-  addonDescription?: Prisma.StringNullableWithAggregatesFilter<"ListingAddon"> | string | null
-  price?: Prisma.DecimalWithAggregatesFilter<"ListingAddon"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: Prisma.BoolWithAggregatesFilter<"ListingAddon"> | boolean
-  maxQuantity?: Prisma.IntNullableWithAggregatesFilter<"ListingAddon"> | number | null
-  displayOrder?: Prisma.IntWithAggregatesFilter<"ListingAddon"> | number
-  isActive?: Prisma.BoolWithAggregatesFilter<"ListingAddon"> | boolean
+  addons?: Prisma.JsonWithAggregatesFilter<"ListingAddon">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ListingAddon"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ListingAddon"> | Date | string
 }
 
 export type ListingAddonCreateInput = {
   id?: string
-  addonName: string
-  addonDescription?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: boolean
-  maxQuantity?: number | null
-  displayOrder?: number
-  isActive?: boolean
+  addons: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutAddonsInput
@@ -360,26 +234,14 @@ export type ListingAddonCreateInput = {
 export type ListingAddonUncheckedCreateInput = {
   id?: string
   listingId: string
-  addonName: string
-  addonDescription?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: boolean
-  maxQuantity?: number | null
-  displayOrder?: number
-  isActive?: boolean
+  addons: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ListingAddonUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  addonName?: Prisma.StringFieldUpdateOperationsInput | string
-  addonDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  addons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutAddonsNestedInput
@@ -388,13 +250,7 @@ export type ListingAddonUpdateInput = {
 export type ListingAddonUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
-  addonName?: Prisma.StringFieldUpdateOperationsInput | string
-  addonDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  addons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -402,26 +258,14 @@ export type ListingAddonUncheckedUpdateInput = {
 export type ListingAddonCreateManyInput = {
   id?: string
   listingId: string
-  addonName: string
-  addonDescription?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: boolean
-  maxQuantity?: number | null
-  displayOrder?: number
-  isActive?: boolean
+  addons: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ListingAddonUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  addonName?: Prisma.StringFieldUpdateOperationsInput | string
-  addonDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  addons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -429,13 +273,7 @@ export type ListingAddonUpdateManyMutationInput = {
 export type ListingAddonUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
-  addonName?: Prisma.StringFieldUpdateOperationsInput | string
-  addonDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  addons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -443,33 +281,14 @@ export type ListingAddonUncheckedUpdateManyInput = {
 export type ListingAddonCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  addonName?: Prisma.SortOrder
-  addonDescription?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
-  maxQuantity?: Prisma.SortOrder
-  displayOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
+  addons?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type ListingAddonAvgOrderByAggregateInput = {
-  price?: Prisma.SortOrder
-  maxQuantity?: Prisma.SortOrder
-  displayOrder?: Prisma.SortOrder
 }
 
 export type ListingAddonMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  addonName?: Prisma.SortOrder
-  addonDescription?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
-  maxQuantity?: Prisma.SortOrder
-  displayOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -477,113 +296,57 @@ export type ListingAddonMaxOrderByAggregateInput = {
 export type ListingAddonMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  addonName?: Prisma.SortOrder
-  addonDescription?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
-  maxQuantity?: Prisma.SortOrder
-  displayOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type ListingAddonSumOrderByAggregateInput = {
-  price?: Prisma.SortOrder
-  maxQuantity?: Prisma.SortOrder
-  displayOrder?: Prisma.SortOrder
+export type ListingAddonNullableScalarRelationFilter = {
+  is?: Prisma.ListingAddonWhereInput | null
+  isNot?: Prisma.ListingAddonWhereInput | null
 }
 
-export type ListingAddonListRelationFilter = {
-  every?: Prisma.ListingAddonWhereInput
-  some?: Prisma.ListingAddonWhereInput
-  none?: Prisma.ListingAddonWhereInput
+export type ListingAddonCreateNestedOneWithoutListingInput = {
+  create?: Prisma.XOR<Prisma.ListingAddonCreateWithoutListingInput, Prisma.ListingAddonUncheckedCreateWithoutListingInput>
+  connectOrCreate?: Prisma.ListingAddonCreateOrConnectWithoutListingInput
+  connect?: Prisma.ListingAddonWhereUniqueInput
 }
 
-export type ListingAddonOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type ListingAddonUncheckedCreateNestedOneWithoutListingInput = {
+  create?: Prisma.XOR<Prisma.ListingAddonCreateWithoutListingInput, Prisma.ListingAddonUncheckedCreateWithoutListingInput>
+  connectOrCreate?: Prisma.ListingAddonCreateOrConnectWithoutListingInput
+  connect?: Prisma.ListingAddonWhereUniqueInput
 }
 
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+export type ListingAddonUpdateOneWithoutListingNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingAddonCreateWithoutListingInput, Prisma.ListingAddonUncheckedCreateWithoutListingInput>
+  connectOrCreate?: Prisma.ListingAddonCreateOrConnectWithoutListingInput
+  upsert?: Prisma.ListingAddonUpsertWithoutListingInput
+  disconnect?: Prisma.ListingAddonWhereInput | boolean
+  delete?: Prisma.ListingAddonWhereInput | boolean
+  connect?: Prisma.ListingAddonWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingAddonUpdateToOneWithWhereWithoutListingInput, Prisma.ListingAddonUpdateWithoutListingInput>, Prisma.ListingAddonUncheckedUpdateWithoutListingInput>
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type ListingAddonCreateNestedManyWithoutListingInput = {
-  create?: Prisma.XOR<Prisma.ListingAddonCreateWithoutListingInput, Prisma.ListingAddonUncheckedCreateWithoutListingInput> | Prisma.ListingAddonCreateWithoutListingInput[] | Prisma.ListingAddonUncheckedCreateWithoutListingInput[]
-  connectOrCreate?: Prisma.ListingAddonCreateOrConnectWithoutListingInput | Prisma.ListingAddonCreateOrConnectWithoutListingInput[]
-  createMany?: Prisma.ListingAddonCreateManyListingInputEnvelope
-  connect?: Prisma.ListingAddonWhereUniqueInput | Prisma.ListingAddonWhereUniqueInput[]
-}
-
-export type ListingAddonUncheckedCreateNestedManyWithoutListingInput = {
-  create?: Prisma.XOR<Prisma.ListingAddonCreateWithoutListingInput, Prisma.ListingAddonUncheckedCreateWithoutListingInput> | Prisma.ListingAddonCreateWithoutListingInput[] | Prisma.ListingAddonUncheckedCreateWithoutListingInput[]
-  connectOrCreate?: Prisma.ListingAddonCreateOrConnectWithoutListingInput | Prisma.ListingAddonCreateOrConnectWithoutListingInput[]
-  createMany?: Prisma.ListingAddonCreateManyListingInputEnvelope
-  connect?: Prisma.ListingAddonWhereUniqueInput | Prisma.ListingAddonWhereUniqueInput[]
-}
-
-export type ListingAddonUpdateManyWithoutListingNestedInput = {
-  create?: Prisma.XOR<Prisma.ListingAddonCreateWithoutListingInput, Prisma.ListingAddonUncheckedCreateWithoutListingInput> | Prisma.ListingAddonCreateWithoutListingInput[] | Prisma.ListingAddonUncheckedCreateWithoutListingInput[]
-  connectOrCreate?: Prisma.ListingAddonCreateOrConnectWithoutListingInput | Prisma.ListingAddonCreateOrConnectWithoutListingInput[]
-  upsert?: Prisma.ListingAddonUpsertWithWhereUniqueWithoutListingInput | Prisma.ListingAddonUpsertWithWhereUniqueWithoutListingInput[]
-  createMany?: Prisma.ListingAddonCreateManyListingInputEnvelope
-  set?: Prisma.ListingAddonWhereUniqueInput | Prisma.ListingAddonWhereUniqueInput[]
-  disconnect?: Prisma.ListingAddonWhereUniqueInput | Prisma.ListingAddonWhereUniqueInput[]
-  delete?: Prisma.ListingAddonWhereUniqueInput | Prisma.ListingAddonWhereUniqueInput[]
-  connect?: Prisma.ListingAddonWhereUniqueInput | Prisma.ListingAddonWhereUniqueInput[]
-  update?: Prisma.ListingAddonUpdateWithWhereUniqueWithoutListingInput | Prisma.ListingAddonUpdateWithWhereUniqueWithoutListingInput[]
-  updateMany?: Prisma.ListingAddonUpdateManyWithWhereWithoutListingInput | Prisma.ListingAddonUpdateManyWithWhereWithoutListingInput[]
-  deleteMany?: Prisma.ListingAddonScalarWhereInput | Prisma.ListingAddonScalarWhereInput[]
-}
-
-export type ListingAddonUncheckedUpdateManyWithoutListingNestedInput = {
-  create?: Prisma.XOR<Prisma.ListingAddonCreateWithoutListingInput, Prisma.ListingAddonUncheckedCreateWithoutListingInput> | Prisma.ListingAddonCreateWithoutListingInput[] | Prisma.ListingAddonUncheckedCreateWithoutListingInput[]
-  connectOrCreate?: Prisma.ListingAddonCreateOrConnectWithoutListingInput | Prisma.ListingAddonCreateOrConnectWithoutListingInput[]
-  upsert?: Prisma.ListingAddonUpsertWithWhereUniqueWithoutListingInput | Prisma.ListingAddonUpsertWithWhereUniqueWithoutListingInput[]
-  createMany?: Prisma.ListingAddonCreateManyListingInputEnvelope
-  set?: Prisma.ListingAddonWhereUniqueInput | Prisma.ListingAddonWhereUniqueInput[]
-  disconnect?: Prisma.ListingAddonWhereUniqueInput | Prisma.ListingAddonWhereUniqueInput[]
-  delete?: Prisma.ListingAddonWhereUniqueInput | Prisma.ListingAddonWhereUniqueInput[]
-  connect?: Prisma.ListingAddonWhereUniqueInput | Prisma.ListingAddonWhereUniqueInput[]
-  update?: Prisma.ListingAddonUpdateWithWhereUniqueWithoutListingInput | Prisma.ListingAddonUpdateWithWhereUniqueWithoutListingInput[]
-  updateMany?: Prisma.ListingAddonUpdateManyWithWhereWithoutListingInput | Prisma.ListingAddonUpdateManyWithWhereWithoutListingInput[]
-  deleteMany?: Prisma.ListingAddonScalarWhereInput | Prisma.ListingAddonScalarWhereInput[]
+export type ListingAddonUncheckedUpdateOneWithoutListingNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingAddonCreateWithoutListingInput, Prisma.ListingAddonUncheckedCreateWithoutListingInput>
+  connectOrCreate?: Prisma.ListingAddonCreateOrConnectWithoutListingInput
+  upsert?: Prisma.ListingAddonUpsertWithoutListingInput
+  disconnect?: Prisma.ListingAddonWhereInput | boolean
+  delete?: Prisma.ListingAddonWhereInput | boolean
+  connect?: Prisma.ListingAddonWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingAddonUpdateToOneWithWhereWithoutListingInput, Prisma.ListingAddonUpdateWithoutListingInput>, Prisma.ListingAddonUncheckedUpdateWithoutListingInput>
 }
 
 export type ListingAddonCreateWithoutListingInput = {
   id?: string
-  addonName: string
-  addonDescription?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: boolean
-  maxQuantity?: number | null
-  displayOrder?: number
-  isActive?: boolean
+  addons: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ListingAddonUncheckedCreateWithoutListingInput = {
   id?: string
-  addonName: string
-  addonDescription?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: boolean
-  maxQuantity?: number | null
-  displayOrder?: number
-  isActive?: boolean
+  addons: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -593,92 +356,27 @@ export type ListingAddonCreateOrConnectWithoutListingInput = {
   create: Prisma.XOR<Prisma.ListingAddonCreateWithoutListingInput, Prisma.ListingAddonUncheckedCreateWithoutListingInput>
 }
 
-export type ListingAddonCreateManyListingInputEnvelope = {
-  data: Prisma.ListingAddonCreateManyListingInput | Prisma.ListingAddonCreateManyListingInput[]
-  skipDuplicates?: boolean
-}
-
-export type ListingAddonUpsertWithWhereUniqueWithoutListingInput = {
-  where: Prisma.ListingAddonWhereUniqueInput
+export type ListingAddonUpsertWithoutListingInput = {
   update: Prisma.XOR<Prisma.ListingAddonUpdateWithoutListingInput, Prisma.ListingAddonUncheckedUpdateWithoutListingInput>
   create: Prisma.XOR<Prisma.ListingAddonCreateWithoutListingInput, Prisma.ListingAddonUncheckedCreateWithoutListingInput>
+  where?: Prisma.ListingAddonWhereInput
 }
 
-export type ListingAddonUpdateWithWhereUniqueWithoutListingInput = {
-  where: Prisma.ListingAddonWhereUniqueInput
+export type ListingAddonUpdateToOneWithWhereWithoutListingInput = {
+  where?: Prisma.ListingAddonWhereInput
   data: Prisma.XOR<Prisma.ListingAddonUpdateWithoutListingInput, Prisma.ListingAddonUncheckedUpdateWithoutListingInput>
-}
-
-export type ListingAddonUpdateManyWithWhereWithoutListingInput = {
-  where: Prisma.ListingAddonScalarWhereInput
-  data: Prisma.XOR<Prisma.ListingAddonUpdateManyMutationInput, Prisma.ListingAddonUncheckedUpdateManyWithoutListingInput>
-}
-
-export type ListingAddonScalarWhereInput = {
-  AND?: Prisma.ListingAddonScalarWhereInput | Prisma.ListingAddonScalarWhereInput[]
-  OR?: Prisma.ListingAddonScalarWhereInput[]
-  NOT?: Prisma.ListingAddonScalarWhereInput | Prisma.ListingAddonScalarWhereInput[]
-  id?: Prisma.StringFilter<"ListingAddon"> | string
-  listingId?: Prisma.StringFilter<"ListingAddon"> | string
-  addonName?: Prisma.StringFilter<"ListingAddon"> | string
-  addonDescription?: Prisma.StringNullableFilter<"ListingAddon"> | string | null
-  price?: Prisma.DecimalFilter<"ListingAddon"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: Prisma.BoolFilter<"ListingAddon"> | boolean
-  maxQuantity?: Prisma.IntNullableFilter<"ListingAddon"> | number | null
-  displayOrder?: Prisma.IntFilter<"ListingAddon"> | number
-  isActive?: Prisma.BoolFilter<"ListingAddon"> | boolean
-  createdAt?: Prisma.DateTimeFilter<"ListingAddon"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"ListingAddon"> | Date | string
-}
-
-export type ListingAddonCreateManyListingInput = {
-  id?: string
-  addonName: string
-  addonDescription?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: boolean
-  maxQuantity?: number | null
-  displayOrder?: number
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type ListingAddonUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  addonName?: Prisma.StringFieldUpdateOperationsInput | string
-  addonDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  addons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ListingAddonUncheckedUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  addonName?: Prisma.StringFieldUpdateOperationsInput | string
-  addonDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type ListingAddonUncheckedUpdateManyWithoutListingInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  addonName?: Prisma.StringFieldUpdateOperationsInput | string
-  addonDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  addons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -688,13 +386,7 @@ export type ListingAddonUncheckedUpdateManyWithoutListingInput = {
 export type ListingAddonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   listingId?: boolean
-  addonName?: boolean
-  addonDescription?: boolean
-  price?: boolean
-  isMandatory?: boolean
-  maxQuantity?: boolean
-  displayOrder?: boolean
-  isActive?: boolean
+  addons?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
@@ -703,13 +395,7 @@ export type ListingAddonSelect<ExtArgs extends runtime.Types.Extensions.Internal
 export type ListingAddonSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   listingId?: boolean
-  addonName?: boolean
-  addonDescription?: boolean
-  price?: boolean
-  isMandatory?: boolean
-  maxQuantity?: boolean
-  displayOrder?: boolean
-  isActive?: boolean
+  addons?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
@@ -718,13 +404,7 @@ export type ListingAddonSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
 export type ListingAddonSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   listingId?: boolean
-  addonName?: boolean
-  addonDescription?: boolean
-  price?: boolean
-  isMandatory?: boolean
-  maxQuantity?: boolean
-  displayOrder?: boolean
-  isActive?: boolean
+  addons?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
@@ -733,18 +413,12 @@ export type ListingAddonSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
 export type ListingAddonSelectScalar = {
   id?: boolean
   listingId?: boolean
-  addonName?: boolean
-  addonDescription?: boolean
-  price?: boolean
-  isMandatory?: boolean
-  maxQuantity?: boolean
-  displayOrder?: boolean
-  isActive?: boolean
+  addons?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ListingAddonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "addonName" | "addonDescription" | "price" | "isMandatory" | "maxQuantity" | "displayOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["listingAddon"]>
+export type ListingAddonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "addons" | "createdAt" | "updatedAt", ExtArgs["result"]["listingAddon"]>
 export type ListingAddonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
 }
@@ -763,13 +437,7 @@ export type $ListingAddonPayload<ExtArgs extends runtime.Types.Extensions.Intern
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     listingId: string
-    addonName: string
-    addonDescription: string | null
-    price: runtime.Decimal
-    isMandatory: boolean
-    maxQuantity: number | null
-    displayOrder: number
-    isActive: boolean
+    addons: runtime.JsonValue
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["listingAddon"]>
@@ -1198,13 +866,7 @@ export interface Prisma__ListingAddonClient<T, Null = never, ExtArgs extends run
 export interface ListingAddonFieldRefs {
   readonly id: Prisma.FieldRef<"ListingAddon", 'String'>
   readonly listingId: Prisma.FieldRef<"ListingAddon", 'String'>
-  readonly addonName: Prisma.FieldRef<"ListingAddon", 'String'>
-  readonly addonDescription: Prisma.FieldRef<"ListingAddon", 'String'>
-  readonly price: Prisma.FieldRef<"ListingAddon", 'Decimal'>
-  readonly isMandatory: Prisma.FieldRef<"ListingAddon", 'Boolean'>
-  readonly maxQuantity: Prisma.FieldRef<"ListingAddon", 'Int'>
-  readonly displayOrder: Prisma.FieldRef<"ListingAddon", 'Int'>
-  readonly isActive: Prisma.FieldRef<"ListingAddon", 'Boolean'>
+  readonly addons: Prisma.FieldRef<"ListingAddon", 'Json'>
   readonly createdAt: Prisma.FieldRef<"ListingAddon", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ListingAddon", 'DateTime'>
 }

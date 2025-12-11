@@ -87,14 +87,53 @@ export const createListingVariant = async (c: Context) => {
       return c.json({ error: "Listing not found" }, 404);
     }
 
+    // Validate validParticipantNumbers
+    if (!body.validParticipantNumbers || !Array.isArray(body.validParticipantNumbers) || body.validParticipantNumbers.length === 0) {
+      return c.json({ error: "validParticipantNumbers array is required" }, 400);
+    }
+
+    const validParticipants = body.validParticipantNumbers.map((p: any) => {
+      const num = Number(p);
+      if (isNaN(num) || num <= 0 || !Number.isInteger(num)) {
+        throw new Error("validParticipantNumbers must contain positive integers only");
+      }
+      return num;
+    });
+
     const variantData: any = {
       listingId,
       variantName: sanitizeString(body.variantName, 255),
+      validParticipantNumbers: validParticipants,
       variantOrder: body.variantOrder || 0,
     };
 
-    // Store variant-specific metadata if provided
+    // Add description if provided
+    if (body.variantDescription) {
+      variantData.variantDescription = sanitizeString(body.variantDescription, 5000);
+    }
+
+    // Store variant-specific metadata if provided (as JSONB)
     if (body.variantMetadata) {
+      // Validate participant numbers if present
+      if (body.variantMetadata.participantNumbers) {
+        const participants = body.variantMetadata.participantNumbers;
+        if (typeof participants === 'string') {
+          // Validate comma-separated numbers format
+          const participantArray = participants.split(',').map((p: string) => p.trim());
+          const isValid = participantArray.every((p: string) => !isNaN(Number(p)) && Number(p) > 0);
+          if (!isValid) {
+            return c.json({ error: "participantNumbers must be comma-separated positive numbers" }, 400);
+          }
+        } else if (Array.isArray(participants)) {
+          // Validate array of numbers
+          const isValid = participants.every((p: any) => typeof p === 'number' && p > 0);
+          if (!isValid) {
+            return c.json({ error: "participantNumbers must be an array of positive numbers" }, 400);
+          }
+        } else {
+          return c.json({ error: "participantNumbers must be a string or array" }, 400);
+        }
+      }
       variantData.variantMetadata = body.variantMetadata;
     }
 
@@ -138,10 +177,44 @@ export const updateListingVariant = async (c: Context) => {
     if (body.variantName !== undefined) {
       updateData.variantName = sanitizeString(body.variantName, 255);
     }
+    if (body.variantDescription !== undefined) {
+      updateData.variantDescription = body.variantDescription ? sanitizeString(body.variantDescription, 5000) : null;
+    }
+    if (body.validParticipantNumbers !== undefined) {
+      if (!Array.isArray(body.validParticipantNumbers) || body.validParticipantNumbers.length === 0) {
+        return c.json({ error: "validParticipantNumbers must be a non-empty array" }, 400);
+      }
+      const validParticipants = body.validParticipantNumbers.map((p: any) => {
+        const num = Number(p);
+        if (isNaN(num) || num <= 0 || !Number.isInteger(num)) {
+          throw new Error("validParticipantNumbers must contain positive integers only");
+        }
+        return num;
+      });
+      updateData.validParticipantNumbers = validParticipants;
+    }
     if (body.variantOrder !== undefined) {
       updateData.variantOrder = body.variantOrder;
     }
     if (body.variantMetadata !== undefined) {
+      // Validate participant numbers if present
+      if (body.variantMetadata && body.variantMetadata.participantNumbers) {
+        const participants = body.variantMetadata.participantNumbers;
+        if (typeof participants === 'string') {
+          const participantArray = participants.split(',').map((p: string) => p.trim());
+          const isValid = participantArray.every((p: string) => !isNaN(Number(p)) && Number(p) > 0);
+          if (!isValid) {
+            return c.json({ error: "participantNumbers must be comma-separated positive numbers" }, 400);
+          }
+        } else if (Array.isArray(participants)) {
+          const isValid = participants.every((p: any) => typeof p === 'number' && p > 0);
+          if (!isValid) {
+            return c.json({ error: "participantNumbers must be an array of positive numbers" }, 400);
+          }
+        } else {
+          return c.json({ error: "participantNumbers must be a string or array" }, 400);
+        }
+      }
       updateData.variantMetadata = body.variantMetadata;
     }
 
@@ -219,12 +292,49 @@ export const bulkCreateVariants = async (c: Context) => {
       return c.json({ error: "Listing not found" }, 404);
     }
 
-    const variantsData = body.variants.map((variant: any, index: number) => ({
-      listingId,
-      variantName: sanitizeString(variant.variantName, 255),
-      variantOrder: variant.variantOrder ?? index,
-      variantMetadata: variant.variantMetadata || null,
-    }));
+    // Validate and prepare variants data
+    const variantsData = body.variants.map((variant: any, index: number) => {
+      // Validate validParticipantNumbers (required)
+      if (!variant.validParticipantNumbers || !Array.isArray(variant.validParticipantNumbers) || variant.validParticipantNumbers.length === 0) {
+        throw new Error(`validParticipantNumbers array is required for variant "${variant.variantName}"`);
+      }
+
+      const validParticipants = variant.validParticipantNumbers.map((p: any) => {
+        const num = Number(p);
+        if (isNaN(num) || num <= 0 || !Number.isInteger(num)) {
+          throw new Error(`validParticipantNumbers must contain positive integers only for variant "${variant.variantName}"`);
+        }
+        return num;
+      });
+
+      // Validate participant numbers if present in metadata
+      if (variant.variantMetadata && variant.variantMetadata.participantNumbers) {
+        const participants = variant.variantMetadata.participantNumbers;
+        if (typeof participants === 'string') {
+          const participantArray = participants.split(',').map((p: string) => p.trim());
+          const isValid = participantArray.every((p: string) => !isNaN(Number(p)) && Number(p) > 0);
+          if (!isValid) {
+            throw new Error(`Invalid participantNumbers for variant "${variant.variantName}": must be comma-separated positive numbers`);
+          }
+        } else if (Array.isArray(participants)) {
+          const isValid = participants.every((p: any) => typeof p === 'number' && p > 0);
+          if (!isValid) {
+            throw new Error(`Invalid participantNumbers for variant "${variant.variantName}": must be an array of positive numbers`);
+          }
+        } else {
+          throw new Error(`Invalid participantNumbers for variant "${variant.variantName}": must be a string or array`);
+        }
+      }
+
+      return {
+        listingId,
+        variantName: sanitizeString(variant.variantName, 255),
+        variantDescription: variant.variantDescription ? sanitizeString(variant.variantDescription, 5000) : null,
+        validParticipantNumbers: validParticipants,
+        variantOrder: variant.variantOrder ?? index,
+        variantMetadata: variant.variantMetadata || null,
+      };
+    });
 
     const createdVariants = await prisma.listingVariant.createMany({
       data: variantsData,
