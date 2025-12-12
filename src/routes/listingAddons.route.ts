@@ -9,7 +9,15 @@ import {
   requireAnyAdmin,
 } from "../middlewares/auth.middleware.js";
 
+import { editSingleAddon, deleteSingleAddon } from "../controllers/listingAddons.controller.js";
+
 const listingAddonsRouter = new Hono();
+
+// Edit a single add-on by id
+listingAddonsRouter.put("/listing/:listingId/addon/:addonId", editSingleAddon);
+
+// Delete a single add-on by id
+listingAddonsRouter.delete("/listing/:listingId/addon/:addonId", deleteSingleAddon);
 
 // listingAddonsRouter.use(authenticateToken);
 // listingAddonsRouter.use(requireAnyAdmin);
