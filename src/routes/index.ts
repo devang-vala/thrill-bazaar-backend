@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import listingBatchRouter from "./listingBatch.route.js";
+import rentalInventoryRouter from "./rentalInventory.route.js";
 import authRouter from "./auth.route.js";
 import userRouter from "./user.route.js";
 import categoryRouter from "./category.route.js";
@@ -57,5 +58,8 @@ router.route("/upload", uploadRouter);
 
 router.route("/listing-batch", listingBatchRouter);
 router.route("/inventory-date-ranges", inventoryDateRangesRouter);
+
+// Mount rental inventory routes (F2)
+router.route("/rental-inventory", rentalInventoryRouter);
 
 export default router;
