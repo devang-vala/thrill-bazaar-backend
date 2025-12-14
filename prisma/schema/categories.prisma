@@ -6,6 +6,7 @@ model Category {
     categoryDescription String?       @map("category_description")
     displayOrder        Int           @default(0) @map("display_order")
     bookingFormat                   BookingFormat @map("booking_format")
+    isEndLocation                   Boolean       @default(false) @map("is_end_location")
     isRental                        Boolean       @default(false) @map("is_rental")
     hasVariantCatA                  Boolean       @default(false) @map("has_variant_catA")
     isInclusionsExclusionsAllowed   Boolean       @default(false) @map("is_inclusions_exclusions_allowed")

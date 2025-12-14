@@ -27,6 +27,11 @@ export type Category = Prisma.CategoryModel
  */
 export type SubCategory = Prisma.SubCategoryModel
 /**
+ * Model Country
+ * 
+ */
+export type Country = Prisma.CountryModel
+/**
  * Model InventoryBlockedDate
  * 
  */
@@ -111,6 +116,16 @@ export type Listing = Prisma.ListingModel
  * 
  */
 export type Otp = Prisma.OtpModel
+/**
+ * Model PrimaryDivision
+ * 
+ */
+export type PrimaryDivision = Prisma.PrimaryDivisionModel
+/**
+ * Model SecondaryDivision
+ * 
+ */
+export type SecondaryDivision = Prisma.SecondaryDivisionModel
 /**
  * Model User
  * 

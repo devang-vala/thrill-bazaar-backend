@@ -3,11 +3,35 @@ import { prisma } from "../db.js";
 import { sanitizeString, generateSlug } from "../helpers/validation.helper.js";
 
 /**
- * Get all listings
+ * Get all listings with optional pagination
  */
 export const getListings = async (c: Context) => {
   try {
+    // Get query parameters for pagination
+    const page = parseInt(c.req.query("page") || "1");
+    const limit = parseInt(c.req.query("limit") || "12");
+    const status = c.req.query("status"); // optional filter by status
+    
+    // Calculate skip for pagination
+    const skip = (page - 1) * limit;
+    
+    // Build where clause
+    const whereClause: any = {};
+    if (status) {
+      whereClause.status = status;
+    } else {
+      // By default, only show active listings for customers
+      whereClause.status = "active";
+    }
+    
+    // Get total count for pagination
+    const totalCount = await prisma.listing.count({
+      where: whereClause,
+    });
+    
+    // Fetch listings with pagination
     const listings = await prisma.listing.findMany({
+      where: whereClause,
       include: {
         category: true,
         subCategory: true,
@@ -19,16 +43,31 @@ export const getListings = async (c: Context) => {
             email: true,
           },
         },
-        variants: true,
-        media: true,
+        variants: {
+          take: 1, // Only get first variant for listing card
+          orderBy: { createdAt: "asc" },
+        },
+        media: {
+          take: 5, // Limit media to first 5 images
+          orderBy: { createdAt: "asc" },
+        },
       },
       orderBy: { createdAt: "desc" },
+      skip,
+      take: limit,
     });
 
     return c.json({
       success: true,
       data: listings,
-      count: listings.length,
+      pagination: {
+        page,
+        limit,
+        totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+        hasNextPage: page < Math.ceil(totalCount / limit),
+        hasPreviousPage: page > 1,
+      },
     });
   } catch (error) {
     console.error("Get listings error:", error);
