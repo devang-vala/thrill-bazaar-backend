@@ -23,10 +23,12 @@ export const getBatchesForListingVariant = async (c: Context) => {
     const variantId = c.req.param("variantId");
     const where: any = { listingId, formatType: "F1" };
     if (variantId) where.variantId = variantId;
+    console.log("[DEBUG] Fetching batches with:", { listingId, variantId, where });
     const batches = await prisma.listingSlot.findMany({
       where,
       orderBy: { batchStartDate: "asc" },
     });
+    console.log("[DEBUG] Batches found:", batches);
     return c.json({ success: true, data: batches });
   } catch (error) {
     console.error("Get batches error:", error);
@@ -69,9 +71,17 @@ export const updateBatch = async (c: Context) => {
   try {
     const batchId = c.req.param("batchId");
     const body = await c.req.json();
+    // Convert date fields to ISO strings if present
+    const data: any = { ...body };
+    if (data.batchStartDate) {
+      data.batchStartDate = new Date(data.batchStartDate).toISOString();
+    }
+    if (data.batchEndDate) {
+      data.batchEndDate = new Date(data.batchEndDate).toISOString();
+    }
     const batch = await prisma.listingSlot.update({
       where: { id: batchId },
-      data: body,
+      data,
     });
     return c.json({ success: true, data: batch });
   } catch (error) {
