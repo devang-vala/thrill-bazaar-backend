@@ -391,6 +391,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Category: 'Category',
   SubCategory: 'SubCategory',
+  Country: 'Country',
   InventoryBlockedDate: 'InventoryBlockedDate',
   InventoryDateRange: 'InventoryDateRange',
   ListingAddon: 'ListingAddon',
@@ -408,6 +409,8 @@ export const ModelName = {
   ListingVariant: 'ListingVariant',
   Listing: 'Listing',
   Otp: 'Otp',
+  PrimaryDivision: 'PrimaryDivision',
+  SecondaryDivision: 'SecondaryDivision',
   User: 'User'
 } as const
 
@@ -424,7 +427,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "category" | "subCategory" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "otp" | "user"
+    modelProps: "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "otp" | "primaryDivision" | "secondaryDivision" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -573,6 +576,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SubCategoryCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SubCategoryCountAggregateOutputType> | number
+        }
+      }
+    }
+    Country: {
+      payload: Prisma.$CountryPayload<ExtArgs>
+      fields: Prisma.CountryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CountryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CountryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        findFirst: {
+          args: Prisma.CountryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CountryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        findMany: {
+          args: Prisma.CountryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>[]
+        }
+        create: {
+          args: Prisma.CountryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        createMany: {
+          args: Prisma.CountryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CountryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>[]
+        }
+        delete: {
+          args: Prisma.CountryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        update: {
+          args: Prisma.CountryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        deleteMany: {
+          args: Prisma.CountryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CountryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CountryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>[]
+        }
+        upsert: {
+          args: Prisma.CountryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        aggregate: {
+          args: Prisma.CountryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCountry>
+        }
+        groupBy: {
+          args: Prisma.CountryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CountryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CountryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CountryCountAggregateOutputType> | number
         }
       }
     }
@@ -1834,6 +1911,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PrimaryDivision: {
+      payload: Prisma.$PrimaryDivisionPayload<ExtArgs>
+      fields: Prisma.PrimaryDivisionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PrimaryDivisionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrimaryDivisionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PrimaryDivisionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrimaryDivisionPayload>
+        }
+        findFirst: {
+          args: Prisma.PrimaryDivisionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrimaryDivisionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PrimaryDivisionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrimaryDivisionPayload>
+        }
+        findMany: {
+          args: Prisma.PrimaryDivisionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrimaryDivisionPayload>[]
+        }
+        create: {
+          args: Prisma.PrimaryDivisionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrimaryDivisionPayload>
+        }
+        createMany: {
+          args: Prisma.PrimaryDivisionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PrimaryDivisionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrimaryDivisionPayload>[]
+        }
+        delete: {
+          args: Prisma.PrimaryDivisionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrimaryDivisionPayload>
+        }
+        update: {
+          args: Prisma.PrimaryDivisionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrimaryDivisionPayload>
+        }
+        deleteMany: {
+          args: Prisma.PrimaryDivisionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PrimaryDivisionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PrimaryDivisionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrimaryDivisionPayload>[]
+        }
+        upsert: {
+          args: Prisma.PrimaryDivisionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrimaryDivisionPayload>
+        }
+        aggregate: {
+          args: Prisma.PrimaryDivisionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePrimaryDivision>
+        }
+        groupBy: {
+          args: Prisma.PrimaryDivisionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PrimaryDivisionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PrimaryDivisionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PrimaryDivisionCountAggregateOutputType> | number
+        }
+      }
+    }
+    SecondaryDivision: {
+      payload: Prisma.$SecondaryDivisionPayload<ExtArgs>
+      fields: Prisma.SecondaryDivisionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SecondaryDivisionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecondaryDivisionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SecondaryDivisionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecondaryDivisionPayload>
+        }
+        findFirst: {
+          args: Prisma.SecondaryDivisionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecondaryDivisionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SecondaryDivisionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecondaryDivisionPayload>
+        }
+        findMany: {
+          args: Prisma.SecondaryDivisionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecondaryDivisionPayload>[]
+        }
+        create: {
+          args: Prisma.SecondaryDivisionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecondaryDivisionPayload>
+        }
+        createMany: {
+          args: Prisma.SecondaryDivisionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SecondaryDivisionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecondaryDivisionPayload>[]
+        }
+        delete: {
+          args: Prisma.SecondaryDivisionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecondaryDivisionPayload>
+        }
+        update: {
+          args: Prisma.SecondaryDivisionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecondaryDivisionPayload>
+        }
+        deleteMany: {
+          args: Prisma.SecondaryDivisionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SecondaryDivisionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SecondaryDivisionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecondaryDivisionPayload>[]
+        }
+        upsert: {
+          args: Prisma.SecondaryDivisionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SecondaryDivisionPayload>
+        }
+        aggregate: {
+          args: Prisma.SecondaryDivisionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSecondaryDivision>
+        }
+        groupBy: {
+          args: Prisma.SecondaryDivisionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SecondaryDivisionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SecondaryDivisionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SecondaryDivisionCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -1955,6 +2180,7 @@ export const CategoryScalarFieldEnum = {
   categoryDescription: 'categoryDescription',
   displayOrder: 'displayOrder',
   bookingFormat: 'bookingFormat',
+  isEndLocation: 'isEndLocation',
   isRental: 'isRental',
   hasVariantCatA: 'hasVariantCatA',
   isInclusionsExclusionsAllowed: 'isInclusionsExclusionsAllowed',
@@ -1982,6 +2208,15 @@ export const SubCategoryScalarFieldEnum = {
 } as const
 
 export type SubCategoryScalarFieldEnum = (typeof SubCategoryScalarFieldEnum)[keyof typeof SubCategoryScalarFieldEnum]
+
+
+export const CountryScalarFieldEnum = {
+  country_id: 'country_id',
+  country_name: 'country_name',
+  country_code: 'country_code'
+} as const
+
+export type CountryScalarFieldEnum = (typeof CountryScalarFieldEnum)[keyof typeof CountryScalarFieldEnum]
 
 
 export const InventoryBlockedDateScalarFieldEnum = {
@@ -2268,6 +2503,27 @@ export const OtpScalarFieldEnum = {
 export type OtpScalarFieldEnum = (typeof OtpScalarFieldEnum)[keyof typeof OtpScalarFieldEnum]
 
 
+export const PrimaryDivisionScalarFieldEnum = {
+  primary_division_id: 'primary_division_id',
+  country_id: 'country_id',
+  division_name: 'division_name',
+  division_code: 'division_code'
+} as const
+
+export type PrimaryDivisionScalarFieldEnum = (typeof PrimaryDivisionScalarFieldEnum)[keyof typeof PrimaryDivisionScalarFieldEnum]
+
+
+export const SecondaryDivisionScalarFieldEnum = {
+  secondary_division_id: 'secondary_division_id',
+  primary_division_id: 'primary_division_id',
+  division_name: 'division_name',
+  latitude: 'latitude',
+  longitude: 'longitude'
+} as const
+
+export type SecondaryDivisionScalarFieldEnum = (typeof SecondaryDivisionScalarFieldEnum)[keyof typeof SecondaryDivisionScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   userType: 'userType',
@@ -2503,20 +2759,6 @@ export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMo
 
 
 /**
- * Reference to a field of type 'UserType'
- */
-export type EnumUserTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserType'>
-    
-
-
-/**
- * Reference to a field of type 'UserType[]'
- */
-export type ListEnumUserTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserType[]'>
-    
-
-
-/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -2527,6 +2769,20 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'UserType'
+ */
+export type EnumUserTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserType'>
+    
+
+
+/**
+ * Reference to a field of type 'UserType[]'
+ */
+export type ListEnumUserTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserType[]'>
     
 
 /**
@@ -2618,6 +2874,7 @@ export interface PrismaClientOptions {
 export type GlobalOmitConfig = {
   category?: Prisma.CategoryOmit
   subCategory?: Prisma.SubCategoryOmit
+  country?: Prisma.CountryOmit
   inventoryBlockedDate?: Prisma.InventoryBlockedDateOmit
   inventoryDateRange?: Prisma.InventoryDateRangeOmit
   listingAddon?: Prisma.ListingAddonOmit
@@ -2635,6 +2892,8 @@ export type GlobalOmitConfig = {
   listingVariant?: Prisma.ListingVariantOmit
   listing?: Prisma.ListingOmit
   otp?: Prisma.OtpOmit
+  primaryDivision?: Prisma.PrimaryDivisionOmit
+  secondaryDivision?: Prisma.SecondaryDivisionOmit
   user?: Prisma.UserOmit
 }
 

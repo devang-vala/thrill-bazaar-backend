@@ -18,6 +18,9 @@ import variantFieldDefinitionsRouter from "./listingVariantMetadataFieldDefiniti
 import variantFieldOptionsRouter from "./listingVariantMetadataFieldOptions.route.js";
 import uploadRouter from "./upload.route.js";
 import inventoryDateRangesRouter from "./inventoryDateRanges.route.js";
+import countryRouter from "./country.route.js";
+import primaryDivisionRouter from "./primaryDivision.route.js";
+import secondaryDivisionRouter from "./secondaryDivision.route.js";
 
 const router = new Hono();
 
@@ -57,5 +60,10 @@ router.route("/upload", uploadRouter);
 
 router.route("/listing-batch", listingBatchRouter);
 router.route("/inventory-date-ranges", inventoryDateRangesRouter);
+
+// Mount country and division routes
+router.route("/countries", countryRouter);
+router.route("/primary-divisions", primaryDivisionRouter);
+router.route("/secondary-divisions", secondaryDivisionRouter);
 
 export default router;

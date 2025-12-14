@@ -23,6 +23,7 @@ export interface CreateCategoryRequest {
   categoryDescription?: string;
   displayOrder?: number;
   bookingFormat: "F1" | "F2" | "F3" | "F4";
+  isEndLocation?: boolean;
   isRental?: boolean;
   hasVariantCatA?: boolean;
   isInclusionsExclusionsAllowed?: boolean;
@@ -39,6 +40,7 @@ export interface UpdateCategoryRequest {
   categoryDescription?: string;
   displayOrder?: number;
   bookingFormat?: "F1" | "F2" | "F3" | "F4";
+  isEndLocation?: boolean;
   isRental?: boolean;
   hasVariantCatA?: boolean;
   isInclusionsExclusionsAllowed?: boolean;
@@ -273,6 +275,7 @@ export const createCategoryHandler = async (c: Context) => {
         : undefined,
       displayOrder: body.displayOrder || 0,
       bookingFormat: body.bookingFormat,
+      isEndLocation: body.isEndLocation || false,
       isRental: body.isRental || false,
       hasVariantCatA: body.hasVariantCatA || false,
       isInclusionsExclusionsAllowed: body.isInclusionsExclusionsAllowed || false,
@@ -363,6 +366,9 @@ export const updateCategory = async (c: Context) => {
     }
     if (body.bookingFormat !== undefined) {
       updateData.bookingFormat = body.bookingFormat;
+    }
+    if (body.isEndLocation !== undefined) {
+      updateData.isEndLocation = body.isEndLocation;
     }
     if (body.isRental !== undefined) {
       updateData.isRental = body.isRental;

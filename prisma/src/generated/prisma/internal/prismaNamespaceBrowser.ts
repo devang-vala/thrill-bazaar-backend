@@ -50,6 +50,7 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 export const ModelName = {
   Category: 'Category',
   SubCategory: 'SubCategory',
+  Country: 'Country',
   InventoryBlockedDate: 'InventoryBlockedDate',
   InventoryDateRange: 'InventoryDateRange',
   ListingAddon: 'ListingAddon',
@@ -67,6 +68,8 @@ export const ModelName = {
   ListingVariant: 'ListingVariant',
   Listing: 'Listing',
   Otp: 'Otp',
+  PrimaryDivision: 'PrimaryDivision',
+  SecondaryDivision: 'SecondaryDivision',
   User: 'User'
 } as const
 
@@ -94,6 +97,7 @@ export const CategoryScalarFieldEnum = {
   categoryDescription: 'categoryDescription',
   displayOrder: 'displayOrder',
   bookingFormat: 'bookingFormat',
+  isEndLocation: 'isEndLocation',
   isRental: 'isRental',
   hasVariantCatA: 'hasVariantCatA',
   isInclusionsExclusionsAllowed: 'isInclusionsExclusionsAllowed',
@@ -121,6 +125,15 @@ export const SubCategoryScalarFieldEnum = {
 } as const
 
 export type SubCategoryScalarFieldEnum = (typeof SubCategoryScalarFieldEnum)[keyof typeof SubCategoryScalarFieldEnum]
+
+
+export const CountryScalarFieldEnum = {
+  country_id: 'country_id',
+  country_name: 'country_name',
+  country_code: 'country_code'
+} as const
+
+export type CountryScalarFieldEnum = (typeof CountryScalarFieldEnum)[keyof typeof CountryScalarFieldEnum]
 
 
 export const InventoryBlockedDateScalarFieldEnum = {
@@ -405,6 +418,27 @@ export const OtpScalarFieldEnum = {
 } as const
 
 export type OtpScalarFieldEnum = (typeof OtpScalarFieldEnum)[keyof typeof OtpScalarFieldEnum]
+
+
+export const PrimaryDivisionScalarFieldEnum = {
+  primary_division_id: 'primary_division_id',
+  country_id: 'country_id',
+  division_name: 'division_name',
+  division_code: 'division_code'
+} as const
+
+export type PrimaryDivisionScalarFieldEnum = (typeof PrimaryDivisionScalarFieldEnum)[keyof typeof PrimaryDivisionScalarFieldEnum]
+
+
+export const SecondaryDivisionScalarFieldEnum = {
+  secondary_division_id: 'secondary_division_id',
+  primary_division_id: 'primary_division_id',
+  division_name: 'division_name',
+  latitude: 'latitude',
+  longitude: 'longitude'
+} as const
+
+export type SecondaryDivisionScalarFieldEnum = (typeof SecondaryDivisionScalarFieldEnum)[keyof typeof SecondaryDivisionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
