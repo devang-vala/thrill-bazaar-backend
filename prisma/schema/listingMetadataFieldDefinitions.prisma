@@ -12,7 +12,6 @@ model ListingMetadataFieldDefinition {
     placeholderText    String?   @map("placeholder_text")
     displayOrder       Int       @default(0) @map("display_order")
     fieldGroup         String?   @map("field_group")
-    isActive           Boolean   @default(true) @map("is_active")
     createdAt          DateTime  @default(now()) @map("created_at")
     updatedAt          DateTime  @updatedAt @map("updated_at")
     createdByAdminId   String?   @map("created_by_admin_id")
@@ -24,6 +23,5 @@ model ListingMetadataFieldDefinition {
 
     @@unique([categoryId, fieldKey])
     @@index([categoryId])
-    @@index([isActive])
     @@map("listing_metadata_field_definitions")
 }

@@ -10,7 +10,6 @@ export interface CreateVariantFieldOptionRequest {
   optionLabel: string;
   optionDescription?: string;
   displayOrder?: number;
-  isActive?: boolean;
 }
 
 export interface UpdateVariantFieldOptionRequest {
@@ -19,7 +18,6 @@ export interface UpdateVariantFieldOptionRequest {
   optionLabel?: string;
   optionDescription?: string;
   displayOrder?: number;
-  isActive?: boolean;
 }
 
 /**
@@ -27,10 +25,9 @@ export interface UpdateVariantFieldOptionRequest {
  */
 export const getVariantFieldOptions = async (c: Context) => {
   try {
-    const { variantFieldDefinitionId, categoryId, includeInactive = "false" } = c.req.query();
-    const showInactive = includeInactive.toLowerCase() === "true";
+    const { variantFieldDefinitionId, categoryId } = c.req.query();
 
-    const whereClause: any = showInactive ? {} : { isActive: true };
+    const whereClause: any = {};
     
     if (variantFieldDefinitionId) {
       whereClause.variantFieldDefinitionId = variantFieldDefinitionId;
@@ -122,7 +119,6 @@ export const createVariantFieldOption = async (c: Context) => {
       optionLabel: sanitizeString(body.optionLabel, 255),
       optionDescription: body.optionDescription ? sanitizeString(body.optionDescription, 1000) : null,
       displayOrder: body.displayOrder || 0,
-      isActive: body.isActive !== undefined ? body.isActive : true,
     };
 
     const newVariantFieldOption = await prisma.listingVariantMetadataFieldOptions.create({
@@ -228,9 +224,6 @@ export const updateVariantFieldOption = async (c: Context) => {
     }
     if (body.displayOrder !== undefined) {
       updateData.displayOrder = body.displayOrder;
-    }
-    if (body.isActive !== undefined) {
-      updateData.isActive = body.isActive;
     }
 
     const updatedVariantFieldOption = await prisma.listingVariantMetadataFieldOptions.update({

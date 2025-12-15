@@ -242,7 +242,6 @@ export const ListingMetadataFieldDefinitionScalarFieldEnum = {
   placeholderText: 'placeholderText',
   displayOrder: 'displayOrder',
   fieldGroup: 'fieldGroup',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdByAdminId: 'createdByAdminId'
@@ -258,7 +257,6 @@ export const ListingMetadataFieldOptionsScalarFieldEnum = {
   optionLabel: 'optionLabel',
   optionDescription: 'optionDescription',
   displayOrder: 'displayOrder',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -328,7 +326,6 @@ export const ListingVariantMetadataFieldDefinitionScalarFieldEnum = {
   helpText: 'helpText',
   displayOrder: 'displayOrder',
   fieldGroup: 'fieldGroup',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdByAdminId: 'createdByAdminId'
@@ -344,7 +341,6 @@ export const ListingVariantMetadataFieldOptionsScalarFieldEnum = {
   optionLabel: 'optionLabel',
   optionDescription: 'optionDescription',
   displayOrder: 'displayOrder',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
