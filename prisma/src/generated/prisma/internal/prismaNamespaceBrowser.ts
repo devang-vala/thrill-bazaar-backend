@@ -63,6 +63,7 @@ export const ModelName = {
   ListingPolicy: 'ListingPolicy',
   ListingSlotChange: 'ListingSlotChange',
   ListingSlot: 'ListingSlot',
+  ListingType: 'ListingType',
   ListingVariantMetadataFieldDefinition: 'ListingVariantMetadataFieldDefinition',
   ListingVariantMetadataFieldOptions: 'ListingVariantMetadataFieldOptions',
   ListingVariant: 'ListingVariant',
@@ -91,6 +92,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const CategoryScalarFieldEnum = {
   id: 'id',
+  listingTypeId: 'listingTypeId',
   categoryName: 'categoryName',
   categorySlug: 'categorySlug',
   categoryIconUrl: 'categoryIconUrl',
@@ -313,6 +315,18 @@ export const ListingSlotScalarFieldEnum = {
 } as const
 
 export type ListingSlotScalarFieldEnum = (typeof ListingSlotScalarFieldEnum)[keyof typeof ListingSlotScalarFieldEnum]
+
+
+export const ListingTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  displayOrder: 'displayOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingTypeScalarFieldEnum = (typeof ListingTypeScalarFieldEnum)[keyof typeof ListingTypeScalarFieldEnum]
 
 
 export const ListingVariantMetadataFieldDefinitionScalarFieldEnum = {

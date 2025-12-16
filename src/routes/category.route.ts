@@ -7,6 +7,7 @@ import {
   deleteCategory,
   paginateCategories,
   getCategoriesByBookingFormat,
+  getCategoriesByListingType,
 } from "../controllers/category.controller.js";
 import {
   authenticateToken,
@@ -20,6 +21,7 @@ const categoryRouter = new Hono();
 // All routes are now public
 categoryRouter.get("/", getCategories);
 categoryRouter.get("/booking-format/:format", getCategoriesByBookingFormat);
+categoryRouter.get("/listing-type/:listingTypeId", getCategoriesByListingType);
 categoryRouter.post("/paginate", paginateCategories);
 categoryRouter.get("/:id", getCategory);
 categoryRouter.post("/", createCategoryHandler);

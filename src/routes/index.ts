@@ -3,6 +3,7 @@ import listingBatchRouter from "./listingBatch.route.js";
 import rentalInventoryRouter from "./rentalInventory.route.js";
 import authRouter from "./auth.route.js";
 import userRouter from "./user.route.js";
+import listingTypeRouter from "./listingType.route.js";
 import categoryRouter from "./category.route.js";
 import subCategoryRouter from "./subCategory.route.js";
 import listingRouter from "./listing.route.js";
@@ -33,6 +34,9 @@ router.route("/auth", authRouter);
 
 // Mount user routes
 router.route("/user", userRouter);
+
+// Mount listing type routes
+router.route("/listing-types", listingTypeRouter);
 
 // Mount category routes
 router.route("/categories", categoryRouter);
