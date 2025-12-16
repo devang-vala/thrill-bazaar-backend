@@ -46,7 +46,6 @@ export type ListingMetadataFieldDefinitionMinAggregateOutputType = {
   placeholderText: string | null
   displayOrder: number | null
   fieldGroup: string | null
-  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   createdByAdminId: string | null
@@ -65,7 +64,6 @@ export type ListingMetadataFieldDefinitionMaxAggregateOutputType = {
   placeholderText: string | null
   displayOrder: number | null
   fieldGroup: string | null
-  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   createdByAdminId: string | null
@@ -85,7 +83,6 @@ export type ListingMetadataFieldDefinitionCountAggregateOutputType = {
   placeholderText: number
   displayOrder: number
   fieldGroup: number
-  isActive: number
   createdAt: number
   updatedAt: number
   createdByAdminId: number
@@ -114,7 +111,6 @@ export type ListingMetadataFieldDefinitionMinAggregateInputType = {
   placeholderText?: true
   displayOrder?: true
   fieldGroup?: true
-  isActive?: true
   createdAt?: true
   updatedAt?: true
   createdByAdminId?: true
@@ -133,7 +129,6 @@ export type ListingMetadataFieldDefinitionMaxAggregateInputType = {
   placeholderText?: true
   displayOrder?: true
   fieldGroup?: true
-  isActive?: true
   createdAt?: true
   updatedAt?: true
   createdByAdminId?: true
@@ -153,7 +148,6 @@ export type ListingMetadataFieldDefinitionCountAggregateInputType = {
   placeholderText?: true
   displayOrder?: true
   fieldGroup?: true
-  isActive?: true
   createdAt?: true
   updatedAt?: true
   createdByAdminId?: true
@@ -260,7 +254,6 @@ export type ListingMetadataFieldDefinitionGroupByOutputType = {
   placeholderText: string | null
   displayOrder: number
   fieldGroup: string | null
-  isActive: boolean
   createdAt: Date
   updatedAt: Date
   createdByAdminId: string | null
@@ -303,7 +296,6 @@ export type ListingMetadataFieldDefinitionWhereInput = {
   placeholderText?: Prisma.StringNullableFilter<"ListingMetadataFieldDefinition"> | string | null
   displayOrder?: Prisma.IntFilter<"ListingMetadataFieldDefinition"> | number
   fieldGroup?: Prisma.StringNullableFilter<"ListingMetadataFieldDefinition"> | string | null
-  isActive?: Prisma.BoolFilter<"ListingMetadataFieldDefinition"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ListingMetadataFieldDefinition"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingMetadataFieldDefinition"> | Date | string
   createdByAdminId?: Prisma.StringNullableFilter<"ListingMetadataFieldDefinition"> | string | null
@@ -326,7 +318,6 @@ export type ListingMetadataFieldDefinitionOrderByWithRelationInput = {
   placeholderText?: Prisma.SortOrderInput | Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
   fieldGroup?: Prisma.SortOrderInput | Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdByAdminId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -353,7 +344,6 @@ export type ListingMetadataFieldDefinitionWhereUniqueInput = Prisma.AtLeast<{
   placeholderText?: Prisma.StringNullableFilter<"ListingMetadataFieldDefinition"> | string | null
   displayOrder?: Prisma.IntFilter<"ListingMetadataFieldDefinition"> | number
   fieldGroup?: Prisma.StringNullableFilter<"ListingMetadataFieldDefinition"> | string | null
-  isActive?: Prisma.BoolFilter<"ListingMetadataFieldDefinition"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ListingMetadataFieldDefinition"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingMetadataFieldDefinition"> | Date | string
   createdByAdminId?: Prisma.StringNullableFilter<"ListingMetadataFieldDefinition"> | string | null
@@ -376,7 +366,6 @@ export type ListingMetadataFieldDefinitionOrderByWithAggregationInput = {
   placeholderText?: Prisma.SortOrderInput | Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
   fieldGroup?: Prisma.SortOrderInput | Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdByAdminId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -404,7 +393,6 @@ export type ListingMetadataFieldDefinitionScalarWhereWithAggregatesInput = {
   placeholderText?: Prisma.StringNullableWithAggregatesFilter<"ListingMetadataFieldDefinition"> | string | null
   displayOrder?: Prisma.IntWithAggregatesFilter<"ListingMetadataFieldDefinition"> | number
   fieldGroup?: Prisma.StringNullableWithAggregatesFilter<"ListingMetadataFieldDefinition"> | string | null
-  isActive?: Prisma.BoolWithAggregatesFilter<"ListingMetadataFieldDefinition"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ListingMetadataFieldDefinition"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ListingMetadataFieldDefinition"> | Date | string
   createdByAdminId?: Prisma.StringNullableWithAggregatesFilter<"ListingMetadataFieldDefinition"> | string | null
@@ -423,7 +411,6 @@ export type ListingMetadataFieldDefinitionCreateInput = {
   placeholderText?: string | null
   displayOrder?: number
   fieldGroup?: string | null
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutMetadataFieldDefinitionsInput
@@ -445,7 +432,6 @@ export type ListingMetadataFieldDefinitionUncheckedCreateInput = {
   placeholderText?: string | null
   displayOrder?: number
   fieldGroup?: string | null
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdByAdminId?: string | null
@@ -465,7 +451,6 @@ export type ListingMetadataFieldDefinitionUpdateInput = {
   placeholderText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   fieldGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutMetadataFieldDefinitionsNestedInput
@@ -487,7 +472,6 @@ export type ListingMetadataFieldDefinitionUncheckedUpdateInput = {
   placeholderText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   fieldGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -508,7 +492,6 @@ export type ListingMetadataFieldDefinitionCreateManyInput = {
   placeholderText?: string | null
   displayOrder?: number
   fieldGroup?: string | null
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdByAdminId?: string | null
@@ -527,7 +510,6 @@ export type ListingMetadataFieldDefinitionUpdateManyMutationInput = {
   placeholderText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   fieldGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -546,7 +528,6 @@ export type ListingMetadataFieldDefinitionUncheckedUpdateManyInput = {
   placeholderText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   fieldGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -581,7 +562,6 @@ export type ListingMetadataFieldDefinitionCountOrderByAggregateInput = {
   placeholderText?: Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
   fieldGroup?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdByAdminId?: Prisma.SortOrder
@@ -604,7 +584,6 @@ export type ListingMetadataFieldDefinitionMaxOrderByAggregateInput = {
   placeholderText?: Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
   fieldGroup?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdByAdminId?: Prisma.SortOrder
@@ -623,7 +602,6 @@ export type ListingMetadataFieldDefinitionMinOrderByAggregateInput = {
   placeholderText?: Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
   fieldGroup?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdByAdminId?: Prisma.SortOrder
@@ -753,7 +731,6 @@ export type ListingMetadataFieldDefinitionCreateWithoutCategoryInput = {
   placeholderText?: string | null
   displayOrder?: number
   fieldGroup?: string | null
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdByAdmin?: Prisma.UserCreateNestedOneWithoutCreatedMetadataDefinitionsInput
@@ -773,7 +750,6 @@ export type ListingMetadataFieldDefinitionUncheckedCreateWithoutCategoryInput = 
   placeholderText?: string | null
   displayOrder?: number
   fieldGroup?: string | null
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdByAdminId?: string | null
@@ -823,7 +799,6 @@ export type ListingMetadataFieldDefinitionScalarWhereInput = {
   placeholderText?: Prisma.StringNullableFilter<"ListingMetadataFieldDefinition"> | string | null
   displayOrder?: Prisma.IntFilter<"ListingMetadataFieldDefinition"> | number
   fieldGroup?: Prisma.StringNullableFilter<"ListingMetadataFieldDefinition"> | string | null
-  isActive?: Prisma.BoolFilter<"ListingMetadataFieldDefinition"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ListingMetadataFieldDefinition"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingMetadataFieldDefinition"> | Date | string
   createdByAdminId?: Prisma.StringNullableFilter<"ListingMetadataFieldDefinition"> | string | null
@@ -842,7 +817,6 @@ export type ListingMetadataFieldDefinitionCreateWithoutOptionsInput = {
   placeholderText?: string | null
   displayOrder?: number
   fieldGroup?: string | null
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutMetadataFieldDefinitionsInput
@@ -863,7 +837,6 @@ export type ListingMetadataFieldDefinitionUncheckedCreateWithoutOptionsInput = {
   placeholderText?: string | null
   displayOrder?: number
   fieldGroup?: string | null
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdByAdminId?: string | null
@@ -898,7 +871,6 @@ export type ListingMetadataFieldDefinitionUpdateWithoutOptionsInput = {
   placeholderText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   fieldGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutMetadataFieldDefinitionsNestedInput
@@ -919,7 +891,6 @@ export type ListingMetadataFieldDefinitionUncheckedUpdateWithoutOptionsInput = {
   placeholderText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   fieldGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -938,7 +909,6 @@ export type ListingMetadataFieldDefinitionCreateWithoutCreatedByAdminInput = {
   placeholderText?: string | null
   displayOrder?: number
   fieldGroup?: string | null
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutMetadataFieldDefinitionsInput
@@ -959,7 +929,6 @@ export type ListingMetadataFieldDefinitionUncheckedCreateWithoutCreatedByAdminIn
   placeholderText?: string | null
   displayOrder?: number
   fieldGroup?: string | null
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   options?: Prisma.ListingMetadataFieldOptionsUncheckedCreateNestedManyWithoutFieldDefinitionInput
@@ -1004,7 +973,6 @@ export type ListingMetadataFieldDefinitionCreateManyCategoryInput = {
   placeholderText?: string | null
   displayOrder?: number
   fieldGroup?: string | null
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdByAdminId?: string | null
@@ -1023,7 +991,6 @@ export type ListingMetadataFieldDefinitionUpdateWithoutCategoryInput = {
   placeholderText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   fieldGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByAdmin?: Prisma.UserUpdateOneWithoutCreatedMetadataDefinitionsNestedInput
@@ -1043,7 +1010,6 @@ export type ListingMetadataFieldDefinitionUncheckedUpdateWithoutCategoryInput = 
   placeholderText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   fieldGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1063,7 +1029,6 @@ export type ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryInpu
   placeholderText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   fieldGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1083,7 +1048,6 @@ export type ListingMetadataFieldDefinitionCreateManyCreatedByAdminInput = {
   placeholderText?: string | null
   displayOrder?: number
   fieldGroup?: string | null
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1101,7 +1065,6 @@ export type ListingMetadataFieldDefinitionUpdateWithoutCreatedByAdminInput = {
   placeholderText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   fieldGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutMetadataFieldDefinitionsNestedInput
@@ -1122,7 +1085,6 @@ export type ListingMetadataFieldDefinitionUncheckedUpdateWithoutCreatedByAdminIn
   placeholderText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   fieldGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   options?: Prisma.ListingMetadataFieldOptionsUncheckedUpdateManyWithoutFieldDefinitionNestedInput
@@ -1142,7 +1104,6 @@ export type ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdm
   placeholderText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   fieldGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1192,7 +1153,6 @@ export type ListingMetadataFieldDefinitionSelect<ExtArgs extends runtime.Types.E
   placeholderText?: boolean
   displayOrder?: boolean
   fieldGroup?: boolean
-  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdByAdminId?: boolean
@@ -1216,7 +1176,6 @@ export type ListingMetadataFieldDefinitionSelectCreateManyAndReturn<ExtArgs exte
   placeholderText?: boolean
   displayOrder?: boolean
   fieldGroup?: boolean
-  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdByAdminId?: boolean
@@ -1238,7 +1197,6 @@ export type ListingMetadataFieldDefinitionSelectUpdateManyAndReturn<ExtArgs exte
   placeholderText?: boolean
   displayOrder?: boolean
   fieldGroup?: boolean
-  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdByAdminId?: boolean
@@ -1260,13 +1218,12 @@ export type ListingMetadataFieldDefinitionSelectScalar = {
   placeholderText?: boolean
   displayOrder?: boolean
   fieldGroup?: boolean
-  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdByAdminId?: boolean
 }
 
-export type ListingMetadataFieldDefinitionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "categoryId" | "isFilter" | "fieldKey" | "fieldLabel" | "fieldType" | "isRequired" | "validationRules" | "defaultValue" | "helpText" | "placeholderText" | "displayOrder" | "fieldGroup" | "isActive" | "createdAt" | "updatedAt" | "createdByAdminId", ExtArgs["result"]["listingMetadataFieldDefinition"]>
+export type ListingMetadataFieldDefinitionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "categoryId" | "isFilter" | "fieldKey" | "fieldLabel" | "fieldType" | "isRequired" | "validationRules" | "defaultValue" | "helpText" | "placeholderText" | "displayOrder" | "fieldGroup" | "createdAt" | "updatedAt" | "createdByAdminId", ExtArgs["result"]["listingMetadataFieldDefinition"]>
 export type ListingMetadataFieldDefinitionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   createdByAdmin?: boolean | Prisma.ListingMetadataFieldDefinition$createdByAdminArgs<ExtArgs>
@@ -1303,7 +1260,6 @@ export type $ListingMetadataFieldDefinitionPayload<ExtArgs extends runtime.Types
     placeholderText: string | null
     displayOrder: number
     fieldGroup: string | null
-    isActive: boolean
     createdAt: Date
     updatedAt: Date
     createdByAdminId: string | null
@@ -1746,7 +1702,6 @@ export interface ListingMetadataFieldDefinitionFieldRefs {
   readonly placeholderText: Prisma.FieldRef<"ListingMetadataFieldDefinition", 'String'>
   readonly displayOrder: Prisma.FieldRef<"ListingMetadataFieldDefinition", 'Int'>
   readonly fieldGroup: Prisma.FieldRef<"ListingMetadataFieldDefinition", 'String'>
-  readonly isActive: Prisma.FieldRef<"ListingMetadataFieldDefinition", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"ListingMetadataFieldDefinition", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ListingMetadataFieldDefinition", 'DateTime'>
   readonly createdByAdminId: Prisma.FieldRef<"ListingMetadataFieldDefinition", 'String'>

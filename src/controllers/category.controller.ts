@@ -17,6 +17,7 @@ import {
 } from "../helpers/category.helper.js";
 
 export interface CreateCategoryRequest {
+  listingTypeId?: string;
   categoryName: string;
   categorySlug?: string;
   categoryIconUrl?: string;
@@ -34,6 +35,7 @@ export interface CreateCategoryRequest {
 }
 
 export interface UpdateCategoryRequest {
+  listingTypeId?: string;
   categoryName?: string;
   categorySlug?: string;
   categoryIconUrl?: string;
@@ -106,6 +108,13 @@ export const getCategoriesByBookingFormat = async (c: Context) => {
         displayOrder: "asc",
       },
       include: {
+        listingType: {
+          select: {
+            id: true,
+            name: true,
+            displayOrder: true,
+          },
+        },
         subCategories: {
           where: showInactive ? {} : { isActive: true },
           orderBy: {
@@ -127,6 +136,55 @@ export const getCategoriesByBookingFormat = async (c: Context) => {
     });
   } catch (error) {
     console.error("Get categories by booking format error:", error);
+    return c.json({ error: "Failed to fetch categories" }, 500);
+  }
+};
+
+export const getCategoriesByListingType = async (c: Context) => {
+  try {
+    const listingTypeId = c.req.param("listingTypeId");
+    const { includeInactive = "false" } = c.req.query();
+    const showInactive = includeInactive.toLowerCase() === "true";
+
+    if (!listingTypeId) {
+      return c.json({ 
+        error: "Listing type ID is required" 
+      }, 400);
+    }
+
+    // Query categories by listing type
+    const categories = await prisma.category.findMany({
+      where: {
+        listingTypeId: listingTypeId,
+        ...(showInactive ? {} : { isActive: true }),
+      },
+      orderBy: {
+        displayOrder: "asc",
+      },
+      include: {
+        listingType: {
+          select: {
+            id: true,
+            name: true,
+            displayOrder: true,
+          },
+        },
+        subCategories: {
+          where: showInactive ? {} : { isActive: true },
+          orderBy: {
+            displayOrder: "asc",
+          },
+        },
+      },
+    });
+
+    return c.json({
+      success: true,
+      data: categories,
+      count: categories.length,
+    });
+  } catch (error) {
+    console.error("Get categories by listing type error:", error);
     return c.json({ error: "Failed to fetch categories" }, 500);
   }
 };
@@ -263,6 +321,7 @@ export const createCategoryHandler = async (c: Context) => {
 
     // Sanitize inputs
     const sanitizedData = {
+      listingTypeId: body.listingTypeId || null,
       categoryName: sanitizeString(body.categoryName, 100),
       categorySlug: body.categorySlug
         ? sanitizeString(body.categorySlug, 100).toLowerCase()
@@ -334,6 +393,9 @@ export const updateCategory = async (c: Context) => {
     // Prepare update data
     const updateData: any = {};
 
+    if (body.listingTypeId !== undefined) {
+      updateData.listingTypeId = body.listingTypeId || null;
+    }
     if (body.categoryName !== undefined) {
       updateData.categoryName = sanitizeString(body.categoryName, 100);
     }

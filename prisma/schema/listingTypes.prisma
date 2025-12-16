@@ -1,0 +1,13 @@
+model ListingType {
+    id              String     @id @default(uuid()) @map("listing_type_id")
+    name            String     @unique @map("name")
+    description     String?    @map("description")
+    displayOrder    Int        @default(0) @map("display_order")
+    createdAt       DateTime   @default(now()) @map("created_at")
+    updatedAt       DateTime   @updatedAt @map("updated_at")
+
+    // Relations
+    categories      Category[]
+
+    @@map("listing_types")
+}

@@ -40,7 +40,6 @@ export type ListingVariantMetadataFieldOptionsMinAggregateOutputType = {
   optionLabel: string | null
   optionDescription: string | null
   displayOrder: number | null
-  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,7 +51,6 @@ export type ListingVariantMetadataFieldOptionsMaxAggregateOutputType = {
   optionLabel: string | null
   optionDescription: string | null
   displayOrder: number | null
-  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -64,7 +62,6 @@ export type ListingVariantMetadataFieldOptionsCountAggregateOutputType = {
   optionLabel: number
   optionDescription: number
   displayOrder: number
-  isActive: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -86,7 +83,6 @@ export type ListingVariantMetadataFieldOptionsMinAggregateInputType = {
   optionLabel?: true
   optionDescription?: true
   displayOrder?: true
-  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -98,7 +94,6 @@ export type ListingVariantMetadataFieldOptionsMaxAggregateInputType = {
   optionLabel?: true
   optionDescription?: true
   displayOrder?: true
-  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -110,7 +105,6 @@ export type ListingVariantMetadataFieldOptionsCountAggregateInputType = {
   optionLabel?: true
   optionDescription?: true
   displayOrder?: true
-  isActive?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -209,7 +203,6 @@ export type ListingVariantMetadataFieldOptionsGroupByOutputType = {
   optionLabel: string
   optionDescription: string | null
   displayOrder: number
-  isActive: boolean
   createdAt: Date
   updatedAt: Date
   _count: ListingVariantMetadataFieldOptionsCountAggregateOutputType | null
@@ -244,7 +237,6 @@ export type ListingVariantMetadataFieldOptionsWhereInput = {
   optionLabel?: Prisma.StringFilter<"ListingVariantMetadataFieldOptions"> | string
   optionDescription?: Prisma.StringNullableFilter<"ListingVariantMetadataFieldOptions"> | string | null
   displayOrder?: Prisma.IntFilter<"ListingVariantMetadataFieldOptions"> | number
-  isActive?: Prisma.BoolFilter<"ListingVariantMetadataFieldOptions"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ListingVariantMetadataFieldOptions"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingVariantMetadataFieldOptions"> | Date | string
   variantFieldDefinition?: Prisma.XOR<Prisma.ListingVariantMetadataFieldDefinitionScalarRelationFilter, Prisma.ListingVariantMetadataFieldDefinitionWhereInput>
@@ -257,7 +249,6 @@ export type ListingVariantMetadataFieldOptionsOrderByWithRelationInput = {
   optionLabel?: Prisma.SortOrder
   optionDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   variantFieldDefinition?: Prisma.ListingVariantMetadataFieldDefinitionOrderByWithRelationInput
@@ -274,7 +265,6 @@ export type ListingVariantMetadataFieldOptionsWhereUniqueInput = Prisma.AtLeast<
   optionLabel?: Prisma.StringFilter<"ListingVariantMetadataFieldOptions"> | string
   optionDescription?: Prisma.StringNullableFilter<"ListingVariantMetadataFieldOptions"> | string | null
   displayOrder?: Prisma.IntFilter<"ListingVariantMetadataFieldOptions"> | number
-  isActive?: Prisma.BoolFilter<"ListingVariantMetadataFieldOptions"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ListingVariantMetadataFieldOptions"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingVariantMetadataFieldOptions"> | Date | string
   variantFieldDefinition?: Prisma.XOR<Prisma.ListingVariantMetadataFieldDefinitionScalarRelationFilter, Prisma.ListingVariantMetadataFieldDefinitionWhereInput>
@@ -287,7 +277,6 @@ export type ListingVariantMetadataFieldOptionsOrderByWithAggregationInput = {
   optionLabel?: Prisma.SortOrder
   optionDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ListingVariantMetadataFieldOptionsCountOrderByAggregateInput
@@ -307,7 +296,6 @@ export type ListingVariantMetadataFieldOptionsScalarWhereWithAggregatesInput = {
   optionLabel?: Prisma.StringWithAggregatesFilter<"ListingVariantMetadataFieldOptions"> | string
   optionDescription?: Prisma.StringNullableWithAggregatesFilter<"ListingVariantMetadataFieldOptions"> | string | null
   displayOrder?: Prisma.IntWithAggregatesFilter<"ListingVariantMetadataFieldOptions"> | number
-  isActive?: Prisma.BoolWithAggregatesFilter<"ListingVariantMetadataFieldOptions"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ListingVariantMetadataFieldOptions"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ListingVariantMetadataFieldOptions"> | Date | string
 }
@@ -318,7 +306,6 @@ export type ListingVariantMetadataFieldOptionsCreateInput = {
   optionLabel: string
   optionDescription?: string | null
   displayOrder?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   variantFieldDefinition: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedOneWithoutOptionsInput
@@ -331,7 +318,6 @@ export type ListingVariantMetadataFieldOptionsUncheckedCreateInput = {
   optionLabel: string
   optionDescription?: string | null
   displayOrder?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -342,7 +328,6 @@ export type ListingVariantMetadataFieldOptionsUpdateInput = {
   optionLabel?: Prisma.StringFieldUpdateOperationsInput | string
   optionDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   variantFieldDefinition?: Prisma.ListingVariantMetadataFieldDefinitionUpdateOneRequiredWithoutOptionsNestedInput
@@ -355,7 +340,6 @@ export type ListingVariantMetadataFieldOptionsUncheckedUpdateInput = {
   optionLabel?: Prisma.StringFieldUpdateOperationsInput | string
   optionDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -367,7 +351,6 @@ export type ListingVariantMetadataFieldOptionsCreateManyInput = {
   optionLabel: string
   optionDescription?: string | null
   displayOrder?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -378,7 +361,6 @@ export type ListingVariantMetadataFieldOptionsUpdateManyMutationInput = {
   optionLabel?: Prisma.StringFieldUpdateOperationsInput | string
   optionDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -390,7 +372,6 @@ export type ListingVariantMetadataFieldOptionsUncheckedUpdateManyInput = {
   optionLabel?: Prisma.StringFieldUpdateOperationsInput | string
   optionDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -417,7 +398,6 @@ export type ListingVariantMetadataFieldOptionsCountOrderByAggregateInput = {
   optionLabel?: Prisma.SortOrder
   optionDescription?: Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -433,7 +413,6 @@ export type ListingVariantMetadataFieldOptionsMaxOrderByAggregateInput = {
   optionLabel?: Prisma.SortOrder
   optionDescription?: Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -445,7 +424,6 @@ export type ListingVariantMetadataFieldOptionsMinOrderByAggregateInput = {
   optionLabel?: Prisma.SortOrder
   optionDescription?: Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -502,7 +480,6 @@ export type ListingVariantMetadataFieldOptionsCreateWithoutVariantFieldDefinitio
   optionLabel: string
   optionDescription?: string | null
   displayOrder?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -513,7 +490,6 @@ export type ListingVariantMetadataFieldOptionsUncheckedCreateWithoutVariantField
   optionLabel: string
   optionDescription?: string | null
   displayOrder?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -554,7 +530,6 @@ export type ListingVariantMetadataFieldOptionsScalarWhereInput = {
   optionLabel?: Prisma.StringFilter<"ListingVariantMetadataFieldOptions"> | string
   optionDescription?: Prisma.StringNullableFilter<"ListingVariantMetadataFieldOptions"> | string | null
   displayOrder?: Prisma.IntFilter<"ListingVariantMetadataFieldOptions"> | number
-  isActive?: Prisma.BoolFilter<"ListingVariantMetadataFieldOptions"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ListingVariantMetadataFieldOptions"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingVariantMetadataFieldOptions"> | Date | string
 }
@@ -565,7 +540,6 @@ export type ListingVariantMetadataFieldOptionsCreateManyVariantFieldDefinitionIn
   optionLabel: string
   optionDescription?: string | null
   displayOrder?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -576,7 +550,6 @@ export type ListingVariantMetadataFieldOptionsUpdateWithoutVariantFieldDefinitio
   optionLabel?: Prisma.StringFieldUpdateOperationsInput | string
   optionDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -587,7 +560,6 @@ export type ListingVariantMetadataFieldOptionsUncheckedUpdateWithoutVariantField
   optionLabel?: Prisma.StringFieldUpdateOperationsInput | string
   optionDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -598,7 +570,6 @@ export type ListingVariantMetadataFieldOptionsUncheckedUpdateManyWithoutVariantF
   optionLabel?: Prisma.StringFieldUpdateOperationsInput | string
   optionDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -612,7 +583,6 @@ export type ListingVariantMetadataFieldOptionsSelect<ExtArgs extends runtime.Typ
   optionLabel?: boolean
   optionDescription?: boolean
   displayOrder?: boolean
-  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   variantFieldDefinition?: boolean | Prisma.ListingVariantMetadataFieldDefinitionDefaultArgs<ExtArgs>
@@ -625,7 +595,6 @@ export type ListingVariantMetadataFieldOptionsSelectCreateManyAndReturn<ExtArgs 
   optionLabel?: boolean
   optionDescription?: boolean
   displayOrder?: boolean
-  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   variantFieldDefinition?: boolean | Prisma.ListingVariantMetadataFieldDefinitionDefaultArgs<ExtArgs>
@@ -638,7 +607,6 @@ export type ListingVariantMetadataFieldOptionsSelectUpdateManyAndReturn<ExtArgs 
   optionLabel?: boolean
   optionDescription?: boolean
   displayOrder?: boolean
-  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   variantFieldDefinition?: boolean | Prisma.ListingVariantMetadataFieldDefinitionDefaultArgs<ExtArgs>
@@ -651,12 +619,11 @@ export type ListingVariantMetadataFieldOptionsSelectScalar = {
   optionLabel?: boolean
   optionDescription?: boolean
   displayOrder?: boolean
-  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ListingVariantMetadataFieldOptionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"optionId" | "variantFieldDefinitionId" | "optionValue" | "optionLabel" | "optionDescription" | "displayOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["listingVariantMetadataFieldOptions"]>
+export type ListingVariantMetadataFieldOptionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"optionId" | "variantFieldDefinitionId" | "optionValue" | "optionLabel" | "optionDescription" | "displayOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["listingVariantMetadataFieldOptions"]>
 export type ListingVariantMetadataFieldOptionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   variantFieldDefinition?: boolean | Prisma.ListingVariantMetadataFieldDefinitionDefaultArgs<ExtArgs>
 }
@@ -679,7 +646,6 @@ export type $ListingVariantMetadataFieldOptionsPayload<ExtArgs extends runtime.T
     optionLabel: string
     optionDescription: string | null
     displayOrder: number
-    isActive: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["listingVariantMetadataFieldOptions"]>
@@ -1112,7 +1078,6 @@ export interface ListingVariantMetadataFieldOptionsFieldRefs {
   readonly optionLabel: Prisma.FieldRef<"ListingVariantMetadataFieldOptions", 'String'>
   readonly optionDescription: Prisma.FieldRef<"ListingVariantMetadataFieldOptions", 'String'>
   readonly displayOrder: Prisma.FieldRef<"ListingVariantMetadataFieldOptions", 'Int'>
-  readonly isActive: Prisma.FieldRef<"ListingVariantMetadataFieldOptions", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"ListingVariantMetadataFieldOptions", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ListingVariantMetadataFieldOptions", 'DateTime'>
 }

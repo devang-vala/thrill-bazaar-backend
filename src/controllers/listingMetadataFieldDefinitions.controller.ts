@@ -18,7 +18,6 @@ export interface CreateFieldDefinitionRequest {
   placeholderText?: string;
   displayOrder?: number;
   fieldGroup?: string;
-  isActive?: boolean;
   createdByAdminId?: string;
 }
 
@@ -35,7 +34,6 @@ export interface UpdateFieldDefinitionRequest {
   placeholderText?: string;
   displayOrder?: number;
   fieldGroup?: string;
-  isActive?: boolean;
 }
 
 /**
@@ -43,10 +41,9 @@ export interface UpdateFieldDefinitionRequest {
  */
 export const getFieldDefinitions = async (c: Context) => {
   try {
-    const { categoryId, includeInactive = "false" } = c.req.query();
-    const showInactive = includeInactive.toLowerCase() === "true";
+    const { categoryId } = c.req.query();
 
-    const whereClause: any = showInactive ? {} : { isActive: true };
+    const whereClause: any = {};
     if (categoryId) {
       whereClause.categoryId = categoryId;
     }
@@ -69,7 +66,6 @@ export const getFieldDefinitions = async (c: Context) => {
           },
         },
         options: {
-          where: showInactive ? {} : { isActive: true },
           orderBy: { displayOrder: "asc" },
         },
       },
@@ -116,7 +112,6 @@ export const getFieldDefinition = async (c: Context) => {
           },
         },
         options: {
-          where: { isActive: true },
           orderBy: { displayOrder: "asc" },
         },
       },
@@ -158,10 +153,6 @@ export const paginateFieldDefinitions = async (c: Context) => {
     const skip = (page - 1) * limit;
 
     const whereClause: any = {};
-
-    if (body.isActive !== undefined) {
-      whereClause.isActive = body.isActive;
-    }
 
     if (body.categoryId) {
       whereClause.categoryId = body.categoryId;
@@ -207,7 +198,6 @@ export const paginateFieldDefinitions = async (c: Context) => {
             },
           },
           options: {
-            where: { isActive: true },
             select: {
               optionId: true,
               optionValue: true,
@@ -299,7 +289,6 @@ export const createFieldDefinition = async (c: Context) => {
       placeholderText: body.placeholderText ? sanitizeString(body.placeholderText, 255) : null,
       displayOrder: body.displayOrder || 0,
       fieldGroup: body.fieldGroup ? sanitizeString(body.fieldGroup, 100) : null,
-      isActive: body.isActive !== undefined ? body.isActive : true,
       createdByAdminId: body.createdByAdminId || null,
     };
 
@@ -426,9 +415,6 @@ export const updateFieldDefinition = async (c: Context) => {
     }
     if (body.fieldGroup !== undefined) {
       updateData.fieldGroup = body.fieldGroup ? sanitizeString(body.fieldGroup, 100) : null;
-    }
-    if (body.isActive !== undefined) {
-      updateData.isActive = body.isActive;
     }
 
     const updatedFieldDefinition = await prisma.listingMetadataFieldDefinition.update({

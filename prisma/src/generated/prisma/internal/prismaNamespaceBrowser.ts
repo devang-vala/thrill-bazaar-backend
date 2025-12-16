@@ -63,6 +63,7 @@ export const ModelName = {
   ListingPolicy: 'ListingPolicy',
   ListingSlotChange: 'ListingSlotChange',
   ListingSlot: 'ListingSlot',
+  ListingType: 'ListingType',
   ListingVariantMetadataFieldDefinition: 'ListingVariantMetadataFieldDefinition',
   ListingVariantMetadataFieldOptions: 'ListingVariantMetadataFieldOptions',
   ListingVariant: 'ListingVariant',
@@ -91,6 +92,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const CategoryScalarFieldEnum = {
   id: 'id',
+  listingTypeId: 'listingTypeId',
   categoryName: 'categoryName',
   categorySlug: 'categorySlug',
   categoryIconUrl: 'categoryIconUrl',
@@ -242,7 +244,6 @@ export const ListingMetadataFieldDefinitionScalarFieldEnum = {
   placeholderText: 'placeholderText',
   displayOrder: 'displayOrder',
   fieldGroup: 'fieldGroup',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdByAdminId: 'createdByAdminId'
@@ -258,7 +259,6 @@ export const ListingMetadataFieldOptionsScalarFieldEnum = {
   optionLabel: 'optionLabel',
   optionDescription: 'optionDescription',
   displayOrder: 'displayOrder',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -317,6 +317,18 @@ export const ListingSlotScalarFieldEnum = {
 export type ListingSlotScalarFieldEnum = (typeof ListingSlotScalarFieldEnum)[keyof typeof ListingSlotScalarFieldEnum]
 
 
+export const ListingTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  displayOrder: 'displayOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingTypeScalarFieldEnum = (typeof ListingTypeScalarFieldEnum)[keyof typeof ListingTypeScalarFieldEnum]
+
+
 export const ListingVariantMetadataFieldDefinitionScalarFieldEnum = {
   id: 'id',
   categoryId: 'categoryId',
@@ -328,7 +340,6 @@ export const ListingVariantMetadataFieldDefinitionScalarFieldEnum = {
   helpText: 'helpText',
   displayOrder: 'displayOrder',
   fieldGroup: 'fieldGroup',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdByAdminId: 'createdByAdminId'
@@ -344,7 +355,6 @@ export const ListingVariantMetadataFieldOptionsScalarFieldEnum = {
   optionLabel: 'optionLabel',
   optionDescription: 'optionDescription',
   displayOrder: 'displayOrder',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
