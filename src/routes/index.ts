@@ -22,6 +22,7 @@ import inventoryDateRangesRouter from "./inventoryDateRanges.route.js";
 import countryRouter from "./country.route.js";
 import primaryDivisionRouter from "./primaryDivision.route.js";
 import secondaryDivisionRouter from "./secondaryDivision.route.js";
+import searchRouter from "./search.route.js";
 
 const router = new Hono();
 
@@ -68,5 +69,8 @@ router.route("/primary-divisions", primaryDivisionRouter);
 router.route("/secondary-divisions", secondaryDivisionRouter);
 // Mount rental inventory routes (F2)
 router.route("/rental-inventory", rentalInventoryRouter);
+
+// Mount search routes
+router.route("/search", searchRouter);
 
 export default router;

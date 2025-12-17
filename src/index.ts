@@ -6,15 +6,19 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { prisma } from "./db.js";
 import apiRouter from "./routes/index.js";
-import { cors } from "hono/cors"; 
+import { cors } from "hono/cors";
 import { configureCloudinary, cloudinarySecrets } from "./config/cloudinary.config.js";
+import { initMeilisearch } from "./services/meilisearch.service.js";
 const cloudinary = configureCloudinary();
 console.log("Cloudinary Secrets Loaded:", cloudinarySecrets);
+
+// Initialize Meilisearch
+initMeilisearch().catch(err => console.error("Meilisearch init failed:", err));
 
 const app = new Hono();
 
 app.use('*', cors({
-  origin: '*', 
+  origin: '*',
 }));
 
 //test endpoint

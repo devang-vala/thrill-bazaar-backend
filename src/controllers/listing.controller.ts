@@ -1,6 +1,7 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
 import { sanitizeString, generateSlug } from "../helpers/validation.helper.js";
+import meilisearchService from "../services/meilisearch.service.js";
 
 /**
  * Get all listings with optional pagination
@@ -11,10 +12,10 @@ export const getListings = async (c: Context) => {
     const page = parseInt(c.req.query("page") || "1");
     const limit = parseInt(c.req.query("limit") || "12");
     const status = c.req.query("status"); // optional filter by status
-    
+
     // Calculate skip for pagination
     const skip = (page - 1) * limit;
-    
+
     // Build where clause
     const whereClause: any = {};
     if (status) {
@@ -23,12 +24,12 @@ export const getListings = async (c: Context) => {
       // By default, only show active listings for customers
       whereClause.status = "active";
     }
-    
+
     // Get total count for pagination
     const totalCount = await prisma.listing.count({
       where: whereClause,
     });
-    
+
     // Fetch listings with pagination
     const listings = await prisma.listing.findMany({
       where: whereClause,
@@ -152,19 +153,19 @@ export const createListing = async (c: Context) => {
       metadata: body.metadata || undefined,
     };
     // After existing listingData preparation
-if (body.bookingFormat === "F2" || body.bookingFormat === "F4") {
-  // Store rental-specific data in metadata
-  listingData.metadata = {
-    ...listingData. metadata,
-    isRental: true,
-    baseRentalPrice: body.baseRentalPrice || null,
-    minimumRentalDuration: body.minimumRentalDuration || null,
-    availableFrom: body.availableFrom || null,
-    availableTo:  body.availableTo || null,
-    // For F4 slot-based
-    rentalSlots: body.rentalSlots || null,
-  };
-}
+    if (body.bookingFormat === "F2" || body.bookingFormat === "F4") {
+      // Store rental-specific data in metadata
+      listingData.metadata = {
+        ...listingData.metadata,
+        isRental: true,
+        baseRentalPrice: body.baseRentalPrice || null,
+        minimumRentalDuration: body.minimumRentalDuration || null,
+        availableFrom: body.availableFrom || null,
+        availableTo: body.availableTo || null,
+        // For F4 slot-based
+        rentalSlots: body.rentalSlots || null,
+      };
+    }
 
     const listing = await prisma.listing.create({
       data: listingData,
@@ -180,6 +181,9 @@ if (body.bookingFormat === "F2" || body.bookingFormat === "F4") {
         },
       },
     });
+
+    // Index in Meilisearch asynchronously
+    meilisearchService.indexListing(listing.id).catch(err => console.error("Background indexing failed:", err));
 
     return c.json(
       {
@@ -297,6 +301,9 @@ export const updateListing = async (c: Context) => {
       },
     });
 
+    // Update index in Meilisearch asynchronously
+    meilisearchService.indexListing(updatedListing.id).catch(err => console.error("Background indexing update failed:", err));
+
     return c.json({
       success: true,
       message: "Listing updated successfully",
@@ -338,6 +345,9 @@ export const deleteListing = async (c: Context) => {
     await prisma.listing.delete({
       where: { id: listingId },
     });
+
+    // Remove from Meilisearch asynchronously
+    meilisearchService.removeListing(listingId).catch(err => console.error("Background removal failed:", err));
 
     return c.json({
       success: true,
