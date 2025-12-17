@@ -9,7 +9,6 @@ model ListingVariantMetadataFieldDefinition {
     helpText           String?   @map("help_text")
     displayOrder       Int       @default(0) @map("display_order")
     fieldGroup         String?   @map("field_group")
-    isActive           Boolean   @default(true) @map("is_active")
     createdAt          DateTime  @default(now()) @map("created_at")
     updatedAt          DateTime  @updatedAt @map("updated_at")
     createdByAdminId   String?   @map("created_by_admin_id")
@@ -21,6 +20,5 @@ model ListingVariantMetadataFieldDefinition {
 
     @@unique([categoryId, fieldKey])
     @@index([categoryId])
-    @@index([isActive])
     @@map("listing_variant_metadata_field_definitions")
 }

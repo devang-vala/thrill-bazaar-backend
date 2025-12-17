@@ -1,5 +1,6 @@
 model Category {
     id                  String        @id @default(uuid()) @map("category_id")
+    listingTypeId       String?       @map("listing_type_id")
     categoryName        String        @map("category_name")
     categorySlug        String        @unique @map("category_slug")
     categoryIconUrl     String?       @map("category_icon_url")
@@ -19,6 +20,7 @@ model Category {
     updatedAt                       DateTime      @updatedAt @map("updated_at")
 
     // Relations
+    listingType                         ListingType? @relation(fields: [listingTypeId], references: [id], onDelete: SetNull)
     subCategories                       SubCategory[]
     listings                            Listing[]
     metadataFieldDefinitions            ListingMetadataFieldDefinition[]

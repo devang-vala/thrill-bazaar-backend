@@ -11,7 +11,6 @@ export interface CreateFieldOptionRequest {
   optionLabel: string;
   optionDescription?: string;
   displayOrder?: number;
-  isActive?: boolean;
 }
 
 export interface UpdateFieldOptionRequest {
@@ -20,7 +19,6 @@ export interface UpdateFieldOptionRequest {
   optionLabel?: string;
   optionDescription?: string;
   displayOrder?: number;
-  isActive?: boolean;
 }
 
 /**
@@ -28,10 +26,9 @@ export interface UpdateFieldOptionRequest {
  */
 export const getFieldOptions = async (c: Context) => {
   try {
-    const { fieldDefinitionId, includeInactive = "false" } = c.req.query();
-    const showInactive = includeInactive.toLowerCase() === "true";
+    const { fieldDefinitionId } = c.req.query();
 
-    const whereClause: any = showInactive ? {} : { isActive: true };
+    const whereClause: any = {};
     if (fieldDefinitionId) {
       whereClause.fieldDefinitionId = fieldDefinitionId;
     }
@@ -137,10 +134,6 @@ export const paginateFieldOptions = async (c: Context) => {
     const skip = (page - 1) * limit;
 
     const whereClause: any = {};
-
-    if (body.isActive !== undefined) {
-      whereClause.isActive = body.isActive;
-    }
 
     if (body.fieldDefinitionId) {
       whereClause.fieldDefinitionId = body.fieldDefinitionId;
@@ -249,7 +242,6 @@ export const createFieldOption = async (c: Context) => {
       optionLabel: sanitizeString(body.optionLabel, 255),
       optionDescription: body.optionDescription ? sanitizeString(body.optionDescription, 1000) : null,
       displayOrder: body.displayOrder || 0,
-      isActive: body.isActive !== undefined ? body.isActive : true,
     };
 
     const newFieldOption = await prisma.listingMetadataFieldOptions.create({
@@ -355,9 +347,6 @@ export const updateFieldOption = async (c: Context) => {
     }
     if (body.displayOrder !== undefined) {
       updateData.displayOrder = body.displayOrder;
-    }
-    if (body.isActive !== undefined) {
-      updateData.isActive = body.isActive;
     }
 
     const updatedFieldOption = await prisma.listingMetadataFieldOptions.update({

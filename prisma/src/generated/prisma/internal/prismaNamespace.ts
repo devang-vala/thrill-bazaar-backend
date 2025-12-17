@@ -404,6 +404,7 @@ export const ModelName = {
   ListingPolicy: 'ListingPolicy',
   ListingSlotChange: 'ListingSlotChange',
   ListingSlot: 'ListingSlot',
+  ListingType: 'ListingType',
   ListingVariantMetadataFieldDefinition: 'ListingVariantMetadataFieldDefinition',
   ListingVariantMetadataFieldOptions: 'ListingVariantMetadataFieldOptions',
   ListingVariant: 'ListingVariant',
@@ -427,7 +428,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "otp" | "primaryDivision" | "secondaryDivision" | "user"
+    modelProps: "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "otp" | "primaryDivision" | "secondaryDivision" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1541,6 +1542,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ListingType: {
+      payload: Prisma.$ListingTypePayload<ExtArgs>
+      fields: Prisma.ListingTypeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingTypeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingTypePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingTypeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingTypePayload>
+        }
+        findFirst: {
+          args: Prisma.ListingTypeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingTypePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingTypeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingTypePayload>
+        }
+        findMany: {
+          args: Prisma.ListingTypeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingTypePayload>[]
+        }
+        create: {
+          args: Prisma.ListingTypeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingTypePayload>
+        }
+        createMany: {
+          args: Prisma.ListingTypeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingTypeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingTypePayload>[]
+        }
+        delete: {
+          args: Prisma.ListingTypeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingTypePayload>
+        }
+        update: {
+          args: Prisma.ListingTypeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingTypePayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingTypeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingTypeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingTypeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingTypePayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingTypeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingTypePayload>
+        }
+        aggregate: {
+          args: Prisma.ListingTypeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingType>
+        }
+        groupBy: {
+          args: Prisma.ListingTypeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingTypeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingTypeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingTypeCountAggregateOutputType> | number
+        }
+      }
+    }
     ListingVariantMetadataFieldDefinition: {
       payload: Prisma.$ListingVariantMetadataFieldDefinitionPayload<ExtArgs>
       fields: Prisma.ListingVariantMetadataFieldDefinitionFieldRefs
@@ -2174,6 +2249,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const CategoryScalarFieldEnum = {
   id: 'id',
+  listingTypeId: 'listingTypeId',
   categoryName: 'categoryName',
   categorySlug: 'categorySlug',
   categoryIconUrl: 'categoryIconUrl',
@@ -2325,7 +2401,6 @@ export const ListingMetadataFieldDefinitionScalarFieldEnum = {
   placeholderText: 'placeholderText',
   displayOrder: 'displayOrder',
   fieldGroup: 'fieldGroup',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdByAdminId: 'createdByAdminId'
@@ -2341,7 +2416,6 @@ export const ListingMetadataFieldOptionsScalarFieldEnum = {
   optionLabel: 'optionLabel',
   optionDescription: 'optionDescription',
   displayOrder: 'displayOrder',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2400,6 +2474,18 @@ export const ListingSlotScalarFieldEnum = {
 export type ListingSlotScalarFieldEnum = (typeof ListingSlotScalarFieldEnum)[keyof typeof ListingSlotScalarFieldEnum]
 
 
+export const ListingTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  displayOrder: 'displayOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingTypeScalarFieldEnum = (typeof ListingTypeScalarFieldEnum)[keyof typeof ListingTypeScalarFieldEnum]
+
+
 export const ListingVariantMetadataFieldDefinitionScalarFieldEnum = {
   id: 'id',
   categoryId: 'categoryId',
@@ -2411,7 +2497,6 @@ export const ListingVariantMetadataFieldDefinitionScalarFieldEnum = {
   helpText: 'helpText',
   displayOrder: 'displayOrder',
   fieldGroup: 'fieldGroup',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdByAdminId: 'createdByAdminId'
@@ -2427,7 +2512,6 @@ export const ListingVariantMetadataFieldOptionsScalarFieldEnum = {
   optionLabel: 'optionLabel',
   optionDescription: 'optionDescription',
   displayOrder: 'displayOrder',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2887,6 +2971,7 @@ export type GlobalOmitConfig = {
   listingPolicy?: Prisma.ListingPolicyOmit
   listingSlotChange?: Prisma.ListingSlotChangeOmit
   listingSlot?: Prisma.ListingSlotOmit
+  listingType?: Prisma.ListingTypeOmit
   listingVariantMetadataFieldDefinition?: Prisma.ListingVariantMetadataFieldDefinitionOmit
   listingVariantMetadataFieldOptions?: Prisma.ListingVariantMetadataFieldOptionsOmit
   listingVariant?: Prisma.ListingVariantOmit

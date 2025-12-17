@@ -2,6 +2,7 @@ import { prisma } from "../db.js";
 import type { BookingFormat } from "../../prisma/src/generated/prisma/enums.js";
 
 export interface CategoryData {
+  listingTypeId?: string | null;
   categoryName: string;
   categorySlug: string;
   categoryIconUrl?: string;
@@ -14,6 +15,7 @@ export interface CategoryData {
 }
 
 export interface CategoryUpdateData {
+  listingTypeId?: string | null;
   categoryName?: string;
   categorySlug?: string;
   categoryIconUrl?: string | null;
@@ -34,6 +36,13 @@ export const getAllCategories = async (includeInactive: boolean = false) => {
   return await prisma.category.findMany({
     where: whereClause,
     include: {
+      listingType: {
+        select: {
+          id: true,
+          name: true,
+          displayOrder: true,
+        },
+      },
       subCategories: {
         where: includeInactive ? {} : { isActive: true },
         orderBy: { displayOrder: "asc" },
@@ -50,6 +59,14 @@ export const getCategoryById = async (id: string) => {
   return await prisma.category.findUnique({
     where: { id },
     include: {
+      listingType: {
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          displayOrder: true,
+        },
+      },
       subCategories: {
         where: { isActive: true },
         orderBy: { displayOrder: "asc" },
@@ -65,6 +82,14 @@ export const getCategoryBySlug = async (slug: string) => {
   return await prisma.category.findUnique({
     where: { categorySlug: slug },
     include: {
+      listingType: {
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          displayOrder: true,
+        },
+      },
       subCategories: {
         where: { isActive: true },
         orderBy: { displayOrder: "asc" },

@@ -92,6 +92,11 @@ export type ListingSlotChange = Prisma.ListingSlotChangeModel
  */
 export type ListingSlot = Prisma.ListingSlotModel
 /**
+ * Model ListingType
+ * 
+ */
+export type ListingType = Prisma.ListingTypeModel
+/**
  * Model ListingVariantMetadataFieldDefinition
  * 
  */
