@@ -518,8 +518,14 @@ export const validateCreateCategory = (data: {
   categoryDescription?: string;
   displayOrder?: number;
   bookingFormat?: string;
+  isEndLocation?: boolean;
   isRental?: boolean;
   hasVariantCatA?: boolean;
+  isInclusionsExclusionsAllowed?: boolean;
+  isAddonsAllowed?: boolean;
+  isBookingOptionAllowed?: boolean;
+  isFaqAllowed?: boolean;
+  isDayWiseAllowed?: boolean;
   isActive?: boolean;
 }): ValidationResult => {
   if (!data.categoryName) {
@@ -586,6 +592,48 @@ export const validateCreateCategory = (data: {
     return { isValid: false, message: "hasVariantCatA must be a boolean" };
   }
 
+  if (
+    data.isEndLocation !== undefined &&
+    typeof data.isEndLocation !== "boolean"
+  ) {
+    return { isValid: false, message: "isEndLocation must be a boolean" };
+  }
+
+  if (
+    data.isInclusionsExclusionsAllowed !== undefined &&
+    typeof data.isInclusionsExclusionsAllowed !== "boolean"
+  ) {
+    return { isValid: false, message: "isInclusionsExclusionsAllowed must be a boolean" };
+  }
+
+  if (
+    data.isAddonsAllowed !== undefined &&
+    typeof data.isAddonsAllowed !== "boolean"
+  ) {
+    return { isValid: false, message: "isAddonsAllowed must be a boolean" };
+  }
+
+  if (
+    data.isBookingOptionAllowed !== undefined &&
+    typeof data.isBookingOptionAllowed !== "boolean"
+  ) {
+    return { isValid: false, message: "isBookingOptionAllowed must be a boolean" };
+  }
+
+  if (
+    data.isFaqAllowed !== undefined &&
+    typeof data.isFaqAllowed !== "boolean"
+  ) {
+    return { isValid: false, message: "isFaqAllowed must be a boolean" };
+  }
+
+  if (
+    data.isDayWiseAllowed !== undefined &&
+    typeof data.isDayWiseAllowed !== "boolean"
+  ) {
+    return { isValid: false, message: "isDayWiseAllowed must be a boolean" };
+  }
+
   if (data.isActive !== undefined && typeof data.isActive !== "boolean") {
     return { isValid: false, message: "isActive must be a boolean" };
   }
@@ -602,6 +650,11 @@ export const validateUpdateCategory = (data: {
   bookingFormat?: string;
   isRental?: boolean;
   hasVariantCatA?: boolean;
+  isInclusionsExclusionsAllowed?: boolean;
+  isAddonsAllowed?: boolean;
+  isBookingOptionAllowed?: boolean;
+  isFaqAllowed?: boolean;
+  isDayWiseAllowed?: boolean;
   isActive?: boolean;
 }): ValidationResult => {
   // Check if at least one field is provided
@@ -614,6 +667,11 @@ export const validateUpdateCategory = (data: {
     !data.bookingFormat &&
     data.isRental === undefined &&
     data.hasVariantCatA === undefined &&
+    data.isInclusionsExclusionsAllowed === undefined &&
+    data.isAddonsAllowed === undefined &&
+    data.isBookingOptionAllowed === undefined &&
+    data.isFaqAllowed === undefined &&
+    data.isDayWiseAllowed === undefined &&
     data.isActive === undefined
   ) {
     return {
@@ -676,6 +734,41 @@ export const validateUpdateCategory = (data: {
     typeof data.hasVariantCatA !== "boolean"
   ) {
     return { isValid: false, message: "hasVariantCatA must be a boolean" };
+  }
+
+  if (
+    data.isInclusionsExclusionsAllowed !== undefined &&
+    typeof data.isInclusionsExclusionsAllowed !== "boolean"
+  ) {
+    return { isValid: false, message: "isInclusionsExclusionsAllowed must be a boolean" };
+  }
+
+  if (
+    data.isAddonsAllowed !== undefined &&
+    typeof data.isAddonsAllowed !== "boolean"
+  ) {
+    return { isValid: false, message: "isAddonsAllowed must be a boolean" };
+  }
+
+  if (
+    data.isBookingOptionAllowed !== undefined &&
+    typeof data.isBookingOptionAllowed !== "boolean"
+  ) {
+    return { isValid: false, message: "isBookingOptionAllowed must be a boolean" };
+  }
+
+  if (
+    data.isFaqAllowed !== undefined &&
+    typeof data.isFaqAllowed !== "boolean"
+  ) {
+    return { isValid: false, message: "isFaqAllowed must be a boolean" };
+  }
+
+  if (
+    data.isDayWiseAllowed !== undefined &&
+    typeof data.isDayWiseAllowed !== "boolean"
+  ) {
+    return { isValid: false, message: "isDayWiseAllowed must be a boolean" };
   }
 
   if (data.isActive !== undefined && typeof data.isActive !== "boolean") {

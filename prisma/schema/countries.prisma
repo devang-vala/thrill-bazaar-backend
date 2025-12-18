@@ -3,6 +3,8 @@ model Country {
   country_name  String
   country_code  String   @unique
   primaryDivisions PrimaryDivision[]
+  listingsStart Listing[] @relation("ListingStartCountry")
+  listingsEnd   Listing[] @relation("ListingEndCountry")
 
     @@map("countries")
 }

@@ -175,6 +175,8 @@ export type PrimaryDivisionWhereInput = {
   division_code?: Prisma.StringFilter<"PrimaryDivision"> | string
   country?: Prisma.XOR<Prisma.CountryScalarRelationFilter, Prisma.CountryWhereInput>
   secondaryDivisions?: Prisma.SecondaryDivisionListRelationFilter
+  listingsStart?: Prisma.ListingListRelationFilter
+  listingsEnd?: Prisma.ListingListRelationFilter
 }
 
 export type PrimaryDivisionOrderByWithRelationInput = {
@@ -184,6 +186,8 @@ export type PrimaryDivisionOrderByWithRelationInput = {
   division_code?: Prisma.SortOrder
   country?: Prisma.CountryOrderByWithRelationInput
   secondaryDivisions?: Prisma.SecondaryDivisionOrderByRelationAggregateInput
+  listingsStart?: Prisma.ListingOrderByRelationAggregateInput
+  listingsEnd?: Prisma.ListingOrderByRelationAggregateInput
 }
 
 export type PrimaryDivisionWhereUniqueInput = Prisma.AtLeast<{
@@ -196,6 +200,8 @@ export type PrimaryDivisionWhereUniqueInput = Prisma.AtLeast<{
   division_code?: Prisma.StringFilter<"PrimaryDivision"> | string
   country?: Prisma.XOR<Prisma.CountryScalarRelationFilter, Prisma.CountryWhereInput>
   secondaryDivisions?: Prisma.SecondaryDivisionListRelationFilter
+  listingsStart?: Prisma.ListingListRelationFilter
+  listingsEnd?: Prisma.ListingListRelationFilter
 }, "primary_division_id">
 
 export type PrimaryDivisionOrderByWithAggregationInput = {
@@ -224,6 +230,8 @@ export type PrimaryDivisionCreateInput = {
   division_code: string
   country: Prisma.CountryCreateNestedOneWithoutPrimaryDivisionsInput
   secondaryDivisions?: Prisma.SecondaryDivisionCreateNestedManyWithoutPrimaryDivisionInput
+  listingsStart?: Prisma.ListingCreateNestedManyWithoutStartPrimaryDivisionInput
+  listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndPrimaryDivisionInput
 }
 
 export type PrimaryDivisionUncheckedCreateInput = {
@@ -232,6 +240,8 @@ export type PrimaryDivisionUncheckedCreateInput = {
   division_name: string
   division_code: string
   secondaryDivisions?: Prisma.SecondaryDivisionUncheckedCreateNestedManyWithoutPrimaryDivisionInput
+  listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartPrimaryDivisionInput
+  listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndPrimaryDivisionInput
 }
 
 export type PrimaryDivisionUpdateInput = {
@@ -240,6 +250,8 @@ export type PrimaryDivisionUpdateInput = {
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.CountryUpdateOneRequiredWithoutPrimaryDivisionsNestedInput
   secondaryDivisions?: Prisma.SecondaryDivisionUpdateManyWithoutPrimaryDivisionNestedInput
+  listingsStart?: Prisma.ListingUpdateManyWithoutStartPrimaryDivisionNestedInput
+  listingsEnd?: Prisma.ListingUpdateManyWithoutEndPrimaryDivisionNestedInput
 }
 
 export type PrimaryDivisionUncheckedUpdateInput = {
@@ -248,6 +260,8 @@ export type PrimaryDivisionUncheckedUpdateInput = {
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryDivisions?: Prisma.SecondaryDivisionUncheckedUpdateManyWithoutPrimaryDivisionNestedInput
+  listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartPrimaryDivisionNestedInput
+  listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndPrimaryDivisionNestedInput
 }
 
 export type PrimaryDivisionCreateManyInput = {
@@ -278,6 +292,11 @@ export type PrimaryDivisionListRelationFilter = {
 
 export type PrimaryDivisionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type PrimaryDivisionNullableScalarRelationFilter = {
+  is?: Prisma.PrimaryDivisionWhereInput | null
+  isNot?: Prisma.PrimaryDivisionWhereInput | null
 }
 
 export type PrimaryDivisionCountOrderByAggregateInput = {
@@ -348,6 +367,38 @@ export type PrimaryDivisionUncheckedUpdateManyWithoutCountryNestedInput = {
   deleteMany?: Prisma.PrimaryDivisionScalarWhereInput | Prisma.PrimaryDivisionScalarWhereInput[]
 }
 
+export type PrimaryDivisionCreateNestedOneWithoutListingsStartInput = {
+  create?: Prisma.XOR<Prisma.PrimaryDivisionCreateWithoutListingsStartInput, Prisma.PrimaryDivisionUncheckedCreateWithoutListingsStartInput>
+  connectOrCreate?: Prisma.PrimaryDivisionCreateOrConnectWithoutListingsStartInput
+  connect?: Prisma.PrimaryDivisionWhereUniqueInput
+}
+
+export type PrimaryDivisionCreateNestedOneWithoutListingsEndInput = {
+  create?: Prisma.XOR<Prisma.PrimaryDivisionCreateWithoutListingsEndInput, Prisma.PrimaryDivisionUncheckedCreateWithoutListingsEndInput>
+  connectOrCreate?: Prisma.PrimaryDivisionCreateOrConnectWithoutListingsEndInput
+  connect?: Prisma.PrimaryDivisionWhereUniqueInput
+}
+
+export type PrimaryDivisionUpdateOneWithoutListingsStartNestedInput = {
+  create?: Prisma.XOR<Prisma.PrimaryDivisionCreateWithoutListingsStartInput, Prisma.PrimaryDivisionUncheckedCreateWithoutListingsStartInput>
+  connectOrCreate?: Prisma.PrimaryDivisionCreateOrConnectWithoutListingsStartInput
+  upsert?: Prisma.PrimaryDivisionUpsertWithoutListingsStartInput
+  disconnect?: Prisma.PrimaryDivisionWhereInput | boolean
+  delete?: Prisma.PrimaryDivisionWhereInput | boolean
+  connect?: Prisma.PrimaryDivisionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PrimaryDivisionUpdateToOneWithWhereWithoutListingsStartInput, Prisma.PrimaryDivisionUpdateWithoutListingsStartInput>, Prisma.PrimaryDivisionUncheckedUpdateWithoutListingsStartInput>
+}
+
+export type PrimaryDivisionUpdateOneWithoutListingsEndNestedInput = {
+  create?: Prisma.XOR<Prisma.PrimaryDivisionCreateWithoutListingsEndInput, Prisma.PrimaryDivisionUncheckedCreateWithoutListingsEndInput>
+  connectOrCreate?: Prisma.PrimaryDivisionCreateOrConnectWithoutListingsEndInput
+  upsert?: Prisma.PrimaryDivisionUpsertWithoutListingsEndInput
+  disconnect?: Prisma.PrimaryDivisionWhereInput | boolean
+  delete?: Prisma.PrimaryDivisionWhereInput | boolean
+  connect?: Prisma.PrimaryDivisionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PrimaryDivisionUpdateToOneWithWhereWithoutListingsEndInput, Prisma.PrimaryDivisionUpdateWithoutListingsEndInput>, Prisma.PrimaryDivisionUncheckedUpdateWithoutListingsEndInput>
+}
+
 export type PrimaryDivisionCreateNestedOneWithoutSecondaryDivisionsInput = {
   create?: Prisma.XOR<Prisma.PrimaryDivisionCreateWithoutSecondaryDivisionsInput, Prisma.PrimaryDivisionUncheckedCreateWithoutSecondaryDivisionsInput>
   connectOrCreate?: Prisma.PrimaryDivisionCreateOrConnectWithoutSecondaryDivisionsInput
@@ -367,6 +418,8 @@ export type PrimaryDivisionCreateWithoutCountryInput = {
   division_name: string
   division_code: string
   secondaryDivisions?: Prisma.SecondaryDivisionCreateNestedManyWithoutPrimaryDivisionInput
+  listingsStart?: Prisma.ListingCreateNestedManyWithoutStartPrimaryDivisionInput
+  listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndPrimaryDivisionInput
 }
 
 export type PrimaryDivisionUncheckedCreateWithoutCountryInput = {
@@ -374,6 +427,8 @@ export type PrimaryDivisionUncheckedCreateWithoutCountryInput = {
   division_name: string
   division_code: string
   secondaryDivisions?: Prisma.SecondaryDivisionUncheckedCreateNestedManyWithoutPrimaryDivisionInput
+  listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartPrimaryDivisionInput
+  listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndPrimaryDivisionInput
 }
 
 export type PrimaryDivisionCreateOrConnectWithoutCountryInput = {
@@ -412,11 +467,117 @@ export type PrimaryDivisionScalarWhereInput = {
   division_code?: Prisma.StringFilter<"PrimaryDivision"> | string
 }
 
+export type PrimaryDivisionCreateWithoutListingsStartInput = {
+  primary_division_id?: string
+  division_name: string
+  division_code: string
+  country: Prisma.CountryCreateNestedOneWithoutPrimaryDivisionsInput
+  secondaryDivisions?: Prisma.SecondaryDivisionCreateNestedManyWithoutPrimaryDivisionInput
+  listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndPrimaryDivisionInput
+}
+
+export type PrimaryDivisionUncheckedCreateWithoutListingsStartInput = {
+  primary_division_id?: string
+  country_id: string
+  division_name: string
+  division_code: string
+  secondaryDivisions?: Prisma.SecondaryDivisionUncheckedCreateNestedManyWithoutPrimaryDivisionInput
+  listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndPrimaryDivisionInput
+}
+
+export type PrimaryDivisionCreateOrConnectWithoutListingsStartInput = {
+  where: Prisma.PrimaryDivisionWhereUniqueInput
+  create: Prisma.XOR<Prisma.PrimaryDivisionCreateWithoutListingsStartInput, Prisma.PrimaryDivisionUncheckedCreateWithoutListingsStartInput>
+}
+
+export type PrimaryDivisionCreateWithoutListingsEndInput = {
+  primary_division_id?: string
+  division_name: string
+  division_code: string
+  country: Prisma.CountryCreateNestedOneWithoutPrimaryDivisionsInput
+  secondaryDivisions?: Prisma.SecondaryDivisionCreateNestedManyWithoutPrimaryDivisionInput
+  listingsStart?: Prisma.ListingCreateNestedManyWithoutStartPrimaryDivisionInput
+}
+
+export type PrimaryDivisionUncheckedCreateWithoutListingsEndInput = {
+  primary_division_id?: string
+  country_id: string
+  division_name: string
+  division_code: string
+  secondaryDivisions?: Prisma.SecondaryDivisionUncheckedCreateNestedManyWithoutPrimaryDivisionInput
+  listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartPrimaryDivisionInput
+}
+
+export type PrimaryDivisionCreateOrConnectWithoutListingsEndInput = {
+  where: Prisma.PrimaryDivisionWhereUniqueInput
+  create: Prisma.XOR<Prisma.PrimaryDivisionCreateWithoutListingsEndInput, Prisma.PrimaryDivisionUncheckedCreateWithoutListingsEndInput>
+}
+
+export type PrimaryDivisionUpsertWithoutListingsStartInput = {
+  update: Prisma.XOR<Prisma.PrimaryDivisionUpdateWithoutListingsStartInput, Prisma.PrimaryDivisionUncheckedUpdateWithoutListingsStartInput>
+  create: Prisma.XOR<Prisma.PrimaryDivisionCreateWithoutListingsStartInput, Prisma.PrimaryDivisionUncheckedCreateWithoutListingsStartInput>
+  where?: Prisma.PrimaryDivisionWhereInput
+}
+
+export type PrimaryDivisionUpdateToOneWithWhereWithoutListingsStartInput = {
+  where?: Prisma.PrimaryDivisionWhereInput
+  data: Prisma.XOR<Prisma.PrimaryDivisionUpdateWithoutListingsStartInput, Prisma.PrimaryDivisionUncheckedUpdateWithoutListingsStartInput>
+}
+
+export type PrimaryDivisionUpdateWithoutListingsStartInput = {
+  primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
+  division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.CountryUpdateOneRequiredWithoutPrimaryDivisionsNestedInput
+  secondaryDivisions?: Prisma.SecondaryDivisionUpdateManyWithoutPrimaryDivisionNestedInput
+  listingsEnd?: Prisma.ListingUpdateManyWithoutEndPrimaryDivisionNestedInput
+}
+
+export type PrimaryDivisionUncheckedUpdateWithoutListingsStartInput = {
+  primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
+  country_id?: Prisma.StringFieldUpdateOperationsInput | string
+  division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryDivisions?: Prisma.SecondaryDivisionUncheckedUpdateManyWithoutPrimaryDivisionNestedInput
+  listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndPrimaryDivisionNestedInput
+}
+
+export type PrimaryDivisionUpsertWithoutListingsEndInput = {
+  update: Prisma.XOR<Prisma.PrimaryDivisionUpdateWithoutListingsEndInput, Prisma.PrimaryDivisionUncheckedUpdateWithoutListingsEndInput>
+  create: Prisma.XOR<Prisma.PrimaryDivisionCreateWithoutListingsEndInput, Prisma.PrimaryDivisionUncheckedCreateWithoutListingsEndInput>
+  where?: Prisma.PrimaryDivisionWhereInput
+}
+
+export type PrimaryDivisionUpdateToOneWithWhereWithoutListingsEndInput = {
+  where?: Prisma.PrimaryDivisionWhereInput
+  data: Prisma.XOR<Prisma.PrimaryDivisionUpdateWithoutListingsEndInput, Prisma.PrimaryDivisionUncheckedUpdateWithoutListingsEndInput>
+}
+
+export type PrimaryDivisionUpdateWithoutListingsEndInput = {
+  primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
+  division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.CountryUpdateOneRequiredWithoutPrimaryDivisionsNestedInput
+  secondaryDivisions?: Prisma.SecondaryDivisionUpdateManyWithoutPrimaryDivisionNestedInput
+  listingsStart?: Prisma.ListingUpdateManyWithoutStartPrimaryDivisionNestedInput
+}
+
+export type PrimaryDivisionUncheckedUpdateWithoutListingsEndInput = {
+  primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
+  country_id?: Prisma.StringFieldUpdateOperationsInput | string
+  division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryDivisions?: Prisma.SecondaryDivisionUncheckedUpdateManyWithoutPrimaryDivisionNestedInput
+  listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartPrimaryDivisionNestedInput
+}
+
 export type PrimaryDivisionCreateWithoutSecondaryDivisionsInput = {
   primary_division_id?: string
   division_name: string
   division_code: string
   country: Prisma.CountryCreateNestedOneWithoutPrimaryDivisionsInput
+  listingsStart?: Prisma.ListingCreateNestedManyWithoutStartPrimaryDivisionInput
+  listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndPrimaryDivisionInput
 }
 
 export type PrimaryDivisionUncheckedCreateWithoutSecondaryDivisionsInput = {
@@ -424,6 +585,8 @@ export type PrimaryDivisionUncheckedCreateWithoutSecondaryDivisionsInput = {
   country_id: string
   division_name: string
   division_code: string
+  listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartPrimaryDivisionInput
+  listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndPrimaryDivisionInput
 }
 
 export type PrimaryDivisionCreateOrConnectWithoutSecondaryDivisionsInput = {
@@ -447,6 +610,8 @@ export type PrimaryDivisionUpdateWithoutSecondaryDivisionsInput = {
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.CountryUpdateOneRequiredWithoutPrimaryDivisionsNestedInput
+  listingsStart?: Prisma.ListingUpdateManyWithoutStartPrimaryDivisionNestedInput
+  listingsEnd?: Prisma.ListingUpdateManyWithoutEndPrimaryDivisionNestedInput
 }
 
 export type PrimaryDivisionUncheckedUpdateWithoutSecondaryDivisionsInput = {
@@ -454,6 +619,8 @@ export type PrimaryDivisionUncheckedUpdateWithoutSecondaryDivisionsInput = {
   country_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartPrimaryDivisionNestedInput
+  listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndPrimaryDivisionNestedInput
 }
 
 export type PrimaryDivisionCreateManyCountryInput = {
@@ -467,6 +634,8 @@ export type PrimaryDivisionUpdateWithoutCountryInput = {
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryDivisions?: Prisma.SecondaryDivisionUpdateManyWithoutPrimaryDivisionNestedInput
+  listingsStart?: Prisma.ListingUpdateManyWithoutStartPrimaryDivisionNestedInput
+  listingsEnd?: Prisma.ListingUpdateManyWithoutEndPrimaryDivisionNestedInput
 }
 
 export type PrimaryDivisionUncheckedUpdateWithoutCountryInput = {
@@ -474,6 +643,8 @@ export type PrimaryDivisionUncheckedUpdateWithoutCountryInput = {
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
   secondaryDivisions?: Prisma.SecondaryDivisionUncheckedUpdateManyWithoutPrimaryDivisionNestedInput
+  listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartPrimaryDivisionNestedInput
+  listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndPrimaryDivisionNestedInput
 }
 
 export type PrimaryDivisionUncheckedUpdateManyWithoutCountryInput = {
@@ -489,10 +660,14 @@ export type PrimaryDivisionUncheckedUpdateManyWithoutCountryInput = {
 
 export type PrimaryDivisionCountOutputType = {
   secondaryDivisions: number
+  listingsStart: number
+  listingsEnd: number
 }
 
 export type PrimaryDivisionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   secondaryDivisions?: boolean | PrimaryDivisionCountOutputTypeCountSecondaryDivisionsArgs
+  listingsStart?: boolean | PrimaryDivisionCountOutputTypeCountListingsStartArgs
+  listingsEnd?: boolean | PrimaryDivisionCountOutputTypeCountListingsEndArgs
 }
 
 /**
@@ -512,6 +687,20 @@ export type PrimaryDivisionCountOutputTypeCountSecondaryDivisionsArgs<ExtArgs ex
   where?: Prisma.SecondaryDivisionWhereInput
 }
 
+/**
+ * PrimaryDivisionCountOutputType without action
+ */
+export type PrimaryDivisionCountOutputTypeCountListingsStartArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingWhereInput
+}
+
+/**
+ * PrimaryDivisionCountOutputType without action
+ */
+export type PrimaryDivisionCountOutputTypeCountListingsEndArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingWhereInput
+}
+
 
 export type PrimaryDivisionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   primary_division_id?: boolean
@@ -520,6 +709,8 @@ export type PrimaryDivisionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   division_code?: boolean
   country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
   secondaryDivisions?: boolean | Prisma.PrimaryDivision$secondaryDivisionsArgs<ExtArgs>
+  listingsStart?: boolean | Prisma.PrimaryDivision$listingsStartArgs<ExtArgs>
+  listingsEnd?: boolean | Prisma.PrimaryDivision$listingsEndArgs<ExtArgs>
   _count?: boolean | Prisma.PrimaryDivisionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["primaryDivision"]>
 
@@ -550,6 +741,8 @@ export type PrimaryDivisionOmit<ExtArgs extends runtime.Types.Extensions.Interna
 export type PrimaryDivisionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
   secondaryDivisions?: boolean | Prisma.PrimaryDivision$secondaryDivisionsArgs<ExtArgs>
+  listingsStart?: boolean | Prisma.PrimaryDivision$listingsStartArgs<ExtArgs>
+  listingsEnd?: boolean | Prisma.PrimaryDivision$listingsEndArgs<ExtArgs>
   _count?: boolean | Prisma.PrimaryDivisionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PrimaryDivisionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -564,6 +757,8 @@ export type $PrimaryDivisionPayload<ExtArgs extends runtime.Types.Extensions.Int
   objects: {
     country: Prisma.$CountryPayload<ExtArgs>
     secondaryDivisions: Prisma.$SecondaryDivisionPayload<ExtArgs>[]
+    listingsStart: Prisma.$ListingPayload<ExtArgs>[]
+    listingsEnd: Prisma.$ListingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     primary_division_id: string
@@ -966,6 +1161,8 @@ export interface Prisma__PrimaryDivisionClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   country<T extends Prisma.CountryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CountryDefaultArgs<ExtArgs>>): Prisma.Prisma__CountryClient<runtime.Types.Result.GetResult<Prisma.$CountryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   secondaryDivisions<T extends Prisma.PrimaryDivision$secondaryDivisionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrimaryDivision$secondaryDivisionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SecondaryDivisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  listingsStart<T extends Prisma.PrimaryDivision$listingsStartArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrimaryDivision$listingsStartArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  listingsEnd<T extends Prisma.PrimaryDivision$listingsEndArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrimaryDivision$listingsEndArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1416,6 +1613,54 @@ export type PrimaryDivision$secondaryDivisionsArgs<ExtArgs extends runtime.Types
   take?: number
   skip?: number
   distinct?: Prisma.SecondaryDivisionScalarFieldEnum | Prisma.SecondaryDivisionScalarFieldEnum[]
+}
+
+/**
+ * PrimaryDivision.listingsStart
+ */
+export type PrimaryDivision$listingsStartArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Listing
+   */
+  select?: Prisma.ListingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Listing
+   */
+  omit?: Prisma.ListingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingInclude<ExtArgs> | null
+  where?: Prisma.ListingWhereInput
+  orderBy?: Prisma.ListingOrderByWithRelationInput | Prisma.ListingOrderByWithRelationInput[]
+  cursor?: Prisma.ListingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingScalarFieldEnum | Prisma.ListingScalarFieldEnum[]
+}
+
+/**
+ * PrimaryDivision.listingsEnd
+ */
+export type PrimaryDivision$listingsEndArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Listing
+   */
+  select?: Prisma.ListingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Listing
+   */
+  omit?: Prisma.ListingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingInclude<ExtArgs> | null
+  where?: Prisma.ListingWhereInput
+  orderBy?: Prisma.ListingOrderByWithRelationInput | Prisma.ListingOrderByWithRelationInput[]
+  cursor?: Prisma.ListingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingScalarFieldEnum | Prisma.ListingScalarFieldEnum[]
 }
 
 /**

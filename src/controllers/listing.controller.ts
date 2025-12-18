@@ -96,11 +96,18 @@ export const getListing = async (c: Context) => {
             email: true,
           },
         },
+        startCountry: true,
+        startPrimaryDivision: true,
+        startSecondaryDivision: true,
+        endCountry: true,
+        endPrimaryDivision: true,
+        endSecondaryDivision: true,
         variants: true,
         content: true,
         inclusionsExclusions: true,
         addons: true,
         media: true,
+        faqs: true,
       },
     });
 
@@ -108,9 +115,24 @@ export const getListing = async (c: Context) => {
       return c.json({ error: "Listing not found" }, 404);
     }
 
+    // Transform media from JSON format to flat structure
+    const transformedMedia = listing.media.map((m: any) => {
+      const mediaData = typeof m.media === 'string' ? JSON.parse(m.media) : m.media;
+      return {
+        id: m.id,
+        mediaType: mediaData.mediaType || 'image',
+        mediaUrl: mediaData.mediaUrl || '',
+        displayOrder: mediaData.displayOrder || 0,
+        caption: mediaData.caption || null,
+      };
+    });
+
     return c.json({
       success: true,
-      data: listing,
+      data: {
+        ...listing,
+        media: transformedMedia,
+      },
     });
   } catch (error) {
     console.error("Get listing error:", error);
@@ -281,8 +303,61 @@ export const updateListing = async (c: Context) => {
     if (body.startCountryId !== undefined) {
       updateData.startCountryId = body.startCountryId;
     }
+    if (body.startPrimaryDivisionId !== undefined) {
+      updateData.startPrimaryDivisionId = body.startPrimaryDivisionId;
+    }
+    if (body.startSecondaryDivisionId !== undefined) {
+      updateData.startSecondaryDivisionId = body.startSecondaryDivisionId;
+    }
     if (body.endCountryId !== undefined) {
       updateData.endCountryId = body.endCountryId;
+    }
+    if (body.endPrimaryDivisionId !== undefined) {
+      updateData.endPrimaryDivisionId = body.endPrimaryDivisionId;
+    }
+    if (body.endSecondaryDivisionId !== undefined) {
+      updateData.endSecondaryDivisionId = body.endSecondaryDivisionId;
+    }
+    if (body.startLocationCoordinates !== undefined) {
+      updateData.startLocationCoordinates = body.startLocationCoordinates;
+    }
+    if (body.endLocationCoordinates !== undefined) {
+      updateData.endLocationCoordinates = body.endLocationCoordinates;
+    }
+    if (body.startGoogleMapsUrl !== undefined) {
+      updateData.startGoogleMapsUrl = body.startGoogleMapsUrl;
+    }
+    if (body.endGoogleMapsUrl !== undefined) {
+      updateData.endGoogleMapsUrl = body.endGoogleMapsUrl;
+    }
+
+    // Handle metadata - extract fields that exist in table schema
+    if (body.metadata !== undefined) {
+      const metadata = typeof body.metadata === 'string' ? JSON.parse(body.metadata) : body.metadata;
+      const cleanedMetadata: any = {};
+      
+      // List of fields that exist in the listings table
+      const tableFields = [
+        'startCountryId', 'startPrimaryDivisionId', 'startSecondaryDivisionId',
+        'endCountryId', 'endPrimaryDivisionId', 'endSecondaryDivisionId',
+        'startLocationName', 'startLocationCoordinates', 'startGoogleMapsUrl',
+        'endLocationName', 'endLocationCoordinates', 'endGoogleMapsUrl',
+        'taxRate', 'advanceBookingPercentage', 'basePriceDisplay', 'currency'
+      ];
+      
+      // Extract table fields from metadata and add them to updateData
+      Object.keys(metadata).forEach(key => {
+        if (tableFields.includes(key) && metadata[key] !== undefined && metadata[key] !== null && metadata[key] !== '') {
+          // Store in table column
+          updateData[key] = metadata[key];
+        } else {
+          // Keep in metadata
+          cleanedMetadata[key] = metadata[key];
+        }
+      });
+      
+      // Update metadata with only non-table fields
+      updateData.metadata = cleanedMetadata;
     }
 
     const updatedListing = await prisma.listing.update({

@@ -41,6 +41,15 @@ model Listing {
     category             Category?                   @relation(fields: [categoryId], references: [id], onDelete: Restrict)
     subCategory          SubCategory?                @relation(fields: [subCatId], references: [id], onDelete: Restrict)
     approvedByAdmin      User?                       @relation("ListingApprovals", fields: [approvedByAdminId], references: [id], onDelete: SetNull)
+    
+    // Location Relations
+    startCountry           Country?           @relation("ListingStartCountry", fields: [startCountryId], references: [country_id], onDelete: SetNull)
+    startPrimaryDivision   PrimaryDivision?   @relation("ListingStartPrimaryDivision", fields: [startPrimaryDivisionId], references: [primary_division_id], onDelete: SetNull)
+    startSecondaryDivision SecondaryDivision? @relation("ListingStartSecondaryDivision", fields: [startSecondaryDivisionId], references: [secondary_division_id], onDelete: SetNull)
+    endCountry             Country?           @relation("ListingEndCountry", fields: [endCountryId], references: [country_id], onDelete: SetNull)
+    endPrimaryDivision     PrimaryDivision?   @relation("ListingEndPrimaryDivision", fields: [endPrimaryDivisionId], references: [primary_division_id], onDelete: SetNull)
+    endSecondaryDivision   SecondaryDivision? @relation("ListingEndSecondaryDivision", fields: [endSecondaryDivisionId], references: [secondary_division_id], onDelete: SetNull)
+    
     variants             ListingVariant[]
     content              ListingContent[]
     inclusionsExclusions ListingInclusionExclusion?

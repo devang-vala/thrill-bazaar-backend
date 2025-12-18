@@ -5,6 +5,8 @@ model SecondaryDivision {
   latitude              Float
   longitude             Float
   primaryDivision       PrimaryDivision @relation(fields: [primary_division_id], references: [primary_division_id])
+  listingsStart         Listing[] @relation("ListingStartSecondaryDivision")
+  listingsEnd           Listing[] @relation("ListingEndSecondaryDivision")
 
   @@map("secondary_divisions")
 }
