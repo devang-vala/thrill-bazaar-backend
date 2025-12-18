@@ -26,5 +26,6 @@ categoryRouter.post("/paginate", paginateCategories);
 categoryRouter.get("/:id", getCategory);
 categoryRouter.post("/", createCategoryHandler);
 categoryRouter.put("/:id", updateCategory);
+categoryRouter.delete("/:id", deleteCategory);
 
 export default categoryRouter;

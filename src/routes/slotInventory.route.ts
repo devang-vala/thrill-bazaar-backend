@@ -16,8 +16,11 @@ slotInventoryRouter.get("/definitions/:listingId/:variantId?", getSlotDefinition
 // Create/update slot definitions
 slotInventoryRouter.post("/definitions", upsertSlotDefinition);
 
-// Fetch slot availability for a given month
-slotInventoryRouter.get("/availability/:listingId/:variantId?/:month", getSlotAvailability);
+// Fetch slot availability for a given month (with variant)
+slotInventoryRouter.get("/availability/:listingId/:variantId/:month", getSlotAvailability);
+
+// Fetch slot availability for a given month (without variant)
+slotInventoryRouter.get("/availability/:listingId/:month", getSlotAvailability);
 
 // Create/update slot inventory for one or multiple dates
 slotInventoryRouter.post("/inventory", upsertSlotInventory);

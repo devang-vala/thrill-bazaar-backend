@@ -30,6 +30,7 @@ export interface CreateCategoryRequest {
   isInclusionsExclusionsAllowed?: boolean;
   isAddonsAllowed?: boolean;
   isBookingOptionAllowed?: boolean;
+  isFaqAllowed?: boolean;
   isDayWiseAllowed?: boolean;
   isActive?: boolean;
 }
@@ -48,6 +49,7 @@ export interface UpdateCategoryRequest {
   isInclusionsExclusionsAllowed?: boolean;
   isAddonsAllowed?: boolean;
   isBookingOptionAllowed?: boolean;
+  isFaqAllowed?: boolean;
   isDayWiseAllowed?: boolean;
   isActive?: boolean;
 }
@@ -340,6 +342,7 @@ export const createCategoryHandler = async (c: Context) => {
       isInclusionsExclusionsAllowed: body.isInclusionsExclusionsAllowed || false,
       isAddonsAllowed: body.isAddonsAllowed || false,
       isBookingOptionAllowed: body.isBookingOptionAllowed || false,
+      isFaqAllowed: body.isFaqAllowed || false,
       isDayWiseAllowed: body.isDayWiseAllowed || false,
       isActive: body.isActive !== undefined ? body.isActive : true,
     };
@@ -446,6 +449,9 @@ export const updateCategory = async (c: Context) => {
     }
     if (body.isBookingOptionAllowed !== undefined) {
       updateData.isBookingOptionAllowed = body.isBookingOptionAllowed;
+    }
+    if (body.isFaqAllowed !== undefined) {
+      updateData.isFaqAllowed = body.isFaqAllowed;
     }
     if (body.isDayWiseAllowed !== undefined) {
       updateData.isDayWiseAllowed = body.isDayWiseAllowed;

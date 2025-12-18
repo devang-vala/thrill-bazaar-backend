@@ -9,8 +9,14 @@ export interface CategoryData {
   categoryDescription?: string;
   displayOrder: number;
   bookingFormat: BookingFormat;
+  isEndLocation: boolean;
   isRental: boolean;
   hasVariantCatA: boolean;
+  isInclusionsExclusionsAllowed: boolean;
+  isAddonsAllowed: boolean;
+  isBookingOptionAllowed: boolean;
+  isFaqAllowed: boolean;
+  isDayWiseAllowed: boolean;
   isActive: boolean;
 }
 
@@ -22,8 +28,14 @@ export interface CategoryUpdateData {
   categoryDescription?: string | null;
   displayOrder?: number;
   bookingFormat?: BookingFormat;
+  isEndLocation?: boolean;
   isRental?: boolean;
   hasVariantCatA?: boolean;
+  isInclusionsExclusionsAllowed?: boolean;
+  isAddonsAllowed?: boolean;
+  isBookingOptionAllowed?: boolean;
+  isFaqAllowed?: boolean;
+  isDayWiseAllowed?: boolean;
   isActive?: boolean;
 }
 

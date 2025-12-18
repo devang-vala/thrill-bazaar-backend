@@ -447,6 +447,12 @@ export type ListingWhereInput = {
   category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
   subCategory?: Prisma.XOR<Prisma.SubCategoryNullableScalarRelationFilter, Prisma.SubCategoryWhereInput> | null
   approvedByAdmin?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  startCountry?: Prisma.XOR<Prisma.CountryNullableScalarRelationFilter, Prisma.CountryWhereInput> | null
+  startPrimaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionNullableScalarRelationFilter, Prisma.PrimaryDivisionWhereInput> | null
+  startSecondaryDivision?: Prisma.XOR<Prisma.SecondaryDivisionNullableScalarRelationFilter, Prisma.SecondaryDivisionWhereInput> | null
+  endCountry?: Prisma.XOR<Prisma.CountryNullableScalarRelationFilter, Prisma.CountryWhereInput> | null
+  endPrimaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionNullableScalarRelationFilter, Prisma.PrimaryDivisionWhereInput> | null
+  endSecondaryDivision?: Prisma.XOR<Prisma.SecondaryDivisionNullableScalarRelationFilter, Prisma.SecondaryDivisionWhereInput> | null
   variants?: Prisma.ListingVariantListRelationFilter
   content?: Prisma.ListingContentListRelationFilter
   inclusionsExclusions?: Prisma.XOR<Prisma.ListingInclusionExclusionNullableScalarRelationFilter, Prisma.ListingInclusionExclusionWhereInput> | null
@@ -497,6 +503,12 @@ export type ListingOrderByWithRelationInput = {
   category?: Prisma.CategoryOrderByWithRelationInput
   subCategory?: Prisma.SubCategoryOrderByWithRelationInput
   approvedByAdmin?: Prisma.UserOrderByWithRelationInput
+  startCountry?: Prisma.CountryOrderByWithRelationInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionOrderByWithRelationInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionOrderByWithRelationInput
+  endCountry?: Prisma.CountryOrderByWithRelationInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionOrderByWithRelationInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionOrderByWithRelationInput
   variants?: Prisma.ListingVariantOrderByRelationAggregateInput
   content?: Prisma.ListingContentOrderByRelationAggregateInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionOrderByWithRelationInput
@@ -550,6 +562,12 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
   subCategory?: Prisma.XOR<Prisma.SubCategoryNullableScalarRelationFilter, Prisma.SubCategoryWhereInput> | null
   approvedByAdmin?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  startCountry?: Prisma.XOR<Prisma.CountryNullableScalarRelationFilter, Prisma.CountryWhereInput> | null
+  startPrimaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionNullableScalarRelationFilter, Prisma.PrimaryDivisionWhereInput> | null
+  startSecondaryDivision?: Prisma.XOR<Prisma.SecondaryDivisionNullableScalarRelationFilter, Prisma.SecondaryDivisionWhereInput> | null
+  endCountry?: Prisma.XOR<Prisma.CountryNullableScalarRelationFilter, Prisma.CountryWhereInput> | null
+  endPrimaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionNullableScalarRelationFilter, Prisma.PrimaryDivisionWhereInput> | null
+  endSecondaryDivision?: Prisma.XOR<Prisma.SecondaryDivisionNullableScalarRelationFilter, Prisma.SecondaryDivisionWhereInput> | null
   variants?: Prisma.ListingVariantListRelationFilter
   content?: Prisma.ListingContentListRelationFilter
   inclusionsExclusions?: Prisma.XOR<Prisma.ListingInclusionExclusionNullableScalarRelationFilter, Prisma.ListingInclusionExclusionWhereInput> | null
@@ -655,12 +673,6 @@ export type ListingCreateInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -676,6 +688,12 @@ export type ListingCreateInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
@@ -747,12 +765,6 @@ export type ListingUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -768,6 +780,12 @@ export type ListingUpdateInput = {
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
@@ -875,12 +893,6 @@ export type ListingUpdateManyMutationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1147,6 +1159,90 @@ export type ListingUncheckedUpdateManyWithoutSubCategoryNestedInput = {
   deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
+export type ListingCreateNestedManyWithoutStartCountryInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput> | Prisma.ListingCreateWithoutStartCountryInput[] | Prisma.ListingUncheckedCreateWithoutStartCountryInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartCountryInput | Prisma.ListingCreateOrConnectWithoutStartCountryInput[]
+  createMany?: Prisma.ListingCreateManyStartCountryInputEnvelope
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+}
+
+export type ListingCreateNestedManyWithoutEndCountryInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutEndCountryInput, Prisma.ListingUncheckedCreateWithoutEndCountryInput> | Prisma.ListingCreateWithoutEndCountryInput[] | Prisma.ListingUncheckedCreateWithoutEndCountryInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndCountryInput | Prisma.ListingCreateOrConnectWithoutEndCountryInput[]
+  createMany?: Prisma.ListingCreateManyEndCountryInputEnvelope
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+}
+
+export type ListingUncheckedCreateNestedManyWithoutStartCountryInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput> | Prisma.ListingCreateWithoutStartCountryInput[] | Prisma.ListingUncheckedCreateWithoutStartCountryInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartCountryInput | Prisma.ListingCreateOrConnectWithoutStartCountryInput[]
+  createMany?: Prisma.ListingCreateManyStartCountryInputEnvelope
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+}
+
+export type ListingUncheckedCreateNestedManyWithoutEndCountryInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutEndCountryInput, Prisma.ListingUncheckedCreateWithoutEndCountryInput> | Prisma.ListingCreateWithoutEndCountryInput[] | Prisma.ListingUncheckedCreateWithoutEndCountryInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndCountryInput | Prisma.ListingCreateOrConnectWithoutEndCountryInput[]
+  createMany?: Prisma.ListingCreateManyEndCountryInputEnvelope
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+}
+
+export type ListingUpdateManyWithoutStartCountryNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput> | Prisma.ListingCreateWithoutStartCountryInput[] | Prisma.ListingUncheckedCreateWithoutStartCountryInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartCountryInput | Prisma.ListingCreateOrConnectWithoutStartCountryInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartCountryInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartCountryInput[]
+  createMany?: Prisma.ListingCreateManyStartCountryInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutStartCountryInput | Prisma.ListingUpdateWithWhereUniqueWithoutStartCountryInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutStartCountryInput | Prisma.ListingUpdateManyWithWhereWithoutStartCountryInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingUpdateManyWithoutEndCountryNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutEndCountryInput, Prisma.ListingUncheckedCreateWithoutEndCountryInput> | Prisma.ListingCreateWithoutEndCountryInput[] | Prisma.ListingUncheckedCreateWithoutEndCountryInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndCountryInput | Prisma.ListingCreateOrConnectWithoutEndCountryInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutEndCountryInput | Prisma.ListingUpsertWithWhereUniqueWithoutEndCountryInput[]
+  createMany?: Prisma.ListingCreateManyEndCountryInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutEndCountryInput | Prisma.ListingUpdateWithWhereUniqueWithoutEndCountryInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutEndCountryInput | Prisma.ListingUpdateManyWithWhereWithoutEndCountryInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingUncheckedUpdateManyWithoutStartCountryNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput> | Prisma.ListingCreateWithoutStartCountryInput[] | Prisma.ListingUncheckedCreateWithoutStartCountryInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartCountryInput | Prisma.ListingCreateOrConnectWithoutStartCountryInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartCountryInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartCountryInput[]
+  createMany?: Prisma.ListingCreateManyStartCountryInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutStartCountryInput | Prisma.ListingUpdateWithWhereUniqueWithoutStartCountryInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutStartCountryInput | Prisma.ListingUpdateManyWithWhereWithoutStartCountryInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingUncheckedUpdateManyWithoutEndCountryNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutEndCountryInput, Prisma.ListingUncheckedCreateWithoutEndCountryInput> | Prisma.ListingCreateWithoutEndCountryInput[] | Prisma.ListingUncheckedCreateWithoutEndCountryInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndCountryInput | Prisma.ListingCreateOrConnectWithoutEndCountryInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutEndCountryInput | Prisma.ListingUpsertWithWhereUniqueWithoutEndCountryInput[]
+  createMany?: Prisma.ListingCreateManyEndCountryInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutEndCountryInput | Prisma.ListingUpdateWithWhereUniqueWithoutEndCountryInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutEndCountryInput | Prisma.ListingUpdateManyWithWhereWithoutEndCountryInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
 export type ListingCreateNestedOneWithoutBlockedDatesInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutBlockedDatesInput, Prisma.ListingUncheckedCreateWithoutBlockedDatesInput>
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutBlockedDatesInput
@@ -1303,6 +1399,174 @@ export type DecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
+export type ListingCreateNestedManyWithoutStartPrimaryDivisionInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput> | Prisma.ListingCreateWithoutStartPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyStartPrimaryDivisionInputEnvelope
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+}
+
+export type ListingCreateNestedManyWithoutEndPrimaryDivisionInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutEndPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndPrimaryDivisionInput> | Prisma.ListingCreateWithoutEndPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutEndPrimaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutEndPrimaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyEndPrimaryDivisionInputEnvelope
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+}
+
+export type ListingUncheckedCreateNestedManyWithoutStartPrimaryDivisionInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput> | Prisma.ListingCreateWithoutStartPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyStartPrimaryDivisionInputEnvelope
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+}
+
+export type ListingUncheckedCreateNestedManyWithoutEndPrimaryDivisionInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutEndPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndPrimaryDivisionInput> | Prisma.ListingCreateWithoutEndPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutEndPrimaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutEndPrimaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyEndPrimaryDivisionInputEnvelope
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+}
+
+export type ListingUpdateManyWithoutStartPrimaryDivisionNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput> | Prisma.ListingCreateWithoutStartPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyStartPrimaryDivisionInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutStartPrimaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutStartPrimaryDivisionInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutStartPrimaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutStartPrimaryDivisionInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingUpdateManyWithoutEndPrimaryDivisionNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutEndPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndPrimaryDivisionInput> | Prisma.ListingCreateWithoutEndPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutEndPrimaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutEndPrimaryDivisionInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutEndPrimaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutEndPrimaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyEndPrimaryDivisionInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutEndPrimaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutEndPrimaryDivisionInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutEndPrimaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutEndPrimaryDivisionInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingUncheckedUpdateManyWithoutStartPrimaryDivisionNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput> | Prisma.ListingCreateWithoutStartPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyStartPrimaryDivisionInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutStartPrimaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutStartPrimaryDivisionInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutStartPrimaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutStartPrimaryDivisionInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingUncheckedUpdateManyWithoutEndPrimaryDivisionNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutEndPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndPrimaryDivisionInput> | Prisma.ListingCreateWithoutEndPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutEndPrimaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutEndPrimaryDivisionInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutEndPrimaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutEndPrimaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyEndPrimaryDivisionInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutEndPrimaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutEndPrimaryDivisionInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutEndPrimaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutEndPrimaryDivisionInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingCreateNestedManyWithoutStartSecondaryDivisionInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput> | Prisma.ListingCreateWithoutStartSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyStartSecondaryDivisionInputEnvelope
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+}
+
+export type ListingCreateNestedManyWithoutEndSecondaryDivisionInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutEndSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndSecondaryDivisionInput> | Prisma.ListingCreateWithoutEndSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutEndSecondaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutEndSecondaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyEndSecondaryDivisionInputEnvelope
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+}
+
+export type ListingUncheckedCreateNestedManyWithoutStartSecondaryDivisionInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput> | Prisma.ListingCreateWithoutStartSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyStartSecondaryDivisionInputEnvelope
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+}
+
+export type ListingUncheckedCreateNestedManyWithoutEndSecondaryDivisionInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutEndSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndSecondaryDivisionInput> | Prisma.ListingCreateWithoutEndSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutEndSecondaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutEndSecondaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyEndSecondaryDivisionInputEnvelope
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+}
+
+export type ListingUpdateManyWithoutStartSecondaryDivisionNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput> | Prisma.ListingCreateWithoutStartSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyStartSecondaryDivisionInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutStartSecondaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutStartSecondaryDivisionInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutStartSecondaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutStartSecondaryDivisionInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingUpdateManyWithoutEndSecondaryDivisionNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutEndSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndSecondaryDivisionInput> | Prisma.ListingCreateWithoutEndSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutEndSecondaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutEndSecondaryDivisionInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutEndSecondaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutEndSecondaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyEndSecondaryDivisionInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutEndSecondaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutEndSecondaryDivisionInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutEndSecondaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutEndSecondaryDivisionInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingUncheckedUpdateManyWithoutStartSecondaryDivisionNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput> | Prisma.ListingCreateWithoutStartSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyStartSecondaryDivisionInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutStartSecondaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutStartSecondaryDivisionInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutStartSecondaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutStartSecondaryDivisionInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingUncheckedUpdateManyWithoutEndSecondaryDivisionNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutEndSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndSecondaryDivisionInput> | Prisma.ListingCreateWithoutEndSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutEndSecondaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutEndSecondaryDivisionInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutEndSecondaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutEndSecondaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyEndSecondaryDivisionInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutEndSecondaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutEndSecondaryDivisionInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutEndSecondaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutEndSecondaryDivisionInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
 export type ListingCreateNestedManyWithoutOperatorInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutOperatorInput, Prisma.ListingUncheckedCreateWithoutOperatorInput> | Prisma.ListingCreateWithoutOperatorInput[] | Prisma.ListingUncheckedCreateWithoutOperatorInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutOperatorInput | Prisma.ListingCreateOrConnectWithoutOperatorInput[]
@@ -1400,12 +1664,6 @@ export type ListingCreateWithoutCategoryInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -1420,6 +1678,12 @@ export type ListingCreateWithoutCategoryInput = {
   operator?: Prisma.UserCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
@@ -1555,12 +1819,6 @@ export type ListingCreateWithoutSubCategoryInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -1575,6 +1833,12 @@ export type ListingCreateWithoutSubCategoryInput = {
   operator?: Prisma.UserCreateNestedOneWithoutListingsInput
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
@@ -1658,7 +1922,7 @@ export type ListingUpdateManyWithWhereWithoutSubCategoryInput = {
   data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutSubCategoryInput>
 }
 
-export type ListingCreateWithoutBlockedDatesInput = {
+export type ListingCreateWithoutStartCountryInput = {
   id?: string
   listingName?: string | null
   listingSlug?: string | null
@@ -1671,7 +1935,55 @@ export type ListingCreateWithoutBlockedDatesInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutStartCountryInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
   startPrimaryDivisionId?: string | null
   startSecondaryDivisionId?: string | null
   endCountryId?: string | null
@@ -1688,10 +2000,194 @@ export type ListingCreateWithoutBlockedDatesInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutStartCountryInput = {
+  where: Prisma.ListingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput>
+}
+
+export type ListingCreateManyStartCountryInputEnvelope = {
+  data: Prisma.ListingCreateManyStartCountryInput | Prisma.ListingCreateManyStartCountryInput[]
+  skipDuplicates?: boolean
+}
+
+export type ListingCreateWithoutEndCountryInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   operator?: Prisma.UserCreateNestedOneWithoutListingsInput
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutEndCountryInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutEndCountryInput = {
+  where: Prisma.ListingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingCreateWithoutEndCountryInput, Prisma.ListingUncheckedCreateWithoutEndCountryInput>
+}
+
+export type ListingCreateManyEndCountryInputEnvelope = {
+  data: Prisma.ListingCreateManyEndCountryInput | Prisma.ListingCreateManyEndCountryInput[]
+  skipDuplicates?: boolean
+}
+
+export type ListingUpsertWithWhereUniqueWithoutStartCountryInput = {
+  where: Prisma.ListingWhereUniqueInput
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutStartCountryInput, Prisma.ListingUncheckedUpdateWithoutStartCountryInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput>
+}
+
+export type ListingUpdateWithWhereUniqueWithoutStartCountryInput = {
+  where: Prisma.ListingWhereUniqueInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutStartCountryInput, Prisma.ListingUncheckedUpdateWithoutStartCountryInput>
+}
+
+export type ListingUpdateManyWithWhereWithoutStartCountryInput = {
+  where: Prisma.ListingScalarWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutStartCountryInput>
+}
+
+export type ListingUpsertWithWhereUniqueWithoutEndCountryInput = {
+  where: Prisma.ListingWhereUniqueInput
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutEndCountryInput, Prisma.ListingUncheckedUpdateWithoutEndCountryInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutEndCountryInput, Prisma.ListingUncheckedCreateWithoutEndCountryInput>
+}
+
+export type ListingUpdateWithWhereUniqueWithoutEndCountryInput = {
+  where: Prisma.ListingWhereUniqueInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutEndCountryInput, Prisma.ListingUncheckedUpdateWithoutEndCountryInput>
+}
+
+export type ListingUpdateManyWithWhereWithoutEndCountryInput = {
+  where: Prisma.ListingScalarWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutEndCountryInput>
+}
+
+export type ListingCreateWithoutBlockedDatesInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
@@ -1777,12 +2273,6 @@ export type ListingUpdateWithoutBlockedDatesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1798,6 +2288,12 @@ export type ListingUpdateWithoutBlockedDatesInput = {
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
@@ -1867,12 +2363,6 @@ export type ListingCreateWithoutDateRangesInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -1888,6 +2378,12 @@ export type ListingCreateWithoutDateRangesInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
@@ -1973,12 +2469,6 @@ export type ListingUpdateWithoutDateRangesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1994,6 +2484,12 @@ export type ListingUpdateWithoutDateRangesInput = {
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
@@ -2063,12 +2559,6 @@ export type ListingCreateWithoutAddonsInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -2084,6 +2574,12 @@ export type ListingCreateWithoutAddonsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
@@ -2169,12 +2665,6 @@ export type ListingUpdateWithoutAddonsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2190,6 +2680,12 @@ export type ListingUpdateWithoutAddonsInput = {
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
@@ -2259,12 +2755,6 @@ export type ListingCreateWithoutContentInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -2280,6 +2770,12 @@ export type ListingCreateWithoutContentInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
   addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
@@ -2365,12 +2861,6 @@ export type ListingUpdateWithoutContentInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2386,6 +2876,12 @@ export type ListingUpdateWithoutContentInput = {
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
   addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
@@ -2455,12 +2951,6 @@ export type ListingCreateWithoutFaqsInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -2476,6 +2966,12 @@ export type ListingCreateWithoutFaqsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
@@ -2561,12 +3057,6 @@ export type ListingUpdateWithoutFaqsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2582,6 +3072,12 @@ export type ListingUpdateWithoutFaqsInput = {
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
@@ -2651,12 +3147,6 @@ export type ListingCreateWithoutInclusionsExclusionsInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -2672,6 +3162,12 @@ export type ListingCreateWithoutInclusionsExclusionsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
@@ -2757,12 +3253,6 @@ export type ListingUpdateWithoutInclusionsExclusionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2778,6 +3268,12 @@ export type ListingUpdateWithoutInclusionsExclusionsInput = {
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
@@ -2847,12 +3343,6 @@ export type ListingCreateWithoutMediaInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -2868,6 +3358,12 @@ export type ListingCreateWithoutMediaInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
@@ -2953,12 +3449,6 @@ export type ListingUpdateWithoutMediaInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2974,6 +3464,12 @@ export type ListingUpdateWithoutMediaInput = {
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
@@ -3043,12 +3539,6 @@ export type ListingCreateWithoutSlotChangesInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -3064,6 +3554,12 @@ export type ListingCreateWithoutSlotChangesInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
@@ -3149,12 +3645,6 @@ export type ListingUpdateWithoutSlotChangesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3170,6 +3660,12 @@ export type ListingUpdateWithoutSlotChangesInput = {
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
@@ -3239,12 +3735,6 @@ export type ListingCreateWithoutSlotsInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -3260,6 +3750,12 @@ export type ListingCreateWithoutSlotsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
@@ -3345,12 +3841,6 @@ export type ListingUpdateWithoutSlotsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3366,6 +3856,12 @@ export type ListingUpdateWithoutSlotsInput = {
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
@@ -3435,12 +3931,6 @@ export type ListingCreateWithoutVariantsInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -3456,6 +3946,12 @@ export type ListingCreateWithoutVariantsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
   addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
@@ -3541,12 +4037,6 @@ export type ListingUpdateWithoutVariantsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3562,6 +4052,12 @@ export type ListingUpdateWithoutVariantsInput = {
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
   addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
@@ -3618,7 +4114,7 @@ export type ListingUncheckedUpdateWithoutVariantsInput = {
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
 
-export type ListingCreateWithoutOperatorInput = {
+export type ListingCreateWithoutStartPrimaryDivisionInput = {
   id?: string
   listingName?: string | null
   listingSlug?: string | null
@@ -3631,8 +4127,56 @@ export type ListingCreateWithoutOperatorInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutStartPrimaryDivisionInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
   startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
   startSecondaryDivisionId?: string | null
   endCountryId?: string | null
   endPrimaryDivisionId?: string | null
@@ -3648,9 +4192,425 @@ export type ListingCreateWithoutOperatorInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutStartPrimaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput>
+}
+
+export type ListingCreateManyStartPrimaryDivisionInputEnvelope = {
+  data: Prisma.ListingCreateManyStartPrimaryDivisionInput | Prisma.ListingCreateManyStartPrimaryDivisionInput[]
+  skipDuplicates?: boolean
+}
+
+export type ListingCreateWithoutEndPrimaryDivisionInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutEndPrimaryDivisionInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutEndPrimaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingCreateWithoutEndPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndPrimaryDivisionInput>
+}
+
+export type ListingCreateManyEndPrimaryDivisionInputEnvelope = {
+  data: Prisma.ListingCreateManyEndPrimaryDivisionInput | Prisma.ListingCreateManyEndPrimaryDivisionInput[]
+  skipDuplicates?: boolean
+}
+
+export type ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutStartPrimaryDivisionInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput>
+}
+
+export type ListingUpdateWithWhereUniqueWithoutStartPrimaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutStartPrimaryDivisionInput>
+}
+
+export type ListingUpdateManyWithWhereWithoutStartPrimaryDivisionInput = {
+  where: Prisma.ListingScalarWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutStartPrimaryDivisionInput>
+}
+
+export type ListingUpsertWithWhereUniqueWithoutEndPrimaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutEndPrimaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutEndPrimaryDivisionInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutEndPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndPrimaryDivisionInput>
+}
+
+export type ListingUpdateWithWhereUniqueWithoutEndPrimaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutEndPrimaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutEndPrimaryDivisionInput>
+}
+
+export type ListingUpdateManyWithWhereWithoutEndPrimaryDivisionInput = {
+  where: Prisma.ListingScalarWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutEndPrimaryDivisionInput>
+}
+
+export type ListingCreateWithoutStartSecondaryDivisionInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutStartSecondaryDivisionInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutStartSecondaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput>
+}
+
+export type ListingCreateManyStartSecondaryDivisionInputEnvelope = {
+  data: Prisma.ListingCreateManyStartSecondaryDivisionInput | Prisma.ListingCreateManyStartSecondaryDivisionInput[]
+  skipDuplicates?: boolean
+}
+
+export type ListingCreateWithoutEndSecondaryDivisionInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutEndSecondaryDivisionInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutEndSecondaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingCreateWithoutEndSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndSecondaryDivisionInput>
+}
+
+export type ListingCreateManyEndSecondaryDivisionInputEnvelope = {
+  data: Prisma.ListingCreateManyEndSecondaryDivisionInput | Prisma.ListingCreateManyEndSecondaryDivisionInput[]
+  skipDuplicates?: boolean
+}
+
+export type ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutStartSecondaryDivisionInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput>
+}
+
+export type ListingUpdateWithWhereUniqueWithoutStartSecondaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutStartSecondaryDivisionInput>
+}
+
+export type ListingUpdateManyWithWhereWithoutStartSecondaryDivisionInput = {
+  where: Prisma.ListingScalarWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutStartSecondaryDivisionInput>
+}
+
+export type ListingUpsertWithWhereUniqueWithoutEndSecondaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutEndSecondaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutEndSecondaryDivisionInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutEndSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndSecondaryDivisionInput>
+}
+
+export type ListingUpdateWithWhereUniqueWithoutEndSecondaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutEndSecondaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutEndSecondaryDivisionInput>
+}
+
+export type ListingUpdateManyWithWhereWithoutEndSecondaryDivisionInput = {
+  where: Prisma.ListingScalarWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutEndSecondaryDivisionInput>
+}
+
+export type ListingCreateWithoutOperatorInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
@@ -3731,12 +4691,6 @@ export type ListingCreateWithoutApprovedByAdminInput = {
   updatedAt?: Date | string
   approvedAt?: Date | string | null
   rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
   startLocationName?: string | null
   startLocationCoordinates?: string | null
   startGoogleMapsUrl?: string | null
@@ -3751,6 +4705,12 @@ export type ListingCreateWithoutApprovedByAdminInput = {
   operator?: Prisma.UserCreateNestedOneWithoutListingsInput
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
   variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
@@ -3898,12 +4858,6 @@ export type ListingUpdateWithoutCategoryInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3918,6 +4872,12 @@ export type ListingUpdateWithoutCategoryInput = {
   operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
@@ -4058,12 +5018,6 @@ export type ListingUpdateWithoutSubCategoryInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4078,6 +5032,12 @@ export type ListingUpdateWithoutSubCategoryInput = {
   operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
@@ -4157,6 +5117,966 @@ export type ListingUncheckedUpdateManyWithoutSubCategoryInput = {
   endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingCreateManyStartCountryInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingCreateManyEndCountryInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingUpdateWithoutStartCountryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutStartCountryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateManyWithoutStartCountryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingUpdateWithoutEndCountryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutEndCountryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateManyWithoutEndCountryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingCreateManyStartPrimaryDivisionInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingCreateManyEndPrimaryDivisionInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingUpdateWithoutStartPrimaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutStartPrimaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateManyWithoutStartPrimaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingUpdateWithoutEndPrimaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutEndPrimaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateManyWithoutEndPrimaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingCreateManyStartSecondaryDivisionInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingCreateManyEndSecondaryDivisionInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingUpdateWithoutStartSecondaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutStartSecondaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateManyWithoutStartSecondaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingUpdateWithoutEndSecondaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutEndSecondaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateManyWithoutEndSecondaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4253,12 +6173,6 @@ export type ListingUpdateWithoutOperatorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4273,6 +6187,12 @@ export type ListingUpdateWithoutOperatorInput = {
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
@@ -4378,12 +6298,6 @@ export type ListingUpdateWithoutApprovedByAdminInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4398,6 +6312,12 @@ export type ListingUpdateWithoutApprovedByAdminInput = {
   operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
   variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
@@ -4613,6 +6533,12 @@ export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
   subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
+  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
+  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
+  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  endCountry?: boolean | Prisma.Listing$endCountryArgs<ExtArgs>
+  endPrimaryDivision?: boolean | Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>
+  endSecondaryDivision?: boolean | Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>
   variants?: boolean | Prisma.Listing$variantsArgs<ExtArgs>
   content?: boolean | Prisma.Listing$contentArgs<ExtArgs>
   inclusionsExclusions?: boolean | Prisma.Listing$inclusionsExclusionsArgs<ExtArgs>
@@ -4664,6 +6590,12 @@ export type ListingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
   subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
+  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
+  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
+  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  endCountry?: boolean | Prisma.Listing$endCountryArgs<ExtArgs>
+  endPrimaryDivision?: boolean | Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>
+  endSecondaryDivision?: boolean | Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>
 }, ExtArgs["result"]["listing"]>
 
 export type ListingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -4704,6 +6636,12 @@ export type ListingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
   subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
+  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
+  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
+  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  endCountry?: boolean | Prisma.Listing$endCountryArgs<ExtArgs>
+  endPrimaryDivision?: boolean | Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>
+  endSecondaryDivision?: boolean | Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>
 }, ExtArgs["result"]["listing"]>
 
 export type ListingSelectScalar = {
@@ -4748,6 +6686,12 @@ export type ListingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
   subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
+  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
+  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
+  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  endCountry?: boolean | Prisma.Listing$endCountryArgs<ExtArgs>
+  endPrimaryDivision?: boolean | Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>
+  endSecondaryDivision?: boolean | Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>
   variants?: boolean | Prisma.Listing$variantsArgs<ExtArgs>
   content?: boolean | Prisma.Listing$contentArgs<ExtArgs>
   inclusionsExclusions?: boolean | Prisma.Listing$inclusionsExclusionsArgs<ExtArgs>
@@ -4765,12 +6709,24 @@ export type ListingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
   subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
+  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
+  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
+  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  endCountry?: boolean | Prisma.Listing$endCountryArgs<ExtArgs>
+  endPrimaryDivision?: boolean | Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>
+  endSecondaryDivision?: boolean | Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>
 }
 export type ListingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
   category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
   subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
+  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
+  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
+  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  endCountry?: boolean | Prisma.Listing$endCountryArgs<ExtArgs>
+  endPrimaryDivision?: boolean | Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>
+  endSecondaryDivision?: boolean | Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>
 }
 
 export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4780,6 +6736,12 @@ export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     category: Prisma.$CategoryPayload<ExtArgs> | null
     subCategory: Prisma.$SubCategoryPayload<ExtArgs> | null
     approvedByAdmin: Prisma.$UserPayload<ExtArgs> | null
+    startCountry: Prisma.$CountryPayload<ExtArgs> | null
+    startPrimaryDivision: Prisma.$PrimaryDivisionPayload<ExtArgs> | null
+    startSecondaryDivision: Prisma.$SecondaryDivisionPayload<ExtArgs> | null
+    endCountry: Prisma.$CountryPayload<ExtArgs> | null
+    endPrimaryDivision: Prisma.$PrimaryDivisionPayload<ExtArgs> | null
+    endSecondaryDivision: Prisma.$SecondaryDivisionPayload<ExtArgs> | null
     variants: Prisma.$ListingVariantPayload<ExtArgs>[]
     content: Prisma.$ListingContentPayload<ExtArgs>[]
     inclusionsExclusions: Prisma.$ListingInclusionExclusionPayload<ExtArgs> | null
@@ -5223,6 +7185,12 @@ export interface Prisma__ListingClient<T, Null = never, ExtArgs extends runtime.
   category<T extends Prisma.Listing$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$categoryArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   subCategory<T extends Prisma.Listing$subCategoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$subCategoryArgs<ExtArgs>>): Prisma.Prisma__SubCategoryClient<runtime.Types.Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   approvedByAdmin<T extends Prisma.Listing$approvedByAdminArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$approvedByAdminArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  startCountry<T extends Prisma.Listing$startCountryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$startCountryArgs<ExtArgs>>): Prisma.Prisma__CountryClient<runtime.Types.Result.GetResult<Prisma.$CountryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  startPrimaryDivision<T extends Prisma.Listing$startPrimaryDivisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>>): Prisma.Prisma__PrimaryDivisionClient<runtime.Types.Result.GetResult<Prisma.$PrimaryDivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  startSecondaryDivision<T extends Prisma.Listing$startSecondaryDivisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>>): Prisma.Prisma__SecondaryDivisionClient<runtime.Types.Result.GetResult<Prisma.$SecondaryDivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  endCountry<T extends Prisma.Listing$endCountryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$endCountryArgs<ExtArgs>>): Prisma.Prisma__CountryClient<runtime.Types.Result.GetResult<Prisma.$CountryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  endPrimaryDivision<T extends Prisma.Listing$endPrimaryDivisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>>): Prisma.Prisma__PrimaryDivisionClient<runtime.Types.Result.GetResult<Prisma.$PrimaryDivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  endSecondaryDivision<T extends Prisma.Listing$endSecondaryDivisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>>): Prisma.Prisma__SecondaryDivisionClient<runtime.Types.Result.GetResult<Prisma.$SecondaryDivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   variants<T extends Prisma.Listing$variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   content<T extends Prisma.Listing$contentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$contentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inclusionsExclusions<T extends Prisma.Listing$inclusionsExclusionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$inclusionsExclusionsArgs<ExtArgs>>): Prisma.Prisma__ListingInclusionExclusionClient<runtime.Types.Result.GetResult<Prisma.$ListingInclusionExclusionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -5764,6 +7732,120 @@ export type Listing$approvedByAdminArgs<ExtArgs extends runtime.Types.Extensions
    */
   include?: Prisma.UserInclude<ExtArgs> | null
   where?: Prisma.UserWhereInput
+}
+
+/**
+ * Listing.startCountry
+ */
+export type Listing$startCountryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Country
+   */
+  select?: Prisma.CountrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Country
+   */
+  omit?: Prisma.CountryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CountryInclude<ExtArgs> | null
+  where?: Prisma.CountryWhereInput
+}
+
+/**
+ * Listing.startPrimaryDivision
+ */
+export type Listing$startPrimaryDivisionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PrimaryDivision
+   */
+  select?: Prisma.PrimaryDivisionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PrimaryDivision
+   */
+  omit?: Prisma.PrimaryDivisionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PrimaryDivisionInclude<ExtArgs> | null
+  where?: Prisma.PrimaryDivisionWhereInput
+}
+
+/**
+ * Listing.startSecondaryDivision
+ */
+export type Listing$startSecondaryDivisionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SecondaryDivision
+   */
+  select?: Prisma.SecondaryDivisionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SecondaryDivision
+   */
+  omit?: Prisma.SecondaryDivisionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SecondaryDivisionInclude<ExtArgs> | null
+  where?: Prisma.SecondaryDivisionWhereInput
+}
+
+/**
+ * Listing.endCountry
+ */
+export type Listing$endCountryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Country
+   */
+  select?: Prisma.CountrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Country
+   */
+  omit?: Prisma.CountryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CountryInclude<ExtArgs> | null
+  where?: Prisma.CountryWhereInput
+}
+
+/**
+ * Listing.endPrimaryDivision
+ */
+export type Listing$endPrimaryDivisionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PrimaryDivision
+   */
+  select?: Prisma.PrimaryDivisionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PrimaryDivision
+   */
+  omit?: Prisma.PrimaryDivisionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PrimaryDivisionInclude<ExtArgs> | null
+  where?: Prisma.PrimaryDivisionWhereInput
+}
+
+/**
+ * Listing.endSecondaryDivision
+ */
+export type Listing$endSecondaryDivisionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SecondaryDivision
+   */
+  select?: Prisma.SecondaryDivisionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SecondaryDivision
+   */
+  omit?: Prisma.SecondaryDivisionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SecondaryDivisionInclude<ExtArgs> | null
+  where?: Prisma.SecondaryDivisionWhereInput
 }
 
 /**
