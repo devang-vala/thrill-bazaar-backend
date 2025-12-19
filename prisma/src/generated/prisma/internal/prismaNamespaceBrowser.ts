@@ -68,9 +68,11 @@ export const ModelName = {
   ListingVariantMetadataFieldOptions: 'ListingVariantMetadataFieldOptions',
   ListingVariant: 'ListingVariant',
   Listing: 'Listing',
+  OperatorProfile: 'OperatorProfile',
   Otp: 'Otp',
   PrimaryDivision: 'PrimaryDivision',
   SecondaryDivision: 'SecondaryDivision',
+  UserAddress: 'UserAddress',
   User: 'User'
 } as const
 
@@ -416,6 +418,31 @@ export const ListingScalarFieldEnum = {
 export type ListingScalarFieldEnum = (typeof ListingScalarFieldEnum)[keyof typeof ListingScalarFieldEnum]
 
 
+export const OperatorProfileScalarFieldEnum = {
+  id: 'id',
+  operatorId: 'operatorId',
+  companyName: 'companyName',
+  companyLogoUrl: 'companyLogoUrl',
+  businessRegistrationNumber: 'businessRegistrationNumber',
+  taxId: 'taxId',
+  companyDescription: 'companyDescription',
+  websiteUrl: 'websiteUrl',
+  socialMediaLinks: 'socialMediaLinks',
+  bankAccountDetails: 'bankAccountDetails',
+  verificationStatus: 'verificationStatus',
+  verificationDocuments: 'verificationDocuments',
+  verifiedByAdminId: 'verifiedByAdminId',
+  verifiedAt: 'verifiedAt',
+  rejectionReason: 'rejectionReason',
+  ratingAverage: 'ratingAverage',
+  totalBookings: 'totalBookings',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OperatorProfileScalarFieldEnum = (typeof OperatorProfileScalarFieldEnum)[keyof typeof OperatorProfileScalarFieldEnum]
+
+
 export const OtpScalarFieldEnum = {
   id: 'id',
   phone: 'phone',
@@ -449,6 +476,23 @@ export const SecondaryDivisionScalarFieldEnum = {
 } as const
 
 export type SecondaryDivisionScalarFieldEnum = (typeof SecondaryDivisionScalarFieldEnum)[keyof typeof SecondaryDivisionScalarFieldEnum]
+
+
+export const UserAddressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  addressType: 'addressType',
+  fullAddress: 'fullAddress',
+  city: 'city',
+  state: 'state',
+  country: 'country',
+  postalCode: 'postalCode',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserAddressScalarFieldEnum = (typeof UserAddressScalarFieldEnum)[keyof typeof UserAddressScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
