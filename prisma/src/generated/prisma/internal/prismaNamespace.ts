@@ -2691,7 +2691,8 @@ export const ListingSlotScalarFieldEnum = {
   totalCapacity: 'totalCapacity',
   availableCount: 'availableCount',
   isActive: 'isActive',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  formatType: 'formatType'
 } as const
 
 export type ListingSlotScalarFieldEnum = (typeof ListingSlotScalarFieldEnum)[keyof typeof ListingSlotScalarFieldEnum]
