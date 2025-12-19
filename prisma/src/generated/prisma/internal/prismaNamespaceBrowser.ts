@@ -71,6 +71,7 @@ export const ModelName = {
   Otp: 'Otp',
   PrimaryDivision: 'PrimaryDivision',
   SecondaryDivision: 'SecondaryDivision',
+  SlotDefinition: 'SlotDefinition',
   User: 'User'
 } as const
 
@@ -299,19 +300,15 @@ export const ListingSlotScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   variantId: 'variantId',
-  primaryContactPhone: 'primaryContactPhone',
-  secondaryContactPhone: 'secondaryContactPhone',
-  formatType: 'formatType',
-  batchStartDate: 'batchStartDate',
-  batchStartTime: 'batchStartTime',
-  batchEndDate: 'batchEndDate',
-  batchEndTime: 'batchEndTime',
+  slotDefinitionId: 'slotDefinitionId',
+  slotDate: 'slotDate',
+  startTime: 'startTime',
+  endTime: 'endTime',
   basePrice: 'basePrice',
   totalCapacity: 'totalCapacity',
   availableCount: 'availableCount',
   isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  createdAt: 'createdAt'
 } as const
 
 export type ListingSlotScalarFieldEnum = (typeof ListingSlotScalarFieldEnum)[keyof typeof ListingSlotScalarFieldEnum]
@@ -449,6 +446,19 @@ export const SecondaryDivisionScalarFieldEnum = {
 } as const
 
 export type SecondaryDivisionScalarFieldEnum = (typeof SecondaryDivisionScalarFieldEnum)[keyof typeof SecondaryDivisionScalarFieldEnum]
+
+
+export const SlotDefinitionScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  variantId: 'variantId',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type SlotDefinitionScalarFieldEnum = (typeof SlotDefinitionScalarFieldEnum)[keyof typeof SlotDefinitionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

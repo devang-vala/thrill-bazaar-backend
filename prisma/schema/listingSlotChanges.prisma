@@ -11,7 +11,7 @@ model ListingSlotChange {
     createdAt     DateTime    @default(now()) @map("created_at")
     updatedAt     DateTime    @updatedAt @map("updated_at")
 
-    slot    ListingSlot      @relation(fields: [slotId], references: [id], onDelete: Cascade)
+    slot    ListingSlot      @relation(fields: [slotId], references: [id], onDelete: Cascade, name: "SlotToSlotChange")
     listing Listing          @relation(fields: [listingId], references: [id], onDelete: Cascade)
     variant ListingVariant?  @relation(fields: [variantId], references: [id], onDelete: Cascade)
 

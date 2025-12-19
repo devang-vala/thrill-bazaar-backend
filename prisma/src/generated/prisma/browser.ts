@@ -132,6 +132,11 @@ export type PrimaryDivision = Prisma.PrimaryDivisionModel
  */
 export type SecondaryDivision = Prisma.SecondaryDivisionModel
 /**
+ * Model SlotDefinition
+ * 
+ */
+export type SlotDefinition = Prisma.SlotDefinitionModel
+/**
  * Model User
  * 
  */

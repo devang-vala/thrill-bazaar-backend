@@ -460,6 +460,7 @@ export type ListingWhereInput = {
   media?: Prisma.ListingMediaListRelationFilter
   faqs?: Prisma.XOR<Prisma.ListingFaqNullableScalarRelationFilter, Prisma.ListingFaqWhereInput> | null
   slots?: Prisma.ListingSlotListRelationFilter
+  slotDefinitions?: Prisma.SlotDefinitionListRelationFilter
   slotChanges?: Prisma.ListingSlotChangeListRelationFilter
   dateRanges?: Prisma.InventoryDateRangeListRelationFilter
   blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
@@ -516,6 +517,7 @@ export type ListingOrderByWithRelationInput = {
   media?: Prisma.ListingMediaOrderByRelationAggregateInput
   faqs?: Prisma.ListingFaqOrderByWithRelationInput
   slots?: Prisma.ListingSlotOrderByRelationAggregateInput
+  slotDefinitions?: Prisma.SlotDefinitionOrderByRelationAggregateInput
   slotChanges?: Prisma.ListingSlotChangeOrderByRelationAggregateInput
   dateRanges?: Prisma.InventoryDateRangeOrderByRelationAggregateInput
   blockedDates?: Prisma.InventoryBlockedDateOrderByRelationAggregateInput
@@ -575,6 +577,7 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   media?: Prisma.ListingMediaListRelationFilter
   faqs?: Prisma.XOR<Prisma.ListingFaqNullableScalarRelationFilter, Prisma.ListingFaqWhereInput> | null
   slots?: Prisma.ListingSlotListRelationFilter
+  slotDefinitions?: Prisma.SlotDefinitionListRelationFilter
   slotChanges?: Prisma.ListingSlotChangeListRelationFilter
   dateRanges?: Prisma.InventoryDateRangeListRelationFilter
   blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
@@ -701,6 +704,7 @@ export type ListingCreateInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -747,6 +751,7 @@ export type ListingUncheckedCreateInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -793,6 +798,7 @@ export type ListingUpdateInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -839,6 +845,7 @@ export type ListingUncheckedUpdateInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -1391,6 +1398,10 @@ export type EnumListingStatusFieldUpdateOperationsInput = {
   set?: $Enums.ListingStatus
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type DecimalFieldUpdateOperationsInput = {
   set?: runtime.Decimal | runtime.DecimalJsLike | number | string
   increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1567,6 +1578,20 @@ export type ListingUncheckedUpdateManyWithoutEndSecondaryDivisionNestedInput = {
   deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
+export type ListingCreateNestedOneWithoutSlotDefinitionsInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutSlotDefinitionsInput, Prisma.ListingUncheckedCreateWithoutSlotDefinitionsInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutSlotDefinitionsInput
+  connect?: Prisma.ListingWhereUniqueInput
+}
+
+export type ListingUpdateOneRequiredWithoutSlotDefinitionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutSlotDefinitionsInput, Prisma.ListingUncheckedCreateWithoutSlotDefinitionsInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutSlotDefinitionsInput
+  upsert?: Prisma.ListingUpsertWithoutSlotDefinitionsInput
+  connect?: Prisma.ListingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutSlotDefinitionsInput, Prisma.ListingUpdateWithoutSlotDefinitionsInput>, Prisma.ListingUncheckedUpdateWithoutSlotDefinitionsInput>
+}
+
 export type ListingCreateNestedManyWithoutOperatorInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutOperatorInput, Prisma.ListingUncheckedCreateWithoutOperatorInput> | Prisma.ListingCreateWithoutOperatorInput[] | Prisma.ListingUncheckedCreateWithoutOperatorInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutOperatorInput | Prisma.ListingCreateOrConnectWithoutOperatorInput[]
@@ -1691,6 +1716,7 @@ export type ListingCreateWithoutCategoryInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -1736,6 +1762,7 @@ export type ListingUncheckedCreateWithoutCategoryInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -1846,6 +1873,7 @@ export type ListingCreateWithoutSubCategoryInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -1891,6 +1919,7 @@ export type ListingUncheckedCreateWithoutSubCategoryInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -1962,6 +1991,7 @@ export type ListingCreateWithoutStartCountryInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -2007,6 +2037,7 @@ export type ListingUncheckedCreateWithoutStartCountryInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -2062,6 +2093,7 @@ export type ListingCreateWithoutEndCountryInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -2107,6 +2139,7 @@ export type ListingUncheckedCreateWithoutEndCountryInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -2195,6 +2228,7 @@ export type ListingCreateWithoutBlockedDatesInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
 }
@@ -2240,6 +2274,7 @@ export type ListingUncheckedCreateWithoutBlockedDatesInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
 }
@@ -2301,6 +2336,7 @@ export type ListingUpdateWithoutBlockedDatesInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
 }
@@ -2346,6 +2382,7 @@ export type ListingUncheckedUpdateWithoutBlockedDatesInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
 }
@@ -2391,6 +2428,7 @@ export type ListingCreateWithoutDateRangesInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
@@ -2436,6 +2474,7 @@ export type ListingUncheckedCreateWithoutDateRangesInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
@@ -2497,6 +2536,7 @@ export type ListingUpdateWithoutDateRangesInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
@@ -2542,6 +2582,7 @@ export type ListingUncheckedUpdateWithoutDateRangesInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
@@ -2586,6 +2627,7 @@ export type ListingCreateWithoutAddonsInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -2631,6 +2673,7 @@ export type ListingUncheckedCreateWithoutAddonsInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -2692,6 +2735,7 @@ export type ListingUpdateWithoutAddonsInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -2737,6 +2781,7 @@ export type ListingUncheckedUpdateWithoutAddonsInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -2782,6 +2827,7 @@ export type ListingCreateWithoutContentInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -2827,6 +2873,7 @@ export type ListingUncheckedCreateWithoutContentInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -2888,6 +2935,7 @@ export type ListingUpdateWithoutContentInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -2933,6 +2981,7 @@ export type ListingUncheckedUpdateWithoutContentInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -2978,6 +3027,7 @@ export type ListingCreateWithoutFaqsInput = {
   addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -3023,6 +3073,7 @@ export type ListingUncheckedCreateWithoutFaqsInput = {
   addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -3084,6 +3135,7 @@ export type ListingUpdateWithoutFaqsInput = {
   addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -3129,6 +3181,7 @@ export type ListingUncheckedUpdateWithoutFaqsInput = {
   addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -3174,6 +3227,7 @@ export type ListingCreateWithoutInclusionsExclusionsInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -3219,6 +3273,7 @@ export type ListingUncheckedCreateWithoutInclusionsExclusionsInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -3280,6 +3335,7 @@ export type ListingUpdateWithoutInclusionsExclusionsInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -3325,6 +3381,7 @@ export type ListingUncheckedUpdateWithoutInclusionsExclusionsInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -3370,6 +3427,7 @@ export type ListingCreateWithoutMediaInput = {
   addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -3415,6 +3473,7 @@ export type ListingUncheckedCreateWithoutMediaInput = {
   addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -3476,6 +3535,7 @@ export type ListingUpdateWithoutMediaInput = {
   addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -3521,6 +3581,7 @@ export type ListingUncheckedUpdateWithoutMediaInput = {
   addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -3567,6 +3628,7 @@ export type ListingCreateWithoutSlotChangesInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
@@ -3612,6 +3674,7 @@ export type ListingUncheckedCreateWithoutSlotChangesInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
 }
@@ -3673,6 +3736,7 @@ export type ListingUpdateWithoutSlotChangesInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
 }
@@ -3718,6 +3782,7 @@ export type ListingUncheckedUpdateWithoutSlotChangesInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
 }
@@ -3762,6 +3827,7 @@ export type ListingCreateWithoutSlotsInput = {
   addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -3807,6 +3873,7 @@ export type ListingUncheckedCreateWithoutSlotsInput = {
   addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -3868,6 +3935,7 @@ export type ListingUpdateWithoutSlotsInput = {
   addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -3913,6 +3981,7 @@ export type ListingUncheckedUpdateWithoutSlotsInput = {
   addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -3958,6 +4027,7 @@ export type ListingCreateWithoutVariantsInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -4003,6 +4073,7 @@ export type ListingUncheckedCreateWithoutVariantsInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -4064,6 +4135,7 @@ export type ListingUpdateWithoutVariantsInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -4109,6 +4181,7 @@ export type ListingUncheckedUpdateWithoutVariantsInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -4154,6 +4227,7 @@ export type ListingCreateWithoutStartPrimaryDivisionInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -4199,6 +4273,7 @@ export type ListingUncheckedCreateWithoutStartPrimaryDivisionInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -4254,6 +4329,7 @@ export type ListingCreateWithoutEndPrimaryDivisionInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -4299,6 +4375,7 @@ export type ListingUncheckedCreateWithoutEndPrimaryDivisionInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -4386,6 +4463,7 @@ export type ListingCreateWithoutStartSecondaryDivisionInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -4431,6 +4509,7 @@ export type ListingUncheckedCreateWithoutStartSecondaryDivisionInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -4486,6 +4565,7 @@ export type ListingCreateWithoutEndSecondaryDivisionInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -4531,6 +4611,7 @@ export type ListingUncheckedCreateWithoutEndSecondaryDivisionInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -4578,6 +4659,206 @@ export type ListingUpdateManyWithWhereWithoutEndSecondaryDivisionInput = {
   data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutEndSecondaryDivisionInput>
 }
 
+export type ListingCreateWithoutSlotDefinitionsInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutSlotDefinitionsInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutSlotDefinitionsInput = {
+  where: Prisma.ListingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingCreateWithoutSlotDefinitionsInput, Prisma.ListingUncheckedCreateWithoutSlotDefinitionsInput>
+}
+
+export type ListingUpsertWithoutSlotDefinitionsInput = {
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutSlotDefinitionsInput, Prisma.ListingUncheckedUpdateWithoutSlotDefinitionsInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutSlotDefinitionsInput, Prisma.ListingUncheckedCreateWithoutSlotDefinitionsInput>
+  where?: Prisma.ListingWhereInput
+}
+
+export type ListingUpdateToOneWithWhereWithoutSlotDefinitionsInput = {
+  where?: Prisma.ListingWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutSlotDefinitionsInput, Prisma.ListingUncheckedUpdateWithoutSlotDefinitionsInput>
+}
+
+export type ListingUpdateWithoutSlotDefinitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutSlotDefinitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+}
+
 export type ListingCreateWithoutOperatorInput = {
   id?: string
   listingName?: string | null
@@ -4618,6 +4899,7 @@ export type ListingCreateWithoutOperatorInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -4663,6 +4945,7 @@ export type ListingUncheckedCreateWithoutOperatorInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -4718,6 +5001,7 @@ export type ListingCreateWithoutApprovedByAdminInput = {
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
@@ -4763,6 +5047,7 @@ export type ListingUncheckedCreateWithoutApprovedByAdminInput = {
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
@@ -4885,6 +5170,7 @@ export type ListingUpdateWithoutCategoryInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -4930,6 +5216,7 @@ export type ListingUncheckedUpdateWithoutCategoryInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -5045,6 +5332,7 @@ export type ListingUpdateWithoutSubCategoryInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -5090,6 +5378,7 @@ export type ListingUncheckedUpdateWithoutSubCategoryInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -5240,6 +5529,7 @@ export type ListingUpdateWithoutStartCountryInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -5285,6 +5575,7 @@ export type ListingUncheckedUpdateWithoutStartCountryInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -5365,6 +5656,7 @@ export type ListingUpdateWithoutEndCountryInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -5410,6 +5702,7 @@ export type ListingUncheckedUpdateWithoutEndCountryInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -5560,6 +5853,7 @@ export type ListingUpdateWithoutStartPrimaryDivisionInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -5605,6 +5899,7 @@ export type ListingUncheckedUpdateWithoutStartPrimaryDivisionInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -5685,6 +5980,7 @@ export type ListingUpdateWithoutEndPrimaryDivisionInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -5730,6 +6026,7 @@ export type ListingUncheckedUpdateWithoutEndPrimaryDivisionInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -5880,6 +6177,7 @@ export type ListingUpdateWithoutStartSecondaryDivisionInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -5925,6 +6223,7 @@ export type ListingUncheckedUpdateWithoutStartSecondaryDivisionInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -6005,6 +6304,7 @@ export type ListingUpdateWithoutEndSecondaryDivisionInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -6050,6 +6350,7 @@ export type ListingUncheckedUpdateWithoutEndSecondaryDivisionInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -6200,6 +6501,7 @@ export type ListingUpdateWithoutOperatorInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -6245,6 +6547,7 @@ export type ListingUncheckedUpdateWithoutOperatorInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -6325,6 +6628,7 @@ export type ListingUpdateWithoutApprovedByAdminInput = {
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
@@ -6370,6 +6674,7 @@ export type ListingUncheckedUpdateWithoutApprovedByAdminInput = {
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
@@ -6420,6 +6725,7 @@ export type ListingCountOutputType = {
   content: number
   media: number
   slots: number
+  slotDefinitions: number
   slotChanges: number
   dateRanges: number
   blockedDates: number
@@ -6430,6 +6736,7 @@ export type ListingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   content?: boolean | ListingCountOutputTypeCountContentArgs
   media?: boolean | ListingCountOutputTypeCountMediaArgs
   slots?: boolean | ListingCountOutputTypeCountSlotsArgs
+  slotDefinitions?: boolean | ListingCountOutputTypeCountSlotDefinitionsArgs
   slotChanges?: boolean | ListingCountOutputTypeCountSlotChangesArgs
   dateRanges?: boolean | ListingCountOutputTypeCountDateRangesArgs
   blockedDates?: boolean | ListingCountOutputTypeCountBlockedDatesArgs
@@ -6471,6 +6778,13 @@ export type ListingCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.E
  */
 export type ListingCountOutputTypeCountSlotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ListingSlotWhereInput
+}
+
+/**
+ * ListingCountOutputType without action
+ */
+export type ListingCountOutputTypeCountSlotDefinitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SlotDefinitionWhereInput
 }
 
 /**
@@ -6546,6 +6860,7 @@ export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
   faqs?: boolean | Prisma.Listing$faqsArgs<ExtArgs>
   slots?: boolean | Prisma.Listing$slotsArgs<ExtArgs>
+  slotDefinitions?: boolean | Prisma.Listing$slotDefinitionsArgs<ExtArgs>
   slotChanges?: boolean | Prisma.Listing$slotChangesArgs<ExtArgs>
   dateRanges?: boolean | Prisma.Listing$dateRangesArgs<ExtArgs>
   blockedDates?: boolean | Prisma.Listing$blockedDatesArgs<ExtArgs>
@@ -6699,6 +7014,7 @@ export type ListingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
   faqs?: boolean | Prisma.Listing$faqsArgs<ExtArgs>
   slots?: boolean | Prisma.Listing$slotsArgs<ExtArgs>
+  slotDefinitions?: boolean | Prisma.Listing$slotDefinitionsArgs<ExtArgs>
   slotChanges?: boolean | Prisma.Listing$slotChangesArgs<ExtArgs>
   dateRanges?: boolean | Prisma.Listing$dateRangesArgs<ExtArgs>
   blockedDates?: boolean | Prisma.Listing$blockedDatesArgs<ExtArgs>
@@ -6749,6 +7065,7 @@ export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     media: Prisma.$ListingMediaPayload<ExtArgs>[]
     faqs: Prisma.$ListingFaqPayload<ExtArgs> | null
     slots: Prisma.$ListingSlotPayload<ExtArgs>[]
+    slotDefinitions: Prisma.$SlotDefinitionPayload<ExtArgs>[]
     slotChanges: Prisma.$ListingSlotChangePayload<ExtArgs>[]
     dateRanges: Prisma.$InventoryDateRangePayload<ExtArgs>[]
     blockedDates: Prisma.$InventoryBlockedDatePayload<ExtArgs>[]
@@ -7198,6 +7515,7 @@ export interface Prisma__ListingClient<T, Null = never, ExtArgs extends runtime.
   media<T extends Prisma.Listing$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   faqs<T extends Prisma.Listing$faqsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$faqsArgs<ExtArgs>>): Prisma.Prisma__ListingFaqClient<runtime.Types.Result.GetResult<Prisma.$ListingFaqPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   slots<T extends Prisma.Listing$slotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$slotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  slotDefinitions<T extends Prisma.Listing$slotDefinitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$slotDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SlotDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   slotChanges<T extends Prisma.Listing$slotChangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$slotChangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   dateRanges<T extends Prisma.Listing$dateRangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$dateRangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryDateRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   blockedDates<T extends Prisma.Listing$blockedDatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$blockedDatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryBlockedDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7999,6 +8317,30 @@ export type Listing$slotsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.ListingSlotScalarFieldEnum | Prisma.ListingSlotScalarFieldEnum[]
+}
+
+/**
+ * Listing.slotDefinitions
+ */
+export type Listing$slotDefinitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SlotDefinition
+   */
+  select?: Prisma.SlotDefinitionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SlotDefinition
+   */
+  omit?: Prisma.SlotDefinitionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SlotDefinitionInclude<ExtArgs> | null
+  where?: Prisma.SlotDefinitionWhereInput
+  orderBy?: Prisma.SlotDefinitionOrderByWithRelationInput | Prisma.SlotDefinitionOrderByWithRelationInput[]
+  cursor?: Prisma.SlotDefinitionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SlotDefinitionScalarFieldEnum | Prisma.SlotDefinitionScalarFieldEnum[]
 }
 
 /**

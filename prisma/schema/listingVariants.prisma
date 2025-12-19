@@ -11,7 +11,8 @@ model ListingVariant {
 
     // Relations
     listing           Listing                   @relation(fields: [listingId], references: [id], onDelete: Cascade)
-    slots             ListingSlot[]             // For F2/F4 variant-specific slots
+    slots             ListingSlot[]             @relation("VariantToSlot") // For F2/F4 variant-specific slots
+    slotDefinitions   SlotDefinition[]          @relation("VariantToSlotDefinition")
     slotChanges       ListingSlotChange[]       // Variant-specific change history
     dateRanges        InventoryDateRange[]      // F2/F4 variant-specific date ranges
     blockedDates      InventoryBlockedDate[]    

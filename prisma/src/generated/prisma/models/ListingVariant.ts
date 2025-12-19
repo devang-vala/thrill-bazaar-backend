@@ -245,6 +245,7 @@ export type ListingVariantWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"ListingVariant"> | Date | string
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   slots?: Prisma.ListingSlotListRelationFilter
+  slotDefinitions?: Prisma.SlotDefinitionListRelationFilter
   slotChanges?: Prisma.ListingSlotChangeListRelationFilter
   dateRanges?: Prisma.InventoryDateRangeListRelationFilter
   blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
@@ -262,6 +263,7 @@ export type ListingVariantOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   listing?: Prisma.ListingOrderByWithRelationInput
   slots?: Prisma.ListingSlotOrderByRelationAggregateInput
+  slotDefinitions?: Prisma.SlotDefinitionOrderByRelationAggregateInput
   slotChanges?: Prisma.ListingSlotChangeOrderByRelationAggregateInput
   dateRanges?: Prisma.InventoryDateRangeOrderByRelationAggregateInput
   blockedDates?: Prisma.InventoryBlockedDateOrderByRelationAggregateInput
@@ -282,6 +284,7 @@ export type ListingVariantWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"ListingVariant"> | Date | string
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   slots?: Prisma.ListingSlotListRelationFilter
+  slotDefinitions?: Prisma.SlotDefinitionListRelationFilter
   slotChanges?: Prisma.ListingSlotChangeListRelationFilter
   dateRanges?: Prisma.InventoryDateRangeListRelationFilter
   blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
@@ -330,6 +333,7 @@ export type ListingVariantCreateInput = {
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutVariantsInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutVariantInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutVariantInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutVariantInput
@@ -346,6 +350,7 @@ export type ListingVariantUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutVariantInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutVariantInput
@@ -362,6 +367,7 @@ export type ListingVariantUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutVariantsNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutVariantNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutVariantNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutVariantNestedInput
@@ -378,6 +384,7 @@ export type ListingVariantUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutVariantNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutVariantNestedInput
@@ -598,6 +605,22 @@ export type ListingVariantUncheckedUpdateManyWithoutListingNestedInput = {
   deleteMany?: Prisma.ListingVariantScalarWhereInput | Prisma.ListingVariantScalarWhereInput[]
 }
 
+export type ListingVariantCreateNestedOneWithoutSlotDefinitionsInput = {
+  create?: Prisma.XOR<Prisma.ListingVariantCreateWithoutSlotDefinitionsInput, Prisma.ListingVariantUncheckedCreateWithoutSlotDefinitionsInput>
+  connectOrCreate?: Prisma.ListingVariantCreateOrConnectWithoutSlotDefinitionsInput
+  connect?: Prisma.ListingVariantWhereUniqueInput
+}
+
+export type ListingVariantUpdateOneWithoutSlotDefinitionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingVariantCreateWithoutSlotDefinitionsInput, Prisma.ListingVariantUncheckedCreateWithoutSlotDefinitionsInput>
+  connectOrCreate?: Prisma.ListingVariantCreateOrConnectWithoutSlotDefinitionsInput
+  upsert?: Prisma.ListingVariantUpsertWithoutSlotDefinitionsInput
+  disconnect?: Prisma.ListingVariantWhereInput | boolean
+  delete?: Prisma.ListingVariantWhereInput | boolean
+  connect?: Prisma.ListingVariantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingVariantUpdateToOneWithWhereWithoutSlotDefinitionsInput, Prisma.ListingVariantUpdateWithoutSlotDefinitionsInput>, Prisma.ListingVariantUncheckedUpdateWithoutSlotDefinitionsInput>
+}
+
 export type ListingVariantCreateWithoutBlockedDatesInput = {
   id?: string
   variantName: string
@@ -609,6 +632,7 @@ export type ListingVariantCreateWithoutBlockedDatesInput = {
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutVariantsInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutVariantInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutVariantInput
 }
@@ -624,6 +648,7 @@ export type ListingVariantUncheckedCreateWithoutBlockedDatesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutVariantInput
 }
@@ -655,6 +680,7 @@ export type ListingVariantUpdateWithoutBlockedDatesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutVariantsNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutVariantNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutVariantNestedInput
 }
@@ -670,6 +696,7 @@ export type ListingVariantUncheckedUpdateWithoutBlockedDatesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutVariantNestedInput
 }
@@ -685,6 +712,7 @@ export type ListingVariantCreateWithoutDateRangesInput = {
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutVariantsInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutVariantInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutVariantInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutVariantInput
 }
@@ -700,6 +728,7 @@ export type ListingVariantUncheckedCreateWithoutDateRangesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutVariantInput
 }
@@ -731,6 +760,7 @@ export type ListingVariantUpdateWithoutDateRangesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutVariantsNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutVariantNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutVariantNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutVariantNestedInput
 }
@@ -746,6 +776,7 @@ export type ListingVariantUncheckedUpdateWithoutDateRangesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutVariantNestedInput
 }
@@ -761,6 +792,7 @@ export type ListingVariantCreateWithoutSlotChangesInput = {
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutVariantsInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutVariantInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutVariantInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutVariantInput
 }
@@ -776,6 +808,7 @@ export type ListingVariantUncheckedCreateWithoutSlotChangesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutVariantInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutVariantInput
 }
@@ -807,6 +840,7 @@ export type ListingVariantUpdateWithoutSlotChangesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutVariantsNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutVariantNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutVariantNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutVariantNestedInput
 }
@@ -822,6 +856,7 @@ export type ListingVariantUncheckedUpdateWithoutSlotChangesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutVariantNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutVariantNestedInput
 }
@@ -836,6 +871,7 @@ export type ListingVariantCreateWithoutSlotsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutVariantsInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutVariantInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutVariantInput
@@ -851,6 +887,7 @@ export type ListingVariantUncheckedCreateWithoutSlotsInput = {
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutVariantInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutVariantInput
@@ -882,6 +919,7 @@ export type ListingVariantUpdateWithoutSlotsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutVariantsNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutVariantNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutVariantNestedInput
@@ -897,6 +935,7 @@ export type ListingVariantUncheckedUpdateWithoutSlotsInput = {
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutVariantNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutVariantNestedInput
@@ -912,6 +951,7 @@ export type ListingVariantCreateWithoutListingInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   slots?: Prisma.ListingSlotCreateNestedManyWithoutVariantInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutVariantInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutVariantInput
@@ -927,6 +967,7 @@ export type ListingVariantUncheckedCreateWithoutListingInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutVariantInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutVariantInput
@@ -973,6 +1014,86 @@ export type ListingVariantScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"ListingVariant"> | Date | string
 }
 
+export type ListingVariantCreateWithoutSlotDefinitionsInput = {
+  id?: string
+  variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  listing: Prisma.ListingCreateNestedOneWithoutVariantsInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutVariantInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutVariantInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutVariantInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutVariantInput
+}
+
+export type ListingVariantUncheckedCreateWithoutSlotDefinitionsInput = {
+  id?: string
+  listingId: string
+  variantName: string
+  variantDescription?: string | null
+  validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  variantOrder?: number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutVariantInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutVariantInput
+}
+
+export type ListingVariantCreateOrConnectWithoutSlotDefinitionsInput = {
+  where: Prisma.ListingVariantWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingVariantCreateWithoutSlotDefinitionsInput, Prisma.ListingVariantUncheckedCreateWithoutSlotDefinitionsInput>
+}
+
+export type ListingVariantUpsertWithoutSlotDefinitionsInput = {
+  update: Prisma.XOR<Prisma.ListingVariantUpdateWithoutSlotDefinitionsInput, Prisma.ListingVariantUncheckedUpdateWithoutSlotDefinitionsInput>
+  create: Prisma.XOR<Prisma.ListingVariantCreateWithoutSlotDefinitionsInput, Prisma.ListingVariantUncheckedCreateWithoutSlotDefinitionsInput>
+  where?: Prisma.ListingVariantWhereInput
+}
+
+export type ListingVariantUpdateToOneWithWhereWithoutSlotDefinitionsInput = {
+  where?: Prisma.ListingVariantWhereInput
+  data: Prisma.XOR<Prisma.ListingVariantUpdateWithoutSlotDefinitionsInput, Prisma.ListingVariantUncheckedUpdateWithoutSlotDefinitionsInput>
+}
+
+export type ListingVariantUpdateWithoutSlotDefinitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  listing?: Prisma.ListingUpdateOneRequiredWithoutVariantsNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutVariantNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutVariantNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutVariantNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutVariantNestedInput
+}
+
+export type ListingVariantUncheckedUpdateWithoutSlotDefinitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingId?: Prisma.StringFieldUpdateOperationsInput | string
+  variantName?: Prisma.StringFieldUpdateOperationsInput | string
+  variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  variantOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutVariantNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutVariantNestedInput
+}
+
 export type ListingVariantCreateManyListingInput = {
   id?: string
   variantName: string
@@ -994,6 +1115,7 @@ export type ListingVariantUpdateWithoutListingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slots?: Prisma.ListingSlotUpdateManyWithoutVariantNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutVariantNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutVariantNestedInput
@@ -1009,6 +1131,7 @@ export type ListingVariantUncheckedUpdateWithoutListingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutVariantNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutVariantNestedInput
@@ -1032,6 +1155,7 @@ export type ListingVariantUncheckedUpdateManyWithoutListingInput = {
 
 export type ListingVariantCountOutputType = {
   slots: number
+  slotDefinitions: number
   slotChanges: number
   dateRanges: number
   blockedDates: number
@@ -1039,6 +1163,7 @@ export type ListingVariantCountOutputType = {
 
 export type ListingVariantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   slots?: boolean | ListingVariantCountOutputTypeCountSlotsArgs
+  slotDefinitions?: boolean | ListingVariantCountOutputTypeCountSlotDefinitionsArgs
   slotChanges?: boolean | ListingVariantCountOutputTypeCountSlotChangesArgs
   dateRanges?: boolean | ListingVariantCountOutputTypeCountDateRangesArgs
   blockedDates?: boolean | ListingVariantCountOutputTypeCountBlockedDatesArgs
@@ -1059,6 +1184,13 @@ export type ListingVariantCountOutputTypeDefaultArgs<ExtArgs extends runtime.Typ
  */
 export type ListingVariantCountOutputTypeCountSlotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ListingSlotWhereInput
+}
+
+/**
+ * ListingVariantCountOutputType without action
+ */
+export type ListingVariantCountOutputTypeCountSlotDefinitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SlotDefinitionWhereInput
 }
 
 /**
@@ -1095,6 +1227,7 @@ export type ListingVariantSelect<ExtArgs extends runtime.Types.Extensions.Intern
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   slots?: boolean | Prisma.ListingVariant$slotsArgs<ExtArgs>
+  slotDefinitions?: boolean | Prisma.ListingVariant$slotDefinitionsArgs<ExtArgs>
   slotChanges?: boolean | Prisma.ListingVariant$slotChangesArgs<ExtArgs>
   dateRanges?: boolean | Prisma.ListingVariant$dateRangesArgs<ExtArgs>
   blockedDates?: boolean | Prisma.ListingVariant$blockedDatesArgs<ExtArgs>
@@ -1143,6 +1276,7 @@ export type ListingVariantOmit<ExtArgs extends runtime.Types.Extensions.Internal
 export type ListingVariantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   slots?: boolean | Prisma.ListingVariant$slotsArgs<ExtArgs>
+  slotDefinitions?: boolean | Prisma.ListingVariant$slotDefinitionsArgs<ExtArgs>
   slotChanges?: boolean | Prisma.ListingVariant$slotChangesArgs<ExtArgs>
   dateRanges?: boolean | Prisma.ListingVariant$dateRangesArgs<ExtArgs>
   blockedDates?: boolean | Prisma.ListingVariant$blockedDatesArgs<ExtArgs>
@@ -1160,6 +1294,7 @@ export type $ListingVariantPayload<ExtArgs extends runtime.Types.Extensions.Inte
   objects: {
     listing: Prisma.$ListingPayload<ExtArgs>
     slots: Prisma.$ListingSlotPayload<ExtArgs>[]
+    slotDefinitions: Prisma.$SlotDefinitionPayload<ExtArgs>[]
     slotChanges: Prisma.$ListingSlotChangePayload<ExtArgs>[]
     dateRanges: Prisma.$InventoryDateRangePayload<ExtArgs>[]
     blockedDates: Prisma.$InventoryBlockedDatePayload<ExtArgs>[]
@@ -1570,6 +1705,7 @@ export interface Prisma__ListingVariantClient<T, Null = never, ExtArgs extends r
   readonly [Symbol.toStringTag]: "PrismaPromise"
   listing<T extends Prisma.ListingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingDefaultArgs<ExtArgs>>): Prisma.Prisma__ListingClient<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   slots<T extends Prisma.ListingVariant$slotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingVariant$slotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  slotDefinitions<T extends Prisma.ListingVariant$slotDefinitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingVariant$slotDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SlotDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   slotChanges<T extends Prisma.ListingVariant$slotChangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingVariant$slotChangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   dateRanges<T extends Prisma.ListingVariant$dateRangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingVariant$dateRangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryDateRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   blockedDates<T extends Prisma.ListingVariant$blockedDatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingVariant$blockedDatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryBlockedDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2028,6 +2164,30 @@ export type ListingVariant$slotsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.ListingSlotScalarFieldEnum | Prisma.ListingSlotScalarFieldEnum[]
+}
+
+/**
+ * ListingVariant.slotDefinitions
+ */
+export type ListingVariant$slotDefinitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SlotDefinition
+   */
+  select?: Prisma.SlotDefinitionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SlotDefinition
+   */
+  omit?: Prisma.SlotDefinitionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SlotDefinitionInclude<ExtArgs> | null
+  where?: Prisma.SlotDefinitionWhereInput
+  orderBy?: Prisma.SlotDefinitionOrderByWithRelationInput | Prisma.SlotDefinitionOrderByWithRelationInput[]
+  cursor?: Prisma.SlotDefinitionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SlotDefinitionScalarFieldEnum | Prisma.SlotDefinitionScalarFieldEnum[]
 }
 
 /**
