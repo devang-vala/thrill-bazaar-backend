@@ -329,9 +329,9 @@ export type SlotDefinitionUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type SlotDefinitionScalarRelationFilter = {
-  is?: Prisma.SlotDefinitionWhereInput
-  isNot?: Prisma.SlotDefinitionWhereInput
+export type SlotDefinitionNullableScalarRelationFilter = {
+  is?: Prisma.SlotDefinitionWhereInput | null
+  isNot?: Prisma.SlotDefinitionWhereInput | null
 }
 
 export type SlotDefinitionListRelationFilter = {
@@ -380,10 +380,12 @@ export type SlotDefinitionCreateNestedOneWithoutSlotsInput = {
   connect?: Prisma.SlotDefinitionWhereUniqueInput
 }
 
-export type SlotDefinitionUpdateOneRequiredWithoutSlotsNestedInput = {
+export type SlotDefinitionUpdateOneWithoutSlotsNestedInput = {
   create?: Prisma.XOR<Prisma.SlotDefinitionCreateWithoutSlotsInput, Prisma.SlotDefinitionUncheckedCreateWithoutSlotsInput>
   connectOrCreate?: Prisma.SlotDefinitionCreateOrConnectWithoutSlotsInput
   upsert?: Prisma.SlotDefinitionUpsertWithoutSlotsInput
+  disconnect?: Prisma.SlotDefinitionWhereInput | boolean
+  delete?: Prisma.SlotDefinitionWhereInput | boolean
   connect?: Prisma.SlotDefinitionWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.SlotDefinitionUpdateToOneWithWhereWithoutSlotsInput, Prisma.SlotDefinitionUpdateWithoutSlotsInput>, Prisma.SlotDefinitionUncheckedUpdateWithoutSlotsInput>
 }
