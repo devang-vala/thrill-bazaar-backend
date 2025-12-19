@@ -21,5 +21,8 @@ model User {
   createdVariantMetadataDefinitions   ListingVariantMetadataFieldDefinition[]     @relation("VariantFieldDefinitionCreator")
   blockedDates                        InventoryBlockedDate[]
 
+  addresses                           UserAddress[]
+  operatorProfile                     OperatorProfile?                            @relation("OperatorUser")
+  verifiedOperators                   OperatorProfile[]                           @relation("VerifiedOperators")
   @@map("User")
 }

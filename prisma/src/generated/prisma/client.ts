@@ -144,6 +144,11 @@ export type ListingVariant = Prisma.ListingVariantModel
  */
 export type Listing = Prisma.ListingModel
 /**
+ * Model OperatorProfile
+ * 
+ */
+export type OperatorProfile = Prisma.OperatorProfileModel
+/**
  * Model Otp
  * 
  */
@@ -159,10 +164,10 @@ export type PrimaryDivision = Prisma.PrimaryDivisionModel
  */
 export type SecondaryDivision = Prisma.SecondaryDivisionModel
 /**
- * Model SlotDefinition
+ * Model UserAddress
  * 
  */
-export type SlotDefinition = Prisma.SlotDefinitionModel
+export type UserAddress = Prisma.UserAddressModel
 /**
  * Model User
  * 

@@ -106,3 +106,22 @@ export const TriggerType = {
 } as const
 
 export type TriggerType = (typeof TriggerType)[keyof typeof TriggerType]
+
+
+export const AddressType = {
+  HOME: 'HOME',
+  BILLING: 'BILLING',
+  SHIPPING: 'SHIPPING',
+  OTHER: 'OTHER'
+} as const
+
+export type AddressType = (typeof AddressType)[keyof typeof AddressType]
+
+
+export const VerificationStatus = {
+  PENDING: 'PENDING',
+  VERIFIED: 'VERIFIED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type VerificationStatus = (typeof VerificationStatus)[keyof typeof VerificationStatus]

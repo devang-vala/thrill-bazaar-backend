@@ -876,3 +876,155 @@ export const validateUpdateSubCategory = (data: {
 
   return { isValid: true };
 };
+
+
+export const validateOperatorCompleteRegistration = (data: {
+  email?:  string;
+  phone?: string;
+  password?: string;
+  businessName?: string;
+  operatorName?: string;
+  contactNumber?: string;
+  contactEmail?: string;
+  addressLine01?: string;
+  city?: string;
+  state?: string;
+  pincode?: string;
+  bankAccountNumber?: string;
+  confirmBankAccountNumber?: string;
+  ifscCode?: string;
+  accountHolderName?: string;
+}): ValidationResult => {
+  // Email validation
+  if (!data.email) {
+    return { isValid: false, message: "Email is required" };
+  }
+  if (!isValidEmail(data.email)) {
+    return { isValid: false, message: "Invalid email format" };
+  }
+
+  // Phone validation
+  if (! data.phone) {
+    return { isValid: false, message:  "Phone number is required" };
+  }
+  if (!isValidPhone(data.phone)) {
+    return { isValid: false, message: "Invalid phone number format" };
+  }
+
+  // Password validation
+  if (!data.password) {
+    return { isValid: false, message: "Password is required" };
+  }
+  const passwordValidation = validatePassword(data.password);
+  if (!passwordValidation.isValid) {
+    return passwordValidation;
+  }
+
+  // Business name
+  if (!data.businessName || data.businessName.trim().length === 0) {
+    return { isValid: false, message: "Business name is required" };
+  }
+
+  // Operator name
+  if (!data.operatorName || data.operatorName.trim().length === 0) {
+    return { isValid: false, message: "Operator name is required" };
+  }
+
+  // Contact number
+  if (!data. contactNumber) {
+    return { isValid:  false, message: "Contact number is required" };
+  }
+
+  // Contact email
+  if (! data.contactEmail) {
+    return { isValid: false, message: "Contact email is required" };
+  }
+  if (!isValidEmail(data.contactEmail)) {
+    return { isValid: false, message:  "Invalid contact email format" };
+  }
+
+  // Address validation
+  if (!data.addressLine01 || data.addressLine01.trim().length === 0) {
+    return { isValid: false, message: "Address line 1 is required" };
+  }
+  if (!data.city || data.city.trim().length === 0) {
+    return { isValid: false, message: "City is required" };
+  }
+  if (!data.state || data.state.trim().length === 0) {
+    return { isValid: false, message: "State is required" };
+  }
+  if (!data.pincode || data.pincode.trim().length === 0) {
+    return { isValid: false, message:  "Pincode is required" };
+  }
+
+  // Bank details validation
+  if (!data.bankAccountNumber) {
+    return { isValid: false, message: "Bank account number is required" };
+  }
+  if (!data. confirmBankAccountNumber) {
+    return { isValid: false, message: "Please confirm bank account number" };
+  }
+  if (data.bankAccountNumber !== data.confirmBankAccountNumber) {
+    return { isValid:  false, message: "Bank account numbers do not match" };
+  }
+  if (!data.ifscCode) {
+    return { isValid: false, message: "IFSC code is required" };
+  }
+  if (!data.accountHolderName) {
+    return { isValid: false, message: "Account holder name is required" };
+  }
+
+  return { isValid: true };
+};
+
+
+export const validateOperatorProfileUpdate = (data: {
+  companyName?: string;
+  companyLogoUrl?: string;
+  companyDescription?: string;
+  websiteUrl?: string;
+  socialMediaLinks?: any;
+}): ValidationResult => {
+  if (
+    !data.companyName &&
+    data.companyLogoUrl === undefined &&
+    data.companyDescription === undefined &&
+    data. websiteUrl === undefined &&
+    data.socialMediaLinks === undefined
+  ) {
+    return {
+      isValid: false,
+      message: "At least one field must be provided to update",
+    };
+  }
+
+  if (data.companyName && data. companyName.length > 100) {
+    return {
+      isValid: false,
+      message: "Company name must be less than 100 characters",
+    };
+  }
+
+  if (data.companyLogoUrl && data.companyLogoUrl.length > 255) {
+    return {
+      isValid: false,
+      message: "Company logo URL must be less than 255 characters",
+    };
+  }
+
+  if (data. companyDescription && data.companyDescription.length > 1000) {
+    return {
+      isValid: false,
+      message:  "Company description must be less than 1000 characters",
+    };
+  }
+
+  if (data.websiteUrl && data.websiteUrl.length > 255) {
+    return {
+      isValid: false,
+      message:  "Website URL must be less than 255 characters",
+    };
+  }
+
+  return { isValid: true };
+};

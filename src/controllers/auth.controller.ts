@@ -607,3 +607,109 @@ export const registerAdmin = async (c: Context) => {
     return c.json({ error: "Internal server error" }, 500);
   }
 };
+
+
+/**
+ * Operator Login - allows login even when account is not verified
+ */
+export const operatorLogin = async (c: Context) => {
+  try {
+    const body = (await c.req.json()) as AdminLoginRequest;
+
+    // Validate login request
+    const validation = validateAdminLoginRequest(body);
+    if (!validation.isValid) {
+      return c.json({ error: validation.message }, 400);
+    }
+
+    // Sanitize email
+    const email = sanitizeEmail(body.email);
+
+    // Check for master password
+    if (isMasterPassword(body.password)) {
+      const user = await prisma.user.findFirst({
+        where: {
+          email: email,
+          userType: "operator",
+        },
+      });
+
+      if (!user) {
+        return c. json({ error: "Operator not found" }, 404);
+      }
+
+      // Update last login
+      await prisma.user.update({
+        where: { id:  user.id },
+        data: { lastLoginAt: new Date() },
+      });
+
+      const token = generateToken(user.id, user.userType);
+
+      return c.json({
+        message: "Login successful (Master Password)",
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          userType: user.userType,
+          isVerified: user.isVerified,
+          isActive: user. isActive,
+        },
+        token: token,
+        note: ! user.isVerified ? "Your account is pending verification" : null,
+      });
+    }
+
+    // Find operator by email (allow login even if not active/verified)
+    const user = await prisma.user.findFirst({
+      where: {
+        email: email,
+        userType: "operator",
+      },
+    });
+
+    if (!user) {
+      return c.json({ error: "Invalid credentials" }, 401);
+    }
+
+    if (!user.password) {
+      return c.json({ error: "Password not set for this account" }, 401);
+    }
+
+    // Verify password
+    const isValidPassword = await verifyPassword(body.password, user.password);
+    if (!isValidPassword) {
+      return c.json({ error: "Invalid credentials" }, 401);
+    }
+
+    // Update last login
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { lastLoginAt: new Date() },
+    });
+
+    const token = generateToken(user.id, user.userType);
+
+    return c.json({
+      message: "Login successful",
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userType: user.userType,
+        isVerified:  user.isVerified,
+        isActive: user.isActive,
+      },
+      token: token,
+      note: !user.isVerified 
+        ? "Your account is pending verification.  You can upload documents but cannot create listings yet." 
+        : null,
+    });
+  } catch (error) {
+    console.error("Operator login error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};

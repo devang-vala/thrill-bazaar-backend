@@ -68,10 +68,11 @@ export const ModelName = {
   ListingVariantMetadataFieldOptions: 'ListingVariantMetadataFieldOptions',
   ListingVariant: 'ListingVariant',
   Listing: 'Listing',
+  OperatorProfile: 'OperatorProfile',
   Otp: 'Otp',
   PrimaryDivision: 'PrimaryDivision',
   SecondaryDivision: 'SecondaryDivision',
-  SlotDefinition: 'SlotDefinition',
+  UserAddress: 'UserAddress',
   User: 'User'
 } as const
 
@@ -413,6 +414,31 @@ export const ListingScalarFieldEnum = {
 export type ListingScalarFieldEnum = (typeof ListingScalarFieldEnum)[keyof typeof ListingScalarFieldEnum]
 
 
+export const OperatorProfileScalarFieldEnum = {
+  id: 'id',
+  operatorId: 'operatorId',
+  companyName: 'companyName',
+  companyLogoUrl: 'companyLogoUrl',
+  businessRegistrationNumber: 'businessRegistrationNumber',
+  taxId: 'taxId',
+  companyDescription: 'companyDescription',
+  websiteUrl: 'websiteUrl',
+  socialMediaLinks: 'socialMediaLinks',
+  bankAccountDetails: 'bankAccountDetails',
+  verificationStatus: 'verificationStatus',
+  verificationDocuments: 'verificationDocuments',
+  verifiedByAdminId: 'verifiedByAdminId',
+  verifiedAt: 'verifiedAt',
+  rejectionReason: 'rejectionReason',
+  ratingAverage: 'ratingAverage',
+  totalBookings: 'totalBookings',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OperatorProfileScalarFieldEnum = (typeof OperatorProfileScalarFieldEnum)[keyof typeof OperatorProfileScalarFieldEnum]
+
+
 export const OtpScalarFieldEnum = {
   id: 'id',
   phone: 'phone',
@@ -448,17 +474,21 @@ export const SecondaryDivisionScalarFieldEnum = {
 export type SecondaryDivisionScalarFieldEnum = (typeof SecondaryDivisionScalarFieldEnum)[keyof typeof SecondaryDivisionScalarFieldEnum]
 
 
-export const SlotDefinitionScalarFieldEnum = {
+export const UserAddressScalarFieldEnum = {
   id: 'id',
-  listingId: 'listingId',
-  variantId: 'variantId',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  isActive: 'isActive',
-  createdAt: 'createdAt'
+  userId: 'userId',
+  addressType: 'addressType',
+  fullAddress: 'fullAddress',
+  city: 'city',
+  state: 'state',
+  country: 'country',
+  postalCode: 'postalCode',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
-export type SlotDefinitionScalarFieldEnum = (typeof SlotDefinitionScalarFieldEnum)[keyof typeof SlotDefinitionScalarFieldEnum]
+export type UserAddressScalarFieldEnum = (typeof UserAddressScalarFieldEnum)[keyof typeof UserAddressScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

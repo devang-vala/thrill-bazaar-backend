@@ -82,3 +82,16 @@ enum TriggerType {
   customer_cancel
   customer_reschedule
 }
+
+enum AddressType {
+  HOME
+  BILLING
+  SHIPPING
+  OTHER
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}

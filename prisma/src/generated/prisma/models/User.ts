@@ -251,6 +251,9 @@ export type UserWhereInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionListRelationFilter
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionListRelationFilter
   blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
+  addresses?: Prisma.UserAddressListRelationFilter
+  operatorProfile?: Prisma.XOR<Prisma.OperatorProfileNullableScalarRelationFilter, Prisma.OperatorProfileWhereInput> | null
+  verifiedOperators?: Prisma.OperatorProfileListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -273,6 +276,9 @@ export type UserOrderByWithRelationInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionOrderByRelationAggregateInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionOrderByRelationAggregateInput
   blockedDates?: Prisma.InventoryBlockedDateOrderByRelationAggregateInput
+  addresses?: Prisma.UserAddressOrderByRelationAggregateInput
+  operatorProfile?: Prisma.OperatorProfileOrderByWithRelationInput
+  verifiedOperators?: Prisma.OperatorProfileOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -298,6 +304,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionListRelationFilter
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionListRelationFilter
   blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
+  addresses?: Prisma.UserAddressListRelationFilter
+  operatorProfile?: Prisma.XOR<Prisma.OperatorProfileNullableScalarRelationFilter, Prisma.OperatorProfileWhereInput> | null
+  verifiedOperators?: Prisma.OperatorProfileListRelationFilter
 }, "id" | "email" | "phone">
 
 export type UserOrderByWithAggregationInput = {
@@ -358,6 +367,9 @@ export type UserCreateInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -380,6 +392,9 @@ export type UserUncheckedCreateInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserUpdateInput = {
@@ -402,6 +417,9 @@ export type UserUpdateInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -424,6 +442,9 @@ export type UserUncheckedUpdateInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -624,6 +645,50 @@ export type UserUpdateOneWithoutApprovedListingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutApprovedListingsInput, Prisma.UserUpdateWithoutApprovedListingsInput>, Prisma.UserUncheckedUpdateWithoutApprovedListingsInput>
 }
 
+export type UserCreateNestedOneWithoutOperatorProfileInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOperatorProfileInput, Prisma.UserUncheckedCreateWithoutOperatorProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOperatorProfileInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutVerifiedOperatorsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVerifiedOperatorsInput, Prisma.UserUncheckedCreateWithoutVerifiedOperatorsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVerifiedOperatorsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutOperatorProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOperatorProfileInput, Prisma.UserUncheckedCreateWithoutOperatorProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOperatorProfileInput
+  upsert?: Prisma.UserUpsertWithoutOperatorProfileInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOperatorProfileInput, Prisma.UserUpdateWithoutOperatorProfileInput>, Prisma.UserUncheckedUpdateWithoutOperatorProfileInput>
+}
+
+export type UserUpdateOneWithoutVerifiedOperatorsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVerifiedOperatorsInput, Prisma.UserUncheckedCreateWithoutVerifiedOperatorsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVerifiedOperatorsInput
+  upsert?: Prisma.UserUpsertWithoutVerifiedOperatorsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVerifiedOperatorsInput, Prisma.UserUpdateWithoutVerifiedOperatorsInput>, Prisma.UserUncheckedUpdateWithoutVerifiedOperatorsInput>
+}
+
+export type UserCreateNestedOneWithoutAddressesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAddressesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAddressesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAddressesInput
+  upsert?: Prisma.UserUpsertWithoutAddressesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAddressesInput, Prisma.UserUpdateWithoutAddressesInput>, Prisma.UserUncheckedUpdateWithoutAddressesInput>
+}
+
 export type EnumUserTypeFieldUpdateOperationsInput = {
   set?: $Enums.UserType
 }
@@ -647,6 +712,9 @@ export type UserCreateWithoutBlockedDatesInput = {
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutBlockedDatesInput = {
@@ -668,6 +736,9 @@ export type UserUncheckedCreateWithoutBlockedDatesInput = {
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutBlockedDatesInput = {
@@ -705,6 +776,9 @@ export type UserUpdateWithoutBlockedDatesInput = {
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBlockedDatesInput = {
@@ -726,6 +800,9 @@ export type UserUncheckedUpdateWithoutBlockedDatesInput = {
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserCreateWithoutCreatedMetadataDefinitionsInput = {
@@ -747,6 +824,9 @@ export type UserCreateWithoutCreatedMetadataDefinitionsInput = {
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
@@ -768,6 +848,9 @@ export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutCreatedMetadataDefinitionsInput = {
@@ -805,6 +888,9 @@ export type UserUpdateWithoutCreatedMetadataDefinitionsInput = {
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
@@ -826,6 +912,9 @@ export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserCreateWithoutPoliciesInput = {
@@ -847,6 +936,9 @@ export type UserCreateWithoutPoliciesInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutPoliciesInput = {
@@ -868,6 +960,9 @@ export type UserUncheckedCreateWithoutPoliciesInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutPoliciesInput = {
@@ -905,6 +1000,9 @@ export type UserUpdateWithoutPoliciesInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPoliciesInput = {
@@ -926,6 +1024,9 @@ export type UserUncheckedUpdateWithoutPoliciesInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserCreateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -947,6 +1048,9 @@ export type UserCreateWithoutCreatedVariantMetadataDefinitionsInput = {
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -968,6 +1072,9 @@ export type UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput = {
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1005,6 +1112,9 @@ export type UserUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1026,6 +1136,9 @@ export type UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserCreateWithoutListingsInput = {
@@ -1047,6 +1160,9 @@ export type UserCreateWithoutListingsInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutListingsInput = {
@@ -1068,6 +1184,9 @@ export type UserUncheckedCreateWithoutListingsInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutListingsInput = {
@@ -1094,6 +1213,9 @@ export type UserCreateWithoutApprovedListingsInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutApprovedListingsInput = {
@@ -1115,6 +1237,9 @@ export type UserUncheckedCreateWithoutApprovedListingsInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutApprovedListingsInput = {
@@ -1152,6 +1277,9 @@ export type UserUpdateWithoutListingsInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutListingsInput = {
@@ -1173,6 +1301,9 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserUpsertWithoutApprovedListingsInput = {
@@ -1205,6 +1336,9 @@ export type UserUpdateWithoutApprovedListingsInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApprovedListingsInput = {
@@ -1226,6 +1360,345 @@ export type UserUncheckedUpdateWithoutApprovedListingsInput = {
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+}
+
+export type UserCreateWithoutOperatorProfileInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutOperatorProfileInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutOperatorProfileInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutOperatorProfileInput, Prisma.UserUncheckedCreateWithoutOperatorProfileInput>
+}
+
+export type UserCreateWithoutVerifiedOperatorsInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+}
+
+export type UserUncheckedCreateWithoutVerifiedOperatorsInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+}
+
+export type UserCreateOrConnectWithoutVerifiedOperatorsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutVerifiedOperatorsInput, Prisma.UserUncheckedCreateWithoutVerifiedOperatorsInput>
+}
+
+export type UserUpsertWithoutOperatorProfileInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutOperatorProfileInput, Prisma.UserUncheckedUpdateWithoutOperatorProfileInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutOperatorProfileInput, Prisma.UserUncheckedCreateWithoutOperatorProfileInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutOperatorProfileInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutOperatorProfileInput, Prisma.UserUncheckedUpdateWithoutOperatorProfileInput>
+}
+
+export type UserUpdateWithoutOperatorProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutOperatorProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+}
+
+export type UserUpsertWithoutVerifiedOperatorsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutVerifiedOperatorsInput, Prisma.UserUncheckedUpdateWithoutVerifiedOperatorsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutVerifiedOperatorsInput, Prisma.UserUncheckedCreateWithoutVerifiedOperatorsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutVerifiedOperatorsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutVerifiedOperatorsInput, Prisma.UserUncheckedUpdateWithoutVerifiedOperatorsInput>
+}
+
+export type UserUpdateWithoutVerifiedOperatorsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutVerifiedOperatorsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+}
+
+export type UserCreateWithoutAddressesInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutAddressesInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutAddressesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>
+}
+
+export type UserUpsertWithoutAddressesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAddressesInput, Prisma.UserUncheckedUpdateWithoutAddressesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAddressesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAddressesInput, Prisma.UserUncheckedUpdateWithoutAddressesInput>
+}
+
+export type UserUpdateWithoutAddressesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAddressesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
 }
 
 
@@ -1240,6 +1713,8 @@ export type UserCountOutputType = {
   createdMetadataDefinitions: number
   createdVariantMetadataDefinitions: number
   blockedDates: number
+  addresses: number
+  verifiedOperators: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1249,6 +1724,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   createdMetadataDefinitions?: boolean | UserCountOutputTypeCountCreatedMetadataDefinitionsArgs
   createdVariantMetadataDefinitions?: boolean | UserCountOutputTypeCountCreatedVariantMetadataDefinitionsArgs
   blockedDates?: boolean | UserCountOutputTypeCountBlockedDatesArgs
+  addresses?: boolean | UserCountOutputTypeCountAddressesArgs
+  verifiedOperators?: boolean | UserCountOutputTypeCountVerifiedOperatorsArgs
 }
 
 /**
@@ -1303,6 +1780,20 @@ export type UserCountOutputTypeCountBlockedDatesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.InventoryBlockedDateWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAddressesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserAddressWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountVerifiedOperatorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OperatorProfileWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1324,6 +1815,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdMetadataDefinitions?: boolean | Prisma.User$createdMetadataDefinitionsArgs<ExtArgs>
   createdVariantMetadataDefinitions?: boolean | Prisma.User$createdVariantMetadataDefinitionsArgs<ExtArgs>
   blockedDates?: boolean | Prisma.User$blockedDatesArgs<ExtArgs>
+  addresses?: boolean | Prisma.User$addressesArgs<ExtArgs>
+  operatorProfile?: boolean | Prisma.User$operatorProfileArgs<ExtArgs>
+  verifiedOperators?: boolean | Prisma.User$verifiedOperatorsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1383,6 +1877,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdMetadataDefinitions?: boolean | Prisma.User$createdMetadataDefinitionsArgs<ExtArgs>
   createdVariantMetadataDefinitions?: boolean | Prisma.User$createdVariantMetadataDefinitionsArgs<ExtArgs>
   blockedDates?: boolean | Prisma.User$blockedDatesArgs<ExtArgs>
+  addresses?: boolean | Prisma.User$addressesArgs<ExtArgs>
+  operatorProfile?: boolean | Prisma.User$operatorProfileArgs<ExtArgs>
+  verifiedOperators?: boolean | Prisma.User$verifiedOperatorsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1397,6 +1894,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdMetadataDefinitions: Prisma.$ListingMetadataFieldDefinitionPayload<ExtArgs>[]
     createdVariantMetadataDefinitions: Prisma.$ListingVariantMetadataFieldDefinitionPayload<ExtArgs>[]
     blockedDates: Prisma.$InventoryBlockedDatePayload<ExtArgs>[]
+    addresses: Prisma.$UserAddressPayload<ExtArgs>[]
+    operatorProfile: Prisma.$OperatorProfilePayload<ExtArgs> | null
+    verifiedOperators: Prisma.$OperatorProfilePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1812,6 +2312,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   createdMetadataDefinitions<T extends Prisma.User$createdMetadataDefinitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdMetadataDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMetadataFieldDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdVariantMetadataDefinitions<T extends Prisma.User$createdVariantMetadataDefinitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdVariantMetadataDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   blockedDates<T extends Prisma.User$blockedDatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$blockedDatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryBlockedDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  addresses<T extends Prisma.User$addressesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$addressesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  operatorProfile<T extends Prisma.User$operatorProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$operatorProfileArgs<ExtArgs>>): Prisma.Prisma__OperatorProfileClient<runtime.Types.Result.GetResult<Prisma.$OperatorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  verifiedOperators<T extends Prisma.User$verifiedOperatorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$verifiedOperatorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OperatorProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2383,6 +2886,73 @@ export type User$blockedDatesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.InventoryBlockedDateScalarFieldEnum | Prisma.InventoryBlockedDateScalarFieldEnum[]
+}
+
+/**
+ * User.addresses
+ */
+export type User$addressesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserAddress
+   */
+  select?: Prisma.UserAddressSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserAddress
+   */
+  omit?: Prisma.UserAddressOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserAddressInclude<ExtArgs> | null
+  where?: Prisma.UserAddressWhereInput
+  orderBy?: Prisma.UserAddressOrderByWithRelationInput | Prisma.UserAddressOrderByWithRelationInput[]
+  cursor?: Prisma.UserAddressWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserAddressScalarFieldEnum | Prisma.UserAddressScalarFieldEnum[]
+}
+
+/**
+ * User.operatorProfile
+ */
+export type User$operatorProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OperatorProfile
+   */
+  select?: Prisma.OperatorProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OperatorProfile
+   */
+  omit?: Prisma.OperatorProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OperatorProfileInclude<ExtArgs> | null
+  where?: Prisma.OperatorProfileWhereInput
+}
+
+/**
+ * User.verifiedOperators
+ */
+export type User$verifiedOperatorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OperatorProfile
+   */
+  select?: Prisma.OperatorProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OperatorProfile
+   */
+  omit?: Prisma.OperatorProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OperatorProfileInclude<ExtArgs> | null
+  where?: Prisma.OperatorProfileWhereInput
+  orderBy?: Prisma.OperatorProfileOrderByWithRelationInput | Prisma.OperatorProfileOrderByWithRelationInput[]
+  cursor?: Prisma.OperatorProfileWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OperatorProfileScalarFieldEnum | Prisma.OperatorProfileScalarFieldEnum[]
 }
 
 /**

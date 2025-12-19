@@ -6,6 +6,7 @@ import {
   customerLogin,
   customerVerifyOtp,
   adminLogin,
+  operatorLogin
 } from "../controllers/auth.controller.js";
 import {
   authenticateToken,
@@ -44,5 +45,7 @@ authRouter.get("/admin-only", authenticateToken, requireAdmin, (c) => {
     user: user,
   });
 });
+
+authRouter.post("/login/operator", operatorLogin);
 
 export default authRouter;
