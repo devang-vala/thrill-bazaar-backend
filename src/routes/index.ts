@@ -26,6 +26,8 @@ import primaryDivisionRouter from "./primaryDivision.route.js";
 import secondaryDivisionRouter from "./secondaryDivision.route.js";
 import searchRouter from "./search.route.js";
 import OperatorRouter from "./operator.route.js";
+import slotDefinitionRouter from "./slotDefinition.route.js";
+
 
 const router = new Hono();
 
@@ -82,5 +84,7 @@ router.route("/search", searchRouter);
 
 // Mount operator routes
 router.route("/operators", OperatorRouter);
+
+router.route("/slot-definitions", slotDefinitionRouter);
 
 export default router;

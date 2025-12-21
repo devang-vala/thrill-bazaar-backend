@@ -1,207 +1,63 @@
+// F3: Edit a single-day slot batch (by id)
+export const updateSingleDaySlotBatch = async (c: Context) => {
+  try {
+    const { id, date, basePrice, totalCapacity, isActive, slotDefinitionId } = await c.req.json();
+    if (!id) {
+      return c.json({ error: "Missing slot batch id" }, 400);
+    }
+    const updateData: any = {};
+    if (date) {
+      const batchDate = new Date(date);
+      updateData.batchStartDate = batchDate;
+      updateData.batchEndDate = batchDate;
+    }
+    if (basePrice !== undefined) updateData.basePrice = Number(basePrice);
+    if (totalCapacity !== undefined) {
+      updateData.totalCapacity = Number(totalCapacity);
+      updateData.availableCount = Number(totalCapacity); // Optionally reset availableCount
+    }
+    if (isActive !== undefined) updateData.isActive = Boolean(isActive);
+    if (slotDefinitionId !== undefined) updateData.slotDefinitionId = slotDefinitionId;
+
+    const updated = await prisma.listingSlot.update({
+      where: { id },
+      data: updateData,
+    });
+    return c.json({ success: true, data: updated });
+  } catch (error) {
+    console.error("Update F3 slot batch error:", error);
+    return c.json({ error: "Failed to update slot batch" }, 500);
+  }
+};
 import type { Context } from "hono";
 import { prisma } from "../db.js";
 
-// 1. Fetch slot definitions for a listing + variant
-export const getSlotDefinitions = async (c: Context) => {
-  const { listingId, variantId } = c.req.param();
-  const where: any = { listingId };
-  if (variantId) where.variantId = variantId;
-  const slots = await prisma.listingSlot.findMany({
-    where,
-    orderBy: { batchStartDate: "asc" },
-  });
-  return c.json({ success: true, data: slots });
-};
-
-// 2. Create/update slot definitions
-export const upsertSlotDefinition = async (c: Context) => {
-  const body = await c.req.json();
-  // Accepts array or single object
-  const slots = Array.isArray(body) ? body : [body];
-  const results = [];
-  for (const slot of slots) {
-    const { id, ...data } = slot;
-    let result;
-    if (id) {
-      result = await prisma.listingSlot.update({ where: { id }, data });
-    } else {
-      result = await prisma.listingSlot.create({ data });
-    }
-    results.push(result);
-  }
-  return c.json({ success: true, data: results });
-};
-
-// 3. Fetch slot availability for a given month
-export const getSlotAvailability = async (c: Context) => {
+// F3: Create a single-day slot batch (slotDefinitionId, date, price, capacity)
+export const createSingleDaySlotBatch = async (c: Context) => {
   try {
-    const params = c.req.param();
-    const listingId = params.listingId;
-    const variantId = params.variantId; // Will be undefined if not provided
-    const month = params.month;
-    
-    if (!listingId || !month) {
-      return c.json({ error: "listingId and month are required" }, 400);
+    const { listingId, variantId, slotDefinitionId, date, basePrice, totalCapacity } = await c.req.json();
+    if (!listingId || !slotDefinitionId || !date || !basePrice || !totalCapacity) {
+      return c.json({ error: "Missing required fields" }, 400);
     }
-    
-    // month: YYYY-MM
-    const start = new Date(`${month}-01T00:00:00.000Z`);
-    const end = new Date(start);
-    end.setMonth(end.getMonth() + 1);
-    
-    const where: any = {
-      listingId,
-      batchStartDate: { gte: start, lt: end },
-      isActive: true, // Only return active slots
-    };
-    
-    if (variantId) {
-      where.variantId = variantId;
-    }
-    
-    const slots = await prisma.listingSlot.findMany({ 
-      where,
-      orderBy: { batchStartDate: 'asc' }
+    // Set both start and end date to the selected date (single day)
+    const batchDate = new Date(date);
+    const slot = await prisma.listingSlot.create({
+      data: {
+        listingId,
+        variantId: variantId || null,
+        slotDefinitionId,
+        batchStartDate: batchDate,
+        batchEndDate: batchDate,
+        basePrice: Number(basePrice),
+        totalCapacity: Number(totalCapacity),
+        availableCount: Number(totalCapacity),
+        isActive: true,
+        formatType: "F3",
+      },
     });
-    
-    return c.json({ success: true, data: slots });
+    return c.json({ success: true, data: slot });
   } catch (error) {
-    console.error('Error fetching slot availability:', error);
-    return c.json({ error: 'Failed to fetch slot availability' }, 500);
-  }
-};
-
-// 4. Create/update slot inventory for one or multiple dates
-export const upsertSlotInventory = async (c: Context) => {
-  try {
-    const body = await c.req.json();
-    // Accepts array or single object
-    const inventories = Array.isArray(body) ? body : [body];
-    const results = [];
-    for (const inv of inventories) {
-      const { id, ...data } = inv;
-      
-      // Convert date strings to DateTime if needed
-      if (data.batchStartDate && typeof data.batchStartDate === 'string') {
-        data.batchStartDate = new Date(data.batchStartDate);
-      }
-      if (data.batchEndDate && typeof data.batchEndDate === 'string') {
-        data.batchEndDate = new Date(data.batchEndDate);
-      }
-      if (data.batchStartTime && typeof data.batchStartTime === 'string') {
-        data.batchStartTime = new Date(data.batchStartTime);
-      }
-      if (data.batchEndTime && typeof data.batchEndTime === 'string') {
-        data.batchEndTime = new Date(data.batchEndTime);
-      }
-      
-      let result;
-      if (id) {
-        result = await prisma.listingSlot.update({ where: { id }, data });
-      } else {
-        result = await prisma.listingSlot.create({ data });
-      }
-      results.push(result);
-    }
-    return c.json({ success: true, data: results });
-  } catch (error) {
-    console.error('Error upserting slot inventory:', error);
-    return c.json({ error: 'Failed to upsert slot inventory' }, 500);
-  }
-};
-
-// 5. Block/unblock entire date or specific slot on a date
-export const blockSlotOrDate = async (c: Context) => {
-  try {
-    const body = await c.req.json();
-    const { date, ...rest } = body;
-    
-    // Convert date string to DateTime
-    const blockedDate = date ? new Date(date) : new Date();
-    
-    const blockData = {
-      ...rest,
-      blockedDate,
-    };
-    
-    const block = await prisma.inventoryBlockedDate.create({ data: blockData });
-    return c.json({ success: true, data: block });
-  } catch (error) {
-    console.error('Error blocking slot/date:', error);
-    return c.json({ error: 'Failed to block date' }, 500);
-  }
-};
-
-export const unblockSlotOrDate = async (c: Context) => {
-  try {
-    const { id } = await c.req.json();
-    await prisma.inventoryBlockedDate.delete({ where: { id } });
-    return c.json({ success: true });
-  } catch (error) {
-    console.error('Error unblocking slot/date:', error);
-    return c.json({ error: 'Failed to unblock date' }, 500);
-  }
-};
-
-
-export const bulkUpsertSlotInventory = async (c: Context) => {
-  try {
-    const body = await c.req.json();
-    
-    // body should be array of slot data
-    if (!Array.isArray(body)) {
-      return c.json({ error: "Expected array of slot data" }, 400);
-    }
-
-    const results = [];
-    
-    for (const slotData of body) {
-      // Check if slot already exists
-      const existing = await prisma.listingSlot.findFirst({
-        where: {
-          listingId: slotData.listingId,
-          variantId: slotData.variantId || null,
-          slotDate: new Date(slotData.slotDate),
-          startTime: slotData.startTime,
-          endTime: slotData.endTime,
-        },
-      });
-
-      let result;
-      if (existing) {
-        // Update existing slot
-        result = await prisma.listingSlot.update({
-          where: { id: existing.id },
-          data: {
-            basePrice: slotData.basePrice,
-            totalCapacity: slotData.totalCapacity,
-            availableCount: slotData.availableCount,
-            isActive: slotData.isActive ??  true,
-          },
-        });
-      } else {
-        // Create new slot
-        result = await prisma.listingSlot.create({
-          data: {
-            listingId: slotData.listingId,
-            variantId: slotData.variantId || null,
-            slotDate: new Date(slotData.slotDate),
-            startTime: slotData.startTime,
-            endTime: slotData.endTime,
-            basePrice: slotData.basePrice,
-            totalCapacity: slotData. totalCapacity,
-            availableCount: slotData.availableCount,
-            isActive: slotData.isActive ?? true,
-          },
-        });
-      }
-      
-      results.push(result);
-    }
-
-    return c.json({ success: true, data: results });
-  } catch (error) {
-    console.error("Bulk upsert slot inventory error:", error);
-    return c.json({ error: "Failed to bulk upsert slot inventory" }, 500);
+    console.error("Create F3 slot batch error:", error);
+    return c.json({ error: "Failed to create slot batch" }, 500);
   }
 };
