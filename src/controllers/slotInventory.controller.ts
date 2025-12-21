@@ -8,7 +8,7 @@ export const getSlotDefinitions = async (c: Context) => {
   if (variantId) where.variantId = variantId;
   const slots = await prisma.listingSlot.findMany({
     where,
-    orderBy: { batchStartTime: "asc" },
+    orderBy: { batchStartDate: "asc" },
   });
   return c.json({ success: true, data: slots });
 };
@@ -140,5 +140,68 @@ export const unblockSlotOrDate = async (c: Context) => {
   } catch (error) {
     console.error('Error unblocking slot/date:', error);
     return c.json({ error: 'Failed to unblock date' }, 500);
+  }
+};
+
+
+export const bulkUpsertSlotInventory = async (c: Context) => {
+  try {
+    const body = await c.req.json();
+    
+    // body should be array of slot data
+    if (!Array.isArray(body)) {
+      return c.json({ error: "Expected array of slot data" }, 400);
+    }
+
+    const results = [];
+    
+    for (const slotData of body) {
+      // Check if slot already exists
+      const existing = await prisma.listingSlot.findFirst({
+        where: {
+          listingId: slotData.listingId,
+          variantId: slotData.variantId || null,
+          slotDate: new Date(slotData.slotDate),
+          startTime: slotData.startTime,
+          endTime: slotData.endTime,
+        },
+      });
+
+      let result;
+      if (existing) {
+        // Update existing slot
+        result = await prisma.listingSlot.update({
+          where: { id: existing.id },
+          data: {
+            basePrice: slotData.basePrice,
+            totalCapacity: slotData.totalCapacity,
+            availableCount: slotData.availableCount,
+            isActive: slotData.isActive ??  true,
+          },
+        });
+      } else {
+        // Create new slot
+        result = await prisma.listingSlot.create({
+          data: {
+            listingId: slotData.listingId,
+            variantId: slotData.variantId || null,
+            slotDate: new Date(slotData.slotDate),
+            startTime: slotData.startTime,
+            endTime: slotData.endTime,
+            basePrice: slotData.basePrice,
+            totalCapacity: slotData. totalCapacity,
+            availableCount: slotData.availableCount,
+            isActive: slotData.isActive ?? true,
+          },
+        });
+      }
+      
+      results.push(result);
+    }
+
+    return c.json({ success: true, data: results });
+  } catch (error) {
+    console.error("Bulk upsert slot inventory error:", error);
+    return c.json({ error: "Failed to bulk upsert slot inventory" }, 500);
   }
 };

@@ -5,7 +5,8 @@ import {
   getSlotAvailability,
   upsertSlotInventory,
   blockSlotOrDate,
-  unblockSlotOrDate
+  unblockSlotOrDate,
+  bulkUpsertSlotInventory
 } from "../controllers/slotInventory.controller.js";
 
 const slotInventoryRouter = new Hono();
@@ -21,6 +22,9 @@ slotInventoryRouter.get("/availability/:listingId/:variantId/:month", getSlotAva
 
 // Fetch slot availability for a given month (without variant)
 slotInventoryRouter.get("/availability/:listingId/:month", getSlotAvailability);
+
+// Add this route
+slotInventoryRouter.post("/inventory/bulk", bulkUpsertSlotInventory);
 
 // Create/update slot inventory for one or multiple dates
 slotInventoryRouter.post("/inventory", upsertSlotInventory);
