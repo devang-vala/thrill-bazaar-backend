@@ -527,9 +527,9 @@ export type ListingSlotUncheckedUpdateManyInput = {
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type ListingSlotScalarRelationFilter = {
-  is?: Prisma.ListingSlotWhereInput
-  isNot?: Prisma.ListingSlotWhereInput
+export type ListingSlotNullableScalarRelationFilter = {
+  is?: Prisma.ListingSlotWhereInput | null
+  isNot?: Prisma.ListingSlotWhereInput | null
 }
 
 export type ListingSlotCountOrderByAggregateInput = {
@@ -614,10 +614,12 @@ export type ListingSlotCreateNestedOneWithoutSlotChangesInput = {
   connect?: Prisma.ListingSlotWhereUniqueInput
 }
 
-export type ListingSlotUpdateOneRequiredWithoutSlotChangesNestedInput = {
+export type ListingSlotUpdateOneWithoutSlotChangesNestedInput = {
   create?: Prisma.XOR<Prisma.ListingSlotCreateWithoutSlotChangesInput, Prisma.ListingSlotUncheckedCreateWithoutSlotChangesInput>
   connectOrCreate?: Prisma.ListingSlotCreateOrConnectWithoutSlotChangesInput
   upsert?: Prisma.ListingSlotUpsertWithoutSlotChangesInput
+  disconnect?: Prisma.ListingSlotWhereInput | boolean
+  delete?: Prisma.ListingSlotWhereInput | boolean
   connect?: Prisma.ListingSlotWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ListingSlotUpdateToOneWithWhereWithoutSlotChangesInput, Prisma.ListingSlotUpdateWithoutSlotChangesInput>, Prisma.ListingSlotUncheckedUpdateWithoutSlotChangesInput>
 }
