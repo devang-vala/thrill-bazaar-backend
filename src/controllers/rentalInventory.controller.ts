@@ -1,3 +1,54 @@
+// 5. Upsert per-day price override (just store override, do not touch ranges)
+export const upsertPerDayPriceOverride = async (c: Context) => {
+  const { listingId, variantId, date, price } = await c.req.json();
+  const changeDate = new Date(date);
+  // Upsert: if exists, update; else, create
+  const existing = await prisma.listingSlotChange.findFirst({
+    where: {
+      listingId,
+      variantId: variantId ?? null,
+      slotId: null,
+      changeDate,
+    },
+  });
+  if (existing) {
+    await prisma.listingSlotChange.update({
+      where: { id: existing.id },
+      data: {
+        basePrice: price,
+        triggerType: "seller_update",
+      },
+    });
+  } else {
+    await prisma.listingSlotChange.create({
+      data: {
+        slotId: null,
+        listingId,
+        variantId: variantId ?? null,
+        changeDate,
+        basePrice: price,
+        availableCount: 0,
+        bookedCount: 0,
+        triggerType: "seller_update",
+      },
+    });
+  }
+  return c.json({ success: true });
+};
+// 6. Remove per-day price override
+export const removePerDayOverride = async (c: Context) => {
+  const { listingId, variantId, date } = await c.req.json();
+  const changeDate = new Date(date);
+  await prisma.listingSlotChange.deleteMany({
+    where: {
+      listingId,
+      variantId: variantId ?? null,
+      slotId: null,
+      changeDate,
+    },
+  });
+  return c.json({ success: true });
+};
 // API: Get raw date ranges for a listing+variant
 export const getRentalDateRangesRaw = async (c: Context) => {
   const listingId = c.req.param("listingId");
@@ -23,31 +74,54 @@ function getDatesInRange(start: Date, end: Date): string[] {
   return dates;
 }
 
-// 1. Fetch availability for a listing+variant (calendar, per-day price, exclude blocked)
+// 1. Fetch availability for a listing+variant (blocked > per-day override > date range)
 export const getRentalAvailability = async (c: Context) => {
   const listingId = c.req.param("listingId");
   const variantId = c.req.param("variantId") || null;
-  // Fetch all date ranges for this listing+variant
+  // Fetch all date ranges
   const ranges = await prisma.inventoryDateRange.findMany({
     where: { listingId, variantId },
     orderBy: { availableFromDate: "asc" },
   });
-  // Fetch all blocked dates for this listing+variant
+  // Fetch all per-day overrides
+  const slotOverrides = await prisma.listingSlotChange.findMany({
+    where: {
+      listingId,
+      variantId: variantId ?? null,
+      slotId: null,
+    },
+    select: {
+      changeDate: true,
+      basePrice: true,
+    },
+  });
+  // Fetch all blocked dates
   const blocked = await prisma.inventoryBlockedDate.findMany({
     where: { listingId, variantId },
   });
   const blockedSet = new Set(blocked.map(b => format(b.blockedDate, "yyyy-MM-dd")));
   // Build date-wise availability
-  const calendar: Record<string, { price: number, available: boolean }> = {};
+  const calendar: Record<string, { price: number, available: boolean, source: string }> = {};
+  // 1. Fill from date ranges
   for (const range of ranges) {
     const dates = getDatesInRange(range.availableFromDate, range.availableToDate);
     for (const date of dates) {
-      calendar[date] = { price: range.basePricePerDay, available: true };
+      calendar[date] = { price: range.basePricePerDay, available: true, source: "range" };
     }
   }
-  // Remove blocked dates
+  // 2. Override with per-day slot changes
+  for (const o of slotOverrides) {
+    const dateStr = format(o.changeDate, "yyyy-MM-dd");
+    calendar[dateStr] = { price: o.basePrice, available: true, source: "override" };
+  }
+  // 3. Blocked dates take highest priority
   for (const date of blockedSet) {
-    if (calendar[date]) calendar[date].available = false;
+    if (calendar[date]) {
+      calendar[date].available = false;
+      calendar[date].source = "blocked";
+    } else {
+      calendar[date] = { price: 0, available: false, source: "blocked" };
+    }
   }
   return c.json({ success: true, data: calendar });
 };
