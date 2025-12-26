@@ -409,9 +409,12 @@ export const ModelName = {
   ListingVariantMetadataFieldOptions: 'ListingVariantMetadataFieldOptions',
   ListingVariant: 'ListingVariant',
   Listing: 'Listing',
+  OperatorProfile: 'OperatorProfile',
   Otp: 'Otp',
   PrimaryDivision: 'PrimaryDivision',
   SecondaryDivision: 'SecondaryDivision',
+  SlotDefinition: 'SlotDefinition',
+  UserAddress: 'UserAddress',
   User: 'User'
 } as const
 
@@ -428,7 +431,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "otp" | "primaryDivision" | "secondaryDivision" | "user"
+    modelProps: "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "operatorProfile" | "otp" | "primaryDivision" | "secondaryDivision" | "slotDefinition" | "userAddress" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1912,6 +1915,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    OperatorProfile: {
+      payload: Prisma.$OperatorProfilePayload<ExtArgs>
+      fields: Prisma.OperatorProfileFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OperatorProfileFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OperatorProfileFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>
+        }
+        findFirst: {
+          args: Prisma.OperatorProfileFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OperatorProfileFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>
+        }
+        findMany: {
+          args: Prisma.OperatorProfileFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>[]
+        }
+        create: {
+          args: Prisma.OperatorProfileCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>
+        }
+        createMany: {
+          args: Prisma.OperatorProfileCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OperatorProfileCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>[]
+        }
+        delete: {
+          args: Prisma.OperatorProfileDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>
+        }
+        update: {
+          args: Prisma.OperatorProfileUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>
+        }
+        deleteMany: {
+          args: Prisma.OperatorProfileDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OperatorProfileUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OperatorProfileUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>[]
+        }
+        upsert: {
+          args: Prisma.OperatorProfileUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>
+        }
+        aggregate: {
+          args: Prisma.OperatorProfileAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOperatorProfile>
+        }
+        groupBy: {
+          args: Prisma.OperatorProfileGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OperatorProfileGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OperatorProfileCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OperatorProfileCountAggregateOutputType> | number
+        }
+      }
+    }
     Otp: {
       payload: Prisma.$OtpPayload<ExtArgs>
       fields: Prisma.OtpFieldRefs
@@ -2131,6 +2208,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SecondaryDivisionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SecondaryDivisionCountAggregateOutputType> | number
+        }
+      }
+    }
+    SlotDefinition: {
+      payload: Prisma.$SlotDefinitionPayload<ExtArgs>
+      fields: Prisma.SlotDefinitionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SlotDefinitionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlotDefinitionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SlotDefinitionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlotDefinitionPayload>
+        }
+        findFirst: {
+          args: Prisma.SlotDefinitionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlotDefinitionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SlotDefinitionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlotDefinitionPayload>
+        }
+        findMany: {
+          args: Prisma.SlotDefinitionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlotDefinitionPayload>[]
+        }
+        create: {
+          args: Prisma.SlotDefinitionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlotDefinitionPayload>
+        }
+        createMany: {
+          args: Prisma.SlotDefinitionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SlotDefinitionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlotDefinitionPayload>[]
+        }
+        delete: {
+          args: Prisma.SlotDefinitionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlotDefinitionPayload>
+        }
+        update: {
+          args: Prisma.SlotDefinitionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlotDefinitionPayload>
+        }
+        deleteMany: {
+          args: Prisma.SlotDefinitionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SlotDefinitionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SlotDefinitionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlotDefinitionPayload>[]
+        }
+        upsert: {
+          args: Prisma.SlotDefinitionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlotDefinitionPayload>
+        }
+        aggregate: {
+          args: Prisma.SlotDefinitionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSlotDefinition>
+        }
+        groupBy: {
+          args: Prisma.SlotDefinitionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SlotDefinitionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SlotDefinitionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SlotDefinitionCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserAddress: {
+      payload: Prisma.$UserAddressPayload<ExtArgs>
+      fields: Prisma.UserAddressFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserAddressFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAddressPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserAddressFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAddressPayload>
+        }
+        findFirst: {
+          args: Prisma.UserAddressFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAddressPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserAddressFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAddressPayload>
+        }
+        findMany: {
+          args: Prisma.UserAddressFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAddressPayload>[]
+        }
+        create: {
+          args: Prisma.UserAddressCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAddressPayload>
+        }
+        createMany: {
+          args: Prisma.UserAddressCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserAddressCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAddressPayload>[]
+        }
+        delete: {
+          args: Prisma.UserAddressDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAddressPayload>
+        }
+        update: {
+          args: Prisma.UserAddressUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAddressPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserAddressDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserAddressUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserAddressUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAddressPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserAddressUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAddressPayload>
+        }
+        aggregate: {
+          args: Prisma.UserAddressAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserAddress>
+        }
+        groupBy: {
+          args: Prisma.UserAddressGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserAddressGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserAddressCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserAddressCountAggregateOutputType> | number
         }
       }
     }
@@ -2456,19 +2681,18 @@ export const ListingSlotScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   variantId: 'variantId',
-  primaryContactPhone: 'primaryContactPhone',
-  secondaryContactPhone: 'secondaryContactPhone',
-  formatType: 'formatType',
+  slotDefinitionId: 'slotDefinitionId',
   batchStartDate: 'batchStartDate',
-  batchStartTime: 'batchStartTime',
   batchEndDate: 'batchEndDate',
-  batchEndTime: 'batchEndTime',
+  slotDate: 'slotDate',
+  startTime: 'startTime',
+  endTime: 'endTime',
   basePrice: 'basePrice',
   totalCapacity: 'totalCapacity',
   availableCount: 'availableCount',
   isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  formatType: 'formatType'
 } as const
 
 export type ListingSlotScalarFieldEnum = (typeof ListingSlotScalarFieldEnum)[keyof typeof ListingSlotScalarFieldEnum]
@@ -2573,6 +2797,31 @@ export const ListingScalarFieldEnum = {
 export type ListingScalarFieldEnum = (typeof ListingScalarFieldEnum)[keyof typeof ListingScalarFieldEnum]
 
 
+export const OperatorProfileScalarFieldEnum = {
+  id: 'id',
+  operatorId: 'operatorId',
+  companyName: 'companyName',
+  companyLogoUrl: 'companyLogoUrl',
+  businessRegistrationNumber: 'businessRegistrationNumber',
+  taxId: 'taxId',
+  companyDescription: 'companyDescription',
+  websiteUrl: 'websiteUrl',
+  socialMediaLinks: 'socialMediaLinks',
+  bankAccountDetails: 'bankAccountDetails',
+  verificationStatus: 'verificationStatus',
+  verificationDocuments: 'verificationDocuments',
+  verifiedByAdminId: 'verifiedByAdminId',
+  verifiedAt: 'verifiedAt',
+  rejectionReason: 'rejectionReason',
+  ratingAverage: 'ratingAverage',
+  totalBookings: 'totalBookings',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OperatorProfileScalarFieldEnum = (typeof OperatorProfileScalarFieldEnum)[keyof typeof OperatorProfileScalarFieldEnum]
+
+
 export const OtpScalarFieldEnum = {
   id: 'id',
   phone: 'phone',
@@ -2606,6 +2855,36 @@ export const SecondaryDivisionScalarFieldEnum = {
 } as const
 
 export type SecondaryDivisionScalarFieldEnum = (typeof SecondaryDivisionScalarFieldEnum)[keyof typeof SecondaryDivisionScalarFieldEnum]
+
+
+export const SlotDefinitionScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  variantId: 'variantId',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type SlotDefinitionScalarFieldEnum = (typeof SlotDefinitionScalarFieldEnum)[keyof typeof SlotDefinitionScalarFieldEnum]
+
+
+export const UserAddressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  addressType: 'addressType',
+  fullAddress: 'fullAddress',
+  city: 'city',
+  state: 'state',
+  country: 'country',
+  postalCode: 'postalCode',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserAddressScalarFieldEnum = (typeof UserAddressScalarFieldEnum)[keyof typeof UserAddressScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -2843,6 +3122,20 @@ export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMo
 
 
 /**
+ * Reference to a field of type 'VerificationStatus'
+ */
+export type EnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'VerificationStatus[]'
+ */
+export type ListEnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -2853,6 +3146,20 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'AddressType'
+ */
+export type EnumAddressTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AddressType'>
+    
+
+
+/**
+ * Reference to a field of type 'AddressType[]'
+ */
+export type ListEnumAddressTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AddressType[]'>
     
 
 
@@ -2976,9 +3283,12 @@ export type GlobalOmitConfig = {
   listingVariantMetadataFieldOptions?: Prisma.ListingVariantMetadataFieldOptionsOmit
   listingVariant?: Prisma.ListingVariantOmit
   listing?: Prisma.ListingOmit
+  operatorProfile?: Prisma.OperatorProfileOmit
   otp?: Prisma.OtpOmit
   primaryDivision?: Prisma.PrimaryDivisionOmit
   secondaryDivision?: Prisma.SecondaryDivisionOmit
+  slotDefinition?: Prisma.SlotDefinitionOmit
+  userAddress?: Prisma.UserAddressOmit
   user?: Prisma.UserOmit
 }
 

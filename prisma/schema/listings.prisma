@@ -56,7 +56,8 @@ model Listing {
     addons               ListingAddon?
     media                ListingMedia[]
     faqs                 ListingFaq?
-    slots                ListingSlot[]             
+    slots                ListingSlot[]             @relation("ListingToSlot")
+    slotDefinitions      SlotDefinition[]          @relation("ListingToSlotDefinition")
     slotChanges          ListingSlotChange[]      
     dateRanges           InventoryDateRange[]       
     blockedDates         InventoryBlockedDate[]      

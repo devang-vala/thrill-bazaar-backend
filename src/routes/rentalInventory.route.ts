@@ -5,6 +5,8 @@ import {
   blockRentalDate,
   unblockRentalDate,
   getRentalDateRangesRaw,
+  upsertPerDayPriceOverride,
+  removePerDayOverride,
 } from "../controllers/rentalInventory.controller.js";
 
 const rentalInventoryRouter = new Hono();
@@ -23,5 +25,11 @@ rentalInventoryRouter.post("/block-date", blockRentalDate);
 
 // Unblock a date
 rentalInventoryRouter.delete("/block-date", unblockRentalDate);
+
+// Upsert per-day price override
+rentalInventoryRouter.post("/per-day-price-override", upsertPerDayPriceOverride);
+
+// Remove per-day price override
+rentalInventoryRouter.delete("/per-day-price-override", removePerDayOverride);
 
 export default rentalInventoryRouter;
