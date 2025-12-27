@@ -509,3 +509,35 @@ export const updateAnyUser = async (c: Context) => {
     return c.json({ error: "Internal server error" }, 500);
   }
 };
+
+/**
+ * Get all operators/sellers for filter dropdown
+ */
+export const getOperatorsForFilter = async (c: Context) => {
+  try {
+    const operators = await prisma.user.findMany({
+      where: {
+        userType: "operator",
+        isActive: true,
+      },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+      },
+      orderBy: {
+        firstName: "asc",
+      },
+    });
+
+    return c.json({
+      success: true,
+      data: operators,
+    });
+  } catch (error) {
+    console.error("Get operators for filter error:", error);
+    return c.json({ error: "Failed to fetch operators" }, 500);
+  }
+};
+
