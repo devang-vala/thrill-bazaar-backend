@@ -10,6 +10,7 @@ model SlotDefinition {
   listing       Listing        @relation(fields: [listingId], references: [id], onDelete: Cascade, name: "ListingToSlotDefinition")
   variant       ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade, name: "VariantToSlotDefinition")
   slots         ListingSlot[]  @relation("SlotDefinitionToSlot")
+  dateRanges    InventoryDateRange[] // For F4: slot-based rental ranges
 
   @@index([listingId, variantId])
   @@map("slot_definitions")

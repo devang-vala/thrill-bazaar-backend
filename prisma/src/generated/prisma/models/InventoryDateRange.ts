@@ -37,6 +37,7 @@ export type InventoryDateRangeMinAggregateOutputType = {
   id: string | null
   listingId: string | null
   variantId: string | null
+  slotDefinitionId: string | null
   availableFromDate: Date | null
   availableToDate: Date | null
   basePricePerDay: number | null
@@ -51,6 +52,7 @@ export type InventoryDateRangeMaxAggregateOutputType = {
   id: string | null
   listingId: string | null
   variantId: string | null
+  slotDefinitionId: string | null
   availableFromDate: Date | null
   availableToDate: Date | null
   basePricePerDay: number | null
@@ -65,6 +67,7 @@ export type InventoryDateRangeCountAggregateOutputType = {
   id: number
   listingId: number
   variantId: number
+  slotDefinitionId: number
   availableFromDate: number
   availableToDate: number
   basePricePerDay: number
@@ -89,6 +92,7 @@ export type InventoryDateRangeMinAggregateInputType = {
   id?: true
   listingId?: true
   variantId?: true
+  slotDefinitionId?: true
   availableFromDate?: true
   availableToDate?: true
   basePricePerDay?: true
@@ -103,6 +107,7 @@ export type InventoryDateRangeMaxAggregateInputType = {
   id?: true
   listingId?: true
   variantId?: true
+  slotDefinitionId?: true
   availableFromDate?: true
   availableToDate?: true
   basePricePerDay?: true
@@ -117,6 +122,7 @@ export type InventoryDateRangeCountAggregateInputType = {
   id?: true
   listingId?: true
   variantId?: true
+  slotDefinitionId?: true
   availableFromDate?: true
   availableToDate?: true
   basePricePerDay?: true
@@ -218,6 +224,7 @@ export type InventoryDateRangeGroupByOutputType = {
   id: string
   listingId: string
   variantId: string | null
+  slotDefinitionId: string | null
   availableFromDate: Date
   availableToDate: Date
   basePricePerDay: number
@@ -255,6 +262,7 @@ export type InventoryDateRangeWhereInput = {
   id?: Prisma.StringFilter<"InventoryDateRange"> | string
   listingId?: Prisma.StringFilter<"InventoryDateRange"> | string
   variantId?: Prisma.StringNullableFilter<"InventoryDateRange"> | string | null
+  slotDefinitionId?: Prisma.StringNullableFilter<"InventoryDateRange"> | string | null
   availableFromDate?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   availableToDate?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   basePricePerDay?: Prisma.IntFilter<"InventoryDateRange"> | number
@@ -265,12 +273,14 @@ export type InventoryDateRangeWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
+  slotDefinition?: Prisma.XOR<Prisma.SlotDefinitionNullableScalarRelationFilter, Prisma.SlotDefinitionWhereInput> | null
 }
 
 export type InventoryDateRangeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantId?: Prisma.SortOrderInput | Prisma.SortOrder
+  slotDefinitionId?: Prisma.SortOrderInput | Prisma.SortOrder
   availableFromDate?: Prisma.SortOrder
   availableToDate?: Prisma.SortOrder
   basePricePerDay?: Prisma.SortOrder
@@ -281,6 +291,7 @@ export type InventoryDateRangeOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   listing?: Prisma.ListingOrderByWithRelationInput
   variant?: Prisma.ListingVariantOrderByWithRelationInput
+  slotDefinition?: Prisma.SlotDefinitionOrderByWithRelationInput
 }
 
 export type InventoryDateRangeWhereUniqueInput = Prisma.AtLeast<{
@@ -290,6 +301,7 @@ export type InventoryDateRangeWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.InventoryDateRangeWhereInput | Prisma.InventoryDateRangeWhereInput[]
   listingId?: Prisma.StringFilter<"InventoryDateRange"> | string
   variantId?: Prisma.StringNullableFilter<"InventoryDateRange"> | string | null
+  slotDefinitionId?: Prisma.StringNullableFilter<"InventoryDateRange"> | string | null
   availableFromDate?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   availableToDate?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   basePricePerDay?: Prisma.IntFilter<"InventoryDateRange"> | number
@@ -300,12 +312,14 @@ export type InventoryDateRangeWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
+  slotDefinition?: Prisma.XOR<Prisma.SlotDefinitionNullableScalarRelationFilter, Prisma.SlotDefinitionWhereInput> | null
 }, "id">
 
 export type InventoryDateRangeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantId?: Prisma.SortOrderInput | Prisma.SortOrder
+  slotDefinitionId?: Prisma.SortOrderInput | Prisma.SortOrder
   availableFromDate?: Prisma.SortOrder
   availableToDate?: Prisma.SortOrder
   basePricePerDay?: Prisma.SortOrder
@@ -328,6 +342,7 @@ export type InventoryDateRangeScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"InventoryDateRange"> | string
   listingId?: Prisma.StringWithAggregatesFilter<"InventoryDateRange"> | string
   variantId?: Prisma.StringNullableWithAggregatesFilter<"InventoryDateRange"> | string | null
+  slotDefinitionId?: Prisma.StringNullableWithAggregatesFilter<"InventoryDateRange"> | string | null
   availableFromDate?: Prisma.DateTimeWithAggregatesFilter<"InventoryDateRange"> | Date | string
   availableToDate?: Prisma.DateTimeWithAggregatesFilter<"InventoryDateRange"> | Date | string
   basePricePerDay?: Prisma.IntWithAggregatesFilter<"InventoryDateRange"> | number
@@ -350,12 +365,14 @@ export type InventoryDateRangeCreateInput = {
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutDateRangesInput
   variant?: Prisma.ListingVariantCreateNestedOneWithoutDateRangesInput
+  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutDateRangesInput
 }
 
 export type InventoryDateRangeUncheckedCreateInput = {
   id?: string
   listingId: string
   variantId?: string | null
+  slotDefinitionId?: string | null
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
@@ -378,12 +395,14 @@ export type InventoryDateRangeUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutDateRangesNestedInput
   variant?: Prisma.ListingVariantUpdateOneWithoutDateRangesNestedInput
+  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutDateRangesNestedInput
 }
 
 export type InventoryDateRangeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
@@ -398,6 +417,7 @@ export type InventoryDateRangeCreateManyInput = {
   id?: string
   listingId: string
   variantId?: string | null
+  slotDefinitionId?: string | null
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
@@ -424,6 +444,7 @@ export type InventoryDateRangeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
@@ -438,6 +459,7 @@ export type InventoryDateRangeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantId?: Prisma.SortOrder
+  slotDefinitionId?: Prisma.SortOrder
   availableFromDate?: Prisma.SortOrder
   availableToDate?: Prisma.SortOrder
   basePricePerDay?: Prisma.SortOrder
@@ -456,6 +478,7 @@ export type InventoryDateRangeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantId?: Prisma.SortOrder
+  slotDefinitionId?: Prisma.SortOrder
   availableFromDate?: Prisma.SortOrder
   availableToDate?: Prisma.SortOrder
   basePricePerDay?: Prisma.SortOrder
@@ -470,6 +493,7 @@ export type InventoryDateRangeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantId?: Prisma.SortOrder
+  slotDefinitionId?: Prisma.SortOrder
   availableFromDate?: Prisma.SortOrder
   availableToDate?: Prisma.SortOrder
   basePricePerDay?: Prisma.SortOrder
@@ -578,6 +602,48 @@ export type InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput = {
   deleteMany?: Prisma.InventoryDateRangeScalarWhereInput | Prisma.InventoryDateRangeScalarWhereInput[]
 }
 
+export type InventoryDateRangeCreateNestedManyWithoutSlotDefinitionInput = {
+  create?: Prisma.XOR<Prisma.InventoryDateRangeCreateWithoutSlotDefinitionInput, Prisma.InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput> | Prisma.InventoryDateRangeCreateWithoutSlotDefinitionInput[] | Prisma.InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput[]
+  connectOrCreate?: Prisma.InventoryDateRangeCreateOrConnectWithoutSlotDefinitionInput | Prisma.InventoryDateRangeCreateOrConnectWithoutSlotDefinitionInput[]
+  createMany?: Prisma.InventoryDateRangeCreateManySlotDefinitionInputEnvelope
+  connect?: Prisma.InventoryDateRangeWhereUniqueInput | Prisma.InventoryDateRangeWhereUniqueInput[]
+}
+
+export type InventoryDateRangeUncheckedCreateNestedManyWithoutSlotDefinitionInput = {
+  create?: Prisma.XOR<Prisma.InventoryDateRangeCreateWithoutSlotDefinitionInput, Prisma.InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput> | Prisma.InventoryDateRangeCreateWithoutSlotDefinitionInput[] | Prisma.InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput[]
+  connectOrCreate?: Prisma.InventoryDateRangeCreateOrConnectWithoutSlotDefinitionInput | Prisma.InventoryDateRangeCreateOrConnectWithoutSlotDefinitionInput[]
+  createMany?: Prisma.InventoryDateRangeCreateManySlotDefinitionInputEnvelope
+  connect?: Prisma.InventoryDateRangeWhereUniqueInput | Prisma.InventoryDateRangeWhereUniqueInput[]
+}
+
+export type InventoryDateRangeUpdateManyWithoutSlotDefinitionNestedInput = {
+  create?: Prisma.XOR<Prisma.InventoryDateRangeCreateWithoutSlotDefinitionInput, Prisma.InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput> | Prisma.InventoryDateRangeCreateWithoutSlotDefinitionInput[] | Prisma.InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput[]
+  connectOrCreate?: Prisma.InventoryDateRangeCreateOrConnectWithoutSlotDefinitionInput | Prisma.InventoryDateRangeCreateOrConnectWithoutSlotDefinitionInput[]
+  upsert?: Prisma.InventoryDateRangeUpsertWithWhereUniqueWithoutSlotDefinitionInput | Prisma.InventoryDateRangeUpsertWithWhereUniqueWithoutSlotDefinitionInput[]
+  createMany?: Prisma.InventoryDateRangeCreateManySlotDefinitionInputEnvelope
+  set?: Prisma.InventoryDateRangeWhereUniqueInput | Prisma.InventoryDateRangeWhereUniqueInput[]
+  disconnect?: Prisma.InventoryDateRangeWhereUniqueInput | Prisma.InventoryDateRangeWhereUniqueInput[]
+  delete?: Prisma.InventoryDateRangeWhereUniqueInput | Prisma.InventoryDateRangeWhereUniqueInput[]
+  connect?: Prisma.InventoryDateRangeWhereUniqueInput | Prisma.InventoryDateRangeWhereUniqueInput[]
+  update?: Prisma.InventoryDateRangeUpdateWithWhereUniqueWithoutSlotDefinitionInput | Prisma.InventoryDateRangeUpdateWithWhereUniqueWithoutSlotDefinitionInput[]
+  updateMany?: Prisma.InventoryDateRangeUpdateManyWithWhereWithoutSlotDefinitionInput | Prisma.InventoryDateRangeUpdateManyWithWhereWithoutSlotDefinitionInput[]
+  deleteMany?: Prisma.InventoryDateRangeScalarWhereInput | Prisma.InventoryDateRangeScalarWhereInput[]
+}
+
+export type InventoryDateRangeUncheckedUpdateManyWithoutSlotDefinitionNestedInput = {
+  create?: Prisma.XOR<Prisma.InventoryDateRangeCreateWithoutSlotDefinitionInput, Prisma.InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput> | Prisma.InventoryDateRangeCreateWithoutSlotDefinitionInput[] | Prisma.InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput[]
+  connectOrCreate?: Prisma.InventoryDateRangeCreateOrConnectWithoutSlotDefinitionInput | Prisma.InventoryDateRangeCreateOrConnectWithoutSlotDefinitionInput[]
+  upsert?: Prisma.InventoryDateRangeUpsertWithWhereUniqueWithoutSlotDefinitionInput | Prisma.InventoryDateRangeUpsertWithWhereUniqueWithoutSlotDefinitionInput[]
+  createMany?: Prisma.InventoryDateRangeCreateManySlotDefinitionInputEnvelope
+  set?: Prisma.InventoryDateRangeWhereUniqueInput | Prisma.InventoryDateRangeWhereUniqueInput[]
+  disconnect?: Prisma.InventoryDateRangeWhereUniqueInput | Prisma.InventoryDateRangeWhereUniqueInput[]
+  delete?: Prisma.InventoryDateRangeWhereUniqueInput | Prisma.InventoryDateRangeWhereUniqueInput[]
+  connect?: Prisma.InventoryDateRangeWhereUniqueInput | Prisma.InventoryDateRangeWhereUniqueInput[]
+  update?: Prisma.InventoryDateRangeUpdateWithWhereUniqueWithoutSlotDefinitionInput | Prisma.InventoryDateRangeUpdateWithWhereUniqueWithoutSlotDefinitionInput[]
+  updateMany?: Prisma.InventoryDateRangeUpdateManyWithWhereWithoutSlotDefinitionInput | Prisma.InventoryDateRangeUpdateManyWithWhereWithoutSlotDefinitionInput[]
+  deleteMany?: Prisma.InventoryDateRangeScalarWhereInput | Prisma.InventoryDateRangeScalarWhereInput[]
+}
+
 export type InventoryDateRangeCreateWithoutVariantInput = {
   id?: string
   availableFromDate: Date | string
@@ -589,11 +655,13 @@ export type InventoryDateRangeCreateWithoutVariantInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   listing: Prisma.ListingCreateNestedOneWithoutDateRangesInput
+  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutDateRangesInput
 }
 
 export type InventoryDateRangeUncheckedCreateWithoutVariantInput = {
   id?: string
   listingId: string
+  slotDefinitionId?: string | null
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
@@ -637,6 +705,7 @@ export type InventoryDateRangeScalarWhereInput = {
   id?: Prisma.StringFilter<"InventoryDateRange"> | string
   listingId?: Prisma.StringFilter<"InventoryDateRange"> | string
   variantId?: Prisma.StringNullableFilter<"InventoryDateRange"> | string | null
+  slotDefinitionId?: Prisma.StringNullableFilter<"InventoryDateRange"> | string | null
   availableFromDate?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   availableToDate?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   basePricePerDay?: Prisma.IntFilter<"InventoryDateRange"> | number
@@ -658,11 +727,13 @@ export type InventoryDateRangeCreateWithoutListingInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   variant?: Prisma.ListingVariantCreateNestedOneWithoutDateRangesInput
+  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutDateRangesInput
 }
 
 export type InventoryDateRangeUncheckedCreateWithoutListingInput = {
   id?: string
   variantId?: string | null
+  slotDefinitionId?: string | null
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
@@ -699,9 +770,64 @@ export type InventoryDateRangeUpdateManyWithWhereWithoutListingInput = {
   data: Prisma.XOR<Prisma.InventoryDateRangeUpdateManyMutationInput, Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingInput>
 }
 
+export type InventoryDateRangeCreateWithoutSlotDefinitionInput = {
+  id?: string
+  availableFromDate: Date | string
+  availableToDate: Date | string
+  basePricePerDay: number
+  isActive?: boolean
+  primaryContactPhone?: string | null
+  secondaryContactPhone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  listing: Prisma.ListingCreateNestedOneWithoutDateRangesInput
+  variant?: Prisma.ListingVariantCreateNestedOneWithoutDateRangesInput
+}
+
+export type InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput = {
+  id?: string
+  listingId: string
+  variantId?: string | null
+  availableFromDate: Date | string
+  availableToDate: Date | string
+  basePricePerDay: number
+  isActive?: boolean
+  primaryContactPhone?: string | null
+  secondaryContactPhone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type InventoryDateRangeCreateOrConnectWithoutSlotDefinitionInput = {
+  where: Prisma.InventoryDateRangeWhereUniqueInput
+  create: Prisma.XOR<Prisma.InventoryDateRangeCreateWithoutSlotDefinitionInput, Prisma.InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput>
+}
+
+export type InventoryDateRangeCreateManySlotDefinitionInputEnvelope = {
+  data: Prisma.InventoryDateRangeCreateManySlotDefinitionInput | Prisma.InventoryDateRangeCreateManySlotDefinitionInput[]
+  skipDuplicates?: boolean
+}
+
+export type InventoryDateRangeUpsertWithWhereUniqueWithoutSlotDefinitionInput = {
+  where: Prisma.InventoryDateRangeWhereUniqueInput
+  update: Prisma.XOR<Prisma.InventoryDateRangeUpdateWithoutSlotDefinitionInput, Prisma.InventoryDateRangeUncheckedUpdateWithoutSlotDefinitionInput>
+  create: Prisma.XOR<Prisma.InventoryDateRangeCreateWithoutSlotDefinitionInput, Prisma.InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput>
+}
+
+export type InventoryDateRangeUpdateWithWhereUniqueWithoutSlotDefinitionInput = {
+  where: Prisma.InventoryDateRangeWhereUniqueInput
+  data: Prisma.XOR<Prisma.InventoryDateRangeUpdateWithoutSlotDefinitionInput, Prisma.InventoryDateRangeUncheckedUpdateWithoutSlotDefinitionInput>
+}
+
+export type InventoryDateRangeUpdateManyWithWhereWithoutSlotDefinitionInput = {
+  where: Prisma.InventoryDateRangeScalarWhereInput
+  data: Prisma.XOR<Prisma.InventoryDateRangeUpdateManyMutationInput, Prisma.InventoryDateRangeUncheckedUpdateManyWithoutSlotDefinitionInput>
+}
+
 export type InventoryDateRangeCreateManyVariantInput = {
   id?: string
   listingId: string
+  slotDefinitionId?: string | null
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
@@ -723,11 +849,13 @@ export type InventoryDateRangeUpdateWithoutVariantInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   listing?: Prisma.ListingUpdateOneRequiredWithoutDateRangesNestedInput
+  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutDateRangesNestedInput
 }
 
 export type InventoryDateRangeUncheckedUpdateWithoutVariantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
@@ -741,6 +869,7 @@ export type InventoryDateRangeUncheckedUpdateWithoutVariantInput = {
 export type InventoryDateRangeUncheckedUpdateManyWithoutVariantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
@@ -754,6 +883,7 @@ export type InventoryDateRangeUncheckedUpdateManyWithoutVariantInput = {
 export type InventoryDateRangeCreateManyListingInput = {
   id?: string
   variantId?: string | null
+  slotDefinitionId?: string | null
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
@@ -775,11 +905,13 @@ export type InventoryDateRangeUpdateWithoutListingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   variant?: Prisma.ListingVariantUpdateOneWithoutDateRangesNestedInput
+  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutDateRangesNestedInput
 }
 
 export type InventoryDateRangeUncheckedUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
@@ -792,6 +924,63 @@ export type InventoryDateRangeUncheckedUpdateWithoutListingInput = {
 
 export type InventoryDateRangeUncheckedUpdateManyWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type InventoryDateRangeCreateManySlotDefinitionInput = {
+  id?: string
+  listingId: string
+  variantId?: string | null
+  availableFromDate: Date | string
+  availableToDate: Date | string
+  basePricePerDay: number
+  isActive?: boolean
+  primaryContactPhone?: string | null
+  secondaryContactPhone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type InventoryDateRangeUpdateWithoutSlotDefinitionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  listing?: Prisma.ListingUpdateOneRequiredWithoutDateRangesNestedInput
+  variant?: Prisma.ListingVariantUpdateOneWithoutDateRangesNestedInput
+}
+
+export type InventoryDateRangeUncheckedUpdateWithoutSlotDefinitionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingId?: Prisma.StringFieldUpdateOperationsInput | string
+  variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type InventoryDateRangeUncheckedUpdateManyWithoutSlotDefinitionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -809,6 +998,7 @@ export type InventoryDateRangeSelect<ExtArgs extends runtime.Types.Extensions.In
   id?: boolean
   listingId?: boolean
   variantId?: boolean
+  slotDefinitionId?: boolean
   availableFromDate?: boolean
   availableToDate?: boolean
   basePricePerDay?: boolean
@@ -819,12 +1009,14 @@ export type InventoryDateRangeSelect<ExtArgs extends runtime.Types.Extensions.In
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryDateRange$variantArgs<ExtArgs>
+  slotDefinition?: boolean | Prisma.InventoryDateRange$slotDefinitionArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryDateRange"]>
 
 export type InventoryDateRangeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   listingId?: boolean
   variantId?: boolean
+  slotDefinitionId?: boolean
   availableFromDate?: boolean
   availableToDate?: boolean
   basePricePerDay?: boolean
@@ -835,12 +1027,14 @@ export type InventoryDateRangeSelectCreateManyAndReturn<ExtArgs extends runtime.
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryDateRange$variantArgs<ExtArgs>
+  slotDefinition?: boolean | Prisma.InventoryDateRange$slotDefinitionArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryDateRange"]>
 
 export type InventoryDateRangeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   listingId?: boolean
   variantId?: boolean
+  slotDefinitionId?: boolean
   availableFromDate?: boolean
   availableToDate?: boolean
   basePricePerDay?: boolean
@@ -851,12 +1045,14 @@ export type InventoryDateRangeSelectUpdateManyAndReturn<ExtArgs extends runtime.
   updatedAt?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryDateRange$variantArgs<ExtArgs>
+  slotDefinition?: boolean | Prisma.InventoryDateRange$slotDefinitionArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryDateRange"]>
 
 export type InventoryDateRangeSelectScalar = {
   id?: boolean
   listingId?: boolean
   variantId?: boolean
+  slotDefinitionId?: boolean
   availableFromDate?: boolean
   availableToDate?: boolean
   basePricePerDay?: boolean
@@ -867,18 +1063,21 @@ export type InventoryDateRangeSelectScalar = {
   updatedAt?: boolean
 }
 
-export type InventoryDateRangeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "variantId" | "availableFromDate" | "availableToDate" | "basePricePerDay" | "isActive" | "primaryContactPhone" | "secondaryContactPhone" | "createdAt" | "updatedAt", ExtArgs["result"]["inventoryDateRange"]>
+export type InventoryDateRangeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "variantId" | "slotDefinitionId" | "availableFromDate" | "availableToDate" | "basePricePerDay" | "isActive" | "primaryContactPhone" | "secondaryContactPhone" | "createdAt" | "updatedAt", ExtArgs["result"]["inventoryDateRange"]>
 export type InventoryDateRangeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryDateRange$variantArgs<ExtArgs>
+  slotDefinition?: boolean | Prisma.InventoryDateRange$slotDefinitionArgs<ExtArgs>
 }
 export type InventoryDateRangeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryDateRange$variantArgs<ExtArgs>
+  slotDefinition?: boolean | Prisma.InventoryDateRange$slotDefinitionArgs<ExtArgs>
 }
 export type InventoryDateRangeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryDateRange$variantArgs<ExtArgs>
+  slotDefinition?: boolean | Prisma.InventoryDateRange$slotDefinitionArgs<ExtArgs>
 }
 
 export type $InventoryDateRangePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -886,11 +1085,13 @@ export type $InventoryDateRangePayload<ExtArgs extends runtime.Types.Extensions.
   objects: {
     listing: Prisma.$ListingPayload<ExtArgs>
     variant: Prisma.$ListingVariantPayload<ExtArgs> | null
+    slotDefinition: Prisma.$SlotDefinitionPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     listingId: string
     variantId: string | null
+    slotDefinitionId: string | null
     availableFromDate: Date
     availableToDate: Date
     basePricePerDay: number
@@ -1295,6 +1496,7 @@ export interface Prisma__InventoryDateRangeClient<T, Null = never, ExtArgs exten
   readonly [Symbol.toStringTag]: "PrismaPromise"
   listing<T extends Prisma.ListingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingDefaultArgs<ExtArgs>>): Prisma.Prisma__ListingClient<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   variant<T extends Prisma.InventoryDateRange$variantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventoryDateRange$variantArgs<ExtArgs>>): Prisma.Prisma__ListingVariantClient<runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  slotDefinition<T extends Prisma.InventoryDateRange$slotDefinitionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventoryDateRange$slotDefinitionArgs<ExtArgs>>): Prisma.Prisma__SlotDefinitionClient<runtime.Types.Result.GetResult<Prisma.$SlotDefinitionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1327,6 +1529,7 @@ export interface InventoryDateRangeFieldRefs {
   readonly id: Prisma.FieldRef<"InventoryDateRange", 'String'>
   readonly listingId: Prisma.FieldRef<"InventoryDateRange", 'String'>
   readonly variantId: Prisma.FieldRef<"InventoryDateRange", 'String'>
+  readonly slotDefinitionId: Prisma.FieldRef<"InventoryDateRange", 'String'>
   readonly availableFromDate: Prisma.FieldRef<"InventoryDateRange", 'DateTime'>
   readonly availableToDate: Prisma.FieldRef<"InventoryDateRange", 'DateTime'>
   readonly basePricePerDay: Prisma.FieldRef<"InventoryDateRange", 'Int'>
@@ -1747,6 +1950,25 @@ export type InventoryDateRange$variantArgs<ExtArgs extends runtime.Types.Extensi
    */
   include?: Prisma.ListingVariantInclude<ExtArgs> | null
   where?: Prisma.ListingVariantWhereInput
+}
+
+/**
+ * InventoryDateRange.slotDefinition
+ */
+export type InventoryDateRange$slotDefinitionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SlotDefinition
+   */
+  select?: Prisma.SlotDefinitionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SlotDefinition
+   */
+  omit?: Prisma.SlotDefinitionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SlotDefinitionInclude<ExtArgs> | null
+  where?: Prisma.SlotDefinitionWhereInput
 }
 
 /**

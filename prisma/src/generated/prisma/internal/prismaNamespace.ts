@@ -2537,6 +2537,7 @@ export const InventoryDateRangeScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   variantId: 'variantId',
+  slotDefinitionId: 'slotDefinitionId',
   availableFromDate: 'availableFromDate',
   availableToDate: 'availableToDate',
   basePricePerDay: 'basePricePerDay',
