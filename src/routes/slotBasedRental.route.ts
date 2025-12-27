@@ -6,6 +6,8 @@ import {
   getSlotRentalAvailability,
   updateSlotDateRange,
   deleteSlotDateRange,
+  upsertSlotPriceOverride,
+  deleteSlotPriceOverride,
 } from "../controllers/slotBasedRental.controller.js";
 
 const slotBasedRentalRouter = new Hono();
@@ -27,5 +29,9 @@ slotBasedRentalRouter.put("/slot-range/:rangeId", updateSlotDateRange);
 
 // Delete date range
 slotBasedRentalRouter.delete("/slot-range/:rangeId", deleteSlotDateRange);
+
+// Price override endpoints (similar to rental management)
+slotBasedRentalRouter.post("/price-override", upsertSlotPriceOverride);
+slotBasedRentalRouter.delete("/price-override", deleteSlotPriceOverride);
 
 export default slotBasedRentalRouter;
