@@ -12,6 +12,20 @@ export const getListings = async (c: Context) => {
     const page = parseInt(c.req.query("page") || "1");
     const limit = parseInt(c.req.query("limit") || "12");
     const status = c.req.query("status"); // optional filter by status
+    const sortBy = c.req.query("sortBy"); // sorting option
+    
+    // Get location filter parameters
+    const startPrimaryDivisions = c.req.query("startPrimaryDivisions"); // comma-separated IDs
+    const startSecondaryDivisions = c.req.query("startSecondaryDivisions"); // comma-separated IDs
+    const endPrimaryDivisions = c.req.query("endPrimaryDivisions"); // comma-separated IDs
+    const endSecondaryDivisions = c.req.query("endSecondaryDivisions"); // comma-separated IDs
+    
+    // Get category and seller filter parameters
+    const categories = c.req.query("categories"); // comma-separated category IDs
+    const sellers = c.req.query("sellers"); // comma-separated operator/seller IDs
+    
+    // Get metadata filter parameters (JSON string)
+    const metadataFilters = c.req.query("metadata"); // JSON string of metadata filters
 
     // Calculate skip for pagination
     const skip = (page - 1) * limit;
@@ -23,6 +37,107 @@ export const getListings = async (c: Context) => {
     } else {
       // By default, only show active listings for customers
       whereClause.status = "active";
+    }
+
+    // Add location filters
+    if (startPrimaryDivisions) {
+      const divisionIds = startPrimaryDivisions.split(",").filter(Boolean);
+      if (divisionIds.length > 0) {
+        whereClause.startPrimaryDivisionId = { in: divisionIds };
+      }
+    }
+
+    if (startSecondaryDivisions) {
+      const divisionIds = startSecondaryDivisions.split(",").filter(Boolean);
+      if (divisionIds.length > 0) {
+        whereClause.startSecondaryDivisionId = { in: divisionIds };
+      }
+    }
+
+    if (endPrimaryDivisions) {
+      const divisionIds = endPrimaryDivisions.split(",").filter(Boolean);
+      if (divisionIds.length > 0) {
+        whereClause.endPrimaryDivisionId = { in: divisionIds };
+      }
+    }
+
+    if (endSecondaryDivisions) {
+      const divisionIds = endSecondaryDivisions.split(",").filter(Boolean);
+      if (divisionIds.length > 0) {
+        whereClause.endSecondaryDivisionId = { in: divisionIds };
+      }
+    }
+    
+    // Add category filter
+    if (categories) {
+      const categoryIds = categories.split(",").filter(Boolean);
+      if (categoryIds.length > 0) {
+        whereClause.categoryId = { in: categoryIds };
+      }
+    }
+    
+    // Add seller/operator filter
+    if (sellers) {
+      const sellerIds = sellers.split(",").filter(Boolean);
+      if (sellerIds.length > 0) {
+        whereClause.operatorId = { in: sellerIds };
+      }
+    }
+    
+    // Add metadata filters
+    if (metadataFilters) {
+      try {
+        const parsedMetadata = JSON.parse(metadataFilters);
+        if (Object.keys(parsedMetadata).length > 0) {
+          // Filter by metadata JSON field
+          // Using path() to query JSON fields in PostgreSQL
+          const metadataConditions: any[] = [];
+          
+          for (const [key, value] of Object.entries(parsedMetadata)) {
+            if (value !== null && value !== undefined && value !== '') {
+              metadataConditions.push({
+                metadata: {
+                  path: [key],
+                  equals: value
+                }
+              });
+            }
+          }
+          
+          if (metadataConditions.length > 0) {
+            whereClause.AND = metadataConditions;
+          }
+        }
+      } catch (err) {
+        console.error("Error parsing metadata filters:", err);
+      }
+    }
+
+    // Build orderBy clause based on sortBy parameter
+    let orderByClause: any = { createdAt: "desc" }; // default
+    
+    if (sortBy) {
+      switch (sortBy) {
+        case 'price_low':
+          orderByClause = { basePriceDisplay: "asc" };
+          break;
+        case 'price_high':
+          orderByClause = { basePriceDisplay: "desc" };
+          break;
+        case 'newest':
+          orderByClause = { createdAt: "desc" };
+          break;
+        case 'rating':
+          // If you have a rating field, use it here
+          orderByClause = { createdAt: "desc" }; // fallback for now
+          break;
+        case 'popular':
+          // If you have a views/bookings field, use it here
+          orderByClause = { createdAt: "desc" }; // fallback for now
+          break;
+        default:
+          orderByClause = { createdAt: "desc" };
+      }
     }
 
     // Get total count for pagination
@@ -53,7 +168,7 @@ export const getListings = async (c: Context) => {
           orderBy: { createdAt: "asc" },
         },
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: orderByClause,
       skip,
       take: limit,
     });
