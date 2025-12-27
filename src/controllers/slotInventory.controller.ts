@@ -1,3 +1,69 @@
+// F3: Delete a single-day slot batch (by id)
+export const deleteSingleDaySlotBatch = async (c: Context) => {
+  try {
+    const { id } = await c.req.json();
+    if (!id) {
+      return c.json({ error: "Missing slot batch id" }, 400);
+    }
+    await prisma.listingSlot.delete({ where: { id } });
+    return c.json({ success: true });
+  } catch (error) {
+    console.error("Delete F3 slot batch error:", error);
+    return c.json({ error: "Failed to delete slot batch" }, 500);
+  }
+};
+// Get slot batches for a listing/variant in a specific month
+export const getSlotBatches = async (c: Context) => {
+  try {
+    const listingId = c.req.param("listingId");
+    const month = c.req.param("month"); // Expected format: YYYY-MM
+    const variantId = c.req.param("variantId"); // Optional
+
+    if (!listingId || !month) {
+      return c.json({ error: "Missing listingId or month" }, 400);
+    }
+
+    // Parse month and create date range
+    const [year, monthNum] = month.split("-").map(Number);
+    const startDate = new Date(year, monthNum - 1, 1); // First day of month
+    const endDate = new Date(year, monthNum, 0); // Last day of month
+
+    const where: any = {
+      listingId,
+      batchStartDate: {
+        gte: startDate,
+        lte: endDate,
+      },
+      formatType: "F3",
+    };
+
+    if (variantId) {
+      where.variantId = variantId;
+    }
+
+    const slots = await prisma.listingSlot.findMany({
+      where,
+      include: {
+        slotDefinition: {
+          select: {
+            id: true,
+            startTime: true,
+            endTime: true,
+          },
+        },
+      },
+      orderBy: [
+        { batchStartDate: "asc" },
+        { slotDefinition: { startTime: "asc" } },
+      ],
+    });
+
+    return c.json({ success: true, data: slots });
+  } catch (error) {
+    console.error("Get slot batches error:", error);
+    return c.json({ error: "Failed to fetch slot batches" }, 500);
+  }
+};
 // F3: Edit a single-day slot batch (by id)
 export const updateSingleDaySlotBatch = async (c: Context) => {
   try {
