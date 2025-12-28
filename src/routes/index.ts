@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import listingBatchRouter from "./listingBatch.route.js";
 import rentalInventoryRouter from "./rentalInventory.route.js";
 import slotBasedRentalRouter from "./slotBasedRental.route.js";
+import bookingRouter from "./booking.route.js";
 import authRouter from "./auth.route.js";
 import userRouter from "./user.route.js";
 import listingTypeRouter from "./listingType.route.js";
@@ -82,6 +83,9 @@ router.route("/rental-inventory", rentalInventoryRouter);
 
 // Mount slot-based rental routes (F4)
 router.route("/slot-based-rental", slotBasedRentalRouter);
+
+// Mount booking routes
+router.route("/bookings", bookingRouter);
 
 // Mount search routes
 router.route("/search", searchRouter);

@@ -15,6 +15,9 @@ model InventoryDateRange {
     listing Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade)
     variant ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
     slotDefinition SlotDefinition? @relation(fields: [slotDefinitionId], references: [id], onDelete: Cascade)
+    
+    // Booking relation
+    bookings       Booking[]
 
     @@map("inventory_date_ranges")
 }

@@ -1,0 +1,31 @@
+model Booking {
+  id                String        @id @default(uuid()) @map("booking_id")
+  bookingReference  String        @unique @map("booking_reference")
+
+  customerId        String        @map("customer_id")
+
+  // Exactly ONE will be set
+  listingSlotId     String?       @map("listing_slot_id")   // F1, F3, F4
+  dateRangeId       String?       @map("date_range_id")     // F2
+
+  bookingStartDate  DateTime      @map("booking_start_date")
+  bookingEndDate    DateTime      @map("booking_end_date")
+
+  participantCount  Int           @map("participant_count")
+  totalDays         Int           @default(1) @map("total_days")
+
+  basePrice         Decimal       @map("base_price") @db.Decimal(10, 2)
+  totalAmount       Decimal       @map("total_amount") @db.Decimal(10, 2)
+
+  bookingStatus     BookingStatus @map("booking_status")
+
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  // Relations
+  customer          User          @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  listingSlot       ListingSlot?  @relation(fields: [listingSlotId], references: [id], onDelete: Restrict)
+  dateRange         InventoryDateRange? @relation(fields: [dateRangeId], references: [id], onDelete: Restrict)
+
+  @@map("bookings")
+}

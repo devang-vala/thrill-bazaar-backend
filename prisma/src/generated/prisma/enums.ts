@@ -108,6 +108,16 @@ export const TriggerType = {
 export type TriggerType = (typeof TriggerType)[keyof typeof TriggerType]
 
 
+export const BookingStatus = {
+  CONFIRMED: 'CONFIRMED',
+  CANCELLED: 'CANCELLED',
+  COMPLETED: 'COMPLETED',
+  NO_SHOW: 'NO_SHOW'
+} as const
+
+export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
+
+
 export const AddressType = {
   HOME: 'HOME',
   BILLING: 'BILLING',

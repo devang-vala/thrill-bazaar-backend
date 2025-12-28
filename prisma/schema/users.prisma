@@ -24,5 +24,9 @@ model User {
   addresses                           UserAddress[]
   operatorProfile                     OperatorProfile?                            @relation("OperatorUser")
   verifiedOperators                   OperatorProfile[]                           @relation("VerifiedOperators")
+  
+  // Booking relation
+  bookings                            Booking[]
+  
   @@map("User")
 }

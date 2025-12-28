@@ -24,6 +24,9 @@ model ListingSlot {
     listing          Listing        @relation(fields: [listingId], references: [id], onDelete: Cascade, name: "ListingToSlot")
     variant          ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade, name: "VariantToSlot")
     slotChanges      ListingSlotChange[] @relation("SlotToSlotChange")
+    
+    // Booking relation
+    bookings         Booking[]
 
     @@index([listingId, variantId])
     @@map("listing_slots")

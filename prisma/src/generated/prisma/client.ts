@@ -28,8 +28,8 @@ export * from "./enums.js"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Categories
- * const categories = await prisma.category.findMany()
+ * // Fetch zero or more Bookings
+ * const bookings = await prisma.booking.findMany()
  * ```
  * 
  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
@@ -43,6 +43,11 @@ export { Prisma }
 path.join(__dirname, "query_engine-windows.dll.node")
 path.join(process.cwd(), "prisma/src/generated/prisma/query_engine-windows.dll.node")
 
+/**
+ * Model Booking
+ * 
+ */
+export type Booking = Prisma.BookingModel
 /**
  * Model Category
  * 

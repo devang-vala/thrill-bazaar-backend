@@ -1398,14 +1398,6 @@ export type EnumListingStatusFieldUpdateOperationsInput = {
   set?: $Enums.ListingStatus
 }
 
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
-}
-
 export type ListingCreateNestedManyWithoutStartPrimaryDivisionInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput> | Prisma.ListingCreateWithoutStartPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput[]

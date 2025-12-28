@@ -83,6 +83,13 @@ enum TriggerType {
   customer_reschedule
 }
 
+enum BookingStatus {
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
 enum AddressType {
   HOME
   BILLING

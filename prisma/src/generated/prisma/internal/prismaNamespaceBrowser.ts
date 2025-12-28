@@ -48,6 +48,7 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
+  Booking: 'Booking',
   Category: 'Category',
   SubCategory: 'SubCategory',
   Country: 'Country',
@@ -91,6 +92,26 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const BookingScalarFieldEnum = {
+  id: 'id',
+  bookingReference: 'bookingReference',
+  customerId: 'customerId',
+  listingSlotId: 'listingSlotId',
+  dateRangeId: 'dateRangeId',
+  bookingStartDate: 'bookingStartDate',
+  bookingEndDate: 'bookingEndDate',
+  participantCount: 'participantCount',
+  totalDays: 'totalDays',
+  basePrice: 'basePrice',
+  totalAmount: 'totalAmount',
+  bookingStatus: 'bookingStatus',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
 
 
 export const CategoryScalarFieldEnum = {

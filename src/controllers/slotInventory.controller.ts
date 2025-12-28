@@ -105,6 +105,17 @@ export const createSingleDaySlotBatch = async (c: Context) => {
     if (!listingId || !slotDefinitionId || !date || !basePrice || !totalCapacity) {
       return c.json({ error: "Missing required fields" }, 400);
     }
+    
+    // Get slot definition to fetch start and end times
+    const slotDefinition = await prisma.slotDefinition.findUnique({
+      where: { id: slotDefinitionId },
+      select: { startTime: true, endTime: true }
+    });
+    
+    if (!slotDefinition) {
+      return c.json({ error: "Slot definition not found" }, 404);
+    }
+    
     // Set both start and end date to the selected date (single day)
     const batchDate = new Date(date);
     const slot = await prisma.listingSlot.create({
@@ -112,8 +123,9 @@ export const createSingleDaySlotBatch = async (c: Context) => {
         listingId,
         variantId: variantId || null,
         slotDefinitionId,
-        batchStartDate: batchDate,
-        batchEndDate: batchDate,
+        slotDate: batchDate, // For F3, use slotDate instead of batch dates
+        startTime: slotDefinition.startTime, // Store the actual times
+        endTime: slotDefinition.endTime,
         basePrice: Number(basePrice),
         totalCapacity: Number(totalCapacity),
         availableCount: Number(totalCapacity),

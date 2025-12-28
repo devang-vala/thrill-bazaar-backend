@@ -254,6 +254,7 @@ export type UserWhereInput = {
   addresses?: Prisma.UserAddressListRelationFilter
   operatorProfile?: Prisma.XOR<Prisma.OperatorProfileNullableScalarRelationFilter, Prisma.OperatorProfileWhereInput> | null
   verifiedOperators?: Prisma.OperatorProfileListRelationFilter
+  bookings?: Prisma.BookingListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -279,6 +280,7 @@ export type UserOrderByWithRelationInput = {
   addresses?: Prisma.UserAddressOrderByRelationAggregateInput
   operatorProfile?: Prisma.OperatorProfileOrderByWithRelationInput
   verifiedOperators?: Prisma.OperatorProfileOrderByRelationAggregateInput
+  bookings?: Prisma.BookingOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -307,6 +309,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   addresses?: Prisma.UserAddressListRelationFilter
   operatorProfile?: Prisma.XOR<Prisma.OperatorProfileNullableScalarRelationFilter, Prisma.OperatorProfileWhereInput> | null
   verifiedOperators?: Prisma.OperatorProfileListRelationFilter
+  bookings?: Prisma.BookingListRelationFilter
 }, "id" | "email" | "phone">
 
 export type UserOrderByWithAggregationInput = {
@@ -370,6 +373,7 @@ export type UserCreateInput = {
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -395,6 +399,7 @@ export type UserUncheckedCreateInput = {
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type UserUpdateInput = {
@@ -420,6 +425,7 @@ export type UserUpdateInput = {
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -445,6 +451,7 @@ export type UserUncheckedUpdateInput = {
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -551,6 +558,20 @@ export type UserMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+}
+
+export type UserCreateNestedOneWithoutBookingsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBookingsInput, Prisma.UserUncheckedCreateWithoutBookingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBookingsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutBookingsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBookingsInput, Prisma.UserUncheckedCreateWithoutBookingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBookingsInput
+  upsert?: Prisma.UserUpsertWithoutBookingsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBookingsInput, Prisma.UserUpdateWithoutBookingsInput>, Prisma.UserUncheckedUpdateWithoutBookingsInput>
 }
 
 export type UserCreateNestedOneWithoutBlockedDatesInput = {
@@ -693,6 +714,122 @@ export type EnumUserTypeFieldUpdateOperationsInput = {
   set?: $Enums.UserType
 }
 
+export type UserCreateWithoutBookingsInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutBookingsInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutBookingsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutBookingsInput, Prisma.UserUncheckedCreateWithoutBookingsInput>
+}
+
+export type UserUpsertWithoutBookingsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutBookingsInput, Prisma.UserUncheckedUpdateWithoutBookingsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutBookingsInput, Prisma.UserUncheckedCreateWithoutBookingsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutBookingsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutBookingsInput, Prisma.UserUncheckedUpdateWithoutBookingsInput>
+}
+
+export type UserUpdateWithoutBookingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutBookingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+}
+
 export type UserCreateWithoutBlockedDatesInput = {
   id?: string
   userType?: $Enums.UserType
@@ -715,6 +852,7 @@ export type UserCreateWithoutBlockedDatesInput = {
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
 }
 
 export type UserUncheckedCreateWithoutBlockedDatesInput = {
@@ -739,6 +877,7 @@ export type UserUncheckedCreateWithoutBlockedDatesInput = {
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type UserCreateOrConnectWithoutBlockedDatesInput = {
@@ -779,6 +918,7 @@ export type UserUpdateWithoutBlockedDatesInput = {
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBlockedDatesInput = {
@@ -803,6 +943,7 @@ export type UserUncheckedUpdateWithoutBlockedDatesInput = {
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserCreateWithoutCreatedMetadataDefinitionsInput = {
@@ -827,6 +968,7 @@ export type UserCreateWithoutCreatedMetadataDefinitionsInput = {
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
 }
 
 export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
@@ -851,6 +993,7 @@ export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type UserCreateOrConnectWithoutCreatedMetadataDefinitionsInput = {
@@ -891,6 +1034,7 @@ export type UserUpdateWithoutCreatedMetadataDefinitionsInput = {
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
@@ -915,6 +1059,7 @@ export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserCreateWithoutPoliciesInput = {
@@ -939,6 +1084,7 @@ export type UserCreateWithoutPoliciesInput = {
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
 }
 
 export type UserUncheckedCreateWithoutPoliciesInput = {
@@ -963,6 +1109,7 @@ export type UserUncheckedCreateWithoutPoliciesInput = {
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type UserCreateOrConnectWithoutPoliciesInput = {
@@ -1003,6 +1150,7 @@ export type UserUpdateWithoutPoliciesInput = {
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPoliciesInput = {
@@ -1027,6 +1175,7 @@ export type UserUncheckedUpdateWithoutPoliciesInput = {
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserCreateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1051,6 +1200,7 @@ export type UserCreateWithoutCreatedVariantMetadataDefinitionsInput = {
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
 }
 
 export type UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1075,6 +1225,7 @@ export type UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput = {
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type UserCreateOrConnectWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1115,6 +1266,7 @@ export type UserUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1139,6 +1291,7 @@ export type UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserCreateWithoutListingsInput = {
@@ -1163,6 +1316,7 @@ export type UserCreateWithoutListingsInput = {
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
 }
 
 export type UserUncheckedCreateWithoutListingsInput = {
@@ -1187,6 +1341,7 @@ export type UserUncheckedCreateWithoutListingsInput = {
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type UserCreateOrConnectWithoutListingsInput = {
@@ -1216,6 +1371,7 @@ export type UserCreateWithoutApprovedListingsInput = {
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
 }
 
 export type UserUncheckedCreateWithoutApprovedListingsInput = {
@@ -1240,6 +1396,7 @@ export type UserUncheckedCreateWithoutApprovedListingsInput = {
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type UserCreateOrConnectWithoutApprovedListingsInput = {
@@ -1280,6 +1437,7 @@ export type UserUpdateWithoutListingsInput = {
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutListingsInput = {
@@ -1304,6 +1462,7 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserUpsertWithoutApprovedListingsInput = {
@@ -1339,6 +1498,7 @@ export type UserUpdateWithoutApprovedListingsInput = {
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApprovedListingsInput = {
@@ -1363,6 +1523,7 @@ export type UserUncheckedUpdateWithoutApprovedListingsInput = {
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserCreateWithoutOperatorProfileInput = {
@@ -1387,6 +1548,7 @@ export type UserCreateWithoutOperatorProfileInput = {
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
 }
 
 export type UserUncheckedCreateWithoutOperatorProfileInput = {
@@ -1411,6 +1573,7 @@ export type UserUncheckedCreateWithoutOperatorProfileInput = {
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type UserCreateOrConnectWithoutOperatorProfileInput = {
@@ -1440,6 +1603,7 @@ export type UserCreateWithoutVerifiedOperatorsInput = {
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
 }
 
 export type UserUncheckedCreateWithoutVerifiedOperatorsInput = {
@@ -1464,6 +1628,7 @@ export type UserUncheckedCreateWithoutVerifiedOperatorsInput = {
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type UserCreateOrConnectWithoutVerifiedOperatorsInput = {
@@ -1504,6 +1669,7 @@ export type UserUpdateWithoutOperatorProfileInput = {
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOperatorProfileInput = {
@@ -1528,6 +1694,7 @@ export type UserUncheckedUpdateWithoutOperatorProfileInput = {
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserUpsertWithoutVerifiedOperatorsInput = {
@@ -1563,6 +1730,7 @@ export type UserUpdateWithoutVerifiedOperatorsInput = {
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVerifiedOperatorsInput = {
@@ -1587,6 +1755,7 @@ export type UserUncheckedUpdateWithoutVerifiedOperatorsInput = {
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserCreateWithoutAddressesInput = {
@@ -1611,6 +1780,7 @@ export type UserCreateWithoutAddressesInput = {
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
 }
 
 export type UserUncheckedCreateWithoutAddressesInput = {
@@ -1635,6 +1805,7 @@ export type UserUncheckedCreateWithoutAddressesInput = {
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type UserCreateOrConnectWithoutAddressesInput = {
@@ -1675,6 +1846,7 @@ export type UserUpdateWithoutAddressesInput = {
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAddressesInput = {
@@ -1699,6 +1871,7 @@ export type UserUncheckedUpdateWithoutAddressesInput = {
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 
@@ -1715,6 +1888,7 @@ export type UserCountOutputType = {
   blockedDates: number
   addresses: number
   verifiedOperators: number
+  bookings: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1726,6 +1900,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   blockedDates?: boolean | UserCountOutputTypeCountBlockedDatesArgs
   addresses?: boolean | UserCountOutputTypeCountAddressesArgs
   verifiedOperators?: boolean | UserCountOutputTypeCountVerifiedOperatorsArgs
+  bookings?: boolean | UserCountOutputTypeCountBookingsArgs
 }
 
 /**
@@ -1794,6 +1969,13 @@ export type UserCountOutputTypeCountVerifiedOperatorsArgs<ExtArgs extends runtim
   where?: Prisma.OperatorProfileWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountBookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookingWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1818,6 +2000,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   addresses?: boolean | Prisma.User$addressesArgs<ExtArgs>
   operatorProfile?: boolean | Prisma.User$operatorProfileArgs<ExtArgs>
   verifiedOperators?: boolean | Prisma.User$verifiedOperatorsArgs<ExtArgs>
+  bookings?: boolean | Prisma.User$bookingsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1880,6 +2063,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   addresses?: boolean | Prisma.User$addressesArgs<ExtArgs>
   operatorProfile?: boolean | Prisma.User$operatorProfileArgs<ExtArgs>
   verifiedOperators?: boolean | Prisma.User$verifiedOperatorsArgs<ExtArgs>
+  bookings?: boolean | Prisma.User$bookingsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1897,6 +2081,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     addresses: Prisma.$UserAddressPayload<ExtArgs>[]
     operatorProfile: Prisma.$OperatorProfilePayload<ExtArgs> | null
     verifiedOperators: Prisma.$OperatorProfilePayload<ExtArgs>[]
+    bookings: Prisma.$BookingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2315,6 +2500,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   addresses<T extends Prisma.User$addressesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$addressesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   operatorProfile<T extends Prisma.User$operatorProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$operatorProfileArgs<ExtArgs>>): Prisma.Prisma__OperatorProfileClient<runtime.Types.Result.GetResult<Prisma.$OperatorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   verifiedOperators<T extends Prisma.User$verifiedOperatorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$verifiedOperatorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OperatorProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bookings<T extends Prisma.User$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2953,6 +3139,30 @@ export type User$verifiedOperatorsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.OperatorProfileScalarFieldEnum | Prisma.OperatorProfileScalarFieldEnum[]
+}
+
+/**
+ * User.bookings
+ */
+export type User$bookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Booking
+   */
+  select?: Prisma.BookingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Booking
+   */
+  omit?: Prisma.BookingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookingInclude<ExtArgs> | null
+  where?: Prisma.BookingWhereInput
+  orderBy?: Prisma.BookingOrderByWithRelationInput | Prisma.BookingOrderByWithRelationInput[]
+  cursor?: Prisma.BookingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
 }
 
 /**
