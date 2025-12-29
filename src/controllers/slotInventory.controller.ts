@@ -25,21 +25,33 @@ export const getSlotBatches = async (c: Context) => {
 
     // Parse month and create date range
     const [year, monthNum] = month.split("-").map(Number);
-    const startDate = new Date(year, monthNum - 1, 1); // First day of month
-    const endDate = new Date(year, monthNum, 0); // Last day of month
+    // Create start of month in UTC to avoid timezone issues
+    const startDate = new Date(Date.UTC(year, monthNum - 1, 1, 0, 0, 0, 0));
+    // Create end of month in UTC (first day of next month minus 1ms)
+    const endDate = new Date(Date.UTC(year, monthNum, 1, 0, 0, 0, 0));
+    endDate.setMilliseconds(-1);
 
     const where: any = {
       listingId,
       batchStartDate: {
         gte: startDate,
-        lte: endDate,
+        lt: endDate, // Changed from lte to lt to properly include end of month
       },
-      formatType: "F3",
+      // Removed formatType filter to return all slot records
     };
 
     if (variantId) {
       where.variantId = variantId;
     }
+
+    console.log("Fetching slot batches with params:", {
+      listingId,
+      variantId,
+      month,
+      startDate,
+      endDate,
+      where
+    });
 
     const slots = await prisma.listingSlot.findMany({
       where,
@@ -57,6 +69,8 @@ export const getSlotBatches = async (c: Context) => {
         { slotDefinition: { startTime: "asc" } },
       ],
     });
+
+    console.log(`Found ${slots.length} slot batches`);
 
     return c.json({ success: true, data: slots });
   } catch (error) {

@@ -9,7 +9,121 @@ const generateBookingReference = () => {
   return `${prefix}-${year}-${random}`;
 };
 
-// Create booking for F1 (Multi-day Batch)
+// Create comprehensive booking with participants and addons
+export const createBooking = async (c: Context) => {
+  try {
+    const body = await c.req.json();
+    const {
+      customerId,
+      listingId,
+      variantId,
+      listingSlotId,
+      participantCount,
+      participants,
+      contactDetails,
+      selectedAddons,
+      promoCode,
+      discountAmount,
+      subtotal,
+      addonsTotal,
+      taxAmount,
+      totalAmount,
+      amountPaidNow,
+      amountPendingAtVenue,
+      paymentMethod,
+    } = body;
+
+    // Validate required fields
+    if (!customerId || !listingSlotId || !participantCount || !participants) {
+      return c.json({ success: false, message: "Missing required fields" }, 400);
+    }
+
+    // Get slot details
+    const slot = await prisma.listingSlot.findUnique({
+      where: { id: listingSlotId },
+      include: {
+        listing: {
+          select: { 
+            listingName: true, 
+            currency: true, 
+            taxRate: true,
+            operatorId: true,
+          }
+        }
+      }
+    });
+
+    if (!slot) {
+      return c.json({ success: false, message: "Slot not found" }, 404);
+    }
+
+    if (slot.availableCount < participantCount) {
+      return c.json({ success: false, message: "Not enough capacity available" }, 400);
+    }
+
+    // Create booking with all details in transaction
+    const result = await prisma.$transaction(async (tx) => {
+      // Create booking with all metadata
+      const booking = await tx.booking.create({
+        data: {
+          bookingReference: generateBookingReference(),
+          customerId,
+          listingSlotId,
+          bookingStartDate: slot.batchStartDate!,
+          bookingEndDate: slot.batchEndDate!,
+          participantCount,
+          totalDays: 1,
+          basePrice: slot.basePrice,
+          totalAmount: totalAmount,
+          bookingStatus: "PENDING_PAYMENT",
+          participants: participants,
+          contactDetails: contactDetails,
+          selectedAddons: selectedAddons || [],
+          pricingDetails: {
+            subtotal,
+            addonsTotal: addonsTotal || 0,
+            taxAmount: taxAmount || 0,
+            discountAmount: discountAmount || 0,
+            promoCode: promoCode || null,
+            totalAmount,
+            amountPaidNow: amountPaidNow || totalAmount,
+            amountPendingAtVenue: amountPendingAtVenue || 0,
+            paymentMethod: paymentMethod || "online",
+          },
+        },
+      });
+
+      // Update slot availability
+      await tx.listingSlot.update({
+        where: { id: listingSlotId },
+        data: {
+          availableCount: {
+            decrement: participantCount,
+          },
+        },
+      });
+
+      return {
+        booking,
+        bookingReference: booking.bookingReference,
+      };
+    });
+
+    return c.json({ 
+      success: true, 
+      data: result,
+      message: "Booking created successfully. Proceed to payment."
+    });
+  } catch (error: any) {
+    console.error("Error creating booking:", error);
+    return c.json({ 
+      success: false, 
+      message: error.message || "Failed to create booking" 
+    }, 500);
+  }
+};
+
+// Create booking for F1 (Multi-day Batch) - Legacy
 export const createF1Booking = async (c: Context) => {
   try {
     const { customerId, listingSlotId, participantCount } = await c.req.json();

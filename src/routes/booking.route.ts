@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import {
+  createBooking,
   createF1Booking,
   cancelBooking,
   getUserBookings,
@@ -7,7 +8,10 @@ import {
 
 const bookingRouter = new Hono();
 
-// Create F1 booking
+// Create comprehensive booking with all details
+bookingRouter.post("/create", createBooking);
+
+// Create F1 booking (legacy)
 bookingRouter.post("/f1", createF1Booking);
 
 // Cancel booking

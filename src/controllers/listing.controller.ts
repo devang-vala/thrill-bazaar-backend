@@ -149,7 +149,11 @@ export const getListings = async (c: Context) => {
     const listings = await prisma.listing.findMany({
       where: whereClause,
       include: {
-        category: true,
+        category: {
+          include: {
+            listingType: true,
+          },
+        },
         subCategory: true,
         operator: {
           select: {
@@ -201,7 +205,11 @@ export const getListing = async (c: Context) => {
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
       include: {
-        category: true,
+        category: {
+          include: {
+            listingType: true,
+          },
+        },
         subCategory: true,
         operator: {
           select: {
