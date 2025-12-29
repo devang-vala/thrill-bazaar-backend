@@ -267,6 +267,14 @@ export const paginateCategories = async (c: Context) => {
       prisma.category.findMany({
         where: whereClause,
         include: {
+          listingType: {
+            select: {
+              id: true,
+              name: true,
+              description: true,
+              displayOrder: true,
+            },
+          },
           subCategories: {
             where: { isActive: true },
             select: {

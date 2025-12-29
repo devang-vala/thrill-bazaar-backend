@@ -19,6 +19,12 @@ model Booking {
 
   bookingStatus     BookingStatus @map("booking_status")
 
+  // Additional booking data stored as JSON
+  participants      Json?         @map("participants")       // Array of participant details
+  contactDetails    Json?         @map("contact_details")    // Contact information
+  selectedAddons    Json?         @map("selected_addons")    // Selected addons with quantities
+  pricingDetails    Json?         @map("pricing_details")    // Breakdown of pricing (subtotal, tax, addons, discount)
+
   createdAt         DateTime      @default(now()) @map("created_at")
   updatedAt         DateTime      @updatedAt @map("updated_at")
 

@@ -8,8 +8,9 @@ const slotInventoryRouter = new Hono();
 
 
 // Get slot batches for a listing/variant in a specific month
-slotInventoryRouter.get("/batches/:listingId/:month", getSlotBatches);
+// Note: More specific route (with variantId) must come first
 slotInventoryRouter.get("/batches/:listingId/:variantId/:month", getSlotBatches);
+slotInventoryRouter.get("/batches/:listingId/:month", getSlotBatches);
 
 // F3: Create a single-day slot batch (slotDefinitionId, date, price, capacity)
 slotInventoryRouter.post("/single-day-batch", createSingleDaySlotBatch);
