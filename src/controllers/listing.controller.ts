@@ -200,10 +200,10 @@ export const getListings = async (c: Context) => {
  */
 export const getListing = async (c: Context) => {
   try {
-    const listingId = c.req.param("id");
+    const listingSlug = c.req.param("slug");
 
     const listing = await prisma.listing.findUnique({
-      where: { id: listingId },
+      where: { listingSlug: listingSlug },
       include: {
         category: {
           include: {
