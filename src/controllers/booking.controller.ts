@@ -13,6 +13,16 @@ const generateBookingReference = () => {
 export const createBooking = async (c: Context) => {
   try {
     const body = await c.req.json();
+    const user = c.get("user");
+    
+    // Check if user is a customer
+    if (user && user.userType !== "customer") {
+      return c.json({ 
+        success: false, 
+        message: "Only customers can create bookings. Please login as a customer." 
+      }, 403);
+    }
+    
     const {
       customerId,
       listingId,
@@ -126,6 +136,16 @@ export const createBooking = async (c: Context) => {
 // Create booking for F1 (Multi-day Batch) - Legacy
 export const createF1Booking = async (c: Context) => {
   try {
+    const user = c.get("user");
+    
+    // Check if user is a customer
+    if (user && user.userType !== "customer") {
+      return c.json({ 
+        success: false, 
+        message: "Only customers can create bookings. Please login as a customer." 
+      }, 403);
+    }
+    
     const { customerId, listingSlotId, participantCount } = await c.req.json();
 
     if (!customerId || !listingSlotId || !participantCount) {

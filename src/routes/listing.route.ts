@@ -13,13 +13,13 @@ import {
 
 const listingRouter = new Hono();
 
-// listingRouter.use(authenticateToken);
-// listingRouter.use(requireAnyAdmin);
-
+// Public routes
 listingRouter.get("/", getListings);
-listingRouter.get("/:id", getListing);
-listingRouter.post("/", createListing);
-listingRouter.put("/:id", updateListing);
-listingRouter.delete("/:id", deleteListing);
+listingRouter.get("/:slug", getListing);
+
+// Protected routes - require authentication
+listingRouter.post("/", authenticateToken, createListing);
+listingRouter.put("/:id", authenticateToken, updateListing);
+listingRouter.delete("/:id", authenticateToken, deleteListing);
 
 export default listingRouter;
