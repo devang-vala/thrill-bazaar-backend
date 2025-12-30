@@ -7,6 +7,8 @@ import {
   updateBatch,
   toggleBatchActive,
   deleteBatch,
+  getF2Prices,
+  setF2Price,
 } from "../controllers/listingBatch.controller.js";
 
 const listingBatchRouter = new Hono();
@@ -34,5 +36,9 @@ listingBatchRouter.patch("/batch/:batchId/toggle", toggleBatchActive);
 
 // Delete a batch
 listingBatchRouter.delete("/batch/:batchId", deleteBatch);
+
+// F2 (day-wise pricing) routes
+listingBatchRouter.get("/listing/:listingId/variant/:variantId/prices", getF2Prices);
+listingBatchRouter.post("/listing/:listingId/f2-price", setF2Price);
 
 export default listingBatchRouter;
