@@ -16,6 +16,47 @@ export const getVariantsForListing = async (c: Context) => {
   }
 };
 
+// Get variants with batches for a listing (combined endpoint)
+export const getVariantsWithBatches = async (c: Context) => {
+  try {
+    const listingId = c.req.param("listingId");
+    
+    const variants = await prisma.listingVariant.findMany({
+      where: { listingId },
+      orderBy: { variantOrder: "asc" },
+      include: {
+        slots: {
+          where: { formatType: "F1" },
+          orderBy: { batchStartDate: "asc" },
+        },
+      },
+    });
+
+    // Transform data to match frontend expectations
+    const transformedVariants = variants.map((variant) => ({
+      id: variant.id,
+      variantName: variant.variantName,
+      variantDescription: variant.variantDescription,
+      batches: variant.slots.map((slot) => ({
+        id: slot.id,
+        startDate: slot.batchStartDate?.toISOString() || "",
+        endDate: slot.batchEndDate?.toISOString() || "",
+        batchSize: slot.totalCapacity,
+        availableSlots: slot.availableCount,
+        bookings: slot.totalCapacity - slot.availableCount,
+        price: slot.basePrice,
+        status: slot.isActive ? "ACTIVE" : "PAUSED",
+      })),
+    }));
+
+    console.log(`[getVariantsWithBatches] Found ${variants.length} variants for listing ${listingId}`);
+    return c.json({ success: true, data: transformedVariants });
+  } catch (error) {
+    console.error("Get variants with batches error:", error);
+    return c.json({ success: false, message: "Failed to fetch variants with batches", error: String(error) }, 500);
+  }
+};
+
 // Get batches for a listing and variant
 export const getBatchesForListingVariant = async (c: Context) => {
   try {

@@ -168,7 +168,8 @@ export const requireRole = (allowedRoles: string | string[]) => {
         {
           error: "Insufficient permissions",
           required: roles,
-          current: user.role,
+          currentRole: user.role,
+          currentUserType: user.userType,
         },
         403
       );

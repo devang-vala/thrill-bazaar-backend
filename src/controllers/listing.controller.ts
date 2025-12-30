@@ -32,11 +32,19 @@ export const getListings = async (c: Context) => {
 
     // Build where clause
     const whereClause: any = {};
+    
+    // Get user context if authenticated
+    const user = c.get("user");
+    
     if (status) {
       whereClause.status = status;
     } else {
-      // By default, only show active listings for customers
-      whereClause.status = "active";
+      // Only show active listings for unauthenticated users or customer role
+      // Show all listings for operators, admins, and other non-customer roles
+      if (!user || user.role === "customer") {
+        whereClause.status = "active";
+      }
+      // For other roles (operator, admin, super_admin), don't filter by status
     }
 
     // Add location filters
@@ -177,9 +185,26 @@ export const getListings = async (c: Context) => {
       take: limit,
     });
 
+    // Check if user is admin or seller/operator
+    const isAdminOrSeller = user && (
+      user.userType === "admin" || 
+      user.userType === "super_admin" || 
+      user.userType === "operator" ||
+      user.role === "seller"
+    );
+    
+    // For customers/public users, remove admin-specific fields
+    // Sellers and admins can see all fields including rejection reason
+    const responseData = isAdminOrSeller 
+      ? listings 
+      : listings.map(listing => {
+          const { rejectionReason, approvedByAdminId, approvedAt, ...publicListing } = listing;
+          return publicListing;
+        });
+
     return c.json({
       success: true,
-      data: listings,
+      data: responseData,
       pagination: {
         page,
         limit,
@@ -196,11 +221,116 @@ export const getListings = async (c: Context) => {
 };
 
 /**
- * Get listing by ID
+ * Admin endpoint: Get all listings (excluding drafts) with pagination
+ * POST request to allow filtering criteria in body
+ */
+export const getAdminListings = async (c: Context) => {
+  try {
+    // Get pagination from body
+    const body = await c.req.json();
+    const page = body.page || 1;
+    const limit = body.limit || 12;
+    const searchTerm = body.searchTerm || "";
+    const statusFilter = body.statusFilter || "";
+
+    // Calculate skip for pagination
+    const skip = (page - 1) * limit;
+
+    // Build where clause - exclude drafts
+    const whereClause: any = {
+      status: {
+        not: "draft",
+      },
+    };
+
+    // Add optional status filter
+    if (statusFilter && statusFilter !== "all") {
+      whereClause.status = statusFilter;
+    }
+
+    // Add search filter
+    if (searchTerm) {
+      whereClause.OR = [
+        { listingName: { contains: searchTerm, mode: "insensitive" } },
+        { listingSlug: { contains: searchTerm, mode: "insensitive" } },
+        {
+          category: {
+            categoryName: { contains: searchTerm, mode: "insensitive" },
+          },
+        },
+        {
+          operator: {
+            OR: [
+              { firstName: { contains: searchTerm, mode: "insensitive" } },
+              { lastName: { contains: searchTerm, mode: "insensitive" } },
+              { email: { contains: searchTerm, mode: "insensitive" } },
+            ],
+          },
+        },
+      ];
+    }
+
+    // Get total count for pagination
+    const totalCount = await prisma.listing.count({
+      where: whereClause,
+    });
+
+    // Fetch listings with pagination
+    const listings = await prisma.listing.findMany({
+      where: whereClause,
+      include: {
+        category: {
+          select: {
+            categoryName: true,
+          },
+        },
+        subCategory: {
+          select: {
+            subCatName: true,
+          },
+        },
+        operator: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: limit,
+    });
+
+    return c.json({
+      success: true,
+      data: listings,
+      pagination: {
+        page,
+        limit,
+        totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+        hasNextPage: page < Math.ceil(totalCount / limit),
+        hasPreviousPage: page > 1,
+      },
+    });
+  } catch (error) {
+    console.error("Get admin listings error:", error);
+    return c.json({ 
+      success: false, 
+      error: "Failed to fetch listings" 
+    }, 500);
+  }
+};
+
+/**
+ * Get listing by slug (public endpoint)
  */
 export const getListing = async (c: Context) => {
   try {
     const listingSlug = c.req.param("slug");
+    const user = c.get("user");
 
     const listing = await prisma.listing.findUnique({
       where: { listingSlug: listingSlug },
@@ -250,6 +380,24 @@ export const getListing = async (c: Context) => {
       };
     });
 
+    // Check if user is admin
+    const isAdmin = user && (user.userType === "admin" || user.userType === "super_admin");
+    
+    if (!isAdmin) {
+      // Remove admin-specific fields for non-admin users (public/customers)
+      // Note: Sellers see rejection reason through their own listings query
+      const { approvedByAdminId, approvedAt, ...publicListing } = listing;
+      
+      return c.json({
+        success: true,
+        data: {
+          ...publicListing,
+          media: transformedMedia,
+        },
+      });
+    }
+
+    // Admin gets all data
     return c.json({
       success: true,
       data: {
@@ -264,6 +412,79 @@ export const getListing = async (c: Context) => {
 };
 
 /**
+ * Get listing by ID with all related data (for management pages)
+ */
+export const getListingById = async (c: Context) => {
+  try {
+    const listingId = c.req.param("id");
+    const user = c.get("user");
+
+    const listing = await prisma.listing.findUnique({
+      where: { id: listingId },
+      include: {
+        category: {
+          include: {
+            listingType: true,
+          },
+        },
+        subCategory: true,
+        operator: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+        startCountry: true,
+        startPrimaryDivision: true,
+        startSecondaryDivision: true,
+        endCountry: true,
+        endPrimaryDivision: true,
+        endSecondaryDivision: true,
+        variants: {
+          orderBy: { variantOrder: "asc" },
+        },
+        inclusionsExclusions: true, // One-to-one relation, no orderBy
+        addons: true, // One-to-one relation with Json storage, no orderBy
+        content: {
+          orderBy: { contentOrder: "asc" },
+        },
+        media: true, // One-to-many but data is Json, no orderBy on Json field
+        faqs: true, // One-to-one relation, no orderBy
+      },
+    });
+
+    if (!listing) {
+      return c.json({ success: false, message: "Listing not found" }, 404);
+    }
+
+    // If user is not admin, remove admin-specific fields
+    const isAdmin = user && (user.userType === "admin" || user.userType === "super_admin");
+    
+    if (!isAdmin) {
+      // Remove admin-specific sensitive fields for non-admin users
+      // Note: Sellers accessing their own listings will see rejectionReason via the listings endpoint
+      const { approvedByAdminId, approvedAt, ...publicListing } = listing;
+      
+      return c.json({
+        success: true,
+        data: publicListing,
+      });
+    }
+
+    // Admin gets all data including rejection reason
+    return c.json({
+      success: true,
+      data: listing,
+    });
+  } catch (error) {
+    console.error("Get listing by ID error:", error);
+    return c.json({ success: false, message: "Failed to fetch listing" }, 500);
+  }
+};
+
+/**
  * Create a new listing
  */
 export const createListing = async (c: Context) => {
@@ -271,8 +492,16 @@ export const createListing = async (c: Context) => {
     const body = await c.req.json();
     const user = c.get("user");
 
+    // Make operatorId mandatory
+    if (!user || !user.userId) {
+      return c.json({ 
+        success: false,
+        error: "Authentication required. Operator ID is mandatory." 
+      }, 401);
+    }
+
     const listingData: any = {
-      operatorId: user?.userId || null,
+      operatorId: user.userId, // Always use authenticated user's ID
       categoryId: body.categoryId || null,
       subCatId: body.subCatId || null,
       listingName: body.listingName ? sanitizeString(body.listingName, 255) : "Untitled Listing",
@@ -282,9 +511,10 @@ export const createListing = async (c: Context) => {
       tbaId: body.tbaId ? sanitizeString(body.tbaId, 100) : undefined,
       frontImageUrl: body.frontImageUrl
         ? sanitizeString(body.frontImageUrl, 500)
-        : undefined,
+        : null,
       bookingFormat: body.bookingFormat || "F1",
       hasMultipleOptions: body.hasMultipleOptions || false,
+      status: "pending_approval", // Set status to pending_approval by default
       startLocationName: body.startLocationName
         ? sanitizeString(body.startLocationName, 255)
         : undefined,
@@ -340,7 +570,11 @@ export const createListing = async (c: Context) => {
     );
   } catch (error) {
     console.error("Create listing error:", error);
-    return c.json({ error: "Failed to create listing" }, 500);
+    return c.json({ 
+      success: false,
+      error: "Failed to create listing",
+      message: error instanceof Error ? error.message : "Unknown error"
+    }, 500);
   }
 };
 
@@ -396,6 +630,20 @@ export const updateListing = async (c: Context) => {
     }
     if (body.status !== undefined) {
       updateData.status = body.status;
+      
+      // If status is being changed to rejected, handle rejection reason
+      if (body.status === "rejected" && body.rejectionReason !== undefined) {
+        updateData.rejectionReason = sanitizeString(body.rejectionReason, 1000);
+      }
+      
+      // Clear rejection reason only when admin approves (status = active)
+      // Keep rejection reason when seller resubmits (status = pending_approval)
+      if (body.status === "active") {
+        updateData.rejectionReason = null;
+      }
+    }
+    if (body.rejectionReason !== undefined && body.status === "rejected") {
+      updateData.rejectionReason = body.rejectionReason ? sanitizeString(body.rejectionReason, 1000) : null;
     }
     if (body.taxRate !== undefined) {
       updateData.taxRate = body.taxRate;
