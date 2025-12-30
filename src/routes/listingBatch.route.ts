@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import {
   getVariantsForListing,
+  getVariantsWithBatches,
   getBatchesForListingVariant,
   createBatch,
   updateBatch,
@@ -12,6 +13,9 @@ const listingBatchRouter = new Hono();
 
 // Fetch variants for a listing
 listingBatchRouter.get("/listing/:listingId/variants", getVariantsForListing);
+
+// Fetch variants with batches for a listing (combined endpoint)
+listingBatchRouter.get("/listing/:listingId/variants-with-batches", getVariantsWithBatches);
 
 // Fetch batches for a listing and variant
 listingBatchRouter.get("/listing/:listingId/variant/:variantId/batches", getBatchesForListingVariant);
