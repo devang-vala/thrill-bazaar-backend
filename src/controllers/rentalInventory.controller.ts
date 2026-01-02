@@ -74,7 +74,7 @@ function getDatesInRange(start: Date, end: Date): string[] {
   return dates;
 }
 
-// 1. Fetch availability for a listing+variant (blocked > per-day override > date range)
+// 1. Fetch availability for a listing+variant (blocked > booked > per-day override > date range)
 export const getRentalAvailability = async (c: Context) => {
   const listingId = c.req.param("listingId");
   const variantId = c.req.param("variantId") || null;
@@ -83,7 +83,7 @@ export const getRentalAvailability = async (c: Context) => {
     where: { listingId, variantId },
     orderBy: { availableFromDate: "asc" },
   });
-  // Fetch all per-day overrides
+  // Fetch all per-day overrides (including booked dates)
   const slotOverrides = await prisma.listingSlotChange.findMany({
     where: {
       listingId,
@@ -93,6 +93,7 @@ export const getRentalAvailability = async (c: Context) => {
     select: {
       changeDate: true,
       basePrice: true,
+      bookedCount: true,
     },
   });
   // Fetch all blocked dates
@@ -100,8 +101,17 @@ export const getRentalAvailability = async (c: Context) => {
     where: { listingId, variantId },
   });
   const blockedSet = new Set(blocked.map(b => format(b.blockedDate, "yyyy-MM-dd")));
+  
+  // Build a map for booked dates (bookedCount > 0)
+  const bookedMap: Record<string, number> = {};
+  for (const o of slotOverrides) {
+    if (o.bookedCount > 0) {
+      bookedMap[format(o.changeDate, "yyyy-MM-dd")] = o.bookedCount;
+    }
+  }
+  
   // Build date-wise availability
-  const calendar: Record<string, { price: number, available: boolean, source: string }> = {};
+  const calendar: Record<string, { price: number, available: boolean, source: string, bookedCount?: number }> = {};
   // 1. Fill from date ranges
   for (const range of ranges) {
     const dates = getDatesInRange(range.availableFromDate, range.availableToDate);
@@ -109,12 +119,25 @@ export const getRentalAvailability = async (c: Context) => {
       calendar[date] = { price: range.basePricePerDay, available: true, source: "range" };
     }
   }
-  // 2. Override with per-day slot changes
+  // 2. Override with per-day slot changes (price only, not availability)
   for (const o of slotOverrides) {
     const dateStr = format(o.changeDate, "yyyy-MM-dd");
-    calendar[dateStr] = { price: o.basePrice, available: true, source: "override" };
+    if (calendar[dateStr]) {
+      calendar[dateStr].price = o.basePrice;
+      calendar[dateStr].source = "override";
+    } else {
+      calendar[dateStr] = { price: o.basePrice, available: true, source: "override" };
+    }
   }
-  // 3. Blocked dates take highest priority
+  // 3. Mark booked dates as unavailable
+  for (const date of Object.keys(bookedMap)) {
+    if (calendar[date]) {
+      calendar[date].available = false;
+      calendar[date].source = "booked";
+      calendar[date].bookedCount = bookedMap[date];
+    }
+  }
+  // 4. Blocked dates take highest priority
   for (const date of blockedSet) {
     if (calendar[date]) {
       calendar[date].available = false;

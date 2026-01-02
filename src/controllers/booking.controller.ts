@@ -107,7 +107,7 @@ export const createBooking = async (c: Context) => {
           totalDays: 1,
           basePrice: slot.basePrice,
           totalAmount: totalAmount,
-          bookingStatus: "PENDING_PAYMENT",
+          bookingStatus: "CONFIRMED",
           participants: participants,
           contactDetails: contactDetails,
           selectedAddons: selectedAddons || [],
@@ -231,6 +231,163 @@ export const createF1Booking = async (c: Context) => {
   } catch (error) {
     console.error("Error creating F1 booking:", error);
     return c.json({ success: false, message: "Failed to create booking" }, 500);
+  }
+};
+
+// Create booking for F2 (Day-wise Rental)
+export const createF2Booking = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    
+    // Check if user is a customer
+    if (user && user.userType !== "customer") {
+      return c.json({ 
+        success: false, 
+        message: "Only customers can create bookings. Please login as a customer." 
+      }, 403);
+    }
+    
+    const {
+      customerId,
+      listingId,
+      variantId,
+      selectedDates, // Array of date strings ['2026-01-04', '2026-01-05', '2026-01-06']
+      contactDetails,
+      selectedAddons,
+      promoCode,
+      discountAmount,
+      subtotal,
+      addonsTotal,
+      taxAmount,
+      totalAmount,
+      amountPaidNow,
+      amountPendingAtVenue,
+      paymentMethod,
+    } = await c.req.json();
+
+    if (!customerId || !listingId || !selectedDates || selectedDates.length === 0) {
+      return c.json({ success: false, message: "Missing required fields" }, 400);
+    }
+
+    // Sort dates to get start and end
+    const sortedDates = [...selectedDates].sort();
+    const startDate = new Date(sortedDates[0] + "T00:00:00Z");
+    const endDate = new Date(sortedDates[sortedDates.length - 1] + "T00:00:00Z");
+
+    // Get listing details for basePrice
+    const listing = await prisma.listing.findUnique({
+      where: { id: listingId },
+      select: { 
+        listingName: true, 
+        currency: true, 
+        taxRate: true,
+        operatorId: true,
+      }
+    });
+
+    if (!listing) {
+      return c.json({ success: false, message: "Listing not found" }, 404);
+    }
+
+    // Find the date range for the variant to get base price
+    const dateRange = await prisma.inventoryDateRange.findFirst({
+      where: {
+        listingId,
+        variantId: variantId || null,
+        availableFromDate: { lte: startDate },
+        availableToDate: { gte: endDate },
+      },
+    });
+
+    // Create booking and update availability in transaction
+    const result = await prisma.$transaction(async (tx) => {
+      // Create booking
+      const booking = await tx.booking.create({
+        data: {
+          bookingReference: generateBookingReference(),
+          customerId,
+          dateRangeId: dateRange?.id || null,
+          bookingStartDate: startDate,
+          bookingEndDate: endDate,
+          participantCount: 1, // For rentals, we use 1 as default
+          totalDays: selectedDates.length,
+          basePrice: subtotal || totalAmount,
+          totalAmount: totalAmount,
+          bookingStatus: "CONFIRMED",
+          contactDetails: contactDetails,
+          selectedAddons: selectedAddons || [],
+          pricingDetails: {
+            selectedDates,
+            subtotal: subtotal || totalAmount,
+            addonsTotal: addonsTotal || 0,
+            taxAmount: taxAmount || 0,
+            discountAmount: discountAmount || 0,
+            promoCode: promoCode || null,
+            totalAmount,
+            amountPaidNow: amountPaidNow || totalAmount,
+            amountPendingAtVenue: amountPendingAtVenue || 0,
+            paymentMethod: paymentMethod || "online",
+          },
+        },
+      });
+
+      // Create ListingSlotChange entries for each booked date to mark them as unavailable
+      for (const dateStr of selectedDates) {
+        const changeDate = new Date(dateStr + "T00:00:00Z");
+        
+        // Check if an entry already exists for this date
+        const existing = await tx.listingSlotChange.findFirst({
+          where: {
+            listingId,
+            variantId: variantId || null,
+            slotId: null,
+            changeDate,
+          },
+        });
+
+        if (existing) {
+          // Update existing entry - increment booked count
+          await tx.listingSlotChange.update({
+            where: { id: existing.id },
+            data: {
+              bookedCount: { increment: 1 },
+              triggerType: "customer_book",
+            },
+          });
+        } else {
+          // Create new entry
+          await tx.listingSlotChange.create({
+            data: {
+              slotId: null,
+              listingId,
+              variantId: variantId || null,
+              changeDate,
+              basePrice: dateRange?.basePricePerDay || 0,
+              availableCount: 0, // Not used for F2, we track bookedCount
+              bookedCount: 1,
+              triggerType: "customer_book",
+            },
+          });
+        }
+      }
+
+      return {
+        booking,
+        bookingReference: booking.bookingReference,
+      };
+    });
+
+    return c.json({ 
+      success: true, 
+      data: result,
+      message: "F2 rental booking created successfully."
+    });
+  } catch (error: any) {
+    console.error("Error creating F2 booking:", error);
+    return c.json({ 
+      success: false, 
+      message: error.message || "Failed to create F2 booking" 
+    }, 500);
   }
 };
 
