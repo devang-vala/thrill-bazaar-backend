@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import {
   createBooking,
   createF1Booking,
+  createF2Booking,
   cancelBooking,
   getUserBookings,
 } from "../controllers/booking.controller.js";
@@ -13,6 +14,9 @@ bookingRouter.post("/create", createBooking);
 
 // Create F1 booking (legacy)
 bookingRouter.post("/f1", createF1Booking);
+
+// Create F2 booking (day-wise rental)
+bookingRouter.post("/f2", createF2Booking);
 
 // Cancel booking
 bookingRouter.post("/:bookingId/cancel", cancelBooking);
