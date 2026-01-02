@@ -13,7 +13,11 @@ const cloudinary = configureCloudinary();
 console.log("Cloudinary Secrets Loaded:", cloudinarySecrets);
 
 // Initialize Meilisearch
-initMeilisearch().catch(err => console.error("Meilisearch init failed:", err));
+// Initialize Meilisearch (non-blocking)
+initMeilisearch().catch(err => {
+  console.warn("⚠️  Meilisearch initialization failed - continuing without it");
+  console.warn("Error:", err instanceof Error ? err.message : err);
+});
 
 const app = new Hono();
 

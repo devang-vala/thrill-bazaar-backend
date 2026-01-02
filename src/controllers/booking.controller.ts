@@ -15,6 +15,11 @@ export const createBooking = async (c: Context) => {
     const body = await c.req.json();
     const user = c.get("user");
     
+    // Debug logging
+    console.log("=== BOOKING REQUEST DEBUG ===");
+    console.log("Body received:", JSON.stringify(body, null, 2));
+    console.log("User from token:", user);
+    
     // Check if user is a customer
     if (user && user.userType !== "customer") {
       return c.json({ 
@@ -43,9 +48,26 @@ export const createBooking = async (c: Context) => {
       paymentMethod,
     } = body;
 
-    // Validate required fields
-    if (!customerId || !listingSlotId || !participantCount || !participants) {
-      return c.json({ success: false, message: "Missing required fields" }, 400);
+    // Detailed validation logging
+    console.log("Field validation:");
+    console.log("- customerId:", customerId);
+    console.log("- listingSlotId:", listingSlotId);
+    console.log("- participantCount:", participantCount);
+    console.log("- participants:", participants);
+    
+    // Validate required fields with specific error messages
+    const missingFields = [];
+    if (!customerId) missingFields.push("customerId");
+    if (!listingSlotId) missingFields.push("listingSlotId");
+    if (!participantCount) missingFields.push("participantCount");
+    if (!participants) missingFields.push("participants");
+    
+    if (missingFields.length > 0) {
+      console.log("VALIDATION FAILED - Missing fields:", missingFields);
+      return c.json({ 
+        success: false, 
+        message: `Missing required fields: ${missingFields.join(", ")}` 
+      }, 400);
     }
 
     // Get slot details

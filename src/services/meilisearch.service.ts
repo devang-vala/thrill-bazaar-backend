@@ -16,7 +16,22 @@ const LISTINGS_INDEX = "listings";
  */
 export const initMeilisearch = async () => {
     try {
+        // Check if Meilisearch is configured
+        if (!MEILISEARCH_URL || !MEILISEARCH_MASTER_KEY) {
+            console.warn("⚠️  Meilisearch not configured - search functionality will be disabled");
+            return;
+        }
+
         const index = client.index(LISTINGS_INDEX);
+
+        // Test connection first
+        try {
+            await client.health();
+        } catch (healthError) {
+            console.warn("⚠️  Meilisearch health check failed - service may be down");
+            console.warn("Search functionality will be limited until Meilisearch is available");
+            return;
+        }
 
         // Check if index exists, create if not (Meilisearch creates lazily on add documents, but setting settings ensures it)
         await index.updateSettings({
@@ -57,9 +72,11 @@ export const initMeilisearch = async () => {
             ]
         });
 
-        console.log("Meilisearch initialized and settings updated");
+        console.log("✅ Meilisearch initialized and settings updated successfully");
     } catch (error) {
-        console.warn("Failed to initialize Meilisearch settings (might be down or misconfigured):", error);
+        console.warn("⚠️  Failed to initialize Meilisearch settings (might be down or misconfigured)");
+        console.warn("Error details:", error instanceof Error ? error.message : error);
+        console.warn("Search functionality will continue without Meilisearch");
     }
 };
 
