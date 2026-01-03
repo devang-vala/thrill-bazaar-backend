@@ -1,17 +1,17 @@
 model ListingVariantMetadataFieldOptions {
-    optionId                    String   @id @default(uuid()) @map("variant_option_id")
-    variantFieldDefinitionId    String   @map("variant_field_definition_id")
-    optionValue                 String   @map("option_value")
-    optionLabel                 String   @map("option_label")
-    optionDescription           String?  @map("option_description")
-    displayOrder                Int      @default(0) @map("display_order")
-    createdAt                   DateTime @default(now()) @map("created_at")
-    updatedAt                   DateTime @updatedAt @map("updated_at")
+  optionId                 String   @id @default(uuid()) @map("variant_option_id")
+  variantFieldDefinitionId String   @map("variant_field_definition_id")
+  optionValue              String   @map("option_value")
+  optionLabel              String   @map("option_label")
+  optionDescription        String?  @map("option_description")
+  displayOrder             Int      @default(0) @map("display_order")
+  createdAt                DateTime @default(now()) @map("created_at")
+  updatedAt                DateTime @updatedAt @map("updated_at")
 
-    // Relations
-    variantFieldDefinition ListingVariantMetadataFieldDefinition @relation(fields: [variantFieldDefinitionId], references: [id], onDelete: Cascade)
+  // Relations
+  variantFieldDefinition ListingVariantMetadataFieldDefinition @relation(fields: [variantFieldDefinitionId], references: [id], onDelete: Cascade)
 
-    @@unique([variantFieldDefinitionId, optionValue])
-    @@index([variantFieldDefinitionId])
-    @@map("listing_variant_metadata_field_options")
+  @@unique([variantFieldDefinitionId, optionValue])
+  @@index([variantFieldDefinitionId])
+  @@map("listing_variant_metadata_field_options")
 }

@@ -1,33 +1,32 @@
 model ListingSlot {
-    id               String   @id @default(uuid()) @map("slot_id")
-    listingId        String   @map("listing_id")
-    variantId        String?  @map("variant_id")
-    slotDefinitionId String?   @map("slot_definition_id")
+  id               String  @id @default(uuid()) @map("slot_id")
+  listingId        String  @map("listing_id")
+  variantId        String? @map("variant_id")
+  slotDefinitionId String? @map("slot_definition_id")
 
-    batchStartDate   DateTime? @map("batch_start_date")
-    batchEndDate     DateTime? @map("batch_end_date")
+  batchStartDate DateTime? @map("batch_start_date")
+  batchEndDate   DateTime? @map("batch_end_date")
 
-    slotDate         DateTime? @map("slot_date")
-    startTime        String?   @map("start_time")
-    endTime          String?   @map("end_time")
+  slotDate  DateTime? @map("slot_date")
+  startTime String?   @map("start_time")
+  endTime   String?   @map("end_time")
 
-    basePrice        Int      @map("base_price")
-    totalCapacity    Int      @map("total_capacity")
-    availableCount   Int      @map("available_count")
+  basePrice      Int @map("base_price")
+  totalCapacity  Int @map("total_capacity")
+  availableCount Int @map("available_count")
 
-    isActive         Boolean  @default(true) @map("is_active")
-    createdAt        DateTime @default(now()) @map("created_at")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
 
-    formatType       String?  @map("format_type") // Added for batch filtering (F1, F2, etc)
+  formatType String? @map("format_type") // Added for batch filtering (F1, F2, etc)
 
-    slotDefinition   SlotDefinition? @relation(fields: [slotDefinitionId], references: [id], onDelete: Cascade, name: "SlotDefinitionToSlot")
-    listing          Listing        @relation(fields: [listingId], references: [id], onDelete: Cascade, name: "ListingToSlot")
-    variant          ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade, name: "VariantToSlot")
-    slotChanges      ListingSlotChange[] @relation("SlotToSlotChange")
-    
-    // Booking relation
-    bookings         Booking[]
+  slotDefinition SlotDefinition? @relation(fields: [slotDefinitionId], references: [id], onDelete: Cascade, name: "SlotDefinitionToSlot")
+  listing        Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade, name: "ListingToSlot")
+  variant        ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade, name: "VariantToSlot")
 
-    @@index([listingId, variantId])
-    @@map("listing_slots")
+  // Booking relation
+  bookings Booking[]
+
+  @@index([listingId, variantId])
+  @@map("listing_slots")
 }

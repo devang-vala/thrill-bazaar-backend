@@ -1,34 +1,45 @@
 // 5. Upsert per-day price override (just store override, do not touch ranges)
 export const upsertPerDayPriceOverride = async (c: Context) => {
-  const { listingId, variantId, date, price } = await c.req.json();
+  const { listingId, variantId, date, price, availableCount, totalCapacity, inventoryDateRangeId } = await c.req.json();
   const changeDate = new Date(date);
   // Upsert: if exists, update; else, create
   const existing = await prisma.listingSlotChange.findFirst({
     where: {
       listingId,
       variantId: variantId ?? null,
-      slotId: null,
-      changeDate,
+      inventoryDateRangeId: inventoryDateRangeId ?? null,
+      date: changeDate,
     },
   });
+  
+  const updateData: any = {
+    price: price,
+    triggerType: "seller_update",
+  };
+  
+  // Only update availableCount and totalCapacity if provided
+  if (availableCount !== undefined && availableCount !== null) {
+    updateData.availableCount = availableCount;
+  }
+  if (totalCapacity !== undefined && totalCapacity !== null) {
+    updateData.totalCapacity = totalCapacity;
+  }
+  
   if (existing) {
     await prisma.listingSlotChange.update({
       where: { id: existing.id },
-      data: {
-        basePrice: price,
-        triggerType: "seller_update",
-      },
+      data: updateData,
     });
   } else {
     await prisma.listingSlotChange.create({
       data: {
-        slotId: null,
+        inventoryDateRangeId: inventoryDateRangeId ?? null,
         listingId,
         variantId: variantId ?? null,
-        changeDate,
-        basePrice: price,
-        availableCount: 0,
-        bookedCount: 0,
+        date: changeDate,
+        price: price,
+        availableCount: availableCount !== undefined && availableCount !== null ? availableCount : 0,
+        totalCapacity: totalCapacity !== undefined && totalCapacity !== null ? totalCapacity : 0,
         triggerType: "seller_update",
       },
     });
@@ -37,14 +48,14 @@ export const upsertPerDayPriceOverride = async (c: Context) => {
 };
 // 6. Remove per-day price override
 export const removePerDayOverride = async (c: Context) => {
-  const { listingId, variantId, date } = await c.req.json();
+  const { listingId, variantId, date, inventoryDateRangeId } = await c.req.json();
   const changeDate = new Date(date);
   await prisma.listingSlotChange.deleteMany({
     where: {
       listingId,
       variantId: variantId ?? null,
-      slotId: null,
-      changeDate,
+      inventoryDateRangeId: inventoryDateRangeId ?? null,
+      date: changeDate,
     },
   });
   return c.json({ success: true });
@@ -88,12 +99,13 @@ export const getRentalAvailability = async (c: Context) => {
     where: {
       listingId,
       variantId: variantId ?? null,
-      slotId: null,
+      inventoryDateRangeId: null,
     },
     select: {
-      changeDate: true,
-      basePrice: true,
-      bookedCount: true,
+      date: true,
+      price: true,
+      totalCapacity: true,
+      availableCount: true,
     },
   });
   // Fetch all blocked dates
@@ -102,16 +114,24 @@ export const getRentalAvailability = async (c: Context) => {
   });
   const blockedSet = new Set(blocked.map(b => format(b.blockedDate, "yyyy-MM-dd")));
   
-  // Build a map for booked dates (bookedCount > 0)
-  const bookedMap: Record<string, number> = {};
+  // Build a map for booked dates and capacity
+  const capacityMap: Record<string, { totalCapacity: number, availableCount: number }> = {};
   for (const o of slotOverrides) {
-    if (o.bookedCount > 0) {
-      bookedMap[format(o.changeDate, "yyyy-MM-dd")] = o.bookedCount;
-    }
+    capacityMap[format(o.date, "yyyy-MM-dd")] = {
+      totalCapacity: o.totalCapacity,
+      availableCount: o.availableCount,
+    };
   }
   
   // Build date-wise availability
-  const calendar: Record<string, { price: number, available: boolean, source: string, bookedCount?: number }> = {};
+  const calendar: Record<string, { 
+    price: number, 
+    available: boolean, 
+    source: string, 
+    totalCapacity?: number,
+    availableCount?: number,
+    remainingCount?: number
+  }> = {};
   // 1. Fill from date ranges
   for (const range of ranges) {
     const dates = getDatesInRange(range.availableFromDate, range.availableToDate);
@@ -119,22 +139,38 @@ export const getRentalAvailability = async (c: Context) => {
       calendar[date] = { price: range.basePricePerDay, available: true, source: "range" };
     }
   }
-  // 2. Override with per-day slot changes (price only, not availability)
+  // 2. Override with per-day slot changes (price and capacity)
   for (const o of slotOverrides) {
-    const dateStr = format(o.changeDate, "yyyy-MM-dd");
+    const dateStr = format(o.date, "yyyy-MM-dd");
+    const capacity = capacityMap[dateStr];
     if (calendar[dateStr]) {
-      calendar[dateStr].price = o.basePrice;
+      calendar[dateStr].price = o.price;
       calendar[dateStr].source = "override";
+      calendar[dateStr].totalCapacity = capacity.totalCapacity;
+      calendar[dateStr].availableCount = capacity.availableCount;
+      calendar[dateStr].remainingCount = capacity.availableCount;
     } else {
-      calendar[dateStr] = { price: o.basePrice, available: true, source: "override" };
+      calendar[dateStr] = { 
+        price: o.price, 
+        available: true, 
+        source: "override",
+        totalCapacity: capacity.totalCapacity,
+        availableCount: capacity.availableCount,
+        remainingCount: capacity.availableCount,
+      };
     }
   }
-  // 3. Mark booked dates as unavailable
-  for (const date of Object.keys(bookedMap)) {
+  // 3. Mark booked dates as unavailable (if fully booked)
+  for (const date of Object.keys(capacityMap)) {
     if (calendar[date]) {
-      calendar[date].available = false;
-      calendar[date].source = "booked";
-      calendar[date].bookedCount = bookedMap[date];
+      const capacity = capacityMap[date];
+      if (capacity.totalCapacity >= capacity.availableCount) {
+        calendar[date].available = false;
+        calendar[date].source = "booked";
+      }
+      calendar[date].bookedCount = capacity.bookedCount;
+      calendar[date].availableCount = capacity.availableCount;
+      calendar[date].remainingCount = capacity.availableCount - capacity.bookedCount;
     }
   }
   // 4. Blocked dates take highest priority

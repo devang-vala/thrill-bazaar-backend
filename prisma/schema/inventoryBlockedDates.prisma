@@ -1,15 +1,15 @@
 model InventoryBlockedDate {
-    id                  String   @id @default(uuid()) @map("blocked_id")
-    listingId           String   @map("listing_id")
-    variantId           String?  @map("variant_id")  
-    blockedDate         DateTime @map("blocked_date")
-    reason              String?  @map("reason")
-    createdByOperatorId String   @map("created_by_operator_id")
-    createdAt           DateTime @default(now()) @map("created_at")
+  id                  String   @id @default(uuid()) @map("blocked_id")
+  listingId           String   @map("listing_id")
+  variantId           String?  @map("variant_id")
+  blockedDate         DateTime @map("blocked_date")
+  reason              String?  @map("reason")
+  createdByOperatorId String   @map("created_by_operator_id")
+  createdAt           DateTime @default(now()) @map("created_at")
 
-    listing         Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade)
-    variant         ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
-    createdByOperator User          @relation(fields: [createdByOperatorId], references: [id], onDelete: Cascade)
+  listing           Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  variant           ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  createdByOperator User            @relation(fields: [createdByOperatorId], references: [id], onDelete: Cascade)
 
-    @@map("inventory_blocked_dates")
+  @@map("inventory_blocked_dates")
 }

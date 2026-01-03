@@ -26,26 +26,26 @@ export type AggregateListingSlotChange = {
 }
 
 export type ListingSlotChangeAvgAggregateOutputType = {
-  basePrice: number | null
+  price: number | null
   availableCount: number | null
-  bookedCount: number | null
+  totalCapacity: number | null
 }
 
 export type ListingSlotChangeSumAggregateOutputType = {
-  basePrice: number | null
+  price: number | null
   availableCount: number | null
-  bookedCount: number | null
+  totalCapacity: number | null
 }
 
 export type ListingSlotChangeMinAggregateOutputType = {
   id: string | null
-  slotId: string | null
+  inventoryDateRangeId: string | null
   listingId: string | null
   variantId: string | null
-  changeDate: Date | null
-  basePrice: number | null
+  date: Date | null
+  price: number | null
   availableCount: number | null
-  bookedCount: number | null
+  totalCapacity: number | null
   triggerType: $Enums.TriggerType | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -53,13 +53,13 @@ export type ListingSlotChangeMinAggregateOutputType = {
 
 export type ListingSlotChangeMaxAggregateOutputType = {
   id: string | null
-  slotId: string | null
+  inventoryDateRangeId: string | null
   listingId: string | null
   variantId: string | null
-  changeDate: Date | null
-  basePrice: number | null
+  date: Date | null
+  price: number | null
   availableCount: number | null
-  bookedCount: number | null
+  totalCapacity: number | null
   triggerType: $Enums.TriggerType | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -67,13 +67,13 @@ export type ListingSlotChangeMaxAggregateOutputType = {
 
 export type ListingSlotChangeCountAggregateOutputType = {
   id: number
-  slotId: number
+  inventoryDateRangeId: number
   listingId: number
   variantId: number
-  changeDate: number
-  basePrice: number
+  date: number
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: number
   createdAt: number
   updatedAt: number
@@ -82,26 +82,26 @@ export type ListingSlotChangeCountAggregateOutputType = {
 
 
 export type ListingSlotChangeAvgAggregateInputType = {
-  basePrice?: true
+  price?: true
   availableCount?: true
-  bookedCount?: true
+  totalCapacity?: true
 }
 
 export type ListingSlotChangeSumAggregateInputType = {
-  basePrice?: true
+  price?: true
   availableCount?: true
-  bookedCount?: true
+  totalCapacity?: true
 }
 
 export type ListingSlotChangeMinAggregateInputType = {
   id?: true
-  slotId?: true
+  inventoryDateRangeId?: true
   listingId?: true
   variantId?: true
-  changeDate?: true
-  basePrice?: true
+  date?: true
+  price?: true
   availableCount?: true
-  bookedCount?: true
+  totalCapacity?: true
   triggerType?: true
   createdAt?: true
   updatedAt?: true
@@ -109,13 +109,13 @@ export type ListingSlotChangeMinAggregateInputType = {
 
 export type ListingSlotChangeMaxAggregateInputType = {
   id?: true
-  slotId?: true
+  inventoryDateRangeId?: true
   listingId?: true
   variantId?: true
-  changeDate?: true
-  basePrice?: true
+  date?: true
+  price?: true
   availableCount?: true
-  bookedCount?: true
+  totalCapacity?: true
   triggerType?: true
   createdAt?: true
   updatedAt?: true
@@ -123,13 +123,13 @@ export type ListingSlotChangeMaxAggregateInputType = {
 
 export type ListingSlotChangeCountAggregateInputType = {
   id?: true
-  slotId?: true
+  inventoryDateRangeId?: true
   listingId?: true
   variantId?: true
-  changeDate?: true
-  basePrice?: true
+  date?: true
+  price?: true
   availableCount?: true
-  bookedCount?: true
+  totalCapacity?: true
   triggerType?: true
   createdAt?: true
   updatedAt?: true
@@ -224,13 +224,13 @@ export type ListingSlotChangeGroupByArgs<ExtArgs extends runtime.Types.Extension
 
 export type ListingSlotChangeGroupByOutputType = {
   id: string
-  slotId: string | null
+  inventoryDateRangeId: string | null
   listingId: string
   variantId: string | null
-  changeDate: Date
-  basePrice: number
+  date: Date
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt: Date
   updatedAt: Date
@@ -261,34 +261,34 @@ export type ListingSlotChangeWhereInput = {
   OR?: Prisma.ListingSlotChangeWhereInput[]
   NOT?: Prisma.ListingSlotChangeWhereInput | Prisma.ListingSlotChangeWhereInput[]
   id?: Prisma.StringFilter<"ListingSlotChange"> | string
-  slotId?: Prisma.StringNullableFilter<"ListingSlotChange"> | string | null
+  inventoryDateRangeId?: Prisma.StringNullableFilter<"ListingSlotChange"> | string | null
   listingId?: Prisma.StringFilter<"ListingSlotChange"> | string
   variantId?: Prisma.StringNullableFilter<"ListingSlotChange"> | string | null
-  changeDate?: Prisma.DateTimeFilter<"ListingSlotChange"> | Date | string
-  basePrice?: Prisma.IntFilter<"ListingSlotChange"> | number
+  date?: Prisma.DateTimeFilter<"ListingSlotChange"> | Date | string
+  price?: Prisma.IntFilter<"ListingSlotChange"> | number
   availableCount?: Prisma.IntFilter<"ListingSlotChange"> | number
-  bookedCount?: Prisma.IntFilter<"ListingSlotChange"> | number
+  totalCapacity?: Prisma.IntFilter<"ListingSlotChange"> | number
   triggerType?: Prisma.EnumTriggerTypeFilter<"ListingSlotChange"> | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFilter<"ListingSlotChange"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingSlotChange"> | Date | string
-  slot?: Prisma.XOR<Prisma.ListingSlotNullableScalarRelationFilter, Prisma.ListingSlotWhereInput> | null
+  inventoryDateRange?: Prisma.XOR<Prisma.InventoryDateRangeNullableScalarRelationFilter, Prisma.InventoryDateRangeWhereInput> | null
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
 }
 
 export type ListingSlotChangeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  slotId?: Prisma.SortOrderInput | Prisma.SortOrder
+  inventoryDateRangeId?: Prisma.SortOrderInput | Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantId?: Prisma.SortOrderInput | Prisma.SortOrder
-  changeDate?: Prisma.SortOrder
-  basePrice?: Prisma.SortOrder
+  date?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   availableCount?: Prisma.SortOrder
-  bookedCount?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
   triggerType?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  slot?: Prisma.ListingSlotOrderByWithRelationInput
+  inventoryDateRange?: Prisma.InventoryDateRangeOrderByWithRelationInput
   listing?: Prisma.ListingOrderByWithRelationInput
   variant?: Prisma.ListingVariantOrderByWithRelationInput
 }
@@ -298,30 +298,30 @@ export type ListingSlotChangeWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ListingSlotChangeWhereInput | Prisma.ListingSlotChangeWhereInput[]
   OR?: Prisma.ListingSlotChangeWhereInput[]
   NOT?: Prisma.ListingSlotChangeWhereInput | Prisma.ListingSlotChangeWhereInput[]
-  slotId?: Prisma.StringNullableFilter<"ListingSlotChange"> | string | null
+  inventoryDateRangeId?: Prisma.StringNullableFilter<"ListingSlotChange"> | string | null
   listingId?: Prisma.StringFilter<"ListingSlotChange"> | string
   variantId?: Prisma.StringNullableFilter<"ListingSlotChange"> | string | null
-  changeDate?: Prisma.DateTimeFilter<"ListingSlotChange"> | Date | string
-  basePrice?: Prisma.IntFilter<"ListingSlotChange"> | number
+  date?: Prisma.DateTimeFilter<"ListingSlotChange"> | Date | string
+  price?: Prisma.IntFilter<"ListingSlotChange"> | number
   availableCount?: Prisma.IntFilter<"ListingSlotChange"> | number
-  bookedCount?: Prisma.IntFilter<"ListingSlotChange"> | number
+  totalCapacity?: Prisma.IntFilter<"ListingSlotChange"> | number
   triggerType?: Prisma.EnumTriggerTypeFilter<"ListingSlotChange"> | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFilter<"ListingSlotChange"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingSlotChange"> | Date | string
-  slot?: Prisma.XOR<Prisma.ListingSlotNullableScalarRelationFilter, Prisma.ListingSlotWhereInput> | null
+  inventoryDateRange?: Prisma.XOR<Prisma.InventoryDateRangeNullableScalarRelationFilter, Prisma.InventoryDateRangeWhereInput> | null
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
 }, "id">
 
 export type ListingSlotChangeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  slotId?: Prisma.SortOrderInput | Prisma.SortOrder
+  inventoryDateRangeId?: Prisma.SortOrderInput | Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantId?: Prisma.SortOrderInput | Prisma.SortOrder
-  changeDate?: Prisma.SortOrder
-  basePrice?: Prisma.SortOrder
+  date?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   availableCount?: Prisma.SortOrder
-  bookedCount?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
   triggerType?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -337,13 +337,13 @@ export type ListingSlotChangeScalarWhereWithAggregatesInput = {
   OR?: Prisma.ListingSlotChangeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ListingSlotChangeScalarWhereWithAggregatesInput | Prisma.ListingSlotChangeScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ListingSlotChange"> | string
-  slotId?: Prisma.StringNullableWithAggregatesFilter<"ListingSlotChange"> | string | null
+  inventoryDateRangeId?: Prisma.StringNullableWithAggregatesFilter<"ListingSlotChange"> | string | null
   listingId?: Prisma.StringWithAggregatesFilter<"ListingSlotChange"> | string
   variantId?: Prisma.StringNullableWithAggregatesFilter<"ListingSlotChange"> | string | null
-  changeDate?: Prisma.DateTimeWithAggregatesFilter<"ListingSlotChange"> | Date | string
-  basePrice?: Prisma.IntWithAggregatesFilter<"ListingSlotChange"> | number
+  date?: Prisma.DateTimeWithAggregatesFilter<"ListingSlotChange"> | Date | string
+  price?: Prisma.IntWithAggregatesFilter<"ListingSlotChange"> | number
   availableCount?: Prisma.IntWithAggregatesFilter<"ListingSlotChange"> | number
-  bookedCount?: Prisma.IntWithAggregatesFilter<"ListingSlotChange"> | number
+  totalCapacity?: Prisma.IntWithAggregatesFilter<"ListingSlotChange"> | number
   triggerType?: Prisma.EnumTriggerTypeWithAggregatesFilter<"ListingSlotChange"> | $Enums.TriggerType
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ListingSlotChange"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ListingSlotChange"> | Date | string
@@ -351,27 +351,27 @@ export type ListingSlotChangeScalarWhereWithAggregatesInput = {
 
 export type ListingSlotChangeCreateInput = {
   id?: string
-  changeDate: Date | string
-  basePrice: number
+  date: Date | string
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt?: Date | string
   updatedAt?: Date | string
-  slot?: Prisma.ListingSlotCreateNestedOneWithoutSlotChangesInput
+  inventoryDateRange?: Prisma.InventoryDateRangeCreateNestedOneWithoutSlotChangesInput
   listing: Prisma.ListingCreateNestedOneWithoutSlotChangesInput
   variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotChangesInput
 }
 
 export type ListingSlotChangeUncheckedCreateInput = {
   id?: string
-  slotId?: string | null
+  inventoryDateRangeId?: string | null
   listingId: string
   variantId?: string | null
-  changeDate: Date | string
-  basePrice: number
+  date: Date | string
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -379,27 +379,27 @@ export type ListingSlotChangeUncheckedCreateInput = {
 
 export type ListingSlotChangeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slot?: Prisma.ListingSlotUpdateOneWithoutSlotChangesNestedInput
+  inventoryDateRange?: Prisma.InventoryDateRangeUpdateOneWithoutSlotChangesNestedInput
   listing?: Prisma.ListingUpdateOneRequiredWithoutSlotChangesNestedInput
   variant?: Prisma.ListingVariantUpdateOneWithoutSlotChangesNestedInput
 }
 
 export type ListingSlotChangeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  slotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventoryDateRangeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -407,13 +407,13 @@ export type ListingSlotChangeUncheckedUpdateInput = {
 
 export type ListingSlotChangeCreateManyInput = {
   id?: string
-  slotId?: string | null
+  inventoryDateRangeId?: string | null
   listingId: string
   variantId?: string | null
-  changeDate: Date | string
-  basePrice: number
+  date: Date | string
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -421,10 +421,10 @@ export type ListingSlotChangeCreateManyInput = {
 
 export type ListingSlotChangeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -432,70 +432,16 @@ export type ListingSlotChangeUpdateManyMutationInput = {
 
 export type ListingSlotChangeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  slotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventoryDateRangeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type ListingSlotChangeCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  slotId?: Prisma.SortOrder
-  listingId?: Prisma.SortOrder
-  variantId?: Prisma.SortOrder
-  changeDate?: Prisma.SortOrder
-  basePrice?: Prisma.SortOrder
-  availableCount?: Prisma.SortOrder
-  bookedCount?: Prisma.SortOrder
-  triggerType?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-}
-
-export type ListingSlotChangeAvgOrderByAggregateInput = {
-  basePrice?: Prisma.SortOrder
-  availableCount?: Prisma.SortOrder
-  bookedCount?: Prisma.SortOrder
-}
-
-export type ListingSlotChangeMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  slotId?: Prisma.SortOrder
-  listingId?: Prisma.SortOrder
-  variantId?: Prisma.SortOrder
-  changeDate?: Prisma.SortOrder
-  basePrice?: Prisma.SortOrder
-  availableCount?: Prisma.SortOrder
-  bookedCount?: Prisma.SortOrder
-  triggerType?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-}
-
-export type ListingSlotChangeMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  slotId?: Prisma.SortOrder
-  listingId?: Prisma.SortOrder
-  variantId?: Prisma.SortOrder
-  changeDate?: Prisma.SortOrder
-  basePrice?: Prisma.SortOrder
-  availableCount?: Prisma.SortOrder
-  bookedCount?: Prisma.SortOrder
-  triggerType?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-}
-
-export type ListingSlotChangeSumOrderByAggregateInput = {
-  basePrice?: Prisma.SortOrder
-  availableCount?: Prisma.SortOrder
-  bookedCount?: Prisma.SortOrder
 }
 
 export type ListingSlotChangeListRelationFilter = {
@@ -508,50 +454,104 @@ export type ListingSlotChangeOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type ListingSlotChangeCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  inventoryDateRangeId?: Prisma.SortOrder
+  listingId?: Prisma.SortOrder
+  variantId?: Prisma.SortOrder
+  date?: Prisma.SortOrder
+  price?: Prisma.SortOrder
+  availableCount?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+  triggerType?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type ListingSlotChangeAvgOrderByAggregateInput = {
+  price?: Prisma.SortOrder
+  availableCount?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+}
+
+export type ListingSlotChangeMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  inventoryDateRangeId?: Prisma.SortOrder
+  listingId?: Prisma.SortOrder
+  variantId?: Prisma.SortOrder
+  date?: Prisma.SortOrder
+  price?: Prisma.SortOrder
+  availableCount?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+  triggerType?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type ListingSlotChangeMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  inventoryDateRangeId?: Prisma.SortOrder
+  listingId?: Prisma.SortOrder
+  variantId?: Prisma.SortOrder
+  date?: Prisma.SortOrder
+  price?: Prisma.SortOrder
+  availableCount?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+  triggerType?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type ListingSlotChangeSumOrderByAggregateInput = {
+  price?: Prisma.SortOrder
+  availableCount?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+}
+
+export type ListingSlotChangeCreateNestedManyWithoutInventoryDateRangeInput = {
+  create?: Prisma.XOR<Prisma.ListingSlotChangeCreateWithoutInventoryDateRangeInput, Prisma.ListingSlotChangeUncheckedCreateWithoutInventoryDateRangeInput> | Prisma.ListingSlotChangeCreateWithoutInventoryDateRangeInput[] | Prisma.ListingSlotChangeUncheckedCreateWithoutInventoryDateRangeInput[]
+  connectOrCreate?: Prisma.ListingSlotChangeCreateOrConnectWithoutInventoryDateRangeInput | Prisma.ListingSlotChangeCreateOrConnectWithoutInventoryDateRangeInput[]
+  createMany?: Prisma.ListingSlotChangeCreateManyInventoryDateRangeInputEnvelope
+  connect?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
+}
+
+export type ListingSlotChangeUncheckedCreateNestedManyWithoutInventoryDateRangeInput = {
+  create?: Prisma.XOR<Prisma.ListingSlotChangeCreateWithoutInventoryDateRangeInput, Prisma.ListingSlotChangeUncheckedCreateWithoutInventoryDateRangeInput> | Prisma.ListingSlotChangeCreateWithoutInventoryDateRangeInput[] | Prisma.ListingSlotChangeUncheckedCreateWithoutInventoryDateRangeInput[]
+  connectOrCreate?: Prisma.ListingSlotChangeCreateOrConnectWithoutInventoryDateRangeInput | Prisma.ListingSlotChangeCreateOrConnectWithoutInventoryDateRangeInput[]
+  createMany?: Prisma.ListingSlotChangeCreateManyInventoryDateRangeInputEnvelope
+  connect?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
+}
+
+export type ListingSlotChangeUpdateManyWithoutInventoryDateRangeNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingSlotChangeCreateWithoutInventoryDateRangeInput, Prisma.ListingSlotChangeUncheckedCreateWithoutInventoryDateRangeInput> | Prisma.ListingSlotChangeCreateWithoutInventoryDateRangeInput[] | Prisma.ListingSlotChangeUncheckedCreateWithoutInventoryDateRangeInput[]
+  connectOrCreate?: Prisma.ListingSlotChangeCreateOrConnectWithoutInventoryDateRangeInput | Prisma.ListingSlotChangeCreateOrConnectWithoutInventoryDateRangeInput[]
+  upsert?: Prisma.ListingSlotChangeUpsertWithWhereUniqueWithoutInventoryDateRangeInput | Prisma.ListingSlotChangeUpsertWithWhereUniqueWithoutInventoryDateRangeInput[]
+  createMany?: Prisma.ListingSlotChangeCreateManyInventoryDateRangeInputEnvelope
+  set?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
+  disconnect?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
+  delete?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
+  connect?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
+  update?: Prisma.ListingSlotChangeUpdateWithWhereUniqueWithoutInventoryDateRangeInput | Prisma.ListingSlotChangeUpdateWithWhereUniqueWithoutInventoryDateRangeInput[]
+  updateMany?: Prisma.ListingSlotChangeUpdateManyWithWhereWithoutInventoryDateRangeInput | Prisma.ListingSlotChangeUpdateManyWithWhereWithoutInventoryDateRangeInput[]
+  deleteMany?: Prisma.ListingSlotChangeScalarWhereInput | Prisma.ListingSlotChangeScalarWhereInput[]
+}
+
+export type ListingSlotChangeUncheckedUpdateManyWithoutInventoryDateRangeNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingSlotChangeCreateWithoutInventoryDateRangeInput, Prisma.ListingSlotChangeUncheckedCreateWithoutInventoryDateRangeInput> | Prisma.ListingSlotChangeCreateWithoutInventoryDateRangeInput[] | Prisma.ListingSlotChangeUncheckedCreateWithoutInventoryDateRangeInput[]
+  connectOrCreate?: Prisma.ListingSlotChangeCreateOrConnectWithoutInventoryDateRangeInput | Prisma.ListingSlotChangeCreateOrConnectWithoutInventoryDateRangeInput[]
+  upsert?: Prisma.ListingSlotChangeUpsertWithWhereUniqueWithoutInventoryDateRangeInput | Prisma.ListingSlotChangeUpsertWithWhereUniqueWithoutInventoryDateRangeInput[]
+  createMany?: Prisma.ListingSlotChangeCreateManyInventoryDateRangeInputEnvelope
+  set?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
+  disconnect?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
+  delete?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
+  connect?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
+  update?: Prisma.ListingSlotChangeUpdateWithWhereUniqueWithoutInventoryDateRangeInput | Prisma.ListingSlotChangeUpdateWithWhereUniqueWithoutInventoryDateRangeInput[]
+  updateMany?: Prisma.ListingSlotChangeUpdateManyWithWhereWithoutInventoryDateRangeInput | Prisma.ListingSlotChangeUpdateManyWithWhereWithoutInventoryDateRangeInput[]
+  deleteMany?: Prisma.ListingSlotChangeScalarWhereInput | Prisma.ListingSlotChangeScalarWhereInput[]
+}
+
 export type EnumTriggerTypeFieldUpdateOperationsInput = {
   set?: $Enums.TriggerType
-}
-
-export type ListingSlotChangeCreateNestedManyWithoutSlotInput = {
-  create?: Prisma.XOR<Prisma.ListingSlotChangeCreateWithoutSlotInput, Prisma.ListingSlotChangeUncheckedCreateWithoutSlotInput> | Prisma.ListingSlotChangeCreateWithoutSlotInput[] | Prisma.ListingSlotChangeUncheckedCreateWithoutSlotInput[]
-  connectOrCreate?: Prisma.ListingSlotChangeCreateOrConnectWithoutSlotInput | Prisma.ListingSlotChangeCreateOrConnectWithoutSlotInput[]
-  createMany?: Prisma.ListingSlotChangeCreateManySlotInputEnvelope
-  connect?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
-}
-
-export type ListingSlotChangeUncheckedCreateNestedManyWithoutSlotInput = {
-  create?: Prisma.XOR<Prisma.ListingSlotChangeCreateWithoutSlotInput, Prisma.ListingSlotChangeUncheckedCreateWithoutSlotInput> | Prisma.ListingSlotChangeCreateWithoutSlotInput[] | Prisma.ListingSlotChangeUncheckedCreateWithoutSlotInput[]
-  connectOrCreate?: Prisma.ListingSlotChangeCreateOrConnectWithoutSlotInput | Prisma.ListingSlotChangeCreateOrConnectWithoutSlotInput[]
-  createMany?: Prisma.ListingSlotChangeCreateManySlotInputEnvelope
-  connect?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
-}
-
-export type ListingSlotChangeUpdateManyWithoutSlotNestedInput = {
-  create?: Prisma.XOR<Prisma.ListingSlotChangeCreateWithoutSlotInput, Prisma.ListingSlotChangeUncheckedCreateWithoutSlotInput> | Prisma.ListingSlotChangeCreateWithoutSlotInput[] | Prisma.ListingSlotChangeUncheckedCreateWithoutSlotInput[]
-  connectOrCreate?: Prisma.ListingSlotChangeCreateOrConnectWithoutSlotInput | Prisma.ListingSlotChangeCreateOrConnectWithoutSlotInput[]
-  upsert?: Prisma.ListingSlotChangeUpsertWithWhereUniqueWithoutSlotInput | Prisma.ListingSlotChangeUpsertWithWhereUniqueWithoutSlotInput[]
-  createMany?: Prisma.ListingSlotChangeCreateManySlotInputEnvelope
-  set?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
-  disconnect?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
-  delete?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
-  connect?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
-  update?: Prisma.ListingSlotChangeUpdateWithWhereUniqueWithoutSlotInput | Prisma.ListingSlotChangeUpdateWithWhereUniqueWithoutSlotInput[]
-  updateMany?: Prisma.ListingSlotChangeUpdateManyWithWhereWithoutSlotInput | Prisma.ListingSlotChangeUpdateManyWithWhereWithoutSlotInput[]
-  deleteMany?: Prisma.ListingSlotChangeScalarWhereInput | Prisma.ListingSlotChangeScalarWhereInput[]
-}
-
-export type ListingSlotChangeUncheckedUpdateManyWithoutSlotNestedInput = {
-  create?: Prisma.XOR<Prisma.ListingSlotChangeCreateWithoutSlotInput, Prisma.ListingSlotChangeUncheckedCreateWithoutSlotInput> | Prisma.ListingSlotChangeCreateWithoutSlotInput[] | Prisma.ListingSlotChangeUncheckedCreateWithoutSlotInput[]
-  connectOrCreate?: Prisma.ListingSlotChangeCreateOrConnectWithoutSlotInput | Prisma.ListingSlotChangeCreateOrConnectWithoutSlotInput[]
-  upsert?: Prisma.ListingSlotChangeUpsertWithWhereUniqueWithoutSlotInput | Prisma.ListingSlotChangeUpsertWithWhereUniqueWithoutSlotInput[]
-  createMany?: Prisma.ListingSlotChangeCreateManySlotInputEnvelope
-  set?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
-  disconnect?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
-  delete?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
-  connect?: Prisma.ListingSlotChangeWhereUniqueInput | Prisma.ListingSlotChangeWhereUniqueInput[]
-  update?: Prisma.ListingSlotChangeUpdateWithWhereUniqueWithoutSlotInput | Prisma.ListingSlotChangeUpdateWithWhereUniqueWithoutSlotInput[]
-  updateMany?: Prisma.ListingSlotChangeUpdateManyWithWhereWithoutSlotInput | Prisma.ListingSlotChangeUpdateManyWithWhereWithoutSlotInput[]
-  deleteMany?: Prisma.ListingSlotChangeScalarWhereInput | Prisma.ListingSlotChangeScalarWhereInput[]
 }
 
 export type ListingSlotChangeCreateNestedManyWithoutVariantInput = {
@@ -638,12 +638,12 @@ export type ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput = {
   deleteMany?: Prisma.ListingSlotChangeScalarWhereInput | Prisma.ListingSlotChangeScalarWhereInput[]
 }
 
-export type ListingSlotChangeCreateWithoutSlotInput = {
+export type ListingSlotChangeCreateWithoutInventoryDateRangeInput = {
   id?: string
-  changeDate: Date | string
-  basePrice: number
+  date: Date | string
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -651,43 +651,43 @@ export type ListingSlotChangeCreateWithoutSlotInput = {
   variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotChangesInput
 }
 
-export type ListingSlotChangeUncheckedCreateWithoutSlotInput = {
+export type ListingSlotChangeUncheckedCreateWithoutInventoryDateRangeInput = {
   id?: string
   listingId: string
   variantId?: string | null
-  changeDate: Date | string
-  basePrice: number
+  date: Date | string
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type ListingSlotChangeCreateOrConnectWithoutSlotInput = {
+export type ListingSlotChangeCreateOrConnectWithoutInventoryDateRangeInput = {
   where: Prisma.ListingSlotChangeWhereUniqueInput
-  create: Prisma.XOR<Prisma.ListingSlotChangeCreateWithoutSlotInput, Prisma.ListingSlotChangeUncheckedCreateWithoutSlotInput>
+  create: Prisma.XOR<Prisma.ListingSlotChangeCreateWithoutInventoryDateRangeInput, Prisma.ListingSlotChangeUncheckedCreateWithoutInventoryDateRangeInput>
 }
 
-export type ListingSlotChangeCreateManySlotInputEnvelope = {
-  data: Prisma.ListingSlotChangeCreateManySlotInput | Prisma.ListingSlotChangeCreateManySlotInput[]
+export type ListingSlotChangeCreateManyInventoryDateRangeInputEnvelope = {
+  data: Prisma.ListingSlotChangeCreateManyInventoryDateRangeInput | Prisma.ListingSlotChangeCreateManyInventoryDateRangeInput[]
   skipDuplicates?: boolean
 }
 
-export type ListingSlotChangeUpsertWithWhereUniqueWithoutSlotInput = {
+export type ListingSlotChangeUpsertWithWhereUniqueWithoutInventoryDateRangeInput = {
   where: Prisma.ListingSlotChangeWhereUniqueInput
-  update: Prisma.XOR<Prisma.ListingSlotChangeUpdateWithoutSlotInput, Prisma.ListingSlotChangeUncheckedUpdateWithoutSlotInput>
-  create: Prisma.XOR<Prisma.ListingSlotChangeCreateWithoutSlotInput, Prisma.ListingSlotChangeUncheckedCreateWithoutSlotInput>
+  update: Prisma.XOR<Prisma.ListingSlotChangeUpdateWithoutInventoryDateRangeInput, Prisma.ListingSlotChangeUncheckedUpdateWithoutInventoryDateRangeInput>
+  create: Prisma.XOR<Prisma.ListingSlotChangeCreateWithoutInventoryDateRangeInput, Prisma.ListingSlotChangeUncheckedCreateWithoutInventoryDateRangeInput>
 }
 
-export type ListingSlotChangeUpdateWithWhereUniqueWithoutSlotInput = {
+export type ListingSlotChangeUpdateWithWhereUniqueWithoutInventoryDateRangeInput = {
   where: Prisma.ListingSlotChangeWhereUniqueInput
-  data: Prisma.XOR<Prisma.ListingSlotChangeUpdateWithoutSlotInput, Prisma.ListingSlotChangeUncheckedUpdateWithoutSlotInput>
+  data: Prisma.XOR<Prisma.ListingSlotChangeUpdateWithoutInventoryDateRangeInput, Prisma.ListingSlotChangeUncheckedUpdateWithoutInventoryDateRangeInput>
 }
 
-export type ListingSlotChangeUpdateManyWithWhereWithoutSlotInput = {
+export type ListingSlotChangeUpdateManyWithWhereWithoutInventoryDateRangeInput = {
   where: Prisma.ListingSlotChangeScalarWhereInput
-  data: Prisma.XOR<Prisma.ListingSlotChangeUpdateManyMutationInput, Prisma.ListingSlotChangeUncheckedUpdateManyWithoutSlotInput>
+  data: Prisma.XOR<Prisma.ListingSlotChangeUpdateManyMutationInput, Prisma.ListingSlotChangeUncheckedUpdateManyWithoutInventoryDateRangeInput>
 }
 
 export type ListingSlotChangeScalarWhereInput = {
@@ -695,13 +695,13 @@ export type ListingSlotChangeScalarWhereInput = {
   OR?: Prisma.ListingSlotChangeScalarWhereInput[]
   NOT?: Prisma.ListingSlotChangeScalarWhereInput | Prisma.ListingSlotChangeScalarWhereInput[]
   id?: Prisma.StringFilter<"ListingSlotChange"> | string
-  slotId?: Prisma.StringNullableFilter<"ListingSlotChange"> | string | null
+  inventoryDateRangeId?: Prisma.StringNullableFilter<"ListingSlotChange"> | string | null
   listingId?: Prisma.StringFilter<"ListingSlotChange"> | string
   variantId?: Prisma.StringNullableFilter<"ListingSlotChange"> | string | null
-  changeDate?: Prisma.DateTimeFilter<"ListingSlotChange"> | Date | string
-  basePrice?: Prisma.IntFilter<"ListingSlotChange"> | number
+  date?: Prisma.DateTimeFilter<"ListingSlotChange"> | Date | string
+  price?: Prisma.IntFilter<"ListingSlotChange"> | number
   availableCount?: Prisma.IntFilter<"ListingSlotChange"> | number
-  bookedCount?: Prisma.IntFilter<"ListingSlotChange"> | number
+  totalCapacity?: Prisma.IntFilter<"ListingSlotChange"> | number
   triggerType?: Prisma.EnumTriggerTypeFilter<"ListingSlotChange"> | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFilter<"ListingSlotChange"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingSlotChange"> | Date | string
@@ -709,25 +709,25 @@ export type ListingSlotChangeScalarWhereInput = {
 
 export type ListingSlotChangeCreateWithoutVariantInput = {
   id?: string
-  changeDate: Date | string
-  basePrice: number
+  date: Date | string
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt?: Date | string
   updatedAt?: Date | string
-  slot?: Prisma.ListingSlotCreateNestedOneWithoutSlotChangesInput
+  inventoryDateRange?: Prisma.InventoryDateRangeCreateNestedOneWithoutSlotChangesInput
   listing: Prisma.ListingCreateNestedOneWithoutSlotChangesInput
 }
 
 export type ListingSlotChangeUncheckedCreateWithoutVariantInput = {
   id?: string
-  slotId?: string | null
+  inventoryDateRangeId?: string | null
   listingId: string
-  changeDate: Date | string
-  basePrice: number
+  date: Date | string
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -761,25 +761,25 @@ export type ListingSlotChangeUpdateManyWithWhereWithoutVariantInput = {
 
 export type ListingSlotChangeCreateWithoutListingInput = {
   id?: string
-  changeDate: Date | string
-  basePrice: number
+  date: Date | string
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt?: Date | string
   updatedAt?: Date | string
-  slot?: Prisma.ListingSlotCreateNestedOneWithoutSlotChangesInput
+  inventoryDateRange?: Prisma.InventoryDateRangeCreateNestedOneWithoutSlotChangesInput
   variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotChangesInput
 }
 
 export type ListingSlotChangeUncheckedCreateWithoutListingInput = {
   id?: string
-  slotId?: string | null
+  inventoryDateRangeId?: string | null
   variantId?: string | null
-  changeDate: Date | string
-  basePrice: number
+  date: Date | string
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -811,25 +811,25 @@ export type ListingSlotChangeUpdateManyWithWhereWithoutListingInput = {
   data: Prisma.XOR<Prisma.ListingSlotChangeUpdateManyMutationInput, Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingInput>
 }
 
-export type ListingSlotChangeCreateManySlotInput = {
+export type ListingSlotChangeCreateManyInventoryDateRangeInput = {
   id?: string
   listingId: string
   variantId?: string | null
-  changeDate: Date | string
-  basePrice: number
+  date: Date | string
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type ListingSlotChangeUpdateWithoutSlotInput = {
+export type ListingSlotChangeUpdateWithoutInventoryDateRangeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -837,27 +837,27 @@ export type ListingSlotChangeUpdateWithoutSlotInput = {
   variant?: Prisma.ListingVariantUpdateOneWithoutSlotChangesNestedInput
 }
 
-export type ListingSlotChangeUncheckedUpdateWithoutSlotInput = {
+export type ListingSlotChangeUncheckedUpdateWithoutInventoryDateRangeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ListingSlotChangeUncheckedUpdateManyWithoutSlotInput = {
+export type ListingSlotChangeUncheckedUpdateManyWithoutInventoryDateRangeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -865,12 +865,12 @@ export type ListingSlotChangeUncheckedUpdateManyWithoutSlotInput = {
 
 export type ListingSlotChangeCreateManyVariantInput = {
   id?: string
-  slotId?: string | null
+  inventoryDateRangeId?: string | null
   listingId: string
-  changeDate: Date | string
-  basePrice: number
+  date: Date | string
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -878,25 +878,25 @@ export type ListingSlotChangeCreateManyVariantInput = {
 
 export type ListingSlotChangeUpdateWithoutVariantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slot?: Prisma.ListingSlotUpdateOneWithoutSlotChangesNestedInput
+  inventoryDateRange?: Prisma.InventoryDateRangeUpdateOneWithoutSlotChangesNestedInput
   listing?: Prisma.ListingUpdateOneRequiredWithoutSlotChangesNestedInput
 }
 
 export type ListingSlotChangeUncheckedUpdateWithoutVariantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  slotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventoryDateRangeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -904,12 +904,12 @@ export type ListingSlotChangeUncheckedUpdateWithoutVariantInput = {
 
 export type ListingSlotChangeUncheckedUpdateManyWithoutVariantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  slotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventoryDateRangeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -917,12 +917,12 @@ export type ListingSlotChangeUncheckedUpdateManyWithoutVariantInput = {
 
 export type ListingSlotChangeCreateManyListingInput = {
   id?: string
-  slotId?: string | null
+  inventoryDateRangeId?: string | null
   variantId?: string | null
-  changeDate: Date | string
-  basePrice: number
+  date: Date | string
+  price: number
   availableCount: number
-  bookedCount: number
+  totalCapacity: number
   triggerType: $Enums.TriggerType
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -930,25 +930,25 @@ export type ListingSlotChangeCreateManyListingInput = {
 
 export type ListingSlotChangeUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slot?: Prisma.ListingSlotUpdateOneWithoutSlotChangesNestedInput
+  inventoryDateRange?: Prisma.InventoryDateRangeUpdateOneWithoutSlotChangesNestedInput
   variant?: Prisma.ListingVariantUpdateOneWithoutSlotChangesNestedInput
 }
 
 export type ListingSlotChangeUncheckedUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  slotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventoryDateRangeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -956,12 +956,12 @@ export type ListingSlotChangeUncheckedUpdateWithoutListingInput = {
 
 export type ListingSlotChangeUncheckedUpdateManyWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  slotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventoryDateRangeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  changeDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
-  bookedCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   triggerType?: Prisma.EnumTriggerTypeFieldUpdateOperationsInput | $Enums.TriggerType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -971,82 +971,82 @@ export type ListingSlotChangeUncheckedUpdateManyWithoutListingInput = {
 
 export type ListingSlotChangeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  slotId?: boolean
+  inventoryDateRangeId?: boolean
   listingId?: boolean
   variantId?: boolean
-  changeDate?: boolean
-  basePrice?: boolean
+  date?: boolean
+  price?: boolean
   availableCount?: boolean
-  bookedCount?: boolean
+  totalCapacity?: boolean
   triggerType?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  slot?: boolean | Prisma.ListingSlotChange$slotArgs<ExtArgs>
+  inventoryDateRange?: boolean | Prisma.ListingSlotChange$inventoryDateRangeArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.ListingSlotChange$variantArgs<ExtArgs>
 }, ExtArgs["result"]["listingSlotChange"]>
 
 export type ListingSlotChangeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  slotId?: boolean
+  inventoryDateRangeId?: boolean
   listingId?: boolean
   variantId?: boolean
-  changeDate?: boolean
-  basePrice?: boolean
+  date?: boolean
+  price?: boolean
   availableCount?: boolean
-  bookedCount?: boolean
+  totalCapacity?: boolean
   triggerType?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  slot?: boolean | Prisma.ListingSlotChange$slotArgs<ExtArgs>
+  inventoryDateRange?: boolean | Prisma.ListingSlotChange$inventoryDateRangeArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.ListingSlotChange$variantArgs<ExtArgs>
 }, ExtArgs["result"]["listingSlotChange"]>
 
 export type ListingSlotChangeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  slotId?: boolean
+  inventoryDateRangeId?: boolean
   listingId?: boolean
   variantId?: boolean
-  changeDate?: boolean
-  basePrice?: boolean
+  date?: boolean
+  price?: boolean
   availableCount?: boolean
-  bookedCount?: boolean
+  totalCapacity?: boolean
   triggerType?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  slot?: boolean | Prisma.ListingSlotChange$slotArgs<ExtArgs>
+  inventoryDateRange?: boolean | Prisma.ListingSlotChange$inventoryDateRangeArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.ListingSlotChange$variantArgs<ExtArgs>
 }, ExtArgs["result"]["listingSlotChange"]>
 
 export type ListingSlotChangeSelectScalar = {
   id?: boolean
-  slotId?: boolean
+  inventoryDateRangeId?: boolean
   listingId?: boolean
   variantId?: boolean
-  changeDate?: boolean
-  basePrice?: boolean
+  date?: boolean
+  price?: boolean
   availableCount?: boolean
-  bookedCount?: boolean
+  totalCapacity?: boolean
   triggerType?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ListingSlotChangeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slotId" | "listingId" | "variantId" | "changeDate" | "basePrice" | "availableCount" | "bookedCount" | "triggerType" | "createdAt" | "updatedAt", ExtArgs["result"]["listingSlotChange"]>
+export type ListingSlotChangeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "inventoryDateRangeId" | "listingId" | "variantId" | "date" | "price" | "availableCount" | "totalCapacity" | "triggerType" | "createdAt" | "updatedAt", ExtArgs["result"]["listingSlotChange"]>
 export type ListingSlotChangeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  slot?: boolean | Prisma.ListingSlotChange$slotArgs<ExtArgs>
+  inventoryDateRange?: boolean | Prisma.ListingSlotChange$inventoryDateRangeArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.ListingSlotChange$variantArgs<ExtArgs>
 }
 export type ListingSlotChangeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  slot?: boolean | Prisma.ListingSlotChange$slotArgs<ExtArgs>
+  inventoryDateRange?: boolean | Prisma.ListingSlotChange$inventoryDateRangeArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.ListingSlotChange$variantArgs<ExtArgs>
 }
 export type ListingSlotChangeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  slot?: boolean | Prisma.ListingSlotChange$slotArgs<ExtArgs>
+  inventoryDateRange?: boolean | Prisma.ListingSlotChange$inventoryDateRangeArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.ListingSlotChange$variantArgs<ExtArgs>
 }
@@ -1054,19 +1054,19 @@ export type ListingSlotChangeIncludeUpdateManyAndReturn<ExtArgs extends runtime.
 export type $ListingSlotChangePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ListingSlotChange"
   objects: {
-    slot: Prisma.$ListingSlotPayload<ExtArgs> | null
+    inventoryDateRange: Prisma.$InventoryDateRangePayload<ExtArgs> | null
     listing: Prisma.$ListingPayload<ExtArgs>
     variant: Prisma.$ListingVariantPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    slotId: string | null
+    inventoryDateRangeId: string | null
     listingId: string
     variantId: string | null
-    changeDate: Date
-    basePrice: number
+    date: Date
+    price: number
     availableCount: number
-    bookedCount: number
+    totalCapacity: number
     triggerType: $Enums.TriggerType
     createdAt: Date
     updatedAt: Date
@@ -1464,7 +1464,7 @@ readonly fields: ListingSlotChangeFieldRefs;
  */
 export interface Prisma__ListingSlotChangeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  slot<T extends Prisma.ListingSlotChange$slotArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingSlotChange$slotArgs<ExtArgs>>): Prisma.Prisma__ListingSlotClient<runtime.Types.Result.GetResult<Prisma.$ListingSlotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  inventoryDateRange<T extends Prisma.ListingSlotChange$inventoryDateRangeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingSlotChange$inventoryDateRangeArgs<ExtArgs>>): Prisma.Prisma__InventoryDateRangeClient<runtime.Types.Result.GetResult<Prisma.$InventoryDateRangePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   listing<T extends Prisma.ListingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingDefaultArgs<ExtArgs>>): Prisma.Prisma__ListingClient<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   variant<T extends Prisma.ListingSlotChange$variantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingSlotChange$variantArgs<ExtArgs>>): Prisma.Prisma__ListingVariantClient<runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1497,13 +1497,13 @@ export interface Prisma__ListingSlotChangeClient<T, Null = never, ExtArgs extend
  */
 export interface ListingSlotChangeFieldRefs {
   readonly id: Prisma.FieldRef<"ListingSlotChange", 'String'>
-  readonly slotId: Prisma.FieldRef<"ListingSlotChange", 'String'>
+  readonly inventoryDateRangeId: Prisma.FieldRef<"ListingSlotChange", 'String'>
   readonly listingId: Prisma.FieldRef<"ListingSlotChange", 'String'>
   readonly variantId: Prisma.FieldRef<"ListingSlotChange", 'String'>
-  readonly changeDate: Prisma.FieldRef<"ListingSlotChange", 'DateTime'>
-  readonly basePrice: Prisma.FieldRef<"ListingSlotChange", 'Int'>
+  readonly date: Prisma.FieldRef<"ListingSlotChange", 'DateTime'>
+  readonly price: Prisma.FieldRef<"ListingSlotChange", 'Int'>
   readonly availableCount: Prisma.FieldRef<"ListingSlotChange", 'Int'>
-  readonly bookedCount: Prisma.FieldRef<"ListingSlotChange", 'Int'>
+  readonly totalCapacity: Prisma.FieldRef<"ListingSlotChange", 'Int'>
   readonly triggerType: Prisma.FieldRef<"ListingSlotChange", 'TriggerType'>
   readonly createdAt: Prisma.FieldRef<"ListingSlotChange", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ListingSlotChange", 'DateTime'>
@@ -1903,22 +1903,22 @@ export type ListingSlotChangeDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
- * ListingSlotChange.slot
+ * ListingSlotChange.inventoryDateRange
  */
-export type ListingSlotChange$slotArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type ListingSlotChange$inventoryDateRangeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ListingSlot
+   * Select specific fields to fetch from the InventoryDateRange
    */
-  select?: Prisma.ListingSlotSelect<ExtArgs> | null
+  select?: Prisma.InventoryDateRangeSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ListingSlot
+   * Omit specific fields from the InventoryDateRange
    */
-  omit?: Prisma.ListingSlotOmit<ExtArgs> | null
+  omit?: Prisma.InventoryDateRangeOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ListingSlotInclude<ExtArgs> | null
-  where?: Prisma.ListingSlotWhereInput
+  include?: Prisma.InventoryDateRangeInclude<ExtArgs> | null
+  where?: Prisma.InventoryDateRangeWhereInput
 }
 
 /**

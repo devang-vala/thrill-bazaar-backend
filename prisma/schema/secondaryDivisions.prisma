@@ -1,12 +1,12 @@
 model SecondaryDivision {
-  secondary_division_id String   @id @default(uuid())
+  secondary_division_id String          @id @default(uuid())
   primary_division_id   String
   division_name         String
   latitude              Float
   longitude             Float
   primaryDivision       PrimaryDivision @relation(fields: [primary_division_id], references: [primary_division_id])
-  listingsStart         Listing[] @relation("ListingStartSecondaryDivision")
-  listingsEnd           Listing[] @relation("ListingEndSecondaryDivision")
+  listingsStart         Listing[]       @relation("ListingStartSecondaryDivision")
+  listingsEnd           Listing[]       @relation("ListingEndSecondaryDivision")
 
   @@map("secondary_divisions")
 }

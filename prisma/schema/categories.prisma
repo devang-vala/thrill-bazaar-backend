@@ -1,47 +1,47 @@
 model Category {
-    id                  String        @id @default(uuid()) @map("category_id")
-    listingTypeId       String?       @map("listing_type_id")
-    categoryName        String        @map("category_name")
-    categorySlug        String        @unique @map("category_slug")
-    categoryIconUrl     String?       @map("category_icon_url")
-    categoryDescription String?       @map("category_description")
-    displayOrder        Int           @default(0) @map("display_order")
-    bookingFormat                   BookingFormat @map("booking_format")
-    isEndLocation                   Boolean       @default(false) @map("is_end_location")
-    isRental                        Boolean       @default(false) @map("is_rental")
-    hasVariantCatA                  Boolean       @default(false) @map("has_variant_catA")
-    isInclusionsExclusionsAllowed   Boolean       @default(false) @map("is_inclusions_exclusions_allowed")
-    isAddonsAllowed                 Boolean       @default(false) @map("is_addons_allowed")
-    isBookingOptionAllowed          Boolean       @default(false) @map("is_booking_option_allowed")
-    isFaqAllowed                    Boolean       @default(false) @map("is_faq_allowed")
-    isDayWiseAllowed                Boolean       @default(false) @map("is_daywise_allowed")
-    isActive                        Boolean       @default(true) @map("is_active")
-    createdAt                       DateTime      @default(now()) @map("created_at")
-    updatedAt                       DateTime      @updatedAt @map("updated_at")
+  id                            String        @id @default(uuid()) @map("category_id")
+  listingTypeId                 String?       @map("listing_type_id")
+  categoryName                  String        @map("category_name")
+  categorySlug                  String        @unique @map("category_slug")
+  categoryIconUrl               String?       @map("category_icon_url")
+  categoryDescription           String?       @map("category_description")
+  displayOrder                  Int           @default(0) @map("display_order")
+  bookingFormat                 BookingFormat @map("booking_format")
+  isEndLocation                 Boolean       @default(false) @map("is_end_location")
+  isRental                      Boolean       @default(false) @map("is_rental")
+  hasVariantCatA                Boolean       @default(false) @map("has_variant_catA")
+  isInclusionsExclusionsAllowed Boolean       @default(false) @map("is_inclusions_exclusions_allowed")
+  isAddonsAllowed               Boolean       @default(false) @map("is_addons_allowed")
+  isBookingOptionAllowed        Boolean       @default(false) @map("is_booking_option_allowed")
+  isFaqAllowed                  Boolean       @default(false) @map("is_faq_allowed")
+  isDayWiseAllowed              Boolean       @default(false) @map("is_daywise_allowed")
+  isActive                      Boolean       @default(true) @map("is_active")
+  createdAt                     DateTime      @default(now()) @map("created_at")
+  updatedAt                     DateTime      @updatedAt @map("updated_at")
 
-    // Relations
-    listingType                         ListingType? @relation(fields: [listingTypeId], references: [id], onDelete: SetNull)
-    subCategories                       SubCategory[]
-    listings                            Listing[]
-    metadataFieldDefinitions            ListingMetadataFieldDefinition[]
-    variantMetadataFieldDefinitions     ListingVariantMetadataFieldDefinition[]
+  // Relations
+  listingType                     ListingType?                            @relation(fields: [listingTypeId], references: [id], onDelete: SetNull)
+  subCategories                   SubCategory[]
+  listings                        Listing[]
+  metadataFieldDefinitions        ListingMetadataFieldDefinition[]
+  variantMetadataFieldDefinitions ListingVariantMetadataFieldDefinition[]
 
-    @@map("categories")
+  @@map("categories")
 }
 
 model SubCategory {
-    id           String   @id @default(uuid()) @map("sub_cat_id")
-    categoryId   String   @map("category_id")
-    subCatName   String   @map("sub_cat_name")
-    subCatSlug   String   @unique @map("sub_cat_slug")
-    displayOrder Int      @default(0) @map("display_order")
-    isActive     Boolean  @default(true) @map("is_active")
-    createdAt    DateTime @default(now()) @map("created_at")
-    updatedAt    DateTime @updatedAt @map("updated_at")
+  id           String   @id @default(uuid()) @map("sub_cat_id")
+  categoryId   String   @map("category_id")
+  subCatName   String   @map("sub_cat_name")
+  subCatSlug   String   @unique @map("sub_cat_slug")
+  displayOrder Int      @default(0) @map("display_order")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
-    // Relations
-    category Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-    listings Listing[]
+  // Relations
+  category Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  listings Listing[]
 
-    @@map("sub_categories")
+  @@map("sub_categories")
 }

@@ -1,14 +1,14 @@
 model ListingInclusionExclusion {
-    id          String   @id @default(uuid()) @map("inclusion_exclusion_id")
-    listingId   String   @unique @map("listing_id")
-    inclusions  String[] @map("inclusions")
-    exclusions  String[] @map("exclusions")
-    createdAt   DateTime @default(now()) @map("created_at")
-    updatedAt   DateTime @updatedAt @map("updated_at")
+  id         String   @id @default(uuid()) @map("inclusion_exclusion_id")
+  listingId  String   @unique @map("listing_id")
+  inclusions String[] @map("inclusions")
+  exclusions String[] @map("exclusions")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
-    // Relations
-    listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  // Relations
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 
-    @@map("listing_inclusions_exclusions")
-    @@index([listingId])
+  @@index([listingId])
+  @@map("listing_inclusions_exclusions")
 }
