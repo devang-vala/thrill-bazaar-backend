@@ -14,19 +14,19 @@ model User {
   lastLoginAt DateTime? @map("last_login_at")
 
   // Relations
-  listings                            Listing[]                                   @relation
-  approvedListings                    Listing[]                                   @relation("ListingApprovals")
-  policies                            ListingPolicy[]                             @relation("UserPolicies")
-  createdMetadataDefinitions          ListingMetadataFieldDefinition[]
-  createdVariantMetadataDefinitions   ListingVariantMetadataFieldDefinition[]     @relation("VariantFieldDefinitionCreator")
-  blockedDates                        InventoryBlockedDate[]
+  listings                          Listing[]                               @relation
+  approvedListings                  Listing[]                               @relation("ListingApprovals")
+  policies                          ListingPolicy[]                         @relation("UserPolicies")
+  createdMetadataDefinitions        ListingMetadataFieldDefinition[]
+  createdVariantMetadataDefinitions ListingVariantMetadataFieldDefinition[] @relation("VariantFieldDefinitionCreator")
+  blockedDates                      InventoryBlockedDate[]
 
-  addresses                           UserAddress[]
-  operatorProfile                     OperatorProfile?                            @relation("OperatorUser")
-  verifiedOperators                   OperatorProfile[]                           @relation("VerifiedOperators")
-  
+  addresses         UserAddress[]
+  operatorProfile   OperatorProfile?  @relation("OperatorUser")
+  verifiedOperators OperatorProfile[] @relation("VerifiedOperators")
+
   // Booking relation
-  bookings                            Booking[]
-  
+  bookings Booking[]
+
   @@map("User")
 }

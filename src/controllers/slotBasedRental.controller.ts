@@ -96,18 +96,18 @@ export const getSlotRentalAvailability = async (c: Context) => {
       orderBy: { availableFromDate: "asc" },
     });
 
-    // Fetch slot overrides for this slot definition
+    // Fetch slot overrides for this slot definition via inventory date ranges
     const slotOverrides = await prisma.listingSlotChange.findMany({
       where: {
         listingId,
         variantId,
-        triggerType: "seller_update", // Will be PRICE_OVERRIDE after migration
-        slot: {
+        triggerType: "seller_update",
+        inventoryDateRange: {
           slotDefinitionId: slotDefinitionId,
         },
       },
       include: {
-        slot: true,
+        inventoryDateRange: true,
       },
     });
 
@@ -132,9 +132,9 @@ export const getSlotRentalAvailability = async (c: Context) => {
 
     // Apply slot overrides (specific date overrides)
     for (const override of slotOverrides) {
-      const dateStr = format(override.changeDate, "yyyy-MM-dd");
+      const dateStr = format(override.date, "yyyy-MM-dd");
       calendar[dateStr] = {
-        price: override.basePrice,
+        price: override.price,
         available: true,
         source: "override"
       };
@@ -188,65 +188,43 @@ export const deleteSlotDateRange = async (c: Context) => {
 // 7. Upsert slot-based rental price override (similar to rental management)
 export const upsertSlotPriceOverride = async (c: Context) => {
   try {
-    const { listingId, variantId, slotDefinitionId, changeDate, newPrice } = await c.req.json();
+    const { listingId, variantId, slotDefinitionId, changeDate, newPrice, totalCapacity } = await c.req.json();
 
-    // First, get the slot instance for this slot definition and date
-    let slot = await prisma.listingSlot.findFirst({
+    // First, find the inventory date range for this slot definition and date
+    const inventoryDateRange = await prisma.inventoryDateRange.findFirst({
       where: {
         listingId,
         variantId,
         slotDefinitionId,
-        slotDate: new Date(changeDate),
+        availableFromDate: { lte: new Date(changeDate) },
+        availableToDate: { gte: new Date(changeDate) },
       },
     });
 
-    // If slot doesn't exist, we need to create it first
-    if (!slot) {
-      // Get the slot definition for details
-      const slotDef = await prisma.slotDefinition.findUnique({
-        where: { id: slotDefinitionId },
-      });
-
-      if (!slotDef) {
-        return c.json({ success: false, message: "Slot definition not found" }, 404);
-      }
-
-      // Create the slot instance
-      slot = await prisma.listingSlot.create({
-        data: {
-          listingId,
-          variantId,
-          slotDefinitionId,
-          slotDate: new Date(changeDate),
-          startTime: slotDef.startTime,
-          endTime: slotDef.endTime,
-          basePrice: newPrice,
-          totalCapacity: 100, // Default capacity for slot-based rentals
-          availableCount: 100, // Default available count
-        },
-      });
+    if (!inventoryDateRange) {
+      return c.json({ success: false, message: "Inventory date range not found for this date" }, 404);
     }
 
-    // Delete existing override for this slot and date
+    // Delete existing override for this date and inventory range
     await prisma.listingSlotChange.deleteMany({
       where: {
-        slotId: slot.id,
-        changeDate: new Date(changeDate),
-        triggerType: "seller_update", // Will be PRICE_OVERRIDE after migration
+        inventoryDateRangeId: inventoryDateRange.id,
+        date: new Date(changeDate),
+        triggerType: "seller_update",
       },
     });
 
     // Create the new price override
     await prisma.listingSlotChange.create({
       data: {
-        slotId: slot.id,
+        inventoryDateRangeId: inventoryDateRange.id,
         listingId,
         variantId,
-        changeDate: new Date(changeDate),
-        basePrice: newPrice,
-        availableCount: slot.totalCapacity,
-        bookedCount: 0,
-        triggerType: "seller_update", // Will be PRICE_OVERRIDE after migration
+        date: new Date(changeDate),
+        price: newPrice,
+        availableCount: inventoryDateRange.availableCount ?? 0,
+        totalCapacity: totalCapacity ?? inventoryDateRange.totalCapacity ?? 0,
+        triggerType: "seller_update",
       },
     });
 
@@ -262,26 +240,27 @@ export const deleteSlotPriceOverride = async (c: Context) => {
   try {
     const { listingId, variantId, slotDefinitionId, changeDate } = await c.req.json();
 
-    // Find the slot instance
-    const slot = await prisma.listingSlot.findFirst({
+    // Find the inventory date range for this slot definition and date
+    const inventoryDateRange = await prisma.inventoryDateRange.findFirst({
       where: {
         listingId,
         variantId,
         slotDefinitionId,
-        slotDate: new Date(changeDate),
+        availableFromDate: { lte: new Date(changeDate) },
+        availableToDate: { gte: new Date(changeDate) },
       },
     });
 
-    if (!slot) {
-      return c.json({ success: false, message: "Slot not found" }, 404);
+    if (!inventoryDateRange) {
+      return c.json({ success: false, message: "Inventory date range not found" }, 404);
     }
 
     // Delete the price override
     await prisma.listingSlotChange.deleteMany({
       where: {
-        slotId: slot.id,
-        changeDate: new Date(changeDate),
-        triggerType: "seller_update", // Will be PRICE_OVERRIDE after migration
+        inventoryDateRangeId: inventoryDateRange.id,
+        date: new Date(changeDate),
+        triggerType: "seller_update",
       },
     });
 

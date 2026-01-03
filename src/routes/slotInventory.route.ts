@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 
-import { createSingleDaySlotBatch, updateSingleDaySlotBatch, getSlotBatches, deleteSingleDaySlotBatch, getSlotById, getSlotsByIds, getDatesBySlotDefinition, bulkCreateOrUpdateSlots, getF3DatesForMonth, getF3SlotsByDate } from "../controllers/slotInventory.controller.js";
+import { createSingleDaySlotBatch, updateSingleDaySlotBatch, getSlotBatches, deleteSingleDaySlotBatch, getSlotById, getSlotsByIds, getDatesBySlotDefinition, bulkCreateOrUpdateSlots, getF3DatesForMonth, getF3SlotsByDate, blockSlot, unblockSlot } from "../controllers/slotInventory.controller.js";
 
 const slotInventoryRouter = new Hono();
 
@@ -40,6 +40,9 @@ slotInventoryRouter.put("/single-day-batch", updateSingleDaySlotBatch);
 // F3: Delete a single-day slot batch (by id)
 slotInventoryRouter.delete("/single-day-batch", deleteSingleDaySlotBatch);
 
+// Block/Unblock slots
+slotInventoryRouter.post("/block-slot", blockSlot);
+slotInventoryRouter.post("/unblock-slot", unblockSlot);
 
 // The following routes are removed as they are unused and legacy APIs
 

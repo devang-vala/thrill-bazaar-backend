@@ -27,10 +27,14 @@ export type AggregateInventoryDateRange = {
 
 export type InventoryDateRangeAvgAggregateOutputType = {
   basePricePerDay: number | null
+  totalCapacity: number | null
+  availableCount: number | null
 }
 
 export type InventoryDateRangeSumAggregateOutputType = {
   basePricePerDay: number | null
+  totalCapacity: number | null
+  availableCount: number | null
 }
 
 export type InventoryDateRangeMinAggregateOutputType = {
@@ -41,6 +45,8 @@ export type InventoryDateRangeMinAggregateOutputType = {
   availableFromDate: Date | null
   availableToDate: Date | null
   basePricePerDay: number | null
+  totalCapacity: number | null
+  availableCount: number | null
   isActive: boolean | null
   primaryContactPhone: string | null
   secondaryContactPhone: string | null
@@ -56,6 +62,8 @@ export type InventoryDateRangeMaxAggregateOutputType = {
   availableFromDate: Date | null
   availableToDate: Date | null
   basePricePerDay: number | null
+  totalCapacity: number | null
+  availableCount: number | null
   isActive: boolean | null
   primaryContactPhone: string | null
   secondaryContactPhone: string | null
@@ -71,6 +79,8 @@ export type InventoryDateRangeCountAggregateOutputType = {
   availableFromDate: number
   availableToDate: number
   basePricePerDay: number
+  totalCapacity: number
+  availableCount: number
   isActive: number
   primaryContactPhone: number
   secondaryContactPhone: number
@@ -82,10 +92,14 @@ export type InventoryDateRangeCountAggregateOutputType = {
 
 export type InventoryDateRangeAvgAggregateInputType = {
   basePricePerDay?: true
+  totalCapacity?: true
+  availableCount?: true
 }
 
 export type InventoryDateRangeSumAggregateInputType = {
   basePricePerDay?: true
+  totalCapacity?: true
+  availableCount?: true
 }
 
 export type InventoryDateRangeMinAggregateInputType = {
@@ -96,6 +110,8 @@ export type InventoryDateRangeMinAggregateInputType = {
   availableFromDate?: true
   availableToDate?: true
   basePricePerDay?: true
+  totalCapacity?: true
+  availableCount?: true
   isActive?: true
   primaryContactPhone?: true
   secondaryContactPhone?: true
@@ -111,6 +127,8 @@ export type InventoryDateRangeMaxAggregateInputType = {
   availableFromDate?: true
   availableToDate?: true
   basePricePerDay?: true
+  totalCapacity?: true
+  availableCount?: true
   isActive?: true
   primaryContactPhone?: true
   secondaryContactPhone?: true
@@ -126,6 +144,8 @@ export type InventoryDateRangeCountAggregateInputType = {
   availableFromDate?: true
   availableToDate?: true
   basePricePerDay?: true
+  totalCapacity?: true
+  availableCount?: true
   isActive?: true
   primaryContactPhone?: true
   secondaryContactPhone?: true
@@ -228,6 +248,8 @@ export type InventoryDateRangeGroupByOutputType = {
   availableFromDate: Date
   availableToDate: Date
   basePricePerDay: number
+  totalCapacity: number | null
+  availableCount: number | null
   isActive: boolean
   primaryContactPhone: string | null
   secondaryContactPhone: string | null
@@ -266,6 +288,8 @@ export type InventoryDateRangeWhereInput = {
   availableFromDate?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   availableToDate?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   basePricePerDay?: Prisma.IntFilter<"InventoryDateRange"> | number
+  totalCapacity?: Prisma.IntNullableFilter<"InventoryDateRange"> | number | null
+  availableCount?: Prisma.IntNullableFilter<"InventoryDateRange"> | number | null
   isActive?: Prisma.BoolFilter<"InventoryDateRange"> | boolean
   primaryContactPhone?: Prisma.StringNullableFilter<"InventoryDateRange"> | string | null
   secondaryContactPhone?: Prisma.StringNullableFilter<"InventoryDateRange"> | string | null
@@ -275,6 +299,7 @@ export type InventoryDateRangeWhereInput = {
   variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
   slotDefinition?: Prisma.XOR<Prisma.SlotDefinitionNullableScalarRelationFilter, Prisma.SlotDefinitionWhereInput> | null
   bookings?: Prisma.BookingListRelationFilter
+  slotChanges?: Prisma.ListingSlotChangeListRelationFilter
 }
 
 export type InventoryDateRangeOrderByWithRelationInput = {
@@ -285,6 +310,8 @@ export type InventoryDateRangeOrderByWithRelationInput = {
   availableFromDate?: Prisma.SortOrder
   availableToDate?: Prisma.SortOrder
   basePricePerDay?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrderInput | Prisma.SortOrder
+  availableCount?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   primaryContactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   secondaryContactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -294,6 +321,7 @@ export type InventoryDateRangeOrderByWithRelationInput = {
   variant?: Prisma.ListingVariantOrderByWithRelationInput
   slotDefinition?: Prisma.SlotDefinitionOrderByWithRelationInput
   bookings?: Prisma.BookingOrderByRelationAggregateInput
+  slotChanges?: Prisma.ListingSlotChangeOrderByRelationAggregateInput
 }
 
 export type InventoryDateRangeWhereUniqueInput = Prisma.AtLeast<{
@@ -307,6 +335,8 @@ export type InventoryDateRangeWhereUniqueInput = Prisma.AtLeast<{
   availableFromDate?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   availableToDate?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   basePricePerDay?: Prisma.IntFilter<"InventoryDateRange"> | number
+  totalCapacity?: Prisma.IntNullableFilter<"InventoryDateRange"> | number | null
+  availableCount?: Prisma.IntNullableFilter<"InventoryDateRange"> | number | null
   isActive?: Prisma.BoolFilter<"InventoryDateRange"> | boolean
   primaryContactPhone?: Prisma.StringNullableFilter<"InventoryDateRange"> | string | null
   secondaryContactPhone?: Prisma.StringNullableFilter<"InventoryDateRange"> | string | null
@@ -316,6 +346,7 @@ export type InventoryDateRangeWhereUniqueInput = Prisma.AtLeast<{
   variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
   slotDefinition?: Prisma.XOR<Prisma.SlotDefinitionNullableScalarRelationFilter, Prisma.SlotDefinitionWhereInput> | null
   bookings?: Prisma.BookingListRelationFilter
+  slotChanges?: Prisma.ListingSlotChangeListRelationFilter
 }, "id">
 
 export type InventoryDateRangeOrderByWithAggregationInput = {
@@ -326,6 +357,8 @@ export type InventoryDateRangeOrderByWithAggregationInput = {
   availableFromDate?: Prisma.SortOrder
   availableToDate?: Prisma.SortOrder
   basePricePerDay?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrderInput | Prisma.SortOrder
+  availableCount?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   primaryContactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   secondaryContactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -349,6 +382,8 @@ export type InventoryDateRangeScalarWhereWithAggregatesInput = {
   availableFromDate?: Prisma.DateTimeWithAggregatesFilter<"InventoryDateRange"> | Date | string
   availableToDate?: Prisma.DateTimeWithAggregatesFilter<"InventoryDateRange"> | Date | string
   basePricePerDay?: Prisma.IntWithAggregatesFilter<"InventoryDateRange"> | number
+  totalCapacity?: Prisma.IntNullableWithAggregatesFilter<"InventoryDateRange"> | number | null
+  availableCount?: Prisma.IntNullableWithAggregatesFilter<"InventoryDateRange"> | number | null
   isActive?: Prisma.BoolWithAggregatesFilter<"InventoryDateRange"> | boolean
   primaryContactPhone?: Prisma.StringNullableWithAggregatesFilter<"InventoryDateRange"> | string | null
   secondaryContactPhone?: Prisma.StringNullableWithAggregatesFilter<"InventoryDateRange"> | string | null
@@ -361,6 +396,8 @@ export type InventoryDateRangeCreateInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
@@ -370,6 +407,7 @@ export type InventoryDateRangeCreateInput = {
   variant?: Prisma.ListingVariantCreateNestedOneWithoutDateRangesInput
   slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutDateRangesInput
   bookings?: Prisma.BookingCreateNestedManyWithoutDateRangeInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutInventoryDateRangeInput
 }
 
 export type InventoryDateRangeUncheckedCreateInput = {
@@ -380,12 +418,15 @@ export type InventoryDateRangeUncheckedCreateInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutDateRangeInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutInventoryDateRangeInput
 }
 
 export type InventoryDateRangeUpdateInput = {
@@ -393,6 +434,8 @@ export type InventoryDateRangeUpdateInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -402,6 +445,7 @@ export type InventoryDateRangeUpdateInput = {
   variant?: Prisma.ListingVariantUpdateOneWithoutDateRangesNestedInput
   slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutDateRangesNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutDateRangeNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutInventoryDateRangeNestedInput
 }
 
 export type InventoryDateRangeUncheckedUpdateInput = {
@@ -412,12 +456,15 @@ export type InventoryDateRangeUncheckedUpdateInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutDateRangeNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutInventoryDateRangeNestedInput
 }
 
 export type InventoryDateRangeCreateManyInput = {
@@ -428,6 +475,8 @@ export type InventoryDateRangeCreateManyInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
@@ -440,6 +489,8 @@ export type InventoryDateRangeUpdateManyMutationInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -455,6 +506,8 @@ export type InventoryDateRangeUncheckedUpdateManyInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -475,6 +528,8 @@ export type InventoryDateRangeCountOrderByAggregateInput = {
   availableFromDate?: Prisma.SortOrder
   availableToDate?: Prisma.SortOrder
   basePricePerDay?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+  availableCount?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   primaryContactPhone?: Prisma.SortOrder
   secondaryContactPhone?: Prisma.SortOrder
@@ -484,6 +539,8 @@ export type InventoryDateRangeCountOrderByAggregateInput = {
 
 export type InventoryDateRangeAvgOrderByAggregateInput = {
   basePricePerDay?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+  availableCount?: Prisma.SortOrder
 }
 
 export type InventoryDateRangeMaxOrderByAggregateInput = {
@@ -494,6 +551,8 @@ export type InventoryDateRangeMaxOrderByAggregateInput = {
   availableFromDate?: Prisma.SortOrder
   availableToDate?: Prisma.SortOrder
   basePricePerDay?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+  availableCount?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   primaryContactPhone?: Prisma.SortOrder
   secondaryContactPhone?: Prisma.SortOrder
@@ -509,6 +568,8 @@ export type InventoryDateRangeMinOrderByAggregateInput = {
   availableFromDate?: Prisma.SortOrder
   availableToDate?: Prisma.SortOrder
   basePricePerDay?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+  availableCount?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   primaryContactPhone?: Prisma.SortOrder
   secondaryContactPhone?: Prisma.SortOrder
@@ -518,6 +579,8 @@ export type InventoryDateRangeMinOrderByAggregateInput = {
 
 export type InventoryDateRangeSumOrderByAggregateInput = {
   basePricePerDay?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+  availableCount?: Prisma.SortOrder
 }
 
 export type InventoryDateRangeListRelationFilter = {
@@ -544,6 +607,30 @@ export type InventoryDateRangeUpdateOneWithoutBookingsNestedInput = {
   delete?: Prisma.InventoryDateRangeWhereInput | boolean
   connect?: Prisma.InventoryDateRangeWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.InventoryDateRangeUpdateToOneWithWhereWithoutBookingsInput, Prisma.InventoryDateRangeUpdateWithoutBookingsInput>, Prisma.InventoryDateRangeUncheckedUpdateWithoutBookingsInput>
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type InventoryDateRangeCreateNestedOneWithoutSlotChangesInput = {
+  create?: Prisma.XOR<Prisma.InventoryDateRangeCreateWithoutSlotChangesInput, Prisma.InventoryDateRangeUncheckedCreateWithoutSlotChangesInput>
+  connectOrCreate?: Prisma.InventoryDateRangeCreateOrConnectWithoutSlotChangesInput
+  connect?: Prisma.InventoryDateRangeWhereUniqueInput
+}
+
+export type InventoryDateRangeUpdateOneWithoutSlotChangesNestedInput = {
+  create?: Prisma.XOR<Prisma.InventoryDateRangeCreateWithoutSlotChangesInput, Prisma.InventoryDateRangeUncheckedCreateWithoutSlotChangesInput>
+  connectOrCreate?: Prisma.InventoryDateRangeCreateOrConnectWithoutSlotChangesInput
+  upsert?: Prisma.InventoryDateRangeUpsertWithoutSlotChangesInput
+  disconnect?: Prisma.InventoryDateRangeWhereInput | boolean
+  delete?: Prisma.InventoryDateRangeWhereInput | boolean
+  connect?: Prisma.InventoryDateRangeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.InventoryDateRangeUpdateToOneWithWhereWithoutSlotChangesInput, Prisma.InventoryDateRangeUpdateWithoutSlotChangesInput>, Prisma.InventoryDateRangeUncheckedUpdateWithoutSlotChangesInput>
 }
 
 export type InventoryDateRangeCreateNestedManyWithoutVariantInput = {
@@ -677,6 +764,8 @@ export type InventoryDateRangeCreateWithoutBookingsInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
@@ -685,6 +774,7 @@ export type InventoryDateRangeCreateWithoutBookingsInput = {
   listing: Prisma.ListingCreateNestedOneWithoutDateRangesInput
   variant?: Prisma.ListingVariantCreateNestedOneWithoutDateRangesInput
   slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutDateRangesInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutInventoryDateRangeInput
 }
 
 export type InventoryDateRangeUncheckedCreateWithoutBookingsInput = {
@@ -695,11 +785,14 @@ export type InventoryDateRangeUncheckedCreateWithoutBookingsInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutInventoryDateRangeInput
 }
 
 export type InventoryDateRangeCreateOrConnectWithoutBookingsInput = {
@@ -723,6 +816,8 @@ export type InventoryDateRangeUpdateWithoutBookingsInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -731,6 +826,7 @@ export type InventoryDateRangeUpdateWithoutBookingsInput = {
   listing?: Prisma.ListingUpdateOneRequiredWithoutDateRangesNestedInput
   variant?: Prisma.ListingVariantUpdateOneWithoutDateRangesNestedInput
   slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutDateRangesNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutInventoryDateRangeNestedInput
 }
 
 export type InventoryDateRangeUncheckedUpdateWithoutBookingsInput = {
@@ -741,11 +837,102 @@ export type InventoryDateRangeUncheckedUpdateWithoutBookingsInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutInventoryDateRangeNestedInput
+}
+
+export type InventoryDateRangeCreateWithoutSlotChangesInput = {
+  id?: string
+  availableFromDate: Date | string
+  availableToDate: Date | string
+  basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
+  isActive?: boolean
+  primaryContactPhone?: string | null
+  secondaryContactPhone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  listing: Prisma.ListingCreateNestedOneWithoutDateRangesInput
+  variant?: Prisma.ListingVariantCreateNestedOneWithoutDateRangesInput
+  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutDateRangesInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutDateRangeInput
+}
+
+export type InventoryDateRangeUncheckedCreateWithoutSlotChangesInput = {
+  id?: string
+  listingId: string
+  variantId?: string | null
+  slotDefinitionId?: string | null
+  availableFromDate: Date | string
+  availableToDate: Date | string
+  basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
+  isActive?: boolean
+  primaryContactPhone?: string | null
+  secondaryContactPhone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutDateRangeInput
+}
+
+export type InventoryDateRangeCreateOrConnectWithoutSlotChangesInput = {
+  where: Prisma.InventoryDateRangeWhereUniqueInput
+  create: Prisma.XOR<Prisma.InventoryDateRangeCreateWithoutSlotChangesInput, Prisma.InventoryDateRangeUncheckedCreateWithoutSlotChangesInput>
+}
+
+export type InventoryDateRangeUpsertWithoutSlotChangesInput = {
+  update: Prisma.XOR<Prisma.InventoryDateRangeUpdateWithoutSlotChangesInput, Prisma.InventoryDateRangeUncheckedUpdateWithoutSlotChangesInput>
+  create: Prisma.XOR<Prisma.InventoryDateRangeCreateWithoutSlotChangesInput, Prisma.InventoryDateRangeUncheckedCreateWithoutSlotChangesInput>
+  where?: Prisma.InventoryDateRangeWhereInput
+}
+
+export type InventoryDateRangeUpdateToOneWithWhereWithoutSlotChangesInput = {
+  where?: Prisma.InventoryDateRangeWhereInput
+  data: Prisma.XOR<Prisma.InventoryDateRangeUpdateWithoutSlotChangesInput, Prisma.InventoryDateRangeUncheckedUpdateWithoutSlotChangesInput>
+}
+
+export type InventoryDateRangeUpdateWithoutSlotChangesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  listing?: Prisma.ListingUpdateOneRequiredWithoutDateRangesNestedInput
+  variant?: Prisma.ListingVariantUpdateOneWithoutDateRangesNestedInput
+  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutDateRangesNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutDateRangeNestedInput
+}
+
+export type InventoryDateRangeUncheckedUpdateWithoutSlotChangesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingId?: Prisma.StringFieldUpdateOperationsInput | string
+  variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutDateRangeNestedInput
 }
 
 export type InventoryDateRangeCreateWithoutVariantInput = {
@@ -753,6 +940,8 @@ export type InventoryDateRangeCreateWithoutVariantInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
@@ -761,6 +950,7 @@ export type InventoryDateRangeCreateWithoutVariantInput = {
   listing: Prisma.ListingCreateNestedOneWithoutDateRangesInput
   slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutDateRangesInput
   bookings?: Prisma.BookingCreateNestedManyWithoutDateRangeInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutInventoryDateRangeInput
 }
 
 export type InventoryDateRangeUncheckedCreateWithoutVariantInput = {
@@ -770,12 +960,15 @@ export type InventoryDateRangeUncheckedCreateWithoutVariantInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutDateRangeInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutInventoryDateRangeInput
 }
 
 export type InventoryDateRangeCreateOrConnectWithoutVariantInput = {
@@ -815,6 +1008,8 @@ export type InventoryDateRangeScalarWhereInput = {
   availableFromDate?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   availableToDate?: Prisma.DateTimeFilter<"InventoryDateRange"> | Date | string
   basePricePerDay?: Prisma.IntFilter<"InventoryDateRange"> | number
+  totalCapacity?: Prisma.IntNullableFilter<"InventoryDateRange"> | number | null
+  availableCount?: Prisma.IntNullableFilter<"InventoryDateRange"> | number | null
   isActive?: Prisma.BoolFilter<"InventoryDateRange"> | boolean
   primaryContactPhone?: Prisma.StringNullableFilter<"InventoryDateRange"> | string | null
   secondaryContactPhone?: Prisma.StringNullableFilter<"InventoryDateRange"> | string | null
@@ -827,6 +1022,8 @@ export type InventoryDateRangeCreateWithoutListingInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
@@ -835,6 +1032,7 @@ export type InventoryDateRangeCreateWithoutListingInput = {
   variant?: Prisma.ListingVariantCreateNestedOneWithoutDateRangesInput
   slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutDateRangesInput
   bookings?: Prisma.BookingCreateNestedManyWithoutDateRangeInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutInventoryDateRangeInput
 }
 
 export type InventoryDateRangeUncheckedCreateWithoutListingInput = {
@@ -844,12 +1042,15 @@ export type InventoryDateRangeUncheckedCreateWithoutListingInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutDateRangeInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutInventoryDateRangeInput
 }
 
 export type InventoryDateRangeCreateOrConnectWithoutListingInput = {
@@ -883,6 +1084,8 @@ export type InventoryDateRangeCreateWithoutSlotDefinitionInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
@@ -891,6 +1094,7 @@ export type InventoryDateRangeCreateWithoutSlotDefinitionInput = {
   listing: Prisma.ListingCreateNestedOneWithoutDateRangesInput
   variant?: Prisma.ListingVariantCreateNestedOneWithoutDateRangesInput
   bookings?: Prisma.BookingCreateNestedManyWithoutDateRangeInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutInventoryDateRangeInput
 }
 
 export type InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput = {
@@ -900,12 +1104,15 @@ export type InventoryDateRangeUncheckedCreateWithoutSlotDefinitionInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutDateRangeInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutInventoryDateRangeInput
 }
 
 export type InventoryDateRangeCreateOrConnectWithoutSlotDefinitionInput = {
@@ -941,6 +1148,8 @@ export type InventoryDateRangeCreateManyVariantInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
@@ -953,6 +1162,8 @@ export type InventoryDateRangeUpdateWithoutVariantInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -961,6 +1172,7 @@ export type InventoryDateRangeUpdateWithoutVariantInput = {
   listing?: Prisma.ListingUpdateOneRequiredWithoutDateRangesNestedInput
   slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutDateRangesNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutDateRangeNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutInventoryDateRangeNestedInput
 }
 
 export type InventoryDateRangeUncheckedUpdateWithoutVariantInput = {
@@ -970,12 +1182,15 @@ export type InventoryDateRangeUncheckedUpdateWithoutVariantInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutDateRangeNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutInventoryDateRangeNestedInput
 }
 
 export type InventoryDateRangeUncheckedUpdateManyWithoutVariantInput = {
@@ -985,6 +1200,8 @@ export type InventoryDateRangeUncheckedUpdateManyWithoutVariantInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -999,6 +1216,8 @@ export type InventoryDateRangeCreateManyListingInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
@@ -1011,6 +1230,8 @@ export type InventoryDateRangeUpdateWithoutListingInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1019,6 +1240,7 @@ export type InventoryDateRangeUpdateWithoutListingInput = {
   variant?: Prisma.ListingVariantUpdateOneWithoutDateRangesNestedInput
   slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutDateRangesNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutDateRangeNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutInventoryDateRangeNestedInput
 }
 
 export type InventoryDateRangeUncheckedUpdateWithoutListingInput = {
@@ -1028,12 +1250,15 @@ export type InventoryDateRangeUncheckedUpdateWithoutListingInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutDateRangeNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutInventoryDateRangeNestedInput
 }
 
 export type InventoryDateRangeUncheckedUpdateManyWithoutListingInput = {
@@ -1043,6 +1268,8 @@ export type InventoryDateRangeUncheckedUpdateManyWithoutListingInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1057,6 +1284,8 @@ export type InventoryDateRangeCreateManySlotDefinitionInput = {
   availableFromDate: Date | string
   availableToDate: Date | string
   basePricePerDay: number
+  totalCapacity?: number | null
+  availableCount?: number | null
   isActive?: boolean
   primaryContactPhone?: string | null
   secondaryContactPhone?: string | null
@@ -1069,6 +1298,8 @@ export type InventoryDateRangeUpdateWithoutSlotDefinitionInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1077,6 +1308,7 @@ export type InventoryDateRangeUpdateWithoutSlotDefinitionInput = {
   listing?: Prisma.ListingUpdateOneRequiredWithoutDateRangesNestedInput
   variant?: Prisma.ListingVariantUpdateOneWithoutDateRangesNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutDateRangeNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutInventoryDateRangeNestedInput
 }
 
 export type InventoryDateRangeUncheckedUpdateWithoutSlotDefinitionInput = {
@@ -1086,12 +1318,15 @@ export type InventoryDateRangeUncheckedUpdateWithoutSlotDefinitionInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutDateRangeNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutInventoryDateRangeNestedInput
 }
 
 export type InventoryDateRangeUncheckedUpdateManyWithoutSlotDefinitionInput = {
@@ -1101,6 +1336,8 @@ export type InventoryDateRangeUncheckedUpdateManyWithoutSlotDefinitionInput = {
   availableFromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableToDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   basePricePerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCapacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availableCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   primaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1115,10 +1352,12 @@ export type InventoryDateRangeUncheckedUpdateManyWithoutSlotDefinitionInput = {
 
 export type InventoryDateRangeCountOutputType = {
   bookings: number
+  slotChanges: number
 }
 
 export type InventoryDateRangeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bookings?: boolean | InventoryDateRangeCountOutputTypeCountBookingsArgs
+  slotChanges?: boolean | InventoryDateRangeCountOutputTypeCountSlotChangesArgs
 }
 
 /**
@@ -1138,6 +1377,13 @@ export type InventoryDateRangeCountOutputTypeCountBookingsArgs<ExtArgs extends r
   where?: Prisma.BookingWhereInput
 }
 
+/**
+ * InventoryDateRangeCountOutputType without action
+ */
+export type InventoryDateRangeCountOutputTypeCountSlotChangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingSlotChangeWhereInput
+}
+
 
 export type InventoryDateRangeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1147,6 +1393,8 @@ export type InventoryDateRangeSelect<ExtArgs extends runtime.Types.Extensions.In
   availableFromDate?: boolean
   availableToDate?: boolean
   basePricePerDay?: boolean
+  totalCapacity?: boolean
+  availableCount?: boolean
   isActive?: boolean
   primaryContactPhone?: boolean
   secondaryContactPhone?: boolean
@@ -1156,6 +1404,7 @@ export type InventoryDateRangeSelect<ExtArgs extends runtime.Types.Extensions.In
   variant?: boolean | Prisma.InventoryDateRange$variantArgs<ExtArgs>
   slotDefinition?: boolean | Prisma.InventoryDateRange$slotDefinitionArgs<ExtArgs>
   bookings?: boolean | Prisma.InventoryDateRange$bookingsArgs<ExtArgs>
+  slotChanges?: boolean | Prisma.InventoryDateRange$slotChangesArgs<ExtArgs>
   _count?: boolean | Prisma.InventoryDateRangeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryDateRange"]>
 
@@ -1167,6 +1416,8 @@ export type InventoryDateRangeSelectCreateManyAndReturn<ExtArgs extends runtime.
   availableFromDate?: boolean
   availableToDate?: boolean
   basePricePerDay?: boolean
+  totalCapacity?: boolean
+  availableCount?: boolean
   isActive?: boolean
   primaryContactPhone?: boolean
   secondaryContactPhone?: boolean
@@ -1185,6 +1436,8 @@ export type InventoryDateRangeSelectUpdateManyAndReturn<ExtArgs extends runtime.
   availableFromDate?: boolean
   availableToDate?: boolean
   basePricePerDay?: boolean
+  totalCapacity?: boolean
+  availableCount?: boolean
   isActive?: boolean
   primaryContactPhone?: boolean
   secondaryContactPhone?: boolean
@@ -1203,6 +1456,8 @@ export type InventoryDateRangeSelectScalar = {
   availableFromDate?: boolean
   availableToDate?: boolean
   basePricePerDay?: boolean
+  totalCapacity?: boolean
+  availableCount?: boolean
   isActive?: boolean
   primaryContactPhone?: boolean
   secondaryContactPhone?: boolean
@@ -1210,12 +1465,13 @@ export type InventoryDateRangeSelectScalar = {
   updatedAt?: boolean
 }
 
-export type InventoryDateRangeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "variantId" | "slotDefinitionId" | "availableFromDate" | "availableToDate" | "basePricePerDay" | "isActive" | "primaryContactPhone" | "secondaryContactPhone" | "createdAt" | "updatedAt", ExtArgs["result"]["inventoryDateRange"]>
+export type InventoryDateRangeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "variantId" | "slotDefinitionId" | "availableFromDate" | "availableToDate" | "basePricePerDay" | "totalCapacity" | "availableCount" | "isActive" | "primaryContactPhone" | "secondaryContactPhone" | "createdAt" | "updatedAt", ExtArgs["result"]["inventoryDateRange"]>
 export type InventoryDateRangeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryDateRange$variantArgs<ExtArgs>
   slotDefinition?: boolean | Prisma.InventoryDateRange$slotDefinitionArgs<ExtArgs>
   bookings?: boolean | Prisma.InventoryDateRange$bookingsArgs<ExtArgs>
+  slotChanges?: boolean | Prisma.InventoryDateRange$slotChangesArgs<ExtArgs>
   _count?: boolean | Prisma.InventoryDateRangeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type InventoryDateRangeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1236,6 +1492,7 @@ export type $InventoryDateRangePayload<ExtArgs extends runtime.Types.Extensions.
     variant: Prisma.$ListingVariantPayload<ExtArgs> | null
     slotDefinition: Prisma.$SlotDefinitionPayload<ExtArgs> | null
     bookings: Prisma.$BookingPayload<ExtArgs>[]
+    slotChanges: Prisma.$ListingSlotChangePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1245,6 +1502,8 @@ export type $InventoryDateRangePayload<ExtArgs extends runtime.Types.Extensions.
     availableFromDate: Date
     availableToDate: Date
     basePricePerDay: number
+    totalCapacity: number | null
+    availableCount: number | null
     isActive: boolean
     primaryContactPhone: string | null
     secondaryContactPhone: string | null
@@ -1648,6 +1907,7 @@ export interface Prisma__InventoryDateRangeClient<T, Null = never, ExtArgs exten
   variant<T extends Prisma.InventoryDateRange$variantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventoryDateRange$variantArgs<ExtArgs>>): Prisma.Prisma__ListingVariantClient<runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   slotDefinition<T extends Prisma.InventoryDateRange$slotDefinitionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventoryDateRange$slotDefinitionArgs<ExtArgs>>): Prisma.Prisma__SlotDefinitionClient<runtime.Types.Result.GetResult<Prisma.$SlotDefinitionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   bookings<T extends Prisma.InventoryDateRange$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventoryDateRange$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  slotChanges<T extends Prisma.InventoryDateRange$slotChangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventoryDateRange$slotChangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1684,6 +1944,8 @@ export interface InventoryDateRangeFieldRefs {
   readonly availableFromDate: Prisma.FieldRef<"InventoryDateRange", 'DateTime'>
   readonly availableToDate: Prisma.FieldRef<"InventoryDateRange", 'DateTime'>
   readonly basePricePerDay: Prisma.FieldRef<"InventoryDateRange", 'Int'>
+  readonly totalCapacity: Prisma.FieldRef<"InventoryDateRange", 'Int'>
+  readonly availableCount: Prisma.FieldRef<"InventoryDateRange", 'Int'>
   readonly isActive: Prisma.FieldRef<"InventoryDateRange", 'Boolean'>
   readonly primaryContactPhone: Prisma.FieldRef<"InventoryDateRange", 'String'>
   readonly secondaryContactPhone: Prisma.FieldRef<"InventoryDateRange", 'String'>
@@ -2144,6 +2406,30 @@ export type InventoryDateRange$bookingsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
+}
+
+/**
+ * InventoryDateRange.slotChanges
+ */
+export type InventoryDateRange$slotChangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingSlotChange
+   */
+  select?: Prisma.ListingSlotChangeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingSlotChange
+   */
+  omit?: Prisma.ListingSlotChangeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingSlotChangeInclude<ExtArgs> | null
+  where?: Prisma.ListingSlotChangeWhereInput
+  orderBy?: Prisma.ListingSlotChangeOrderByWithRelationInput | Prisma.ListingSlotChangeOrderByWithRelationInput[]
+  cursor?: Prisma.ListingSlotChangeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingSlotChangeScalarFieldEnum | Prisma.ListingSlotChangeScalarFieldEnum[]
 }
 
 /**

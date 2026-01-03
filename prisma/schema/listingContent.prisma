@@ -1,17 +1,17 @@
 model ListingContent {
-    id           String      @id @default(uuid()) @map("content_id")
-    listingId    String      @map("listing_id")
-    contentType  ContentType @map("content_type")
-    contentOrder Int         @default(0) @map("content_order")
-    title        String?     @map("title")
-    contentText  String?     @map("content_text") @db.Text
-    imageUrls    Json?       @map("image_urls")
-    createdAt    DateTime    @default(now()) @map("created_at")
-    updatedAt    DateTime    @updatedAt @map("updated_at")
+  id           String      @id @default(uuid()) @map("content_id")
+  listingId    String      @map("listing_id")
+  contentType  ContentType @map("content_type")
+  contentOrder Int         @default(0) @map("content_order")
+  title        String?     @map("title")
+  contentText  String?     @map("content_text") @db.Text
+  imageUrls    Json?       @map("image_urls")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
 
-    // Relations
-    listing Listing        @relation(fields: [listingId], references: [id], onDelete: Cascade)
-    media   ListingMedia[]
+  // Relations
+  listing Listing        @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  media   ListingMedia[]
 
-    @@map("listing_content")
+  @@map("listing_content")
 }

@@ -1,13 +1,12 @@
 model PrimaryDivision {
-  primary_division_id String   @id @default(uuid())
-  country_id         String
-  division_name      String
-  division_code      String
-  country            Country  @relation(fields: [country_id], references: [country_id])
-  secondaryDivisions SecondaryDivision[]
-  listingsStart      Listing[] @relation("ListingStartPrimaryDivision")
-  listingsEnd        Listing[] @relation("ListingEndPrimaryDivision")
+  primary_division_id String              @id @default(uuid())
+  country_id          String
+  division_name       String
+  division_code       String
+  country             Country             @relation(fields: [country_id], references: [country_id])
+  secondaryDivisions  SecondaryDivision[]
+  listingsStart       Listing[]           @relation("ListingStartPrimaryDivision")
+  listingsEnd         Listing[]           @relation("ListingEndPrimaryDivision")
 
   @@map("primary_divisions")
 }
-

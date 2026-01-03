@@ -15,6 +15,11 @@ export const createBooking = async (c: Context) => {
     const body = await c.req.json();
     const user = c.get("user");
     
+    // Debug logging
+    console.log("=== BOOKING REQUEST DEBUG ===");
+    console.log("Body received:", JSON.stringify(body, null, 2));
+    console.log("User from token:", user);
+    
     // Check if user is a customer
     if (user && user.userType !== "customer") {
       return c.json({ 
@@ -27,7 +32,8 @@ export const createBooking = async (c: Context) => {
       customerId,
       listingId,
       variantId,
-      listingSlotId,
+      listingSlotId,  // For F1 format
+      dateRangeId,    // For F3/F4 format
       participantCount,
       participants,
       contactDetails,
@@ -43,33 +49,142 @@ export const createBooking = async (c: Context) => {
       paymentMethod,
     } = body;
 
-    // Validate required fields
-    if (!customerId || !listingSlotId || !participantCount || !participants) {
-      return c.json({ success: false, message: "Missing required fields" }, 400);
+    // Detailed validation logging
+    console.log("Field validation:");
+    console.log("- customerId:", customerId);
+    console.log("- listingSlotId:", listingSlotId);
+    console.log("- dateRangeId:", dateRangeId);
+    console.log("- participantCount:", participantCount);
+    console.log("- participants:", participants);
+    
+    // Validate required fields with specific error messages
+    const missingFields = [];
+    if (!customerId) missingFields.push("customerId");
+    if (!listingSlotId && !dateRangeId) missingFields.push("listingSlotId or dateRangeId");
+    if (!participantCount) missingFields.push("participantCount");
+    if (!participants) missingFields.push("participants");
+    
+    if (missingFields.length > 0) {
+      console.log("VALIDATION FAILED - Missing fields:", missingFields);
+      return c.json({ 
+        success: false, 
+        message: `Missing required fields: ${missingFields.join(", ")}` 
+      }, 400);
     }
 
-    // Get slot details
-    const slot = await prisma.listingSlot.findUnique({
-      where: { id: listingSlotId },
-      include: {
-        listing: {
-          select: { 
-            listingName: true, 
-            currency: true, 
-            taxRate: true,
-            operatorId: true,
-          }
-        }
-      }
+    // Verify customer exists
+    const customer = await prisma.user.findUnique({
+      where: { id: customerId }
     });
 
-    if (!slot) {
-      return c.json({ success: false, message: "Slot not found" }, 404);
+    if (!customer) {
+      console.log("VALIDATION FAILED - Customer not found:", customerId);
+      return c.json({ 
+        success: false, 
+        message: "Customer not found. Please login again." 
+      }, 404);
     }
 
-    if (slot.availableCount < participantCount) {
-      return c.json({ success: false, message: "Not enough capacity available" }, 400);
+    console.log("Customer verified:", customer.email);
+
+    // Get slot/dateRange details based on format
+    let slot: any = null;
+    let dateRange: any = null;
+    let listingDetails: any = null;
+
+    if (listingSlotId) {
+      // F1 format - using listing_slots table
+      slot = await prisma.listingSlot.findUnique({
+        where: { id: listingSlotId },
+        include: {
+          listing: {
+            select: { 
+              listingName: true, 
+              currency: true, 
+              taxRate: true,
+              operatorId: true,
+            }
+          }
+        }
+      });
+
+      if (!slot) {
+        return c.json({ success: false, message: "Slot not found" }, 404);
+      }
+
+      if (slot.availableCount < participantCount) {
+        return c.json({ success: false, message: "Not enough capacity available" }, 400);
+      }
+
+      listingDetails = slot.listing;
+    } else if (dateRangeId) {
+      // F3/F4 format - using inventory_date_ranges table
+      dateRange = await prisma.inventoryDateRange.findUnique({
+        where: { id: dateRangeId },
+        include: {
+          listing: {
+            select: { 
+              listingName: true, 
+              currency: true, 
+              taxRate: true,
+              operatorId: true,
+            }
+          },
+          slotDefinition: {
+            select: {
+              startTime: true,
+              endTime: true,
+            }
+          }
+        }
+      });
+
+      if (!dateRange) {
+        return c.json({ success: false, message: "Date range not found" }, 404);
+      }
+
+      if (dateRange.availableCount && dateRange.availableCount < participantCount) {
+        return c.json({ success: false, message: "Not enough capacity available" }, 400);
+      }
+
+      listingDetails = dateRange.listing;
+    } else {
+      return c.json({ success: false, message: "Invalid booking format" }, 400);
     }
+
+    // Determine booking dates based on slot type
+    let bookingStartDate: Date;
+    let bookingEndDate: Date;
+    let basePrice: number;
+    
+    if (slot) {
+      // F1 format - from listing_slots
+      if (slot.batchStartDate && slot.batchEndDate) {
+        bookingStartDate = new Date(slot.batchStartDate);
+        bookingEndDate = new Date(slot.batchEndDate);
+      } else if (slot.slotDate) {
+        bookingStartDate = new Date(slot.slotDate);
+        bookingEndDate = new Date(slot.slotDate);
+      } else {
+        return c.json({ 
+          success: false, 
+          message: "Invalid slot: missing date information" 
+        }, 400);
+      }
+      basePrice = slot.basePrice;
+    } else if (dateRange) {
+      // F3/F4 format - from inventory_date_ranges
+      bookingStartDate = new Date(dateRange.availableFromDate);
+      bookingEndDate = new Date(dateRange.availableToDate);
+      basePrice = dateRange.basePricePerDay;
+    } else {
+      return c.json({ 
+        success: false, 
+        message: "Invalid booking: missing slot or date range" 
+      }, 400);
+    }
+
+    console.log("Booking dates:", { bookingStartDate, bookingEndDate });
 
     // Create booking with all details in transaction
     const result = await prisma.$transaction(async (tx) => {
@@ -78,12 +193,13 @@ export const createBooking = async (c: Context) => {
         data: {
           bookingReference: generateBookingReference(),
           customerId,
-          listingSlotId,
-          bookingStartDate: slot.batchStartDate!,
-          bookingEndDate: slot.batchEndDate!,
+          listingSlotId: listingSlotId || null,
+          dateRangeId: dateRangeId || null,
+          bookingStartDate,
+          bookingEndDate,
           participantCount,
           totalDays: 1,
-          basePrice: slot.basePrice,
+          basePrice: basePrice,
           totalAmount: totalAmount,
           bookingStatus: "CONFIRMED",
           participants: participants,
@@ -103,15 +219,28 @@ export const createBooking = async (c: Context) => {
         },
       });
 
-      // Update slot availability
-      await tx.listingSlot.update({
-        where: { id: listingSlotId },
-        data: {
-          availableCount: {
-            decrement: participantCount,
+      // Update availability based on format
+      if (listingSlotId) {
+        // F1 - update listing_slots table
+        await tx.listingSlot.update({
+          where: { id: listingSlotId },
+          data: {
+            availableCount: {
+              decrement: participantCount,
+            },
           },
-        },
-      });
+        });
+      } else if (dateRangeId) {
+        // F3/F4 - update inventory_date_ranges table
+        await tx.inventoryDateRange.update({
+          where: { id: dateRangeId },
+          data: {
+            availableCount: {
+              decrement: participantCount,
+            },
+          },
+        });
+      }
 
       return {
         booking,
@@ -229,6 +358,7 @@ export const createF2Booking = async (c: Context) => {
       customerId,
       listingId,
       variantId,
+      dateRangeId, // NEW: ID from inventory_date_ranges table
       selectedDates, // Array of date strings ['2026-01-04', '2026-01-05', '2026-01-06']
       contactDetails,
       selectedAddons,
@@ -243,7 +373,7 @@ export const createF2Booking = async (c: Context) => {
       paymentMethod,
     } = await c.req.json();
 
-    if (!customerId || !listingId || !selectedDates || selectedDates.length === 0) {
+    if (!customerId || !listingId || !dateRangeId || !selectedDates || selectedDates.length === 0) {
       return c.json({ success: false, message: "Missing required fields" }, 400);
     }
 
@@ -252,30 +382,39 @@ export const createF2Booking = async (c: Context) => {
     const startDate = new Date(sortedDates[0] + "T00:00:00Z");
     const endDate = new Date(sortedDates[sortedDates.length - 1] + "T00:00:00Z");
 
-    // Get listing details for basePrice
-    const listing = await prisma.listing.findUnique({
-      where: { id: listingId },
-      select: { 
-        listingName: true, 
-        currency: true, 
-        taxRate: true,
-        operatorId: true,
+    // Get date range details for validation and pricing
+    const dateRange = await prisma.inventoryDateRange.findUnique({
+      where: { id: dateRangeId },
+      include: {
+        listing: {
+          select: { 
+            listingName: true, 
+            currency: true, 
+            taxRate: true,
+            operatorId: true,
+          }
+        }
       }
     });
 
-    if (!listing) {
-      return c.json({ success: false, message: "Listing not found" }, 404);
+    if (!dateRange) {
+      return c.json({ success: false, message: "Date range not found" }, 404);
     }
 
-    // Find the date range for the variant to get base price
-    const dateRange = await prisma.inventoryDateRange.findFirst({
-      where: {
-        listingId,
-        variantId: variantId || null,
-        availableFromDate: { lte: startDate },
-        availableToDate: { gte: endDate },
-      },
-    });
+    // Validate that booking dates fall within the date range
+    if (startDate < dateRange.availableFromDate || endDate > dateRange.availableToDate) {
+      return c.json({ 
+        success: false, 
+        message: "Selected dates are outside the available date range" 
+      }, 400);
+    }
+
+    // Check availability if capacity tracking is enabled
+    if (dateRange.totalCapacity !== null && dateRange.availableCount !== null) {
+      if (dateRange.availableCount < 1) {
+        return c.json({ success: false, message: "No availability for selected dates" }, 400);
+      }
+    }
 
     // Create booking and update availability in transaction
     const result = await prisma.$transaction(async (tx) => {
@@ -284,7 +423,7 @@ export const createF2Booking = async (c: Context) => {
         data: {
           bookingReference: generateBookingReference(),
           customerId,
-          dateRangeId: dateRange?.id || null,
+          dateRangeId: dateRangeId,
           bookingStartDate: startDate,
           bookingEndDate: endDate,
           participantCount: 1, // For rentals, we use 1 as default
@@ -309,44 +448,16 @@ export const createF2Booking = async (c: Context) => {
         },
       });
 
-      // Create ListingSlotChange entries for each booked date to mark them as unavailable
-      for (const dateStr of selectedDates) {
-        const changeDate = new Date(dateStr + "T00:00:00Z");
-        
-        // Check if an entry already exists for this date
-        const existing = await tx.listingSlotChange.findFirst({
-          where: {
-            listingId,
-            variantId: variantId || null,
-            slotId: null,
-            changeDate,
+      // Update availability count if capacity tracking is enabled
+      if (dateRange.totalCapacity !== null && dateRange.availableCount !== null) {
+        await tx.inventoryDateRange.update({
+          where: { id: dateRangeId },
+          data: {
+            availableCount: {
+              decrement: 1,
+            },
           },
         });
-
-        if (existing) {
-          // Update existing entry - increment booked count
-          await tx.listingSlotChange.update({
-            where: { id: existing.id },
-            data: {
-              bookedCount: { increment: 1 },
-              triggerType: "customer_book",
-            },
-          });
-        } else {
-          // Create new entry
-          await tx.listingSlotChange.create({
-            data: {
-              slotId: null,
-              listingId,
-              variantId: variantId || null,
-              changeDate,
-              basePrice: dateRange?.basePricePerDay || 0,
-              availableCount: 0, // Not used for F2, we track bookedCount
-              bookedCount: 1,
-              triggerType: "customer_book",
-            },
-          });
-        }
       }
 
       return {

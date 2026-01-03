@@ -1,27 +1,27 @@
 model OperatorProfile {
-  id                        String             @id @default(uuid()) @map("operator_profile_id")
-  operatorId                String             @unique @map("operator_id")
-  companyName               String             @map("company_name")
-  companyLogoUrl            String?            @map("company_logo_url")
+  id                         String             @id @default(uuid()) @map("operator_profile_id")
+  operatorId                 String             @unique @map("operator_id")
+  companyName                String             @map("company_name")
+  companyLogoUrl             String?            @map("company_logo_url")
   businessRegistrationNumber String?            @map("business_registration_number")
-  taxId                     String?            @map("tax_id")
-  companyDescription        String?            @db.Text @map("company_description")
-  websiteUrl                String?            @map("website_url")
-  socialMediaLinks          Json?              @map("social_media_links") // {facebook, instagram, youtube}
-  bankAccountDetails        Json?              @map("bank_account_details") // encrypted
-  verificationStatus        VerificationStatus @default(PENDING) @map("verification_status")
-  verificationDocuments     Json?              @map("verification_documents") // array of document URLs [{url, publicId, format}]
-  verifiedByAdminId         String?            @map("verified_by_admin_id")
-  verifiedAt                DateTime?          @map("verified_at")
-  rejectionReason           String?            @db.Text @map("rejection_reason")
-  ratingAverage             Float?             @default(0) @map("rating_average")
-  totalBookings             Int                @default(0) @map("total_bookings")
-  createdAt                 DateTime           @default(now()) @map("created_at")
-  updatedAt                 DateTime           @updatedAt @map("updated_at")
+  taxId                      String?            @map("tax_id")
+  companyDescription         String?            @map("company_description") @db.Text
+  websiteUrl                 String?            @map("website_url")
+  socialMediaLinks           Json?              @map("social_media_links") // {facebook, instagram, youtube}
+  bankAccountDetails         Json?              @map("bank_account_details") // encrypted
+  verificationStatus         VerificationStatus @default(PENDING) @map("verification_status")
+  verificationDocuments      Json?              @map("verification_documents") // array of document URLs [{url, publicId, format}]
+  verifiedByAdminId          String?            @map("verified_by_admin_id")
+  verifiedAt                 DateTime?          @map("verified_at")
+  rejectionReason            String?            @map("rejection_reason") @db.Text
+  ratingAverage              Float?             @default(0) @map("rating_average")
+  totalBookings              Int                @default(0) @map("total_bookings")
+  createdAt                  DateTime           @default(now()) @map("created_at")
+  updatedAt                  DateTime           @updatedAt @map("updated_at")
 
   // Relations
-  operator         User  @relation("OperatorUser", fields: [operatorId], references: [id], onDelete:  Cascade)
-  verifiedByAdmin  User?  @relation("VerifiedOperators", fields: [verifiedByAdminId], references: [id])
+  operator        User  @relation("OperatorUser", fields: [operatorId], references: [id], onDelete: Cascade)
+  verifiedByAdmin User? @relation("VerifiedOperators", fields: [verifiedByAdminId], references: [id])
 
   @@index([operatorId])
   @@index([verificationStatus])

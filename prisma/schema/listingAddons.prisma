@@ -1,13 +1,13 @@
 model ListingAddon {
-    id        String   @id @default(uuid()) @map("addon_id")
-    listingId String   @unique @map("listing_id")
-    addons    Json     @map("addons") // addonname,price,addondescription,maxquantity,displayorder,,is mandatory,isactive
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
+  id        String   @id @default(uuid()) @map("addon_id")
+  listingId String   @unique @map("listing_id")
+  addons    Json     @map("addons") // addonname,price,addondescription,maxquantity,displayorder,,is mandatory,isactive
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-    // Relations
-    listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  // Relations
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 
-    @@map("listing_addons")
-    @@index([listingId])
+  @@index([listingId])
+  @@map("listing_addons")
 }

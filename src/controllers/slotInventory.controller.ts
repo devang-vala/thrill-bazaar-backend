@@ -15,6 +15,46 @@ export const deleteSingleDaySlotBatch = async (c: Context) => {
     return c.json({ error: "Failed to delete slot batch" }, 500);
   }
 };
+
+// Block a slot by setting isActive to false
+export const blockSlot = async (c: Context) => {
+  try {
+    const { slotId } = await c.req.json();
+    if (!slotId) {
+      return c.json({ error: "Missing slotId" }, 400);
+    }
+
+    const updated = await prisma.listingSlot.update({
+      where: { id: slotId },
+      data: { isActive: false },
+    });
+
+    return c.json({ success: true, data: updated });
+  } catch (error) {
+    console.error("Block slot error:", error);
+    return c.json({ error: "Failed to block slot" }, 500);
+  }
+};
+
+// Unblock a slot by setting isActive to true
+export const unblockSlot = async (c: Context) => {
+  try {
+    const { slotId } = await c.req.json();
+    if (!slotId) {
+      return c.json({ error: "Missing slotId" }, 400);
+    }
+
+    const updated = await prisma.listingSlot.update({
+      where: { id: slotId },
+      data: { isActive: true },
+    });
+
+    return c.json({ success: true, data: updated });
+  } catch (error) {
+    console.error("Unblock slot error:", error);
+    return c.json({ error: "Failed to unblock slot" }, 500);
+  }
+};
 // Get slot batches for a listing/variant in a specific month
 export const getSlotBatches = async (c: Context) => {
   try {

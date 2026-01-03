@@ -1,23 +1,26 @@
 model InventoryDateRange {
-    id                     String   @id @default(uuid()) @map("range_id")
-    listingId              String   @map("listing_id")
-    variantId              String?  @map("variant_id") 
-    slotDefinitionId       String?  @map("slot_definition_id") // For F4: slot-based rental
-    availableFromDate      DateTime @map("available_from_date")
-    availableToDate        DateTime @map("available_to_date")
-    basePricePerDay        Int      @map("base_price_per_day")
-    isActive               Boolean  @default(true) @map("is_active")
-    primaryContactPhone    String?  @map("primary_contact_phone")
-    secondaryContactPhone  String?  @map("secondary_contact_phone")
-    createdAt              DateTime @default(now()) @map("created_at")
-    updatedAt              DateTime @updatedAt @map("updated_at")
+  id                    String   @id @default(uuid()) @map("range_id")
+  listingId             String   @map("listing_id")
+  variantId             String?  @map("variant_id")
+  slotDefinitionId      String?  @map("slot_definition_id")
+  availableFromDate     DateTime @map("available_from_date")
+  availableToDate       DateTime @map("available_to_date")
+  basePricePerDay       Int      @map("base_price_per_day")
+  totalCapacity         Int?     @map("total_capacity")
+  availableCount        Int?     @map("available_count")
+  isActive              Boolean  @default(true) @map("is_active")
+  primaryContactPhone   String?  @map("primary_contact_phone")
+  secondaryContactPhone String?  @map("secondary_contact_phone")
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
 
-    listing Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade)
-    variant ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
-    slotDefinition SlotDefinition? @relation(fields: [slotDefinitionId], references: [id], onDelete: Cascade)
-    
-    // Booking relation
-    bookings       Booking[]
+  listing        Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  variant        ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  slotDefinition SlotDefinition? @relation(fields: [slotDefinitionId], references: [id], onDelete: Cascade)
 
-    @@map("inventory_date_ranges")
+  // Relations
+  bookings    Booking[]
+  slotChanges ListingSlotChange[]
+
+  @@map("inventory_date_ranges")
 }

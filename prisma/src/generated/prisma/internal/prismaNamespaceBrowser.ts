@@ -187,6 +187,8 @@ export const InventoryDateRangeScalarFieldEnum = {
   availableFromDate: 'availableFromDate',
   availableToDate: 'availableToDate',
   basePricePerDay: 'basePricePerDay',
+  totalCapacity: 'totalCapacity',
+  availableCount: 'availableCount',
   isActive: 'isActive',
   primaryContactPhone: 'primaryContactPhone',
   secondaryContactPhone: 'secondaryContactPhone',
@@ -309,13 +311,13 @@ export type ListingPolicyScalarFieldEnum = (typeof ListingPolicyScalarFieldEnum)
 
 export const ListingSlotChangeScalarFieldEnum = {
   id: 'id',
-  slotId: 'slotId',
+  inventoryDateRangeId: 'inventoryDateRangeId',
   listingId: 'listingId',
   variantId: 'variantId',
-  changeDate: 'changeDate',
-  basePrice: 'basePrice',
+  date: 'date',
+  price: 'price',
   availableCount: 'availableCount',
-  bookedCount: 'bookedCount',
+  totalCapacity: 'totalCapacity',
   triggerType: 'triggerType',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

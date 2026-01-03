@@ -23,6 +23,8 @@ import variantFieldOptionsRouter from "./listingVariantMetadataFieldOptions.rout
 import uploadRouter from "./upload.route.js";
 import inventoryDateRangesRouter from "./inventoryDateRanges.route.js";
 import slotInventoryRouter from "./slotInventory.route.js";
+import f3SlotInventoryRouter from "./f3SlotInventory.route.js";
+import f2DateRangeRouter from "./f2DateRangeInventory.route.js";
 import countryRouter from "./country.route.js";
 import primaryDivisionRouter from "./primaryDivision.route.js";
 import secondaryDivisionRouter from "./secondaryDivision.route.js";
@@ -73,6 +75,8 @@ router.route("/upload", uploadRouter);
 router.route("/listing-batch", listingBatchRouter);
 router.route("/inventory-date-ranges", inventoryDateRangesRouter);
 router.route("/slot-inventory", slotInventoryRouter);
+router.route("/f3-slot-inventory", f3SlotInventoryRouter);
+router.route("/f2-date-ranges", f2DateRangeRouter);
 
 // Mount country and division routes
 router.route("/countries", countryRouter);
