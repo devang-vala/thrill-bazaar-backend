@@ -27,6 +27,10 @@ model User {
 
   // Booking relation
   bookings Booking[]
+  // reschedule relations
+  reschedulesInitiated Reschedule[] @relation("RescheduleInitiatedBy")
+  reschedulesAsOperator Reschedule[] @relation("RescheduleOperator")
+  reschedulesApproved  Reschedule[] @relation("RescheduleApprovedBy")
 
   @@map("User")
 }

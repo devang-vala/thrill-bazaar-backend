@@ -576,3 +576,51 @@ export const getUserBookings = async (c: Context) => {
     return c.json({ success: false, message: "Failed to fetch bookings" }, 500);
   }
 };
+
+// Get booking with reschedule history
+export const getBookingWithReschedules = async (c: Context) => {
+  try {
+    const bookingId = c.req.param("bookingId");
+
+    const booking = await prisma.booking.findUnique({
+      where: { id: bookingId },
+      include: {
+        listingSlot: {
+          include: {
+            listing: {
+              select:  {
+                listingName: true,
+                frontImageUrl: true,
+              },
+            },
+          },
+        },
+        dateRange: {
+          include: {
+            listing: {
+              select: {
+                listingName:  true,
+                frontImageUrl:  true,
+              },
+            },
+          },
+        },
+        reschedules: {
+          orderBy: { createdAt: "desc" },
+        },
+      },
+    });
+
+    if (!booking) {
+      return c.json({ success: false, message: "Booking not found" }, 404);
+    }
+
+    return c.json({ success: true, data: booking });
+  } catch (error) {
+    console.error("Error fetching booking with reschedules:", error);
+    return c.json(
+      { success: false, message: "Failed to fetch booking" },
+      500
+    );
+  }
+};

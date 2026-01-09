@@ -175,7 +175,7 @@ export const isValidCatAMetadata = async (
  * Get grouped variant fields by fieldGroup
  */
 export const getGroupedVariantFields = async (categoryId: string) => {
-  const fields = await prisma.listingVariantMetadataFieldDefinition. findMany({
+  const fields = await prisma.listingVariantMetadataFieldDefinition.findMany({
     where: {
       categoryId,
       isActive: true,

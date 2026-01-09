@@ -135,3 +135,23 @@ export const VerificationStatus = {
 } as const
 
 export type VerificationStatus = (typeof VerificationStatus)[keyof typeof VerificationStatus]
+
+
+export const RescheduleRole = {
+  customer: 'customer',
+  operator: 'operator',
+  admin: 'admin'
+} as const
+
+export type RescheduleRole = (typeof RescheduleRole)[keyof typeof RescheduleRole]
+
+
+export const RescheduleStatus = {
+  pending: 'pending',
+  approved: 'approved',
+  approved_with_charge: 'approved_with_charge',
+  rejected: 'rejected',
+  cancelled: 'cancelled'
+} as const
+
+export type RescheduleStatus = (typeof RescheduleStatus)[keyof typeof RescheduleStatus]

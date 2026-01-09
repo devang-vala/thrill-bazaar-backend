@@ -510,6 +510,40 @@ export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>
 }
 
+export type EnumRescheduleRoleFilter<$PrismaModel = never> = {
+  equals?: $Enums.RescheduleRole | Prisma.EnumRescheduleRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.RescheduleRole[] | Prisma.ListEnumRescheduleRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RescheduleRole[] | Prisma.ListEnumRescheduleRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRescheduleRoleFilter<$PrismaModel> | $Enums.RescheduleRole
+}
+
+export type EnumRescheduleStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.RescheduleStatus | Prisma.EnumRescheduleStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.RescheduleStatus[] | Prisma.ListEnumRescheduleStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RescheduleStatus[] | Prisma.ListEnumRescheduleStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRescheduleStatusFilter<$PrismaModel> | $Enums.RescheduleStatus
+}
+
+export type EnumRescheduleRoleWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RescheduleRole | Prisma.EnumRescheduleRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.RescheduleRole[] | Prisma.ListEnumRescheduleRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RescheduleRole[] | Prisma.ListEnumRescheduleRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRescheduleRoleWithAggregatesFilter<$PrismaModel> | $Enums.RescheduleRole
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRescheduleRoleFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRescheduleRoleFilter<$PrismaModel>
+}
+
+export type EnumRescheduleStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RescheduleStatus | Prisma.EnumRescheduleStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.RescheduleStatus[] | Prisma.ListEnumRescheduleStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RescheduleStatus[] | Prisma.ListEnumRescheduleStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRescheduleStatusWithAggregatesFilter<$PrismaModel> | $Enums.RescheduleStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRescheduleStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRescheduleStatusFilter<$PrismaModel>
+}
+
 export type FloatFilter<$PrismaModel = never> = {
   equals?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
@@ -1014,6 +1048,40 @@ export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedFloatNullableFilter<$PrismaModel>
   _min?: Prisma.NestedFloatNullableFilter<$PrismaModel>
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumRescheduleRoleFilter<$PrismaModel = never> = {
+  equals?: $Enums.RescheduleRole | Prisma.EnumRescheduleRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.RescheduleRole[] | Prisma.ListEnumRescheduleRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RescheduleRole[] | Prisma.ListEnumRescheduleRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRescheduleRoleFilter<$PrismaModel> | $Enums.RescheduleRole
+}
+
+export type NestedEnumRescheduleStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.RescheduleStatus | Prisma.EnumRescheduleStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.RescheduleStatus[] | Prisma.ListEnumRescheduleStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RescheduleStatus[] | Prisma.ListEnumRescheduleStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRescheduleStatusFilter<$PrismaModel> | $Enums.RescheduleStatus
+}
+
+export type NestedEnumRescheduleRoleWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RescheduleRole | Prisma.EnumRescheduleRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.RescheduleRole[] | Prisma.ListEnumRescheduleRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RescheduleRole[] | Prisma.ListEnumRescheduleRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRescheduleRoleWithAggregatesFilter<$PrismaModel> | $Enums.RescheduleRole
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRescheduleRoleFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRescheduleRoleFilter<$PrismaModel>
+}
+
+export type NestedEnumRescheduleStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RescheduleStatus | Prisma.EnumRescheduleStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.RescheduleStatus[] | Prisma.ListEnumRescheduleStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RescheduleStatus[] | Prisma.ListEnumRescheduleStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRescheduleStatusWithAggregatesFilter<$PrismaModel> | $Enums.RescheduleStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRescheduleStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRescheduleStatusFilter<$PrismaModel>
 }
 
 export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {

@@ -413,6 +413,7 @@ export const ModelName = {
   OperatorProfile: 'OperatorProfile',
   Otp: 'Otp',
   PrimaryDivision: 'PrimaryDivision',
+  Reschedule: 'Reschedule',
   SecondaryDivision: 'SecondaryDivision',
   SlotDefinition: 'SlotDefinition',
   UserAddress: 'UserAddress',
@@ -432,7 +433,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "booking" | "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "operatorProfile" | "otp" | "primaryDivision" | "secondaryDivision" | "slotDefinition" | "userAddress" | "user"
+    modelProps: "booking" | "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "operatorProfile" | "otp" | "primaryDivision" | "reschedule" | "secondaryDivision" | "slotDefinition" | "userAddress" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2212,6 +2213,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Reschedule: {
+      payload: Prisma.$ReschedulePayload<ExtArgs>
+      fields: Prisma.RescheduleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RescheduleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReschedulePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RescheduleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReschedulePayload>
+        }
+        findFirst: {
+          args: Prisma.RescheduleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReschedulePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RescheduleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReschedulePayload>
+        }
+        findMany: {
+          args: Prisma.RescheduleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReschedulePayload>[]
+        }
+        create: {
+          args: Prisma.RescheduleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReschedulePayload>
+        }
+        createMany: {
+          args: Prisma.RescheduleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RescheduleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReschedulePayload>[]
+        }
+        delete: {
+          args: Prisma.RescheduleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReschedulePayload>
+        }
+        update: {
+          args: Prisma.RescheduleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReschedulePayload>
+        }
+        deleteMany: {
+          args: Prisma.RescheduleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RescheduleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RescheduleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReschedulePayload>[]
+        }
+        upsert: {
+          args: Prisma.RescheduleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReschedulePayload>
+        }
+        aggregate: {
+          args: Prisma.RescheduleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReschedule>
+        }
+        groupBy: {
+          args: Prisma.RescheduleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RescheduleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RescheduleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RescheduleCountAggregateOutputType> | number
+        }
+      }
+    }
     SecondaryDivision: {
       payload: Prisma.$SecondaryDivisionPayload<ExtArgs>
       fields: Prisma.SecondaryDivisionFieldRefs
@@ -2948,6 +3023,36 @@ export const PrimaryDivisionScalarFieldEnum = {
 export type PrimaryDivisionScalarFieldEnum = (typeof PrimaryDivisionScalarFieldEnum)[keyof typeof PrimaryDivisionScalarFieldEnum]
 
 
+export const RescheduleScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  initiatedByUserId: 'initiatedByUserId',
+  initiatedByRole: 'initiatedByRole',
+  operatorId: 'operatorId',
+  rescheduleReason: 'rescheduleReason',
+  adminNotes: 'adminNotes',
+  status: 'status',
+  rescheduleFeeAmount: 'rescheduleFeeAmount',
+  isPaymentRequired: 'isPaymentRequired',
+  approvedByAdminId: 'approvedByAdminId',
+  approvedAt: 'approvedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  oldBatchId: 'oldBatchId',
+  newBatchId: 'newBatchId',
+  oldRentalStartDate: 'oldRentalStartDate',
+  oldRentalEndDate: 'oldRentalEndDate',
+  newRentalStartDate: 'newRentalStartDate',
+  newRentalEndDate: 'newRentalEndDate',
+  oldSlotId: 'oldSlotId',
+  newSlotId: 'newSlotId',
+  oldDateRangeId: 'oldDateRangeId',
+  newDateRangeId: 'newDateRangeId'
+} as const
+
+export type RescheduleScalarFieldEnum = (typeof RescheduleScalarFieldEnum)[keyof typeof RescheduleScalarFieldEnum]
+
+
 export const SecondaryDivisionScalarFieldEnum = {
   secondary_division_id: 'secondary_division_id',
   primary_division_id: 'primary_division_id',
@@ -3266,6 +3371,34 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
+ * Reference to a field of type 'RescheduleRole'
+ */
+export type EnumRescheduleRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RescheduleRole'>
+    
+
+
+/**
+ * Reference to a field of type 'RescheduleRole[]'
+ */
+export type ListEnumRescheduleRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RescheduleRole[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RescheduleStatus'
+ */
+export type EnumRescheduleStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RescheduleStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'RescheduleStatus[]'
+ */
+export type ListEnumRescheduleStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RescheduleStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'AddressType'
  */
 export type EnumAddressTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AddressType'>
@@ -3403,6 +3536,7 @@ export type GlobalOmitConfig = {
   operatorProfile?: Prisma.OperatorProfileOmit
   otp?: Prisma.OtpOmit
   primaryDivision?: Prisma.PrimaryDivisionOmit
+  reschedule?: Prisma.RescheduleOmit
   secondaryDivision?: Prisma.SecondaryDivisionOmit
   slotDefinition?: Prisma.SlotDefinitionOmit
   userAddress?: Prisma.UserAddressOmit

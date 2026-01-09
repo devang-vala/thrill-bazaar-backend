@@ -12,7 +12,7 @@ export const createInventoryDateRange = async (c: Context) => {
       availableToDate:  new Date(body.availableToDate),
       basePricePerDay: parseFloat(body.basePricePerDay),
       primaryContactPhone: body.primaryContactPhone,
-      secondaryContactPhone: body. secondaryContactPhone || null,
+      secondaryContactPhone: body.secondaryContactPhone || null,
       isActive: true,
     };
 

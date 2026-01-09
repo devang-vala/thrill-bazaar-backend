@@ -27,6 +27,12 @@ model ListingSlot {
   // Booking relation
   bookings Booking[]
 
+  // reschedule relations
+  reschedulesAsOldBatch Reschedule[] @relation("RescheduleOldBatch")
+  reschedulesAsNewBatch Reschedule[] @relation("RescheduleNewBatch")
+  reschedulesAsOldSlot  Reschedule[] @relation("RescheduleOldSlot")
+  reschedulesAsNewSlot  Reschedule[] @relation("RescheduleNewSlot")
+  
   @@index([listingId, variantId])
   @@map("listing_slots")
 }

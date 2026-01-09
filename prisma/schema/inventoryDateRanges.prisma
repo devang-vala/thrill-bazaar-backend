@@ -21,6 +21,9 @@ model InventoryDateRange {
   // Relations
   bookings    Booking[]
   slotChanges ListingSlotChange[]
+  // reschedule relations
+  reschedulesAsOldRange Reschedule[] @relation("RescheduleOldDateRange")
+  reschedulesAsNewRange Reschedule[] @relation("RescheduleNewDateRange")
 
   @@map("inventory_date_ranges")
 }
