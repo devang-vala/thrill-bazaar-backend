@@ -426,11 +426,9 @@ export const getVariantFieldsForCategory = async (c: Context) => {
     const fieldDefinitions = await prisma.listingVariantMetadataFieldDefinition.findMany({
       where: {
         categoryId,
-        isActive: true,
       },
       include: {
         options: {
-          where: { isActive: true },
           orderBy: { displayOrder: "asc" },
         },
       },

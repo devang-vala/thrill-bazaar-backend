@@ -214,14 +214,9 @@ export const getListings = async (c: Context) => {
       user.role === "seller"
     );
     
-    // For customers/public users, remove admin-specific fields
-    // Sellers and admins can see all fields including rejection reason
-    const responseData = isAdminOrSeller 
-      ? listings 
-      : listings.map(listing => {
-          const { rejectionReason, approvedByAdminId, approvedAt, ...publicListing } = listing;
-          return publicListing;
-        });
+    // For customers/public users, listings already filtered by select
+    // All users see the same fields (admin fields not selected in query)
+    const responseData = listings;
 
     // Add cache headers for better performance (5 minutes for listing pages)
     c.header('Cache-Control', 'public, max-age=300, s-maxage=300');
@@ -533,7 +528,6 @@ export const getListingById = async (c: Context) => {
       variantFieldDefinitions = await prisma.listingVariantMetadataFieldDefinition.findMany({
         where: {
           categoryId: listing.categoryId,
-          isActive: true,
         },
         select: {
           id: true,
@@ -542,11 +536,8 @@ export const getListingById = async (c: Context) => {
           fieldType: true,
           displayOrder: true,
           options: {
-            where: {
-              isActive: true,
-            },
             select: {
-              id: true,
+              optionId: true,
               optionValue: true,
               optionLabel: true,
               displayOrder: true,

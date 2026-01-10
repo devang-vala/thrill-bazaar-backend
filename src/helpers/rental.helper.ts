@@ -63,7 +63,6 @@ export const validateVariantMetadata = async (
   const fieldDefinitions = await prisma.listingVariantMetadataFieldDefinition.findMany({
     where: {
       categoryId,
-      isActive:  true,
       isRequired: true,
     },
     select:  {
@@ -93,7 +92,6 @@ export const getDefaultVariantMetadata = async (categoryId: string): Promise<Rec
   const fieldDefinitions = await prisma.listingVariantMetadataFieldDefinition.findMany({
     where: {
       categoryId,
-      isActive: true,
     },
     select: {
       fieldKey: true,
@@ -132,11 +130,9 @@ export const getVariantFieldDefinitionsWithOptions = async (categoryId: string) 
   return await prisma.listingVariantMetadataFieldDefinition.findMany({
     where: {
       categoryId,
-      isActive: true,
     },
     include: {
       options: {
-        where: { isActive: true },
         orderBy: { displayOrder: "asc" },
       },
     },
@@ -151,7 +147,6 @@ export const getVariantFieldOptions = async (variantFieldDefinitionId: string) =
   return await prisma.listingVariantMetadataFieldOptions.findMany({
     where: {
       variantFieldDefinitionId,
-      isActive: true,
     },
     orderBy: { displayOrder: "asc" },
   });
@@ -178,11 +173,9 @@ export const getGroupedVariantFields = async (categoryId: string) => {
   const fields = await prisma.listingVariantMetadataFieldDefinition.findMany({
     where: {
       categoryId,
-      isActive: true,
     },
     include: {
       options: {
-        where: { isActive: true },
         orderBy: { displayOrder: "asc" },
       },
     },
