@@ -764,9 +764,50 @@ export const updateListing = async (c: Context) => {
     if (body.currency !== undefined) {
       updateData.currency = body.currency;
     }
+    
+    // Handle metadata - merge with existing and separate table fields
     if (body.metadata !== undefined) {
-      updateData.metadata = body.metadata;
+      console.log('=== METADATA UPDATE DEBUG ===');
+      console.log('Incoming body.metadata:', JSON.stringify(body.metadata, null, 2));
+      
+      const incomingMetadata = typeof body.metadata === 'string' ? JSON.parse(body.metadata) : body.metadata;
+      const existingMetadata = existingListing.metadata as any || {};
+      
+      console.log('Existing metadata from DB:', JSON.stringify(existingMetadata, null, 2));
+      console.log('Incoming metadata (parsed):', JSON.stringify(incomingMetadata, null, 2));
+      
+      const cleanedMetadata: any = {};
+      
+      // List of fields that exist in the listings table
+      const tableFields = [
+        'startCountryId', 'startPrimaryDivisionId', 'startSecondaryDivisionId',
+        'endCountryId', 'endPrimaryDivisionId', 'endSecondaryDivisionId',
+        'startLocationName', 'startLocationCoordinates', 'startGoogleMapsUrl',
+        'endLocationName', 'endLocationCoordinates', 'endGoogleMapsUrl',
+        'taxRate', 'advanceBookingPercentage', 'basePriceDisplay', 'currency'
+      ];
+      
+      // Extract table fields from incoming metadata and add them to updateData
+      Object.keys(incomingMetadata).forEach(key => {
+        if (tableFields.includes(key) && incomingMetadata[key] !== undefined && incomingMetadata[key] !== null && incomingMetadata[key] !== '') {
+          // Store in table column (don't add if already set above)
+          if (updateData[key] === undefined) {
+            updateData[key] = incomingMetadata[key];
+            console.log(`Moved ${key} from metadata to table field`);
+          }
+        } else {
+          // Keep in metadata
+          cleanedMetadata[key] = incomingMetadata[key];
+          console.log(`Keeping ${key} in metadata`);
+        }
+      });
+      
+      // Merge cleaned incoming metadata with existing metadata
+      updateData.metadata = { ...existingMetadata, ...cleanedMetadata };
+      console.log('Final merged metadata:', JSON.stringify(updateData.metadata, null, 2));
+      console.log('=== END METADATA DEBUG ===');
     }
+    
     // Location fields
     if (body.startLocationName !== undefined) {
       updateData.startLocationName = body.startLocationName
@@ -807,35 +848,6 @@ export const updateListing = async (c: Context) => {
     }
     if (body.endGoogleMapsUrl !== undefined) {
       updateData.endGoogleMapsUrl = body.endGoogleMapsUrl;
-    }
-
-    // Handle metadata - extract fields that exist in table schema
-    if (body.metadata !== undefined) {
-      const metadata = typeof body.metadata === 'string' ? JSON.parse(body.metadata) : body.metadata;
-      const cleanedMetadata: any = {};
-      
-      // List of fields that exist in the listings table
-      const tableFields = [
-        'startCountryId', 'startPrimaryDivisionId', 'startSecondaryDivisionId',
-        'endCountryId', 'endPrimaryDivisionId', 'endSecondaryDivisionId',
-        'startLocationName', 'startLocationCoordinates', 'startGoogleMapsUrl',
-        'endLocationName', 'endLocationCoordinates', 'endGoogleMapsUrl',
-        'taxRate', 'advanceBookingPercentage', 'basePriceDisplay', 'currency'
-      ];
-      
-      // Extract table fields from metadata and add them to updateData
-      Object.keys(metadata).forEach(key => {
-        if (tableFields.includes(key) && metadata[key] !== undefined && metadata[key] !== null && metadata[key] !== '') {
-          // Store in table column
-          updateData[key] = metadata[key];
-        } else {
-          // Keep in metadata
-          cleanedMetadata[key] = metadata[key];
-        }
-      });
-      
-      // Update metadata with only non-table fields
-      updateData.metadata = cleanedMetadata;
     }
 
     const updatedListing = await prisma.listing.update({
