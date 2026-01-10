@@ -1,26 +1,25 @@
 model InventoryDateRange {
-  id                    String   @id @default(uuid()) @map("range_id")
-  listingId             String   @map("listing_id")
-  variantId             String?  @map("variant_id")
-  slotDefinitionId      String?  @map("slot_definition_id")
-  availableFromDate     DateTime @map("available_from_date")
-  availableToDate       DateTime @map("available_to_date")
-  basePricePerDay       Int      @map("base_price_per_day")
-  totalCapacity         Int?     @map("total_capacity")
-  availableCount        Int?     @map("available_count")
-  isActive              Boolean  @default(true) @map("is_active")
-  primaryContactPhone   String?  @map("primary_contact_phone")
-  secondaryContactPhone String?  @map("secondary_contact_phone")
-  createdAt             DateTime @default(now()) @map("created_at")
-  updatedAt             DateTime @updatedAt @map("updated_at")
-
-  listing        Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  variant        ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
-  slotDefinition SlotDefinition? @relation(fields: [slotDefinitionId], references: [id], onDelete: Cascade)
-
-  // Relations
-  bookings    Booking[]
-  slotChanges ListingSlotChange[]
+  id                                                               String              @id @default(uuid()) @map("range_id")
+  listingId                                                        String              @map("listing_id")
+  variantId                                                        String?             @map("variant_id")
+  availableFromDate                                                DateTime            @map("available_from_date")
+  availableToDate                                                  DateTime            @map("available_to_date")
+  basePricePerDay                                                  Int                 @map("base_price_per_day")
+  isActive                                                         Boolean             @default(true) @map("is_active")
+  primaryContactPhone                                              String?             @map("primary_contact_phone")
+  secondaryContactPhone                                            String?             @map("secondary_contact_phone")
+  createdAt                                                        DateTime            @default(now()) @map("created_at")
+  updatedAt                                                        DateTime            @updatedAt @map("updated_at")
+  slotDefinitionId                                                 String?             @map("slot_definition_id")
+  availableCount                                                   Int?                @map("available_count")
+  totalCapacity                                                    Int?                @map("total_capacity")
+  bookings                                                         Booking[]
+  listing                                                          Listing             @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  slotDefinition                                                   SlotDefinition?     @relation(fields: [slotDefinitionId], references: [id], onDelete: Cascade)
+  variant                                                          ListingVariant?     @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  slotChanges                                                      ListingSlotChange[]
+  reschedules_reschedules_new_date_range_idToinventory_date_ranges reschedules[]       @relation("reschedules_new_date_range_idToinventory_date_ranges")
+  reschedules_reschedules_old_date_range_idToinventory_date_ranges reschedules[]       @relation("reschedules_old_date_range_idToinventory_date_ranges")
 
   @@map("inventory_date_ranges")
 }

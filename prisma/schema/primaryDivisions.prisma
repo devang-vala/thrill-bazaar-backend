@@ -3,10 +3,10 @@ model PrimaryDivision {
   country_id          String
   division_name       String
   division_code       String
+  listingsEnd         Listing[]           @relation("ListingEndPrimaryDivision")
+  listingsStart       Listing[]           @relation("ListingStartPrimaryDivision")
   country             Country             @relation(fields: [country_id], references: [country_id])
   secondaryDivisions  SecondaryDivision[]
-  listingsStart       Listing[]           @relation("ListingStartPrimaryDivision")
-  listingsEnd         Listing[]           @relation("ListingEndPrimaryDivision")
 
   @@map("primary_divisions")
 }

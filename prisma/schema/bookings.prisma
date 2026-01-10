@@ -1,37 +1,26 @@
 model Booking {
-  id               String @id @default(uuid()) @map("booking_id")
-  bookingReference String @unique @map("booking_reference")
-
-  customerId String @map("customer_id")
-
-  // Exactly ONE will be set
-  listingSlotId String? @map("listing_slot_id") // F1, F3, F4
-  dateRangeId   String? @map("date_range_id") // F2
-
-  bookingStartDate DateTime @map("booking_start_date")
-  bookingEndDate   DateTime @map("booking_end_date")
-
-  participantCount Int @map("participant_count")
-  totalDays        Int @default(1) @map("total_days")
-
-  basePrice   Decimal @map("base_price") @db.Decimal(10, 2)
-  totalAmount Decimal @map("total_amount") @db.Decimal(10, 2)
-
-  bookingStatus BookingStatus @map("booking_status")
-
-  // Additional booking data stored as JSON
-  participants   Json? @map("participants") // Array of participant details
-  contactDetails Json? @map("contact_details") // Contact information
-  selectedAddons Json? @map("selected_addons") // Selected addons with quantities
-  pricingDetails Json? @map("pricing_details") // Breakdown of pricing (subtotal, tax, addons, discount)
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  customer    User                @relation(fields: [customerId], references: [id], onDelete: Restrict)
-  listingSlot ListingSlot?        @relation(fields: [listingSlotId], references: [id], onDelete: Restrict)
-  dateRange   InventoryDateRange? @relation(fields: [dateRangeId], references: [id], onDelete: Restrict)
+  id               String              @id @default(uuid()) @map("booking_id")
+  bookingReference String              @unique @map("booking_reference")
+  customerId       String              @map("customer_id")
+  listingSlotId    String?             @map("listing_slot_id")
+  dateRangeId      String?             @map("date_range_id")
+  bookingStartDate DateTime            @map("booking_start_date")
+  bookingEndDate   DateTime            @map("booking_end_date")
+  participantCount Int                 @map("participant_count")
+  totalDays        Int                 @default(1) @map("total_days")
+  basePrice        Decimal             @map("base_price") @db.Decimal(10, 2)
+  totalAmount      Decimal             @map("total_amount") @db.Decimal(10, 2)
+  bookingStatus    BookingStatus       @map("booking_status")
+  createdAt        DateTime            @default(now()) @map("created_at")
+  updatedAt        DateTime            @updatedAt @map("updated_at")
+  contactDetails   Json?               @map("contact_details")
+  participants     Json?               @map("participants")
+  pricingDetails   Json?               @map("pricing_details")
+  selectedAddons   Json?               @map("selected_addons")
+  customer         User                @relation(fields: [customerId], references: [id])
+  dateRange        InventoryDateRange? @relation(fields: [dateRangeId], references: [id], onDelete: Restrict)
+  listingSlot      ListingSlot?        @relation(fields: [listingSlotId], references: [id], onDelete: Restrict)
+  reschedules      reschedules[]
 
   @@map("bookings")
 }

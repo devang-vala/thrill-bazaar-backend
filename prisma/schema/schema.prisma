@@ -8,8 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// --- Global Enums ---
-
 enum UserType {
   customer
   operator

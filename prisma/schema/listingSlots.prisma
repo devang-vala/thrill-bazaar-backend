@@ -1,31 +1,27 @@
 model ListingSlot {
-  id               String  @id @default(uuid()) @map("slot_id")
-  listingId        String  @map("listing_id")
-  variantId        String? @map("variant_id")
-  slotDefinitionId String? @map("slot_definition_id")
-
-  batchStartDate DateTime? @map("batch_start_date")
-  batchEndDate   DateTime? @map("batch_end_date")
-
-  slotDate  DateTime? @map("slot_date")
-  startTime String?   @map("start_time")
-  endTime   String?   @map("end_time")
-
-  basePrice      Int @map("base_price")
-  totalCapacity  Int @map("total_capacity")
-  availableCount Int @map("available_count")
-
-  isActive  Boolean  @default(true) @map("is_active")
-  createdAt DateTime @default(now()) @map("created_at")
-
-  formatType String? @map("format_type") // Added for batch filtering (F1, F2, etc)
-
-  slotDefinition SlotDefinition? @relation(fields: [slotDefinitionId], references: [id], onDelete: Cascade, name: "SlotDefinitionToSlot")
-  listing        Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade, name: "ListingToSlot")
-  variant        ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade, name: "VariantToSlot")
-
-  // Booking relation
-  bookings Booking[]
+  id                                                  String          @id @default(uuid()) @map("slot_id")
+  listingId                                           String          @map("listing_id")
+  variantId                                           String?         @map("variant_id")
+  basePrice                                           Int             @map("base_price")
+  totalCapacity                                       Int             @map("total_capacity")
+  availableCount                                      Int             @map("available_count")
+  isActive                                            Boolean         @default(true) @map("is_active")
+  createdAt                                           DateTime        @default(now()) @map("created_at")
+  endTime                                             String?         @map("end_time")
+  slotDate                                            DateTime?       @map("slot_date")
+  slotDefinitionId                                    String?         @map("slot_definition_id")
+  startTime                                           String?         @map("start_time")
+  batchEndDate                                        DateTime?       @map("batch_end_date")
+  batchStartDate                                      DateTime?       @map("batch_start_date")
+  formatType                                          String?         @map("format_type")
+  bookings                                            Booking[]
+  listing                                             Listing         @relation("ListingToSlot", fields: [listingId], references: [id], onDelete: Cascade)
+  slotDefinition                                      SlotDefinition? @relation("SlotDefinitionToSlot", fields: [slotDefinitionId], references: [id], onDelete: Cascade)
+  variant                                             ListingVariant? @relation("VariantToSlot", fields: [variantId], references: [id], onDelete: Cascade)
+  reschedules_reschedules_new_batch_idTolisting_slots reschedules[]   @relation("reschedules_new_batch_idTolisting_slots")
+  reschedules_reschedules_new_slot_idTolisting_slots  reschedules[]   @relation("reschedules_new_slot_idTolisting_slots")
+  reschedules_reschedules_old_batch_idTolisting_slots reschedules[]   @relation("reschedules_old_batch_idTolisting_slots")
+  reschedules_reschedules_old_slot_idTolisting_slots  reschedules[]   @relation("reschedules_old_slot_idTolisting_slots")
 
   @@index([listingId, variantId])
   @@map("listing_slots")

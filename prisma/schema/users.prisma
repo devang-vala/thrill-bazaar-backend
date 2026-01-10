@@ -1,32 +1,30 @@
 model User {
-  id          String    @id @default(uuid()) @map("user_id")
-  userType    UserType  @default(customer) @map("user_type")
-  email       String?   @unique
-  phone       String?   @unique
-  password    String?   @map("password_hash")
-  firstName   String?   @map("first_name")
-  lastName    String?   @map("last_name")
-  profileImg  String?   @map("profile_image_url")
-  isVerified  Boolean   @default(false) @map("is_verified")
-  isActive    Boolean   @default(true) @map("is_active")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-  lastLoginAt DateTime? @map("last_login_at")
-
-  // Relations
-  listings                          Listing[]                               @relation
-  approvedListings                  Listing[]                               @relation("ListingApprovals")
-  policies                          ListingPolicy[]                         @relation("UserPolicies")
-  createdMetadataDefinitions        ListingMetadataFieldDefinition[]
-  createdVariantMetadataDefinitions ListingVariantMetadataFieldDefinition[] @relation("VariantFieldDefinitionCreator")
-  blockedDates                      InventoryBlockedDate[]
-
-  addresses         UserAddress[]
-  operatorProfile   OperatorProfile?  @relation("OperatorUser")
-  verifiedOperators OperatorProfile[] @relation("VerifiedOperators")
-
-  // Booking relation
-  bookings Booking[]
+  id                                                 String                                  @id @default(uuid()) @map("user_id")
+  userType                                           UserType                                @default(customer) @map("user_type")
+  email                                              String?                                 @unique
+  phone                                              String?                                 @unique
+  password                                           String?                                 @map("password_hash")
+  firstName                                          String?                                 @map("first_name")
+  lastName                                           String?                                 @map("last_name")
+  profileImg                                         String?                                 @map("profile_image_url")
+  isVerified                                         Boolean                                 @default(false) @map("is_verified")
+  isActive                                           Boolean                                 @default(true) @map("is_active")
+  createdAt                                          DateTime                                @default(now()) @map("created_at")
+  updatedAt                                          DateTime                                @updatedAt @map("updated_at")
+  lastLoginAt                                        DateTime?                               @map("last_login_at")
+  bookings                                           Booking[]
+  blockedDates                                       InventoryBlockedDate[]
+  createdMetadataDefinitions                         ListingMetadataFieldDefinition[]
+  policies                                           ListingPolicy[]                         @relation("UserPolicies")
+  createdVariantMetadataDefinitions                  ListingVariantMetadataFieldDefinition[] @relation("VariantFieldDefinitionCreator")
+  approvedListings                                   Listing[]                               @relation("ListingApprovals")
+  listings                                           Listing[]
+  operatorProfile                                    OperatorProfile?                        @relation("OperatorUser")
+  verifiedOperators                                  OperatorProfile[]                       @relation("VerifiedOperators")
+  reschedules_reschedules_approved_by_admin_idToUser reschedules[]                           @relation("reschedules_approved_by_admin_idToUser")
+  reschedules_reschedules_initiated_by_user_idToUser reschedules[]                           @relation("reschedules_initiated_by_user_idToUser")
+  reschedules_reschedules_operator_idToUser          reschedules[]                           @relation("reschedules_operator_idToUser")
+  addresses                                          UserAddress[]
 
   @@map("User")
 }

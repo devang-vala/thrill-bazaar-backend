@@ -1,22 +1,20 @@
 model ListingVariantMetadataFieldDefinition {
-  id               String    @id @default(uuid()) @map("variant_field_definition_id")
-  categoryId       String    @map("category_id")
-  fieldKey         String    @map("field_key")
-  fieldLabel       String    @map("field_label")
-  fieldType        FieldType @map("field_type")
-  isRequired       Boolean   @default(false) @map("is_required")
-  validationRules  Json?     @map("validation_rules")
-  helpText         String?   @map("help_text")
-  displayOrder     Int       @default(0) @map("display_order")
-  fieldGroup       String?   @map("field_group")
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime  @updatedAt @map("updated_at")
-  createdByAdminId String?   @map("created_by_admin_id")
-
-  // Relations
-  category       Category                             @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  createdByAdmin User?                                @relation("VariantFieldDefinitionCreator", fields: [createdByAdminId], references: [id], onDelete: SetNull)
-  options        ListingVariantMetadataFieldOptions[]
+  id               String                               @id @default(uuid()) @map("variant_field_definition_id")
+  categoryId       String                               @map("category_id")
+  fieldKey         String                               @map("field_key")
+  fieldLabel       String                               @map("field_label")
+  fieldType        FieldType                            @map("field_type")
+  isRequired       Boolean                              @default(false) @map("is_required")
+  validationRules  Json?                                @map("validation_rules")
+  helpText         String?                              @map("help_text")
+  displayOrder     Int                                  @default(0) @map("display_order")
+  fieldGroup       String?                              @map("field_group")
+  createdAt        DateTime                             @default(now()) @map("created_at")
+  updatedAt        DateTime                             @updatedAt @map("updated_at")
+  createdByAdminId String?                              @map("created_by_admin_id")
+  category         Category                             @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdByAdmin   User?                                @relation("VariantFieldDefinitionCreator", fields: [createdByAdminId], references: [id])
+  options          ListingVariantMetadataFieldOptions[]
 
   @@unique([categoryId, fieldKey])
   @@index([categoryId])

@@ -24,6 +24,9 @@ export const getListings = async (c: Context) => {
     const categories = c.req.query("categories"); // comma-separated category IDs
     const sellers = c.req.query("sellers"); // comma-separated operator/seller IDs
     
+    // Get format filter parameters
+    const formats = c.req.query("formats"); // comma-separated format types (F1, F2, F3, F4)
+    
     // Get metadata filter parameters (JSON string)
     const metadataFilters = c.req.query("metadata"); // JSON string of metadata filters
 
@@ -92,6 +95,14 @@ export const getListings = async (c: Context) => {
       }
     }
     
+    // Add format filter
+    if (formats) {
+      const formatList = formats.split(",").filter(Boolean);
+      if (formatList.length > 0) {
+        whereClause.bookingFormat = { in: formatList };
+      }
+    }
+    
     // Add metadata filters
     if (metadataFilters) {
       try {
@@ -153,30 +164,40 @@ export const getListings = async (c: Context) => {
       where: whereClause,
     });
 
-    // Fetch listings with pagination
+    // Fetch listings with pagination - use select for better performance
     const listings = await prisma.listing.findMany({
       where: whereClause,
-      include: {
+      select: {
+        id: true,
+        listingName: true,
+        listingSlug: true,
+        frontImageUrl: true,
+        bookingFormat: true,
+        status: true,
+        basePriceDisplay: true,
+        currency: true,
+        startLocationName: true,
+        startLocationCoordinates: true,
+        endLocationName: true,
+        createdAt: true,
         category: {
-          include: {
-            listingType: true,
+          select: {
+            id: true,
+            categoryName: true,
           },
         },
-        subCategory: true,
         operator: {
           select: {
             id: true,
             firstName: true,
             lastName: true,
-            email: true,
           },
         },
-        variants: {
-          take: 1, // Only get first variant for listing card
-          orderBy: { createdAt: "asc" },
-        },
         media: {
-          take: 5, // Limit media to first 5 images
+          select: {
+            media: true,
+          },
+          take: 1, // Only get first image for listing card
           orderBy: { createdAt: "asc" },
         },
       },
@@ -201,6 +222,9 @@ export const getListings = async (c: Context) => {
           const { rejectionReason, approvedByAdminId, approvedAt, ...publicListing } = listing;
           return publicListing;
         });
+
+    // Add cache headers for better performance (5 minutes for listing pages)
+    c.header('Cache-Control', 'public, max-age=300, s-maxage=300');
 
     return c.json({
       success: true,
@@ -419,15 +443,23 @@ export const getListingById = async (c: Context) => {
     const listingId = c.req.param("id");
     const user = c.get("user");
 
+    // Fetch listing with only essential data first
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
       include: {
         category: {
-          include: {
-            listingType: true,
+          select: {
+            id: true,
+            categoryName: true,
+            hasVariantCatA: true,
           },
         },
-        subCategory: true,
+        subCategory: {
+          select: {
+            id: true,
+            subCatName: true,
+          },
+        },
         operator: {
           select: {
             id: true,
@@ -436,22 +468,58 @@ export const getListingById = async (c: Context) => {
             email: true,
           },
         },
-        startCountry: true,
-        startPrimaryDivision: true,
-        startSecondaryDivision: true,
-        endCountry: true,
-        endPrimaryDivision: true,
-        endSecondaryDivision: true,
+        startCountry: {
+          select: {
+            country_id: true,
+            country_name: true,
+          },
+        },
+        startPrimaryDivision: {
+          select: {
+            primary_division_id: true,
+            division_name: true,
+          },
+        },
+        startSecondaryDivision: {
+          select: {
+            secondary_division_id: true,
+            division_name: true,
+          },
+        },
+        endCountry: {
+          select: {
+            country_id: true,
+            country_name: true,
+          },
+        },
+        endPrimaryDivision: {
+          select: {
+            primary_division_id: true,
+            division_name: true,
+          },
+        },
+        endSecondaryDivision: {
+          select: {
+            secondary_division_id: true,
+            division_name: true,
+          },
+        },
         variants: {
           orderBy: { variantOrder: "asc" },
         },
-        inclusionsExclusions: true, // One-to-one relation, no orderBy
-        addons: true, // One-to-one relation with Json storage, no orderBy
+        inclusionsExclusions: true,
+        addons: true,
         content: {
           orderBy: { contentOrder: "asc" },
         },
-        media: true, // One-to-many but data is Json, no orderBy on Json field
-        faqs: true, // One-to-one relation, no orderBy
+        media: {
+          select: {
+            id: true,
+            media: true,
+            createdAt: true,
+          },
+        },
+        faqs: true,
       },
     });
 
@@ -459,24 +527,63 @@ export const getListingById = async (c: Context) => {
       return c.json({ success: false, message: "Listing not found" }, 404);
     }
 
+    // Only fetch variant field definitions if category has variant fields
+    let variantFieldDefinitions = null;
+    if (listing.categoryId && listing.category?.hasVariantCatA) {
+      variantFieldDefinitions = await prisma.listingVariantMetadataFieldDefinition.findMany({
+        where: {
+          categoryId: listing.categoryId,
+          isActive: true,
+        },
+        select: {
+          id: true,
+          fieldKey: true,
+          fieldLabel: true,
+          fieldType: true,
+          displayOrder: true,
+          options: {
+            where: {
+              isActive: true,
+            },
+            select: {
+              id: true,
+              optionValue: true,
+              optionLabel: true,
+              displayOrder: true,
+            },
+            orderBy: { displayOrder: "asc" },
+          },
+        },
+        orderBy: { displayOrder: "asc" },
+      });
+    }
+
     // If user is not admin, remove admin-specific fields
     const isAdmin = user && (user.userType === "admin" || user.userType === "super_admin");
     
+    // Add cache headers (3 minutes for detail pages)
+    c.header('Cache-Control', 'public, max-age=180, s-maxage=180');
+    
     if (!isAdmin) {
       // Remove admin-specific sensitive fields for non-admin users
-      // Note: Sellers accessing their own listings will see rejectionReason via the listings endpoint
       const { approvedByAdminId, approvedAt, ...publicListing } = listing;
       
       return c.json({
         success: true,
-        data: publicListing,
+        data: {
+          ...publicListing,
+          variantFieldDefinitions,
+        },
       });
     }
 
     // Admin gets all data including rejection reason
     return c.json({
       success: true,
-      data: listing,
+      data: {
+        ...listing,
+        variantFieldDefinitions,
+      },
     });
   } catch (error) {
     console.error("Get listing by ID error:", error);
@@ -570,10 +677,19 @@ export const createListing = async (c: Context) => {
     );
   } catch (error) {
     console.error("Create listing error:", error);
+    
+    // Log detailed error info
+    if (error instanceof Error) {
+      console.error("Error name:", error.name);
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+    }
+    
     return c.json({ 
       success: false,
       error: "Failed to create listing",
-      message: error instanceof Error ? error.message : "Unknown error"
+      message: error instanceof Error ? error.message : "Unknown error",
+      details: process.env.NODE_ENV === 'development' ? String(error) : undefined
     }, 500);
   }
 };
@@ -757,7 +873,20 @@ export const updateListing = async (c: Context) => {
     });
   } catch (error) {
     console.error("Update listing error:", error);
-    return c.json({ error: "Failed to update listing" }, 500);
+    
+    // Log detailed error info
+    if (error instanceof Error) {
+      console.error("Error name:", error.name);
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+    }
+    
+    return c.json({ 
+      success: false,
+      error: "Failed to update listing",
+      message: error instanceof Error ? error.message : "Unknown error",
+      details: process.env.NODE_ENV === 'development' ? String(error) : undefined
+    }, 500);
   }
 };
 
@@ -788,9 +917,32 @@ export const deleteListing = async (c: Context) => {
       return c.json({ error: "Not authorized to delete this listing" }, 403);
     }
 
-    await prisma.listing.delete({
-      where: { id: listingId },
-    });
+    // Delete related records first to avoid foreign key constraint errors
+    // Prisma should handle cascading deletes based on schema, but we'll be explicit
+    try {
+      // Delete bookings that reference this listing's slots
+      const slots = await prisma.listingSlot.findMany({
+        where: { listingId },
+        select: { id: true }
+      });
+      
+      if (slots.length > 0) {
+        const slotIds = slots.map(s => s.id);
+        await prisma.booking.deleteMany({
+          where: {
+            listingSlotId: { in: slotIds }
+          }
+        });
+      }
+      
+      // Now delete the listing (cascades will handle the rest)
+      await prisma.listing.delete({
+        where: { id: listingId },
+      });
+    } catch (deleteError) {
+      console.error("Error during cascade delete:", deleteError);
+      throw deleteError;
+    }
 
     // Remove from Meilisearch asynchronously
     meilisearchService.removeListing(listingId).catch(err => console.error("Background removal failed:", err));
