@@ -635,7 +635,7 @@ export const operatorLogin = async (c: Context) => {
       });
 
       if (!user) {
-        return c. json({ error: "Operator not found" }, 404);
+        return c.json({ error: "Operator not found" }, 404);
       }
 
       // Update last login
@@ -655,7 +655,7 @@ export const operatorLogin = async (c: Context) => {
           lastName: user.lastName,
           userType: user.userType,
           isVerified: user.isVerified,
-          isActive: user. isActive,
+          isActive: user.isActive,
         },
         token: token,
         note: ! user.isVerified ? "Your account is pending verification" : null,

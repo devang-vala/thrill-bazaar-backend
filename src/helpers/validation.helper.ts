@@ -931,7 +931,7 @@ export const validateOperatorCompleteRegistration = (data: {
   }
 
   // Contact number
-  if (!data. contactNumber) {
+  if (!data.contactNumber) {
     return { isValid:  false, message: "Contact number is required" };
   }
 
@@ -961,7 +961,7 @@ export const validateOperatorCompleteRegistration = (data: {
   if (!data.bankAccountNumber) {
     return { isValid: false, message: "Bank account number is required" };
   }
-  if (!data. confirmBankAccountNumber) {
+  if (!data.confirmBankAccountNumber) {
     return { isValid: false, message: "Please confirm bank account number" };
   }
   if (data.bankAccountNumber !== data.confirmBankAccountNumber) {
@@ -989,7 +989,7 @@ export const validateOperatorProfileUpdate = (data: {
     !data.companyName &&
     data.companyLogoUrl === undefined &&
     data.companyDescription === undefined &&
-    data. websiteUrl === undefined &&
+    data.websiteUrl === undefined &&
     data.socialMediaLinks === undefined
   ) {
     return {
@@ -998,7 +998,7 @@ export const validateOperatorProfileUpdate = (data: {
     };
   }
 
-  if (data.companyName && data. companyName.length > 100) {
+  if (data.companyName && data.companyName.length > 100) {
     return {
       isValid: false,
       message: "Company name must be less than 100 characters",
@@ -1012,7 +1012,7 @@ export const validateOperatorProfileUpdate = (data: {
     };
   }
 
-  if (data. companyDescription && data.companyDescription.length > 1000) {
+  if (data.companyDescription && data.companyDescription.length > 1000) {
     return {
       isValid: false,
       message:  "Company description must be less than 1000 characters",

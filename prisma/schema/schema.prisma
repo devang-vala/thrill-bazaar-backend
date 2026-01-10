@@ -100,3 +100,17 @@ enum VerificationStatus {
   VERIFIED
   REJECTED
 }
+
+enum RescheduleRole {
+  customer
+  operator
+  admin
+}
+
+enum RescheduleStatus {
+  pending
+  approved
+  approved_with_charge
+  rejected
+  cancelled
+}

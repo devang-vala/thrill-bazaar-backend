@@ -164,6 +164,11 @@ export type Otp = Prisma.OtpModel
  */
 export type PrimaryDivision = Prisma.PrimaryDivisionModel
 /**
+ * Model Reschedule
+ * 
+ */
+export type Reschedule = Prisma.RescheduleModel
+/**
  * Model SecondaryDivision
  * 
  */

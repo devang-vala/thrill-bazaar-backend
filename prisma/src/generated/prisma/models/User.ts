@@ -255,6 +255,9 @@ export type UserWhereInput = {
   operatorProfile?: Prisma.XOR<Prisma.OperatorProfileNullableScalarRelationFilter, Prisma.OperatorProfileWhereInput> | null
   verifiedOperators?: Prisma.OperatorProfileListRelationFilter
   bookings?: Prisma.BookingListRelationFilter
+  reschedulesInitiated?: Prisma.RescheduleListRelationFilter
+  reschedulesAsOperator?: Prisma.RescheduleListRelationFilter
+  reschedulesApproved?: Prisma.RescheduleListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -281,6 +284,9 @@ export type UserOrderByWithRelationInput = {
   operatorProfile?: Prisma.OperatorProfileOrderByWithRelationInput
   verifiedOperators?: Prisma.OperatorProfileOrderByRelationAggregateInput
   bookings?: Prisma.BookingOrderByRelationAggregateInput
+  reschedulesInitiated?: Prisma.RescheduleOrderByRelationAggregateInput
+  reschedulesAsOperator?: Prisma.RescheduleOrderByRelationAggregateInput
+  reschedulesApproved?: Prisma.RescheduleOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -310,6 +316,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   operatorProfile?: Prisma.XOR<Prisma.OperatorProfileNullableScalarRelationFilter, Prisma.OperatorProfileWhereInput> | null
   verifiedOperators?: Prisma.OperatorProfileListRelationFilter
   bookings?: Prisma.BookingListRelationFilter
+  reschedulesInitiated?: Prisma.RescheduleListRelationFilter
+  reschedulesAsOperator?: Prisma.RescheduleListRelationFilter
+  reschedulesApproved?: Prisma.RescheduleListRelationFilter
 }, "id" | "email" | "phone">
 
 export type UserOrderByWithAggregationInput = {
@@ -374,6 +383,9 @@ export type UserCreateInput = {
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -400,6 +412,9 @@ export type UserUncheckedCreateInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUpdateInput = {
@@ -426,6 +441,9 @@ export type UserUpdateInput = {
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -452,6 +470,9 @@ export type UserUncheckedUpdateInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -696,6 +717,50 @@ export type UserUpdateOneWithoutVerifiedOperatorsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVerifiedOperatorsInput, Prisma.UserUpdateWithoutVerifiedOperatorsInput>, Prisma.UserUncheckedUpdateWithoutVerifiedOperatorsInput>
 }
 
+export type UserCreateNestedOneWithoutReschedulesInitiatedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReschedulesInitiatedInput, Prisma.UserUncheckedCreateWithoutReschedulesInitiatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReschedulesInitiatedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutReschedulesAsOperatorInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReschedulesAsOperatorInput, Prisma.UserUncheckedCreateWithoutReschedulesAsOperatorInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReschedulesAsOperatorInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutReschedulesApprovedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReschedulesApprovedInput, Prisma.UserUncheckedCreateWithoutReschedulesApprovedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReschedulesApprovedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutReschedulesInitiatedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReschedulesInitiatedInput, Prisma.UserUncheckedCreateWithoutReschedulesInitiatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReschedulesInitiatedInput
+  upsert?: Prisma.UserUpsertWithoutReschedulesInitiatedInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReschedulesInitiatedInput, Prisma.UserUpdateWithoutReschedulesInitiatedInput>, Prisma.UserUncheckedUpdateWithoutReschedulesInitiatedInput>
+}
+
+export type UserUpdateOneRequiredWithoutReschedulesAsOperatorNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReschedulesAsOperatorInput, Prisma.UserUncheckedCreateWithoutReschedulesAsOperatorInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReschedulesAsOperatorInput
+  upsert?: Prisma.UserUpsertWithoutReschedulesAsOperatorInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReschedulesAsOperatorInput, Prisma.UserUpdateWithoutReschedulesAsOperatorInput>, Prisma.UserUncheckedUpdateWithoutReschedulesAsOperatorInput>
+}
+
+export type UserUpdateOneWithoutReschedulesApprovedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReschedulesApprovedInput, Prisma.UserUncheckedCreateWithoutReschedulesApprovedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReschedulesApprovedInput
+  upsert?: Prisma.UserUpsertWithoutReschedulesApprovedInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReschedulesApprovedInput, Prisma.UserUpdateWithoutReschedulesApprovedInput>, Prisma.UserUncheckedUpdateWithoutReschedulesApprovedInput>
+}
+
 export type UserCreateNestedOneWithoutAddressesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAddressesInput
@@ -737,6 +802,9 @@ export type UserCreateWithoutBookingsInput = {
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutBookingsInput = {
@@ -762,6 +830,9 @@ export type UserUncheckedCreateWithoutBookingsInput = {
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutBookingsInput = {
@@ -803,6 +874,9 @@ export type UserUpdateWithoutBookingsInput = {
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBookingsInput = {
@@ -828,6 +902,9 @@ export type UserUncheckedUpdateWithoutBookingsInput = {
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateWithoutBlockedDatesInput = {
@@ -853,6 +930,9 @@ export type UserCreateWithoutBlockedDatesInput = {
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutBlockedDatesInput = {
@@ -878,6 +958,9 @@ export type UserUncheckedCreateWithoutBlockedDatesInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutBlockedDatesInput = {
@@ -919,6 +1002,9 @@ export type UserUpdateWithoutBlockedDatesInput = {
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBlockedDatesInput = {
@@ -944,6 +1030,9 @@ export type UserUncheckedUpdateWithoutBlockedDatesInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateWithoutCreatedMetadataDefinitionsInput = {
@@ -969,6 +1058,9 @@ export type UserCreateWithoutCreatedMetadataDefinitionsInput = {
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
@@ -994,6 +1086,9 @@ export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutCreatedMetadataDefinitionsInput = {
@@ -1035,6 +1130,9 @@ export type UserUpdateWithoutCreatedMetadataDefinitionsInput = {
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
@@ -1060,6 +1158,9 @@ export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateWithoutPoliciesInput = {
@@ -1085,6 +1186,9 @@ export type UserCreateWithoutPoliciesInput = {
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutPoliciesInput = {
@@ -1110,6 +1214,9 @@ export type UserUncheckedCreateWithoutPoliciesInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutPoliciesInput = {
@@ -1151,6 +1258,9 @@ export type UserUpdateWithoutPoliciesInput = {
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPoliciesInput = {
@@ -1176,6 +1286,9 @@ export type UserUncheckedUpdateWithoutPoliciesInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1201,6 +1314,9 @@ export type UserCreateWithoutCreatedVariantMetadataDefinitionsInput = {
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1226,6 +1342,9 @@ export type UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1267,6 +1386,9 @@ export type UserUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1292,6 +1414,9 @@ export type UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateWithoutListingsInput = {
@@ -1317,6 +1442,9 @@ export type UserCreateWithoutListingsInput = {
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutListingsInput = {
@@ -1342,6 +1470,9 @@ export type UserUncheckedCreateWithoutListingsInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutListingsInput = {
@@ -1372,6 +1503,9 @@ export type UserCreateWithoutApprovedListingsInput = {
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutApprovedListingsInput = {
@@ -1397,6 +1531,9 @@ export type UserUncheckedCreateWithoutApprovedListingsInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutApprovedListingsInput = {
@@ -1438,6 +1575,9 @@ export type UserUpdateWithoutListingsInput = {
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutListingsInput = {
@@ -1463,6 +1603,9 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUpsertWithoutApprovedListingsInput = {
@@ -1499,6 +1642,9 @@ export type UserUpdateWithoutApprovedListingsInput = {
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApprovedListingsInput = {
@@ -1524,6 +1670,9 @@ export type UserUncheckedUpdateWithoutApprovedListingsInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateWithoutOperatorProfileInput = {
@@ -1549,6 +1698,9 @@ export type UserCreateWithoutOperatorProfileInput = {
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutOperatorProfileInput = {
@@ -1574,6 +1726,9 @@ export type UserUncheckedCreateWithoutOperatorProfileInput = {
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutOperatorProfileInput = {
@@ -1604,6 +1759,9 @@ export type UserCreateWithoutVerifiedOperatorsInput = {
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutVerifiedOperatorsInput = {
@@ -1629,6 +1787,9 @@ export type UserUncheckedCreateWithoutVerifiedOperatorsInput = {
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutVerifiedOperatorsInput = {
@@ -1670,6 +1831,9 @@ export type UserUpdateWithoutOperatorProfileInput = {
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOperatorProfileInput = {
@@ -1695,6 +1859,9 @@ export type UserUncheckedUpdateWithoutOperatorProfileInput = {
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUpsertWithoutVerifiedOperatorsInput = {
@@ -1731,6 +1898,9 @@ export type UserUpdateWithoutVerifiedOperatorsInput = {
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVerifiedOperatorsInput = {
@@ -1756,6 +1926,393 @@ export type UserUncheckedUpdateWithoutVerifiedOperatorsInput = {
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+}
+
+export type UserCreateWithoutReschedulesInitiatedInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutReschedulesInitiatedInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutReschedulesInitiatedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReschedulesInitiatedInput, Prisma.UserUncheckedCreateWithoutReschedulesInitiatedInput>
+}
+
+export type UserCreateWithoutReschedulesAsOperatorInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutReschedulesAsOperatorInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutReschedulesAsOperatorInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReschedulesAsOperatorInput, Prisma.UserUncheckedCreateWithoutReschedulesAsOperatorInput>
+}
+
+export type UserCreateWithoutReschedulesApprovedInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+}
+
+export type UserUncheckedCreateWithoutReschedulesApprovedInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+}
+
+export type UserCreateOrConnectWithoutReschedulesApprovedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReschedulesApprovedInput, Prisma.UserUncheckedCreateWithoutReschedulesApprovedInput>
+}
+
+export type UserUpsertWithoutReschedulesInitiatedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReschedulesInitiatedInput, Prisma.UserUncheckedUpdateWithoutReschedulesInitiatedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReschedulesInitiatedInput, Prisma.UserUncheckedCreateWithoutReschedulesInitiatedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReschedulesInitiatedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReschedulesInitiatedInput, Prisma.UserUncheckedUpdateWithoutReschedulesInitiatedInput>
+}
+
+export type UserUpdateWithoutReschedulesInitiatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReschedulesInitiatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+}
+
+export type UserUpsertWithoutReschedulesAsOperatorInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReschedulesAsOperatorInput, Prisma.UserUncheckedUpdateWithoutReschedulesAsOperatorInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReschedulesAsOperatorInput, Prisma.UserUncheckedCreateWithoutReschedulesAsOperatorInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReschedulesAsOperatorInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReschedulesAsOperatorInput, Prisma.UserUncheckedUpdateWithoutReschedulesAsOperatorInput>
+}
+
+export type UserUpdateWithoutReschedulesAsOperatorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReschedulesAsOperatorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+}
+
+export type UserUpsertWithoutReschedulesApprovedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReschedulesApprovedInput, Prisma.UserUncheckedUpdateWithoutReschedulesApprovedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReschedulesApprovedInput, Prisma.UserUncheckedCreateWithoutReschedulesApprovedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReschedulesApprovedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReschedulesApprovedInput, Prisma.UserUncheckedUpdateWithoutReschedulesApprovedInput>
+}
+
+export type UserUpdateWithoutReschedulesApprovedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReschedulesApprovedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
 }
 
 export type UserCreateWithoutAddressesInput = {
@@ -1781,6 +2338,9 @@ export type UserCreateWithoutAddressesInput = {
   operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutAddressesInput = {
@@ -1806,6 +2366,9 @@ export type UserUncheckedCreateWithoutAddressesInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutAddressesInput = {
@@ -1847,6 +2410,9 @@ export type UserUpdateWithoutAddressesInput = {
   operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAddressesInput = {
@@ -1872,6 +2438,9 @@ export type UserUncheckedUpdateWithoutAddressesInput = {
   operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
   verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 
@@ -1889,6 +2458,9 @@ export type UserCountOutputType = {
   addresses: number
   verifiedOperators: number
   bookings: number
+  reschedulesInitiated: number
+  reschedulesAsOperator: number
+  reschedulesApproved: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1901,6 +2473,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   addresses?: boolean | UserCountOutputTypeCountAddressesArgs
   verifiedOperators?: boolean | UserCountOutputTypeCountVerifiedOperatorsArgs
   bookings?: boolean | UserCountOutputTypeCountBookingsArgs
+  reschedulesInitiated?: boolean | UserCountOutputTypeCountReschedulesInitiatedArgs
+  reschedulesAsOperator?: boolean | UserCountOutputTypeCountReschedulesAsOperatorArgs
+  reschedulesApproved?: boolean | UserCountOutputTypeCountReschedulesApprovedArgs
 }
 
 /**
@@ -1976,6 +2551,27 @@ export type UserCountOutputTypeCountBookingsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.BookingWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReschedulesInitiatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RescheduleWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReschedulesAsOperatorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RescheduleWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReschedulesApprovedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RescheduleWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2001,6 +2597,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   operatorProfile?: boolean | Prisma.User$operatorProfileArgs<ExtArgs>
   verifiedOperators?: boolean | Prisma.User$verifiedOperatorsArgs<ExtArgs>
   bookings?: boolean | Prisma.User$bookingsArgs<ExtArgs>
+  reschedulesInitiated?: boolean | Prisma.User$reschedulesInitiatedArgs<ExtArgs>
+  reschedulesAsOperator?: boolean | Prisma.User$reschedulesAsOperatorArgs<ExtArgs>
+  reschedulesApproved?: boolean | Prisma.User$reschedulesApprovedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2064,6 +2663,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   operatorProfile?: boolean | Prisma.User$operatorProfileArgs<ExtArgs>
   verifiedOperators?: boolean | Prisma.User$verifiedOperatorsArgs<ExtArgs>
   bookings?: boolean | Prisma.User$bookingsArgs<ExtArgs>
+  reschedulesInitiated?: boolean | Prisma.User$reschedulesInitiatedArgs<ExtArgs>
+  reschedulesAsOperator?: boolean | Prisma.User$reschedulesAsOperatorArgs<ExtArgs>
+  reschedulesApproved?: boolean | Prisma.User$reschedulesApprovedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2082,6 +2684,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     operatorProfile: Prisma.$OperatorProfilePayload<ExtArgs> | null
     verifiedOperators: Prisma.$OperatorProfilePayload<ExtArgs>[]
     bookings: Prisma.$BookingPayload<ExtArgs>[]
+    reschedulesInitiated: Prisma.$ReschedulePayload<ExtArgs>[]
+    reschedulesAsOperator: Prisma.$ReschedulePayload<ExtArgs>[]
+    reschedulesApproved: Prisma.$ReschedulePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2501,6 +3106,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   operatorProfile<T extends Prisma.User$operatorProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$operatorProfileArgs<ExtArgs>>): Prisma.Prisma__OperatorProfileClient<runtime.Types.Result.GetResult<Prisma.$OperatorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   verifiedOperators<T extends Prisma.User$verifiedOperatorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$verifiedOperatorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OperatorProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bookings<T extends Prisma.User$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reschedulesInitiated<T extends Prisma.User$reschedulesInitiatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reschedulesInitiatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReschedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reschedulesAsOperator<T extends Prisma.User$reschedulesAsOperatorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reschedulesAsOperatorArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReschedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reschedulesApproved<T extends Prisma.User$reschedulesApprovedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reschedulesApprovedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReschedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3163,6 +3771,78 @@ export type User$bookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
+}
+
+/**
+ * User.reschedulesInitiated
+ */
+export type User$reschedulesInitiatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reschedule
+   */
+  select?: Prisma.RescheduleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reschedule
+   */
+  omit?: Prisma.RescheduleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RescheduleInclude<ExtArgs> | null
+  where?: Prisma.RescheduleWhereInput
+  orderBy?: Prisma.RescheduleOrderByWithRelationInput | Prisma.RescheduleOrderByWithRelationInput[]
+  cursor?: Prisma.RescheduleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RescheduleScalarFieldEnum | Prisma.RescheduleScalarFieldEnum[]
+}
+
+/**
+ * User.reschedulesAsOperator
+ */
+export type User$reschedulesAsOperatorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reschedule
+   */
+  select?: Prisma.RescheduleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reschedule
+   */
+  omit?: Prisma.RescheduleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RescheduleInclude<ExtArgs> | null
+  where?: Prisma.RescheduleWhereInput
+  orderBy?: Prisma.RescheduleOrderByWithRelationInput | Prisma.RescheduleOrderByWithRelationInput[]
+  cursor?: Prisma.RescheduleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RescheduleScalarFieldEnum | Prisma.RescheduleScalarFieldEnum[]
+}
+
+/**
+ * User.reschedulesApproved
+ */
+export type User$reschedulesApprovedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reschedule
+   */
+  select?: Prisma.RescheduleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reschedule
+   */
+  omit?: Prisma.RescheduleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RescheduleInclude<ExtArgs> | null
+  where?: Prisma.RescheduleWhereInput
+  orderBy?: Prisma.RescheduleOrderByWithRelationInput | Prisma.RescheduleOrderByWithRelationInput[]
+  cursor?: Prisma.RescheduleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RescheduleScalarFieldEnum | Prisma.RescheduleScalarFieldEnum[]
 }
 
 /**

@@ -23,6 +23,12 @@ model ListingSlot {
   reschedules_reschedules_old_batch_idTolisting_slots reschedules[]   @relation("reschedules_old_batch_idTolisting_slots")
   reschedules_reschedules_old_slot_idTolisting_slots  reschedules[]   @relation("reschedules_old_slot_idTolisting_slots")
 
+  // reschedule relations
+  reschedulesAsOldBatch Reschedule[] @relation("RescheduleOldBatch")
+  reschedulesAsNewBatch Reschedule[] @relation("RescheduleNewBatch")
+  reschedulesAsOldSlot  Reschedule[] @relation("RescheduleOldSlot")
+  reschedulesAsNewSlot  Reschedule[] @relation("RescheduleNewSlot")
+  
   @@index([listingId, variantId])
   @@map("listing_slots")
 }

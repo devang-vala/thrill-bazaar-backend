@@ -5,6 +5,7 @@ import {
   createF2Booking,
   cancelBooking,
   getUserBookings,
+  getBookingWithReschedules
 } from "../controllers/booking.controller.js";
 
 const bookingRouter = new Hono();
@@ -23,5 +24,8 @@ bookingRouter.post("/:bookingId/cancel", cancelBooking);
 
 // Get user bookings
 bookingRouter.get("/user/:customerId", getUserBookings);
+
+// Get booking with reschedule history
+bookingRouter.get("/:bookingId/with-reschedules", getBookingWithReschedules);
 
 export default bookingRouter;

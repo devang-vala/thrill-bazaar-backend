@@ -46,7 +46,7 @@ export const authenticateToken = async (c: Context, next: Next) => {
     // Add user information to context for use in route handlers
     c.set("user", {
       userId: decoded.userId,
-      userType: decoded. userType,
+      userType: decoded.userType,
       role: decoded.role || decoded.userType, // Fallback to userType if role not present
     });
 
@@ -75,7 +75,7 @@ export const enrichUserContext = async (c: Context, next: Next) => {
     }
 
     // Fetch user status from database
-    const dbUser = await prisma.user. findUnique({
+    const dbUser = await prisma.user.findUnique({
       where:  { id: user.userId },
       select: {
         isActive: true,
@@ -142,7 +142,7 @@ export const requireVerifiedOperator = async (c: Context, next: Next) => {
     c.set("user", {
       ...user,
       isActive: dbUser.isActive,
-      isVerified: dbUser. isVerified,
+      isVerified: dbUser.isVerified,
     });
 
     await next();
@@ -163,7 +163,7 @@ export const requireRole = (allowedRoles: string | string[]) => {
 
     const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles];
 
-    if (!roles.includes(user. role) && !roles.includes(user.userType)) {
+    if (!roles.includes(user.role) && !roles.includes(user.userType)) {
       return c.json(
         {
           error: "Insufficient permissions",
@@ -197,7 +197,7 @@ export const optionalAuth = async (c:  Context, next: Next) => {
 
     if (authHeader && authHeader.startsWith("Bearer ")) {
       const token = authHeader.substring(7);
-      const jwtSecret = process. env.JWT_SECRET;
+      const jwtSecret = process.env.JWT_SECRET;
 
       if (jwtSecret) {
         const decoded = jwt.verify(token, jwtSecret) as JWTPayload;

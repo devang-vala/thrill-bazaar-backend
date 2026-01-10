@@ -67,7 +67,7 @@ const uploadToCloudinary = async (file: File, folder: string = "operator-documen
           reject(error);
         } else {
           resolve({
-            url: result?. secure_url,
+            url: result?.secure_url,
             publicId: result?.public_id,
             format: result?.format,
             resourceType: result?.resource_type,
@@ -96,13 +96,13 @@ export const registerOperatorComplete = async (c: Context) => {
     // Extract all text fields
     const registrationData = {
       email:  body.email as string,
-      phone: body. phone as string,
+      phone: body.phone as string,
       password:  body.password as string,
       businessName: body.businessName as string,
       operatorName:  body.operatorName as string,
       contactNumber: body.contactNumber as string,
       contactEmail: body.contactEmail as string,
-      addressLine01: body. addressLine01 as string,
+      addressLine01: body.addressLine01 as string,
       addressLine02: body.addressLine02 as string,
       city: body.city as string,
       state: body.state as string,
@@ -116,7 +116,7 @@ export const registerOperatorComplete = async (c: Context) => {
       branchName:  body.branchName as string,
       accountHolderName:  body.accountHolderName as string,
       websiteUrl:  body.websiteUrl as string,
-      companyDescription: body. companyDescription as string,
+      companyDescription: body.companyDescription as string,
       socialMediaLinks: body.socialMediaLinks as string,
     };
 
@@ -128,9 +128,9 @@ export const registerOperatorComplete = async (c: Context) => {
 
     // Sanitize inputs
     const email = sanitizeEmail(registrationData.email);
-    const phone = sanitizePhone(registrationData. phone);
+    const phone = sanitizePhone(registrationData.phone);
     const businessName = sanitizeString(registrationData.businessName, 100);
-    const operatorName = sanitizeString(registrationData. operatorName, 100);
+    const operatorName = sanitizeString(registrationData.operatorName, 100);
 
     // Check if email already exists
     const existingUser = await prisma.user.findFirst({
@@ -160,20 +160,20 @@ export const registerOperatorComplete = async (c: Context) => {
     
     // KYC Documents
     if (body.panDocument && body.panDocument instanceof File) {
-      documentFiles. push({ key: "pan_document", file: body.panDocument });
+      documentFiles.push({ key: "pan_document", file: body.panDocument });
     }
     if (body.businessLicense && body.businessLicense instanceof File) {
       documentFiles.push({ key: "business_license", file: body.businessLicense });
     }
     if (body.idProof && body.idProof instanceof File) {
-      documentFiles. push({ key: "id_proof", file: body.idProof });
+      documentFiles.push({ key: "id_proof", file: body.idProof });
     }
 
     // Certifications (can be multiple)
     const certificationFiles: File[] = [];
     if (body.certifications) {
       if (Array.isArray(body.certifications)) {
-        certificationFiles.push(...body.certifications. filter((f): f is File => f instanceof File));
+        certificationFiles.push(...body.certifications.filter((f): f is File => f instanceof File));
       } else if (body.certifications instanceof File) {
         certificationFiles.push(body.certifications);
       }
@@ -191,7 +191,7 @@ export const registerOperatorComplete = async (c: Context) => {
     }
 
     // Hash password
-    const hashedPassword = await hashPassword(registrationData. password);
+    const hashedPassword = await hashPassword(registrationData.password);
 
     // Split operator name
     const nameParts = operatorName.trim().split(" ");
@@ -258,7 +258,7 @@ export const registerOperatorComplete = async (c: Context) => {
       // Create business address
       await tx.userAddress.create({
         data: {
-          userId: newUser. id,
+          userId: newUser.id,
           addressType: "BILLING",
           fullAddress: `${registrationData.addressLine01}${registrationData.addressLine02 ? ", " + registrationData.addressLine02 : ""}`,
           city: sanitizeString(registrationData.city, 100),
@@ -297,7 +297,7 @@ export const registerOperatorComplete = async (c: Context) => {
         message: "Your profile has been created successfully! ",
         subtitle: "Our admins will verify your documents and contact you for further steps on Thrill Bazaar! ",
         userId: result.user.id,
-        operatorProfileId: result.operatorProfile. id,
+        operatorProfileId: result.operatorProfile.id,
         status: "pending_verification",
         note: "A confirmation has been sent to your mobile number.",
       },
@@ -307,8 +307,8 @@ export const registerOperatorComplete = async (c: Context) => {
     console.error("Operator registration error:", error);
     
     if (error instanceof Error) {
-      console.error("Error details:", error. message);
-      console.error("Stack trace:", error. stack);
+      console.error("Error details:", error.message);
+      console.error("Stack trace:", error.stack);
     }
     
     return c.json({ error: "Internal server error" }, 500);
@@ -328,7 +328,7 @@ export const getOperatorProfile = async (c:  Context) => {
       return c.json({ error: "Can only view your own profile" }, 403);
     }
 
-    const operatorProfile = await prisma. operatorProfile.findUnique({
+    const operatorProfile = await prisma.operatorProfile.findUnique({
       where: { operatorId: operatorId },
       include: {
         operator: {
@@ -359,7 +359,7 @@ export const getOperatorProfile = async (c:  Context) => {
     }
 
     // Get business address
-    const businessAddress = await prisma. userAddress.findFirst({
+    const businessAddress = await prisma.userAddress.findFirst({
       where: {
         userId: operatorId,
         addressType:  "BILLING",
@@ -404,14 +404,14 @@ export const getAllOperators = async (c: Context) => {
 
     if (body.search) {
       where.OR = [
-        { companyName: { contains: body. search, mode: "insensitive" } },
+        { companyName: { contains: body.search, mode: "insensitive" } },
         { operator: { email: { contains: body.search, mode: "insensitive" } } },
         { operator: { phone: { contains: body.search } } },
       ];
     }
 
     const [operators, totalCount] = await Promise.all([
-      prisma. operatorProfile.findMany({
+      prisma.operatorProfile.findMany({
         where,
         include: {
           operator: {
@@ -457,7 +457,7 @@ export const getAllOperators = async (c: Context) => {
           hasPrevPage: page > 1,
         },
         filters: {
-          verificationStatus: body. verificationStatus || null,
+          verificationStatus: body.verificationStatus || null,
           search: body.search || null,
         },
       },
@@ -477,7 +477,7 @@ export const verifyOperator = async (c: Context) => {
     const operatorId = c.req.param("operatorId");
     const body = await c.req.json();
 
-    if (!["admin", "super_admin"].includes(currentUser. userType)) {
+    if (!["admin", "super_admin"].includes(currentUser.userType)) {
       return c.json({ error: "Only admins can verify operators" }, 403);
     }
 
@@ -503,7 +503,7 @@ export const verifyOperator = async (c: Context) => {
     }
 
     const result = await prisma.$transaction(async (tx) => {
-      const updatedProfile = await tx.operatorProfile. update({
+      const updatedProfile = await tx.operatorProfile.update({
         where: { operatorId: operatorId },
         data: {
           verificationStatus: action === "verify" ? "VERIFIED" : "REJECTED",

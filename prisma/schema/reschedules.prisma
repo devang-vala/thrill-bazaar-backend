@@ -1,0 +1,51 @@
+model Reschedule {
+  id                  String           @id @default(uuid()) @map("reschedule_id")
+  bookingId           String           @map("booking_id")
+  initiatedByUserId   String           @map("initiated_by_user_id")
+  initiatedByRole     RescheduleRole   @map("initiated_by_role")
+  operatorId          String           @map("operator_id")
+  rescheduleReason    String?           @map("reschedule_reason") @db.Text
+  adminNotes          String?          @map("admin_notes") @db.Text
+  status              RescheduleStatus @map("status") @default(pending)
+  rescheduleFeeAmount Decimal          @default(0) @map("reschedule_fee_amount") @db.Decimal(10, 2)
+  isPaymentRequired   Boolean          @default(false) @map("is_payment_required")
+  approvedByAdminId   String?           @map("approved_by_admin_id")
+  approvedAt          DateTime?         @map("approved_at")
+  createdAt           DateTime         @default(now()) @map("created_at")
+  updatedAt           DateTime         @updatedAt @map("updated_at")
+
+  // F1 - Batch reschedule
+  oldBatchId String? @map("old_batch_id")
+  newBatchId String? @map("new_batch_id")
+
+  // F2 - Date range reschedule
+  oldRentalStartDate DateTime? @map("old_rental_start_date")
+  oldRentalEndDate   DateTime? @map("old_rental_end_date")
+  newRentalStartDate DateTime? @map("new_rental_start_date")
+  newRentalEndDate   DateTime? @map("new_rental_end_date")
+
+  // F3/F4 - Slot reschedule
+  oldSlotId String? @map("old_slot_id")
+  newSlotId String? @map("new_slot_id")
+
+  // F2 - Date range reschedule (using InventoryDateRange)
+  oldDateRangeId String? @map("old_date_range_id")
+  newDateRangeId String? @map("new_date_range_id")
+
+  // Relations
+  booking         Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  initiatedBy     User     @relation("RescheduleInitiatedBy", fields: [initiatedByUserId], references: [id], onDelete: Restrict)
+  operator        User     @relation("RescheduleOperator", fields: [operatorId], references: [id], onDelete:  Restrict)
+  approvedByAdmin User?    @relation("RescheduleApprovedBy", fields: [approvedByAdminId], references: [id], onDelete: SetNull)
+  
+  oldBatch        ListingSlot?         @relation("RescheduleOldBatch", fields: [oldBatchId], references: [id], onDelete: SetNull)
+  newBatch        ListingSlot?        @relation("RescheduleNewBatch", fields: [newBatchId], references: [id], onDelete: SetNull)
+  oldSlot         ListingSlot?        @relation("RescheduleOldSlot", fields: [oldSlotId], references: [id], onDelete: SetNull)
+  newSlot         ListingSlot?        @relation("RescheduleNewSlot", fields: [newSlotId], references: [id], onDelete: SetNull)
+  oldDateRange    InventoryDateRange? @relation("RescheduleOldDateRange", fields:  [oldDateRangeId], references: [id], onDelete:  SetNull)
+  newDateRange    InventoryDateRange? @relation("RescheduleNewDateRange", fields: [newDateRangeId], references: [id], onDelete: SetNull)
+
+  @@index([bookingId])
+  @@index([status])
+  @@map("reschedules")
+}

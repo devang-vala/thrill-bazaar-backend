@@ -72,6 +72,7 @@ export const ModelName = {
   OperatorProfile: 'OperatorProfile',
   Otp: 'Otp',
   PrimaryDivision: 'PrimaryDivision',
+  Reschedule: 'Reschedule',
   SecondaryDivision: 'SecondaryDivision',
   SlotDefinition: 'SlotDefinition',
   UserAddress: 'UserAddress',
@@ -493,6 +494,36 @@ export const PrimaryDivisionScalarFieldEnum = {
 } as const
 
 export type PrimaryDivisionScalarFieldEnum = (typeof PrimaryDivisionScalarFieldEnum)[keyof typeof PrimaryDivisionScalarFieldEnum]
+
+
+export const RescheduleScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  initiatedByUserId: 'initiatedByUserId',
+  initiatedByRole: 'initiatedByRole',
+  operatorId: 'operatorId',
+  rescheduleReason: 'rescheduleReason',
+  adminNotes: 'adminNotes',
+  status: 'status',
+  rescheduleFeeAmount: 'rescheduleFeeAmount',
+  isPaymentRequired: 'isPaymentRequired',
+  approvedByAdminId: 'approvedByAdminId',
+  approvedAt: 'approvedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  oldBatchId: 'oldBatchId',
+  newBatchId: 'newBatchId',
+  oldRentalStartDate: 'oldRentalStartDate',
+  oldRentalEndDate: 'oldRentalEndDate',
+  newRentalStartDate: 'newRentalStartDate',
+  newRentalEndDate: 'newRentalEndDate',
+  oldSlotId: 'oldSlotId',
+  newSlotId: 'newSlotId',
+  oldDateRangeId: 'oldDateRangeId',
+  newDateRangeId: 'newDateRangeId'
+} as const
+
+export type RescheduleScalarFieldEnum = (typeof RescheduleScalarFieldEnum)[keyof typeof RescheduleScalarFieldEnum]
 
 
 export const SecondaryDivisionScalarFieldEnum = {
