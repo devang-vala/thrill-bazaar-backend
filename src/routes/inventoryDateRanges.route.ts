@@ -27,7 +27,7 @@ inventoryDateRangesRouter.get("/listing/:listingId", getInventoryDateRanges);
 inventoryDateRangesRouter.post("/listing/:listingId", createInventoryDateRange);
 
 // Update date range
-// inventoryDateRangesRouter. put("/:id", updateInventoryDateRange);
+// inventoryDateRangesRouter.put("/:id", updateInventoryDateRange);
 
 // Delete date range
 // inventoryDateRangesRouter.delete("/:id", deleteInventoryDateRange);

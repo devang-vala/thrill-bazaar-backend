@@ -7,6 +7,7 @@ import {
   getPendingReschedules,
   cancelReschedule,
   getRescheduleById,
+  checkRescheduleEligibility,
 } from "../controllers/reschedule.controller.js";
 import {
   authenticateToken,
@@ -18,7 +19,10 @@ const rescheduleRouter = new Hono();
 // All reschedule routes require authentication
 rescheduleRouter.use(authenticateToken);
 
-// Customer/Operator:  Initiate reschedule request
+// Check reschedule eligibility for a booking
+rescheduleRouter.get("/check-eligibility/:bookingId", checkRescheduleEligibility);
+
+// Customer/Operator: Initiate reschedule request
 rescheduleRouter.post("/initiate", initiateReschedule);
 
 // Admin: Review (approve/reject) reschedule
@@ -33,7 +37,7 @@ rescheduleRouter.get("/booking/:bookingId", getReschedulesByBooking);
 // Admin: Get all pending reschedules
 rescheduleRouter.get("/pending", requireAdmin, getPendingReschedules);
 
-// Cancel reschedule request (only if pending)
+// Cancel reschedule request
 rescheduleRouter.post("/:rescheduleId/cancel", cancelReschedule);
 
 // Get reschedule details by ID

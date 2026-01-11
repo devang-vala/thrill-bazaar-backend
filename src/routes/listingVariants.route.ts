@@ -35,7 +35,7 @@ listingVariantsRouter.post("/listing/:listingId/bulk", bulkCreateVariants);
 listingVariantsRouter.get("/:id", getListingVariantById);
 
 // Update variant
-listingVariantsRouter. put("/:id", updateListingVariant);
+listingVariantsRouter.put("/:id", updateListingVariant);
 
 // Delete variant
 listingVariantsRouter.delete("/:id", deleteListingVariant);
