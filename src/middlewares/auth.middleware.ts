@@ -89,7 +89,7 @@ export const enrichUserContext = async (c: Context, next: Next) => {
 
     // Enrich user context with database info
     c.set("user", {
-      ... user,
+      ...user,
       isActive: dbUser.isActive,
       isVerified: dbUser.isVerified,
     });

@@ -24,7 +24,7 @@ export const createBooking = async (c: Context) => {
     if (user && user.userType !== "customer") {
       return c.json({ 
         success: false, 
-        message: "Only customers can create bookings. Please login as a customer." 
+        message: "Only customers can create bookings.Please login as a customer." 
       }, 403);
     }
     
@@ -588,9 +588,25 @@ export const getBookingWithReschedules = async (c: Context) => {
         listingSlot: {
           include: {
             listing: {
-              select:  {
+              select: {
+                id: true,
                 listingName: true,
                 frontImageUrl: true,
+                currency: true,
+                startLocationName: true,
+                operatorId: true,
+                bookingFormat: true,
+                category: {
+                  select: {
+                    categoryName: true,
+                  },
+                },
+              },
+            },
+            slotDefinition: {
+              select: {
+                startTime: true,
+                endTime: true,
               },
             },
           },
@@ -599,14 +615,46 @@ export const getBookingWithReschedules = async (c: Context) => {
           include: {
             listing: {
               select: {
-                listingName:  true,
-                frontImageUrl:  true,
+                id: true,
+                listingName: true,
+                frontImageUrl: true,
+                currency: true,
+                startLocationName: true,
+                operatorId: true,
+                bookingFormat: true,
+                category: {
+                  select: {
+                    categoryName: true,
+                  },
+                },
+              },
+            },
+            slotDefinition: {
+              select: {
+                startTime:  true,
+                endTime: true,
               },
             },
           },
         },
         reschedules: {
           orderBy: { createdAt: "desc" },
+          include: {
+            initiatedBy: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+              },
+            },
+            approvedByAdmin: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName:  true,
+              },
+            },
+          },
         },
       },
     });
@@ -615,11 +663,139 @@ export const getBookingWithReschedules = async (c: Context) => {
       return c.json({ success: false, message: "Booking not found" }, 404);
     }
 
-    return c.json({ success: true, data: booking });
+    // Add startTime and endTime from slotDefinition to listingSlot for easier access
+    const formattedBooking = {
+      ...booking,
+      listingSlot: booking.listingSlot ?  {
+        ...booking.listingSlot,
+        startTime:  booking.listingSlot.slotDefinition?.startTime || booking.listingSlot.startTime,
+        endTime: booking.listingSlot.slotDefinition?.endTime || booking.listingSlot.endTime,
+      } : null,
+    };
+
+    return c.json({ success: true, data: formattedBooking });
   } catch (error) {
     console.error("Error fetching booking with reschedules:", error);
     return c.json(
       { success: false, message: "Failed to fetch booking" },
+      500
+    );
+  }
+};
+
+/**
+ * Get all bookings (Admin only)
+ * GET /api/bookings/admin/all
+ */
+export const getAdminBookings = async (c: Context) => {
+  try {
+    const user = c.get("user");
+
+    // Only admin can view all bookings
+    if (user.userType !== "admin" && user.userType !== "super_admin") {
+      return c.json(
+        { success: false, message: "Admin access required" },
+        403
+      );
+    }
+
+    const status = c.req.query("status");
+    const page = parseInt(c.req.query("page") || "1");
+    const limit = parseInt(c.req.query("limit") || "20");
+    const skip = (page - 1) * limit;
+
+    const where:  any = {};
+
+    if (status && status !== "all") {
+      where.bookingStatus = status;
+    }
+
+    const [bookings, totalCount] = await Promise.all([
+      prisma.booking.findMany({
+        where,
+        include: {
+          customer: {
+            select: {
+              id:  true,
+              firstName: true,
+              lastName: true,
+              email: true,
+              phone: true,
+            },
+          },
+          listingSlot: {
+            include: {
+              listing: {
+                select: {
+                  id: true,
+                  listingName: true,
+                  frontImageUrl: true,
+                  operatorId: true,
+                  bookingFormat: true,
+                  currency: true,
+                  startLocationName: true,
+                },
+              },
+              slotDefinition: {
+                select: {
+                  startTime: true,
+                  endTime: true,
+                },
+              },
+            },
+          },
+          dateRange: {
+            include: {
+              listing: {
+                select: {
+                  id: true,
+                  listingName: true,
+                  frontImageUrl: true,
+                  operatorId: true,
+                  bookingFormat: true,
+                  currency: true,
+                  startLocationName: true,
+                },
+              },
+              slotDefinition: {
+                select: {
+                  startTime:  true,
+                  endTime:  true,
+                },
+              },
+            },
+          },
+          reschedules: {
+            orderBy: { createdAt: "desc" },
+            take: 1,
+          },
+        },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.booking.count({ where }),
+    ]);
+
+    return c.json({
+      success: true,
+      data: bookings,
+      count: totalCount,
+      pagination: {
+        page,
+        limit,
+        totalPages: Math.ceil(totalCount / limit),
+        hasNextPage: page < Math.ceil(totalCount / limit),
+        hasPreviousPage: page > 1,
+      },
+    });
+  } catch (error:  any) {
+    console.error("Error fetching admin bookings:", error);
+    return c.json(
+      {
+        success: false,
+        message: error.message || "Failed to fetch bookings",
+      },
       500
     );
   }

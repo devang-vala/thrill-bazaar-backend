@@ -652,10 +652,6 @@ export type ListingSlotUpdateOneWithoutBookingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ListingSlotUpdateToOneWithWhereWithoutBookingsInput, Prisma.ListingSlotUpdateWithoutBookingsInput>, Prisma.ListingSlotUncheckedUpdateWithoutBookingsInput>
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type ListingSlotCreateNestedManyWithoutVariantInput = {
   create?: Prisma.XOR<Prisma.ListingSlotCreateWithoutVariantInput, Prisma.ListingSlotUncheckedCreateWithoutVariantInput> | Prisma.ListingSlotCreateWithoutVariantInput[] | Prisma.ListingSlotUncheckedCreateWithoutVariantInput[]
   connectOrCreate?: Prisma.ListingSlotCreateOrConnectWithoutVariantInput | Prisma.ListingSlotCreateOrConnectWithoutVariantInput[]
