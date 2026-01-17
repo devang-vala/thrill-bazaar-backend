@@ -8,7 +8,7 @@ model User {
   lastName    String?   @map("last_name")
   profileImg  String?   @map("profile_image_url")
   isVerified  Boolean   @default(false) @map("is_verified")
-  isActive    Boolean   @default(true) @map("is_active")
+  isActive    Boolean   @default(true) @map("is_active") 
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
   lastLoginAt DateTime? @map("last_login_at")
@@ -34,3 +34,4 @@ model User {
 
   @@map("User")
 }
+ 

@@ -164,13 +164,13 @@ export const getRentalAvailability = async (c: Context) => {
   for (const date of Object.keys(capacityMap)) {
     if (calendar[date]) {
       const capacity = capacityMap[date];
-      if (capacity.totalCapacity >= capacity.availableCount) {
+      if (capacity.totalCapacity > capacity.availableCount) {
         calendar[date].available = false;
         calendar[date].source = "booked";
       }
-      calendar[date].bookedCount = capacity.bookedCount;
+      calendar[date].totalCapacity = capacity.totalCapacity;
       calendar[date].availableCount = capacity.availableCount;
-      calendar[date].remainingCount = capacity.availableCount - capacity.bookedCount;
+      calendar[date].remainingCount = capacity.availableCount;
     }
   }
   // 4. Blocked dates take highest priority

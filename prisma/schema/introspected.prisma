@@ -1,0 +1,53 @@
+model reschedules {
+  reschedule_id                                                              String              @id
+  booking_id                                                                 String
+  initiated_by_user_id                                                       String
+  initiated_by_role                                                          RescheduleRole
+  operator_id                                                                String
+  reschedule_reason                                                          String?
+  admin_notes                                                                String?
+  status                                                                     RescheduleStatus    @default(pending)
+  reschedule_fee_amount                                                      Decimal             @default(0) @db.Decimal(10, 2)
+  is_payment_required                                                        Boolean             @default(false)
+  approved_by_admin_id                                                       String?
+  approved_at                                                                DateTime?
+  created_at                                                                 DateTime            @default(now())
+  updated_at                                                                 DateTime
+  old_batch_id                                                               String?
+  new_batch_id                                                               String?
+  old_rental_start_date                                                      DateTime?
+  old_rental_end_date                                                        DateTime?
+  new_rental_start_date                                                      DateTime?
+  new_rental_end_date                                                        DateTime?
+  old_slot_id                                                                String?
+  new_slot_id                                                                String?
+  old_date_range_id                                                          String?
+  new_date_range_id                                                          String?
+  User_reschedules_approved_by_admin_idToUser                                User?               @relation("reschedules_approved_by_admin_idToUser", fields: [approved_by_admin_id], references: [id])
+  bookings                                                                   Booking             @relation(fields: [booking_id], references: [id], onDelete: Cascade)
+  User_reschedules_initiated_by_user_idToUser                                User                @relation("reschedules_initiated_by_user_idToUser", fields: [initiated_by_user_id], references: [id])
+  listing_slots_reschedules_new_batch_idTolisting_slots                      ListingSlot?        @relation("reschedules_new_batch_idTolisting_slots", fields: [new_batch_id], references: [id])
+  inventory_date_ranges_reschedules_new_date_range_idToinventory_date_ranges InventoryDateRange? @relation("reschedules_new_date_range_idToinventory_date_ranges", fields: [new_date_range_id], references: [id])
+  listing_slots_reschedules_new_slot_idTolisting_slots                       ListingSlot?        @relation("reschedules_new_slot_idTolisting_slots", fields: [new_slot_id], references: [id])
+  listing_slots_reschedules_old_batch_idTolisting_slots                      ListingSlot?        @relation("reschedules_old_batch_idTolisting_slots", fields: [old_batch_id], references: [id])
+  inventory_date_ranges_reschedules_old_date_range_idToinventory_date_ranges InventoryDateRange? @relation("reschedules_old_date_range_idToinventory_date_ranges", fields: [old_date_range_id], references: [id])
+  listing_slots_reschedules_old_slot_idTolisting_slots                       ListingSlot?        @relation("reschedules_old_slot_idTolisting_slots", fields: [old_slot_id], references: [id])
+  User_reschedules_operator_idToUser                                         User                @relation("reschedules_operator_idToUser", fields: [operator_id], references: [id])
+
+  @@index([booking_id])
+  @@index([status])
+}
+
+enum RescheduleRole {
+  customer
+  operator
+  admin
+}
+
+enum RescheduleStatus {
+  pending
+  approved
+  approved_with_charge
+  rejected
+  cancelled
+}

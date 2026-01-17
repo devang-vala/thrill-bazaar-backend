@@ -1,11 +1,10 @@
 model ListingFaq {
   id        String   @id @default(uuid()) @map("faq_id")
   listingId String   @unique @map("listing_id")
-  faqs      Json     @map("faqs") // Array of { question: string, answer: string }
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-
-  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  faqs      Json     @map("faqs")
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
 
   @@index([listingId])
   @@map("listing_faqs")

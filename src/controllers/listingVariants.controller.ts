@@ -292,8 +292,12 @@ export const bulkCreateVariants = async (c: Context) => {
       return c.json({ error: "Listing not found" }, 404);
     }
 
-    // Validate and prepare variants data
-    const variantsData = body.variants.map((variant: any, index: number) => {
+    let createdCount = 0;
+    let updatedCount = 0;
+    const processedVariants = [];
+
+    // Process each variant - update if id exists, create if not
+    for (const [index, variant] of body.variants.entries()) {
       // Validate validParticipantNumbers (required)
       if (!variant.validParticipantNumbers || !Array.isArray(variant.validParticipantNumbers) || variant.validParticipantNumbers.length === 0) {
         throw new Error(`validParticipantNumbers array is required for variant "${variant.variantName}"`);
@@ -326,7 +330,7 @@ export const bulkCreateVariants = async (c: Context) => {
         }
       }
 
-      return {
+      const variantData = {
         listingId,
         variantName: sanitizeString(variant.variantName, 255),
         variantDescription: variant.variantDescription ? sanitizeString(variant.variantDescription, 5000) : null,
@@ -334,14 +338,42 @@ export const bulkCreateVariants = async (c: Context) => {
         variantOrder: variant.variantOrder ?? index,
         variantMetadata: variant.variantMetadata || null,
       };
-    });
 
-    const createdVariants = await prisma.listingVariant.createMany({
-      data: variantsData,
-    });
+      // If variant has id, update it; otherwise create new
+      if (variant.id) {
+        // Check if variant exists
+        const existingVariant = await prisma.listingVariant.findUnique({
+          where: { id: variant.id },
+        });
 
-    // Fetch created variants to return
-    const variants = await prisma.listingVariant.findMany({
+        if (existingVariant && existingVariant.listingId === listingId) {
+          // Update existing variant
+          const updated = await prisma.listingVariant.update({
+            where: { id: variant.id },
+            data: variantData,
+          });
+          processedVariants.push(updated);
+          updatedCount++;
+        } else {
+          // ID provided but variant doesn't exist or belongs to different listing, create new
+          const created = await prisma.listingVariant.create({
+            data: variantData,
+          });
+          processedVariants.push(created);
+          createdCount++;
+        }
+      } else {
+        // No id provided, create new variant
+        const created = await prisma.listingVariant.create({
+          data: variantData,
+        });
+        processedVariants.push(created);
+        createdCount++;
+      }
+    }
+
+    // Fetch all variants for this listing to return
+    const allVariants = await prisma.listingVariant.findMany({
       where: { listingId },
       orderBy: { variantOrder: "asc" },
     });
@@ -349,14 +381,14 @@ export const bulkCreateVariants = async (c: Context) => {
     return c.json(
       {
         success: true,
-        message: `${createdVariants.count} variants created successfully`,
-        data: variants,
+        message: `${createdCount} variants created, ${updatedCount} variants updated`,
+        data: allVariants,
       },
       201
     );
   } catch (error) {
-    console.error("Bulk create variants error:", error);
-    return c.json({ error: "Failed to create variants" }, 500);
+    console.error("Bulk upsert variants error:", error);
+    return c.json({ error: error instanceof Error ? error.message : "Failed to process variants" }, 500);
   }
 };
 
@@ -394,11 +426,9 @@ export const getVariantFieldsForCategory = async (c: Context) => {
     const fieldDefinitions = await prisma.listingVariantMetadataFieldDefinition.findMany({
       where: {
         categoryId,
-        isActive: true,
       },
       include: {
         options: {
-          where: { isActive: true },
           orderBy: { displayOrder: "asc" },
         },
       },

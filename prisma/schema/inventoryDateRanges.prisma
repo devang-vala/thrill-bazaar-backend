@@ -12,7 +12,7 @@ model InventoryDateRange {
   primaryContactPhone   String?  @map("primary_contact_phone")
   secondaryContactPhone String?  @map("secondary_contact_phone")
   createdAt             DateTime @default(now()) @map("created_at")
-  updatedAt             DateTime @updatedAt @map("updated_at")
+  updatedAt             DateTime @updatedAt @map("updated_at") 
 
   listing        Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade)
   variant        ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)

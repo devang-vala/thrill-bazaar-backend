@@ -1,16 +1,15 @@
 model SlotDefinition {
-  id        String   @id @default(uuid()) @map("slot_definition_id")
-  listingId String   @map("listing_id")
-  variantId String?  @map("variant_id")
-  startTime String   @map("start_time") // "HH:mm"
-  endTime   String   @map("end_time") // "HH:mm"
-  isActive  Boolean  @default(true) @map("is_active")
-  createdAt DateTime @default(now()) @map("created_at")
-
-  listing    Listing              @relation(fields: [listingId], references: [id], onDelete: Cascade, name: "ListingToSlotDefinition")
-  variant    ListingVariant?      @relation(fields: [variantId], references: [id], onDelete: Cascade, name: "VariantToSlotDefinition")
+  id         String               @id @default(uuid()) @map("slot_definition_id")
+  listingId  String               @map("listing_id")
+  variantId  String?              @map("variant_id")
+  startTime  String               @map("start_time")
+  endTime    String               @map("end_time")
+  isActive   Boolean              @default(true) @map("is_active")
+  createdAt  DateTime             @default(now()) @map("created_at")
+  dateRanges InventoryDateRange[]
   slots      ListingSlot[]        @relation("SlotDefinitionToSlot")
-  dateRanges InventoryDateRange[] // For F4: slot-based rental ranges
+  listing    Listing              @relation("ListingToSlotDefinition", fields: [listingId], references: [id], onDelete: Cascade)
+  variant    ListingVariant?      @relation("VariantToSlotDefinition", fields: [variantId], references: [id], onDelete: Cascade)
 
   @@index([listingId, variantId])
   @@map("slot_definitions")

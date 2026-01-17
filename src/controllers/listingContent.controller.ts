@@ -185,7 +185,7 @@ export const upsertDayWiseItinerary = async (c: Context) => {
 
     // Create new day itinerary entries
     if (validationResults.length > 0) {
-      const createData = validationResults.map((day) => ({
+      const createData = validationResults.map((day: any) => ({
         listingId: listingId,
         contentType: "day_itinerary" as any,
         contentOrder: day.dayNumber,

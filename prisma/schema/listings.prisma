@@ -1,67 +1,58 @@
 model Listing {
-  id                 String         @id @default(uuid()) @map("listing_id")
-  operatorId         String?        @map("operator_id")
-  categoryId         String?        @map("category_id")
-  subCatId           String?        @map("sub_cat_id")
-  listingName        String?        @map("listing_name")
-  listingSlug        String?        @unique @map("listing_slug")
-  tbaId              String?        @map("tba_id")
-  frontImageUrl      String?        @map("front_image_url")
-  bookingFormat      BookingFormat? @map("booking_format")
-  hasMultipleOptions Boolean        @default(false) @map("has_multiple_options")
-  status             ListingStatus  @default(draft)
-  createdAt          DateTime       @default(now()) @map("created_at")
-  updatedAt          DateTime       @updatedAt @map("updated_at")
-  approvedByAdminId  String?        @map("approved_by_admin_id")
-  approvedAt         DateTime?      @map("approved_at")
-  rejectionReason    String?        @map("rejection_reason")
-
-  // Location Fields
-  startCountryId           String? @map("start_country_id")
-  startPrimaryDivisionId   String? @map("start_primary_division_id")
-  startSecondaryDivisionId String? @map("start_secondary_division_id")
-  endCountryId             String? @map("end_country_id")
-  endPrimaryDivisionId     String? @map("end_primary_division_id")
-  endSecondaryDivisionId   String? @map("end_secondary_division_id")
-  startLocationName        String? @map("start_location_name")
-  startLocationCoordinates String? @map("start_location_coordinates")
-  startGoogleMapsUrl       String? @map("start_google_maps_url")
-  endLocationName          String? @map("end_location_name")
-  endLocationCoordinates   String? @map("end_location_coordinates")
-  endGoogleMapsUrl         String? @map("end_google_maps_url")
-
-  // Pricing Fields
-  taxRate                  Decimal @default(0.00) @map("tax_rate") @db.Decimal(5, 2)
-  advanceBookingPercentage Decimal @default(25.00) @map("advance_booking_percentage") @db.Decimal(5, 2)
-  basePriceDisplay         Decimal @default(0.00) @map("base_price_display") @db.Decimal(10, 2)
-  currency                 String  @default("INR")
-
-  // Relations
-  operator        User?        @relation(fields: [operatorId], references: [id], onDelete: Cascade)
-  category        Category?    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-  subCategory     SubCategory? @relation(fields: [subCatId], references: [id], onDelete: Restrict)
-  approvedByAdmin User?        @relation("ListingApprovals", fields: [approvedByAdminId], references: [id], onDelete: SetNull)
-
-  // Location Relations
-  startCountry           Country?           @relation("ListingStartCountry", fields: [startCountryId], references: [country_id], onDelete: SetNull)
-  startPrimaryDivision   PrimaryDivision?   @relation("ListingStartPrimaryDivision", fields: [startPrimaryDivisionId], references: [primary_division_id], onDelete: SetNull)
-  startSecondaryDivision SecondaryDivision? @relation("ListingStartSecondaryDivision", fields: [startSecondaryDivisionId], references: [secondary_division_id], onDelete: SetNull)
-  endCountry             Country?           @relation("ListingEndCountry", fields: [endCountryId], references: [country_id], onDelete: SetNull)
-  endPrimaryDivision     PrimaryDivision?   @relation("ListingEndPrimaryDivision", fields: [endPrimaryDivisionId], references: [primary_division_id], onDelete: SetNull)
-  endSecondaryDivision   SecondaryDivision? @relation("ListingEndSecondaryDivision", fields: [endSecondaryDivisionId], references: [secondary_division_id], onDelete: SetNull)
-
-  variants             ListingVariant[]
-  content              ListingContent[]
-  inclusionsExclusions ListingInclusionExclusion?
-  addons               ListingAddon?
-  media                ListingMedia[]
-  faqs                 ListingFaq?
-  slots                ListingSlot[]              @relation("ListingToSlot")
-  slotDefinitions      SlotDefinition[]           @relation("ListingToSlotDefinition")
-  slotChanges          ListingSlotChange[]
-  dateRanges           InventoryDateRange[]
-  blockedDates         InventoryBlockedDate[]
-  metadata             Json?                      @map("metadata")
+  id                       String                     @id @default(uuid()) @map("listing_id")
+  operatorId               String?                    @map("operator_id")
+  categoryId               String?                    @map("category_id")
+  subCatId                 String?                    @map("sub_cat_id")
+  listingName              String?                    @map("listing_name")
+  listingSlug              String?                    @unique @map("listing_slug")
+  tbaId                    String?                    @map("tba_id")
+  frontImageUrl            String?                    @map("front_image_url")
+  bookingFormat            BookingFormat?             @map("booking_format")
+  hasMultipleOptions       Boolean                    @default(false) @map("has_multiple_options")
+  status                   ListingStatus              @default(draft)
+  createdAt                DateTime                   @default(now()) @map("created_at")
+  updatedAt                DateTime                   @updatedAt @map("updated_at")
+  approvedByAdminId        String?                    @map("approved_by_admin_id")
+  approvedAt               DateTime?                  @map("approved_at")
+  rejectionReason          String?                    @map("rejection_reason")
+  startCountryId           String?                    @map("start_country_id")
+  startPrimaryDivisionId   String?                    @map("start_primary_division_id")
+  startSecondaryDivisionId String?                    @map("start_secondary_division_id")
+  endCountryId             String?                    @map("end_country_id")
+  endPrimaryDivisionId     String?                    @map("end_primary_division_id")
+  endSecondaryDivisionId   String?                    @map("end_secondary_division_id")
+  startLocationName        String?                    @map("start_location_name")
+  startLocationCoordinates String?                    @map("start_location_coordinates")
+  startGoogleMapsUrl       String?                    @map("start_google_maps_url")
+  endLocationName          String?                    @map("end_location_name")
+  endLocationCoordinates   String?                    @map("end_location_coordinates")
+  endGoogleMapsUrl         String?                    @map("end_google_maps_url")
+  taxRate                  Decimal                    @default(0.00) @map("tax_rate") @db.Decimal(5, 2)
+  advanceBookingPercentage Decimal                    @default(25.00) @map("advance_booking_percentage") @db.Decimal(5, 2)
+  basePriceDisplay         Decimal                    @default(0.00) @map("base_price_display") @db.Decimal(10, 2)
+  currency                 String                     @default("INR")
+  metadata                 Json?                      @map("metadata")
+  blockedDates             InventoryBlockedDate[]
+  dateRanges               InventoryDateRange[]
+  addons                   ListingAddon?
+  content                  ListingContent[]
+  faqs                     ListingFaq?
+  inclusionsExclusions     ListingInclusionExclusion?
+  media                    ListingMedia[]
+  slotChanges              ListingSlotChange[]
+  slots                    ListingSlot[]              @relation("ListingToSlot")
+  variants                 ListingVariant[]
+  approvedByAdmin          User?                      @relation("ListingApprovals", fields: [approvedByAdminId], references: [id])
+  category                 Category?                  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  endCountry               Country?                   @relation("ListingEndCountry", fields: [endCountryId], references: [country_id])
+  endPrimaryDivision       PrimaryDivision?           @relation("ListingEndPrimaryDivision", fields: [endPrimaryDivisionId], references: [primary_division_id])
+  endSecondaryDivision     SecondaryDivision?         @relation("ListingEndSecondaryDivision", fields: [endSecondaryDivisionId], references: [secondary_division_id])
+  operator                 User?                      @relation(fields: [operatorId], references: [id], onDelete: Cascade)
+  startCountry             Country?                   @relation("ListingStartCountry", fields: [startCountryId], references: [country_id])
+  startPrimaryDivision     PrimaryDivision?           @relation("ListingStartPrimaryDivision", fields: [startPrimaryDivisionId], references: [primary_division_id])
+  startSecondaryDivision   SecondaryDivision?         @relation("ListingStartSecondaryDivision", fields: [startSecondaryDivisionId], references: [secondary_division_id])
+  subCategory              SubCategory?               @relation(fields: [subCatId], references: [id], onDelete: Restrict)
+  slotDefinitions          SlotDefinition[]           @relation("ListingToSlotDefinition")
 
   @@map("listings")
 }

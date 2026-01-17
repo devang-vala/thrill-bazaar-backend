@@ -1,15 +1,13 @@
 model ListingMetadataFieldOptions {
-  optionId          String   @id @default(uuid()) @map("option_id")
-  fieldDefinitionId String   @map("field_definition_id")
-  optionValue       String   @map("option_value")
-  optionLabel       String   @map("option_label")
-  optionDescription String?  @map("option_description")
-  displayOrder      Int      @default(0) @map("display_order")
-  createdAt         DateTime @default(now()) @map("created_at")
-  updatedAt         DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  fieldDefinition ListingMetadataFieldDefinition @relation(fields: [fieldDefinitionId], references: [id], onDelete: Cascade)
+  optionId          String                         @id @default(uuid()) @map("option_id")
+  fieldDefinitionId String                         @map("field_definition_id")
+  optionValue       String                         @map("option_value")
+  optionLabel       String                         @map("option_label")
+  optionDescription String?                        @map("option_description")
+  displayOrder      Int                            @default(0) @map("display_order")
+  createdAt         DateTime                       @default(now()) @map("created_at")
+  updatedAt         DateTime                       @updatedAt @map("updated_at")
+  fieldDefinition   ListingMetadataFieldDefinition @relation(fields: [fieldDefinitionId], references: [id], onDelete: Cascade)
 
   @@unique([fieldDefinitionId, optionValue])
   @@index([fieldDefinitionId])

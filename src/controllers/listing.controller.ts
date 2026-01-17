@@ -24,6 +24,9 @@ export const getListings = async (c: Context) => {
     const categories = c.req.query("categories"); // comma-separated category IDs
     const sellers = c.req.query("sellers"); // comma-separated operator/seller IDs
     
+    // Get format filter parameters
+    const formats = c.req.query("formats"); // comma-separated format types (F1, F2, F3, F4)
+    
     // Get metadata filter parameters (JSON string)
     const metadataFilters = c.req.query("metadata"); // JSON string of metadata filters
 
@@ -36,15 +39,19 @@ export const getListings = async (c: Context) => {
     // Get user context if authenticated
     const user = c.get("user");
     
+    // Add seller/operator filter first (needed for determining status filter)
+    const sellerIds = sellers ? sellers.split(",").filter(Boolean) : [];
+    const isViewingOwnListings = user && sellerIds.length > 0 && sellerIds.includes(user.userId);
+    
     if (status) {
       whereClause.status = status;
     } else {
-      // Only show active listings for unauthenticated users or customer role
-      // Show all listings for operators, admins, and other non-customer roles
-      if (!user || user.role === "customer") {
+      // If operator is viewing their own listings, show all statuses
+      // Otherwise, only show active listings for unauthenticated users or customers
+      if (!isViewingOwnListings && (!user || user.role === "customer" || user.userType === "customer")) {
         whereClause.status = "active";
       }
-      // For other roles (operator, admin, super_admin), don't filter by status
+      // For operators viewing their own listings, or admins, don't filter by status
     }
 
     // Add location filters
@@ -84,11 +91,16 @@ export const getListings = async (c: Context) => {
       }
     }
     
-    // Add seller/operator filter
-    if (sellers) {
-      const sellerIds = sellers.split(",").filter(Boolean);
-      if (sellerIds.length > 0) {
-        whereClause.operatorId = { in: sellerIds };
+    // Add seller/operator filter (sellerIds already parsed above)
+    if (sellerIds.length > 0) {
+      whereClause.operatorId = { in: sellerIds };
+    }
+    
+    // Add format filter
+    if (formats) {
+      const formatList = formats.split(",").filter(Boolean);
+      if (formatList.length > 0) {
+        whereClause.bookingFormat = { in: formatList };
       }
     }
     
@@ -153,30 +165,42 @@ export const getListings = async (c: Context) => {
       where: whereClause,
     });
 
-    // Fetch listings with pagination
+    // Fetch listings with pagination - use select for better performance
     const listings = await prisma.listing.findMany({
       where: whereClause,
-      include: {
+      select: {
+        id: true,
+        listingName: true,
+        listingSlug: true,
+        frontImageUrl: true,
+        bookingFormat: true,
+        status: true,
+        rejectionReason: true,
+        basePriceDisplay: true,
+        currency: true,
+        startLocationName: true,
+        startLocationCoordinates: true,
+        endLocationName: true,
+        createdAt: true,
+        updatedAt: true,
         category: {
-          include: {
-            listingType: true,
+          select: {
+            id: true,
+            categoryName: true,
           },
         },
-        subCategory: true,
         operator: {
           select: {
             id: true,
             firstName: true,
             lastName: true,
-            email: true,
           },
         },
-        variants: {
-          take: 1, // Only get first variant for listing card
-          orderBy: { createdAt: "asc" },
-        },
         media: {
-          take: 5, // Limit media to first 5 images
+          select: {
+            media: true,
+          },
+          take: 1, // Only get first image for listing card
           orderBy: { createdAt: "asc" },
         },
       },
@@ -193,14 +217,12 @@ export const getListings = async (c: Context) => {
       user.role === "seller"
     );
     
-    // For customers/public users, remove admin-specific fields
-    // Sellers and admins can see all fields including rejection reason
-    const responseData = isAdminOrSeller 
-      ? listings 
-      : listings.map(listing => {
-          const { rejectionReason, approvedByAdminId, approvedAt, ...publicListing } = listing;
-          return publicListing;
-        });
+    // For customers/public users, listings already filtered by select
+    // All users see the same fields (admin fields not selected in query)
+    const responseData = listings;
+
+    // Add cache headers for better performance (5 minutes for listing pages)
+    c.header('Cache-Control', 'public, max-age=300, s-maxage=300');
 
     return c.json({
       success: true,
@@ -419,15 +441,37 @@ export const getListingById = async (c: Context) => {
     const listingId = c.req.param("id");
     const user = c.get("user");
 
+    // Fetch listing with only essential data first
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
       include: {
         category: {
-          include: {
-            listingType: true,
+          select: {
+            id: true,
+            categoryName: true,
+            hasVariantCatA: true,
+            isAddonsAllowed: true,
+            isBookingOptionAllowed: true,
+            isInclusionsExclusionsAllowed: true,
+            isFaqAllowed: true,
+            isDayWiseAllowed: true,
+            isRental: true,
+            isEndLocation: true,
+            bookingFormat: true,
+            listingType: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
           },
         },
-        subCategory: true,
+        subCategory: {
+          select: {
+            id: true,
+            subCatName: true,
+          },
+        },
         operator: {
           select: {
             id: true,
@@ -436,22 +480,58 @@ export const getListingById = async (c: Context) => {
             email: true,
           },
         },
-        startCountry: true,
-        startPrimaryDivision: true,
-        startSecondaryDivision: true,
-        endCountry: true,
-        endPrimaryDivision: true,
-        endSecondaryDivision: true,
+        startCountry: {
+          select: {
+            country_id: true,
+            country_name: true,
+          },
+        },
+        startPrimaryDivision: {
+          select: {
+            primary_division_id: true,
+            division_name: true,
+          },
+        },
+        startSecondaryDivision: {
+          select: {
+            secondary_division_id: true,
+            division_name: true,
+          },
+        },
+        endCountry: {
+          select: {
+            country_id: true,
+            country_name: true,
+          },
+        },
+        endPrimaryDivision: {
+          select: {
+            primary_division_id: true,
+            division_name: true,
+          },
+        },
+        endSecondaryDivision: {
+          select: {
+            secondary_division_id: true,
+            division_name: true,
+          },
+        },
         variants: {
           orderBy: { variantOrder: "asc" },
         },
-        inclusionsExclusions: true, // One-to-one relation, no orderBy
-        addons: true, // One-to-one relation with Json storage, no orderBy
+        inclusionsExclusions: true,
+        addons: true,
         content: {
           orderBy: { contentOrder: "asc" },
         },
-        media: true, // One-to-many but data is Json, no orderBy on Json field
-        faqs: true, // One-to-one relation, no orderBy
+        media: {
+          select: {
+            id: true,
+            media: true,
+            createdAt: true,
+          },
+        },
+        faqs: true,
       },
     });
 
@@ -459,24 +539,59 @@ export const getListingById = async (c: Context) => {
       return c.json({ success: false, message: "Listing not found" }, 404);
     }
 
+    // Only fetch variant field definitions if category has variant fields
+    let variantFieldDefinitions = null;
+    if (listing.categoryId && listing.category?.hasVariantCatA) {
+      variantFieldDefinitions = await prisma.listingVariantMetadataFieldDefinition.findMany({
+        where: {
+          categoryId: listing.categoryId,
+        },
+        select: {
+          id: true,
+          fieldKey: true,
+          fieldLabel: true,
+          fieldType: true,
+          displayOrder: true,
+          options: {
+            select: {
+              optionId: true,
+              optionValue: true,
+              optionLabel: true,
+              displayOrder: true,
+            },
+            orderBy: { displayOrder: "asc" },
+          },
+        },
+        orderBy: { displayOrder: "asc" },
+      });
+    }
+
     // If user is not admin, remove admin-specific fields
     const isAdmin = user && (user.userType === "admin" || user.userType === "super_admin");
     
+    // Add cache headers (3 minutes for detail pages)
+    c.header('Cache-Control', 'public, max-age=180, s-maxage=180');
+    
     if (!isAdmin) {
       // Remove admin-specific sensitive fields for non-admin users
-      // Note: Sellers accessing their own listings will see rejectionReason via the listings endpoint
       const { approvedByAdminId, approvedAt, ...publicListing } = listing;
       
       return c.json({
         success: true,
-        data: publicListing,
+        data: {
+          ...publicListing,
+          variantFieldDefinitions,
+        },
       });
     }
 
     // Admin gets all data including rejection reason
     return c.json({
       success: true,
-      data: listing,
+      data: {
+        ...listing,
+        variantFieldDefinitions,
+      },
     });
   } catch (error) {
     console.error("Get listing by ID error:", error);
@@ -570,10 +685,19 @@ export const createListing = async (c: Context) => {
     );
   } catch (error) {
     console.error("Create listing error:", error);
+    
+    // Log detailed error info
+    if (error instanceof Error) {
+      console.error("Error name:", error.name);
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+    }
+    
     return c.json({ 
       success: false,
       error: "Failed to create listing",
-      message: error instanceof Error ? error.message : "Unknown error"
+      message: error instanceof Error ? error.message : "Unknown error",
+      details: process.env.NODE_ENV === 'development' ? String(error) : undefined
     }, 500);
   }
 };
@@ -657,9 +781,50 @@ export const updateListing = async (c: Context) => {
     if (body.currency !== undefined) {
       updateData.currency = body.currency;
     }
+    
+    // Handle metadata - merge with existing and separate table fields
     if (body.metadata !== undefined) {
-      updateData.metadata = body.metadata;
+      console.log('=== METADATA UPDATE DEBUG ===');
+      console.log('Incoming body.metadata:', JSON.stringify(body.metadata, null, 2));
+      
+      const incomingMetadata = typeof body.metadata === 'string' ? JSON.parse(body.metadata) : body.metadata;
+      const existingMetadata = existingListing.metadata as any || {};
+      
+      console.log('Existing metadata from DB:', JSON.stringify(existingMetadata, null, 2));
+      console.log('Incoming metadata (parsed):', JSON.stringify(incomingMetadata, null, 2));
+      
+      const cleanedMetadata: any = {};
+      
+      // List of fields that exist in the listings table
+      const tableFields = [
+        'startCountryId', 'startPrimaryDivisionId', 'startSecondaryDivisionId',
+        'endCountryId', 'endPrimaryDivisionId', 'endSecondaryDivisionId',
+        'startLocationName', 'startLocationCoordinates', 'startGoogleMapsUrl',
+        'endLocationName', 'endLocationCoordinates', 'endGoogleMapsUrl',
+        'taxRate', 'advanceBookingPercentage', 'basePriceDisplay', 'currency'
+      ];
+      
+      // Extract table fields from incoming metadata and add them to updateData
+      Object.keys(incomingMetadata).forEach(key => {
+        if (tableFields.includes(key) && incomingMetadata[key] !== undefined && incomingMetadata[key] !== null && incomingMetadata[key] !== '') {
+          // Store in table column (don't add if already set above)
+          if (updateData[key] === undefined) {
+            updateData[key] = incomingMetadata[key];
+            console.log(`Moved ${key} from metadata to table field`);
+          }
+        } else {
+          // Keep in metadata
+          cleanedMetadata[key] = incomingMetadata[key];
+          console.log(`Keeping ${key} in metadata`);
+        }
+      });
+      
+      // Merge cleaned incoming metadata with existing metadata
+      updateData.metadata = { ...existingMetadata, ...cleanedMetadata };
+      console.log('Final merged metadata:', JSON.stringify(updateData.metadata, null, 2));
+      console.log('=== END METADATA DEBUG ===');
     }
+    
     // Location fields
     if (body.startLocationName !== undefined) {
       updateData.startLocationName = body.startLocationName
@@ -702,35 +867,6 @@ export const updateListing = async (c: Context) => {
       updateData.endGoogleMapsUrl = body.endGoogleMapsUrl;
     }
 
-    // Handle metadata - extract fields that exist in table schema
-    if (body.metadata !== undefined) {
-      const metadata = typeof body.metadata === 'string' ? JSON.parse(body.metadata) : body.metadata;
-      const cleanedMetadata: any = {};
-      
-      // List of fields that exist in the listings table
-      const tableFields = [
-        'startCountryId', 'startPrimaryDivisionId', 'startSecondaryDivisionId',
-        'endCountryId', 'endPrimaryDivisionId', 'endSecondaryDivisionId',
-        'startLocationName', 'startLocationCoordinates', 'startGoogleMapsUrl',
-        'endLocationName', 'endLocationCoordinates', 'endGoogleMapsUrl',
-        'taxRate', 'advanceBookingPercentage', 'basePriceDisplay', 'currency'
-      ];
-      
-      // Extract table fields from metadata and add them to updateData
-      Object.keys(metadata).forEach(key => {
-        if (tableFields.includes(key) && metadata[key] !== undefined && metadata[key] !== null && metadata[key] !== '') {
-          // Store in table column
-          updateData[key] = metadata[key];
-        } else {
-          // Keep in metadata
-          cleanedMetadata[key] = metadata[key];
-        }
-      });
-      
-      // Update metadata with only non-table fields
-      updateData.metadata = cleanedMetadata;
-    }
-
     const updatedListing = await prisma.listing.update({
       where: { id: listingId },
       data: updateData,
@@ -757,7 +893,20 @@ export const updateListing = async (c: Context) => {
     });
   } catch (error) {
     console.error("Update listing error:", error);
-    return c.json({ error: "Failed to update listing" }, 500);
+    
+    // Log detailed error info
+    if (error instanceof Error) {
+      console.error("Error name:", error.name);
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+    }
+    
+    return c.json({ 
+      success: false,
+      error: "Failed to update listing",
+      message: error instanceof Error ? error.message : "Unknown error",
+      details: process.env.NODE_ENV === 'development' ? String(error) : undefined
+    }, 500);
   }
 };
 
@@ -788,9 +937,32 @@ export const deleteListing = async (c: Context) => {
       return c.json({ error: "Not authorized to delete this listing" }, 403);
     }
 
-    await prisma.listing.delete({
-      where: { id: listingId },
-    });
+    // Delete related records first to avoid foreign key constraint errors
+    // Prisma should handle cascading deletes based on schema, but we'll be explicit
+    try {
+      // Delete bookings that reference this listing's slots
+      const slots = await prisma.listingSlot.findMany({
+        where: { listingId },
+        select: { id: true }
+      });
+      
+      if (slots.length > 0) {
+        const slotIds = slots.map(s => s.id);
+        await prisma.booking.deleteMany({
+          where: {
+            listingSlotId: { in: slotIds }
+          }
+        });
+      }
+      
+      // Now delete the listing (cascades will handle the rest)
+      await prisma.listing.delete({
+        where: { id: listingId },
+      });
+    } catch (deleteError) {
+      console.error("Error during cascade delete:", deleteError);
+      throw deleteError;
+    }
 
     // Remove from Meilisearch asynchronously
     meilisearchService.removeListing(listingId).catch(err => console.error("Background removal failed:", err));

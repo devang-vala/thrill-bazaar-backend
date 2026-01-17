@@ -1,13 +1,17 @@
 import { MeiliSearch } from "meilisearch";
 import { prisma } from "../db.js";
 
-const MEILISEARCH_URL = process.env.MEILISEARCH_URL || "https://ms-e6d837043f67-36807.sgp.meilisearch.io" || "http://localhost:7700";
-const MEILISEARCH_MASTER_KEY = process.env.MEILISEARCH_MASTER_KEY || "2adc8426a5d364691097e000391ae77b2fb1e0de";
+const MEILISEARCH_URL = process.env.MEILISEARCH_URL || "";
+const MEILISEARCH_MASTER_KEY = process.env.MEILISEARCH_MASTER_KEY || "";
 
-const client = new MeiliSearch({
-    host: MEILISEARCH_URL,
-    apiKey: MEILISEARCH_MASTER_KEY,
-});
+let meilisearchAvailable = false;
+
+const client = MEILISEARCH_URL && MEILISEARCH_MASTER_KEY 
+    ? new MeiliSearch({
+        host: MEILISEARCH_URL,
+        apiKey: MEILISEARCH_MASTER_KEY,
+      })
+    : null;
 
 const LISTINGS_INDEX = "listings";
 
@@ -17,23 +21,38 @@ const LISTINGS_INDEX = "listings";
 export const initMeilisearch = async () => {
     try {
         // Check if Meilisearch is configured
-        if (!MEILISEARCH_URL || !MEILISEARCH_MASTER_KEY) {
-            console.warn("⚠️  Meilisearch not configured - search functionality will be disabled");
+        if (!MEILISEARCH_URL || !MEILISEARCH_MASTER_KEY || !client) {
+            console.log("ℹ️  MeiliSearch not configured - search functionality will use database queries");
             return;
         }
-
-        const index = client.index(LISTINGS_INDEX);
 
         // Test connection first
         try {
             await client.health();
+            console.log("✅ MeiliSearch health check passed");
+            meilisearchAvailable = true;
         } catch (healthError) {
-            console.warn("⚠️  Meilisearch health check failed - service may be down");
-            console.warn("Search functionality will be limited until Meilisearch is available");
+            console.log("ℹ️  MeiliSearch service unavailable - falling back to database search");
+            meilisearchAvailable = false;
             return;
         }
 
-        // Check if index exists, create if not (Meilisearch creates lazily on add documents, but setting settings ensures it)
+        // Explicitly create the index if it doesn't exist
+        try {
+            await client.createIndex(LISTINGS_INDEX, { primaryKey: 'id' });
+            console.log(`✅ Created MeiliSearch index: ${LISTINGS_INDEX}`);
+        } catch (createError: any) {
+            // Index might already exist, which is fine
+            if (createError?.code === 'index_already_exists') {
+                console.log(`ℹ️  MeiliSearch index ${LISTINGS_INDEX} already exists`);
+            } else {
+                console.log("ℹ️  Could not create index:", createError?.message || createError);
+            }
+        }
+
+        const index = client.index(LISTINGS_INDEX);
+
+        // Update index settings
         await index.updateSettings({
             searchableAttributes: [
                 "listingName",
@@ -72,11 +91,10 @@ export const initMeilisearch = async () => {
             ]
         });
 
-        console.log("✅ Meilisearch initialized and settings updated successfully");
+        console.log("✅ MeiliSearch initialized and settings updated successfully");
     } catch (error) {
-        console.warn("⚠️  Failed to initialize Meilisearch settings (might be down or misconfigured)");
-        console.warn("Error details:", error instanceof Error ? error.message : error);
-        console.warn("Search functionality will continue without Meilisearch");
+        console.log("ℹ️  MeiliSearch initialization skipped - using database search");
+        meilisearchAvailable = false;
     }
 };
 
@@ -85,6 +103,11 @@ export const initMeilisearch = async () => {
  */
 export const indexListing = async (listingId: string) => {
     try {
+        // Check if Meilisearch is available
+        if (!meilisearchAvailable || !client) {
+            return; // Silently skip if MeiliSearch is not available
+        }
+
         const listing = await prisma.listing.findUnique({
             where: { id: listingId },
             include: {
@@ -95,20 +118,12 @@ export const indexListing = async (listingId: string) => {
                     take: 1,
                     orderBy: { createdAt: 'asc' }
                 },
-                // We might want countries too if we want to search by country name efficiently
-                // assuming country/division logic is handled via relations or IDs
             },
         });
 
         if (!listing) {
-            console.warn(`Listing ${listingId} not found for indexing`);
             return;
         }
-
-        // Only index valid listings (active? or maybe index all and filter by status?)
-        // Prudent to index all and filter by status in search for flexibility (e.g. admin search)
-        // But user requirement says: "listing may get updated, even deleted, or inactived on any time... so consider all these things"
-        // If it's deleted, we remove. If inactive, we update the status field and filter in query.
 
         const overview = listing.content.find(c => c.contentType === 'overview')?.contentText || "";
 
@@ -134,11 +149,26 @@ export const indexListing = async (listingId: string) => {
         };
 
         const index = client.index(LISTINGS_INDEX);
+        
+        // Check if index exists, if not try to create it
+        try {
+            await index.getStats();
+        } catch (statsError: any) {
+            if (statsError?.code === 'index_not_found') {
+                await client.createIndex(LISTINGS_INDEX, { primaryKey: 'id' });
+            } else {
+                throw statsError;
+            }
+        }
+        
         await index.addDocuments([document]);
-        console.log(`Indexed listing ${listingId}`);
 
-    } catch (error) {
-        console.error(`Failed to index listing ${listingId}:`, error);
+    } catch (error: any) {
+        // Silently fail - don't spam console with errors
+        // Only log if it's a critical error
+        if (error?.response?.status !== 404) {
+            console.log(`Note: Could not index listing ${listingId} in MeiliSearch`);
+        }
     }
 };
 
@@ -147,11 +177,14 @@ export const indexListing = async (listingId: string) => {
  */
 export const removeListing = async (listingId: string) => {
     try {
+        if (!meilisearchAvailable || !client) {
+            return; // Silently skip if MeiliSearch is not available
+        }
+        
         const index = client.index(LISTINGS_INDEX);
         await index.deleteDocument(listingId);
-        console.log(`Removed listing ${listingId} from index`);
     } catch (error) {
-        console.error(`Failed to remove listing ${listingId}:`, error);
+        // Silently fail
     }
 };
 
@@ -160,13 +193,14 @@ export const removeListing = async (listingId: string) => {
  */
 export const searchListings = async (query: string, options: any = {}) => {
     try {
+        if (!meilisearchAvailable || !client) {
+            throw new Error("MeiliSearch not available");
+        }
+        
         const index = client.index(LISTINGS_INDEX);
 
         // Default filters
         const filter = options.filter || [];
-        // Ensure we default to active listings if not specified? 
-        // Or let the controller handle that. 
-        // Usually public search only shows active.
 
         const searchOptions = {
             limit: options.limit || 20,
@@ -179,7 +213,6 @@ export const searchListings = async (query: string, options: any = {}) => {
         const result = await index.search(query, searchOptions);
         return result;
     } catch (error) {
-        console.error("Search error:", error);
         throw error;
     }
 };
