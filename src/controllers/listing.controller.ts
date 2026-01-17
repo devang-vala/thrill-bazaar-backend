@@ -39,15 +39,19 @@ export const getListings = async (c: Context) => {
     // Get user context if authenticated
     const user = c.get("user");
     
+    // Add seller/operator filter first (needed for determining status filter)
+    const sellerIds = sellers ? sellers.split(",").filter(Boolean) : [];
+    const isViewingOwnListings = user && sellerIds.length > 0 && sellerIds.includes(user.userId);
+    
     if (status) {
       whereClause.status = status;
     } else {
-      // Only show active listings for unauthenticated users or customer role
-      // Show all listings for operators, admins, and other non-customer roles
-      if (!user || user.role === "customer") {
+      // If operator is viewing their own listings, show all statuses
+      // Otherwise, only show active listings for unauthenticated users or customers
+      if (!isViewingOwnListings && (!user || user.role === "customer" || user.userType === "customer")) {
         whereClause.status = "active";
       }
-      // For other roles (operator, admin, super_admin), don't filter by status
+      // For operators viewing their own listings, or admins, don't filter by status
     }
 
     // Add location filters
@@ -87,12 +91,9 @@ export const getListings = async (c: Context) => {
       }
     }
     
-    // Add seller/operator filter
-    if (sellers) {
-      const sellerIds = sellers.split(",").filter(Boolean);
-      if (sellerIds.length > 0) {
-        whereClause.operatorId = { in: sellerIds };
-      }
+    // Add seller/operator filter (sellerIds already parsed above)
+    if (sellerIds.length > 0) {
+      whereClause.operatorId = { in: sellerIds };
     }
     
     // Add format filter
@@ -174,12 +175,14 @@ export const getListings = async (c: Context) => {
         frontImageUrl: true,
         bookingFormat: true,
         status: true,
+        rejectionReason: true,
         basePriceDisplay: true,
         currency: true,
         startLocationName: true,
         startLocationCoordinates: true,
         endLocationName: true,
         createdAt: true,
+        updatedAt: true,
         category: {
           select: {
             id: true,
@@ -447,6 +450,20 @@ export const getListingById = async (c: Context) => {
             id: true,
             categoryName: true,
             hasVariantCatA: true,
+            isAddonsAllowed: true,
+            isBookingOptionAllowed: true,
+            isInclusionsExclusionsAllowed: true,
+            isFaqAllowed: true,
+            isDayWiseAllowed: true,
+            isRental: true,
+            isEndLocation: true,
+            bookingFormat: true,
+            listingType: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
           },
         },
         subCategory: {

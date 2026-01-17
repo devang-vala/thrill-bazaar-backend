@@ -152,39 +152,27 @@ export const upsertListingAddons = async (c: Context) => {
       id: addon.id && addon.id.length > 0 ? addon.id : generateUUID(),
     }));
 
-    // Fetch existing addons
-    const existingRecord = await prisma.listingAddon.findUnique({
-      where: { listingId }
-    });
-
-    let finalAddons: any[] = [];
-
-    if (existingRecord) {
-      // Safely cast to array
-      const existingAddons = Array.isArray(existingRecord.addons)
-        ? (existingRecord.addons as any[])
-        : [];
-
-      // Merge existing + new addons
-      finalAddons = [...existingAddons, ...newAddons];
-    } else {
-      finalAddons = newAddons;
-    }
-
+    // Replace existing addons with new ones (not merge)
     const saved = await prisma.listingAddon.upsert({
       where: { listingId },
       create: {
         listingId,
-        addons: finalAddons,
+        addons: newAddons,
       },
       update: {
-        addons: finalAddons,
+        addons: newAddons,
       },
+    });
+
+    // Update listing status to pending_approval when addons are saved
+    await prisma.listing.update({
+      where: { id: listingId },
+      data: { status: "pending_approval" }
     });
 
     return c.json({
       success: true,
-      message: existingRecord ? "Addons updated successfully" : "Addons created successfully",
+      message: "Addons updated successfully and listing set to pending approval",
       data: saved,
     });
   } catch (error) {
