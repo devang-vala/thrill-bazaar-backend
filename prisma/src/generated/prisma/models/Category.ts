@@ -35,68 +35,68 @@ export type CategorySumAggregateOutputType = {
 
 export type CategoryMinAggregateOutputType = {
   id: string | null
-  listingTypeId: string | null
   categoryName: string | null
   categorySlug: string | null
   categoryIconUrl: string | null
   categoryDescription: string | null
   displayOrder: number | null
   bookingFormat: $Enums.BookingFormat | null
-  isEndLocation: boolean | null
   isRental: boolean | null
   hasVariantCatA: boolean | null
-  isInclusionsExclusionsAllowed: boolean | null
-  isAddonsAllowed: boolean | null
-  isBookingOptionAllowed: boolean | null
-  isFaqAllowed: boolean | null
-  isDayWiseAllowed: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  isAddonsAllowed: boolean | null
+  isBookingOptionAllowed: boolean | null
+  isInclusionsExclusionsAllowed: boolean | null
+  isFaqAllowed: boolean | null
+  isDayWiseAllowed: boolean | null
+  isEndLocation: boolean | null
+  listingTypeId: string | null
 }
 
 export type CategoryMaxAggregateOutputType = {
   id: string | null
-  listingTypeId: string | null
   categoryName: string | null
   categorySlug: string | null
   categoryIconUrl: string | null
   categoryDescription: string | null
   displayOrder: number | null
   bookingFormat: $Enums.BookingFormat | null
-  isEndLocation: boolean | null
   isRental: boolean | null
   hasVariantCatA: boolean | null
-  isInclusionsExclusionsAllowed: boolean | null
-  isAddonsAllowed: boolean | null
-  isBookingOptionAllowed: boolean | null
-  isFaqAllowed: boolean | null
-  isDayWiseAllowed: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  isAddonsAllowed: boolean | null
+  isBookingOptionAllowed: boolean | null
+  isInclusionsExclusionsAllowed: boolean | null
+  isFaqAllowed: boolean | null
+  isDayWiseAllowed: boolean | null
+  isEndLocation: boolean | null
+  listingTypeId: string | null
 }
 
 export type CategoryCountAggregateOutputType = {
   id: number
-  listingTypeId: number
   categoryName: number
   categorySlug: number
   categoryIconUrl: number
   categoryDescription: number
   displayOrder: number
   bookingFormat: number
-  isEndLocation: number
   isRental: number
   hasVariantCatA: number
-  isInclusionsExclusionsAllowed: number
-  isAddonsAllowed: number
-  isBookingOptionAllowed: number
-  isFaqAllowed: number
-  isDayWiseAllowed: number
   isActive: number
   createdAt: number
   updatedAt: number
+  isAddonsAllowed: number
+  isBookingOptionAllowed: number
+  isInclusionsExclusionsAllowed: number
+  isFaqAllowed: number
+  isDayWiseAllowed: number
+  isEndLocation: number
+  listingTypeId: number
   _all: number
 }
 
@@ -111,68 +111,68 @@ export type CategorySumAggregateInputType = {
 
 export type CategoryMinAggregateInputType = {
   id?: true
-  listingTypeId?: true
   categoryName?: true
   categorySlug?: true
   categoryIconUrl?: true
   categoryDescription?: true
   displayOrder?: true
   bookingFormat?: true
-  isEndLocation?: true
   isRental?: true
   hasVariantCatA?: true
-  isInclusionsExclusionsAllowed?: true
-  isAddonsAllowed?: true
-  isBookingOptionAllowed?: true
-  isFaqAllowed?: true
-  isDayWiseAllowed?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
+  isAddonsAllowed?: true
+  isBookingOptionAllowed?: true
+  isInclusionsExclusionsAllowed?: true
+  isFaqAllowed?: true
+  isDayWiseAllowed?: true
+  isEndLocation?: true
+  listingTypeId?: true
 }
 
 export type CategoryMaxAggregateInputType = {
   id?: true
-  listingTypeId?: true
   categoryName?: true
   categorySlug?: true
   categoryIconUrl?: true
   categoryDescription?: true
   displayOrder?: true
   bookingFormat?: true
-  isEndLocation?: true
   isRental?: true
   hasVariantCatA?: true
-  isInclusionsExclusionsAllowed?: true
-  isAddonsAllowed?: true
-  isBookingOptionAllowed?: true
-  isFaqAllowed?: true
-  isDayWiseAllowed?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
+  isAddonsAllowed?: true
+  isBookingOptionAllowed?: true
+  isInclusionsExclusionsAllowed?: true
+  isFaqAllowed?: true
+  isDayWiseAllowed?: true
+  isEndLocation?: true
+  listingTypeId?: true
 }
 
 export type CategoryCountAggregateInputType = {
   id?: true
-  listingTypeId?: true
   categoryName?: true
   categorySlug?: true
   categoryIconUrl?: true
   categoryDescription?: true
   displayOrder?: true
   bookingFormat?: true
-  isEndLocation?: true
   isRental?: true
   hasVariantCatA?: true
-  isInclusionsExclusionsAllowed?: true
-  isAddonsAllowed?: true
-  isBookingOptionAllowed?: true
-  isFaqAllowed?: true
-  isDayWiseAllowed?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
+  isAddonsAllowed?: true
+  isBookingOptionAllowed?: true
+  isInclusionsExclusionsAllowed?: true
+  isFaqAllowed?: true
+  isDayWiseAllowed?: true
+  isEndLocation?: true
+  listingTypeId?: true
   _all?: true
 }
 
@@ -264,24 +264,24 @@ export type CategoryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type CategoryGroupByOutputType = {
   id: string
-  listingTypeId: string | null
   categoryName: string
   categorySlug: string
   categoryIconUrl: string | null
   categoryDescription: string | null
   displayOrder: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation: boolean
   isRental: boolean
   hasVariantCatA: boolean
-  isInclusionsExclusionsAllowed: boolean
-  isAddonsAllowed: boolean
-  isBookingOptionAllowed: boolean
-  isFaqAllowed: boolean
-  isDayWiseAllowed: boolean
   isActive: boolean
   createdAt: Date
   updatedAt: Date
+  isAddonsAllowed: boolean
+  isBookingOptionAllowed: boolean
+  isInclusionsExclusionsAllowed: boolean
+  isFaqAllowed: boolean
+  isDayWiseAllowed: boolean
+  isEndLocation: boolean
+  listingTypeId: string | null
   _count: CategoryCountAggregateOutputType | null
   _avg: CategoryAvgAggregateOutputType | null
   _sum: CategorySumAggregateOutputType | null
@@ -309,56 +309,56 @@ export type CategoryWhereInput = {
   OR?: Prisma.CategoryWhereInput[]
   NOT?: Prisma.CategoryWhereInput | Prisma.CategoryWhereInput[]
   id?: Prisma.StringFilter<"Category"> | string
-  listingTypeId?: Prisma.StringNullableFilter<"Category"> | string | null
   categoryName?: Prisma.StringFilter<"Category"> | string
   categorySlug?: Prisma.StringFilter<"Category"> | string
   categoryIconUrl?: Prisma.StringNullableFilter<"Category"> | string | null
   categoryDescription?: Prisma.StringNullableFilter<"Category"> | string | null
   displayOrder?: Prisma.IntFilter<"Category"> | number
   bookingFormat?: Prisma.EnumBookingFormatFilter<"Category"> | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFilter<"Category"> | boolean
   isRental?: Prisma.BoolFilter<"Category"> | boolean
   hasVariantCatA?: Prisma.BoolFilter<"Category"> | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFilter<"Category"> | boolean
-  isAddonsAllowed?: Prisma.BoolFilter<"Category"> | boolean
-  isBookingOptionAllowed?: Prisma.BoolFilter<"Category"> | boolean
-  isFaqAllowed?: Prisma.BoolFilter<"Category"> | boolean
-  isDayWiseAllowed?: Prisma.BoolFilter<"Category"> | boolean
   isActive?: Prisma.BoolFilter<"Category"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Category"> | Date | string
+  isAddonsAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isBookingOptionAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isFaqAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isDayWiseAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isEndLocation?: Prisma.BoolFilter<"Category"> | boolean
+  listingTypeId?: Prisma.StringNullableFilter<"Category"> | string | null
   listingType?: Prisma.XOR<Prisma.ListingTypeNullableScalarRelationFilter, Prisma.ListingTypeWhereInput> | null
-  subCategories?: Prisma.SubCategoryListRelationFilter
-  listings?: Prisma.ListingListRelationFilter
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionListRelationFilter
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionListRelationFilter
+  listings?: Prisma.ListingListRelationFilter
+  subCategories?: Prisma.SubCategoryListRelationFilter
 }
 
 export type CategoryOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  listingTypeId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryName?: Prisma.SortOrder
   categorySlug?: Prisma.SortOrder
   categoryIconUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
   bookingFormat?: Prisma.SortOrder
-  isEndLocation?: Prisma.SortOrder
   isRental?: Prisma.SortOrder
   hasVariantCatA?: Prisma.SortOrder
-  isInclusionsExclusionsAllowed?: Prisma.SortOrder
-  isAddonsAllowed?: Prisma.SortOrder
-  isBookingOptionAllowed?: Prisma.SortOrder
-  isFaqAllowed?: Prisma.SortOrder
-  isDayWiseAllowed?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isAddonsAllowed?: Prisma.SortOrder
+  isBookingOptionAllowed?: Prisma.SortOrder
+  isInclusionsExclusionsAllowed?: Prisma.SortOrder
+  isFaqAllowed?: Prisma.SortOrder
+  isDayWiseAllowed?: Prisma.SortOrder
+  isEndLocation?: Prisma.SortOrder
+  listingTypeId?: Prisma.SortOrderInput | Prisma.SortOrder
   listingType?: Prisma.ListingTypeOrderByWithRelationInput
-  subCategories?: Prisma.SubCategoryOrderByRelationAggregateInput
-  listings?: Prisma.ListingOrderByRelationAggregateInput
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionOrderByRelationAggregateInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionOrderByRelationAggregateInput
+  listings?: Prisma.ListingOrderByRelationAggregateInput
+  subCategories?: Prisma.SubCategoryOrderByRelationAggregateInput
 }
 
 export type CategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -367,50 +367,50 @@ export type CategoryWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.CategoryWhereInput | Prisma.CategoryWhereInput[]
   OR?: Prisma.CategoryWhereInput[]
   NOT?: Prisma.CategoryWhereInput | Prisma.CategoryWhereInput[]
-  listingTypeId?: Prisma.StringNullableFilter<"Category"> | string | null
   categoryName?: Prisma.StringFilter<"Category"> | string
   categoryIconUrl?: Prisma.StringNullableFilter<"Category"> | string | null
   categoryDescription?: Prisma.StringNullableFilter<"Category"> | string | null
   displayOrder?: Prisma.IntFilter<"Category"> | number
   bookingFormat?: Prisma.EnumBookingFormatFilter<"Category"> | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFilter<"Category"> | boolean
   isRental?: Prisma.BoolFilter<"Category"> | boolean
   hasVariantCatA?: Prisma.BoolFilter<"Category"> | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFilter<"Category"> | boolean
-  isAddonsAllowed?: Prisma.BoolFilter<"Category"> | boolean
-  isBookingOptionAllowed?: Prisma.BoolFilter<"Category"> | boolean
-  isFaqAllowed?: Prisma.BoolFilter<"Category"> | boolean
-  isDayWiseAllowed?: Prisma.BoolFilter<"Category"> | boolean
   isActive?: Prisma.BoolFilter<"Category"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Category"> | Date | string
+  isAddonsAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isBookingOptionAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isFaqAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isDayWiseAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isEndLocation?: Prisma.BoolFilter<"Category"> | boolean
+  listingTypeId?: Prisma.StringNullableFilter<"Category"> | string | null
   listingType?: Prisma.XOR<Prisma.ListingTypeNullableScalarRelationFilter, Prisma.ListingTypeWhereInput> | null
-  subCategories?: Prisma.SubCategoryListRelationFilter
-  listings?: Prisma.ListingListRelationFilter
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionListRelationFilter
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionListRelationFilter
+  listings?: Prisma.ListingListRelationFilter
+  subCategories?: Prisma.SubCategoryListRelationFilter
 }, "id" | "categorySlug">
 
 export type CategoryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  listingTypeId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryName?: Prisma.SortOrder
   categorySlug?: Prisma.SortOrder
   categoryIconUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
   bookingFormat?: Prisma.SortOrder
-  isEndLocation?: Prisma.SortOrder
   isRental?: Prisma.SortOrder
   hasVariantCatA?: Prisma.SortOrder
-  isInclusionsExclusionsAllowed?: Prisma.SortOrder
-  isAddonsAllowed?: Prisma.SortOrder
-  isBookingOptionAllowed?: Prisma.SortOrder
-  isFaqAllowed?: Prisma.SortOrder
-  isDayWiseAllowed?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isAddonsAllowed?: Prisma.SortOrder
+  isBookingOptionAllowed?: Prisma.SortOrder
+  isInclusionsExclusionsAllowed?: Prisma.SortOrder
+  isFaqAllowed?: Prisma.SortOrder
+  isDayWiseAllowed?: Prisma.SortOrder
+  isEndLocation?: Prisma.SortOrder
+  listingTypeId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CategoryCountOrderByAggregateInput
   _avg?: Prisma.CategoryAvgOrderByAggregateInput
   _max?: Prisma.CategoryMaxOrderByAggregateInput
@@ -423,24 +423,24 @@ export type CategoryScalarWhereWithAggregatesInput = {
   OR?: Prisma.CategoryScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CategoryScalarWhereWithAggregatesInput | Prisma.CategoryScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Category"> | string
-  listingTypeId?: Prisma.StringNullableWithAggregatesFilter<"Category"> | string | null
   categoryName?: Prisma.StringWithAggregatesFilter<"Category"> | string
   categorySlug?: Prisma.StringWithAggregatesFilter<"Category"> | string
   categoryIconUrl?: Prisma.StringNullableWithAggregatesFilter<"Category"> | string | null
   categoryDescription?: Prisma.StringNullableWithAggregatesFilter<"Category"> | string | null
   displayOrder?: Prisma.IntWithAggregatesFilter<"Category"> | number
   bookingFormat?: Prisma.EnumBookingFormatWithAggregatesFilter<"Category"> | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
   isRental?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
   hasVariantCatA?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
-  isAddonsAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
-  isBookingOptionAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
-  isFaqAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
-  isDayWiseAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
   isActive?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Category"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Category"> | Date | string
+  isAddonsAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
+  isBookingOptionAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
+  isFaqAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
+  isDayWiseAllowed?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
+  isEndLocation?: Prisma.BoolWithAggregatesFilter<"Category"> | boolean
+  listingTypeId?: Prisma.StringNullableWithAggregatesFilter<"Category"> | string | null
 }
 
 export type CategoryCreateInput = {
@@ -451,48 +451,48 @@ export type CategoryCreateInput = {
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
   listingType?: Prisma.ListingTypeCreateNestedOneWithoutCategoriesInput
-  subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
-  listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
+  subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateInput = {
   id?: string
-  listingTypeId?: string | null
   categoryName: string
   categorySlug: string
   categoryIconUrl?: string | null
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
+  listingTypeId?: string | null
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUpdateInput = {
@@ -503,70 +503,70 @@ export type CategoryUpdateInput = {
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   listingType?: Prisma.ListingTypeUpdateOneWithoutCategoriesNestedInput
-  subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
+  subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryName?: Prisma.StringFieldUpdateOperationsInput | string
   categorySlug?: Prisma.StringFieldUpdateOperationsInput | string
   categoryIconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateManyInput = {
   id?: string
-  listingTypeId?: string | null
   categoryName: string
   categorySlug: string
   categoryIconUrl?: string | null
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
+  listingTypeId?: string | null
 }
 
 export type CategoryUpdateManyMutationInput = {
@@ -577,61 +577,61 @@ export type CategoryUpdateManyMutationInput = {
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type CategoryUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryName?: Prisma.StringFieldUpdateOperationsInput | string
   categorySlug?: Prisma.StringFieldUpdateOperationsInput | string
   categoryIconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CategoryCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  listingTypeId?: Prisma.SortOrder
   categoryName?: Prisma.SortOrder
   categorySlug?: Prisma.SortOrder
   categoryIconUrl?: Prisma.SortOrder
   categoryDescription?: Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
   bookingFormat?: Prisma.SortOrder
-  isEndLocation?: Prisma.SortOrder
   isRental?: Prisma.SortOrder
   hasVariantCatA?: Prisma.SortOrder
-  isInclusionsExclusionsAllowed?: Prisma.SortOrder
-  isAddonsAllowed?: Prisma.SortOrder
-  isBookingOptionAllowed?: Prisma.SortOrder
-  isFaqAllowed?: Prisma.SortOrder
-  isDayWiseAllowed?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isAddonsAllowed?: Prisma.SortOrder
+  isBookingOptionAllowed?: Prisma.SortOrder
+  isInclusionsExclusionsAllowed?: Prisma.SortOrder
+  isFaqAllowed?: Prisma.SortOrder
+  isDayWiseAllowed?: Prisma.SortOrder
+  isEndLocation?: Prisma.SortOrder
+  listingTypeId?: Prisma.SortOrder
 }
 
 export type CategoryAvgOrderByAggregateInput = {
@@ -640,46 +640,46 @@ export type CategoryAvgOrderByAggregateInput = {
 
 export type CategoryMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  listingTypeId?: Prisma.SortOrder
   categoryName?: Prisma.SortOrder
   categorySlug?: Prisma.SortOrder
   categoryIconUrl?: Prisma.SortOrder
   categoryDescription?: Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
   bookingFormat?: Prisma.SortOrder
-  isEndLocation?: Prisma.SortOrder
   isRental?: Prisma.SortOrder
   hasVariantCatA?: Prisma.SortOrder
-  isInclusionsExclusionsAllowed?: Prisma.SortOrder
-  isAddonsAllowed?: Prisma.SortOrder
-  isBookingOptionAllowed?: Prisma.SortOrder
-  isFaqAllowed?: Prisma.SortOrder
-  isDayWiseAllowed?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isAddonsAllowed?: Prisma.SortOrder
+  isBookingOptionAllowed?: Prisma.SortOrder
+  isInclusionsExclusionsAllowed?: Prisma.SortOrder
+  isFaqAllowed?: Prisma.SortOrder
+  isDayWiseAllowed?: Prisma.SortOrder
+  isEndLocation?: Prisma.SortOrder
+  listingTypeId?: Prisma.SortOrder
 }
 
 export type CategoryMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  listingTypeId?: Prisma.SortOrder
   categoryName?: Prisma.SortOrder
   categorySlug?: Prisma.SortOrder
   categoryIconUrl?: Prisma.SortOrder
   categoryDescription?: Prisma.SortOrder
   displayOrder?: Prisma.SortOrder
   bookingFormat?: Prisma.SortOrder
-  isEndLocation?: Prisma.SortOrder
   isRental?: Prisma.SortOrder
   hasVariantCatA?: Prisma.SortOrder
-  isInclusionsExclusionsAllowed?: Prisma.SortOrder
-  isAddonsAllowed?: Prisma.SortOrder
-  isBookingOptionAllowed?: Prisma.SortOrder
-  isFaqAllowed?: Prisma.SortOrder
-  isDayWiseAllowed?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isAddonsAllowed?: Prisma.SortOrder
+  isBookingOptionAllowed?: Prisma.SortOrder
+  isInclusionsExclusionsAllowed?: Prisma.SortOrder
+  isFaqAllowed?: Prisma.SortOrder
+  isDayWiseAllowed?: Prisma.SortOrder
+  isEndLocation?: Prisma.SortOrder
+  listingTypeId?: Prisma.SortOrder
 }
 
 export type CategorySumOrderByAggregateInput = {
@@ -822,46 +822,46 @@ export type CategoryCreateWithoutSubCategoriesInput = {
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
   listingType?: Prisma.ListingTypeCreateNestedOneWithoutCategoriesInput
-  listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutSubCategoriesInput = {
   id?: string
-  listingTypeId?: string | null
   categoryName: string
   categorySlug: string
   categoryIconUrl?: string | null
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
+  listingTypeId?: string | null
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutSubCategoriesInput = {
@@ -888,46 +888,46 @@ export type CategoryUpdateWithoutSubCategoriesInput = {
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   listingType?: Prisma.ListingTypeUpdateOneWithoutCategoriesNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutSubCategoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryName?: Prisma.StringFieldUpdateOperationsInput | string
   categorySlug?: Prisma.StringFieldUpdateOperationsInput | string
   categoryIconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateWithoutMetadataFieldDefinitionsInput = {
@@ -938,46 +938,46 @@ export type CategoryCreateWithoutMetadataFieldDefinitionsInput = {
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
   listingType?: Prisma.ListingTypeCreateNestedOneWithoutCategoriesInput
-  subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
-  listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
+  subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutMetadataFieldDefinitionsInput = {
   id?: string
-  listingTypeId?: string | null
   categoryName: string
   categorySlug: string
   categoryIconUrl?: string | null
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
+  listingTypeId?: string | null
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutMetadataFieldDefinitionsInput = {
@@ -1004,46 +1004,46 @@ export type CategoryUpdateWithoutMetadataFieldDefinitionsInput = {
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   listingType?: Prisma.ListingTypeUpdateOneWithoutCategoriesNestedInput
-  subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
+  subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutMetadataFieldDefinitionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryName?: Prisma.StringFieldUpdateOperationsInput | string
   categorySlug?: Prisma.StringFieldUpdateOperationsInput | string
   categoryIconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateWithoutListingTypeInput = {
@@ -1054,21 +1054,21 @@ export type CategoryCreateWithoutListingTypeInput = {
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
-  listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
+  subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutListingTypeInput = {
@@ -1079,21 +1079,21 @@ export type CategoryUncheckedCreateWithoutListingTypeInput = {
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutListingTypeInput = {
@@ -1127,24 +1127,24 @@ export type CategoryScalarWhereInput = {
   OR?: Prisma.CategoryScalarWhereInput[]
   NOT?: Prisma.CategoryScalarWhereInput | Prisma.CategoryScalarWhereInput[]
   id?: Prisma.StringFilter<"Category"> | string
-  listingTypeId?: Prisma.StringNullableFilter<"Category"> | string | null
   categoryName?: Prisma.StringFilter<"Category"> | string
   categorySlug?: Prisma.StringFilter<"Category"> | string
   categoryIconUrl?: Prisma.StringNullableFilter<"Category"> | string | null
   categoryDescription?: Prisma.StringNullableFilter<"Category"> | string | null
   displayOrder?: Prisma.IntFilter<"Category"> | number
   bookingFormat?: Prisma.EnumBookingFormatFilter<"Category"> | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFilter<"Category"> | boolean
   isRental?: Prisma.BoolFilter<"Category"> | boolean
   hasVariantCatA?: Prisma.BoolFilter<"Category"> | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFilter<"Category"> | boolean
-  isAddonsAllowed?: Prisma.BoolFilter<"Category"> | boolean
-  isBookingOptionAllowed?: Prisma.BoolFilter<"Category"> | boolean
-  isFaqAllowed?: Prisma.BoolFilter<"Category"> | boolean
-  isDayWiseAllowed?: Prisma.BoolFilter<"Category"> | boolean
   isActive?: Prisma.BoolFilter<"Category"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Category"> | Date | string
+  isAddonsAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isBookingOptionAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isFaqAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isDayWiseAllowed?: Prisma.BoolFilter<"Category"> | boolean
+  isEndLocation?: Prisma.BoolFilter<"Category"> | boolean
+  listingTypeId?: Prisma.StringNullableFilter<"Category"> | string | null
 }
 
 export type CategoryCreateWithoutVariantMetadataFieldDefinitionsInput = {
@@ -1155,46 +1155,46 @@ export type CategoryCreateWithoutVariantMetadataFieldDefinitionsInput = {
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
   listingType?: Prisma.ListingTypeCreateNestedOneWithoutCategoriesInput
-  subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
-  listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
+  subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutVariantMetadataFieldDefinitionsInput = {
   id?: string
-  listingTypeId?: string | null
   categoryName: string
   categorySlug: string
   categoryIconUrl?: string | null
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
+  listingTypeId?: string | null
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutVariantMetadataFieldDefinitionsInput = {
@@ -1221,46 +1221,46 @@ export type CategoryUpdateWithoutVariantMetadataFieldDefinitionsInput = {
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   listingType?: Prisma.ListingTypeUpdateOneWithoutCategoriesNestedInput
-  subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
+  subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutVariantMetadataFieldDefinitionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryName?: Prisma.StringFieldUpdateOperationsInput | string
   categorySlug?: Prisma.StringFieldUpdateOperationsInput | string
   categoryIconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateWithoutListingsInput = {
@@ -1271,46 +1271,46 @@ export type CategoryCreateWithoutListingsInput = {
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
   listingType?: Prisma.ListingTypeCreateNestedOneWithoutCategoriesInput
-  subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
+  subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutListingsInput = {
   id?: string
-  listingTypeId?: string | null
   categoryName: string
   categorySlug: string
   categoryIconUrl?: string | null
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
+  listingTypeId?: string | null
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
+  subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutListingsInput = {
@@ -1337,46 +1337,46 @@ export type CategoryUpdateWithoutListingsInput = {
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   listingType?: Prisma.ListingTypeUpdateOneWithoutCategoriesNestedInput
-  subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
+  subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutListingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryName?: Prisma.StringFieldUpdateOperationsInput | string
   categorySlug?: Prisma.StringFieldUpdateOperationsInput | string
   categoryIconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
+  subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateManyListingTypeInput = {
@@ -1387,17 +1387,17 @@ export type CategoryCreateManyListingTypeInput = {
   categoryDescription?: string | null
   displayOrder?: number
   bookingFormat: $Enums.BookingFormat
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
 }
 
 export type CategoryUpdateWithoutListingTypeInput = {
@@ -1408,21 +1408,21 @@ export type CategoryUpdateWithoutListingTypeInput = {
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
+  subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutListingTypeInput = {
@@ -1433,21 +1433,21 @@ export type CategoryUncheckedUpdateWithoutListingTypeInput = {
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateManyWithoutListingTypeInput = {
@@ -1458,17 +1458,17 @@ export type CategoryUncheckedUpdateManyWithoutListingTypeInput = {
   categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
-  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -1477,17 +1477,17 @@ export type CategoryUncheckedUpdateManyWithoutListingTypeInput = {
  */
 
 export type CategoryCountOutputType = {
-  subCategories: number
-  listings: number
   metadataFieldDefinitions: number
   variantMetadataFieldDefinitions: number
+  listings: number
+  subCategories: number
 }
 
 export type CategoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  subCategories?: boolean | CategoryCountOutputTypeCountSubCategoriesArgs
-  listings?: boolean | CategoryCountOutputTypeCountListingsArgs
   metadataFieldDefinitions?: boolean | CategoryCountOutputTypeCountMetadataFieldDefinitionsArgs
   variantMetadataFieldDefinitions?: boolean | CategoryCountOutputTypeCountVariantMetadataFieldDefinitionsArgs
+  listings?: boolean | CategoryCountOutputTypeCountListingsArgs
+  subCategories?: boolean | CategoryCountOutputTypeCountSubCategoriesArgs
 }
 
 /**
@@ -1498,20 +1498,6 @@ export type CategoryCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
    * Select specific fields to fetch from the CategoryCountOutputType
    */
   select?: Prisma.CategoryCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * CategoryCountOutputType without action
- */
-export type CategoryCountOutputTypeCountSubCategoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SubCategoryWhereInput
-}
-
-/**
- * CategoryCountOutputType without action
- */
-export type CategoryCountOutputTypeCountListingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ListingWhereInput
 }
 
 /**
@@ -1528,110 +1514,124 @@ export type CategoryCountOutputTypeCountVariantMetadataFieldDefinitionsArgs<ExtA
   where?: Prisma.ListingVariantMetadataFieldDefinitionWhereInput
 }
 
+/**
+ * CategoryCountOutputType without action
+ */
+export type CategoryCountOutputTypeCountListingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingWhereInput
+}
+
+/**
+ * CategoryCountOutputType without action
+ */
+export type CategoryCountOutputTypeCountSubCategoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubCategoryWhereInput
+}
+
 
 export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  listingTypeId?: boolean
   categoryName?: boolean
   categorySlug?: boolean
   categoryIconUrl?: boolean
   categoryDescription?: boolean
   displayOrder?: boolean
   bookingFormat?: boolean
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
+  listingTypeId?: boolean
   listingType?: boolean | Prisma.Category$listingTypeArgs<ExtArgs>
-  subCategories?: boolean | Prisma.Category$subCategoriesArgs<ExtArgs>
-  listings?: boolean | Prisma.Category$listingsArgs<ExtArgs>
   metadataFieldDefinitions?: boolean | Prisma.Category$metadataFieldDefinitionsArgs<ExtArgs>
   variantMetadataFieldDefinitions?: boolean | Prisma.Category$variantMetadataFieldDefinitionsArgs<ExtArgs>
+  listings?: boolean | Prisma.Category$listingsArgs<ExtArgs>
+  subCategories?: boolean | Prisma.Category$subCategoriesArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["category"]>
 
 export type CategorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  listingTypeId?: boolean
   categoryName?: boolean
   categorySlug?: boolean
   categoryIconUrl?: boolean
   categoryDescription?: boolean
   displayOrder?: boolean
   bookingFormat?: boolean
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
+  listingTypeId?: boolean
   listingType?: boolean | Prisma.Category$listingTypeArgs<ExtArgs>
 }, ExtArgs["result"]["category"]>
 
 export type CategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  listingTypeId?: boolean
   categoryName?: boolean
   categorySlug?: boolean
   categoryIconUrl?: boolean
   categoryDescription?: boolean
   displayOrder?: boolean
   bookingFormat?: boolean
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
+  listingTypeId?: boolean
   listingType?: boolean | Prisma.Category$listingTypeArgs<ExtArgs>
 }, ExtArgs["result"]["category"]>
 
 export type CategorySelectScalar = {
   id?: boolean
-  listingTypeId?: boolean
   categoryName?: boolean
   categorySlug?: boolean
   categoryIconUrl?: boolean
   categoryDescription?: boolean
   displayOrder?: boolean
   bookingFormat?: boolean
-  isEndLocation?: boolean
   isRental?: boolean
   hasVariantCatA?: boolean
-  isInclusionsExclusionsAllowed?: boolean
-  isAddonsAllowed?: boolean
-  isBookingOptionAllowed?: boolean
-  isFaqAllowed?: boolean
-  isDayWiseAllowed?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
+  listingTypeId?: boolean
 }
 
-export type CategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingTypeId" | "categoryName" | "categorySlug" | "categoryIconUrl" | "categoryDescription" | "displayOrder" | "bookingFormat" | "isEndLocation" | "isRental" | "hasVariantCatA" | "isInclusionsExclusionsAllowed" | "isAddonsAllowed" | "isBookingOptionAllowed" | "isFaqAllowed" | "isDayWiseAllowed" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
+export type CategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "categoryName" | "categorySlug" | "categoryIconUrl" | "categoryDescription" | "displayOrder" | "bookingFormat" | "isRental" | "hasVariantCatA" | "isActive" | "createdAt" | "updatedAt" | "isAddonsAllowed" | "isBookingOptionAllowed" | "isInclusionsExclusionsAllowed" | "isFaqAllowed" | "isDayWiseAllowed" | "isEndLocation" | "listingTypeId", ExtArgs["result"]["category"]>
 export type CategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listingType?: boolean | Prisma.Category$listingTypeArgs<ExtArgs>
-  subCategories?: boolean | Prisma.Category$subCategoriesArgs<ExtArgs>
-  listings?: boolean | Prisma.Category$listingsArgs<ExtArgs>
   metadataFieldDefinitions?: boolean | Prisma.Category$metadataFieldDefinitionsArgs<ExtArgs>
   variantMetadataFieldDefinitions?: boolean | Prisma.Category$variantMetadataFieldDefinitionsArgs<ExtArgs>
+  listings?: boolean | Prisma.Category$listingsArgs<ExtArgs>
+  subCategories?: boolean | Prisma.Category$subCategoriesArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CategoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1645,31 +1645,31 @@ export type $CategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Category"
   objects: {
     listingType: Prisma.$ListingTypePayload<ExtArgs> | null
-    subCategories: Prisma.$SubCategoryPayload<ExtArgs>[]
-    listings: Prisma.$ListingPayload<ExtArgs>[]
     metadataFieldDefinitions: Prisma.$ListingMetadataFieldDefinitionPayload<ExtArgs>[]
     variantMetadataFieldDefinitions: Prisma.$ListingVariantMetadataFieldDefinitionPayload<ExtArgs>[]
+    listings: Prisma.$ListingPayload<ExtArgs>[]
+    subCategories: Prisma.$SubCategoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    listingTypeId: string | null
     categoryName: string
     categorySlug: string
     categoryIconUrl: string | null
     categoryDescription: string | null
     displayOrder: number
     bookingFormat: $Enums.BookingFormat
-    isEndLocation: boolean
     isRental: boolean
     hasVariantCatA: boolean
-    isInclusionsExclusionsAllowed: boolean
-    isAddonsAllowed: boolean
-    isBookingOptionAllowed: boolean
-    isFaqAllowed: boolean
-    isDayWiseAllowed: boolean
     isActive: boolean
     createdAt: Date
     updatedAt: Date
+    isAddonsAllowed: boolean
+    isBookingOptionAllowed: boolean
+    isInclusionsExclusionsAllowed: boolean
+    isFaqAllowed: boolean
+    isDayWiseAllowed: boolean
+    isEndLocation: boolean
+    listingTypeId: string | null
   }, ExtArgs["result"]["category"]>
   composites: {}
 }
@@ -2065,10 +2065,10 @@ readonly fields: CategoryFieldRefs;
 export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   listingType<T extends Prisma.Category$listingTypeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$listingTypeArgs<ExtArgs>>): Prisma.Prisma__ListingTypeClient<runtime.Types.Result.GetResult<Prisma.$ListingTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  subCategories<T extends Prisma.Category$subCategoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$subCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  listings<T extends Prisma.Category$listingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   metadataFieldDefinitions<T extends Prisma.Category$metadataFieldDefinitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$metadataFieldDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMetadataFieldDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   variantMetadataFieldDefinitions<T extends Prisma.Category$variantMetadataFieldDefinitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$variantMetadataFieldDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  listings<T extends Prisma.Category$listingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subCategories<T extends Prisma.Category$subCategoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$subCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2099,24 +2099,24 @@ export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends runtime
  */
 export interface CategoryFieldRefs {
   readonly id: Prisma.FieldRef<"Category", 'String'>
-  readonly listingTypeId: Prisma.FieldRef<"Category", 'String'>
   readonly categoryName: Prisma.FieldRef<"Category", 'String'>
   readonly categorySlug: Prisma.FieldRef<"Category", 'String'>
   readonly categoryIconUrl: Prisma.FieldRef<"Category", 'String'>
   readonly categoryDescription: Prisma.FieldRef<"Category", 'String'>
   readonly displayOrder: Prisma.FieldRef<"Category", 'Int'>
   readonly bookingFormat: Prisma.FieldRef<"Category", 'BookingFormat'>
-  readonly isEndLocation: Prisma.FieldRef<"Category", 'Boolean'>
   readonly isRental: Prisma.FieldRef<"Category", 'Boolean'>
   readonly hasVariantCatA: Prisma.FieldRef<"Category", 'Boolean'>
-  readonly isInclusionsExclusionsAllowed: Prisma.FieldRef<"Category", 'Boolean'>
-  readonly isAddonsAllowed: Prisma.FieldRef<"Category", 'Boolean'>
-  readonly isBookingOptionAllowed: Prisma.FieldRef<"Category", 'Boolean'>
-  readonly isFaqAllowed: Prisma.FieldRef<"Category", 'Boolean'>
-  readonly isDayWiseAllowed: Prisma.FieldRef<"Category", 'Boolean'>
   readonly isActive: Prisma.FieldRef<"Category", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Category", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Category", 'DateTime'>
+  readonly isAddonsAllowed: Prisma.FieldRef<"Category", 'Boolean'>
+  readonly isBookingOptionAllowed: Prisma.FieldRef<"Category", 'Boolean'>
+  readonly isInclusionsExclusionsAllowed: Prisma.FieldRef<"Category", 'Boolean'>
+  readonly isFaqAllowed: Prisma.FieldRef<"Category", 'Boolean'>
+  readonly isDayWiseAllowed: Prisma.FieldRef<"Category", 'Boolean'>
+  readonly isEndLocation: Prisma.FieldRef<"Category", 'Boolean'>
+  readonly listingTypeId: Prisma.FieldRef<"Category", 'String'>
 }
     
 
@@ -2532,54 +2532,6 @@ export type Category$listingTypeArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * Category.subCategories
- */
-export type Category$subCategoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SubCategory
-   */
-  select?: Prisma.SubCategorySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the SubCategory
-   */
-  omit?: Prisma.SubCategoryOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SubCategoryInclude<ExtArgs> | null
-  where?: Prisma.SubCategoryWhereInput
-  orderBy?: Prisma.SubCategoryOrderByWithRelationInput | Prisma.SubCategoryOrderByWithRelationInput[]
-  cursor?: Prisma.SubCategoryWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SubCategoryScalarFieldEnum | Prisma.SubCategoryScalarFieldEnum[]
-}
-
-/**
- * Category.listings
- */
-export type Category$listingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Listing
-   */
-  select?: Prisma.ListingSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Listing
-   */
-  omit?: Prisma.ListingOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ListingInclude<ExtArgs> | null
-  where?: Prisma.ListingWhereInput
-  orderBy?: Prisma.ListingOrderByWithRelationInput | Prisma.ListingOrderByWithRelationInput[]
-  cursor?: Prisma.ListingWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ListingScalarFieldEnum | Prisma.ListingScalarFieldEnum[]
-}
-
-/**
  * Category.metadataFieldDefinitions
  */
 export type Category$metadataFieldDefinitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2625,6 +2577,54 @@ export type Category$variantMetadataFieldDefinitionsArgs<ExtArgs extends runtime
   take?: number
   skip?: number
   distinct?: Prisma.ListingVariantMetadataFieldDefinitionScalarFieldEnum | Prisma.ListingVariantMetadataFieldDefinitionScalarFieldEnum[]
+}
+
+/**
+ * Category.listings
+ */
+export type Category$listingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Listing
+   */
+  select?: Prisma.ListingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Listing
+   */
+  omit?: Prisma.ListingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingInclude<ExtArgs> | null
+  where?: Prisma.ListingWhereInput
+  orderBy?: Prisma.ListingOrderByWithRelationInput | Prisma.ListingOrderByWithRelationInput[]
+  cursor?: Prisma.ListingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingScalarFieldEnum | Prisma.ListingScalarFieldEnum[]
+}
+
+/**
+ * Category.subCategories
+ */
+export type Category$subCategoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubCategory
+   */
+  select?: Prisma.SubCategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SubCategory
+   */
+  omit?: Prisma.SubCategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubCategoryInclude<ExtArgs> | null
+  where?: Prisma.SubCategoryWhereInput
+  orderBy?: Prisma.SubCategoryOrderByWithRelationInput | Prisma.SubCategoryOrderByWithRelationInput[]
+  cursor?: Prisma.SubCategoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubCategoryScalarFieldEnum | Prisma.SubCategoryScalarFieldEnum[]
 }
 
 /**

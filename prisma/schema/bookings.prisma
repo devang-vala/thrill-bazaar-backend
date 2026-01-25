@@ -38,6 +38,7 @@ model Booking {
   listingSlot ListingSlot?        @relation(fields: [listingSlotId], references: [id], onDelete: Restrict)
   dateRange   InventoryDateRange? @relation(fields: [dateRangeId], references: [id], onDelete: Restrict)
   reschedules Reschedule[]
+  review      Review?
 
   @@map("bookings")
 }

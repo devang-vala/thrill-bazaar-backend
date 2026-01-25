@@ -414,6 +414,8 @@ export const ModelName = {
   Otp: 'Otp',
   PrimaryDivision: 'PrimaryDivision',
   Reschedule: 'Reschedule',
+  Review: 'Review',
+  ReviewHelpfulVote: 'ReviewHelpfulVote',
   SecondaryDivision: 'SecondaryDivision',
   SlotDefinition: 'SlotDefinition',
   UserAddress: 'UserAddress',
@@ -433,7 +435,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "booking" | "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "operatorProfile" | "otp" | "primaryDivision" | "reschedule" | "secondaryDivision" | "slotDefinition" | "userAddress" | "user"
+    modelProps: "booking" | "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "operatorProfile" | "otp" | "primaryDivision" | "reschedule" | "review" | "reviewHelpfulVote" | "secondaryDivision" | "slotDefinition" | "userAddress" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2287,6 +2289,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Review: {
+      payload: Prisma.$ReviewPayload<ExtArgs>
+      fields: Prisma.ReviewFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ReviewFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ReviewFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>
+        }
+        findFirst: {
+          args: Prisma.ReviewFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ReviewFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>
+        }
+        findMany: {
+          args: Prisma.ReviewFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>[]
+        }
+        create: {
+          args: Prisma.ReviewCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>
+        }
+        createMany: {
+          args: Prisma.ReviewCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ReviewCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>[]
+        }
+        delete: {
+          args: Prisma.ReviewDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>
+        }
+        update: {
+          args: Prisma.ReviewUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>
+        }
+        deleteMany: {
+          args: Prisma.ReviewDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ReviewUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ReviewUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>[]
+        }
+        upsert: {
+          args: Prisma.ReviewUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>
+        }
+        aggregate: {
+          args: Prisma.ReviewAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReview>
+        }
+        groupBy: {
+          args: Prisma.ReviewGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReviewGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ReviewCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReviewCountAggregateOutputType> | number
+        }
+      }
+    }
+    ReviewHelpfulVote: {
+      payload: Prisma.$ReviewHelpfulVotePayload<ExtArgs>
+      fields: Prisma.ReviewHelpfulVoteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ReviewHelpfulVoteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewHelpfulVotePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ReviewHelpfulVoteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewHelpfulVotePayload>
+        }
+        findFirst: {
+          args: Prisma.ReviewHelpfulVoteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewHelpfulVotePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ReviewHelpfulVoteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewHelpfulVotePayload>
+        }
+        findMany: {
+          args: Prisma.ReviewHelpfulVoteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewHelpfulVotePayload>[]
+        }
+        create: {
+          args: Prisma.ReviewHelpfulVoteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewHelpfulVotePayload>
+        }
+        createMany: {
+          args: Prisma.ReviewHelpfulVoteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ReviewHelpfulVoteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewHelpfulVotePayload>[]
+        }
+        delete: {
+          args: Prisma.ReviewHelpfulVoteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewHelpfulVotePayload>
+        }
+        update: {
+          args: Prisma.ReviewHelpfulVoteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewHelpfulVotePayload>
+        }
+        deleteMany: {
+          args: Prisma.ReviewHelpfulVoteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ReviewHelpfulVoteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ReviewHelpfulVoteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewHelpfulVotePayload>[]
+        }
+        upsert: {
+          args: Prisma.ReviewHelpfulVoteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewHelpfulVotePayload>
+        }
+        aggregate: {
+          args: Prisma.ReviewHelpfulVoteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReviewHelpfulVote>
+        }
+        groupBy: {
+          args: Prisma.ReviewHelpfulVoteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReviewHelpfulVoteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ReviewHelpfulVoteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReviewHelpfulVoteCountAggregateOutputType> | number
+        }
+      }
+    }
     SecondaryDivision: {
       payload: Prisma.$SecondaryDivisionPayload<ExtArgs>
       fields: Prisma.SecondaryDivisionFieldRefs
@@ -2651,24 +2801,24 @@ export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeo
 
 export const CategoryScalarFieldEnum = {
   id: 'id',
-  listingTypeId: 'listingTypeId',
   categoryName: 'categoryName',
   categorySlug: 'categorySlug',
   categoryIconUrl: 'categoryIconUrl',
   categoryDescription: 'categoryDescription',
   displayOrder: 'displayOrder',
   bookingFormat: 'bookingFormat',
-  isEndLocation: 'isEndLocation',
   isRental: 'isRental',
   hasVariantCatA: 'hasVariantCatA',
-  isInclusionsExclusionsAllowed: 'isInclusionsExclusionsAllowed',
-  isAddonsAllowed: 'isAddonsAllowed',
-  isBookingOptionAllowed: 'isBookingOptionAllowed',
-  isFaqAllowed: 'isFaqAllowed',
-  isDayWiseAllowed: 'isDayWiseAllowed',
   isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  isAddonsAllowed: 'isAddonsAllowed',
+  isBookingOptionAllowed: 'isBookingOptionAllowed',
+  isInclusionsExclusionsAllowed: 'isInclusionsExclusionsAllowed',
+  isFaqAllowed: 'isFaqAllowed',
+  isDayWiseAllowed: 'isDayWiseAllowed',
+  isEndLocation: 'isEndLocation',
+  listingTypeId: 'listingTypeId'
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
@@ -2759,9 +2909,9 @@ export type ListingContentScalarFieldEnum = (typeof ListingContentScalarFieldEnu
 export const ListingFaqScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
-  faqs: 'faqs',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  faqs: 'faqs'
 } as const
 
 export type ListingFaqScalarFieldEnum = (typeof ListingFaqScalarFieldEnum)[keyof typeof ListingFaqScalarFieldEnum]
@@ -2783,10 +2933,10 @@ export const ListingMediaScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   contentId: 'contentId',
-  media: 'media',
   uploadedAt: 'uploadedAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  media: 'media'
 } as const
 
 export type ListingMediaScalarFieldEnum = (typeof ListingMediaScalarFieldEnum)[keyof typeof ListingMediaScalarFieldEnum]
@@ -2842,16 +2992,16 @@ export type ListingPolicyScalarFieldEnum = (typeof ListingPolicyScalarFieldEnum)
 
 export const ListingSlotChangeScalarFieldEnum = {
   id: 'id',
-  inventoryDateRangeId: 'inventoryDateRangeId',
   listingId: 'listingId',
   variantId: 'variantId',
-  date: 'date',
-  price: 'price',
   availableCount: 'availableCount',
-  totalCapacity: 'totalCapacity',
   triggerType: 'triggerType',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  date: 'date',
+  inventoryDateRangeId: 'inventoryDateRangeId',
+  price: 'price',
+  totalCapacity: 'totalCapacity'
 } as const
 
 export type ListingSlotChangeScalarFieldEnum = (typeof ListingSlotChangeScalarFieldEnum)[keyof typeof ListingSlotChangeScalarFieldEnum]
@@ -2861,17 +3011,17 @@ export const ListingSlotScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   variantId: 'variantId',
-  slotDefinitionId: 'slotDefinitionId',
-  batchStartDate: 'batchStartDate',
-  batchEndDate: 'batchEndDate',
-  slotDate: 'slotDate',
-  startTime: 'startTime',
-  endTime: 'endTime',
   basePrice: 'basePrice',
   totalCapacity: 'totalCapacity',
   availableCount: 'availableCount',
   isActive: 'isActive',
   createdAt: 'createdAt',
+  endTime: 'endTime',
+  slotDate: 'slotDate',
+  slotDefinitionId: 'slotDefinitionId',
+  startTime: 'startTime',
+  batchEndDate: 'batchEndDate',
+  batchStartDate: 'batchStartDate',
   formatType: 'formatType'
 } as const
 
@@ -2927,12 +3077,12 @@ export const ListingVariantScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   variantName: 'variantName',
-  variantDescription: 'variantDescription',
-  validParticipantNumbers: 'validParticipantNumbers',
   variantOrder: 'variantOrder',
-  variantMetadata: 'variantMetadata',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  variantDescription: 'variantDescription',
+  variantMetadata: 'variantMetadata',
+  validParticipantNumbers: 'validParticipantNumbers'
 } as const
 
 export type ListingVariantScalarFieldEnum = (typeof ListingVariantScalarFieldEnum)[keyof typeof ListingVariantScalarFieldEnum]
@@ -3054,6 +3204,38 @@ export const RescheduleScalarFieldEnum = {
 } as const
 
 export type RescheduleScalarFieldEnum = (typeof RescheduleScalarFieldEnum)[keyof typeof RescheduleScalarFieldEnum]
+
+
+export const ReviewScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  listingId: 'listingId',
+  customerId: 'customerId',
+  operatorId: 'operatorId',
+  rating: 'rating',
+  reviewTitle: 'reviewTitle',
+  reviewText: 'reviewText',
+  reviewImages: 'reviewImages',
+  isVerifiedBooking: 'isVerifiedBooking',
+  isModerated: 'isModerated',
+  moderatedByAdminId: 'moderatedByAdminId',
+  moderationReason: 'moderationReason',
+  helpfulCount: 'helpfulCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+export const ReviewHelpfulVoteScalarFieldEnum = {
+  id: 'id',
+  reviewId: 'reviewId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ReviewHelpfulVoteScalarFieldEnum = (typeof ReviewHelpfulVoteScalarFieldEnum)[keyof typeof ReviewHelpfulVoteScalarFieldEnum]
 
 
 export const SecondaryDivisionScalarFieldEnum = {
@@ -3540,6 +3722,8 @@ export type GlobalOmitConfig = {
   otp?: Prisma.OtpOmit
   primaryDivision?: Prisma.PrimaryDivisionOmit
   reschedule?: Prisma.RescheduleOmit
+  review?: Prisma.ReviewOmit
+  reviewHelpfulVote?: Prisma.ReviewHelpfulVoteOmit
   secondaryDivision?: Prisma.SecondaryDivisionOmit
   slotDefinition?: Prisma.SlotDefinitionOmit
   userAddress?: Prisma.UserAddressOmit
