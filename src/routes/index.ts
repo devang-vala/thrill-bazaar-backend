@@ -32,6 +32,7 @@ import searchRouter from "./search.route.js";
 import OperatorRouter from "./operator.route.js";
 import slotDefinitionRouter from "./slotDefinition.route.js";
 import rescheduleRouter from "./reschedule.route.js";
+import reviewRouter from "./review.routes.js";
 
 
 const router = new Hono();
@@ -102,5 +103,8 @@ router.route("/slot-definitions", slotDefinitionRouter);
 
 // Mount reschedule routes
 router.route("/reschedules", rescheduleRouter);
+
+// Mount review routes
+router.route("/reviews", reviewRouter);
 
 export default router;

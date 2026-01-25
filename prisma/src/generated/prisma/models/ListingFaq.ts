@@ -40,9 +40,9 @@ export type ListingFaqMaxAggregateOutputType = {
 export type ListingFaqCountAggregateOutputType = {
   id: number
   listingId: number
-  faqs: number
   createdAt: number
   updatedAt: number
+  faqs: number
   _all: number
 }
 
@@ -64,9 +64,9 @@ export type ListingFaqMaxAggregateInputType = {
 export type ListingFaqCountAggregateInputType = {
   id?: true
   listingId?: true
-  faqs?: true
   createdAt?: true
   updatedAt?: true
+  faqs?: true
   _all?: true
 }
 
@@ -145,9 +145,9 @@ export type ListingFaqGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type ListingFaqGroupByOutputType = {
   id: string
   listingId: string
-  faqs: runtime.JsonValue
   createdAt: Date
   updatedAt: Date
+  faqs: runtime.JsonValue
   _count: ListingFaqCountAggregateOutputType | null
   _min: ListingFaqMinAggregateOutputType | null
   _max: ListingFaqMaxAggregateOutputType | null
@@ -174,18 +174,18 @@ export type ListingFaqWhereInput = {
   NOT?: Prisma.ListingFaqWhereInput | Prisma.ListingFaqWhereInput[]
   id?: Prisma.StringFilter<"ListingFaq"> | string
   listingId?: Prisma.StringFilter<"ListingFaq"> | string
-  faqs?: Prisma.JsonFilter<"ListingFaq">
   createdAt?: Prisma.DateTimeFilter<"ListingFaq"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingFaq"> | Date | string
+  faqs?: Prisma.JsonFilter<"ListingFaq">
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
 }
 
 export type ListingFaqOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  faqs?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  faqs?: Prisma.SortOrder
   listing?: Prisma.ListingOrderByWithRelationInput
 }
 
@@ -195,18 +195,18 @@ export type ListingFaqWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ListingFaqWhereInput | Prisma.ListingFaqWhereInput[]
   OR?: Prisma.ListingFaqWhereInput[]
   NOT?: Prisma.ListingFaqWhereInput | Prisma.ListingFaqWhereInput[]
-  faqs?: Prisma.JsonFilter<"ListingFaq">
   createdAt?: Prisma.DateTimeFilter<"ListingFaq"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ListingFaq"> | Date | string
+  faqs?: Prisma.JsonFilter<"ListingFaq">
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
 }, "id" | "listingId">
 
 export type ListingFaqOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  faqs?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  faqs?: Prisma.SortOrder
   _count?: Prisma.ListingFaqCountOrderByAggregateInput
   _max?: Prisma.ListingFaqMaxOrderByAggregateInput
   _min?: Prisma.ListingFaqMinOrderByAggregateInput
@@ -218,72 +218,72 @@ export type ListingFaqScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ListingFaqScalarWhereWithAggregatesInput | Prisma.ListingFaqScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ListingFaq"> | string
   listingId?: Prisma.StringWithAggregatesFilter<"ListingFaq"> | string
-  faqs?: Prisma.JsonWithAggregatesFilter<"ListingFaq">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ListingFaq"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ListingFaq"> | Date | string
+  faqs?: Prisma.JsonWithAggregatesFilter<"ListingFaq">
 }
 
 export type ListingFaqCreateInput = {
   id?: string
-  faqs: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  faqs: Prisma.JsonNullValueInput | runtime.InputJsonValue
   listing: Prisma.ListingCreateNestedOneWithoutFaqsInput
 }
 
 export type ListingFaqUncheckedCreateInput = {
   id?: string
   listingId: string
-  faqs: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  faqs: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingFaqUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  faqs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  faqs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   listing?: Prisma.ListingUpdateOneRequiredWithoutFaqsNestedInput
 }
 
 export type ListingFaqUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
-  faqs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  faqs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingFaqCreateManyInput = {
   id?: string
   listingId: string
-  faqs: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  faqs: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingFaqUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  faqs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  faqs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingFaqUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
-  faqs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  faqs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingFaqCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
-  faqs?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  faqs?: Prisma.SortOrder
 }
 
 export type ListingFaqMaxOrderByAggregateInput = {
@@ -339,16 +339,16 @@ export type ListingFaqUncheckedUpdateOneWithoutListingNestedInput = {
 
 export type ListingFaqCreateWithoutListingInput = {
   id?: string
-  faqs: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  faqs: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingFaqUncheckedCreateWithoutListingInput = {
   id?: string
-  faqs: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  faqs: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingFaqCreateOrConnectWithoutListingInput = {
@@ -369,16 +369,16 @@ export type ListingFaqUpdateToOneWithWhereWithoutListingInput = {
 
 export type ListingFaqUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  faqs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  faqs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type ListingFaqUncheckedUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  faqs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  faqs?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 
@@ -386,39 +386,39 @@ export type ListingFaqUncheckedUpdateWithoutListingInput = {
 export type ListingFaqSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   listingId?: boolean
-  faqs?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  faqs?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["listingFaq"]>
 
 export type ListingFaqSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   listingId?: boolean
-  faqs?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  faqs?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["listingFaq"]>
 
 export type ListingFaqSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   listingId?: boolean
-  faqs?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  faqs?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["listingFaq"]>
 
 export type ListingFaqSelectScalar = {
   id?: boolean
   listingId?: boolean
-  faqs?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  faqs?: boolean
 }
 
-export type ListingFaqOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "faqs" | "createdAt" | "updatedAt", ExtArgs["result"]["listingFaq"]>
+export type ListingFaqOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "createdAt" | "updatedAt" | "faqs", ExtArgs["result"]["listingFaq"]>
 export type ListingFaqInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
 }
@@ -437,9 +437,9 @@ export type $ListingFaqPayload<ExtArgs extends runtime.Types.Extensions.Internal
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     listingId: string
-    faqs: runtime.JsonValue
     createdAt: Date
     updatedAt: Date
+    faqs: runtime.JsonValue
   }, ExtArgs["result"]["listingFaq"]>
   composites: {}
 }
@@ -866,9 +866,9 @@ export interface Prisma__ListingFaqClient<T, Null = never, ExtArgs extends runti
 export interface ListingFaqFieldRefs {
   readonly id: Prisma.FieldRef<"ListingFaq", 'String'>
   readonly listingId: Prisma.FieldRef<"ListingFaq", 'String'>
-  readonly faqs: Prisma.FieldRef<"ListingFaq", 'Json'>
   readonly createdAt: Prisma.FieldRef<"ListingFaq", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ListingFaq", 'DateTime'>
+  readonly faqs: Prisma.FieldRef<"ListingFaq", 'Json'>
 }
     
 

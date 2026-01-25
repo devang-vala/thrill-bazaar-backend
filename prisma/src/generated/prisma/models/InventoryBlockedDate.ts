@@ -197,9 +197,9 @@ export type InventoryBlockedDateWhereInput = {
   reason?: Prisma.StringNullableFilter<"InventoryBlockedDate"> | string | null
   createdByOperatorId?: Prisma.StringFilter<"InventoryBlockedDate"> | string
   createdAt?: Prisma.DateTimeFilter<"InventoryBlockedDate"> | Date | string
+  createdByOperator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
-  createdByOperator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type InventoryBlockedDateOrderByWithRelationInput = {
@@ -210,9 +210,9 @@ export type InventoryBlockedDateOrderByWithRelationInput = {
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdByOperatorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  createdByOperator?: Prisma.UserOrderByWithRelationInput
   listing?: Prisma.ListingOrderByWithRelationInput
   variant?: Prisma.ListingVariantOrderByWithRelationInput
-  createdByOperator?: Prisma.UserOrderByWithRelationInput
 }
 
 export type InventoryBlockedDateWhereUniqueInput = Prisma.AtLeast<{
@@ -226,9 +226,9 @@ export type InventoryBlockedDateWhereUniqueInput = Prisma.AtLeast<{
   reason?: Prisma.StringNullableFilter<"InventoryBlockedDate"> | string | null
   createdByOperatorId?: Prisma.StringFilter<"InventoryBlockedDate"> | string
   createdAt?: Prisma.DateTimeFilter<"InventoryBlockedDate"> | Date | string
+  createdByOperator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
-  createdByOperator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type InventoryBlockedDateOrderByWithAggregationInput = {
@@ -262,9 +262,9 @@ export type InventoryBlockedDateCreateInput = {
   blockedDate: Date | string
   reason?: string | null
   createdAt?: Date | string
+  createdByOperator: Prisma.UserCreateNestedOneWithoutBlockedDatesInput
   listing: Prisma.ListingCreateNestedOneWithoutBlockedDatesInput
   variant?: Prisma.ListingVariantCreateNestedOneWithoutBlockedDatesInput
-  createdByOperator: Prisma.UserCreateNestedOneWithoutBlockedDatesInput
 }
 
 export type InventoryBlockedDateUncheckedCreateInput = {
@@ -282,9 +282,9 @@ export type InventoryBlockedDateUpdateInput = {
   blockedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdByOperator?: Prisma.UserUpdateOneRequiredWithoutBlockedDatesNestedInput
   listing?: Prisma.ListingUpdateOneRequiredWithoutBlockedDatesNestedInput
   variant?: Prisma.ListingVariantUpdateOneWithoutBlockedDatesNestedInput
-  createdByOperator?: Prisma.UserUpdateOneRequiredWithoutBlockedDatesNestedInput
 }
 
 export type InventoryBlockedDateUncheckedUpdateInput = {
@@ -495,8 +495,8 @@ export type InventoryBlockedDateCreateWithoutVariantInput = {
   blockedDate: Date | string
   reason?: string | null
   createdAt?: Date | string
-  listing: Prisma.ListingCreateNestedOneWithoutBlockedDatesInput
   createdByOperator: Prisma.UserCreateNestedOneWithoutBlockedDatesInput
+  listing: Prisma.ListingCreateNestedOneWithoutBlockedDatesInput
 }
 
 export type InventoryBlockedDateUncheckedCreateWithoutVariantInput = {
@@ -552,8 +552,8 @@ export type InventoryBlockedDateCreateWithoutListingInput = {
   blockedDate: Date | string
   reason?: string | null
   createdAt?: Date | string
-  variant?: Prisma.ListingVariantCreateNestedOneWithoutBlockedDatesInput
   createdByOperator: Prisma.UserCreateNestedOneWithoutBlockedDatesInput
+  variant?: Prisma.ListingVariantCreateNestedOneWithoutBlockedDatesInput
 }
 
 export type InventoryBlockedDateUncheckedCreateWithoutListingInput = {
@@ -649,8 +649,8 @@ export type InventoryBlockedDateUpdateWithoutVariantInput = {
   blockedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  listing?: Prisma.ListingUpdateOneRequiredWithoutBlockedDatesNestedInput
   createdByOperator?: Prisma.UserUpdateOneRequiredWithoutBlockedDatesNestedInput
+  listing?: Prisma.ListingUpdateOneRequiredWithoutBlockedDatesNestedInput
 }
 
 export type InventoryBlockedDateUncheckedUpdateWithoutVariantInput = {
@@ -685,8 +685,8 @@ export type InventoryBlockedDateUpdateWithoutListingInput = {
   blockedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variant?: Prisma.ListingVariantUpdateOneWithoutBlockedDatesNestedInput
   createdByOperator?: Prisma.UserUpdateOneRequiredWithoutBlockedDatesNestedInput
+  variant?: Prisma.ListingVariantUpdateOneWithoutBlockedDatesNestedInput
 }
 
 export type InventoryBlockedDateUncheckedUpdateWithoutListingInput = {
@@ -753,9 +753,9 @@ export type InventoryBlockedDateSelect<ExtArgs extends runtime.Types.Extensions.
   reason?: boolean
   createdByOperatorId?: boolean
   createdAt?: boolean
+  createdByOperator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryBlockedDate$variantArgs<ExtArgs>
-  createdByOperator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryBlockedDate"]>
 
 export type InventoryBlockedDateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -766,9 +766,9 @@ export type InventoryBlockedDateSelectCreateManyAndReturn<ExtArgs extends runtim
   reason?: boolean
   createdByOperatorId?: boolean
   createdAt?: boolean
+  createdByOperator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryBlockedDate$variantArgs<ExtArgs>
-  createdByOperator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryBlockedDate"]>
 
 export type InventoryBlockedDateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -779,9 +779,9 @@ export type InventoryBlockedDateSelectUpdateManyAndReturn<ExtArgs extends runtim
   reason?: boolean
   createdByOperatorId?: boolean
   createdAt?: boolean
+  createdByOperator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryBlockedDate$variantArgs<ExtArgs>
-  createdByOperator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryBlockedDate"]>
 
 export type InventoryBlockedDateSelectScalar = {
@@ -796,27 +796,27 @@ export type InventoryBlockedDateSelectScalar = {
 
 export type InventoryBlockedDateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "variantId" | "blockedDate" | "reason" | "createdByOperatorId" | "createdAt", ExtArgs["result"]["inventoryBlockedDate"]>
 export type InventoryBlockedDateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  createdByOperator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryBlockedDate$variantArgs<ExtArgs>
-  createdByOperator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type InventoryBlockedDateIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  createdByOperator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryBlockedDate$variantArgs<ExtArgs>
-  createdByOperator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type InventoryBlockedDateIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  createdByOperator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.InventoryBlockedDate$variantArgs<ExtArgs>
-  createdByOperator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $InventoryBlockedDatePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "InventoryBlockedDate"
   objects: {
+    createdByOperator: Prisma.$UserPayload<ExtArgs>
     listing: Prisma.$ListingPayload<ExtArgs>
     variant: Prisma.$ListingVariantPayload<ExtArgs> | null
-    createdByOperator: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1220,9 +1220,9 @@ readonly fields: InventoryBlockedDateFieldRefs;
  */
 export interface Prisma__InventoryBlockedDateClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  createdByOperator<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   listing<T extends Prisma.ListingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingDefaultArgs<ExtArgs>>): Prisma.Prisma__ListingClient<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   variant<T extends Prisma.InventoryBlockedDate$variantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventoryBlockedDate$variantArgs<ExtArgs>>): Prisma.Prisma__ListingVariantClient<runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  createdByOperator<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -73,6 +73,8 @@ export const ModelName = {
   Otp: 'Otp',
   PrimaryDivision: 'PrimaryDivision',
   Reschedule: 'Reschedule',
+  Review: 'Review',
+  ReviewHelpfulVote: 'ReviewHelpfulVote',
   SecondaryDivision: 'SecondaryDivision',
   SlotDefinition: 'SlotDefinition',
   UserAddress: 'UserAddress',
@@ -124,24 +126,24 @@ export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeo
 
 export const CategoryScalarFieldEnum = {
   id: 'id',
-  listingTypeId: 'listingTypeId',
   categoryName: 'categoryName',
   categorySlug: 'categorySlug',
   categoryIconUrl: 'categoryIconUrl',
   categoryDescription: 'categoryDescription',
   displayOrder: 'displayOrder',
   bookingFormat: 'bookingFormat',
-  isEndLocation: 'isEndLocation',
   isRental: 'isRental',
   hasVariantCatA: 'hasVariantCatA',
-  isInclusionsExclusionsAllowed: 'isInclusionsExclusionsAllowed',
-  isAddonsAllowed: 'isAddonsAllowed',
-  isBookingOptionAllowed: 'isBookingOptionAllowed',
-  isFaqAllowed: 'isFaqAllowed',
-  isDayWiseAllowed: 'isDayWiseAllowed',
   isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  isAddonsAllowed: 'isAddonsAllowed',
+  isBookingOptionAllowed: 'isBookingOptionAllowed',
+  isInclusionsExclusionsAllowed: 'isInclusionsExclusionsAllowed',
+  isFaqAllowed: 'isFaqAllowed',
+  isDayWiseAllowed: 'isDayWiseAllowed',
+  isEndLocation: 'isEndLocation',
+  listingTypeId: 'listingTypeId'
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
@@ -232,9 +234,9 @@ export type ListingContentScalarFieldEnum = (typeof ListingContentScalarFieldEnu
 export const ListingFaqScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
-  faqs: 'faqs',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  faqs: 'faqs'
 } as const
 
 export type ListingFaqScalarFieldEnum = (typeof ListingFaqScalarFieldEnum)[keyof typeof ListingFaqScalarFieldEnum]
@@ -256,10 +258,10 @@ export const ListingMediaScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   contentId: 'contentId',
-  media: 'media',
   uploadedAt: 'uploadedAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  media: 'media'
 } as const
 
 export type ListingMediaScalarFieldEnum = (typeof ListingMediaScalarFieldEnum)[keyof typeof ListingMediaScalarFieldEnum]
@@ -315,16 +317,16 @@ export type ListingPolicyScalarFieldEnum = (typeof ListingPolicyScalarFieldEnum)
 
 export const ListingSlotChangeScalarFieldEnum = {
   id: 'id',
-  inventoryDateRangeId: 'inventoryDateRangeId',
   listingId: 'listingId',
   variantId: 'variantId',
-  date: 'date',
-  price: 'price',
   availableCount: 'availableCount',
-  totalCapacity: 'totalCapacity',
   triggerType: 'triggerType',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  date: 'date',
+  inventoryDateRangeId: 'inventoryDateRangeId',
+  price: 'price',
+  totalCapacity: 'totalCapacity'
 } as const
 
 export type ListingSlotChangeScalarFieldEnum = (typeof ListingSlotChangeScalarFieldEnum)[keyof typeof ListingSlotChangeScalarFieldEnum]
@@ -334,17 +336,17 @@ export const ListingSlotScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   variantId: 'variantId',
-  slotDefinitionId: 'slotDefinitionId',
-  batchStartDate: 'batchStartDate',
-  batchEndDate: 'batchEndDate',
-  slotDate: 'slotDate',
-  startTime: 'startTime',
-  endTime: 'endTime',
   basePrice: 'basePrice',
   totalCapacity: 'totalCapacity',
   availableCount: 'availableCount',
   isActive: 'isActive',
   createdAt: 'createdAt',
+  endTime: 'endTime',
+  slotDate: 'slotDate',
+  slotDefinitionId: 'slotDefinitionId',
+  startTime: 'startTime',
+  batchEndDate: 'batchEndDate',
+  batchStartDate: 'batchStartDate',
   formatType: 'formatType'
 } as const
 
@@ -400,12 +402,12 @@ export const ListingVariantScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
   variantName: 'variantName',
-  variantDescription: 'variantDescription',
-  validParticipantNumbers: 'validParticipantNumbers',
   variantOrder: 'variantOrder',
-  variantMetadata: 'variantMetadata',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  variantDescription: 'variantDescription',
+  variantMetadata: 'variantMetadata',
+  validParticipantNumbers: 'validParticipantNumbers'
 } as const
 
 export type ListingVariantScalarFieldEnum = (typeof ListingVariantScalarFieldEnum)[keyof typeof ListingVariantScalarFieldEnum]
@@ -527,6 +529,38 @@ export const RescheduleScalarFieldEnum = {
 } as const
 
 export type RescheduleScalarFieldEnum = (typeof RescheduleScalarFieldEnum)[keyof typeof RescheduleScalarFieldEnum]
+
+
+export const ReviewScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  listingId: 'listingId',
+  customerId: 'customerId',
+  operatorId: 'operatorId',
+  rating: 'rating',
+  reviewTitle: 'reviewTitle',
+  reviewText: 'reviewText',
+  reviewImages: 'reviewImages',
+  isVerifiedBooking: 'isVerifiedBooking',
+  isModerated: 'isModerated',
+  moderatedByAdminId: 'moderatedByAdminId',
+  moderationReason: 'moderationReason',
+  helpfulCount: 'helpfulCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+export const ReviewHelpfulVoteScalarFieldEnum = {
+  id: 'id',
+  reviewId: 'reviewId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ReviewHelpfulVoteScalarFieldEnum = (typeof ReviewHelpfulVoteScalarFieldEnum)[keyof typeof ReviewHelpfulVoteScalarFieldEnum]
 
 
 export const SecondaryDivisionScalarFieldEnum = {

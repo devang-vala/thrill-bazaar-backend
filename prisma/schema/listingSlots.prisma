@@ -18,10 +18,6 @@ model ListingSlot {
   listing                                             Listing         @relation("ListingToSlot", fields: [listingId], references: [id], onDelete: Cascade)
   slotDefinition                                      SlotDefinition? @relation("SlotDefinitionToSlot", fields: [slotDefinitionId], references: [id], onDelete: Cascade)
   variant                                             ListingVariant? @relation("VariantToSlot", fields: [variantId], references: [id], onDelete: Cascade)
-  reschedules_reschedules_new_batch_idTolisting_slots reschedules[]   @relation("reschedules_new_batch_idTolisting_slots")
-  reschedules_reschedules_new_slot_idTolisting_slots  reschedules[]   @relation("reschedules_new_slot_idTolisting_slots")
-  reschedules_reschedules_old_batch_idTolisting_slots reschedules[]   @relation("reschedules_old_batch_idTolisting_slots")
-  reschedules_reschedules_old_slot_idTolisting_slots  reschedules[]   @relation("reschedules_old_slot_idTolisting_slots")
 
   // reschedule relations
   reschedulesAsOldBatch Reschedule[] @relation("RescheduleOldBatch")

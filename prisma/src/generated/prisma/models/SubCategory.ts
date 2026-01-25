@@ -239,8 +239,8 @@ export type SubCategoryWhereInput = {
   isActive?: Prisma.BoolFilter<"SubCategory"> | boolean
   createdAt?: Prisma.DateTimeFilter<"SubCategory"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SubCategory"> | Date | string
-  category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   listings?: Prisma.ListingListRelationFilter
+  category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
 }
 
 export type SubCategoryOrderByWithRelationInput = {
@@ -252,8 +252,8 @@ export type SubCategoryOrderByWithRelationInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  category?: Prisma.CategoryOrderByWithRelationInput
   listings?: Prisma.ListingOrderByRelationAggregateInput
+  category?: Prisma.CategoryOrderByWithRelationInput
 }
 
 export type SubCategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -268,8 +268,8 @@ export type SubCategoryWhereUniqueInput = Prisma.AtLeast<{
   isActive?: Prisma.BoolFilter<"SubCategory"> | boolean
   createdAt?: Prisma.DateTimeFilter<"SubCategory"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SubCategory"> | Date | string
-  category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   listings?: Prisma.ListingListRelationFilter
+  category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
 }, "id" | "subCatSlug">
 
 export type SubCategoryOrderByWithAggregationInput = {
@@ -310,8 +310,8 @@ export type SubCategoryCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  category: Prisma.CategoryCreateNestedOneWithoutSubCategoriesInput
   listings?: Prisma.ListingCreateNestedManyWithoutSubCategoryInput
+  category: Prisma.CategoryCreateNestedOneWithoutSubCategoriesInput
 }
 
 export type SubCategoryUncheckedCreateInput = {
@@ -334,8 +334,8 @@ export type SubCategoryUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  category?: Prisma.CategoryUpdateOneRequiredWithoutSubCategoriesNestedInput
   listings?: Prisma.ListingUpdateManyWithoutSubCategoryNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutSubCategoriesNestedInput
 }
 
 export type SubCategoryUncheckedUpdateInput = {
@@ -700,8 +700,8 @@ export type SubCategorySelect<ExtArgs extends runtime.Types.Extensions.InternalA
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   listings?: boolean | Prisma.SubCategory$listingsArgs<ExtArgs>
+  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SubCategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subCategory"]>
 
@@ -742,8 +742,8 @@ export type SubCategorySelectScalar = {
 
 export type SubCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "categoryId" | "subCatName" | "subCatSlug" | "displayOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["subCategory"]>
 export type SubCategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   listings?: boolean | Prisma.SubCategory$listingsArgs<ExtArgs>
+  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SubCategoryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SubCategoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -756,8 +756,8 @@ export type SubCategoryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.
 export type $SubCategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SubCategory"
   objects: {
-    category: Prisma.$CategoryPayload<ExtArgs>
     listings: Prisma.$ListingPayload<ExtArgs>[]
+    category: Prisma.$CategoryPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1162,8 +1162,8 @@ readonly fields: SubCategoryFieldRefs;
  */
 export interface Prisma__SubCategoryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   listings<T extends Prisma.SubCategory$listingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubCategory$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -219,9 +219,9 @@ export type SecondaryDivisionWhereInput = {
   division_name?: Prisma.StringFilter<"SecondaryDivision"> | string
   latitude?: Prisma.FloatFilter<"SecondaryDivision"> | number
   longitude?: Prisma.FloatFilter<"SecondaryDivision"> | number
-  primaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionScalarRelationFilter, Prisma.PrimaryDivisionWhereInput>
-  listingsStart?: Prisma.ListingListRelationFilter
   listingsEnd?: Prisma.ListingListRelationFilter
+  listingsStart?: Prisma.ListingListRelationFilter
+  primaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionScalarRelationFilter, Prisma.PrimaryDivisionWhereInput>
 }
 
 export type SecondaryDivisionOrderByWithRelationInput = {
@@ -230,9 +230,9 @@ export type SecondaryDivisionOrderByWithRelationInput = {
   division_name?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
-  primaryDivision?: Prisma.PrimaryDivisionOrderByWithRelationInput
-  listingsStart?: Prisma.ListingOrderByRelationAggregateInput
   listingsEnd?: Prisma.ListingOrderByRelationAggregateInput
+  listingsStart?: Prisma.ListingOrderByRelationAggregateInput
+  primaryDivision?: Prisma.PrimaryDivisionOrderByWithRelationInput
 }
 
 export type SecondaryDivisionWhereUniqueInput = Prisma.AtLeast<{
@@ -244,9 +244,9 @@ export type SecondaryDivisionWhereUniqueInput = Prisma.AtLeast<{
   division_name?: Prisma.StringFilter<"SecondaryDivision"> | string
   latitude?: Prisma.FloatFilter<"SecondaryDivision"> | number
   longitude?: Prisma.FloatFilter<"SecondaryDivision"> | number
-  primaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionScalarRelationFilter, Prisma.PrimaryDivisionWhereInput>
-  listingsStart?: Prisma.ListingListRelationFilter
   listingsEnd?: Prisma.ListingListRelationFilter
+  listingsStart?: Prisma.ListingListRelationFilter
+  primaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionScalarRelationFilter, Prisma.PrimaryDivisionWhereInput>
 }, "secondary_division_id">
 
 export type SecondaryDivisionOrderByWithAggregationInput = {
@@ -278,9 +278,9 @@ export type SecondaryDivisionCreateInput = {
   division_name: string
   latitude: number
   longitude: number
-  primaryDivision: Prisma.PrimaryDivisionCreateNestedOneWithoutSecondaryDivisionsInput
-  listingsStart?: Prisma.ListingCreateNestedManyWithoutStartSecondaryDivisionInput
   listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndSecondaryDivisionInput
+  listingsStart?: Prisma.ListingCreateNestedManyWithoutStartSecondaryDivisionInput
+  primaryDivision: Prisma.PrimaryDivisionCreateNestedOneWithoutSecondaryDivisionsInput
 }
 
 export type SecondaryDivisionUncheckedCreateInput = {
@@ -289,8 +289,8 @@ export type SecondaryDivisionUncheckedCreateInput = {
   division_name: string
   latitude: number
   longitude: number
-  listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartSecondaryDivisionInput
   listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndSecondaryDivisionInput
+  listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartSecondaryDivisionInput
 }
 
 export type SecondaryDivisionUpdateInput = {
@@ -298,9 +298,9 @@ export type SecondaryDivisionUpdateInput = {
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
-  primaryDivision?: Prisma.PrimaryDivisionUpdateOneRequiredWithoutSecondaryDivisionsNestedInput
-  listingsStart?: Prisma.ListingUpdateManyWithoutStartSecondaryDivisionNestedInput
   listingsEnd?: Prisma.ListingUpdateManyWithoutEndSecondaryDivisionNestedInput
+  listingsStart?: Prisma.ListingUpdateManyWithoutStartSecondaryDivisionNestedInput
+  primaryDivision?: Prisma.PrimaryDivisionUpdateOneRequiredWithoutSecondaryDivisionsNestedInput
 }
 
 export type SecondaryDivisionUncheckedUpdateInput = {
@@ -309,8 +309,8 @@ export type SecondaryDivisionUncheckedUpdateInput = {
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
-  listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartSecondaryDivisionNestedInput
   listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndSecondaryDivisionNestedInput
+  listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartSecondaryDivisionNestedInput
 }
 
 export type SecondaryDivisionCreateManyInput = {
@@ -385,26 +385,16 @@ export type SecondaryDivisionSumOrderByAggregateInput = {
   longitude?: Prisma.SortOrder
 }
 
-export type SecondaryDivisionCreateNestedOneWithoutListingsStartInput = {
-  create?: Prisma.XOR<Prisma.SecondaryDivisionCreateWithoutListingsStartInput, Prisma.SecondaryDivisionUncheckedCreateWithoutListingsStartInput>
-  connectOrCreate?: Prisma.SecondaryDivisionCreateOrConnectWithoutListingsStartInput
-  connect?: Prisma.SecondaryDivisionWhereUniqueInput
-}
-
 export type SecondaryDivisionCreateNestedOneWithoutListingsEndInput = {
   create?: Prisma.XOR<Prisma.SecondaryDivisionCreateWithoutListingsEndInput, Prisma.SecondaryDivisionUncheckedCreateWithoutListingsEndInput>
   connectOrCreate?: Prisma.SecondaryDivisionCreateOrConnectWithoutListingsEndInput
   connect?: Prisma.SecondaryDivisionWhereUniqueInput
 }
 
-export type SecondaryDivisionUpdateOneWithoutListingsStartNestedInput = {
+export type SecondaryDivisionCreateNestedOneWithoutListingsStartInput = {
   create?: Prisma.XOR<Prisma.SecondaryDivisionCreateWithoutListingsStartInput, Prisma.SecondaryDivisionUncheckedCreateWithoutListingsStartInput>
   connectOrCreate?: Prisma.SecondaryDivisionCreateOrConnectWithoutListingsStartInput
-  upsert?: Prisma.SecondaryDivisionUpsertWithoutListingsStartInput
-  disconnect?: Prisma.SecondaryDivisionWhereInput | boolean
-  delete?: Prisma.SecondaryDivisionWhereInput | boolean
   connect?: Prisma.SecondaryDivisionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.SecondaryDivisionUpdateToOneWithWhereWithoutListingsStartInput, Prisma.SecondaryDivisionUpdateWithoutListingsStartInput>, Prisma.SecondaryDivisionUncheckedUpdateWithoutListingsStartInput>
 }
 
 export type SecondaryDivisionUpdateOneWithoutListingsEndNestedInput = {
@@ -415,6 +405,16 @@ export type SecondaryDivisionUpdateOneWithoutListingsEndNestedInput = {
   delete?: Prisma.SecondaryDivisionWhereInput | boolean
   connect?: Prisma.SecondaryDivisionWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.SecondaryDivisionUpdateToOneWithWhereWithoutListingsEndInput, Prisma.SecondaryDivisionUpdateWithoutListingsEndInput>, Prisma.SecondaryDivisionUncheckedUpdateWithoutListingsEndInput>
+}
+
+export type SecondaryDivisionUpdateOneWithoutListingsStartNestedInput = {
+  create?: Prisma.XOR<Prisma.SecondaryDivisionCreateWithoutListingsStartInput, Prisma.SecondaryDivisionUncheckedCreateWithoutListingsStartInput>
+  connectOrCreate?: Prisma.SecondaryDivisionCreateOrConnectWithoutListingsStartInput
+  upsert?: Prisma.SecondaryDivisionUpsertWithoutListingsStartInput
+  disconnect?: Prisma.SecondaryDivisionWhereInput | boolean
+  delete?: Prisma.SecondaryDivisionWhereInput | boolean
+  connect?: Prisma.SecondaryDivisionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SecondaryDivisionUpdateToOneWithWhereWithoutListingsStartInput, Prisma.SecondaryDivisionUpdateWithoutListingsStartInput>, Prisma.SecondaryDivisionUncheckedUpdateWithoutListingsStartInput>
 }
 
 export type SecondaryDivisionCreateNestedManyWithoutPrimaryDivisionInput = {
@@ -467,36 +467,13 @@ export type FloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type SecondaryDivisionCreateWithoutListingsStartInput = {
-  secondary_division_id?: string
-  division_name: string
-  latitude: number
-  longitude: number
-  primaryDivision: Prisma.PrimaryDivisionCreateNestedOneWithoutSecondaryDivisionsInput
-  listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndSecondaryDivisionInput
-}
-
-export type SecondaryDivisionUncheckedCreateWithoutListingsStartInput = {
-  secondary_division_id?: string
-  primary_division_id: string
-  division_name: string
-  latitude: number
-  longitude: number
-  listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndSecondaryDivisionInput
-}
-
-export type SecondaryDivisionCreateOrConnectWithoutListingsStartInput = {
-  where: Prisma.SecondaryDivisionWhereUniqueInput
-  create: Prisma.XOR<Prisma.SecondaryDivisionCreateWithoutListingsStartInput, Prisma.SecondaryDivisionUncheckedCreateWithoutListingsStartInput>
-}
-
 export type SecondaryDivisionCreateWithoutListingsEndInput = {
   secondary_division_id?: string
   division_name: string
   latitude: number
   longitude: number
-  primaryDivision: Prisma.PrimaryDivisionCreateNestedOneWithoutSecondaryDivisionsInput
   listingsStart?: Prisma.ListingCreateNestedManyWithoutStartSecondaryDivisionInput
+  primaryDivision: Prisma.PrimaryDivisionCreateNestedOneWithoutSecondaryDivisionsInput
 }
 
 export type SecondaryDivisionUncheckedCreateWithoutListingsEndInput = {
@@ -513,33 +490,27 @@ export type SecondaryDivisionCreateOrConnectWithoutListingsEndInput = {
   create: Prisma.XOR<Prisma.SecondaryDivisionCreateWithoutListingsEndInput, Prisma.SecondaryDivisionUncheckedCreateWithoutListingsEndInput>
 }
 
-export type SecondaryDivisionUpsertWithoutListingsStartInput = {
-  update: Prisma.XOR<Prisma.SecondaryDivisionUpdateWithoutListingsStartInput, Prisma.SecondaryDivisionUncheckedUpdateWithoutListingsStartInput>
+export type SecondaryDivisionCreateWithoutListingsStartInput = {
+  secondary_division_id?: string
+  division_name: string
+  latitude: number
+  longitude: number
+  listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndSecondaryDivisionInput
+  primaryDivision: Prisma.PrimaryDivisionCreateNestedOneWithoutSecondaryDivisionsInput
+}
+
+export type SecondaryDivisionUncheckedCreateWithoutListingsStartInput = {
+  secondary_division_id?: string
+  primary_division_id: string
+  division_name: string
+  latitude: number
+  longitude: number
+  listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndSecondaryDivisionInput
+}
+
+export type SecondaryDivisionCreateOrConnectWithoutListingsStartInput = {
+  where: Prisma.SecondaryDivisionWhereUniqueInput
   create: Prisma.XOR<Prisma.SecondaryDivisionCreateWithoutListingsStartInput, Prisma.SecondaryDivisionUncheckedCreateWithoutListingsStartInput>
-  where?: Prisma.SecondaryDivisionWhereInput
-}
-
-export type SecondaryDivisionUpdateToOneWithWhereWithoutListingsStartInput = {
-  where?: Prisma.SecondaryDivisionWhereInput
-  data: Prisma.XOR<Prisma.SecondaryDivisionUpdateWithoutListingsStartInput, Prisma.SecondaryDivisionUncheckedUpdateWithoutListingsStartInput>
-}
-
-export type SecondaryDivisionUpdateWithoutListingsStartInput = {
-  secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
-  division_name?: Prisma.StringFieldUpdateOperationsInput | string
-  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
-  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
-  primaryDivision?: Prisma.PrimaryDivisionUpdateOneRequiredWithoutSecondaryDivisionsNestedInput
-  listingsEnd?: Prisma.ListingUpdateManyWithoutEndSecondaryDivisionNestedInput
-}
-
-export type SecondaryDivisionUncheckedUpdateWithoutListingsStartInput = {
-  secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
-  primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
-  division_name?: Prisma.StringFieldUpdateOperationsInput | string
-  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
-  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
-  listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndSecondaryDivisionNestedInput
 }
 
 export type SecondaryDivisionUpsertWithoutListingsEndInput = {
@@ -558,8 +529,8 @@ export type SecondaryDivisionUpdateWithoutListingsEndInput = {
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
-  primaryDivision?: Prisma.PrimaryDivisionUpdateOneRequiredWithoutSecondaryDivisionsNestedInput
   listingsStart?: Prisma.ListingUpdateManyWithoutStartSecondaryDivisionNestedInput
+  primaryDivision?: Prisma.PrimaryDivisionUpdateOneRequiredWithoutSecondaryDivisionsNestedInput
 }
 
 export type SecondaryDivisionUncheckedUpdateWithoutListingsEndInput = {
@@ -571,13 +542,42 @@ export type SecondaryDivisionUncheckedUpdateWithoutListingsEndInput = {
   listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartSecondaryDivisionNestedInput
 }
 
+export type SecondaryDivisionUpsertWithoutListingsStartInput = {
+  update: Prisma.XOR<Prisma.SecondaryDivisionUpdateWithoutListingsStartInput, Prisma.SecondaryDivisionUncheckedUpdateWithoutListingsStartInput>
+  create: Prisma.XOR<Prisma.SecondaryDivisionCreateWithoutListingsStartInput, Prisma.SecondaryDivisionUncheckedCreateWithoutListingsStartInput>
+  where?: Prisma.SecondaryDivisionWhereInput
+}
+
+export type SecondaryDivisionUpdateToOneWithWhereWithoutListingsStartInput = {
+  where?: Prisma.SecondaryDivisionWhereInput
+  data: Prisma.XOR<Prisma.SecondaryDivisionUpdateWithoutListingsStartInput, Prisma.SecondaryDivisionUncheckedUpdateWithoutListingsStartInput>
+}
+
+export type SecondaryDivisionUpdateWithoutListingsStartInput = {
+  secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
+  division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  listingsEnd?: Prisma.ListingUpdateManyWithoutEndSecondaryDivisionNestedInput
+  primaryDivision?: Prisma.PrimaryDivisionUpdateOneRequiredWithoutSecondaryDivisionsNestedInput
+}
+
+export type SecondaryDivisionUncheckedUpdateWithoutListingsStartInput = {
+  secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
+  primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
+  division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndSecondaryDivisionNestedInput
+}
+
 export type SecondaryDivisionCreateWithoutPrimaryDivisionInput = {
   secondary_division_id?: string
   division_name: string
   latitude: number
   longitude: number
-  listingsStart?: Prisma.ListingCreateNestedManyWithoutStartSecondaryDivisionInput
   listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndSecondaryDivisionInput
+  listingsStart?: Prisma.ListingCreateNestedManyWithoutStartSecondaryDivisionInput
 }
 
 export type SecondaryDivisionUncheckedCreateWithoutPrimaryDivisionInput = {
@@ -585,8 +585,8 @@ export type SecondaryDivisionUncheckedCreateWithoutPrimaryDivisionInput = {
   division_name: string
   latitude: number
   longitude: number
-  listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartSecondaryDivisionInput
   listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndSecondaryDivisionInput
+  listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartSecondaryDivisionInput
 }
 
 export type SecondaryDivisionCreateOrConnectWithoutPrimaryDivisionInput = {
@@ -638,8 +638,8 @@ export type SecondaryDivisionUpdateWithoutPrimaryDivisionInput = {
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
-  listingsStart?: Prisma.ListingUpdateManyWithoutStartSecondaryDivisionNestedInput
   listingsEnd?: Prisma.ListingUpdateManyWithoutEndSecondaryDivisionNestedInput
+  listingsStart?: Prisma.ListingUpdateManyWithoutStartSecondaryDivisionNestedInput
 }
 
 export type SecondaryDivisionUncheckedUpdateWithoutPrimaryDivisionInput = {
@@ -647,8 +647,8 @@ export type SecondaryDivisionUncheckedUpdateWithoutPrimaryDivisionInput = {
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
-  listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartSecondaryDivisionNestedInput
   listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndSecondaryDivisionNestedInput
+  listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartSecondaryDivisionNestedInput
 }
 
 export type SecondaryDivisionUncheckedUpdateManyWithoutPrimaryDivisionInput = {
@@ -664,13 +664,13 @@ export type SecondaryDivisionUncheckedUpdateManyWithoutPrimaryDivisionInput = {
  */
 
 export type SecondaryDivisionCountOutputType = {
-  listingsStart: number
   listingsEnd: number
+  listingsStart: number
 }
 
 export type SecondaryDivisionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  listingsStart?: boolean | SecondaryDivisionCountOutputTypeCountListingsStartArgs
   listingsEnd?: boolean | SecondaryDivisionCountOutputTypeCountListingsEndArgs
+  listingsStart?: boolean | SecondaryDivisionCountOutputTypeCountListingsStartArgs
 }
 
 /**
@@ -686,14 +686,14 @@ export type SecondaryDivisionCountOutputTypeDefaultArgs<ExtArgs extends runtime.
 /**
  * SecondaryDivisionCountOutputType without action
  */
-export type SecondaryDivisionCountOutputTypeCountListingsStartArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type SecondaryDivisionCountOutputTypeCountListingsEndArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ListingWhereInput
 }
 
 /**
  * SecondaryDivisionCountOutputType without action
  */
-export type SecondaryDivisionCountOutputTypeCountListingsEndArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type SecondaryDivisionCountOutputTypeCountListingsStartArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ListingWhereInput
 }
 
@@ -704,9 +704,9 @@ export type SecondaryDivisionSelect<ExtArgs extends runtime.Types.Extensions.Int
   division_name?: boolean
   latitude?: boolean
   longitude?: boolean
-  primaryDivision?: boolean | Prisma.PrimaryDivisionDefaultArgs<ExtArgs>
-  listingsStart?: boolean | Prisma.SecondaryDivision$listingsStartArgs<ExtArgs>
   listingsEnd?: boolean | Prisma.SecondaryDivision$listingsEndArgs<ExtArgs>
+  listingsStart?: boolean | Prisma.SecondaryDivision$listingsStartArgs<ExtArgs>
+  primaryDivision?: boolean | Prisma.PrimaryDivisionDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SecondaryDivisionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["secondaryDivision"]>
 
@@ -738,9 +738,9 @@ export type SecondaryDivisionSelectScalar = {
 
 export type SecondaryDivisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"secondary_division_id" | "primary_division_id" | "division_name" | "latitude" | "longitude", ExtArgs["result"]["secondaryDivision"]>
 export type SecondaryDivisionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  primaryDivision?: boolean | Prisma.PrimaryDivisionDefaultArgs<ExtArgs>
-  listingsStart?: boolean | Prisma.SecondaryDivision$listingsStartArgs<ExtArgs>
   listingsEnd?: boolean | Prisma.SecondaryDivision$listingsEndArgs<ExtArgs>
+  listingsStart?: boolean | Prisma.SecondaryDivision$listingsStartArgs<ExtArgs>
+  primaryDivision?: boolean | Prisma.PrimaryDivisionDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SecondaryDivisionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SecondaryDivisionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -753,9 +753,9 @@ export type SecondaryDivisionIncludeUpdateManyAndReturn<ExtArgs extends runtime.
 export type $SecondaryDivisionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SecondaryDivision"
   objects: {
-    primaryDivision: Prisma.$PrimaryDivisionPayload<ExtArgs>
-    listingsStart: Prisma.$ListingPayload<ExtArgs>[]
     listingsEnd: Prisma.$ListingPayload<ExtArgs>[]
+    listingsStart: Prisma.$ListingPayload<ExtArgs>[]
+    primaryDivision: Prisma.$PrimaryDivisionPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     secondary_division_id: string
@@ -1157,9 +1157,9 @@ readonly fields: SecondaryDivisionFieldRefs;
  */
 export interface Prisma__SecondaryDivisionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  primaryDivision<T extends Prisma.PrimaryDivisionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrimaryDivisionDefaultArgs<ExtArgs>>): Prisma.Prisma__PrimaryDivisionClient<runtime.Types.Result.GetResult<Prisma.$PrimaryDivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  listingsStart<T extends Prisma.SecondaryDivision$listingsStartArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SecondaryDivision$listingsStartArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   listingsEnd<T extends Prisma.SecondaryDivision$listingsEndArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SecondaryDivision$listingsEndArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  listingsStart<T extends Prisma.SecondaryDivision$listingsStartArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SecondaryDivision$listingsStartArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  primaryDivision<T extends Prisma.PrimaryDivisionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrimaryDivisionDefaultArgs<ExtArgs>>): Prisma.Prisma__PrimaryDivisionClient<runtime.Types.Result.GetResult<Prisma.$PrimaryDivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1590,9 +1590,9 @@ export type SecondaryDivisionDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
- * SecondaryDivision.listingsStart
+ * SecondaryDivision.listingsEnd
  */
-export type SecondaryDivision$listingsStartArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type SecondaryDivision$listingsEndArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Listing
    */
@@ -1614,9 +1614,9 @@ export type SecondaryDivision$listingsStartArgs<ExtArgs extends runtime.Types.Ex
 }
 
 /**
- * SecondaryDivision.listingsEnd
+ * SecondaryDivision.listingsStart
  */
-export type SecondaryDivision$listingsEndArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type SecondaryDivision$listingsStartArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Listing
    */

@@ -443,27 +443,28 @@ export type ListingWhereInput = {
   basePriceDisplay?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Listing"> | string
   metadata?: Prisma.JsonNullableFilter<"Listing">
-  operator?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
-  subCategory?: Prisma.XOR<Prisma.SubCategoryNullableScalarRelationFilter, Prisma.SubCategoryWhereInput> | null
+  blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
+  dateRanges?: Prisma.InventoryDateRangeListRelationFilter
+  addons?: Prisma.XOR<Prisma.ListingAddonNullableScalarRelationFilter, Prisma.ListingAddonWhereInput> | null
+  content?: Prisma.ListingContentListRelationFilter
+  faqs?: Prisma.XOR<Prisma.ListingFaqNullableScalarRelationFilter, Prisma.ListingFaqWhereInput> | null
+  inclusionsExclusions?: Prisma.XOR<Prisma.ListingInclusionExclusionNullableScalarRelationFilter, Prisma.ListingInclusionExclusionWhereInput> | null
+  media?: Prisma.ListingMediaListRelationFilter
+  slotChanges?: Prisma.ListingSlotChangeListRelationFilter
+  slots?: Prisma.ListingSlotListRelationFilter
+  variants?: Prisma.ListingVariantListRelationFilter
   approvedByAdmin?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  startCountry?: Prisma.XOR<Prisma.CountryNullableScalarRelationFilter, Prisma.CountryWhereInput> | null
-  startPrimaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionNullableScalarRelationFilter, Prisma.PrimaryDivisionWhereInput> | null
-  startSecondaryDivision?: Prisma.XOR<Prisma.SecondaryDivisionNullableScalarRelationFilter, Prisma.SecondaryDivisionWhereInput> | null
+  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
   endCountry?: Prisma.XOR<Prisma.CountryNullableScalarRelationFilter, Prisma.CountryWhereInput> | null
   endPrimaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionNullableScalarRelationFilter, Prisma.PrimaryDivisionWhereInput> | null
   endSecondaryDivision?: Prisma.XOR<Prisma.SecondaryDivisionNullableScalarRelationFilter, Prisma.SecondaryDivisionWhereInput> | null
-  variants?: Prisma.ListingVariantListRelationFilter
-  content?: Prisma.ListingContentListRelationFilter
-  inclusionsExclusions?: Prisma.XOR<Prisma.ListingInclusionExclusionNullableScalarRelationFilter, Prisma.ListingInclusionExclusionWhereInput> | null
-  addons?: Prisma.XOR<Prisma.ListingAddonNullableScalarRelationFilter, Prisma.ListingAddonWhereInput> | null
-  media?: Prisma.ListingMediaListRelationFilter
-  faqs?: Prisma.XOR<Prisma.ListingFaqNullableScalarRelationFilter, Prisma.ListingFaqWhereInput> | null
-  slots?: Prisma.ListingSlotListRelationFilter
+  operator?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  startCountry?: Prisma.XOR<Prisma.CountryNullableScalarRelationFilter, Prisma.CountryWhereInput> | null
+  startPrimaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionNullableScalarRelationFilter, Prisma.PrimaryDivisionWhereInput> | null
+  startSecondaryDivision?: Prisma.XOR<Prisma.SecondaryDivisionNullableScalarRelationFilter, Prisma.SecondaryDivisionWhereInput> | null
+  subCategory?: Prisma.XOR<Prisma.SubCategoryNullableScalarRelationFilter, Prisma.SubCategoryWhereInput> | null
   slotDefinitions?: Prisma.SlotDefinitionListRelationFilter
-  slotChanges?: Prisma.ListingSlotChangeListRelationFilter
-  dateRanges?: Prisma.InventoryDateRangeListRelationFilter
-  blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
 }
 
 export type ListingOrderByWithRelationInput = {
@@ -500,27 +501,28 @@ export type ListingOrderByWithRelationInput = {
   basePriceDisplay?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
-  operator?: Prisma.UserOrderByWithRelationInput
-  category?: Prisma.CategoryOrderByWithRelationInput
-  subCategory?: Prisma.SubCategoryOrderByWithRelationInput
+  blockedDates?: Prisma.InventoryBlockedDateOrderByRelationAggregateInput
+  dateRanges?: Prisma.InventoryDateRangeOrderByRelationAggregateInput
+  addons?: Prisma.ListingAddonOrderByWithRelationInput
+  content?: Prisma.ListingContentOrderByRelationAggregateInput
+  faqs?: Prisma.ListingFaqOrderByWithRelationInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionOrderByWithRelationInput
+  media?: Prisma.ListingMediaOrderByRelationAggregateInput
+  slotChanges?: Prisma.ListingSlotChangeOrderByRelationAggregateInput
+  slots?: Prisma.ListingSlotOrderByRelationAggregateInput
+  variants?: Prisma.ListingVariantOrderByRelationAggregateInput
   approvedByAdmin?: Prisma.UserOrderByWithRelationInput
-  startCountry?: Prisma.CountryOrderByWithRelationInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionOrderByWithRelationInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionOrderByWithRelationInput
+  category?: Prisma.CategoryOrderByWithRelationInput
   endCountry?: Prisma.CountryOrderByWithRelationInput
   endPrimaryDivision?: Prisma.PrimaryDivisionOrderByWithRelationInput
   endSecondaryDivision?: Prisma.SecondaryDivisionOrderByWithRelationInput
-  variants?: Prisma.ListingVariantOrderByRelationAggregateInput
-  content?: Prisma.ListingContentOrderByRelationAggregateInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionOrderByWithRelationInput
-  addons?: Prisma.ListingAddonOrderByWithRelationInput
-  media?: Prisma.ListingMediaOrderByRelationAggregateInput
-  faqs?: Prisma.ListingFaqOrderByWithRelationInput
-  slots?: Prisma.ListingSlotOrderByRelationAggregateInput
+  operator?: Prisma.UserOrderByWithRelationInput
+  startCountry?: Prisma.CountryOrderByWithRelationInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionOrderByWithRelationInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionOrderByWithRelationInput
+  subCategory?: Prisma.SubCategoryOrderByWithRelationInput
   slotDefinitions?: Prisma.SlotDefinitionOrderByRelationAggregateInput
-  slotChanges?: Prisma.ListingSlotChangeOrderByRelationAggregateInput
-  dateRanges?: Prisma.InventoryDateRangeOrderByRelationAggregateInput
-  blockedDates?: Prisma.InventoryBlockedDateOrderByRelationAggregateInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
 }
 
 export type ListingWhereUniqueInput = Prisma.AtLeast<{
@@ -560,27 +562,28 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   basePriceDisplay?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Listing"> | string
   metadata?: Prisma.JsonNullableFilter<"Listing">
-  operator?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
-  subCategory?: Prisma.XOR<Prisma.SubCategoryNullableScalarRelationFilter, Prisma.SubCategoryWhereInput> | null
+  blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
+  dateRanges?: Prisma.InventoryDateRangeListRelationFilter
+  addons?: Prisma.XOR<Prisma.ListingAddonNullableScalarRelationFilter, Prisma.ListingAddonWhereInput> | null
+  content?: Prisma.ListingContentListRelationFilter
+  faqs?: Prisma.XOR<Prisma.ListingFaqNullableScalarRelationFilter, Prisma.ListingFaqWhereInput> | null
+  inclusionsExclusions?: Prisma.XOR<Prisma.ListingInclusionExclusionNullableScalarRelationFilter, Prisma.ListingInclusionExclusionWhereInput> | null
+  media?: Prisma.ListingMediaListRelationFilter
+  slotChanges?: Prisma.ListingSlotChangeListRelationFilter
+  slots?: Prisma.ListingSlotListRelationFilter
+  variants?: Prisma.ListingVariantListRelationFilter
   approvedByAdmin?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  startCountry?: Prisma.XOR<Prisma.CountryNullableScalarRelationFilter, Prisma.CountryWhereInput> | null
-  startPrimaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionNullableScalarRelationFilter, Prisma.PrimaryDivisionWhereInput> | null
-  startSecondaryDivision?: Prisma.XOR<Prisma.SecondaryDivisionNullableScalarRelationFilter, Prisma.SecondaryDivisionWhereInput> | null
+  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
   endCountry?: Prisma.XOR<Prisma.CountryNullableScalarRelationFilter, Prisma.CountryWhereInput> | null
   endPrimaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionNullableScalarRelationFilter, Prisma.PrimaryDivisionWhereInput> | null
   endSecondaryDivision?: Prisma.XOR<Prisma.SecondaryDivisionNullableScalarRelationFilter, Prisma.SecondaryDivisionWhereInput> | null
-  variants?: Prisma.ListingVariantListRelationFilter
-  content?: Prisma.ListingContentListRelationFilter
-  inclusionsExclusions?: Prisma.XOR<Prisma.ListingInclusionExclusionNullableScalarRelationFilter, Prisma.ListingInclusionExclusionWhereInput> | null
-  addons?: Prisma.XOR<Prisma.ListingAddonNullableScalarRelationFilter, Prisma.ListingAddonWhereInput> | null
-  media?: Prisma.ListingMediaListRelationFilter
-  faqs?: Prisma.XOR<Prisma.ListingFaqNullableScalarRelationFilter, Prisma.ListingFaqWhereInput> | null
-  slots?: Prisma.ListingSlotListRelationFilter
+  operator?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  startCountry?: Prisma.XOR<Prisma.CountryNullableScalarRelationFilter, Prisma.CountryWhereInput> | null
+  startPrimaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionNullableScalarRelationFilter, Prisma.PrimaryDivisionWhereInput> | null
+  startSecondaryDivision?: Prisma.XOR<Prisma.SecondaryDivisionNullableScalarRelationFilter, Prisma.SecondaryDivisionWhereInput> | null
+  subCategory?: Prisma.XOR<Prisma.SubCategoryNullableScalarRelationFilter, Prisma.SubCategoryWhereInput> | null
   slotDefinitions?: Prisma.SlotDefinitionListRelationFilter
-  slotChanges?: Prisma.ListingSlotChangeListRelationFilter
-  dateRanges?: Prisma.InventoryDateRangeListRelationFilter
-  blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
 }, "id" | "listingSlug">
 
 export type ListingOrderByWithAggregationInput = {
@@ -687,27 +690,28 @@ export type ListingCreateInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateInput = {
@@ -744,17 +748,18 @@ export type ListingUncheckedCreateInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingUpdateInput = {
@@ -781,27 +786,28 @@ export type ListingUpdateInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateInput = {
@@ -838,17 +844,18 @@ export type ListingUncheckedUpdateInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateManyInput = {
@@ -1166,13 +1173,6 @@ export type ListingUncheckedUpdateManyWithoutSubCategoryNestedInput = {
   deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
-export type ListingCreateNestedManyWithoutStartCountryInput = {
-  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput> | Prisma.ListingCreateWithoutStartCountryInput[] | Prisma.ListingUncheckedCreateWithoutStartCountryInput[]
-  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartCountryInput | Prisma.ListingCreateOrConnectWithoutStartCountryInput[]
-  createMany?: Prisma.ListingCreateManyStartCountryInputEnvelope
-  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
-}
-
 export type ListingCreateNestedManyWithoutEndCountryInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutEndCountryInput, Prisma.ListingUncheckedCreateWithoutEndCountryInput> | Prisma.ListingCreateWithoutEndCountryInput[] | Prisma.ListingUncheckedCreateWithoutEndCountryInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndCountryInput | Prisma.ListingCreateOrConnectWithoutEndCountryInput[]
@@ -1180,7 +1180,7 @@ export type ListingCreateNestedManyWithoutEndCountryInput = {
   connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
 }
 
-export type ListingUncheckedCreateNestedManyWithoutStartCountryInput = {
+export type ListingCreateNestedManyWithoutStartCountryInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput> | Prisma.ListingCreateWithoutStartCountryInput[] | Prisma.ListingUncheckedCreateWithoutStartCountryInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartCountryInput | Prisma.ListingCreateOrConnectWithoutStartCountryInput[]
   createMany?: Prisma.ListingCreateManyStartCountryInputEnvelope
@@ -1194,18 +1194,11 @@ export type ListingUncheckedCreateNestedManyWithoutEndCountryInput = {
   connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
 }
 
-export type ListingUpdateManyWithoutStartCountryNestedInput = {
+export type ListingUncheckedCreateNestedManyWithoutStartCountryInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput> | Prisma.ListingCreateWithoutStartCountryInput[] | Prisma.ListingUncheckedCreateWithoutStartCountryInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartCountryInput | Prisma.ListingCreateOrConnectWithoutStartCountryInput[]
-  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartCountryInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartCountryInput[]
   createMany?: Prisma.ListingCreateManyStartCountryInputEnvelope
-  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
-  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
-  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
   connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
-  update?: Prisma.ListingUpdateWithWhereUniqueWithoutStartCountryInput | Prisma.ListingUpdateWithWhereUniqueWithoutStartCountryInput[]
-  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutStartCountryInput | Prisma.ListingUpdateManyWithWhereWithoutStartCountryInput[]
-  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
 export type ListingUpdateManyWithoutEndCountryNestedInput = {
@@ -1222,7 +1215,7 @@ export type ListingUpdateManyWithoutEndCountryNestedInput = {
   deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
-export type ListingUncheckedUpdateManyWithoutStartCountryNestedInput = {
+export type ListingUpdateManyWithoutStartCountryNestedInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput> | Prisma.ListingCreateWithoutStartCountryInput[] | Prisma.ListingUncheckedCreateWithoutStartCountryInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartCountryInput | Prisma.ListingCreateOrConnectWithoutStartCountryInput[]
   upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartCountryInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartCountryInput[]
@@ -1247,6 +1240,20 @@ export type ListingUncheckedUpdateManyWithoutEndCountryNestedInput = {
   connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
   update?: Prisma.ListingUpdateWithWhereUniqueWithoutEndCountryInput | Prisma.ListingUpdateWithWhereUniqueWithoutEndCountryInput[]
   updateMany?: Prisma.ListingUpdateManyWithWhereWithoutEndCountryInput | Prisma.ListingUpdateManyWithWhereWithoutEndCountryInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingUncheckedUpdateManyWithoutStartCountryNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput> | Prisma.ListingCreateWithoutStartCountryInput[] | Prisma.ListingUncheckedCreateWithoutStartCountryInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartCountryInput | Prisma.ListingCreateOrConnectWithoutStartCountryInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartCountryInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartCountryInput[]
+  createMany?: Prisma.ListingCreateManyStartCountryInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutStartCountryInput | Prisma.ListingUpdateWithWhereUniqueWithoutStartCountryInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutStartCountryInput | Prisma.ListingUpdateManyWithWhereWithoutStartCountryInput[]
   deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
@@ -1398,13 +1405,6 @@ export type EnumListingStatusFieldUpdateOperationsInput = {
   set?: $Enums.ListingStatus
 }
 
-export type ListingCreateNestedManyWithoutStartPrimaryDivisionInput = {
-  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput> | Prisma.ListingCreateWithoutStartPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput[]
-  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput[]
-  createMany?: Prisma.ListingCreateManyStartPrimaryDivisionInputEnvelope
-  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
-}
-
 export type ListingCreateNestedManyWithoutEndPrimaryDivisionInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutEndPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutEndPrimaryDivisionInput> | Prisma.ListingCreateWithoutEndPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutEndPrimaryDivisionInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutEndPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutEndPrimaryDivisionInput[]
@@ -1412,7 +1412,7 @@ export type ListingCreateNestedManyWithoutEndPrimaryDivisionInput = {
   connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
 }
 
-export type ListingUncheckedCreateNestedManyWithoutStartPrimaryDivisionInput = {
+export type ListingCreateNestedManyWithoutStartPrimaryDivisionInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput> | Prisma.ListingCreateWithoutStartPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput[]
   createMany?: Prisma.ListingCreateManyStartPrimaryDivisionInputEnvelope
@@ -1426,18 +1426,11 @@ export type ListingUncheckedCreateNestedManyWithoutEndPrimaryDivisionInput = {
   connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
 }
 
-export type ListingUpdateManyWithoutStartPrimaryDivisionNestedInput = {
+export type ListingUncheckedCreateNestedManyWithoutStartPrimaryDivisionInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput> | Prisma.ListingCreateWithoutStartPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput[]
-  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput[]
   createMany?: Prisma.ListingCreateManyStartPrimaryDivisionInputEnvelope
-  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
-  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
-  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
   connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
-  update?: Prisma.ListingUpdateWithWhereUniqueWithoutStartPrimaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutStartPrimaryDivisionInput[]
-  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutStartPrimaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutStartPrimaryDivisionInput[]
-  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
 export type ListingUpdateManyWithoutEndPrimaryDivisionNestedInput = {
@@ -1454,7 +1447,7 @@ export type ListingUpdateManyWithoutEndPrimaryDivisionNestedInput = {
   deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
-export type ListingUncheckedUpdateManyWithoutStartPrimaryDivisionNestedInput = {
+export type ListingUpdateManyWithoutStartPrimaryDivisionNestedInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput> | Prisma.ListingCreateWithoutStartPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput[]
   upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput[]
@@ -1482,11 +1475,32 @@ export type ListingUncheckedUpdateManyWithoutEndPrimaryDivisionNestedInput = {
   deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
-export type ListingCreateNestedManyWithoutStartSecondaryDivisionInput = {
-  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput> | Prisma.ListingCreateWithoutStartSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput[]
-  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput[]
-  createMany?: Prisma.ListingCreateManyStartSecondaryDivisionInputEnvelope
+export type ListingUncheckedUpdateManyWithoutStartPrimaryDivisionNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput> | Prisma.ListingCreateWithoutStartPrimaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartPrimaryDivisionInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyStartPrimaryDivisionInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
   connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutStartPrimaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutStartPrimaryDivisionInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutStartPrimaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutStartPrimaryDivisionInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutReviewsInput, Prisma.ListingUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutReviewsInput
+  connect?: Prisma.ListingWhereUniqueInput
+}
+
+export type ListingUpdateOneRequiredWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutReviewsInput, Prisma.ListingUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.ListingUpsertWithoutReviewsInput
+  connect?: Prisma.ListingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutReviewsInput, Prisma.ListingUpdateWithoutReviewsInput>, Prisma.ListingUncheckedUpdateWithoutReviewsInput>
 }
 
 export type ListingCreateNestedManyWithoutEndSecondaryDivisionInput = {
@@ -1496,7 +1510,7 @@ export type ListingCreateNestedManyWithoutEndSecondaryDivisionInput = {
   connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
 }
 
-export type ListingUncheckedCreateNestedManyWithoutStartSecondaryDivisionInput = {
+export type ListingCreateNestedManyWithoutStartSecondaryDivisionInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput> | Prisma.ListingCreateWithoutStartSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput[]
   createMany?: Prisma.ListingCreateManyStartSecondaryDivisionInputEnvelope
@@ -1510,18 +1524,11 @@ export type ListingUncheckedCreateNestedManyWithoutEndSecondaryDivisionInput = {
   connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
 }
 
-export type ListingUpdateManyWithoutStartSecondaryDivisionNestedInput = {
+export type ListingUncheckedCreateNestedManyWithoutStartSecondaryDivisionInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput> | Prisma.ListingCreateWithoutStartSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput[]
-  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput[]
   createMany?: Prisma.ListingCreateManyStartSecondaryDivisionInputEnvelope
-  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
-  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
-  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
   connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
-  update?: Prisma.ListingUpdateWithWhereUniqueWithoutStartSecondaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutStartSecondaryDivisionInput[]
-  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutStartSecondaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutStartSecondaryDivisionInput[]
-  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
 export type ListingUpdateManyWithoutEndSecondaryDivisionNestedInput = {
@@ -1538,7 +1545,7 @@ export type ListingUpdateManyWithoutEndSecondaryDivisionNestedInput = {
   deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
-export type ListingUncheckedUpdateManyWithoutStartSecondaryDivisionNestedInput = {
+export type ListingUpdateManyWithoutStartSecondaryDivisionNestedInput = {
   create?: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput> | Prisma.ListingCreateWithoutStartSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput[]
   connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput[]
   upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput[]
@@ -1563,6 +1570,20 @@ export type ListingUncheckedUpdateManyWithoutEndSecondaryDivisionNestedInput = {
   connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
   update?: Prisma.ListingUpdateWithWhereUniqueWithoutEndSecondaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutEndSecondaryDivisionInput[]
   updateMany?: Prisma.ListingUpdateManyWithWhereWithoutEndSecondaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutEndSecondaryDivisionInput[]
+  deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
+}
+
+export type ListingUncheckedUpdateManyWithoutStartSecondaryDivisionNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput> | Prisma.ListingCreateWithoutStartSecondaryDivisionInput[] | Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput[]
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput | Prisma.ListingCreateOrConnectWithoutStartSecondaryDivisionInput[]
+  upsert?: Prisma.ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput | Prisma.ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput[]
+  createMany?: Prisma.ListingCreateManyStartSecondaryDivisionInputEnvelope
+  set?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  disconnect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  delete?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  connect?: Prisma.ListingWhereUniqueInput | Prisma.ListingWhereUniqueInput[]
+  update?: Prisma.ListingUpdateWithWhereUniqueWithoutStartSecondaryDivisionInput | Prisma.ListingUpdateWithWhereUniqueWithoutStartSecondaryDivisionInput[]
+  updateMany?: Prisma.ListingUpdateManyWithWhereWithoutStartSecondaryDivisionInput | Prisma.ListingUpdateManyWithWhereWithoutStartSecondaryDivisionInput[]
   deleteMany?: Prisma.ListingScalarWhereInput | Prisma.ListingScalarWhereInput[]
 }
 
@@ -1688,26 +1709,27 @@ export type ListingCreateWithoutCategoryInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutCategoryInput = {
@@ -1743,17 +1765,18 @@ export type ListingUncheckedCreateWithoutCategoryInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutCategoryInput = {
@@ -1845,26 +1868,27 @@ export type ListingCreateWithoutSubCategoryInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutSubCategoryInput = {
@@ -1900,17 +1924,18 @@ export type ListingUncheckedCreateWithoutSubCategoryInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutSubCategoryInput = {
@@ -1939,108 +1964,6 @@ export type ListingUpdateManyWithWhereWithoutSubCategoryInput = {
   data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutSubCategoryInput>
 }
 
-export type ListingCreateWithoutStartCountryInput = {
-  id?: string
-  listingName?: string | null
-  listingSlug?: string | null
-  tbaId?: string | null
-  frontImageUrl?: string | null
-  bookingFormat?: $Enums.BookingFormat | null
-  hasMultipleOptions?: boolean
-  status?: $Enums.ListingStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  approvedAt?: Date | string | null
-  rejectionReason?: string | null
-  startLocationName?: string | null
-  startLocationCoordinates?: string | null
-  startGoogleMapsUrl?: string | null
-  endLocationName?: string | null
-  endLocationCoordinates?: string | null
-  endGoogleMapsUrl?: string | null
-  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
-  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
-  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
-  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
-  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
-}
-
-export type ListingUncheckedCreateWithoutStartCountryInput = {
-  id?: string
-  operatorId?: string | null
-  categoryId?: string | null
-  subCatId?: string | null
-  listingName?: string | null
-  listingSlug?: string | null
-  tbaId?: string | null
-  frontImageUrl?: string | null
-  bookingFormat?: $Enums.BookingFormat | null
-  hasMultipleOptions?: boolean
-  status?: $Enums.ListingStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  approvedByAdminId?: string | null
-  approvedAt?: Date | string | null
-  rejectionReason?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
-  startLocationName?: string | null
-  startLocationCoordinates?: string | null
-  startGoogleMapsUrl?: string | null
-  endLocationName?: string | null
-  endLocationCoordinates?: string | null
-  endGoogleMapsUrl?: string | null
-  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
-}
-
-export type ListingCreateOrConnectWithoutStartCountryInput = {
-  where: Prisma.ListingWhereUniqueInput
-  create: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput>
-}
-
-export type ListingCreateManyStartCountryInputEnvelope = {
-  data: Prisma.ListingCreateManyStartCountryInput | Prisma.ListingCreateManyStartCountryInput[]
-  skipDuplicates?: boolean
-}
-
 export type ListingCreateWithoutEndCountryInput = {
   id?: string
   listingName?: string | null
@@ -2065,26 +1988,27 @@ export type ListingCreateWithoutEndCountryInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
   startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
   startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
   startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
-  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
-  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutEndCountryInput = {
@@ -2120,17 +2044,18 @@ export type ListingUncheckedCreateWithoutEndCountryInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutEndCountryInput = {
@@ -2143,20 +2068,108 @@ export type ListingCreateManyEndCountryInputEnvelope = {
   skipDuplicates?: boolean
 }
 
-export type ListingUpsertWithWhereUniqueWithoutStartCountryInput = {
+export type ListingCreateWithoutStartCountryInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutStartCountryInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutStartCountryInput = {
   where: Prisma.ListingWhereUniqueInput
-  update: Prisma.XOR<Prisma.ListingUpdateWithoutStartCountryInput, Prisma.ListingUncheckedUpdateWithoutStartCountryInput>
   create: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput>
 }
 
-export type ListingUpdateWithWhereUniqueWithoutStartCountryInput = {
-  where: Prisma.ListingWhereUniqueInput
-  data: Prisma.XOR<Prisma.ListingUpdateWithoutStartCountryInput, Prisma.ListingUncheckedUpdateWithoutStartCountryInput>
-}
-
-export type ListingUpdateManyWithWhereWithoutStartCountryInput = {
-  where: Prisma.ListingScalarWhereInput
-  data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutStartCountryInput>
+export type ListingCreateManyStartCountryInputEnvelope = {
+  data: Prisma.ListingCreateManyStartCountryInput | Prisma.ListingCreateManyStartCountryInput[]
+  skipDuplicates?: boolean
 }
 
 export type ListingUpsertWithWhereUniqueWithoutEndCountryInput = {
@@ -2173,6 +2186,22 @@ export type ListingUpdateWithWhereUniqueWithoutEndCountryInput = {
 export type ListingUpdateManyWithWhereWithoutEndCountryInput = {
   where: Prisma.ListingScalarWhereInput
   data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutEndCountryInput>
+}
+
+export type ListingUpsertWithWhereUniqueWithoutStartCountryInput = {
+  where: Prisma.ListingWhereUniqueInput
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutStartCountryInput, Prisma.ListingUncheckedUpdateWithoutStartCountryInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutStartCountryInput, Prisma.ListingUncheckedCreateWithoutStartCountryInput>
+}
+
+export type ListingUpdateWithWhereUniqueWithoutStartCountryInput = {
+  where: Prisma.ListingWhereUniqueInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutStartCountryInput, Prisma.ListingUncheckedUpdateWithoutStartCountryInput>
+}
+
+export type ListingUpdateManyWithWhereWithoutStartCountryInput = {
+  where: Prisma.ListingScalarWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutStartCountryInput>
 }
 
 export type ListingCreateWithoutBlockedDatesInput = {
@@ -2199,26 +2228,27 @@ export type ListingCreateWithoutBlockedDatesInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutBlockedDatesInput = {
@@ -2255,16 +2285,17 @@ export type ListingUncheckedCreateWithoutBlockedDatesInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutBlockedDatesInput = {
@@ -2307,26 +2338,27 @@ export type ListingUpdateWithoutBlockedDatesInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutBlockedDatesInput = {
@@ -2363,16 +2395,17 @@ export type ListingUncheckedUpdateWithoutBlockedDatesInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutDateRangesInput = {
@@ -2399,26 +2432,27 @@ export type ListingCreateWithoutDateRangesInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutDateRangesInput = {
@@ -2455,16 +2489,17 @@ export type ListingUncheckedCreateWithoutDateRangesInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutDateRangesInput = {
@@ -2507,26 +2542,27 @@ export type ListingUpdateWithoutDateRangesInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutDateRangesInput = {
@@ -2563,16 +2599,17 @@ export type ListingUncheckedUpdateWithoutDateRangesInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutAddonsInput = {
@@ -2599,26 +2636,27 @@ export type ListingCreateWithoutAddonsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutAddonsInput = {
@@ -2655,16 +2693,17 @@ export type ListingUncheckedCreateWithoutAddonsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutAddonsInput = {
@@ -2707,26 +2746,27 @@ export type ListingUpdateWithoutAddonsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutAddonsInput = {
@@ -2763,16 +2803,17 @@ export type ListingUncheckedUpdateWithoutAddonsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutContentInput = {
@@ -2799,26 +2840,27 @@ export type ListingCreateWithoutContentInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutContentInput = {
@@ -2855,16 +2897,17 @@ export type ListingUncheckedCreateWithoutContentInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutContentInput = {
@@ -2907,26 +2950,27 @@ export type ListingUpdateWithoutContentInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutContentInput = {
@@ -2963,16 +3007,17 @@ export type ListingUncheckedUpdateWithoutContentInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutFaqsInput = {
@@ -2999,26 +3044,27 @@ export type ListingCreateWithoutFaqsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutFaqsInput = {
@@ -3055,16 +3101,17 @@ export type ListingUncheckedCreateWithoutFaqsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutFaqsInput = {
@@ -3107,26 +3154,27 @@ export type ListingUpdateWithoutFaqsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutFaqsInput = {
@@ -3163,16 +3211,17 @@ export type ListingUncheckedUpdateWithoutFaqsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
   inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutInclusionsExclusionsInput = {
@@ -3199,26 +3248,27 @@ export type ListingCreateWithoutInclusionsExclusionsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutInclusionsExclusionsInput = {
@@ -3255,16 +3305,17 @@ export type ListingUncheckedCreateWithoutInclusionsExclusionsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutInclusionsExclusionsInput = {
@@ -3307,26 +3358,27 @@ export type ListingUpdateWithoutInclusionsExclusionsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutInclusionsExclusionsInput = {
@@ -3363,16 +3415,17 @@ export type ListingUncheckedUpdateWithoutInclusionsExclusionsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutMediaInput = {
@@ -3399,26 +3452,27 @@ export type ListingCreateWithoutMediaInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutMediaInput = {
@@ -3455,16 +3509,17 @@ export type ListingUncheckedCreateWithoutMediaInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutMediaInput = {
@@ -3507,26 +3562,27 @@ export type ListingUpdateWithoutMediaInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutMediaInput = {
@@ -3563,16 +3619,17 @@ export type ListingUncheckedUpdateWithoutMediaInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutSlotChangesInput = {
@@ -3599,26 +3656,27 @@ export type ListingCreateWithoutSlotChangesInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutSlotChangesInput = {
@@ -3655,16 +3713,17 @@ export type ListingUncheckedCreateWithoutSlotChangesInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutSlotChangesInput = {
@@ -3707,26 +3766,27 @@ export type ListingUpdateWithoutSlotChangesInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutSlotChangesInput = {
@@ -3763,16 +3823,17 @@ export type ListingUncheckedUpdateWithoutSlotChangesInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutSlotsInput = {
@@ -3799,26 +3860,27 @@ export type ListingCreateWithoutSlotsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutSlotsInput = {
@@ -3855,16 +3917,17 @@ export type ListingUncheckedCreateWithoutSlotsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutSlotsInput = {
@@ -3907,26 +3970,27 @@ export type ListingUpdateWithoutSlotsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutSlotsInput = {
@@ -3963,16 +4027,17 @@ export type ListingUncheckedUpdateWithoutSlotsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutVariantsInput = {
@@ -3999,26 +4064,27 @@ export type ListingCreateWithoutVariantsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutVariantsInput = {
@@ -4055,16 +4121,17 @@ export type ListingUncheckedCreateWithoutVariantsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
   faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
   slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutVariantsInput = {
@@ -4107,26 +4174,27 @@ export type ListingUpdateWithoutVariantsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutVariantsInput = {
@@ -4163,118 +4231,17 @@ export type ListingUncheckedUpdateWithoutVariantsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
   faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
-}
-
-export type ListingCreateWithoutStartPrimaryDivisionInput = {
-  id?: string
-  listingName?: string | null
-  listingSlug?: string | null
-  tbaId?: string | null
-  frontImageUrl?: string | null
-  bookingFormat?: $Enums.BookingFormat | null
-  hasMultipleOptions?: boolean
-  status?: $Enums.ListingStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  approvedAt?: Date | string | null
-  rejectionReason?: string | null
-  startLocationName?: string | null
-  startLocationCoordinates?: string | null
-  startGoogleMapsUrl?: string | null
-  endLocationName?: string | null
-  endLocationCoordinates?: string | null
-  endGoogleMapsUrl?: string | null
-  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
-  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
-  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
-  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
-  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
-}
-
-export type ListingUncheckedCreateWithoutStartPrimaryDivisionInput = {
-  id?: string
-  operatorId?: string | null
-  categoryId?: string | null
-  subCatId?: string | null
-  listingName?: string | null
-  listingSlug?: string | null
-  tbaId?: string | null
-  frontImageUrl?: string | null
-  bookingFormat?: $Enums.BookingFormat | null
-  hasMultipleOptions?: boolean
-  status?: $Enums.ListingStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  approvedByAdminId?: string | null
-  approvedAt?: Date | string | null
-  rejectionReason?: string | null
-  startCountryId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
-  startLocationName?: string | null
-  startLocationCoordinates?: string | null
-  startGoogleMapsUrl?: string | null
-  endLocationName?: string | null
-  endLocationCoordinates?: string | null
-  endGoogleMapsUrl?: string | null
-  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
-}
-
-export type ListingCreateOrConnectWithoutStartPrimaryDivisionInput = {
-  where: Prisma.ListingWhereUniqueInput
-  create: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput>
-}
-
-export type ListingCreateManyStartPrimaryDivisionInputEnvelope = {
-  data: Prisma.ListingCreateManyStartPrimaryDivisionInput | Prisma.ListingCreateManyStartPrimaryDivisionInput[]
-  skipDuplicates?: boolean
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutEndPrimaryDivisionInput = {
@@ -4301,26 +4268,27 @@ export type ListingCreateWithoutEndPrimaryDivisionInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
   startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
   startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
   startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
-  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
-  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutEndPrimaryDivisionInput = {
@@ -4356,17 +4324,18 @@ export type ListingUncheckedCreateWithoutEndPrimaryDivisionInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutEndPrimaryDivisionInput = {
@@ -4379,20 +4348,108 @@ export type ListingCreateManyEndPrimaryDivisionInputEnvelope = {
   skipDuplicates?: boolean
 }
 
-export type ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput = {
+export type ListingCreateWithoutStartPrimaryDivisionInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutStartPrimaryDivisionInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutStartPrimaryDivisionInput = {
   where: Prisma.ListingWhereUniqueInput
-  update: Prisma.XOR<Prisma.ListingUpdateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutStartPrimaryDivisionInput>
   create: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput>
 }
 
-export type ListingUpdateWithWhereUniqueWithoutStartPrimaryDivisionInput = {
-  where: Prisma.ListingWhereUniqueInput
-  data: Prisma.XOR<Prisma.ListingUpdateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutStartPrimaryDivisionInput>
-}
-
-export type ListingUpdateManyWithWhereWithoutStartPrimaryDivisionInput = {
-  where: Prisma.ListingScalarWhereInput
-  data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutStartPrimaryDivisionInput>
+export type ListingCreateManyStartPrimaryDivisionInputEnvelope = {
+  data: Prisma.ListingCreateManyStartPrimaryDivisionInput | Prisma.ListingCreateManyStartPrimaryDivisionInput[]
+  skipDuplicates?: boolean
 }
 
 export type ListingUpsertWithWhereUniqueWithoutEndPrimaryDivisionInput = {
@@ -4411,7 +4468,23 @@ export type ListingUpdateManyWithWhereWithoutEndPrimaryDivisionInput = {
   data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutEndPrimaryDivisionInput>
 }
 
-export type ListingCreateWithoutStartSecondaryDivisionInput = {
+export type ListingUpsertWithWhereUniqueWithoutStartPrimaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutStartPrimaryDivisionInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartPrimaryDivisionInput>
+}
+
+export type ListingUpdateWithWhereUniqueWithoutStartPrimaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutStartPrimaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutStartPrimaryDivisionInput>
+}
+
+export type ListingUpdateManyWithWhereWithoutStartPrimaryDivisionInput = {
+  where: Prisma.ListingScalarWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutStartPrimaryDivisionInput>
+}
+
+export type ListingCreateWithoutReviewsInput = {
   id?: string
   listingName?: string | null
   listingSlug?: string | null
@@ -4435,29 +4508,30 @@ export type ListingCreateWithoutStartSecondaryDivisionInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
 }
 
-export type ListingUncheckedCreateWithoutStartSecondaryDivisionInput = {
+export type ListingUncheckedCreateWithoutReviewsInput = {
   id?: string
   operatorId?: string | null
   categoryId?: string | null
@@ -4476,6 +4550,7 @@ export type ListingUncheckedCreateWithoutStartSecondaryDivisionInput = {
   rejectionReason?: string | null
   startCountryId?: string | null
   startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
   endCountryId?: string | null
   endPrimaryDivisionId?: string | null
   endSecondaryDivisionId?: string | null
@@ -4490,27 +4565,127 @@ export type ListingUncheckedCreateWithoutStartSecondaryDivisionInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
 }
 
-export type ListingCreateOrConnectWithoutStartSecondaryDivisionInput = {
+export type ListingCreateOrConnectWithoutReviewsInput = {
   where: Prisma.ListingWhereUniqueInput
-  create: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutReviewsInput, Prisma.ListingUncheckedCreateWithoutReviewsInput>
 }
 
-export type ListingCreateManyStartSecondaryDivisionInputEnvelope = {
-  data: Prisma.ListingCreateManyStartSecondaryDivisionInput | Prisma.ListingCreateManyStartSecondaryDivisionInput[]
-  skipDuplicates?: boolean
+export type ListingUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutReviewsInput, Prisma.ListingUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutReviewsInput, Prisma.ListingUncheckedCreateWithoutReviewsInput>
+  where?: Prisma.ListingWhereInput
+}
+
+export type ListingUpdateToOneWithWhereWithoutReviewsInput = {
+  where?: Prisma.ListingWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutReviewsInput, Prisma.ListingUncheckedUpdateWithoutReviewsInput>
+}
+
+export type ListingUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutEndSecondaryDivisionInput = {
@@ -4537,26 +4712,27 @@ export type ListingCreateWithoutEndSecondaryDivisionInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
   startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
   startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
   startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
-  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
-  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutEndSecondaryDivisionInput = {
@@ -4592,17 +4768,18 @@ export type ListingUncheckedCreateWithoutEndSecondaryDivisionInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutEndSecondaryDivisionInput = {
@@ -4615,20 +4792,108 @@ export type ListingCreateManyEndSecondaryDivisionInputEnvelope = {
   skipDuplicates?: boolean
 }
 
-export type ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput = {
+export type ListingCreateWithoutStartSecondaryDivisionInput = {
+  id?: string
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
+  endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutStartSecondaryDivisionInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutStartSecondaryDivisionInput = {
   where: Prisma.ListingWhereUniqueInput
-  update: Prisma.XOR<Prisma.ListingUpdateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutStartSecondaryDivisionInput>
   create: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput>
 }
 
-export type ListingUpdateWithWhereUniqueWithoutStartSecondaryDivisionInput = {
-  where: Prisma.ListingWhereUniqueInput
-  data: Prisma.XOR<Prisma.ListingUpdateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutStartSecondaryDivisionInput>
-}
-
-export type ListingUpdateManyWithWhereWithoutStartSecondaryDivisionInput = {
-  where: Prisma.ListingScalarWhereInput
-  data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutStartSecondaryDivisionInput>
+export type ListingCreateManyStartSecondaryDivisionInputEnvelope = {
+  data: Prisma.ListingCreateManyStartSecondaryDivisionInput | Prisma.ListingCreateManyStartSecondaryDivisionInput[]
+  skipDuplicates?: boolean
 }
 
 export type ListingUpsertWithWhereUniqueWithoutEndSecondaryDivisionInput = {
@@ -4645,6 +4910,22 @@ export type ListingUpdateWithWhereUniqueWithoutEndSecondaryDivisionInput = {
 export type ListingUpdateManyWithWhereWithoutEndSecondaryDivisionInput = {
   where: Prisma.ListingScalarWhereInput
   data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutEndSecondaryDivisionInput>
+}
+
+export type ListingUpsertWithWhereUniqueWithoutStartSecondaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutStartSecondaryDivisionInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedCreateWithoutStartSecondaryDivisionInput>
+}
+
+export type ListingUpdateWithWhereUniqueWithoutStartSecondaryDivisionInput = {
+  where: Prisma.ListingWhereUniqueInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutStartSecondaryDivisionInput, Prisma.ListingUncheckedUpdateWithoutStartSecondaryDivisionInput>
+}
+
+export type ListingUpdateManyWithWhereWithoutStartSecondaryDivisionInput = {
+  where: Prisma.ListingScalarWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateManyMutationInput, Prisma.ListingUncheckedUpdateManyWithoutStartSecondaryDivisionInput>
 }
 
 export type ListingCreateWithoutSlotDefinitionsInput = {
@@ -4671,26 +4952,27 @@ export type ListingCreateWithoutSlotDefinitionsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutSlotDefinitionsInput = {
@@ -4727,16 +5009,17 @@ export type ListingUncheckedCreateWithoutSlotDefinitionsInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutSlotDefinitionsInput = {
@@ -4779,26 +5062,27 @@ export type ListingUpdateWithoutSlotDefinitionsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutSlotDefinitionsInput = {
@@ -4835,16 +5119,17 @@ export type ListingUncheckedUpdateWithoutSlotDefinitionsInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateWithoutOperatorInput = {
@@ -4871,26 +5156,27 @@ export type ListingCreateWithoutOperatorInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutApprovedListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutOperatorInput = {
@@ -4926,17 +5212,18 @@ export type ListingUncheckedCreateWithoutOperatorInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutOperatorInput = {
@@ -4973,26 +5260,27 @@ export type ListingCreateWithoutApprovedByAdminInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
   category?: Prisma.CategoryCreateNestedOneWithoutListingsInput
-  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
-  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
   endCountry?: Prisma.CountryCreateNestedOneWithoutListingsEndInput
   endPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsEndInput
   endSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsEndInput
-  variants?: Prisma.ListingVariantCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutListingInput
+  operator?: Prisma.UserCreateNestedOneWithoutListingsInput
+  startCountry?: Prisma.CountryCreateNestedOneWithoutListingsStartInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionCreateNestedOneWithoutListingsStartInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionCreateNestedOneWithoutListingsStartInput
+  subCategory?: Prisma.SubCategoryCreateNestedOneWithoutListingsInput
   slotDefinitions?: Prisma.SlotDefinitionCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutListingInput
-  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutListingInput
 }
 
 export type ListingUncheckedCreateWithoutApprovedByAdminInput = {
@@ -5028,17 +5316,18 @@ export type ListingUncheckedCreateWithoutApprovedByAdminInput = {
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
-  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
-  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutListingInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutListingInput
+  addons?: Prisma.ListingAddonUncheckedCreateNestedOneWithoutListingInput
+  content?: Prisma.ListingContentUncheckedCreateNestedManyWithoutListingInput
+  faqs?: Prisma.ListingFaqUncheckedCreateNestedOneWithoutListingInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedCreateNestedOneWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutListingInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutListingInput
+  variants?: Prisma.ListingVariantUncheckedCreateNestedManyWithoutListingInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedCreateNestedManyWithoutListingInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutApprovedByAdminInput = {
@@ -5142,26 +5431,27 @@ export type ListingUpdateWithoutCategoryInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutCategoryInput = {
@@ -5197,17 +5487,18 @@ export type ListingUncheckedUpdateWithoutCategoryInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutCategoryInput = {
@@ -5304,26 +5595,27 @@ export type ListingUpdateWithoutSubCategoryInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutSubCategoryInput = {
@@ -5359,17 +5651,18 @@ export type ListingUncheckedUpdateWithoutSubCategoryInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutSubCategoryInput = {
@@ -5404,41 +5697,6 @@ export type ListingUncheckedUpdateManyWithoutSubCategoryInput = {
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-}
-
-export type ListingCreateManyStartCountryInput = {
-  id?: string
-  operatorId?: string | null
-  categoryId?: string | null
-  subCatId?: string | null
-  listingName?: string | null
-  listingSlug?: string | null
-  tbaId?: string | null
-  frontImageUrl?: string | null
-  bookingFormat?: $Enums.BookingFormat | null
-  hasMultipleOptions?: boolean
-  status?: $Enums.ListingStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  approvedByAdminId?: string | null
-  approvedAt?: Date | string | null
-  rejectionReason?: string | null
-  startPrimaryDivisionId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
-  startLocationName?: string | null
-  startLocationCoordinates?: string | null
-  startGoogleMapsUrl?: string | null
-  endLocationName?: string | null
-  endLocationCoordinates?: string | null
-  endGoogleMapsUrl?: string | null
-  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
@@ -5477,130 +5735,38 @@ export type ListingCreateManyEndCountryInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
-export type ListingUpdateWithoutStartCountryInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
-  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
-  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
-  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
-  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
-  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
-}
-
-export type ListingUncheckedUpdateWithoutStartCountryInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
-  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
-}
-
-export type ListingUncheckedUpdateManyWithoutStartCountryInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
-  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+export type ListingCreateManyStartCountryInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startPrimaryDivisionId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
@@ -5628,26 +5794,27 @@ export type ListingUpdateWithoutEndCountryInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
   startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
   startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
   startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
-  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
-  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutEndCountryInput = {
@@ -5683,17 +5850,18 @@ export type ListingUncheckedUpdateWithoutEndCountryInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutEndCountryInput = {
@@ -5731,38 +5899,132 @@ export type ListingUncheckedUpdateManyWithoutEndCountryInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
-export type ListingCreateManyStartPrimaryDivisionInput = {
-  id?: string
-  operatorId?: string | null
-  categoryId?: string | null
-  subCatId?: string | null
-  listingName?: string | null
-  listingSlug?: string | null
-  tbaId?: string | null
-  frontImageUrl?: string | null
-  bookingFormat?: $Enums.BookingFormat | null
-  hasMultipleOptions?: boolean
-  status?: $Enums.ListingStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  approvedByAdminId?: string | null
-  approvedAt?: Date | string | null
-  rejectionReason?: string | null
-  startCountryId?: string | null
-  startSecondaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
-  startLocationName?: string | null
-  startLocationCoordinates?: string | null
-  startGoogleMapsUrl?: string | null
-  endLocationName?: string | null
-  endLocationCoordinates?: string | null
-  endGoogleMapsUrl?: string | null
-  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
+export type ListingUpdateWithoutStartCountryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutStartCountryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateManyWithoutStartCountryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
@@ -5801,130 +6063,38 @@ export type ListingCreateManyEndPrimaryDivisionInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
-export type ListingUpdateWithoutStartPrimaryDivisionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
-  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
-  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
-  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
-  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
-  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
-}
-
-export type ListingUncheckedUpdateWithoutStartPrimaryDivisionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
-  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
-}
-
-export type ListingUncheckedUpdateManyWithoutStartPrimaryDivisionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
-  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+export type ListingCreateManyStartPrimaryDivisionInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startSecondaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
@@ -5952,26 +6122,27 @@ export type ListingUpdateWithoutEndPrimaryDivisionInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
   startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
   startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
   startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
-  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
-  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutEndPrimaryDivisionInput = {
@@ -6007,17 +6178,18 @@ export type ListingUncheckedUpdateWithoutEndPrimaryDivisionInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutEndPrimaryDivisionInput = {
@@ -6055,38 +6227,132 @@ export type ListingUncheckedUpdateManyWithoutEndPrimaryDivisionInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
-export type ListingCreateManyStartSecondaryDivisionInput = {
-  id?: string
-  operatorId?: string | null
-  categoryId?: string | null
-  subCatId?: string | null
-  listingName?: string | null
-  listingSlug?: string | null
-  tbaId?: string | null
-  frontImageUrl?: string | null
-  bookingFormat?: $Enums.BookingFormat | null
-  hasMultipleOptions?: boolean
-  status?: $Enums.ListingStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  approvedByAdminId?: string | null
-  approvedAt?: Date | string | null
-  rejectionReason?: string | null
-  startCountryId?: string | null
-  startPrimaryDivisionId?: string | null
-  endCountryId?: string | null
-  endPrimaryDivisionId?: string | null
-  endSecondaryDivisionId?: string | null
-  startLocationName?: string | null
-  startLocationCoordinates?: string | null
-  startGoogleMapsUrl?: string | null
-  endLocationName?: string | null
-  endLocationCoordinates?: string | null
-  endGoogleMapsUrl?: string | null
-  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
+export type ListingUpdateWithoutStartPrimaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutStartPrimaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateManyWithoutStartPrimaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
@@ -6125,130 +6391,38 @@ export type ListingCreateManyEndSecondaryDivisionInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
-export type ListingUpdateWithoutStartSecondaryDivisionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
-  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
-  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
-  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
-  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
-}
-
-export type ListingUncheckedUpdateWithoutStartSecondaryDivisionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
-  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
-}
-
-export type ListingUncheckedUpdateManyWithoutStartSecondaryDivisionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
-  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
+export type ListingCreateManyStartSecondaryDivisionInput = {
+  id?: string
+  operatorId?: string | null
+  categoryId?: string | null
+  subCatId?: string | null
+  listingName?: string | null
+  listingSlug?: string | null
+  tbaId?: string | null
+  frontImageUrl?: string | null
+  bookingFormat?: $Enums.BookingFormat | null
+  hasMultipleOptions?: boolean
+  status?: $Enums.ListingStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  approvedByAdminId?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  startCountryId?: string | null
+  startPrimaryDivisionId?: string | null
+  endCountryId?: string | null
+  endPrimaryDivisionId?: string | null
+  endSecondaryDivisionId?: string | null
+  startLocationName?: string | null
+  startLocationCoordinates?: string | null
+  startGoogleMapsUrl?: string | null
+  endLocationName?: string | null
+  endLocationCoordinates?: string | null
+  endGoogleMapsUrl?: string | null
+  taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
@@ -6276,26 +6450,27 @@ export type ListingUpdateWithoutEndSecondaryDivisionInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
   startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
   startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
   startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
-  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
-  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutEndSecondaryDivisionInput = {
@@ -6331,17 +6506,18 @@ export type ListingUncheckedUpdateWithoutEndSecondaryDivisionInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutEndSecondaryDivisionInput = {
@@ -6366,6 +6542,135 @@ export type ListingUncheckedUpdateManyWithoutEndSecondaryDivisionInput = {
   startSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ListingUpdateWithoutStartSecondaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
+  endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
+  endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
+  endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutStartSecondaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateManyWithoutStartSecondaryDivisionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subCatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  listingSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tbaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frontImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingFormat?: Prisma.NullableEnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat | null
+  hasMultipleOptions?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  approvedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endCountryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endPrimaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endSecondaryDivisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startLocationCoordinates?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6473,26 +6778,27 @@ export type ListingUpdateWithoutOperatorInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutApprovedListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutOperatorInput = {
@@ -6528,17 +6834,18 @@ export type ListingUncheckedUpdateWithoutOperatorInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutOperatorInput = {
@@ -6600,26 +6907,27 @@ export type ListingUpdateWithoutApprovedByAdminInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
   category?: Prisma.CategoryUpdateOneWithoutListingsNestedInput
-  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
-  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
-  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
-  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
   endCountry?: Prisma.CountryUpdateOneWithoutListingsEndNestedInput
   endPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsEndNestedInput
   endSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsEndNestedInput
-  variants?: Prisma.ListingVariantUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutListingNestedInput
+  operator?: Prisma.UserUpdateOneWithoutListingsNestedInput
+  startCountry?: Prisma.CountryUpdateOneWithoutListingsStartNestedInput
+  startPrimaryDivision?: Prisma.PrimaryDivisionUpdateOneWithoutListingsStartNestedInput
+  startSecondaryDivision?: Prisma.SecondaryDivisionUpdateOneWithoutListingsStartNestedInput
+  subCategory?: Prisma.SubCategoryUpdateOneWithoutListingsNestedInput
   slotDefinitions?: Prisma.SlotDefinitionUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutListingNestedInput
-  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutApprovedByAdminInput = {
@@ -6655,17 +6963,18 @@ export type ListingUncheckedUpdateWithoutApprovedByAdminInput = {
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
-  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
-  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
-  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
-  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
-  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutListingNestedInput
+  dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutListingNestedInput
+  addons?: Prisma.ListingAddonUncheckedUpdateOneWithoutListingNestedInput
+  content?: Prisma.ListingContentUncheckedUpdateManyWithoutListingNestedInput
+  faqs?: Prisma.ListingFaqUncheckedUpdateOneWithoutListingNestedInput
+  inclusionsExclusions?: Prisma.ListingInclusionExclusionUncheckedUpdateOneWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutListingNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutListingNestedInput
+  variants?: Prisma.ListingVariantUncheckedUpdateManyWithoutListingNestedInput
+  slotDefinitions?: Prisma.SlotDefinitionUncheckedUpdateManyWithoutListingNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingUncheckedUpdateManyWithoutApprovedByAdminInput = {
@@ -6709,25 +7018,27 @@ export type ListingUncheckedUpdateManyWithoutApprovedByAdminInput = {
  */
 
 export type ListingCountOutputType = {
-  variants: number
+  blockedDates: number
+  dateRanges: number
   content: number
   media: number
-  slots: number
-  slotDefinitions: number
   slotChanges: number
-  dateRanges: number
-  blockedDates: number
+  slots: number
+  variants: number
+  slotDefinitions: number
+  reviews: number
 }
 
 export type ListingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  variants?: boolean | ListingCountOutputTypeCountVariantsArgs
+  blockedDates?: boolean | ListingCountOutputTypeCountBlockedDatesArgs
+  dateRanges?: boolean | ListingCountOutputTypeCountDateRangesArgs
   content?: boolean | ListingCountOutputTypeCountContentArgs
   media?: boolean | ListingCountOutputTypeCountMediaArgs
-  slots?: boolean | ListingCountOutputTypeCountSlotsArgs
-  slotDefinitions?: boolean | ListingCountOutputTypeCountSlotDefinitionsArgs
   slotChanges?: boolean | ListingCountOutputTypeCountSlotChangesArgs
-  dateRanges?: boolean | ListingCountOutputTypeCountDateRangesArgs
-  blockedDates?: boolean | ListingCountOutputTypeCountBlockedDatesArgs
+  slots?: boolean | ListingCountOutputTypeCountSlotsArgs
+  variants?: boolean | ListingCountOutputTypeCountVariantsArgs
+  slotDefinitions?: boolean | ListingCountOutputTypeCountSlotDefinitionsArgs
+  reviews?: boolean | ListingCountOutputTypeCountReviewsArgs
 }
 
 /**
@@ -6743,8 +7054,15 @@ export type ListingCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
 /**
  * ListingCountOutputType without action
  */
-export type ListingCountOutputTypeCountVariantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ListingVariantWhereInput
+export type ListingCountOutputTypeCountBlockedDatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InventoryBlockedDateWhereInput
+}
+
+/**
+ * ListingCountOutputType without action
+ */
+export type ListingCountOutputTypeCountDateRangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InventoryDateRangeWhereInput
 }
 
 /**
@@ -6764,8 +7082,22 @@ export type ListingCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.E
 /**
  * ListingCountOutputType without action
  */
+export type ListingCountOutputTypeCountSlotChangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingSlotChangeWhereInput
+}
+
+/**
+ * ListingCountOutputType without action
+ */
 export type ListingCountOutputTypeCountSlotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ListingSlotWhereInput
+}
+
+/**
+ * ListingCountOutputType without action
+ */
+export type ListingCountOutputTypeCountVariantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingVariantWhereInput
 }
 
 /**
@@ -6778,22 +7110,8 @@ export type ListingCountOutputTypeCountSlotDefinitionsArgs<ExtArgs extends runti
 /**
  * ListingCountOutputType without action
  */
-export type ListingCountOutputTypeCountSlotChangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ListingSlotChangeWhereInput
-}
-
-/**
- * ListingCountOutputType without action
- */
-export type ListingCountOutputTypeCountDateRangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InventoryDateRangeWhereInput
-}
-
-/**
- * ListingCountOutputType without action
- */
-export type ListingCountOutputTypeCountBlockedDatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InventoryBlockedDateWhereInput
+export type ListingCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
 }
 
 
@@ -6831,27 +7149,28 @@ export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   basePriceDisplay?: boolean
   currency?: boolean
   metadata?: boolean
-  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
-  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
-  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
+  blockedDates?: boolean | Prisma.Listing$blockedDatesArgs<ExtArgs>
+  dateRanges?: boolean | Prisma.Listing$dateRangesArgs<ExtArgs>
+  addons?: boolean | Prisma.Listing$addonsArgs<ExtArgs>
+  content?: boolean | Prisma.Listing$contentArgs<ExtArgs>
+  faqs?: boolean | Prisma.Listing$faqsArgs<ExtArgs>
+  inclusionsExclusions?: boolean | Prisma.Listing$inclusionsExclusionsArgs<ExtArgs>
+  media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
+  slotChanges?: boolean | Prisma.Listing$slotChangesArgs<ExtArgs>
+  slots?: boolean | Prisma.Listing$slotsArgs<ExtArgs>
+  variants?: boolean | Prisma.Listing$variantsArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
-  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
-  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
-  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
   endCountry?: boolean | Prisma.Listing$endCountryArgs<ExtArgs>
   endPrimaryDivision?: boolean | Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>
   endSecondaryDivision?: boolean | Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>
-  variants?: boolean | Prisma.Listing$variantsArgs<ExtArgs>
-  content?: boolean | Prisma.Listing$contentArgs<ExtArgs>
-  inclusionsExclusions?: boolean | Prisma.Listing$inclusionsExclusionsArgs<ExtArgs>
-  addons?: boolean | Prisma.Listing$addonsArgs<ExtArgs>
-  media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
-  faqs?: boolean | Prisma.Listing$faqsArgs<ExtArgs>
-  slots?: boolean | Prisma.Listing$slotsArgs<ExtArgs>
+  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
+  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
+  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
+  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   slotDefinitions?: boolean | Prisma.Listing$slotDefinitionsArgs<ExtArgs>
-  slotChanges?: boolean | Prisma.Listing$slotChangesArgs<ExtArgs>
-  dateRanges?: boolean | Prisma.Listing$dateRangesArgs<ExtArgs>
-  blockedDates?: boolean | Prisma.Listing$blockedDatesArgs<ExtArgs>
+  reviews?: boolean | Prisma.Listing$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.ListingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["listing"]>
 
@@ -6889,16 +7208,16 @@ export type ListingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   basePriceDisplay?: boolean
   currency?: boolean
   metadata?: boolean
-  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
-  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
-  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
-  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
-  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
-  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
   endCountry?: boolean | Prisma.Listing$endCountryArgs<ExtArgs>
   endPrimaryDivision?: boolean | Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>
   endSecondaryDivision?: boolean | Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>
+  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
+  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
+  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
+  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
 }, ExtArgs["result"]["listing"]>
 
 export type ListingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -6935,16 +7254,16 @@ export type ListingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   basePriceDisplay?: boolean
   currency?: boolean
   metadata?: boolean
-  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
-  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
-  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
-  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
-  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
-  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
   endCountry?: boolean | Prisma.Listing$endCountryArgs<ExtArgs>
   endPrimaryDivision?: boolean | Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>
   endSecondaryDivision?: boolean | Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>
+  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
+  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
+  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
+  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
 }, ExtArgs["result"]["listing"]>
 
 export type ListingSelectScalar = {
@@ -6985,78 +7304,80 @@ export type ListingSelectScalar = {
 
 export type ListingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "operatorId" | "categoryId" | "subCatId" | "listingName" | "listingSlug" | "tbaId" | "frontImageUrl" | "bookingFormat" | "hasMultipleOptions" | "status" | "createdAt" | "updatedAt" | "approvedByAdminId" | "approvedAt" | "rejectionReason" | "startCountryId" | "startPrimaryDivisionId" | "startSecondaryDivisionId" | "endCountryId" | "endPrimaryDivisionId" | "endSecondaryDivisionId" | "startLocationName" | "startLocationCoordinates" | "startGoogleMapsUrl" | "endLocationName" | "endLocationCoordinates" | "endGoogleMapsUrl" | "taxRate" | "advanceBookingPercentage" | "basePriceDisplay" | "currency" | "metadata", ExtArgs["result"]["listing"]>
 export type ListingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
-  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
-  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
+  blockedDates?: boolean | Prisma.Listing$blockedDatesArgs<ExtArgs>
+  dateRanges?: boolean | Prisma.Listing$dateRangesArgs<ExtArgs>
+  addons?: boolean | Prisma.Listing$addonsArgs<ExtArgs>
+  content?: boolean | Prisma.Listing$contentArgs<ExtArgs>
+  faqs?: boolean | Prisma.Listing$faqsArgs<ExtArgs>
+  inclusionsExclusions?: boolean | Prisma.Listing$inclusionsExclusionsArgs<ExtArgs>
+  media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
+  slotChanges?: boolean | Prisma.Listing$slotChangesArgs<ExtArgs>
+  slots?: boolean | Prisma.Listing$slotsArgs<ExtArgs>
+  variants?: boolean | Prisma.Listing$variantsArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
-  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
-  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
-  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
   endCountry?: boolean | Prisma.Listing$endCountryArgs<ExtArgs>
   endPrimaryDivision?: boolean | Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>
   endSecondaryDivision?: boolean | Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>
-  variants?: boolean | Prisma.Listing$variantsArgs<ExtArgs>
-  content?: boolean | Prisma.Listing$contentArgs<ExtArgs>
-  inclusionsExclusions?: boolean | Prisma.Listing$inclusionsExclusionsArgs<ExtArgs>
-  addons?: boolean | Prisma.Listing$addonsArgs<ExtArgs>
-  media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
-  faqs?: boolean | Prisma.Listing$faqsArgs<ExtArgs>
-  slots?: boolean | Prisma.Listing$slotsArgs<ExtArgs>
+  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
+  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
+  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
+  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   slotDefinitions?: boolean | Prisma.Listing$slotDefinitionsArgs<ExtArgs>
-  slotChanges?: boolean | Prisma.Listing$slotChangesArgs<ExtArgs>
-  dateRanges?: boolean | Prisma.Listing$dateRangesArgs<ExtArgs>
-  blockedDates?: boolean | Prisma.Listing$blockedDatesArgs<ExtArgs>
+  reviews?: boolean | Prisma.Listing$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.ListingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ListingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
-  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
-  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
-  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
-  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
-  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
   endCountry?: boolean | Prisma.Listing$endCountryArgs<ExtArgs>
   endPrimaryDivision?: boolean | Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>
   endSecondaryDivision?: boolean | Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>
+  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
+  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
+  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
+  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
 }
 export type ListingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
-  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
-  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
   approvedByAdmin?: boolean | Prisma.Listing$approvedByAdminArgs<ExtArgs>
-  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
-  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
-  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  category?: boolean | Prisma.Listing$categoryArgs<ExtArgs>
   endCountry?: boolean | Prisma.Listing$endCountryArgs<ExtArgs>
   endPrimaryDivision?: boolean | Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>
   endSecondaryDivision?: boolean | Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>
+  operator?: boolean | Prisma.Listing$operatorArgs<ExtArgs>
+  startCountry?: boolean | Prisma.Listing$startCountryArgs<ExtArgs>
+  startPrimaryDivision?: boolean | Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>
+  startSecondaryDivision?: boolean | Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>
+  subCategory?: boolean | Prisma.Listing$subCategoryArgs<ExtArgs>
 }
 
 export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Listing"
   objects: {
-    operator: Prisma.$UserPayload<ExtArgs> | null
-    category: Prisma.$CategoryPayload<ExtArgs> | null
-    subCategory: Prisma.$SubCategoryPayload<ExtArgs> | null
+    blockedDates: Prisma.$InventoryBlockedDatePayload<ExtArgs>[]
+    dateRanges: Prisma.$InventoryDateRangePayload<ExtArgs>[]
+    addons: Prisma.$ListingAddonPayload<ExtArgs> | null
+    content: Prisma.$ListingContentPayload<ExtArgs>[]
+    faqs: Prisma.$ListingFaqPayload<ExtArgs> | null
+    inclusionsExclusions: Prisma.$ListingInclusionExclusionPayload<ExtArgs> | null
+    media: Prisma.$ListingMediaPayload<ExtArgs>[]
+    slotChanges: Prisma.$ListingSlotChangePayload<ExtArgs>[]
+    slots: Prisma.$ListingSlotPayload<ExtArgs>[]
+    variants: Prisma.$ListingVariantPayload<ExtArgs>[]
     approvedByAdmin: Prisma.$UserPayload<ExtArgs> | null
-    startCountry: Prisma.$CountryPayload<ExtArgs> | null
-    startPrimaryDivision: Prisma.$PrimaryDivisionPayload<ExtArgs> | null
-    startSecondaryDivision: Prisma.$SecondaryDivisionPayload<ExtArgs> | null
+    category: Prisma.$CategoryPayload<ExtArgs> | null
     endCountry: Prisma.$CountryPayload<ExtArgs> | null
     endPrimaryDivision: Prisma.$PrimaryDivisionPayload<ExtArgs> | null
     endSecondaryDivision: Prisma.$SecondaryDivisionPayload<ExtArgs> | null
-    variants: Prisma.$ListingVariantPayload<ExtArgs>[]
-    content: Prisma.$ListingContentPayload<ExtArgs>[]
-    inclusionsExclusions: Prisma.$ListingInclusionExclusionPayload<ExtArgs> | null
-    addons: Prisma.$ListingAddonPayload<ExtArgs> | null
-    media: Prisma.$ListingMediaPayload<ExtArgs>[]
-    faqs: Prisma.$ListingFaqPayload<ExtArgs> | null
-    slots: Prisma.$ListingSlotPayload<ExtArgs>[]
+    operator: Prisma.$UserPayload<ExtArgs> | null
+    startCountry: Prisma.$CountryPayload<ExtArgs> | null
+    startPrimaryDivision: Prisma.$PrimaryDivisionPayload<ExtArgs> | null
+    startSecondaryDivision: Prisma.$SecondaryDivisionPayload<ExtArgs> | null
+    subCategory: Prisma.$SubCategoryPayload<ExtArgs> | null
     slotDefinitions: Prisma.$SlotDefinitionPayload<ExtArgs>[]
-    slotChanges: Prisma.$ListingSlotChangePayload<ExtArgs>[]
-    dateRanges: Prisma.$InventoryDateRangePayload<ExtArgs>[]
-    blockedDates: Prisma.$InventoryBlockedDatePayload<ExtArgs>[]
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -7486,27 +7807,28 @@ readonly fields: ListingFieldRefs;
  */
 export interface Prisma__ListingClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  operator<T extends Prisma.Listing$operatorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$operatorArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  category<T extends Prisma.Listing$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$categoryArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  subCategory<T extends Prisma.Listing$subCategoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$subCategoryArgs<ExtArgs>>): Prisma.Prisma__SubCategoryClient<runtime.Types.Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  blockedDates<T extends Prisma.Listing$blockedDatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$blockedDatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryBlockedDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dateRanges<T extends Prisma.Listing$dateRangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$dateRangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryDateRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  addons<T extends Prisma.Listing$addonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$addonsArgs<ExtArgs>>): Prisma.Prisma__ListingAddonClient<runtime.Types.Result.GetResult<Prisma.$ListingAddonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  content<T extends Prisma.Listing$contentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$contentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  faqs<T extends Prisma.Listing$faqsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$faqsArgs<ExtArgs>>): Prisma.Prisma__ListingFaqClient<runtime.Types.Result.GetResult<Prisma.$ListingFaqPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  inclusionsExclusions<T extends Prisma.Listing$inclusionsExclusionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$inclusionsExclusionsArgs<ExtArgs>>): Prisma.Prisma__ListingInclusionExclusionClient<runtime.Types.Result.GetResult<Prisma.$ListingInclusionExclusionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  media<T extends Prisma.Listing$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  slotChanges<T extends Prisma.Listing$slotChangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$slotChangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  slots<T extends Prisma.Listing$slotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$slotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  variants<T extends Prisma.Listing$variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   approvedByAdmin<T extends Prisma.Listing$approvedByAdminArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$approvedByAdminArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  startCountry<T extends Prisma.Listing$startCountryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$startCountryArgs<ExtArgs>>): Prisma.Prisma__CountryClient<runtime.Types.Result.GetResult<Prisma.$CountryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  startPrimaryDivision<T extends Prisma.Listing$startPrimaryDivisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>>): Prisma.Prisma__PrimaryDivisionClient<runtime.Types.Result.GetResult<Prisma.$PrimaryDivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  startSecondaryDivision<T extends Prisma.Listing$startSecondaryDivisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>>): Prisma.Prisma__SecondaryDivisionClient<runtime.Types.Result.GetResult<Prisma.$SecondaryDivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  category<T extends Prisma.Listing$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$categoryArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   endCountry<T extends Prisma.Listing$endCountryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$endCountryArgs<ExtArgs>>): Prisma.Prisma__CountryClient<runtime.Types.Result.GetResult<Prisma.$CountryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   endPrimaryDivision<T extends Prisma.Listing$endPrimaryDivisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$endPrimaryDivisionArgs<ExtArgs>>): Prisma.Prisma__PrimaryDivisionClient<runtime.Types.Result.GetResult<Prisma.$PrimaryDivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   endSecondaryDivision<T extends Prisma.Listing$endSecondaryDivisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$endSecondaryDivisionArgs<ExtArgs>>): Prisma.Prisma__SecondaryDivisionClient<runtime.Types.Result.GetResult<Prisma.$SecondaryDivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  variants<T extends Prisma.Listing$variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  content<T extends Prisma.Listing$contentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$contentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  inclusionsExclusions<T extends Prisma.Listing$inclusionsExclusionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$inclusionsExclusionsArgs<ExtArgs>>): Prisma.Prisma__ListingInclusionExclusionClient<runtime.Types.Result.GetResult<Prisma.$ListingInclusionExclusionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  addons<T extends Prisma.Listing$addonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$addonsArgs<ExtArgs>>): Prisma.Prisma__ListingAddonClient<runtime.Types.Result.GetResult<Prisma.$ListingAddonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  media<T extends Prisma.Listing$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  faqs<T extends Prisma.Listing$faqsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$faqsArgs<ExtArgs>>): Prisma.Prisma__ListingFaqClient<runtime.Types.Result.GetResult<Prisma.$ListingFaqPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  slots<T extends Prisma.Listing$slotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$slotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  operator<T extends Prisma.Listing$operatorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$operatorArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  startCountry<T extends Prisma.Listing$startCountryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$startCountryArgs<ExtArgs>>): Prisma.Prisma__CountryClient<runtime.Types.Result.GetResult<Prisma.$CountryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  startPrimaryDivision<T extends Prisma.Listing$startPrimaryDivisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$startPrimaryDivisionArgs<ExtArgs>>): Prisma.Prisma__PrimaryDivisionClient<runtime.Types.Result.GetResult<Prisma.$PrimaryDivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  startSecondaryDivision<T extends Prisma.Listing$startSecondaryDivisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$startSecondaryDivisionArgs<ExtArgs>>): Prisma.Prisma__SecondaryDivisionClient<runtime.Types.Result.GetResult<Prisma.$SecondaryDivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  subCategory<T extends Prisma.Listing$subCategoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$subCategoryArgs<ExtArgs>>): Prisma.Prisma__SubCategoryClient<runtime.Types.Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   slotDefinitions<T extends Prisma.Listing$slotDefinitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$slotDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SlotDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  slotChanges<T extends Prisma.Listing$slotChangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$slotChangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  dateRanges<T extends Prisma.Listing$dateRangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$dateRangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryDateRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  blockedDates<T extends Prisma.Listing$blockedDatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$blockedDatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryBlockedDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviews<T extends Prisma.Listing$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7965,9 +8287,234 @@ export type ListingDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Listing.operator
+ * Listing.blockedDates
  */
-export type Listing$operatorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Listing$blockedDatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InventoryBlockedDate
+   */
+  select?: Prisma.InventoryBlockedDateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InventoryBlockedDate
+   */
+  omit?: Prisma.InventoryBlockedDateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InventoryBlockedDateInclude<ExtArgs> | null
+  where?: Prisma.InventoryBlockedDateWhereInput
+  orderBy?: Prisma.InventoryBlockedDateOrderByWithRelationInput | Prisma.InventoryBlockedDateOrderByWithRelationInput[]
+  cursor?: Prisma.InventoryBlockedDateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InventoryBlockedDateScalarFieldEnum | Prisma.InventoryBlockedDateScalarFieldEnum[]
+}
+
+/**
+ * Listing.dateRanges
+ */
+export type Listing$dateRangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InventoryDateRange
+   */
+  select?: Prisma.InventoryDateRangeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InventoryDateRange
+   */
+  omit?: Prisma.InventoryDateRangeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InventoryDateRangeInclude<ExtArgs> | null
+  where?: Prisma.InventoryDateRangeWhereInput
+  orderBy?: Prisma.InventoryDateRangeOrderByWithRelationInput | Prisma.InventoryDateRangeOrderByWithRelationInput[]
+  cursor?: Prisma.InventoryDateRangeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InventoryDateRangeScalarFieldEnum | Prisma.InventoryDateRangeScalarFieldEnum[]
+}
+
+/**
+ * Listing.addons
+ */
+export type Listing$addonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingAddon
+   */
+  select?: Prisma.ListingAddonSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingAddon
+   */
+  omit?: Prisma.ListingAddonOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingAddonInclude<ExtArgs> | null
+  where?: Prisma.ListingAddonWhereInput
+}
+
+/**
+ * Listing.content
+ */
+export type Listing$contentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingContent
+   */
+  select?: Prisma.ListingContentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingContent
+   */
+  omit?: Prisma.ListingContentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingContentInclude<ExtArgs> | null
+  where?: Prisma.ListingContentWhereInput
+  orderBy?: Prisma.ListingContentOrderByWithRelationInput | Prisma.ListingContentOrderByWithRelationInput[]
+  cursor?: Prisma.ListingContentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingContentScalarFieldEnum | Prisma.ListingContentScalarFieldEnum[]
+}
+
+/**
+ * Listing.faqs
+ */
+export type Listing$faqsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingFaq
+   */
+  select?: Prisma.ListingFaqSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingFaq
+   */
+  omit?: Prisma.ListingFaqOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingFaqInclude<ExtArgs> | null
+  where?: Prisma.ListingFaqWhereInput
+}
+
+/**
+ * Listing.inclusionsExclusions
+ */
+export type Listing$inclusionsExclusionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingInclusionExclusion
+   */
+  select?: Prisma.ListingInclusionExclusionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingInclusionExclusion
+   */
+  omit?: Prisma.ListingInclusionExclusionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingInclusionExclusionInclude<ExtArgs> | null
+  where?: Prisma.ListingInclusionExclusionWhereInput
+}
+
+/**
+ * Listing.media
+ */
+export type Listing$mediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingMedia
+   */
+  select?: Prisma.ListingMediaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingMedia
+   */
+  omit?: Prisma.ListingMediaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingMediaInclude<ExtArgs> | null
+  where?: Prisma.ListingMediaWhereInput
+  orderBy?: Prisma.ListingMediaOrderByWithRelationInput | Prisma.ListingMediaOrderByWithRelationInput[]
+  cursor?: Prisma.ListingMediaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingMediaScalarFieldEnum | Prisma.ListingMediaScalarFieldEnum[]
+}
+
+/**
+ * Listing.slotChanges
+ */
+export type Listing$slotChangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingSlotChange
+   */
+  select?: Prisma.ListingSlotChangeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingSlotChange
+   */
+  omit?: Prisma.ListingSlotChangeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingSlotChangeInclude<ExtArgs> | null
+  where?: Prisma.ListingSlotChangeWhereInput
+  orderBy?: Prisma.ListingSlotChangeOrderByWithRelationInput | Prisma.ListingSlotChangeOrderByWithRelationInput[]
+  cursor?: Prisma.ListingSlotChangeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingSlotChangeScalarFieldEnum | Prisma.ListingSlotChangeScalarFieldEnum[]
+}
+
+/**
+ * Listing.slots
+ */
+export type Listing$slotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingSlot
+   */
+  select?: Prisma.ListingSlotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingSlot
+   */
+  omit?: Prisma.ListingSlotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingSlotInclude<ExtArgs> | null
+  where?: Prisma.ListingSlotWhereInput
+  orderBy?: Prisma.ListingSlotOrderByWithRelationInput | Prisma.ListingSlotOrderByWithRelationInput[]
+  cursor?: Prisma.ListingSlotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingSlotScalarFieldEnum | Prisma.ListingSlotScalarFieldEnum[]
+}
+
+/**
+ * Listing.variants
+ */
+export type Listing$variantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingVariant
+   */
+  select?: Prisma.ListingVariantSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingVariant
+   */
+  omit?: Prisma.ListingVariantOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingVariantInclude<ExtArgs> | null
+  where?: Prisma.ListingVariantWhereInput
+  orderBy?: Prisma.ListingVariantOrderByWithRelationInput | Prisma.ListingVariantOrderByWithRelationInput[]
+  cursor?: Prisma.ListingVariantWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingVariantScalarFieldEnum | Prisma.ListingVariantScalarFieldEnum[]
+}
+
+/**
+ * Listing.approvedByAdmin
+ */
+export type Listing$approvedByAdminArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */
@@ -8003,28 +8550,66 @@ export type Listing$categoryArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Listing.subCategory
+ * Listing.endCountry
  */
-export type Listing$subCategoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Listing$endCountryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the SubCategory
+   * Select specific fields to fetch from the Country
    */
-  select?: Prisma.SubCategorySelect<ExtArgs> | null
+  select?: Prisma.CountrySelect<ExtArgs> | null
   /**
-   * Omit specific fields from the SubCategory
+   * Omit specific fields from the Country
    */
-  omit?: Prisma.SubCategoryOmit<ExtArgs> | null
+  omit?: Prisma.CountryOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.SubCategoryInclude<ExtArgs> | null
-  where?: Prisma.SubCategoryWhereInput
+  include?: Prisma.CountryInclude<ExtArgs> | null
+  where?: Prisma.CountryWhereInput
 }
 
 /**
- * Listing.approvedByAdmin
+ * Listing.endPrimaryDivision
  */
-export type Listing$approvedByAdminArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Listing$endPrimaryDivisionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PrimaryDivision
+   */
+  select?: Prisma.PrimaryDivisionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PrimaryDivision
+   */
+  omit?: Prisma.PrimaryDivisionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PrimaryDivisionInclude<ExtArgs> | null
+  where?: Prisma.PrimaryDivisionWhereInput
+}
+
+/**
+ * Listing.endSecondaryDivision
+ */
+export type Listing$endSecondaryDivisionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SecondaryDivision
+   */
+  select?: Prisma.SecondaryDivisionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SecondaryDivision
+   */
+  omit?: Prisma.SecondaryDivisionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SecondaryDivisionInclude<ExtArgs> | null
+  where?: Prisma.SecondaryDivisionWhereInput
+}
+
+/**
+ * Listing.operator
+ */
+export type Listing$operatorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */
@@ -8098,213 +8683,22 @@ export type Listing$startSecondaryDivisionArgs<ExtArgs extends runtime.Types.Ext
 }
 
 /**
- * Listing.endCountry
+ * Listing.subCategory
  */
-export type Listing$endCountryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Listing$subCategoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Country
+   * Select specific fields to fetch from the SubCategory
    */
-  select?: Prisma.CountrySelect<ExtArgs> | null
+  select?: Prisma.SubCategorySelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Country
+   * Omit specific fields from the SubCategory
    */
-  omit?: Prisma.CountryOmit<ExtArgs> | null
+  omit?: Prisma.SubCategoryOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.CountryInclude<ExtArgs> | null
-  where?: Prisma.CountryWhereInput
-}
-
-/**
- * Listing.endPrimaryDivision
- */
-export type Listing$endPrimaryDivisionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PrimaryDivision
-   */
-  select?: Prisma.PrimaryDivisionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PrimaryDivision
-   */
-  omit?: Prisma.PrimaryDivisionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PrimaryDivisionInclude<ExtArgs> | null
-  where?: Prisma.PrimaryDivisionWhereInput
-}
-
-/**
- * Listing.endSecondaryDivision
- */
-export type Listing$endSecondaryDivisionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SecondaryDivision
-   */
-  select?: Prisma.SecondaryDivisionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the SecondaryDivision
-   */
-  omit?: Prisma.SecondaryDivisionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SecondaryDivisionInclude<ExtArgs> | null
-  where?: Prisma.SecondaryDivisionWhereInput
-}
-
-/**
- * Listing.variants
- */
-export type Listing$variantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ListingVariant
-   */
-  select?: Prisma.ListingVariantSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ListingVariant
-   */
-  omit?: Prisma.ListingVariantOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ListingVariantInclude<ExtArgs> | null
-  where?: Prisma.ListingVariantWhereInput
-  orderBy?: Prisma.ListingVariantOrderByWithRelationInput | Prisma.ListingVariantOrderByWithRelationInput[]
-  cursor?: Prisma.ListingVariantWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ListingVariantScalarFieldEnum | Prisma.ListingVariantScalarFieldEnum[]
-}
-
-/**
- * Listing.content
- */
-export type Listing$contentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ListingContent
-   */
-  select?: Prisma.ListingContentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ListingContent
-   */
-  omit?: Prisma.ListingContentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ListingContentInclude<ExtArgs> | null
-  where?: Prisma.ListingContentWhereInput
-  orderBy?: Prisma.ListingContentOrderByWithRelationInput | Prisma.ListingContentOrderByWithRelationInput[]
-  cursor?: Prisma.ListingContentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ListingContentScalarFieldEnum | Prisma.ListingContentScalarFieldEnum[]
-}
-
-/**
- * Listing.inclusionsExclusions
- */
-export type Listing$inclusionsExclusionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ListingInclusionExclusion
-   */
-  select?: Prisma.ListingInclusionExclusionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ListingInclusionExclusion
-   */
-  omit?: Prisma.ListingInclusionExclusionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ListingInclusionExclusionInclude<ExtArgs> | null
-  where?: Prisma.ListingInclusionExclusionWhereInput
-}
-
-/**
- * Listing.addons
- */
-export type Listing$addonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ListingAddon
-   */
-  select?: Prisma.ListingAddonSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ListingAddon
-   */
-  omit?: Prisma.ListingAddonOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ListingAddonInclude<ExtArgs> | null
-  where?: Prisma.ListingAddonWhereInput
-}
-
-/**
- * Listing.media
- */
-export type Listing$mediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ListingMedia
-   */
-  select?: Prisma.ListingMediaSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ListingMedia
-   */
-  omit?: Prisma.ListingMediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ListingMediaInclude<ExtArgs> | null
-  where?: Prisma.ListingMediaWhereInput
-  orderBy?: Prisma.ListingMediaOrderByWithRelationInput | Prisma.ListingMediaOrderByWithRelationInput[]
-  cursor?: Prisma.ListingMediaWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ListingMediaScalarFieldEnum | Prisma.ListingMediaScalarFieldEnum[]
-}
-
-/**
- * Listing.faqs
- */
-export type Listing$faqsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ListingFaq
-   */
-  select?: Prisma.ListingFaqSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ListingFaq
-   */
-  omit?: Prisma.ListingFaqOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ListingFaqInclude<ExtArgs> | null
-  where?: Prisma.ListingFaqWhereInput
-}
-
-/**
- * Listing.slots
- */
-export type Listing$slotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ListingSlot
-   */
-  select?: Prisma.ListingSlotSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ListingSlot
-   */
-  omit?: Prisma.ListingSlotOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ListingSlotInclude<ExtArgs> | null
-  where?: Prisma.ListingSlotWhereInput
-  orderBy?: Prisma.ListingSlotOrderByWithRelationInput | Prisma.ListingSlotOrderByWithRelationInput[]
-  cursor?: Prisma.ListingSlotWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ListingSlotScalarFieldEnum | Prisma.ListingSlotScalarFieldEnum[]
+  include?: Prisma.SubCategoryInclude<ExtArgs> | null
+  where?: Prisma.SubCategoryWhereInput
 }
 
 /**
@@ -8332,75 +8726,27 @@ export type Listing$slotDefinitionsArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * Listing.slotChanges
+ * Listing.reviews
  */
-export type Listing$slotChangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Listing$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ListingSlotChange
+   * Select specific fields to fetch from the Review
    */
-  select?: Prisma.ListingSlotChangeSelect<ExtArgs> | null
+  select?: Prisma.ReviewSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ListingSlotChange
+   * Omit specific fields from the Review
    */
-  omit?: Prisma.ListingSlotChangeOmit<ExtArgs> | null
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ListingSlotChangeInclude<ExtArgs> | null
-  where?: Prisma.ListingSlotChangeWhereInput
-  orderBy?: Prisma.ListingSlotChangeOrderByWithRelationInput | Prisma.ListingSlotChangeOrderByWithRelationInput[]
-  cursor?: Prisma.ListingSlotChangeWhereUniqueInput
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ListingSlotChangeScalarFieldEnum | Prisma.ListingSlotChangeScalarFieldEnum[]
-}
-
-/**
- * Listing.dateRanges
- */
-export type Listing$dateRangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the InventoryDateRange
-   */
-  select?: Prisma.InventoryDateRangeSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the InventoryDateRange
-   */
-  omit?: Prisma.InventoryDateRangeOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.InventoryDateRangeInclude<ExtArgs> | null
-  where?: Prisma.InventoryDateRangeWhereInput
-  orderBy?: Prisma.InventoryDateRangeOrderByWithRelationInput | Prisma.InventoryDateRangeOrderByWithRelationInput[]
-  cursor?: Prisma.InventoryDateRangeWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.InventoryDateRangeScalarFieldEnum | Prisma.InventoryDateRangeScalarFieldEnum[]
-}
-
-/**
- * Listing.blockedDates
- */
-export type Listing$blockedDatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the InventoryBlockedDate
-   */
-  select?: Prisma.InventoryBlockedDateSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the InventoryBlockedDate
-   */
-  omit?: Prisma.InventoryBlockedDateOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.InventoryBlockedDateInclude<ExtArgs> | null
-  where?: Prisma.InventoryBlockedDateWhereInput
-  orderBy?: Prisma.InventoryBlockedDateOrderByWithRelationInput | Prisma.InventoryBlockedDateOrderByWithRelationInput[]
-  cursor?: Prisma.InventoryBlockedDateWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.InventoryBlockedDateScalarFieldEnum | Prisma.InventoryBlockedDateScalarFieldEnum[]
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
 }
 
 /**

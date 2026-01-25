@@ -53,6 +53,7 @@ model Listing {
   startSecondaryDivision   SecondaryDivision?         @relation("ListingStartSecondaryDivision", fields: [startSecondaryDivisionId], references: [secondary_division_id])
   subCategory              SubCategory?               @relation(fields: [subCatId], references: [id], onDelete: Restrict)
   slotDefinitions          SlotDefinition[]           @relation("ListingToSlotDefinition")
+  reviews                  Review[]
 
   @@map("listings")
 }

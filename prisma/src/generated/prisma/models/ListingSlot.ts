@@ -41,17 +41,17 @@ export type ListingSlotMinAggregateOutputType = {
   id: string | null
   listingId: string | null
   variantId: string | null
-  slotDefinitionId: string | null
-  batchStartDate: Date | null
-  batchEndDate: Date | null
-  slotDate: Date | null
-  startTime: string | null
-  endTime: string | null
   basePrice: number | null
   totalCapacity: number | null
   availableCount: number | null
   isActive: boolean | null
   createdAt: Date | null
+  endTime: string | null
+  slotDate: Date | null
+  slotDefinitionId: string | null
+  startTime: string | null
+  batchEndDate: Date | null
+  batchStartDate: Date | null
   formatType: string | null
 }
 
@@ -59,17 +59,17 @@ export type ListingSlotMaxAggregateOutputType = {
   id: string | null
   listingId: string | null
   variantId: string | null
-  slotDefinitionId: string | null
-  batchStartDate: Date | null
-  batchEndDate: Date | null
-  slotDate: Date | null
-  startTime: string | null
-  endTime: string | null
   basePrice: number | null
   totalCapacity: number | null
   availableCount: number | null
   isActive: boolean | null
   createdAt: Date | null
+  endTime: string | null
+  slotDate: Date | null
+  slotDefinitionId: string | null
+  startTime: string | null
+  batchEndDate: Date | null
+  batchStartDate: Date | null
   formatType: string | null
 }
 
@@ -77,17 +77,17 @@ export type ListingSlotCountAggregateOutputType = {
   id: number
   listingId: number
   variantId: number
-  slotDefinitionId: number
-  batchStartDate: number
-  batchEndDate: number
-  slotDate: number
-  startTime: number
-  endTime: number
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive: number
   createdAt: number
+  endTime: number
+  slotDate: number
+  slotDefinitionId: number
+  startTime: number
+  batchEndDate: number
+  batchStartDate: number
   formatType: number
   _all: number
 }
@@ -109,17 +109,17 @@ export type ListingSlotMinAggregateInputType = {
   id?: true
   listingId?: true
   variantId?: true
-  slotDefinitionId?: true
-  batchStartDate?: true
-  batchEndDate?: true
-  slotDate?: true
-  startTime?: true
-  endTime?: true
   basePrice?: true
   totalCapacity?: true
   availableCount?: true
   isActive?: true
   createdAt?: true
+  endTime?: true
+  slotDate?: true
+  slotDefinitionId?: true
+  startTime?: true
+  batchEndDate?: true
+  batchStartDate?: true
   formatType?: true
 }
 
@@ -127,17 +127,17 @@ export type ListingSlotMaxAggregateInputType = {
   id?: true
   listingId?: true
   variantId?: true
-  slotDefinitionId?: true
-  batchStartDate?: true
-  batchEndDate?: true
-  slotDate?: true
-  startTime?: true
-  endTime?: true
   basePrice?: true
   totalCapacity?: true
   availableCount?: true
   isActive?: true
   createdAt?: true
+  endTime?: true
+  slotDate?: true
+  slotDefinitionId?: true
+  startTime?: true
+  batchEndDate?: true
+  batchStartDate?: true
   formatType?: true
 }
 
@@ -145,17 +145,17 @@ export type ListingSlotCountAggregateInputType = {
   id?: true
   listingId?: true
   variantId?: true
-  slotDefinitionId?: true
-  batchStartDate?: true
-  batchEndDate?: true
-  slotDate?: true
-  startTime?: true
-  endTime?: true
   basePrice?: true
   totalCapacity?: true
   availableCount?: true
   isActive?: true
   createdAt?: true
+  endTime?: true
+  slotDate?: true
+  slotDefinitionId?: true
+  startTime?: true
+  batchEndDate?: true
+  batchStartDate?: true
   formatType?: true
   _all?: true
 }
@@ -250,17 +250,17 @@ export type ListingSlotGroupByOutputType = {
   id: string
   listingId: string
   variantId: string | null
-  slotDefinitionId: string | null
-  batchStartDate: Date | null
-  batchEndDate: Date | null
-  slotDate: Date | null
-  startTime: string | null
-  endTime: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive: boolean
   createdAt: Date
+  endTime: string | null
+  slotDate: Date | null
+  slotDefinitionId: string | null
+  startTime: string | null
+  batchEndDate: Date | null
+  batchStartDate: Date | null
   formatType: string | null
   _count: ListingSlotCountAggregateOutputType | null
   _avg: ListingSlotAvgAggregateOutputType | null
@@ -291,22 +291,22 @@ export type ListingSlotWhereInput = {
   id?: Prisma.StringFilter<"ListingSlot"> | string
   listingId?: Prisma.StringFilter<"ListingSlot"> | string
   variantId?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
-  slotDefinitionId?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
-  batchStartDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
-  batchEndDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
-  slotDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
-  startTime?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
-  endTime?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
   basePrice?: Prisma.IntFilter<"ListingSlot"> | number
   totalCapacity?: Prisma.IntFilter<"ListingSlot"> | number
   availableCount?: Prisma.IntFilter<"ListingSlot"> | number
   isActive?: Prisma.BoolFilter<"ListingSlot"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ListingSlot"> | Date | string
+  endTime?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
+  slotDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
+  slotDefinitionId?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
+  startTime?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
+  batchEndDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
+  batchStartDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
   formatType?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
-  slotDefinition?: Prisma.XOR<Prisma.SlotDefinitionNullableScalarRelationFilter, Prisma.SlotDefinitionWhereInput> | null
-  listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
-  variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
   bookings?: Prisma.BookingListRelationFilter
+  listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
+  slotDefinition?: Prisma.XOR<Prisma.SlotDefinitionNullableScalarRelationFilter, Prisma.SlotDefinitionWhereInput> | null
+  variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
   reschedulesAsOldBatch?: Prisma.RescheduleListRelationFilter
   reschedulesAsNewBatch?: Prisma.RescheduleListRelationFilter
   reschedulesAsOldSlot?: Prisma.RescheduleListRelationFilter
@@ -317,22 +317,22 @@ export type ListingSlotOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantId?: Prisma.SortOrderInput | Prisma.SortOrder
-  slotDefinitionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  batchStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  batchEndDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  slotDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  startTime?: Prisma.SortOrderInput | Prisma.SortOrder
-  endTime?: Prisma.SortOrderInput | Prisma.SortOrder
   basePrice?: Prisma.SortOrder
   totalCapacity?: Prisma.SortOrder
   availableCount?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  endTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  slotDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  slotDefinitionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  startTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  batchEndDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  batchStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
   formatType?: Prisma.SortOrderInput | Prisma.SortOrder
-  slotDefinition?: Prisma.SlotDefinitionOrderByWithRelationInput
-  listing?: Prisma.ListingOrderByWithRelationInput
-  variant?: Prisma.ListingVariantOrderByWithRelationInput
   bookings?: Prisma.BookingOrderByRelationAggregateInput
+  listing?: Prisma.ListingOrderByWithRelationInput
+  slotDefinition?: Prisma.SlotDefinitionOrderByWithRelationInput
+  variant?: Prisma.ListingVariantOrderByWithRelationInput
   reschedulesAsOldBatch?: Prisma.RescheduleOrderByRelationAggregateInput
   reschedulesAsNewBatch?: Prisma.RescheduleOrderByRelationAggregateInput
   reschedulesAsOldSlot?: Prisma.RescheduleOrderByRelationAggregateInput
@@ -346,22 +346,22 @@ export type ListingSlotWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ListingSlotWhereInput | Prisma.ListingSlotWhereInput[]
   listingId?: Prisma.StringFilter<"ListingSlot"> | string
   variantId?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
-  slotDefinitionId?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
-  batchStartDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
-  batchEndDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
-  slotDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
-  startTime?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
-  endTime?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
   basePrice?: Prisma.IntFilter<"ListingSlot"> | number
   totalCapacity?: Prisma.IntFilter<"ListingSlot"> | number
   availableCount?: Prisma.IntFilter<"ListingSlot"> | number
   isActive?: Prisma.BoolFilter<"ListingSlot"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ListingSlot"> | Date | string
+  endTime?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
+  slotDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
+  slotDefinitionId?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
+  startTime?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
+  batchEndDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
+  batchStartDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
   formatType?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
-  slotDefinition?: Prisma.XOR<Prisma.SlotDefinitionNullableScalarRelationFilter, Prisma.SlotDefinitionWhereInput> | null
-  listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
-  variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
   bookings?: Prisma.BookingListRelationFilter
+  listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
+  slotDefinition?: Prisma.XOR<Prisma.SlotDefinitionNullableScalarRelationFilter, Prisma.SlotDefinitionWhereInput> | null
+  variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
   reschedulesAsOldBatch?: Prisma.RescheduleListRelationFilter
   reschedulesAsNewBatch?: Prisma.RescheduleListRelationFilter
   reschedulesAsOldSlot?: Prisma.RescheduleListRelationFilter
@@ -372,17 +372,17 @@ export type ListingSlotOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantId?: Prisma.SortOrderInput | Prisma.SortOrder
-  slotDefinitionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  batchStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  batchEndDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  slotDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  startTime?: Prisma.SortOrderInput | Prisma.SortOrder
-  endTime?: Prisma.SortOrderInput | Prisma.SortOrder
   basePrice?: Prisma.SortOrder
   totalCapacity?: Prisma.SortOrder
   availableCount?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  endTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  slotDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  slotDefinitionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  startTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  batchEndDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  batchStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
   formatType?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ListingSlotCountOrderByAggregateInput
   _avg?: Prisma.ListingSlotAvgOrderByAggregateInput
@@ -398,37 +398,37 @@ export type ListingSlotScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"ListingSlot"> | string
   listingId?: Prisma.StringWithAggregatesFilter<"ListingSlot"> | string
   variantId?: Prisma.StringNullableWithAggregatesFilter<"ListingSlot"> | string | null
-  slotDefinitionId?: Prisma.StringNullableWithAggregatesFilter<"ListingSlot"> | string | null
-  batchStartDate?: Prisma.DateTimeNullableWithAggregatesFilter<"ListingSlot"> | Date | string | null
-  batchEndDate?: Prisma.DateTimeNullableWithAggregatesFilter<"ListingSlot"> | Date | string | null
-  slotDate?: Prisma.DateTimeNullableWithAggregatesFilter<"ListingSlot"> | Date | string | null
-  startTime?: Prisma.StringNullableWithAggregatesFilter<"ListingSlot"> | string | null
-  endTime?: Prisma.StringNullableWithAggregatesFilter<"ListingSlot"> | string | null
   basePrice?: Prisma.IntWithAggregatesFilter<"ListingSlot"> | number
   totalCapacity?: Prisma.IntWithAggregatesFilter<"ListingSlot"> | number
   availableCount?: Prisma.IntWithAggregatesFilter<"ListingSlot"> | number
   isActive?: Prisma.BoolWithAggregatesFilter<"ListingSlot"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ListingSlot"> | Date | string
+  endTime?: Prisma.StringNullableWithAggregatesFilter<"ListingSlot"> | string | null
+  slotDate?: Prisma.DateTimeNullableWithAggregatesFilter<"ListingSlot"> | Date | string | null
+  slotDefinitionId?: Prisma.StringNullableWithAggregatesFilter<"ListingSlot"> | string | null
+  startTime?: Prisma.StringNullableWithAggregatesFilter<"ListingSlot"> | string | null
+  batchEndDate?: Prisma.DateTimeNullableWithAggregatesFilter<"ListingSlot"> | Date | string | null
+  batchStartDate?: Prisma.DateTimeNullableWithAggregatesFilter<"ListingSlot"> | Date | string | null
   formatType?: Prisma.StringNullableWithAggregatesFilter<"ListingSlot"> | string | null
 }
 
 export type ListingSlotCreateInput = {
   id?: string
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
-  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
-  listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
-  variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
   bookings?: Prisma.BookingCreateNestedManyWithoutListingSlotInput
+  listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
+  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
+  variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
   reschedulesAsOldBatch?: Prisma.RescheduleCreateNestedManyWithoutOldBatchInput
   reschedulesAsNewBatch?: Prisma.RescheduleCreateNestedManyWithoutNewBatchInput
   reschedulesAsOldSlot?: Prisma.RescheduleCreateNestedManyWithoutOldSlotInput
@@ -439,17 +439,17 @@ export type ListingSlotUncheckedCreateInput = {
   id?: string
   listingId: string
   variantId?: string | null
-  slotDefinitionId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  slotDefinitionId?: string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutListingSlotInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOldBatchInput
@@ -460,21 +460,21 @@ export type ListingSlotUncheckedCreateInput = {
 
 export type ListingSlotUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
-  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
-  variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutListingSlotNestedInput
+  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
+  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
+  variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUpdateManyWithoutOldBatchNestedInput
   reschedulesAsNewBatch?: Prisma.RescheduleUpdateManyWithoutNewBatchNestedInput
   reschedulesAsOldSlot?: Prisma.RescheduleUpdateManyWithoutOldSlotNestedInput
@@ -485,17 +485,17 @@ export type ListingSlotUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutListingSlotNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedUpdateManyWithoutOldBatchNestedInput
@@ -508,32 +508,32 @@ export type ListingSlotCreateManyInput = {
   id?: string
   listingId: string
   variantId?: string | null
-  slotDefinitionId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  slotDefinitionId?: string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
 }
 
 export type ListingSlotUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -541,17 +541,17 @@ export type ListingSlotUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -564,17 +564,17 @@ export type ListingSlotCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantId?: Prisma.SortOrder
-  slotDefinitionId?: Prisma.SortOrder
-  batchStartDate?: Prisma.SortOrder
-  batchEndDate?: Prisma.SortOrder
-  slotDate?: Prisma.SortOrder
-  startTime?: Prisma.SortOrder
-  endTime?: Prisma.SortOrder
   basePrice?: Prisma.SortOrder
   totalCapacity?: Prisma.SortOrder
   availableCount?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  endTime?: Prisma.SortOrder
+  slotDate?: Prisma.SortOrder
+  slotDefinitionId?: Prisma.SortOrder
+  startTime?: Prisma.SortOrder
+  batchEndDate?: Prisma.SortOrder
+  batchStartDate?: Prisma.SortOrder
   formatType?: Prisma.SortOrder
 }
 
@@ -588,17 +588,17 @@ export type ListingSlotMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantId?: Prisma.SortOrder
-  slotDefinitionId?: Prisma.SortOrder
-  batchStartDate?: Prisma.SortOrder
-  batchEndDate?: Prisma.SortOrder
-  slotDate?: Prisma.SortOrder
-  startTime?: Prisma.SortOrder
-  endTime?: Prisma.SortOrder
   basePrice?: Prisma.SortOrder
   totalCapacity?: Prisma.SortOrder
   availableCount?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  endTime?: Prisma.SortOrder
+  slotDate?: Prisma.SortOrder
+  slotDefinitionId?: Prisma.SortOrder
+  startTime?: Prisma.SortOrder
+  batchEndDate?: Prisma.SortOrder
+  batchStartDate?: Prisma.SortOrder
   formatType?: Prisma.SortOrder
 }
 
@@ -606,17 +606,17 @@ export type ListingSlotMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   listingId?: Prisma.SortOrder
   variantId?: Prisma.SortOrder
-  slotDefinitionId?: Prisma.SortOrder
-  batchStartDate?: Prisma.SortOrder
-  batchEndDate?: Prisma.SortOrder
-  slotDate?: Prisma.SortOrder
-  startTime?: Prisma.SortOrder
-  endTime?: Prisma.SortOrder
   basePrice?: Prisma.SortOrder
   totalCapacity?: Prisma.SortOrder
   availableCount?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  endTime?: Prisma.SortOrder
+  slotDate?: Prisma.SortOrder
+  slotDefinitionId?: Prisma.SortOrder
+  startTime?: Prisma.SortOrder
+  batchEndDate?: Prisma.SortOrder
+  batchStartDate?: Prisma.SortOrder
   formatType?: Prisma.SortOrder
 }
 
@@ -844,19 +844,19 @@ export type ListingSlotUncheckedUpdateManyWithoutSlotDefinitionNestedInput = {
 
 export type ListingSlotCreateWithoutBookingsInput = {
   id?: string
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
-  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
   listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
+  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
   variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
   reschedulesAsOldBatch?: Prisma.RescheduleCreateNestedManyWithoutOldBatchInput
   reschedulesAsNewBatch?: Prisma.RescheduleCreateNestedManyWithoutNewBatchInput
@@ -868,17 +868,17 @@ export type ListingSlotUncheckedCreateWithoutBookingsInput = {
   id?: string
   listingId: string
   variantId?: string | null
-  slotDefinitionId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  slotDefinitionId?: string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOldBatchInput
   reschedulesAsNewBatch?: Prisma.RescheduleUncheckedCreateNestedManyWithoutNewBatchInput
@@ -904,19 +904,19 @@ export type ListingSlotUpdateToOneWithWhereWithoutBookingsInput = {
 
 export type ListingSlotUpdateWithoutBookingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
   listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
+  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
   variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUpdateManyWithoutOldBatchNestedInput
   reschedulesAsNewBatch?: Prisma.RescheduleUpdateManyWithoutNewBatchNestedInput
@@ -928,17 +928,17 @@ export type ListingSlotUncheckedUpdateWithoutBookingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedUpdateManyWithoutOldBatchNestedInput
   reschedulesAsNewBatch?: Prisma.RescheduleUncheckedUpdateManyWithoutNewBatchNestedInput
@@ -948,20 +948,20 @@ export type ListingSlotUncheckedUpdateWithoutBookingsInput = {
 
 export type ListingSlotCreateWithoutVariantInput = {
   id?: string
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
-  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
-  listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
   bookings?: Prisma.BookingCreateNestedManyWithoutListingSlotInput
+  listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
+  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
   reschedulesAsOldBatch?: Prisma.RescheduleCreateNestedManyWithoutOldBatchInput
   reschedulesAsNewBatch?: Prisma.RescheduleCreateNestedManyWithoutNewBatchInput
   reschedulesAsOldSlot?: Prisma.RescheduleCreateNestedManyWithoutOldSlotInput
@@ -971,17 +971,17 @@ export type ListingSlotCreateWithoutVariantInput = {
 export type ListingSlotUncheckedCreateWithoutVariantInput = {
   id?: string
   listingId: string
-  slotDefinitionId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  slotDefinitionId?: string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutListingSlotInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOldBatchInput
@@ -1023,36 +1023,36 @@ export type ListingSlotScalarWhereInput = {
   id?: Prisma.StringFilter<"ListingSlot"> | string
   listingId?: Prisma.StringFilter<"ListingSlot"> | string
   variantId?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
-  slotDefinitionId?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
-  batchStartDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
-  batchEndDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
-  slotDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
-  startTime?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
-  endTime?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
   basePrice?: Prisma.IntFilter<"ListingSlot"> | number
   totalCapacity?: Prisma.IntFilter<"ListingSlot"> | number
   availableCount?: Prisma.IntFilter<"ListingSlot"> | number
   isActive?: Prisma.BoolFilter<"ListingSlot"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ListingSlot"> | Date | string
+  endTime?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
+  slotDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
+  slotDefinitionId?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
+  startTime?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
+  batchEndDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
+  batchStartDate?: Prisma.DateTimeNullableFilter<"ListingSlot"> | Date | string | null
   formatType?: Prisma.StringNullableFilter<"ListingSlot"> | string | null
 }
 
 export type ListingSlotCreateWithoutListingInput = {
   id?: string
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
+  bookings?: Prisma.BookingCreateNestedManyWithoutListingSlotInput
   slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
   variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
-  bookings?: Prisma.BookingCreateNestedManyWithoutListingSlotInput
   reschedulesAsOldBatch?: Prisma.RescheduleCreateNestedManyWithoutOldBatchInput
   reschedulesAsNewBatch?: Prisma.RescheduleCreateNestedManyWithoutNewBatchInput
   reschedulesAsOldSlot?: Prisma.RescheduleCreateNestedManyWithoutOldSlotInput
@@ -1062,17 +1062,17 @@ export type ListingSlotCreateWithoutListingInput = {
 export type ListingSlotUncheckedCreateWithoutListingInput = {
   id?: string
   variantId?: string | null
-  slotDefinitionId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  slotDefinitionId?: string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutListingSlotInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOldBatchInput
@@ -1109,21 +1109,21 @@ export type ListingSlotUpdateManyWithWhereWithoutListingInput = {
 
 export type ListingSlotCreateWithoutReschedulesAsOldBatchInput = {
   id?: string
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
-  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
-  listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
-  variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
   bookings?: Prisma.BookingCreateNestedManyWithoutListingSlotInput
+  listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
+  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
+  variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
   reschedulesAsNewBatch?: Prisma.RescheduleCreateNestedManyWithoutNewBatchInput
   reschedulesAsOldSlot?: Prisma.RescheduleCreateNestedManyWithoutOldSlotInput
   reschedulesAsNewSlot?: Prisma.RescheduleCreateNestedManyWithoutNewSlotInput
@@ -1133,17 +1133,17 @@ export type ListingSlotUncheckedCreateWithoutReschedulesAsOldBatchInput = {
   id?: string
   listingId: string
   variantId?: string | null
-  slotDefinitionId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  slotDefinitionId?: string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutListingSlotInput
   reschedulesAsNewBatch?: Prisma.RescheduleUncheckedCreateNestedManyWithoutNewBatchInput
@@ -1158,21 +1158,21 @@ export type ListingSlotCreateOrConnectWithoutReschedulesAsOldBatchInput = {
 
 export type ListingSlotCreateWithoutReschedulesAsNewBatchInput = {
   id?: string
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
-  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
-  listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
-  variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
   bookings?: Prisma.BookingCreateNestedManyWithoutListingSlotInput
+  listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
+  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
+  variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
   reschedulesAsOldBatch?: Prisma.RescheduleCreateNestedManyWithoutOldBatchInput
   reschedulesAsOldSlot?: Prisma.RescheduleCreateNestedManyWithoutOldSlotInput
   reschedulesAsNewSlot?: Prisma.RescheduleCreateNestedManyWithoutNewSlotInput
@@ -1182,17 +1182,17 @@ export type ListingSlotUncheckedCreateWithoutReschedulesAsNewBatchInput = {
   id?: string
   listingId: string
   variantId?: string | null
-  slotDefinitionId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  slotDefinitionId?: string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutListingSlotInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOldBatchInput
@@ -1207,21 +1207,21 @@ export type ListingSlotCreateOrConnectWithoutReschedulesAsNewBatchInput = {
 
 export type ListingSlotCreateWithoutReschedulesAsOldSlotInput = {
   id?: string
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
-  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
-  listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
-  variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
   bookings?: Prisma.BookingCreateNestedManyWithoutListingSlotInput
+  listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
+  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
+  variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
   reschedulesAsOldBatch?: Prisma.RescheduleCreateNestedManyWithoutOldBatchInput
   reschedulesAsNewBatch?: Prisma.RescheduleCreateNestedManyWithoutNewBatchInput
   reschedulesAsNewSlot?: Prisma.RescheduleCreateNestedManyWithoutNewSlotInput
@@ -1231,17 +1231,17 @@ export type ListingSlotUncheckedCreateWithoutReschedulesAsOldSlotInput = {
   id?: string
   listingId: string
   variantId?: string | null
-  slotDefinitionId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  slotDefinitionId?: string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutListingSlotInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOldBatchInput
@@ -1256,21 +1256,21 @@ export type ListingSlotCreateOrConnectWithoutReschedulesAsOldSlotInput = {
 
 export type ListingSlotCreateWithoutReschedulesAsNewSlotInput = {
   id?: string
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
-  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
-  listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
-  variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
   bookings?: Prisma.BookingCreateNestedManyWithoutListingSlotInput
+  listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
+  slotDefinition?: Prisma.SlotDefinitionCreateNestedOneWithoutSlotsInput
+  variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
   reschedulesAsOldBatch?: Prisma.RescheduleCreateNestedManyWithoutOldBatchInput
   reschedulesAsNewBatch?: Prisma.RescheduleCreateNestedManyWithoutNewBatchInput
   reschedulesAsOldSlot?: Prisma.RescheduleCreateNestedManyWithoutOldSlotInput
@@ -1280,17 +1280,17 @@ export type ListingSlotUncheckedCreateWithoutReschedulesAsNewSlotInput = {
   id?: string
   listingId: string
   variantId?: string | null
-  slotDefinitionId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  slotDefinitionId?: string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutListingSlotInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOldBatchInput
@@ -1316,21 +1316,21 @@ export type ListingSlotUpdateToOneWithWhereWithoutReschedulesAsOldBatchInput = {
 
 export type ListingSlotUpdateWithoutReschedulesAsOldBatchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
-  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
-  variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutListingSlotNestedInput
+  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
+  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
+  variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
   reschedulesAsNewBatch?: Prisma.RescheduleUpdateManyWithoutNewBatchNestedInput
   reschedulesAsOldSlot?: Prisma.RescheduleUpdateManyWithoutOldSlotNestedInput
   reschedulesAsNewSlot?: Prisma.RescheduleUpdateManyWithoutNewSlotNestedInput
@@ -1340,17 +1340,17 @@ export type ListingSlotUncheckedUpdateWithoutReschedulesAsOldBatchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutListingSlotNestedInput
   reschedulesAsNewBatch?: Prisma.RescheduleUncheckedUpdateManyWithoutNewBatchNestedInput
@@ -1371,21 +1371,21 @@ export type ListingSlotUpdateToOneWithWhereWithoutReschedulesAsNewBatchInput = {
 
 export type ListingSlotUpdateWithoutReschedulesAsNewBatchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
-  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
-  variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutListingSlotNestedInput
+  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
+  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
+  variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUpdateManyWithoutOldBatchNestedInput
   reschedulesAsOldSlot?: Prisma.RescheduleUpdateManyWithoutOldSlotNestedInput
   reschedulesAsNewSlot?: Prisma.RescheduleUpdateManyWithoutNewSlotNestedInput
@@ -1395,17 +1395,17 @@ export type ListingSlotUncheckedUpdateWithoutReschedulesAsNewBatchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutListingSlotNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedUpdateManyWithoutOldBatchNestedInput
@@ -1426,21 +1426,21 @@ export type ListingSlotUpdateToOneWithWhereWithoutReschedulesAsOldSlotInput = {
 
 export type ListingSlotUpdateWithoutReschedulesAsOldSlotInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
-  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
-  variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutListingSlotNestedInput
+  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
+  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
+  variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUpdateManyWithoutOldBatchNestedInput
   reschedulesAsNewBatch?: Prisma.RescheduleUpdateManyWithoutNewBatchNestedInput
   reschedulesAsNewSlot?: Prisma.RescheduleUpdateManyWithoutNewSlotNestedInput
@@ -1450,17 +1450,17 @@ export type ListingSlotUncheckedUpdateWithoutReschedulesAsOldSlotInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutListingSlotNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedUpdateManyWithoutOldBatchNestedInput
@@ -1481,21 +1481,21 @@ export type ListingSlotUpdateToOneWithWhereWithoutReschedulesAsNewSlotInput = {
 
 export type ListingSlotUpdateWithoutReschedulesAsNewSlotInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
-  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
-  variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutListingSlotNestedInput
+  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
+  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
+  variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUpdateManyWithoutOldBatchNestedInput
   reschedulesAsNewBatch?: Prisma.RescheduleUpdateManyWithoutNewBatchNestedInput
   reschedulesAsOldSlot?: Prisma.RescheduleUpdateManyWithoutOldSlotNestedInput
@@ -1505,17 +1505,17 @@ export type ListingSlotUncheckedUpdateWithoutReschedulesAsNewSlotInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutListingSlotNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedUpdateManyWithoutOldBatchNestedInput
@@ -1525,20 +1525,20 @@ export type ListingSlotUncheckedUpdateWithoutReschedulesAsNewSlotInput = {
 
 export type ListingSlotCreateWithoutSlotDefinitionInput = {
   id?: string
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
+  bookings?: Prisma.BookingCreateNestedManyWithoutListingSlotInput
   listing: Prisma.ListingCreateNestedOneWithoutSlotsInput
   variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotsInput
-  bookings?: Prisma.BookingCreateNestedManyWithoutListingSlotInput
   reschedulesAsOldBatch?: Prisma.RescheduleCreateNestedManyWithoutOldBatchInput
   reschedulesAsNewBatch?: Prisma.RescheduleCreateNestedManyWithoutNewBatchInput
   reschedulesAsOldSlot?: Prisma.RescheduleCreateNestedManyWithoutOldSlotInput
@@ -1549,16 +1549,16 @@ export type ListingSlotUncheckedCreateWithoutSlotDefinitionInput = {
   id?: string
   listingId: string
   variantId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutListingSlotInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOldBatchInput
@@ -1596,36 +1596,36 @@ export type ListingSlotUpdateManyWithWhereWithoutSlotDefinitionInput = {
 export type ListingSlotCreateManyVariantInput = {
   id?: string
   listingId: string
-  slotDefinitionId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  slotDefinitionId?: string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
 }
 
 export type ListingSlotUpdateWithoutVariantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
-  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutListingSlotNestedInput
+  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
+  slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUpdateManyWithoutOldBatchNestedInput
   reschedulesAsNewBatch?: Prisma.RescheduleUpdateManyWithoutNewBatchNestedInput
   reschedulesAsOldSlot?: Prisma.RescheduleUpdateManyWithoutOldSlotNestedInput
@@ -1635,17 +1635,17 @@ export type ListingSlotUpdateWithoutVariantInput = {
 export type ListingSlotUncheckedUpdateWithoutVariantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
-  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutListingSlotNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedUpdateManyWithoutOldBatchNestedInput
@@ -1657,53 +1657,53 @@ export type ListingSlotUncheckedUpdateWithoutVariantInput = {
 export type ListingSlotUncheckedUpdateManyWithoutVariantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
-  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ListingSlotCreateManyListingInput = {
   id?: string
   variantId?: string | null
-  slotDefinitionId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  slotDefinitionId?: string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
 }
 
 export type ListingSlotUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookings?: Prisma.BookingUpdateManyWithoutListingSlotNestedInput
   slotDefinition?: Prisma.SlotDefinitionUpdateOneWithoutSlotsNestedInput
   variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
-  bookings?: Prisma.BookingUpdateManyWithoutListingSlotNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUpdateManyWithoutOldBatchNestedInput
   reschedulesAsNewBatch?: Prisma.RescheduleUpdateManyWithoutNewBatchNestedInput
   reschedulesAsOldSlot?: Prisma.RescheduleUpdateManyWithoutOldSlotNestedInput
@@ -1713,17 +1713,17 @@ export type ListingSlotUpdateWithoutListingInput = {
 export type ListingSlotUncheckedUpdateWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutListingSlotNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedUpdateManyWithoutOldBatchNestedInput
@@ -1735,17 +1735,17 @@ export type ListingSlotUncheckedUpdateWithoutListingInput = {
 export type ListingSlotUncheckedUpdateManyWithoutListingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slotDefinitionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -1753,35 +1753,35 @@ export type ListingSlotCreateManySlotDefinitionInput = {
   id?: string
   listingId: string
   variantId?: string | null
-  batchStartDate?: Date | string | null
-  batchEndDate?: Date | string | null
-  slotDate?: Date | string | null
-  startTime?: string | null
-  endTime?: string | null
   basePrice: number
   totalCapacity: number
   availableCount: number
   isActive?: boolean
   createdAt?: Date | string
+  endTime?: string | null
+  slotDate?: Date | string | null
+  startTime?: string | null
+  batchEndDate?: Date | string | null
+  batchStartDate?: Date | string | null
   formatType?: string | null
 }
 
 export type ListingSlotUpdateWithoutSlotDefinitionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookings?: Prisma.BookingUpdateManyWithoutListingSlotNestedInput
   listing?: Prisma.ListingUpdateOneRequiredWithoutSlotsNestedInput
   variant?: Prisma.ListingVariantUpdateOneWithoutSlotsNestedInput
-  bookings?: Prisma.BookingUpdateManyWithoutListingSlotNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUpdateManyWithoutOldBatchNestedInput
   reschedulesAsNewBatch?: Prisma.RescheduleUpdateManyWithoutNewBatchNestedInput
   reschedulesAsOldSlot?: Prisma.RescheduleUpdateManyWithoutOldSlotNestedInput
@@ -1792,16 +1792,16 @@ export type ListingSlotUncheckedUpdateWithoutSlotDefinitionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutListingSlotNestedInput
   reschedulesAsOldBatch?: Prisma.RescheduleUncheckedUpdateManyWithoutOldBatchNestedInput
@@ -1814,16 +1814,16 @@ export type ListingSlotUncheckedUpdateManyWithoutSlotDefinitionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   listingId?: Prisma.StringFieldUpdateOperationsInput | string
   variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePrice?: Prisma.IntFieldUpdateOperationsInput | number
   totalCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   availableCount?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slotDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batchStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   formatType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -1898,22 +1898,22 @@ export type ListingSlotSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   id?: boolean
   listingId?: boolean
   variantId?: boolean
-  slotDefinitionId?: boolean
-  batchStartDate?: boolean
-  batchEndDate?: boolean
-  slotDate?: boolean
-  startTime?: boolean
-  endTime?: boolean
   basePrice?: boolean
   totalCapacity?: boolean
   availableCount?: boolean
   isActive?: boolean
   createdAt?: boolean
+  endTime?: boolean
+  slotDate?: boolean
+  slotDefinitionId?: boolean
+  startTime?: boolean
+  batchEndDate?: boolean
+  batchStartDate?: boolean
   formatType?: boolean
-  slotDefinition?: boolean | Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>
-  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
-  variant?: boolean | Prisma.ListingSlot$variantArgs<ExtArgs>
   bookings?: boolean | Prisma.ListingSlot$bookingsArgs<ExtArgs>
+  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
+  slotDefinition?: boolean | Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>
+  variant?: boolean | Prisma.ListingSlot$variantArgs<ExtArgs>
   reschedulesAsOldBatch?: boolean | Prisma.ListingSlot$reschedulesAsOldBatchArgs<ExtArgs>
   reschedulesAsNewBatch?: boolean | Prisma.ListingSlot$reschedulesAsNewBatchArgs<ExtArgs>
   reschedulesAsOldSlot?: boolean | Prisma.ListingSlot$reschedulesAsOldSlotArgs<ExtArgs>
@@ -1925,20 +1925,20 @@ export type ListingSlotSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   id?: boolean
   listingId?: boolean
   variantId?: boolean
-  slotDefinitionId?: boolean
-  batchStartDate?: boolean
-  batchEndDate?: boolean
-  slotDate?: boolean
-  startTime?: boolean
-  endTime?: boolean
   basePrice?: boolean
   totalCapacity?: boolean
   availableCount?: boolean
   isActive?: boolean
   createdAt?: boolean
+  endTime?: boolean
+  slotDate?: boolean
+  slotDefinitionId?: boolean
+  startTime?: boolean
+  batchEndDate?: boolean
+  batchStartDate?: boolean
   formatType?: boolean
-  slotDefinition?: boolean | Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
+  slotDefinition?: boolean | Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>
   variant?: boolean | Prisma.ListingSlot$variantArgs<ExtArgs>
 }, ExtArgs["result"]["listingSlot"]>
 
@@ -1946,20 +1946,20 @@ export type ListingSlotSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   id?: boolean
   listingId?: boolean
   variantId?: boolean
-  slotDefinitionId?: boolean
-  batchStartDate?: boolean
-  batchEndDate?: boolean
-  slotDate?: boolean
-  startTime?: boolean
-  endTime?: boolean
   basePrice?: boolean
   totalCapacity?: boolean
   availableCount?: boolean
   isActive?: boolean
   createdAt?: boolean
+  endTime?: boolean
+  slotDate?: boolean
+  slotDefinitionId?: boolean
+  startTime?: boolean
+  batchEndDate?: boolean
+  batchStartDate?: boolean
   formatType?: boolean
-  slotDefinition?: boolean | Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
+  slotDefinition?: boolean | Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>
   variant?: boolean | Prisma.ListingSlot$variantArgs<ExtArgs>
 }, ExtArgs["result"]["listingSlot"]>
 
@@ -1967,26 +1967,26 @@ export type ListingSlotSelectScalar = {
   id?: boolean
   listingId?: boolean
   variantId?: boolean
-  slotDefinitionId?: boolean
-  batchStartDate?: boolean
-  batchEndDate?: boolean
-  slotDate?: boolean
-  startTime?: boolean
-  endTime?: boolean
   basePrice?: boolean
   totalCapacity?: boolean
   availableCount?: boolean
   isActive?: boolean
   createdAt?: boolean
+  endTime?: boolean
+  slotDate?: boolean
+  slotDefinitionId?: boolean
+  startTime?: boolean
+  batchEndDate?: boolean
+  batchStartDate?: boolean
   formatType?: boolean
 }
 
-export type ListingSlotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "variantId" | "slotDefinitionId" | "batchStartDate" | "batchEndDate" | "slotDate" | "startTime" | "endTime" | "basePrice" | "totalCapacity" | "availableCount" | "isActive" | "createdAt" | "formatType", ExtArgs["result"]["listingSlot"]>
+export type ListingSlotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "variantId" | "basePrice" | "totalCapacity" | "availableCount" | "isActive" | "createdAt" | "endTime" | "slotDate" | "slotDefinitionId" | "startTime" | "batchEndDate" | "batchStartDate" | "formatType", ExtArgs["result"]["listingSlot"]>
 export type ListingSlotInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  slotDefinition?: boolean | Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>
-  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
-  variant?: boolean | Prisma.ListingSlot$variantArgs<ExtArgs>
   bookings?: boolean | Prisma.ListingSlot$bookingsArgs<ExtArgs>
+  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
+  slotDefinition?: boolean | Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>
+  variant?: boolean | Prisma.ListingSlot$variantArgs<ExtArgs>
   reschedulesAsOldBatch?: boolean | Prisma.ListingSlot$reschedulesAsOldBatchArgs<ExtArgs>
   reschedulesAsNewBatch?: boolean | Prisma.ListingSlot$reschedulesAsNewBatchArgs<ExtArgs>
   reschedulesAsOldSlot?: boolean | Prisma.ListingSlot$reschedulesAsOldSlotArgs<ExtArgs>
@@ -1994,23 +1994,23 @@ export type ListingSlotInclude<ExtArgs extends runtime.Types.Extensions.Internal
   _count?: boolean | Prisma.ListingSlotCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ListingSlotIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  slotDefinition?: boolean | Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
+  slotDefinition?: boolean | Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>
   variant?: boolean | Prisma.ListingSlot$variantArgs<ExtArgs>
 }
 export type ListingSlotIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  slotDefinition?: boolean | Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
+  slotDefinition?: boolean | Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>
   variant?: boolean | Prisma.ListingSlot$variantArgs<ExtArgs>
 }
 
 export type $ListingSlotPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ListingSlot"
   objects: {
-    slotDefinition: Prisma.$SlotDefinitionPayload<ExtArgs> | null
-    listing: Prisma.$ListingPayload<ExtArgs>
-    variant: Prisma.$ListingVariantPayload<ExtArgs> | null
     bookings: Prisma.$BookingPayload<ExtArgs>[]
+    listing: Prisma.$ListingPayload<ExtArgs>
+    slotDefinition: Prisma.$SlotDefinitionPayload<ExtArgs> | null
+    variant: Prisma.$ListingVariantPayload<ExtArgs> | null
     reschedulesAsOldBatch: Prisma.$ReschedulePayload<ExtArgs>[]
     reschedulesAsNewBatch: Prisma.$ReschedulePayload<ExtArgs>[]
     reschedulesAsOldSlot: Prisma.$ReschedulePayload<ExtArgs>[]
@@ -2020,17 +2020,17 @@ export type $ListingSlotPayload<ExtArgs extends runtime.Types.Extensions.Interna
     id: string
     listingId: string
     variantId: string | null
-    slotDefinitionId: string | null
-    batchStartDate: Date | null
-    batchEndDate: Date | null
-    slotDate: Date | null
-    startTime: string | null
-    endTime: string | null
     basePrice: number
     totalCapacity: number
     availableCount: number
     isActive: boolean
     createdAt: Date
+    endTime: string | null
+    slotDate: Date | null
+    slotDefinitionId: string | null
+    startTime: string | null
+    batchEndDate: Date | null
+    batchStartDate: Date | null
     formatType: string | null
   }, ExtArgs["result"]["listingSlot"]>
   composites: {}
@@ -2426,10 +2426,10 @@ readonly fields: ListingSlotFieldRefs;
  */
 export interface Prisma__ListingSlotClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  slotDefinition<T extends Prisma.ListingSlot$slotDefinitionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>>): Prisma.Prisma__SlotDefinitionClient<runtime.Types.Result.GetResult<Prisma.$SlotDefinitionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  listing<T extends Prisma.ListingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingDefaultArgs<ExtArgs>>): Prisma.Prisma__ListingClient<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  variant<T extends Prisma.ListingSlot$variantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingSlot$variantArgs<ExtArgs>>): Prisma.Prisma__ListingVariantClient<runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   bookings<T extends Prisma.ListingSlot$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingSlot$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  listing<T extends Prisma.ListingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingDefaultArgs<ExtArgs>>): Prisma.Prisma__ListingClient<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  slotDefinition<T extends Prisma.ListingSlot$slotDefinitionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingSlot$slotDefinitionArgs<ExtArgs>>): Prisma.Prisma__SlotDefinitionClient<runtime.Types.Result.GetResult<Prisma.$SlotDefinitionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  variant<T extends Prisma.ListingSlot$variantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingSlot$variantArgs<ExtArgs>>): Prisma.Prisma__ListingVariantClient<runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   reschedulesAsOldBatch<T extends Prisma.ListingSlot$reschedulesAsOldBatchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingSlot$reschedulesAsOldBatchArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReschedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reschedulesAsNewBatch<T extends Prisma.ListingSlot$reschedulesAsNewBatchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingSlot$reschedulesAsNewBatchArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReschedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reschedulesAsOldSlot<T extends Prisma.ListingSlot$reschedulesAsOldSlotArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingSlot$reschedulesAsOldSlotArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReschedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2466,17 +2466,17 @@ export interface ListingSlotFieldRefs {
   readonly id: Prisma.FieldRef<"ListingSlot", 'String'>
   readonly listingId: Prisma.FieldRef<"ListingSlot", 'String'>
   readonly variantId: Prisma.FieldRef<"ListingSlot", 'String'>
-  readonly slotDefinitionId: Prisma.FieldRef<"ListingSlot", 'String'>
-  readonly batchStartDate: Prisma.FieldRef<"ListingSlot", 'DateTime'>
-  readonly batchEndDate: Prisma.FieldRef<"ListingSlot", 'DateTime'>
-  readonly slotDate: Prisma.FieldRef<"ListingSlot", 'DateTime'>
-  readonly startTime: Prisma.FieldRef<"ListingSlot", 'String'>
-  readonly endTime: Prisma.FieldRef<"ListingSlot", 'String'>
   readonly basePrice: Prisma.FieldRef<"ListingSlot", 'Int'>
   readonly totalCapacity: Prisma.FieldRef<"ListingSlot", 'Int'>
   readonly availableCount: Prisma.FieldRef<"ListingSlot", 'Int'>
   readonly isActive: Prisma.FieldRef<"ListingSlot", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"ListingSlot", 'DateTime'>
+  readonly endTime: Prisma.FieldRef<"ListingSlot", 'String'>
+  readonly slotDate: Prisma.FieldRef<"ListingSlot", 'DateTime'>
+  readonly slotDefinitionId: Prisma.FieldRef<"ListingSlot", 'String'>
+  readonly startTime: Prisma.FieldRef<"ListingSlot", 'String'>
+  readonly batchEndDate: Prisma.FieldRef<"ListingSlot", 'DateTime'>
+  readonly batchStartDate: Prisma.FieldRef<"ListingSlot", 'DateTime'>
   readonly formatType: Prisma.FieldRef<"ListingSlot", 'String'>
 }
     
@@ -2874,6 +2874,30 @@ export type ListingSlotDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * ListingSlot.bookings
+ */
+export type ListingSlot$bookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Booking
+   */
+  select?: Prisma.BookingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Booking
+   */
+  omit?: Prisma.BookingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookingInclude<ExtArgs> | null
+  where?: Prisma.BookingWhereInput
+  orderBy?: Prisma.BookingOrderByWithRelationInput | Prisma.BookingOrderByWithRelationInput[]
+  cursor?: Prisma.BookingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
+}
+
+/**
  * ListingSlot.slotDefinition
  */
 export type ListingSlot$slotDefinitionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2909,30 +2933,6 @@ export type ListingSlot$variantArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   include?: Prisma.ListingVariantInclude<ExtArgs> | null
   where?: Prisma.ListingVariantWhereInput
-}
-
-/**
- * ListingSlot.bookings
- */
-export type ListingSlot$bookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Booking
-   */
-  select?: Prisma.BookingSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Booking
-   */
-  omit?: Prisma.BookingOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BookingInclude<ExtArgs> | null
-  where?: Prisma.BookingWhereInput
-  orderBy?: Prisma.BookingOrderByWithRelationInput | Prisma.BookingOrderByWithRelationInput[]
-  cursor?: Prisma.BookingWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
 }
 
 /**

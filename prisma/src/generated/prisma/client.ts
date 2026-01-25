@@ -169,6 +169,16 @@ export type PrimaryDivision = Prisma.PrimaryDivisionModel
  */
 export type Reschedule = Prisma.RescheduleModel
 /**
+ * Model Review
+ * 
+ */
+export type Review = Prisma.ReviewModel
+/**
+ * Model ReviewHelpfulVote
+ * 
+ */
+export type ReviewHelpfulVote = Prisma.ReviewHelpfulVoteModel
+/**
  * Model SecondaryDivision
  * 
  */

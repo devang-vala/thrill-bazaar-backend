@@ -197,10 +197,10 @@ export type SlotDefinitionWhereInput = {
   endTime?: Prisma.StringFilter<"SlotDefinition"> | string
   isActive?: Prisma.BoolFilter<"SlotDefinition"> | boolean
   createdAt?: Prisma.DateTimeFilter<"SlotDefinition"> | Date | string
+  dateRanges?: Prisma.InventoryDateRangeListRelationFilter
+  slots?: Prisma.ListingSlotListRelationFilter
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
-  slots?: Prisma.ListingSlotListRelationFilter
-  dateRanges?: Prisma.InventoryDateRangeListRelationFilter
 }
 
 export type SlotDefinitionOrderByWithRelationInput = {
@@ -211,10 +211,10 @@ export type SlotDefinitionOrderByWithRelationInput = {
   endTime?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  dateRanges?: Prisma.InventoryDateRangeOrderByRelationAggregateInput
+  slots?: Prisma.ListingSlotOrderByRelationAggregateInput
   listing?: Prisma.ListingOrderByWithRelationInput
   variant?: Prisma.ListingVariantOrderByWithRelationInput
-  slots?: Prisma.ListingSlotOrderByRelationAggregateInput
-  dateRanges?: Prisma.InventoryDateRangeOrderByRelationAggregateInput
 }
 
 export type SlotDefinitionWhereUniqueInput = Prisma.AtLeast<{
@@ -228,10 +228,10 @@ export type SlotDefinitionWhereUniqueInput = Prisma.AtLeast<{
   endTime?: Prisma.StringFilter<"SlotDefinition"> | string
   isActive?: Prisma.BoolFilter<"SlotDefinition"> | boolean
   createdAt?: Prisma.DateTimeFilter<"SlotDefinition"> | Date | string
+  dateRanges?: Prisma.InventoryDateRangeListRelationFilter
+  slots?: Prisma.ListingSlotListRelationFilter
   listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   variant?: Prisma.XOR<Prisma.ListingVariantNullableScalarRelationFilter, Prisma.ListingVariantWhereInput> | null
-  slots?: Prisma.ListingSlotListRelationFilter
-  dateRanges?: Prisma.InventoryDateRangeListRelationFilter
 }, "id">
 
 export type SlotDefinitionOrderByWithAggregationInput = {
@@ -266,10 +266,10 @@ export type SlotDefinitionCreateInput = {
   endTime: string
   isActive?: boolean
   createdAt?: Date | string
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutSlotDefinitionInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutSlotDefinitionInput
   listing: Prisma.ListingCreateNestedOneWithoutSlotDefinitionsInput
   variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotDefinitionsInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutSlotDefinitionInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutSlotDefinitionInput
 }
 
 export type SlotDefinitionUncheckedCreateInput = {
@@ -280,8 +280,8 @@ export type SlotDefinitionUncheckedCreateInput = {
   endTime: string
   isActive?: boolean
   createdAt?: Date | string
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutSlotDefinitionInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutSlotDefinitionInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutSlotDefinitionInput
 }
 
 export type SlotDefinitionUpdateInput = {
@@ -290,10 +290,10 @@ export type SlotDefinitionUpdateInput = {
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutSlotDefinitionNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutSlotDefinitionNestedInput
   listing?: Prisma.ListingUpdateOneRequiredWithoutSlotDefinitionsNestedInput
   variant?: Prisma.ListingVariantUpdateOneWithoutSlotDefinitionsNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutSlotDefinitionNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutSlotDefinitionNestedInput
 }
 
 export type SlotDefinitionUncheckedUpdateInput = {
@@ -304,8 +304,8 @@ export type SlotDefinitionUncheckedUpdateInput = {
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutSlotDefinitionNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutSlotDefinitionNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutSlotDefinitionNestedInput
 }
 
 export type SlotDefinitionCreateManyInput = {
@@ -503,9 +503,9 @@ export type SlotDefinitionCreateWithoutDateRangesInput = {
   endTime: string
   isActive?: boolean
   createdAt?: Date | string
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutSlotDefinitionInput
   listing: Prisma.ListingCreateNestedOneWithoutSlotDefinitionsInput
   variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotDefinitionsInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutSlotDefinitionInput
 }
 
 export type SlotDefinitionUncheckedCreateWithoutDateRangesInput = {
@@ -541,9 +541,9 @@ export type SlotDefinitionUpdateWithoutDateRangesInput = {
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slots?: Prisma.ListingSlotUpdateManyWithoutSlotDefinitionNestedInput
   listing?: Prisma.ListingUpdateOneRequiredWithoutSlotDefinitionsNestedInput
   variant?: Prisma.ListingVariantUpdateOneWithoutSlotDefinitionsNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutSlotDefinitionNestedInput
 }
 
 export type SlotDefinitionUncheckedUpdateWithoutDateRangesInput = {
@@ -563,9 +563,9 @@ export type SlotDefinitionCreateWithoutSlotsInput = {
   endTime: string
   isActive?: boolean
   createdAt?: Date | string
+  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutSlotDefinitionInput
   listing: Prisma.ListingCreateNestedOneWithoutSlotDefinitionsInput
   variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotDefinitionsInput
-  dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutSlotDefinitionInput
 }
 
 export type SlotDefinitionUncheckedCreateWithoutSlotsInput = {
@@ -601,9 +601,9 @@ export type SlotDefinitionUpdateWithoutSlotsInput = {
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutSlotDefinitionNestedInput
   listing?: Prisma.ListingUpdateOneRequiredWithoutSlotDefinitionsNestedInput
   variant?: Prisma.ListingVariantUpdateOneWithoutSlotDefinitionsNestedInput
-  dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutSlotDefinitionNestedInput
 }
 
 export type SlotDefinitionUncheckedUpdateWithoutSlotsInput = {
@@ -623,9 +623,9 @@ export type SlotDefinitionCreateWithoutVariantInput = {
   endTime: string
   isActive?: boolean
   createdAt?: Date | string
-  listing: Prisma.ListingCreateNestedOneWithoutSlotDefinitionsInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutSlotDefinitionInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutSlotDefinitionInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutSlotDefinitionInput
+  listing: Prisma.ListingCreateNestedOneWithoutSlotDefinitionsInput
 }
 
 export type SlotDefinitionUncheckedCreateWithoutVariantInput = {
@@ -635,8 +635,8 @@ export type SlotDefinitionUncheckedCreateWithoutVariantInput = {
   endTime: string
   isActive?: boolean
   createdAt?: Date | string
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutSlotDefinitionInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutSlotDefinitionInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutSlotDefinitionInput
 }
 
 export type SlotDefinitionCreateOrConnectWithoutVariantInput = {
@@ -684,9 +684,9 @@ export type SlotDefinitionCreateWithoutListingInput = {
   endTime: string
   isActive?: boolean
   createdAt?: Date | string
-  variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotDefinitionsInput
-  slots?: Prisma.ListingSlotCreateNestedManyWithoutSlotDefinitionInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutSlotDefinitionInput
+  slots?: Prisma.ListingSlotCreateNestedManyWithoutSlotDefinitionInput
+  variant?: Prisma.ListingVariantCreateNestedOneWithoutSlotDefinitionsInput
 }
 
 export type SlotDefinitionUncheckedCreateWithoutListingInput = {
@@ -696,8 +696,8 @@ export type SlotDefinitionUncheckedCreateWithoutListingInput = {
   endTime: string
   isActive?: boolean
   createdAt?: Date | string
-  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutSlotDefinitionInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutSlotDefinitionInput
+  slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutSlotDefinitionInput
 }
 
 export type SlotDefinitionCreateOrConnectWithoutListingInput = {
@@ -741,9 +741,9 @@ export type SlotDefinitionUpdateWithoutVariantInput = {
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotDefinitionsNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutSlotDefinitionNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutSlotDefinitionNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutSlotDefinitionNestedInput
+  listing?: Prisma.ListingUpdateOneRequiredWithoutSlotDefinitionsNestedInput
 }
 
 export type SlotDefinitionUncheckedUpdateWithoutVariantInput = {
@@ -753,8 +753,8 @@ export type SlotDefinitionUncheckedUpdateWithoutVariantInput = {
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutSlotDefinitionNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutSlotDefinitionNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutSlotDefinitionNestedInput
 }
 
 export type SlotDefinitionUncheckedUpdateManyWithoutVariantInput = {
@@ -781,9 +781,9 @@ export type SlotDefinitionUpdateWithoutListingInput = {
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variant?: Prisma.ListingVariantUpdateOneWithoutSlotDefinitionsNestedInput
-  slots?: Prisma.ListingSlotUpdateManyWithoutSlotDefinitionNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutSlotDefinitionNestedInput
+  slots?: Prisma.ListingSlotUpdateManyWithoutSlotDefinitionNestedInput
+  variant?: Prisma.ListingVariantUpdateOneWithoutSlotDefinitionsNestedInput
 }
 
 export type SlotDefinitionUncheckedUpdateWithoutListingInput = {
@@ -793,8 +793,8 @@ export type SlotDefinitionUncheckedUpdateWithoutListingInput = {
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutSlotDefinitionNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutSlotDefinitionNestedInput
+  slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutSlotDefinitionNestedInput
 }
 
 export type SlotDefinitionUncheckedUpdateManyWithoutListingInput = {
@@ -812,13 +812,13 @@ export type SlotDefinitionUncheckedUpdateManyWithoutListingInput = {
  */
 
 export type SlotDefinitionCountOutputType = {
-  slots: number
   dateRanges: number
+  slots: number
 }
 
 export type SlotDefinitionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  slots?: boolean | SlotDefinitionCountOutputTypeCountSlotsArgs
   dateRanges?: boolean | SlotDefinitionCountOutputTypeCountDateRangesArgs
+  slots?: boolean | SlotDefinitionCountOutputTypeCountSlotsArgs
 }
 
 /**
@@ -834,15 +834,15 @@ export type SlotDefinitionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Typ
 /**
  * SlotDefinitionCountOutputType without action
  */
-export type SlotDefinitionCountOutputTypeCountSlotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ListingSlotWhereInput
+export type SlotDefinitionCountOutputTypeCountDateRangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InventoryDateRangeWhereInput
 }
 
 /**
  * SlotDefinitionCountOutputType without action
  */
-export type SlotDefinitionCountOutputTypeCountDateRangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InventoryDateRangeWhereInput
+export type SlotDefinitionCountOutputTypeCountSlotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingSlotWhereInput
 }
 
 
@@ -854,10 +854,10 @@ export type SlotDefinitionSelect<ExtArgs extends runtime.Types.Extensions.Intern
   endTime?: boolean
   isActive?: boolean
   createdAt?: boolean
+  dateRanges?: boolean | Prisma.SlotDefinition$dateRangesArgs<ExtArgs>
+  slots?: boolean | Prisma.SlotDefinition$slotsArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.SlotDefinition$variantArgs<ExtArgs>
-  slots?: boolean | Prisma.SlotDefinition$slotsArgs<ExtArgs>
-  dateRanges?: boolean | Prisma.SlotDefinition$dateRangesArgs<ExtArgs>
   _count?: boolean | Prisma.SlotDefinitionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["slotDefinition"]>
 
@@ -897,10 +897,10 @@ export type SlotDefinitionSelectScalar = {
 
 export type SlotDefinitionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "variantId" | "startTime" | "endTime" | "isActive" | "createdAt", ExtArgs["result"]["slotDefinition"]>
 export type SlotDefinitionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  dateRanges?: boolean | Prisma.SlotDefinition$dateRangesArgs<ExtArgs>
+  slots?: boolean | Prisma.SlotDefinition$slotsArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.SlotDefinition$variantArgs<ExtArgs>
-  slots?: boolean | Prisma.SlotDefinition$slotsArgs<ExtArgs>
-  dateRanges?: boolean | Prisma.SlotDefinition$dateRangesArgs<ExtArgs>
   _count?: boolean | Prisma.SlotDefinitionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SlotDefinitionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -915,10 +915,10 @@ export type SlotDefinitionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type $SlotDefinitionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SlotDefinition"
   objects: {
+    dateRanges: Prisma.$InventoryDateRangePayload<ExtArgs>[]
+    slots: Prisma.$ListingSlotPayload<ExtArgs>[]
     listing: Prisma.$ListingPayload<ExtArgs>
     variant: Prisma.$ListingVariantPayload<ExtArgs> | null
-    slots: Prisma.$ListingSlotPayload<ExtArgs>[]
-    dateRanges: Prisma.$InventoryDateRangePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1322,10 +1322,10 @@ readonly fields: SlotDefinitionFieldRefs;
  */
 export interface Prisma__SlotDefinitionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  dateRanges<T extends Prisma.SlotDefinition$dateRangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SlotDefinition$dateRangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryDateRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  slots<T extends Prisma.SlotDefinition$slotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SlotDefinition$slotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   listing<T extends Prisma.ListingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingDefaultArgs<ExtArgs>>): Prisma.Prisma__ListingClient<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   variant<T extends Prisma.SlotDefinition$variantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SlotDefinition$variantArgs<ExtArgs>>): Prisma.Prisma__ListingVariantClient<runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  slots<T extends Prisma.SlotDefinition$slotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SlotDefinition$slotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  dateRanges<T extends Prisma.SlotDefinition$dateRangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SlotDefinition$dateRangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryDateRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1758,22 +1758,27 @@ export type SlotDefinitionDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * SlotDefinition.variant
+ * SlotDefinition.dateRanges
  */
-export type SlotDefinition$variantArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type SlotDefinition$dateRangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ListingVariant
+   * Select specific fields to fetch from the InventoryDateRange
    */
-  select?: Prisma.ListingVariantSelect<ExtArgs> | null
+  select?: Prisma.InventoryDateRangeSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ListingVariant
+   * Omit specific fields from the InventoryDateRange
    */
-  omit?: Prisma.ListingVariantOmit<ExtArgs> | null
+  omit?: Prisma.InventoryDateRangeOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ListingVariantInclude<ExtArgs> | null
-  where?: Prisma.ListingVariantWhereInput
+  include?: Prisma.InventoryDateRangeInclude<ExtArgs> | null
+  where?: Prisma.InventoryDateRangeWhereInput
+  orderBy?: Prisma.InventoryDateRangeOrderByWithRelationInput | Prisma.InventoryDateRangeOrderByWithRelationInput[]
+  cursor?: Prisma.InventoryDateRangeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InventoryDateRangeScalarFieldEnum | Prisma.InventoryDateRangeScalarFieldEnum[]
 }
 
 /**
@@ -1801,27 +1806,22 @@ export type SlotDefinition$slotsArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * SlotDefinition.dateRanges
+ * SlotDefinition.variant
  */
-export type SlotDefinition$dateRangesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type SlotDefinition$variantArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InventoryDateRange
+   * Select specific fields to fetch from the ListingVariant
    */
-  select?: Prisma.InventoryDateRangeSelect<ExtArgs> | null
+  select?: Prisma.ListingVariantSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InventoryDateRange
+   * Omit specific fields from the ListingVariant
    */
-  omit?: Prisma.InventoryDateRangeOmit<ExtArgs> | null
+  omit?: Prisma.ListingVariantOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InventoryDateRangeInclude<ExtArgs> | null
-  where?: Prisma.InventoryDateRangeWhereInput
-  orderBy?: Prisma.InventoryDateRangeOrderByWithRelationInput | Prisma.InventoryDateRangeOrderByWithRelationInput[]
-  cursor?: Prisma.InventoryDateRangeWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.InventoryDateRangeScalarFieldEnum | Prisma.InventoryDateRangeScalarFieldEnum[]
+  include?: Prisma.ListingVariantInclude<ExtArgs> | null
+  where?: Prisma.ListingVariantWhereInput
 }
 
 /**
