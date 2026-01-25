@@ -7,6 +7,8 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Badge.js'
+export type * from './models/ListingBadge.js'
 export type * from './models/Booking.js'
 export type * from './models/Category.js'
 export type * from './models/SubCategory.js'
@@ -36,6 +38,8 @@ export type * from './models/Review.js'
 export type * from './models/ReviewHelpfulVote.js'
 export type * from './models/SecondaryDivision.js'
 export type * from './models/SlotDefinition.js'
+export type * from './models/Tag.js'
+export type * from './models/ListingTag.js'
 export type * from './models/UserAddress.js'
 export type * from './models/User.js'
 export type * from './commonInputTypes.js'

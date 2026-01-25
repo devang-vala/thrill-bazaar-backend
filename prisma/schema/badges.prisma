@@ -1,0 +1,44 @@
+model Badge {
+  id               String    @id @default(uuid()) @map("badge_id")
+  badgeName        String    @unique @map("badge_name")
+  badgeType        BadgeType @map("badge_type")
+  badgeIconUrl     String?   @map("badge_icon_url")
+  badgeDescription String?   @map("badge_description") @db.Text
+  badgeColor       String?   @map("badge_color")
+  displayOrder     Int       @default(0) @map("display_order")
+  isActive         Boolean   @default(true) @map("is_active")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+  createdByAdminId String?   @map("created_by_admin_id")
+
+  // Relations
+  createdByAdmin User?          @relation("BadgeCreator", fields: [createdByAdminId], references: [id], onDelete: SetNull)
+  listingBadges  ListingBadge[]
+
+  @@index([badgeType])
+  @@index([isActive])
+  @@index([displayOrder])
+  @@map("badges")
+}
+
+model ListingBadge {
+  id                String   @id @default(uuid()) @map("listing_badge_id")
+  listingId         String   @map("listing_id")
+  badgeId           String   @map("badge_id")
+  assignedByAdminId String?  @map("assigned_by_admin_id")
+  assignedAt        DateTime @default(now()) @map("assigned_at")
+  isActive          Boolean  @default(true) @map("is_active")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  listing         Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  badge           Badge   @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  assignedByAdmin User?   @relation("BadgeAssigner", fields: [assignedByAdminId], references: [id], onDelete: SetNull)
+
+  @@unique([listingId, badgeId])
+  @@index([listingId])
+  @@index([badgeId])
+  @@index([isActive])
+  @@map("listing_badges")
+}

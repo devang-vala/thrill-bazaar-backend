@@ -28,8 +28,8 @@ export * from "./enums.js"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Bookings
- * const bookings = await prisma.booking.findMany()
+ * // Fetch zero or more Badges
+ * const badges = await prisma.badge.findMany()
  * ```
  * 
  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
@@ -43,6 +43,16 @@ export { Prisma }
 path.join(__dirname, "query_engine-windows.dll.node")
 path.join(process.cwd(), "prisma/src/generated/prisma/query_engine-windows.dll.node")
 
+/**
+ * Model Badge
+ * 
+ */
+export type Badge = Prisma.BadgeModel
+/**
+ * Model ListingBadge
+ * 
+ */
+export type ListingBadge = Prisma.ListingBadgeModel
 /**
  * Model Booking
  * 
@@ -188,6 +198,16 @@ export type SecondaryDivision = Prisma.SecondaryDivisionModel
  * 
  */
 export type SlotDefinition = Prisma.SlotDefinitionModel
+/**
+ * Model Tag
+ * 
+ */
+export type Tag = Prisma.TagModel
+/**
+ * Model ListingTag
+ * 
+ */
+export type ListingTag = Prisma.ListingTagModel
 /**
  * Model UserAddress
  * 

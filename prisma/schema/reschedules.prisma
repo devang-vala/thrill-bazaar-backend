@@ -4,13 +4,13 @@ model Reschedule {
   initiatedByUserId   String           @map("initiated_by_user_id")
   initiatedByRole     RescheduleRole   @map("initiated_by_role")
   operatorId          String           @map("operator_id")
-  rescheduleReason    String?           @map("reschedule_reason") @db.Text
+  rescheduleReason    String?          @map("reschedule_reason") @db.Text
   adminNotes          String?          @map("admin_notes") @db.Text
-  status              RescheduleStatus @map("status") @default(pending)
+  status              RescheduleStatus @default(pending) @map("status")
   rescheduleFeeAmount Decimal          @default(0) @map("reschedule_fee_amount") @db.Decimal(10, 2)
   isPaymentRequired   Boolean          @default(false) @map("is_payment_required")
-  approvedByAdminId   String?           @map("approved_by_admin_id")
-  approvedAt          DateTime?         @map("approved_at")
+  approvedByAdminId   String?          @map("approved_by_admin_id")
+  approvedAt          DateTime?        @map("approved_at")
   createdAt           DateTime         @default(now()) @map("created_at")
   updatedAt           DateTime         @updatedAt @map("updated_at")
 
@@ -33,17 +33,17 @@ model Reschedule {
   newDateRangeId String? @map("new_date_range_id")
 
   // Relations
-  booking         Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-  initiatedBy     User     @relation("RescheduleInitiatedBy", fields: [initiatedByUserId], references: [id], onDelete: Restrict)
-  operator        User     @relation("RescheduleOperator", fields: [operatorId], references: [id], onDelete:  Restrict)
-  approvedByAdmin User?    @relation("RescheduleApprovedBy", fields: [approvedByAdminId], references: [id], onDelete: SetNull)
-  
-  oldBatch        ListingSlot?         @relation("RescheduleOldBatch", fields: [oldBatchId], references: [id], onDelete: SetNull)
-  newBatch        ListingSlot?        @relation("RescheduleNewBatch", fields: [newBatchId], references: [id], onDelete: SetNull)
-  oldSlot         ListingSlot?        @relation("RescheduleOldSlot", fields: [oldSlotId], references: [id], onDelete: SetNull)
-  newSlot         ListingSlot?        @relation("RescheduleNewSlot", fields: [newSlotId], references: [id], onDelete: SetNull)
-  oldDateRange    InventoryDateRange? @relation("RescheduleOldDateRange", fields:  [oldDateRangeId], references: [id], onDelete:  SetNull)
-  newDateRange    InventoryDateRange? @relation("RescheduleNewDateRange", fields: [newDateRangeId], references: [id], onDelete: SetNull)
+  booking         Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  initiatedBy     User    @relation("RescheduleInitiatedBy", fields: [initiatedByUserId], references: [id], onDelete: Restrict)
+  operator        User    @relation("RescheduleOperator", fields: [operatorId], references: [id], onDelete: Restrict)
+  approvedByAdmin User?   @relation("RescheduleApprovedBy", fields: [approvedByAdminId], references: [id], onDelete: SetNull)
+
+  oldBatch     ListingSlot?        @relation("RescheduleOldBatch", fields: [oldBatchId], references: [id], onDelete: SetNull)
+  newBatch     ListingSlot?        @relation("RescheduleNewBatch", fields: [newBatchId], references: [id], onDelete: SetNull)
+  oldSlot      ListingSlot?        @relation("RescheduleOldSlot", fields: [oldSlotId], references: [id], onDelete: SetNull)
+  newSlot      ListingSlot?        @relation("RescheduleNewSlot", fields: [newSlotId], references: [id], onDelete: SetNull)
+  oldDateRange InventoryDateRange? @relation("RescheduleOldDateRange", fields: [oldDateRangeId], references: [id], onDelete: SetNull)
+  newDateRange InventoryDateRange? @relation("RescheduleNewDateRange", fields: [newDateRangeId], references: [id], onDelete: SetNull)
 
   @@index([bookingId])
   @@index([status])

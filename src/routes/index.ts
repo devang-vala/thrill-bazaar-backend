@@ -33,6 +33,8 @@ import OperatorRouter from "./operator.route.js";
 import slotDefinitionRouter from "./slotDefinition.route.js";
 import rescheduleRouter from "./reschedule.route.js";
 import reviewRouter from "./review.routes.js";
+import badgeRouter from "./badge.route.js";
+import tagRouter from "./tag.route.js";
 
 
 const router = new Hono();
@@ -106,5 +108,9 @@ router.route("/reschedules", rescheduleRouter);
 
 // Mount review routes
 router.route("/reviews", reviewRouter);
+
+// Mount badge and tag routes
+router.route("/badges", badgeRouter);
+router.route("/tags", tagRouter);
 
 export default router;

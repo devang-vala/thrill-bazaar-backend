@@ -710,10 +710,6 @@ export type EnumBookingFormatFieldUpdateOperationsInput = {
   set?: $Enums.BookingFormat
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type CategoryCreateNestedOneWithoutSubCategoriesInput = {
   create?: Prisma.XOR<Prisma.CategoryCreateWithoutSubCategoriesInput, Prisma.CategoryUncheckedCreateWithoutSubCategoriesInput>
   connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutSubCategoriesInput

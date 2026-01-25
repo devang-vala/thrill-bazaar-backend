@@ -262,6 +262,10 @@ export type UserWhereInput = {
   operatorReviews?: Prisma.ReviewListRelationFilter
   moderatedReviews?: Prisma.ReviewListRelationFilter
   helpfulVotes?: Prisma.ReviewHelpfulVoteListRelationFilter
+  createdBadges?: Prisma.BadgeListRelationFilter
+  assignedListingBadges?: Prisma.ListingBadgeListRelationFilter
+  createdTags?: Prisma.TagListRelationFilter
+  assignedListingTags?: Prisma.ListingTagListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -295,6 +299,10 @@ export type UserOrderByWithRelationInput = {
   operatorReviews?: Prisma.ReviewOrderByRelationAggregateInput
   moderatedReviews?: Prisma.ReviewOrderByRelationAggregateInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteOrderByRelationAggregateInput
+  createdBadges?: Prisma.BadgeOrderByRelationAggregateInput
+  assignedListingBadges?: Prisma.ListingBadgeOrderByRelationAggregateInput
+  createdTags?: Prisma.TagOrderByRelationAggregateInput
+  assignedListingTags?: Prisma.ListingTagOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -331,6 +339,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   operatorReviews?: Prisma.ReviewListRelationFilter
   moderatedReviews?: Prisma.ReviewListRelationFilter
   helpfulVotes?: Prisma.ReviewHelpfulVoteListRelationFilter
+  createdBadges?: Prisma.BadgeListRelationFilter
+  assignedListingBadges?: Prisma.ListingBadgeListRelationFilter
+  createdTags?: Prisma.TagListRelationFilter
+  assignedListingTags?: Prisma.ListingTagListRelationFilter
 }, "id" | "email" | "phone">
 
 export type UserOrderByWithAggregationInput = {
@@ -402,6 +414,10 @@ export type UserCreateInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -435,6 +451,10 @@ export type UserUncheckedCreateInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUpdateInput = {
@@ -468,6 +488,10 @@ export type UserUpdateInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -501,6 +525,10 @@ export type UserUncheckedUpdateInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -551,14 +579,14 @@ export type UserUncheckedUpdateManyInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type UserScalarRelationFilter = {
-  is?: Prisma.UserWhereInput
-  isNot?: Prisma.UserWhereInput
-}
-
 export type UserNullableScalarRelationFilter = {
   is?: Prisma.UserWhereInput | null
   isNot?: Prisma.UserWhereInput | null
+}
+
+export type UserScalarRelationFilter = {
+  is?: Prisma.UserWhereInput
+  isNot?: Prisma.UserWhereInput
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -607,6 +635,38 @@ export type UserMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+}
+
+export type UserCreateNestedOneWithoutCreatedBadgesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedBadgesInput, Prisma.UserUncheckedCreateWithoutCreatedBadgesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedBadgesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutCreatedBadgesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedBadgesInput, Prisma.UserUncheckedCreateWithoutCreatedBadgesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedBadgesInput
+  upsert?: Prisma.UserUpsertWithoutCreatedBadgesInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedBadgesInput, Prisma.UserUpdateWithoutCreatedBadgesInput>, Prisma.UserUncheckedUpdateWithoutCreatedBadgesInput>
+}
+
+export type UserCreateNestedOneWithoutAssignedListingBadgesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignedListingBadgesInput, Prisma.UserUncheckedCreateWithoutAssignedListingBadgesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignedListingBadgesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutAssignedListingBadgesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignedListingBadgesInput, Prisma.UserUncheckedCreateWithoutAssignedListingBadgesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignedListingBadgesInput
+  upsert?: Prisma.UserUpsertWithoutAssignedListingBadgesInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssignedListingBadgesInput, Prisma.UserUpdateWithoutAssignedListingBadgesInput>, Prisma.UserUncheckedUpdateWithoutAssignedListingBadgesInput>
 }
 
 export type UserCreateNestedOneWithoutBookingsInput = {
@@ -847,6 +907,38 @@ export type UserUpdateOneRequiredWithoutHelpfulVotesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutHelpfulVotesInput, Prisma.UserUpdateWithoutHelpfulVotesInput>, Prisma.UserUncheckedUpdateWithoutHelpfulVotesInput>
 }
 
+export type UserCreateNestedOneWithoutCreatedTagsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedTagsInput, Prisma.UserUncheckedCreateWithoutCreatedTagsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedTagsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutCreatedTagsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedTagsInput, Prisma.UserUncheckedCreateWithoutCreatedTagsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedTagsInput
+  upsert?: Prisma.UserUpsertWithoutCreatedTagsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedTagsInput, Prisma.UserUpdateWithoutCreatedTagsInput>, Prisma.UserUncheckedUpdateWithoutCreatedTagsInput>
+}
+
+export type UserCreateNestedOneWithoutAssignedListingTagsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignedListingTagsInput, Prisma.UserUncheckedCreateWithoutAssignedListingTagsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignedListingTagsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutAssignedListingTagsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignedListingTagsInput, Prisma.UserUncheckedCreateWithoutAssignedListingTagsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignedListingTagsInput
+  upsert?: Prisma.UserUpsertWithoutAssignedListingTagsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssignedListingTagsInput, Prisma.UserUpdateWithoutAssignedListingTagsInput>, Prisma.UserUncheckedUpdateWithoutAssignedListingTagsInput>
+}
+
 export type UserCreateNestedOneWithoutAddressesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAddressesInput, Prisma.UserUncheckedCreateWithoutAddressesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAddressesInput
@@ -863,6 +955,326 @@ export type UserUpdateOneRequiredWithoutAddressesNestedInput = {
 
 export type EnumUserTypeFieldUpdateOperationsInput = {
   set?: $Enums.UserType
+}
+
+export type UserCreateWithoutCreatedBadgesInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
+  customerReviews?: Prisma.ReviewCreateNestedManyWithoutCustomerInput
+  operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
+  moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutCreatedBadgesInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  customerReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCustomerInput
+  operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
+  moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutCreatedBadgesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedBadgesInput, Prisma.UserUncheckedCreateWithoutCreatedBadgesInput>
+}
+
+export type UserUpsertWithoutCreatedBadgesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedBadgesInput, Prisma.UserUncheckedUpdateWithoutCreatedBadgesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedBadgesInput, Prisma.UserUncheckedCreateWithoutCreatedBadgesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCreatedBadgesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedBadgesInput, Prisma.UserUncheckedUpdateWithoutCreatedBadgesInput>
+}
+
+export type UserUpdateWithoutCreatedBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
+  customerReviews?: Prisma.ReviewUpdateManyWithoutCustomerNestedInput
+  operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
+  moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCreatedBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  customerReviews?: Prisma.ReviewUncheckedUpdateManyWithoutCustomerNestedInput
+  operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
+  moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+}
+
+export type UserCreateWithoutAssignedListingBadgesInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
+  customerReviews?: Prisma.ReviewCreateNestedManyWithoutCustomerInput
+  operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
+  moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutAssignedListingBadgesInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  customerReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCustomerInput
+  operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
+  moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutAssignedListingBadgesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssignedListingBadgesInput, Prisma.UserUncheckedCreateWithoutAssignedListingBadgesInput>
+}
+
+export type UserUpsertWithoutAssignedListingBadgesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAssignedListingBadgesInput, Prisma.UserUncheckedUpdateWithoutAssignedListingBadgesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssignedListingBadgesInput, Prisma.UserUncheckedCreateWithoutAssignedListingBadgesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAssignedListingBadgesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAssignedListingBadgesInput, Prisma.UserUncheckedUpdateWithoutAssignedListingBadgesInput>
+}
+
+export type UserUpdateWithoutAssignedListingBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
+  customerReviews?: Prisma.ReviewUpdateManyWithoutCustomerNestedInput
+  operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
+  moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAssignedListingBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  customerReviews?: Prisma.ReviewUncheckedUpdateManyWithoutCustomerNestedInput
+  operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
+  moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserCreateWithoutBookingsInput = {
@@ -895,6 +1307,10 @@ export type UserCreateWithoutBookingsInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutBookingsInput = {
@@ -927,6 +1343,10 @@ export type UserUncheckedCreateWithoutBookingsInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutBookingsInput = {
@@ -975,6 +1395,10 @@ export type UserUpdateWithoutBookingsInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBookingsInput = {
@@ -1007,6 +1431,10 @@ export type UserUncheckedUpdateWithoutBookingsInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserCreateWithoutBlockedDatesInput = {
@@ -1039,6 +1467,10 @@ export type UserCreateWithoutBlockedDatesInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutBlockedDatesInput = {
@@ -1071,6 +1503,10 @@ export type UserUncheckedCreateWithoutBlockedDatesInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutBlockedDatesInput = {
@@ -1119,6 +1555,10 @@ export type UserUpdateWithoutBlockedDatesInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBlockedDatesInput = {
@@ -1151,6 +1591,10 @@ export type UserUncheckedUpdateWithoutBlockedDatesInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserCreateWithoutCreatedMetadataDefinitionsInput = {
@@ -1183,6 +1627,10 @@ export type UserCreateWithoutCreatedMetadataDefinitionsInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
@@ -1215,6 +1663,10 @@ export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutCreatedMetadataDefinitionsInput = {
@@ -1263,6 +1715,10 @@ export type UserUpdateWithoutCreatedMetadataDefinitionsInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
@@ -1295,6 +1751,10 @@ export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserCreateWithoutPoliciesInput = {
@@ -1327,6 +1787,10 @@ export type UserCreateWithoutPoliciesInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutPoliciesInput = {
@@ -1359,6 +1823,10 @@ export type UserUncheckedCreateWithoutPoliciesInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutPoliciesInput = {
@@ -1407,6 +1875,10 @@ export type UserUpdateWithoutPoliciesInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPoliciesInput = {
@@ -1439,6 +1911,10 @@ export type UserUncheckedUpdateWithoutPoliciesInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserCreateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1471,6 +1947,10 @@ export type UserCreateWithoutCreatedVariantMetadataDefinitionsInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1503,6 +1983,10 @@ export type UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1551,6 +2035,10 @@ export type UserUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -1583,6 +2071,10 @@ export type UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserCreateWithoutApprovedListingsInput = {
@@ -1615,6 +2107,10 @@ export type UserCreateWithoutApprovedListingsInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutApprovedListingsInput = {
@@ -1647,6 +2143,10 @@ export type UserUncheckedCreateWithoutApprovedListingsInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutApprovedListingsInput = {
@@ -1684,6 +2184,10 @@ export type UserCreateWithoutListingsInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutListingsInput = {
@@ -1716,6 +2220,10 @@ export type UserUncheckedCreateWithoutListingsInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutListingsInput = {
@@ -1764,6 +2272,10 @@ export type UserUpdateWithoutApprovedListingsInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApprovedListingsInput = {
@@ -1796,6 +2308,10 @@ export type UserUncheckedUpdateWithoutApprovedListingsInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUpsertWithoutListingsInput = {
@@ -1839,6 +2355,10 @@ export type UserUpdateWithoutListingsInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutListingsInput = {
@@ -1871,6 +2391,10 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserCreateWithoutOperatorProfileInput = {
@@ -1903,6 +2427,10 @@ export type UserCreateWithoutOperatorProfileInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutOperatorProfileInput = {
@@ -1935,6 +2463,10 @@ export type UserUncheckedCreateWithoutOperatorProfileInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutOperatorProfileInput = {
@@ -1972,6 +2504,10 @@ export type UserCreateWithoutVerifiedOperatorsInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutVerifiedOperatorsInput = {
@@ -2004,6 +2540,10 @@ export type UserUncheckedCreateWithoutVerifiedOperatorsInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutVerifiedOperatorsInput = {
@@ -2052,6 +2592,10 @@ export type UserUpdateWithoutOperatorProfileInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOperatorProfileInput = {
@@ -2084,6 +2628,10 @@ export type UserUncheckedUpdateWithoutOperatorProfileInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUpsertWithoutVerifiedOperatorsInput = {
@@ -2127,6 +2675,10 @@ export type UserUpdateWithoutVerifiedOperatorsInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVerifiedOperatorsInput = {
@@ -2159,6 +2711,10 @@ export type UserUncheckedUpdateWithoutVerifiedOperatorsInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserCreateWithoutReschedulesInitiatedInput = {
@@ -2191,6 +2747,10 @@ export type UserCreateWithoutReschedulesInitiatedInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutReschedulesInitiatedInput = {
@@ -2223,6 +2783,10 @@ export type UserUncheckedCreateWithoutReschedulesInitiatedInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutReschedulesInitiatedInput = {
@@ -2260,6 +2824,10 @@ export type UserCreateWithoutReschedulesAsOperatorInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutReschedulesAsOperatorInput = {
@@ -2292,6 +2860,10 @@ export type UserUncheckedCreateWithoutReschedulesAsOperatorInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutReschedulesAsOperatorInput = {
@@ -2329,6 +2901,10 @@ export type UserCreateWithoutReschedulesApprovedInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutReschedulesApprovedInput = {
@@ -2361,6 +2937,10 @@ export type UserUncheckedCreateWithoutReschedulesApprovedInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutReschedulesApprovedInput = {
@@ -2409,6 +2989,10 @@ export type UserUpdateWithoutReschedulesInitiatedInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReschedulesInitiatedInput = {
@@ -2441,6 +3025,10 @@ export type UserUncheckedUpdateWithoutReschedulesInitiatedInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUpsertWithoutReschedulesAsOperatorInput = {
@@ -2484,6 +3072,10 @@ export type UserUpdateWithoutReschedulesAsOperatorInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReschedulesAsOperatorInput = {
@@ -2516,6 +3108,10 @@ export type UserUncheckedUpdateWithoutReschedulesAsOperatorInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUpsertWithoutReschedulesApprovedInput = {
@@ -2559,6 +3155,10 @@ export type UserUpdateWithoutReschedulesApprovedInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReschedulesApprovedInput = {
@@ -2591,6 +3191,10 @@ export type UserUncheckedUpdateWithoutReschedulesApprovedInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserCreateWithoutCustomerReviewsInput = {
@@ -2623,6 +3227,10 @@ export type UserCreateWithoutCustomerReviewsInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutCustomerReviewsInput = {
@@ -2655,6 +3263,10 @@ export type UserUncheckedCreateWithoutCustomerReviewsInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutCustomerReviewsInput = {
@@ -2692,6 +3304,10 @@ export type UserCreateWithoutOperatorReviewsInput = {
   customerReviews?: Prisma.ReviewCreateNestedManyWithoutCustomerInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutOperatorReviewsInput = {
@@ -2724,6 +3340,10 @@ export type UserUncheckedCreateWithoutOperatorReviewsInput = {
   customerReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCustomerInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutOperatorReviewsInput = {
@@ -2761,6 +3381,10 @@ export type UserCreateWithoutModeratedReviewsInput = {
   customerReviews?: Prisma.ReviewCreateNestedManyWithoutCustomerInput
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutModeratedReviewsInput = {
@@ -2793,6 +3417,10 @@ export type UserUncheckedCreateWithoutModeratedReviewsInput = {
   customerReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCustomerInput
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutModeratedReviewsInput = {
@@ -2841,6 +3469,10 @@ export type UserUpdateWithoutCustomerReviewsInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCustomerReviewsInput = {
@@ -2873,6 +3505,10 @@ export type UserUncheckedUpdateWithoutCustomerReviewsInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUpsertWithoutOperatorReviewsInput = {
@@ -2916,6 +3552,10 @@ export type UserUpdateWithoutOperatorReviewsInput = {
   customerReviews?: Prisma.ReviewUpdateManyWithoutCustomerNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOperatorReviewsInput = {
@@ -2948,6 +3588,10 @@ export type UserUncheckedUpdateWithoutOperatorReviewsInput = {
   customerReviews?: Prisma.ReviewUncheckedUpdateManyWithoutCustomerNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUpsertWithoutModeratedReviewsInput = {
@@ -2991,6 +3635,10 @@ export type UserUpdateWithoutModeratedReviewsInput = {
   customerReviews?: Prisma.ReviewUpdateManyWithoutCustomerNestedInput
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutModeratedReviewsInput = {
@@ -3023,6 +3671,10 @@ export type UserUncheckedUpdateWithoutModeratedReviewsInput = {
   customerReviews?: Prisma.ReviewUncheckedUpdateManyWithoutCustomerNestedInput
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserCreateWithoutHelpfulVotesInput = {
@@ -3055,6 +3707,10 @@ export type UserCreateWithoutHelpfulVotesInput = {
   customerReviews?: Prisma.ReviewCreateNestedManyWithoutCustomerInput
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutHelpfulVotesInput = {
@@ -3087,6 +3743,10 @@ export type UserUncheckedCreateWithoutHelpfulVotesInput = {
   customerReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCustomerInput
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutHelpfulVotesInput = {
@@ -3135,6 +3795,10 @@ export type UserUpdateWithoutHelpfulVotesInput = {
   customerReviews?: Prisma.ReviewUpdateManyWithoutCustomerNestedInput
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutHelpfulVotesInput = {
@@ -3167,6 +3831,330 @@ export type UserUncheckedUpdateWithoutHelpfulVotesInput = {
   customerReviews?: Prisma.ReviewUncheckedUpdateManyWithoutCustomerNestedInput
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+}
+
+export type UserCreateWithoutCreatedTagsInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
+  customerReviews?: Prisma.ReviewCreateNestedManyWithoutCustomerInput
+  operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
+  moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutCreatedTagsInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  customerReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCustomerInput
+  operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
+  moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutCreatedTagsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedTagsInput, Prisma.UserUncheckedCreateWithoutCreatedTagsInput>
+}
+
+export type UserUpsertWithoutCreatedTagsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedTagsInput, Prisma.UserUncheckedUpdateWithoutCreatedTagsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedTagsInput, Prisma.UserUncheckedCreateWithoutCreatedTagsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCreatedTagsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedTagsInput, Prisma.UserUncheckedUpdateWithoutCreatedTagsInput>
+}
+
+export type UserUpdateWithoutCreatedTagsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
+  customerReviews?: Prisma.ReviewUpdateManyWithoutCustomerNestedInput
+  operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
+  moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCreatedTagsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  customerReviews?: Prisma.ReviewUncheckedUpdateManyWithoutCustomerNestedInput
+  operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
+  moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+}
+
+export type UserCreateWithoutAssignedListingTagsInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
+  customerReviews?: Prisma.ReviewCreateNestedManyWithoutCustomerInput
+  operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
+  moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutAssignedListingTagsInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  customerReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCustomerInput
+  operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
+  moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutAssignedListingTagsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssignedListingTagsInput, Prisma.UserUncheckedCreateWithoutAssignedListingTagsInput>
+}
+
+export type UserUpsertWithoutAssignedListingTagsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAssignedListingTagsInput, Prisma.UserUncheckedUpdateWithoutAssignedListingTagsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssignedListingTagsInput, Prisma.UserUncheckedCreateWithoutAssignedListingTagsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAssignedListingTagsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAssignedListingTagsInput, Prisma.UserUncheckedUpdateWithoutAssignedListingTagsInput>
+}
+
+export type UserUpdateWithoutAssignedListingTagsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
+  customerReviews?: Prisma.ReviewUpdateManyWithoutCustomerNestedInput
+  operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
+  moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAssignedListingTagsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  customerReviews?: Prisma.ReviewUncheckedUpdateManyWithoutCustomerNestedInput
+  operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
+  moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
 }
 
 export type UserCreateWithoutAddressesInput = {
@@ -3199,6 +4187,10 @@ export type UserCreateWithoutAddressesInput = {
   operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutAddressesInput = {
@@ -3231,6 +4223,10 @@ export type UserUncheckedCreateWithoutAddressesInput = {
   operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
   moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutAddressesInput = {
@@ -3279,6 +4275,10 @@ export type UserUpdateWithoutAddressesInput = {
   operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAddressesInput = {
@@ -3311,6 +4311,10 @@ export type UserUncheckedUpdateWithoutAddressesInput = {
   operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
   moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
   helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
 }
 
 
@@ -3335,6 +4339,10 @@ export type UserCountOutputType = {
   operatorReviews: number
   moderatedReviews: number
   helpfulVotes: number
+  createdBadges: number
+  assignedListingBadges: number
+  createdTags: number
+  assignedListingTags: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3354,6 +4362,10 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   operatorReviews?: boolean | UserCountOutputTypeCountOperatorReviewsArgs
   moderatedReviews?: boolean | UserCountOutputTypeCountModeratedReviewsArgs
   helpfulVotes?: boolean | UserCountOutputTypeCountHelpfulVotesArgs
+  createdBadges?: boolean | UserCountOutputTypeCountCreatedBadgesArgs
+  assignedListingBadges?: boolean | UserCountOutputTypeCountAssignedListingBadgesArgs
+  createdTags?: boolean | UserCountOutputTypeCountCreatedTagsArgs
+  assignedListingTags?: boolean | UserCountOutputTypeCountAssignedListingTagsArgs
 }
 
 /**
@@ -3478,6 +4490,34 @@ export type UserCountOutputTypeCountHelpfulVotesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.ReviewHelpfulVoteWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCreatedBadgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BadgeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAssignedListingBadgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingBadgeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCreatedTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TagWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAssignedListingTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingTagWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3510,6 +4550,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   operatorReviews?: boolean | Prisma.User$operatorReviewsArgs<ExtArgs>
   moderatedReviews?: boolean | Prisma.User$moderatedReviewsArgs<ExtArgs>
   helpfulVotes?: boolean | Prisma.User$helpfulVotesArgs<ExtArgs>
+  createdBadges?: boolean | Prisma.User$createdBadgesArgs<ExtArgs>
+  assignedListingBadges?: boolean | Prisma.User$assignedListingBadgesArgs<ExtArgs>
+  createdTags?: boolean | Prisma.User$createdTagsArgs<ExtArgs>
+  assignedListingTags?: boolean | Prisma.User$assignedListingTagsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -3580,6 +4624,10 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   operatorReviews?: boolean | Prisma.User$operatorReviewsArgs<ExtArgs>
   moderatedReviews?: boolean | Prisma.User$moderatedReviewsArgs<ExtArgs>
   helpfulVotes?: boolean | Prisma.User$helpfulVotesArgs<ExtArgs>
+  createdBadges?: boolean | Prisma.User$createdBadgesArgs<ExtArgs>
+  assignedListingBadges?: boolean | Prisma.User$assignedListingBadgesArgs<ExtArgs>
+  createdTags?: boolean | Prisma.User$createdTagsArgs<ExtArgs>
+  assignedListingTags?: boolean | Prisma.User$assignedListingTagsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -3605,6 +4653,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     operatorReviews: Prisma.$ReviewPayload<ExtArgs>[]
     moderatedReviews: Prisma.$ReviewPayload<ExtArgs>[]
     helpfulVotes: Prisma.$ReviewHelpfulVotePayload<ExtArgs>[]
+    createdBadges: Prisma.$BadgePayload<ExtArgs>[]
+    assignedListingBadges: Prisma.$ListingBadgePayload<ExtArgs>[]
+    createdTags: Prisma.$TagPayload<ExtArgs>[]
+    assignedListingTags: Prisma.$ListingTagPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4031,6 +5083,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   operatorReviews<T extends Prisma.User$operatorReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$operatorReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   moderatedReviews<T extends Prisma.User$moderatedReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$moderatedReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   helpfulVotes<T extends Prisma.User$helpfulVotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$helpfulVotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewHelpfulVotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  createdBadges<T extends Prisma.User$createdBadgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assignedListingBadges<T extends Prisma.User$assignedListingBadgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignedListingBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingBadgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  createdTags<T extends Prisma.User$createdTagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdTagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assignedListingTags<T extends Prisma.User$assignedListingTagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignedListingTagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4861,6 +5917,102 @@ export type User$helpfulVotesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ReviewHelpfulVoteScalarFieldEnum | Prisma.ReviewHelpfulVoteScalarFieldEnum[]
+}
+
+/**
+ * User.createdBadges
+ */
+export type User$createdBadgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Badge
+   */
+  select?: Prisma.BadgeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Badge
+   */
+  omit?: Prisma.BadgeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BadgeInclude<ExtArgs> | null
+  where?: Prisma.BadgeWhereInput
+  orderBy?: Prisma.BadgeOrderByWithRelationInput | Prisma.BadgeOrderByWithRelationInput[]
+  cursor?: Prisma.BadgeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BadgeScalarFieldEnum | Prisma.BadgeScalarFieldEnum[]
+}
+
+/**
+ * User.assignedListingBadges
+ */
+export type User$assignedListingBadgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingBadge
+   */
+  select?: Prisma.ListingBadgeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingBadge
+   */
+  omit?: Prisma.ListingBadgeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingBadgeInclude<ExtArgs> | null
+  where?: Prisma.ListingBadgeWhereInput
+  orderBy?: Prisma.ListingBadgeOrderByWithRelationInput | Prisma.ListingBadgeOrderByWithRelationInput[]
+  cursor?: Prisma.ListingBadgeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingBadgeScalarFieldEnum | Prisma.ListingBadgeScalarFieldEnum[]
+}
+
+/**
+ * User.createdTags
+ */
+export type User$createdTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Tag
+   */
+  select?: Prisma.TagSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Tag
+   */
+  omit?: Prisma.TagOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TagInclude<ExtArgs> | null
+  where?: Prisma.TagWhereInput
+  orderBy?: Prisma.TagOrderByWithRelationInput | Prisma.TagOrderByWithRelationInput[]
+  cursor?: Prisma.TagWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TagScalarFieldEnum | Prisma.TagScalarFieldEnum[]
+}
+
+/**
+ * User.assignedListingTags
+ */
+export type User$assignedListingTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListingTag
+   */
+  select?: Prisma.ListingTagSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ListingTag
+   */
+  omit?: Prisma.ListingTagOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingTagInclude<ExtArgs> | null
+  where?: Prisma.ListingTagWhereInput
+  orderBy?: Prisma.ListingTagOrderByWithRelationInput | Prisma.ListingTagOrderByWithRelationInput[]
+  cursor?: Prisma.ListingTagWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingTagScalarFieldEnum | Prisma.ListingTagScalarFieldEnum[]
 }
 
 /**

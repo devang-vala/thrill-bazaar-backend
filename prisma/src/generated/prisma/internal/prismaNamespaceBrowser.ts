@@ -48,6 +48,8 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
+  Badge: 'Badge',
+  ListingBadge: 'ListingBadge',
   Booking: 'Booking',
   Category: 'Category',
   SubCategory: 'SubCategory',
@@ -77,6 +79,8 @@ export const ModelName = {
   ReviewHelpfulVote: 'ReviewHelpfulVote',
   SecondaryDivision: 'SecondaryDivision',
   SlotDefinition: 'SlotDefinition',
+  Tag: 'Tag',
+  ListingTag: 'ListingTag',
   UserAddress: 'UserAddress',
   User: 'User'
 } as const
@@ -95,6 +99,37 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const BadgeScalarFieldEnum = {
+  id: 'id',
+  badgeName: 'badgeName',
+  badgeType: 'badgeType',
+  badgeIconUrl: 'badgeIconUrl',
+  badgeDescription: 'badgeDescription',
+  badgeColor: 'badgeColor',
+  displayOrder: 'displayOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdByAdminId: 'createdByAdminId'
+} as const
+
+export type BadgeScalarFieldEnum = (typeof BadgeScalarFieldEnum)[keyof typeof BadgeScalarFieldEnum]
+
+
+export const ListingBadgeScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  badgeId: 'badgeId',
+  assignedByAdminId: 'assignedByAdminId',
+  assignedAt: 'assignedAt',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingBadgeScalarFieldEnum = (typeof ListingBadgeScalarFieldEnum)[keyof typeof ListingBadgeScalarFieldEnum]
 
 
 export const BookingScalarFieldEnum = {
@@ -587,6 +622,36 @@ export const SlotDefinitionScalarFieldEnum = {
 export type SlotDefinitionScalarFieldEnum = (typeof SlotDefinitionScalarFieldEnum)[keyof typeof SlotDefinitionScalarFieldEnum]
 
 
+export const TagScalarFieldEnum = {
+  id: 'id',
+  tagName: 'tagName',
+  tagType: 'tagType',
+  tagColor: 'tagColor',
+  description: 'description',
+  displayOrder: 'displayOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdByAdminId: 'createdByAdminId'
+} as const
+
+export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
+
+
+export const ListingTagScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  tagId: 'tagId',
+  assignedByAdminId: 'assignedByAdminId',
+  assignedAt: 'assignedAt',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListingTagScalarFieldEnum = (typeof ListingTagScalarFieldEnum)[keyof typeof ListingTagScalarFieldEnum]
+
+
 export const UserAddressScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -654,6 +719,14 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -661,12 +734,4 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

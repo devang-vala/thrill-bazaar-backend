@@ -1,39 +1,41 @@
 model Review {
-  id                  String    @id @default(uuid()) @map("review_id")
-  bookingId           String    @map("booking_id")
-  listingId           String    @map("listing_id")
-  customerId          String    @map("customer_id")
-  operatorId          String    @map("operator_id")
-  
+  id         String @id @default(uuid()) @map("review_id")
+  bookingId  String @map("booking_id")
+  listingId  String @map("listing_id")
+  customerId String @map("customer_id")
+  operatorId String @map("operator_id")
+
   // Rating (1-5 stars only)
-  rating              Int       @map("rating")
-  
+  rating Int @map("rating")
+
   // Review content
-  reviewTitle         String    @map("review_title") @db.VarChar(200)
-  reviewText          String    @map("review_text") @db.Text
-  reviewImages        Json?     @default("[]") @map("review_images") // Array of image URLs
-  
+  reviewTitle  String @map("review_title") @db.VarChar(200)
+  reviewText   String @map("review_text") @db.Text
+  reviewImages Json?  @default("[]") @map("review_images") // Array of image URLs
+
   // Verification and moderation
-  isVerifiedBooking   Boolean   @default(true) @map("is_verified_booking")
-  isModerated         Boolean   @default(false) @map("is_moderated")
-  moderatedByAdminId  String?   @map("moderated_by_admin_id")
-  moderationReason    String?   @map("moderation_reason") @db.Text
-  
+  isVerifiedBooking  Boolean @default(true) @map("is_verified_booking")
+  isModerated        Boolean @default(false) @map("is_moderated")
+  moderatedByAdminId String? @map("moderated_by_admin_id")
+  moderationReason   String? @map("moderation_reason") @db.Text
+
   // Social proof
-  helpfulCount        Int       @default(0) @map("helpful_count")
-  
+  helpfulCount Int @default(0) @map("helpful_count")
+
   // Timestamps
-  createdAt           DateTime  @default(now()) @map("created_at")
-  updatedAt           DateTime  @updatedAt @map("updated_at")
-  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
   // Relations
-  booking             Booking   @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-  listing             Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  customer            User      @relation("CustomerReviews", fields: [customerId], references: [id], onDelete: Cascade)
-  operator            User      @relation("OperatorReviews", fields: [operatorId], references: [id], onDelete: Cascade)
-  moderatedByAdmin    User?     @relation("ModeratedReviews", fields: [moderatedByAdminId], references: [id], onDelete: SetNull)
-  helpfulVotes        ReviewHelpfulVote[]
-  
+  booking          Booking             @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  listing          Listing             @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  customer         User                @relation("CustomerReviews", fields: [customerId], references: [id], onDelete: Cascade)
+  operator         User                @relation("OperatorReviews", fields: [operatorId], references: [id], onDelete: Cascade)
+  moderatedByAdmin User?               @relation("ModeratedReviews", fields: [moderatedByAdminId], references: [id], onDelete: SetNull)
+  helpfulVotes     ReviewHelpfulVote[]
+
+  // Ensure one review per booking
+  @@unique([bookingId])
   // Indexes for performance
   @@index([bookingId])
   @@index([listingId])
@@ -42,27 +44,22 @@ model Review {
   @@index([rating])
   @@index([isModerated])
   @@index([createdAt])
-  
-  // Ensure one review per booking
-  @@unique([bookingId])
-  
   @@map("reviews")
 }
 
 // Track which users found reviews helpful (to prevent duplicate votes)
 model ReviewHelpfulVote {
-  id          String   @id @default(uuid()) @map("vote_id")
-  reviewId    String   @map("review_id")
-  userId      String   @map("user_id")
-  createdAt   DateTime @default(now()) @map("created_at")
-  
-  review      Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
-  user        User     @relation("UserHelpfulVotes", fields: [userId], references: [id], onDelete: Cascade)
-  
+  id        String   @id @default(uuid()) @map("vote_id")
+  reviewId  String   @map("review_id")
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user   User   @relation("UserHelpfulVotes", fields: [userId], references: [id], onDelete: Cascade)
+
   // Ensure one vote per user per review
   @@unique([reviewId, userId])
   @@index([reviewId])
   @@index([userId])
-  
   @@map("review_helpful_votes")
 }

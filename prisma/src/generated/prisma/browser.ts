@@ -17,6 +17,16 @@ export { Prisma }
 export * as $Enums from './enums.js'
 export * from './enums.js';
 /**
+ * Model Badge
+ * 
+ */
+export type Badge = Prisma.BadgeModel
+/**
+ * Model ListingBadge
+ * 
+ */
+export type ListingBadge = Prisma.ListingBadgeModel
+/**
  * Model Booking
  * 
  */
@@ -161,6 +171,16 @@ export type SecondaryDivision = Prisma.SecondaryDivisionModel
  * 
  */
 export type SlotDefinition = Prisma.SlotDefinitionModel
+/**
+ * Model Tag
+ * 
+ */
+export type Tag = Prisma.TagModel
+/**
+ * Model ListingTag
+ * 
+ */
+export type ListingTag = Prisma.ListingTagModel
 /**
  * Model UserAddress
  * 

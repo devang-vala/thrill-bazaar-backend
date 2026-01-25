@@ -155,3 +155,21 @@ export const RescheduleStatus = {
 } as const
 
 export type RescheduleStatus = (typeof RescheduleStatus)[keyof typeof RescheduleStatus]
+
+
+export const BadgeType = {
+  certification: 'certification',
+  performance: 'performance',
+  special: 'special'
+} as const
+
+export type BadgeType = (typeof BadgeType)[keyof typeof BadgeType]
+
+
+export const TagType = {
+  promotional: 'promotional',
+  characteristic: 'characteristic',
+  tier: 'tier'
+} as const
+
+export type TagType = (typeof TagType)[keyof typeof TagType]

@@ -12,18 +12,18 @@ model InventoryDateRange {
   primaryContactPhone   String?  @map("primary_contact_phone")
   secondaryContactPhone String?  @map("secondary_contact_phone")
   createdAt             DateTime @default(now()) @map("created_at")
-  updatedAt             DateTime @updatedAt @map("updated_at") 
+  updatedAt             DateTime @updatedAt @map("updated_at")
 
   listing        Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade)
   variant        ListingVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
   slotDefinition SlotDefinition? @relation(fields: [slotDefinitionId], references: [id], onDelete: Cascade)
 
   // Relations
-  bookings    Booking[]
-  slotChanges ListingSlotChange[]
+  bookings              Booking[]
+  slotChanges           ListingSlotChange[]
   // reschedule relations
-  reschedulesAsOldRange Reschedule[] @relation("RescheduleOldDateRange")
-  reschedulesAsNewRange Reschedule[] @relation("RescheduleNewDateRange")
+  reschedulesAsOldRange Reschedule[]        @relation("RescheduleOldDateRange")
+  reschedulesAsNewRange Reschedule[]        @relation("RescheduleNewDateRange")
 
   @@map("inventory_date_ranges")
 }

@@ -114,3 +114,15 @@ enum RescheduleStatus {
   rejected
   cancelled
 }
+
+enum BadgeType {
+  certification
+  performance
+  special
+}
+
+enum TagType {
+  promotional
+  characteristic
+  tier
+}

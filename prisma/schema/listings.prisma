@@ -55,5 +55,9 @@ model Listing {
   slotDefinitions          SlotDefinition[]           @relation("ListingToSlotDefinition")
   reviews                  Review[]
 
+  // Badge and Tag relations
+  badges ListingBadge[]
+  tags   ListingTag[]
+
   @@map("listings")
 }
