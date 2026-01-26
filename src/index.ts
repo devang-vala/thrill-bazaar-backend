@@ -10,7 +10,7 @@ import { cors } from "hono/cors";
 import { configureCloudinary, cloudinarySecrets } from "./config/cloudinary.config.js";
 import { initMeilisearch } from "./services/meilisearch.service.js";
 const cloudinary = configureCloudinary();
-console.log("Cloudinary Secrets Loaded:", cloudinarySecrets);
+// console.log("Cloudinary Secrets Loaded:", cloudinarySecrets);
 
 // Initialize Meilisearch
 // Initialize Meilisearch (non-blocking)
