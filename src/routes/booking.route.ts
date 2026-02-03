@@ -7,6 +7,7 @@ import {
   getUserBookings,
   getBookingWithReschedules,
   getAdminBookings,
+  getOperatorBookings,
 } from "../controllers/booking.controller.js";
 import {
   authenticateToken,
@@ -18,6 +19,9 @@ const bookingRouter = new Hono();
 
 // Admin:  Get all bookings
 bookingRouter.get("/admin/all", authenticateToken, requireAdmin, getAdminBookings);
+
+// Operator/Seller: Get their bookings
+bookingRouter.get("/operator/:operatorId", authenticateToken, getOperatorBookings);
 
 // Create comprehensive booking with all details
 bookingRouter.post("/create", optionalAuth, createBooking);

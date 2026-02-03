@@ -7,6 +7,7 @@ import {
   updateReviewController,
   deleteReviewController,
   moderateReviewController,
+  updateVerifiedBookingController,
   toggleHelpfulController,
   getListingReviewStatsController,
   getOperatorReviewStatsController,
@@ -85,5 +86,13 @@ reviewRoutes.post("/:id/helpful", authenticateToken, toggleHelpfulController);
  * @body    { isModerated: boolean, moderationReason?: string }
  */
 reviewRoutes.post("/:id/moderate", authenticateToken, moderateReviewController);
+
+/**
+ * @route   PATCH /api/reviews/:id/verify
+ * @desc    Update isVerifiedBooking status
+ * @access  Private (Seller only)
+ * @body    { isVerifiedBooking: boolean }
+ */
+reviewRoutes.patch("/:id/verify", authenticateToken, updateVerifiedBookingController);
 
 export default reviewRoutes;

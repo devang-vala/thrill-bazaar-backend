@@ -6,6 +6,7 @@ import {
   updateReview,
   deleteReview,
   moderateReview,
+  updateVerifiedBookingStatus,
   toggleHelpfulVote,
   getListingReviewStats,
   getOperatorReviewStats,
@@ -157,6 +158,7 @@ export const getReviewsController = async (c: Context) => {
 
     // Parse filters
     const filters: any = {
+      bookingId: query.bookingId,
       listingId: query.listingId,
       customerId: query.customerId,
       operatorId: query.operatorId,
@@ -164,16 +166,6 @@ export const getReviewsController = async (c: Context) => {
       minRating: query.minRating ? parseInt(query.minRating) : undefined,
       maxRating: query.maxRating ? parseInt(query.maxRating) : undefined,
     };
-
-    // Admin can see moderated reviews, others cannot
-    const user = c.get("user");
-    const isAdmin = user?.userType === "admin" || user?.userType === "super_admin";
-    
-    if (!isAdmin) {
-      filters.isModerated = false;
-    } else if (query.isModerated !== undefined) {
-      filters.isModerated = query.isModerated === "true";
-    }
 
     // Parse pagination
     const pagination = {
@@ -333,14 +325,6 @@ export const moderateReviewController = async (c: Context) => {
       return c.json({ success: false, error: "Unauthorized" }, 401);
     }
 
-    // Check if user is admin
-    if (user.userType !== "admin" && user.userType !== "super_admin") {
-      return c.json(
-        { success: false, error: "Only admins can moderate reviews" },
-        403
-      );
-    }
-
     const reviewId = c.req.param("id");
     if (!reviewId) {
       return c.json(
@@ -386,6 +370,66 @@ export const moderateReviewController = async (c: Context) => {
     });
   } catch (error: any) {
     console.error("Error in moderateReviewController:", error);
+    return c.json(
+      { success: false, error: "Internal server error" },
+      500
+    );
+  }
+};
+
+/**
+ * Update isVerifiedBooking status
+ * @route PATCH /api/reviews/:id/verify
+ * @access Private (Seller/Operator only)
+ */
+export const updateVerifiedBookingController = async (c: Context) => {
+  try {
+    const user = c.get("user");
+
+    if (!user) {
+      return c.json({ success: false, error: "Unauthorized" }, 401);
+    }
+
+
+    const reviewId = c.req.param("id");
+    if (!reviewId) {
+      return c.json(
+        { success: false, error: "Review ID is required" },
+        400
+      );
+    }
+
+    const body = await c.req.json();
+    const { isVerifiedBooking } = body;
+
+    if (typeof isVerifiedBooking !== "boolean") {
+      return c.json(
+        { success: false, error: "isVerifiedBooking must be a boolean value" },
+        400
+      );
+    }
+
+    const result = await updateVerifiedBookingStatus(
+      reviewId,
+      user.userId,
+      isVerifiedBooking
+    );
+
+    if (!result.success) {
+      const statusCode = result.error === "Review not found" ? 404 : 403;
+      return c.json(
+        { success: false, error: result.error },
+        statusCode
+      );
+    }
+
+    return c.json({
+      success: true,
+      message: "Verification status updated successfully",
+      data: result.review,
+    });
+  } catch (error: any) {
+    console.error("Error in updateVerifiedBookingController:", error);
     return c.json(
       { success: false, error: "Internal server error" },
       500
