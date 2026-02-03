@@ -26,6 +26,7 @@ export interface ModerateReviewInput {
 }
 
 export interface ReviewFilters {
+  bookingId?: string;
   listingId?: string;
   customerId?: string;
   operatorId?: string;
@@ -59,7 +60,7 @@ export const validateReviewText = (text: string): boolean => {
 
 /**
  * Check if user can review a booking
- * - Booking must be completed
+ * - Booking must be completed or confirmed
  * - User must be the customer of the booking
  * - Only one review allowed per booking
  */
@@ -82,9 +83,9 @@ export const canUserReviewBooking = async (
     return { canReview: false, reason: "Only the booking customer can leave a review" };
   }
 
-  // Check if booking is completed
-  if (booking.bookingStatus !== "COMPLETED") {
-    return { canReview: false, reason: "Can only review completed bookings" };
+  // Check if booking is completed or confirmed
+  if (booking.bookingStatus !== "COMPLETED" && booking.bookingStatus !== "CONFIRMED") {
+    return { canReview: false, reason: "Can only review confirmed or completed bookings" };
   }
 
   // Check if review already exists
@@ -239,6 +240,7 @@ export const getReviews = async (
 ) => {
   try {
     const {
+      bookingId,
       listingId,
       customerId,
       operatorId,
@@ -260,6 +262,7 @@ export const getReviews = async (
     // Build where clause
     const where: any = {};
 
+    if (bookingId) where.bookingId = bookingId;
     if (listingId) where.listingId = listingId;
     if (customerId) where.customerId = customerId;
     if (operatorId) where.operatorId = operatorId;
@@ -458,6 +461,43 @@ export const moderateReview = async (
   } catch (error: any) {
     console.error("Error moderating review:", error);
     return { success: false, error: error.message || "Failed to moderate review" };
+  }
+};
+
+/**
+ * Update isVerifiedBooking status (Seller/Operator only)
+ */
+export const updateVerifiedBookingStatus = async (
+  reviewId: string,
+  operatorId: string,
+  isVerifiedBooking: boolean
+): Promise<{ success: boolean; review?: any; error?: string }> => {
+  try {
+    // Check if review exists and belongs to the operator
+    const review = await prisma.review.findUnique({
+      where: { id: reviewId },
+    });
+
+    if (!review) {
+      return { success: false, error: "Review not found" };
+    }
+
+    // Verify that the review belongs to this operator
+    if (review.operatorId !== operatorId) {
+      return { success: false, error: "You can only update verification status for your own listings" };
+    }
+
+    const updatedReview = await prisma.review.update({
+      where: { id: reviewId },
+      data: {
+        isVerifiedBooking,
+      },
+    });
+
+    return { success: true, review: updatedReview };
+  } catch (error: any) {
+    console.error("Error updating verified booking status:", error);
+    return { success: false, error: error.message || "Failed to update verification status" };
   }
 };
 

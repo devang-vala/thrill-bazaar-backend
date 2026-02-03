@@ -699,103 +699,204 @@ export const getAdminBookings = async (c: Context) => {
       );
     }
 
-    const status = c.req.query("status");
-    const page = parseInt(c.req.query("page") || "1");
-    const limit = parseInt(c.req.query("limit") || "20");
-    const skip = (page - 1) * limit;
-
-    const where:  any = {};
-
-    if (status && status !== "all") {
-      where.bookingStatus = status;
-    }
-
-    const [bookings, totalCount] = await Promise.all([
-      prisma.booking.findMany({
-        where,
-        include: {
-          customer: {
-            select: {
-              id:  true,
-              firstName: true,
-              lastName: true,
-              email: true,
-              phone: true,
-            },
-          },
-          listingSlot: {
-            include: {
-              listing: {
-                select: {
-                  id: true,
-                  listingName: true,
-                  frontImageUrl: true,
-                  operatorId: true,
-                  bookingFormat: true,
-                  currency: true,
-                  startLocationName: true,
-                },
-              },
-              slotDefinition: {
-                select: {
-                  startTime: true,
-                  endTime: true,
-                },
-              },
-            },
-          },
-          dateRange: {
-            include: {
-              listing: {
-                select: {
-                  id: true,
-                  listingName: true,
-                  frontImageUrl: true,
-                  operatorId: true,
-                  bookingFormat: true,
-                  currency: true,
-                  startLocationName: true,
-                },
-              },
-              slotDefinition: {
-                select: {
-                  startTime:  true,
-                  endTime:  true,
-                },
-              },
-            },
-          },
-          reschedules: {
-            orderBy: { createdAt: "desc" },
-            take: 1,
+    const bookings = await prisma.booking.findMany({
+      include: {
+        customer: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            phoneNumber: true,
           },
         },
-        orderBy: { createdAt: "desc" },
-        skip,
-        take: limit,
-      }),
-      prisma.booking.count({ where }),
-    ]);
-
-    return c.json({
-      success: true,
-      data: bookings,
-      count: totalCount,
-      pagination: {
-        page,
-        limit,
-        totalPages: Math.ceil(totalCount / limit),
-        hasNextPage: page < Math.ceil(totalCount / limit),
-        hasPreviousPage: page > 1,
+        listingSlot: {
+          include: {
+            listing: {
+              select: {
+                id: true,
+                listingName: true,
+                frontImageUrl: true,
+                currency: true,
+                startLocationName: true,
+                operatorId: true,
+              },
+            },
+          },
+        },
+        dateRange: {
+          include: {
+            listing: {
+              select: {
+                id: true,
+                listingName: true,
+                frontImageUrl: true,
+                currency: true,
+                startLocationName: true,
+                operatorId: true,
+              },
+            },
+          },
+        },
       },
+      orderBy: { createdAt: "desc" },
     });
-  } catch (error:  any) {
+
+    return c.json({ success: true, data: bookings });
+  } catch (error) {
     console.error("Error fetching admin bookings:", error);
     return c.json(
-      {
-        success: false,
-        message: error.message || "Failed to fetch bookings",
+      { success: false, message: "Failed to fetch bookings" },
+      500
+    );
+  }
+};
+
+/**
+ * Get operator/seller bookings
+ * GET /api/bookings/operator/:operatorId
+ */
+export const getOperatorBookings = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    const operatorId = c.req.param("operatorId");
+
+    if (!operatorId) {
+      return c.json({ success: false, message: "Operator ID required" }, 400);
+    }
+
+    // Check if user is authorized to view these bookings
+    // Must be the operator themselves or an admin
+    if (
+      user.userId !== operatorId &&
+      user.userType !== "admin" &&
+      user.userType !== "super_admin"
+    ) {
+      return c.json(
+        { success: false, message: "Unauthorized to view these bookings" },
+        403
+      );
+    }
+
+    // Get all bookings for listings owned by this operator
+    const bookings = await prisma.booking.findMany({
+      where: {
+        OR: [
+          {
+            listingSlot: {
+              listing: {
+                operatorId: operatorId,
+              },
+            },
+          },
+          {
+            dateRange: {
+              listing: {
+                operatorId: operatorId,
+              },
+            },
+          },
+        ],
       },
+      include: {
+        customer: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            phoneNumber: true,
+            profileImg: true,
+          },
+        },
+        listingSlot: {
+          include: {
+            listing: {
+              select: {
+                id: true,
+                listingName: true,
+                frontImageUrl: true,
+                currency: true,
+                startLocationName: true,
+                bookingFormat: true,
+                category: {
+                  select: {
+                    categoryName: true,
+                  },
+                },
+              },
+            },
+            slotDefinition: {
+              select: {
+                startTime: true,
+                endTime: true,
+              },
+            },
+          },
+        },
+        dateRange: {
+          include: {
+            listing: {
+              select: {
+                id: true,
+                listingName: true,
+                frontImageUrl: true,
+                currency: true,
+                startLocationName: true,
+                bookingFormat: true,
+                category: {
+                  select: {
+                    categoryName: true,
+                  },
+                },
+              },
+            },
+            slotDefinition: {
+              select: {
+                startTime: true,
+                endTime: true,
+              },
+            },
+          },
+        },
+        reschedules: {
+          orderBy: { createdAt: "desc" },
+          take: 5, // Limit to last 5 reschedules
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    // Format bookings with aggregated data
+    const formattedBookings = bookings.map((booking) => ({
+      ...booking,
+      listingSlot: booking.listingSlot
+        ? {
+            ...booking.listingSlot,
+            startTime:
+              booking.listingSlot.slotDefinition?.startTime ||
+              booking.listingSlot.startTime,
+            endTime:
+              booking.listingSlot.slotDefinition?.endTime ||
+              booking.listingSlot.endTime,
+          }
+        : null,
+      dateRange: booking.dateRange
+        ? {
+            ...booking.dateRange,
+            startTime:
+              booking.dateRange.slotDefinition?.startTime || null,
+            endTime:
+              booking.dateRange.slotDefinition?.endTime || null,
+          }
+        : null,
+    }));
+
+    return c.json({ success: true, data: formattedBookings });
+  } catch (error) {
+    console.error("Error fetching operator bookings:", error);
+    return c.json(
+      { success: false, message: "Failed to fetch bookings" },
       500
     );
   }
