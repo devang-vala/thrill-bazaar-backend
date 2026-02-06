@@ -4,6 +4,97 @@ import { sanitizeString, generateSlug } from "../helpers/validation.helper.js";
 import meilisearchService from "../services/meilisearch.service.js";
 
 /**
+ * Common include object for badges - reusable across endpoints
+ */
+const badgesInclude = {
+  badges: {
+    where: { isActive: true },
+    select: {
+      id: true,
+      isActive: true,
+      assignedAt: true,
+      badge: {
+        select: {
+          id: true,
+          badgeName: true,
+          badgeType: true,
+          badgeIconUrl: true,
+          badgeColor: true,
+          displayOrder: true,
+        },
+      },
+    },
+    orderBy: { badge: { displayOrder: "asc" as const } },
+  },
+};
+
+/**
+ * Common include object for tags - reusable across endpoints
+ */
+const tagsInclude = {
+  tags: {
+    where: { isActive: true },
+    select: {
+      id: true,
+      isActive: true,
+      assignedAt: true,
+      tag: {
+        select: {
+          id: true,
+          tagName: true,
+          tagType: true,
+          tagColor: true,
+          displayOrder: true,
+        },
+      },
+    },
+    orderBy: { tag: { displayOrder: "asc" as const } },
+  },
+};
+
+/**
+ * Limited badges/tags for listing cards (better performance)
+ */
+const badgesIncludeLimited = {
+  badges: {
+    where: { isActive: true },
+    select: {
+      id: true,
+      isActive: true,
+      badge: {
+        select: {
+          id: true,
+          badgeName: true,
+          badgeIconUrl: true,
+          badgeColor: true,
+        },
+      },
+    },
+    take: 1, // Only first badge for card display
+    orderBy: { badge: { displayOrder: "asc" as const } },
+  },
+};
+
+const tagsIncludeLimited = {
+  tags: {
+    where: { isActive: true },
+    select: {
+      id: true,
+      isActive: true,
+      tag: {
+        select: {
+          id: true,
+          tagName: true,
+          tagColor: true,
+        },
+      },
+    },
+    take: 2, // Only first 2 tags for card display
+    orderBy: { tag: { displayOrder: "asc" as const } },
+  },
+};
+
+/**
  * Get all listings with optional pagination
  */
 export const getListings = async (c: Context) => {
@@ -166,6 +257,7 @@ export const getListings = async (c: Context) => {
     });
 
     // Fetch listings with pagination - use select for better performance
+    // UPDATED: Include badges and tags for listing cards
     const listings = await prisma.listing.findMany({
       where: whereClause,
       select: {
@@ -202,6 +294,41 @@ export const getListings = async (c: Context) => {
           },
           take: 1, // Only get first image for listing card
           orderBy: { createdAt: "asc" },
+        },
+        // ADDED: Badges for listing cards (limited to 1)
+        badges: {
+          where: { isActive: true },
+          select: {
+            id: true,
+            isActive: true,
+            badge: {
+              select: {
+                id: true,
+                badgeName: true,
+                badgeIconUrl: true,
+                badgeColor: true,
+              },
+            },
+          },
+          take: 1,
+          orderBy: { badge: { displayOrder: "asc" } },
+        },
+        // ADDED: Tags for listing cards (limited to 2)
+        tags: {
+          where: { isActive: true },
+          select: {
+            id: true,
+            isActive: true,
+            tag: {
+              select: {
+                id: true,
+                tagName: true,
+                tagColor: true,
+              },
+            },
+          },
+          take: 2,
+          orderBy: { tag: { displayOrder: "asc" } },
         },
       },
       orderBy: orderByClause,
@@ -298,6 +425,7 @@ export const getAdminListings = async (c: Context) => {
     });
 
     // Fetch listings with pagination
+    // UPDATED: Include badges and tags for admin view
     const listings = await prisma.listing.findMany({
       where: whereClause,
       include: {
@@ -318,6 +446,43 @@ export const getAdminListings = async (c: Context) => {
             lastName: true,
             email: true,
           },
+        },
+        // ADDED: Badges for admin listings
+        badges: {
+          where: { isActive: true },
+          select: {
+            id: true,
+            isActive: true,
+            assignedAt: true,
+            badge: {
+              select: {
+                id: true,
+                badgeName: true,
+                badgeType: true,
+                badgeIconUrl: true,
+                badgeColor: true,
+              },
+            },
+          },
+          orderBy: { badge: { displayOrder: "asc" } },
+        },
+        // ADDED: Tags for admin listings
+        tags: {
+          where: { isActive: true },
+          select: {
+            id: true,
+            isActive: true,
+            assignedAt: true,
+            tag: {
+              select: {
+                id: true,
+                tagName: true,
+                tagType: true,
+                tagColor: true,
+              },
+            },
+          },
+          orderBy: { tag: { displayOrder: "asc" } },
         },
       },
       orderBy: { createdAt: "desc" },
@@ -354,6 +519,7 @@ export const getListing = async (c: Context) => {
     const listingSlug = c.req.param("slug");
     const user = c.get("user");
 
+    // UPDATED: Include badges and tags in listing detail
     const listing = await prisma.listing.findUnique({
       where: { listingSlug: listingSlug },
       include: {
@@ -383,6 +549,46 @@ export const getListing = async (c: Context) => {
         addons: true,
         media: true,
         faqs: true,
+        // ADDED: Full badges for detail page
+        badges: {
+          where: { isActive: true },
+          select: {
+            id: true,
+            isActive: true,
+            assignedAt: true,
+            badge: {
+              select: {
+                id: true,
+                badgeName: true,
+                badgeType: true,
+                badgeDescription: true,
+                badgeIconUrl: true,
+                badgeColor: true,
+                displayOrder: true,
+              },
+            },
+          },
+          orderBy: { badge: { displayOrder: "asc" } },
+        },
+        // ADDED: Full tags for detail page
+        tags: {
+          where: { isActive: true },
+          select: {
+            id: true,
+            isActive: true,
+            assignedAt: true,
+            tag: {
+              select: {
+                id: true,
+                tagName: true,
+                tagType: true,
+                tagColor: true,
+                displayOrder: true,
+              },
+            },
+          },
+          orderBy: { tag: { displayOrder: "asc" } },
+        },
       },
     });
 
@@ -442,6 +648,7 @@ export const getListingById = async (c: Context) => {
     const user = c.get("user");
 
     // Fetch listing with only essential data first
+    // UPDATED: Include badges and tags
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
       include: {
@@ -532,6 +739,48 @@ export const getListingById = async (c: Context) => {
           },
         },
         faqs: true,
+        // ADDED: Full badges for management page
+        badges: {
+          select: {
+            id: true,
+            isActive: true,
+            assignedAt: true,
+            assignedByAdminId: true,
+            badge: {
+              select: {
+                id: true,
+                badgeName: true,
+                badgeType: true,
+                badgeDescription: true,
+                badgeIconUrl: true,
+                badgeColor: true,
+                displayOrder: true,
+                isActive: true,
+              },
+            },
+          },
+          orderBy: { badge: { displayOrder: "asc" } },
+        },
+        // ADDED: Full tags for management page
+        tags: {
+          select: {
+            id: true,
+            isActive: true,
+            assignedAt: true,
+            assignedByAdminId: true,
+            tag: {
+              select: {
+                id: true,
+                tagName: true,
+                tagType: true,
+                tagColor: true,
+                displayOrder: true,
+                isActive: true,
+              },
+            },
+          },
+          orderBy: { tag: { displayOrder: "asc" } },
+        },
       },
     });
 
@@ -576,10 +825,21 @@ export const getListingById = async (c: Context) => {
       // Remove admin-specific sensitive fields for non-admin users
       const { approvedByAdminId, approvedAt, ...publicListing } = listing;
       
+      // Also filter out inactive badges/tags and assignedByAdminId for non-admins
+      const filteredBadges = listing.badges
+        .filter(b => b.isActive)
+        .map(({ assignedByAdminId, ...rest }) => rest);
+      
+      const filteredTags = listing.tags
+        .filter(t => t.isActive)
+        .map(({ assignedByAdminId, ...rest }) => rest);
+      
       return c.json({
         success: true,
         data: {
           ...publicListing,
+          badges: filteredBadges,
+          tags: filteredTags,
           variantFieldDefinitions,
         },
       });
