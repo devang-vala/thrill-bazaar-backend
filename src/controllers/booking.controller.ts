@@ -1,5 +1,11 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
+import {
+  calculatePaymentBreakdown,
+  rupeesToPaise,
+  getQuantityForBookingFormat,
+  type PaymentCalculationInput,
+} from "../helpers/payment.helper.js";
 
 // Generate unique booking reference
 const generateBookingReference = () => {
@@ -103,6 +109,7 @@ export const createBooking = async (c: Context) => {
               currency: true, 
               taxRate: true,
               operatorId: true,
+              bookingFormat: true,
             }
           }
         }
@@ -128,6 +135,7 @@ export const createBooking = async (c: Context) => {
               currency: true, 
               taxRate: true,
               operatorId: true,
+              bookingFormat: true,
             }
           },
           slotDefinition: {
@@ -186,6 +194,32 @@ export const createBooking = async (c: Context) => {
 
     console.log("Booking dates:", { bookingStartDate, bookingEndDate });
 
+    // Calculate total days
+    const timeDiff = bookingEndDate.getTime() - bookingStartDate.getTime();
+    const totalDays = Math.max(1, Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1);
+
+    // Get booking format from listing
+    const bookingFormat = listingDetails.bookingFormat as "F1" | "F2" | "F3" | "F4";
+
+    // Calculate quantity based on booking format
+    const quantity = getQuantityForBookingFormat(bookingFormat, participantCount, totalDays);
+
+    // Calculate payment breakdown
+    const paymentInput: PaymentCalculationInput = {
+      bookingFormat,
+      basePrice: rupeesToPaise(basePrice), // Convert to paise
+      quantity,
+      addonsAmount: rupeesToPaise(addonsTotal || 0),
+      discountAmount: rupeesToPaise(discountAmount || 0),
+      amountPaidOnline: amountPaidNow ? rupeesToPaise(amountPaidNow) : undefined,
+      paymentMethod: paymentMethod || "online",
+      taxRate: listingDetails.taxRate ? Math.round(listingDetails.taxRate * 100) : 1800, // Convert to basis points
+    };
+
+    const paymentBreakdown = calculatePaymentBreakdown(paymentInput);
+
+    console.log("Payment breakdown:", paymentBreakdown);
+
     // Create booking with all details in transaction
     const result = await prisma.$transaction(async (tx) => {
       // Create booking with all metadata
@@ -198,24 +232,48 @@ export const createBooking = async (c: Context) => {
           bookingStartDate,
           bookingEndDate,
           participantCount,
-          totalDays: 1,
+          totalDays,
           basePrice: basePrice,
-          totalAmount: totalAmount,
+          totalAmount: paymentBreakdown.totalAmount / 100, // Store in rupees
           bookingStatus: "CONFIRMED",
           participants: participants,
           contactDetails: contactDetails,
           selectedAddons: selectedAddons || [],
           pricingDetails: {
-            subtotal,
-            addonsTotal: addonsTotal || 0,
-            taxAmount: taxAmount || 0,
-            discountAmount: discountAmount || 0,
+            subtotal: paymentBreakdown.subtotalAmount / 100,
+            addonsTotal: paymentBreakdown.addonsAmount / 100,
+            taxAmount: paymentBreakdown.taxAmount / 100,
+            discountAmount: paymentBreakdown.discountAmount / 100,
             promoCode: promoCode || null,
-            totalAmount,
-            amountPaidNow: amountPaidNow || totalAmount,
-            amountPendingAtVenue: amountPendingAtVenue || 0,
-            paymentMethod: paymentMethod || "online",
+            totalAmount: paymentBreakdown.totalAmount / 100,
+            amountPaidNow: paymentBreakdown.amountPaidOnline / 100,
+            amountPendingAtVenue: paymentBreakdown.amountToCollectOffline / 100,
+            paymentMethod: paymentBreakdown.paymentMethod,
           },
+        },
+      });
+
+      // Create BookingPayment record
+      const bookingPayment = await tx.bookingPayment.create({
+        data: {
+          bookingId: booking.id,
+          basePrice: paymentBreakdown.basePrice,
+          quantity: paymentBreakdown.quantity,
+          subtotalAmount: paymentBreakdown.subtotalAmount,
+          addonsAmount: paymentBreakdown.addonsAmount,
+          discountAmount: paymentBreakdown.discountAmount,
+          taxAmount: paymentBreakdown.taxAmount,
+          totalAmount: paymentBreakdown.totalAmount,
+          amountPaidOnline: paymentBreakdown.amountPaidOnline,
+          amountToCollectOffline: paymentBreakdown.amountToCollectOffline,
+          paymentMethod: paymentBreakdown.paymentMethod,
+          platformCommissionRate: paymentBreakdown.platformCommissionRate,
+          platformCommission: paymentBreakdown.platformCommission,
+          tcsRate: paymentBreakdown.tcsRate,
+          tcsAmount: paymentBreakdown.tcsAmount,
+          sellerGrossEarnings: paymentBreakdown.sellerGrossEarnings,
+          netPayableToSeller: paymentBreakdown.netPayableToSeller,
+          settlementStatus: "PENDING",
         },
       });
 
@@ -244,6 +302,7 @@ export const createBooking = async (c: Context) => {
 
       return {
         booking,
+        bookingPayment,
         bookingReference: booking.bookingReference,
       };
     });
@@ -557,6 +616,7 @@ export const getUserBookings = async (c: Context) => {
                 frontImageUrl: true,
                 currency: true,
                 startLocationName: true,
+                bookingFormat: true,
                 category: {
                   select: {
                     categoryName: true,
@@ -566,6 +626,32 @@ export const getUserBookings = async (c: Context) => {
             },
           },
         },
+        dateRange: {
+          include: {
+            listing: {
+              select: {
+                id: true,
+                listingName: true,
+                frontImageUrl: true,
+                currency: true,
+                startLocationName: true,
+                bookingFormat: true,
+                category: {
+                  select: {
+                    categoryName: true,
+                  },
+                },
+              },
+            },
+            slotDefinition: {
+              select: {
+                startTime: true,
+                endTime: true,
+              },
+            },
+          },
+        },
+        payment: true,
       },
       orderBy: { createdAt: "desc" },
     });
@@ -637,6 +723,7 @@ export const getBookingWithReschedules = async (c: Context) => {
             },
           },
         },
+        payment: true,
         reschedules: {
           orderBy: { createdAt: "desc" },
           include: {

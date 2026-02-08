@@ -1,0 +1,43 @@
+model BookingPayment {
+  id        String @id @default(uuid())
+  bookingId String @unique @map("booking_id")
+
+  // Quantity/unit information (varies by booking format)
+  // F1: numberOfDays, F2: numberOfDays, F3: numberOfParticipants, F4: numberOfDays
+  basePrice Int @map("base_price") // Price per unit in paise (per day or per participant)
+  quantity  Int // Number of days (F1/F2/F4) or participants (F3)
+
+  // Final resolved money snapshot (all values stored in paise/cents)
+  subtotalAmount Int @map("subtotal_amount") // basePrice * quantity
+  addonsAmount   Int @map("addons_amount") // Total of all addon costs
+  discountAmount Int @map("discount_amount") // Discount applied (promo code etc)
+  taxAmount      Int @map("tax_amount") // Tax amount (GST etc)
+  totalAmount    Int @map("total_amount") // Final amount customer pays
+
+  // Payment split
+  amountPaidOnline       Int     @map("amount_paid_online") // Paid now (e.g., 50%)
+  amountToCollectOffline Int     @map("amount_to_collect_offline") // Balance at venue
+  paymentMethod          String? @map("payment_method") // online, cash, etc
+
+  // Platform economics
+  platformCommissionRate Int @map("platform_commission_rate") // Rate in basis points (1000 = 10%)
+  platformCommission     Int @map("platform_commission") // Calculated commission amount
+  tcsRate                Int @map("tcs_rate") // TCS rate in basis points (100 = 1%)
+  tcsAmount              Int @map("tcs_amount") // Calculated TCS amount
+
+  // Seller/Operator economics
+  sellerGrossEarnings Int @map("seller_gross_earnings") // totalAmount - platformCommission - tcsAmount
+  netPayableToSeller  Int @map("net_payable_to_seller") // After all deductions
+
+  // Settlement tracking
+  settlementStatus SettlementStatus @default(PENDING) @map("settlement_status")
+  settlementDate   DateTime?        @map("settlement_date")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relation
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("booking_payments")
+}

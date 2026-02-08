@@ -391,6 +391,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Badge: 'Badge',
   ListingBadge: 'ListingBadge',
+  BookingPayment: 'BookingPayment',
   Booking: 'Booking',
   Category: 'Category',
   SubCategory: 'SubCategory',
@@ -439,7 +440,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "badge" | "listingBadge" | "booking" | "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "operatorProfile" | "otp" | "primaryDivision" | "reschedule" | "review" | "reviewHelpfulVote" | "secondaryDivision" | "slotDefinition" | "tag" | "listingTag" | "userAddress" | "user"
+    modelProps: "badge" | "listingBadge" | "bookingPayment" | "booking" | "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "operatorProfile" | "otp" | "primaryDivision" | "reschedule" | "review" | "reviewHelpfulVote" | "secondaryDivision" | "slotDefinition" | "tag" | "listingTag" | "userAddress" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -588,6 +589,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ListingBadgeCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ListingBadgeCountAggregateOutputType> | number
+        }
+      }
+    }
+    BookingPayment: {
+      payload: Prisma.$BookingPaymentPayload<ExtArgs>
+      fields: Prisma.BookingPaymentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BookingPaymentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPaymentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BookingPaymentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPaymentPayload>
+        }
+        findFirst: {
+          args: Prisma.BookingPaymentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPaymentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BookingPaymentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPaymentPayload>
+        }
+        findMany: {
+          args: Prisma.BookingPaymentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPaymentPayload>[]
+        }
+        create: {
+          args: Prisma.BookingPaymentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPaymentPayload>
+        }
+        createMany: {
+          args: Prisma.BookingPaymentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BookingPaymentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPaymentPayload>[]
+        }
+        delete: {
+          args: Prisma.BookingPaymentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPaymentPayload>
+        }
+        update: {
+          args: Prisma.BookingPaymentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPaymentPayload>
+        }
+        deleteMany: {
+          args: Prisma.BookingPaymentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BookingPaymentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BookingPaymentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPaymentPayload>[]
+        }
+        upsert: {
+          args: Prisma.BookingPaymentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPaymentPayload>
+        }
+        aggregate: {
+          args: Prisma.BookingPaymentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBookingPayment>
+        }
+        groupBy: {
+          args: Prisma.BookingPaymentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BookingPaymentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BookingPaymentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BookingPaymentCountAggregateOutputType> | number
         }
       }
     }
@@ -3103,6 +3178,34 @@ export const ListingBadgeScalarFieldEnum = {
 export type ListingBadgeScalarFieldEnum = (typeof ListingBadgeScalarFieldEnum)[keyof typeof ListingBadgeScalarFieldEnum]
 
 
+export const BookingPaymentScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  basePrice: 'basePrice',
+  quantity: 'quantity',
+  subtotalAmount: 'subtotalAmount',
+  addonsAmount: 'addonsAmount',
+  discountAmount: 'discountAmount',
+  taxAmount: 'taxAmount',
+  totalAmount: 'totalAmount',
+  amountPaidOnline: 'amountPaidOnline',
+  amountToCollectOffline: 'amountToCollectOffline',
+  paymentMethod: 'paymentMethod',
+  platformCommissionRate: 'platformCommissionRate',
+  platformCommission: 'platformCommission',
+  tcsRate: 'tcsRate',
+  tcsAmount: 'tcsAmount',
+  sellerGrossEarnings: 'sellerGrossEarnings',
+  netPayableToSeller: 'netPayableToSeller',
+  settlementStatus: 'settlementStatus',
+  settlementDate: 'settlementDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BookingPaymentScalarFieldEnum = (typeof BookingPaymentScalarFieldEnum)[keyof typeof BookingPaymentScalarFieldEnum]
+
+
 export const BookingScalarFieldEnum = {
   id: 'id',
   bookingReference: 'bookingReference',
@@ -3777,6 +3880,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'SettlementStatus'
+ */
+export type EnumSettlementStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SettlementStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'SettlementStatus[]'
+ */
+export type ListEnumSettlementStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SettlementStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -4088,6 +4205,7 @@ export interface PrismaClientOptions {
 export type GlobalOmitConfig = {
   badge?: Prisma.BadgeOmit
   listingBadge?: Prisma.ListingBadgeOmit
+  bookingPayment?: Prisma.BookingPaymentOmit
   booking?: Prisma.BookingOmit
   category?: Prisma.CategoryOmit
   subCategory?: Prisma.SubCategoryOmit

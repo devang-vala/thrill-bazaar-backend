@@ -50,6 +50,7 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 export const ModelName = {
   Badge: 'Badge',
   ListingBadge: 'ListingBadge',
+  BookingPayment: 'BookingPayment',
   Booking: 'Booking',
   Category: 'Category',
   SubCategory: 'SubCategory',
@@ -130,6 +131,34 @@ export const ListingBadgeScalarFieldEnum = {
 } as const
 
 export type ListingBadgeScalarFieldEnum = (typeof ListingBadgeScalarFieldEnum)[keyof typeof ListingBadgeScalarFieldEnum]
+
+
+export const BookingPaymentScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  basePrice: 'basePrice',
+  quantity: 'quantity',
+  subtotalAmount: 'subtotalAmount',
+  addonsAmount: 'addonsAmount',
+  discountAmount: 'discountAmount',
+  taxAmount: 'taxAmount',
+  totalAmount: 'totalAmount',
+  amountPaidOnline: 'amountPaidOnline',
+  amountToCollectOffline: 'amountToCollectOffline',
+  paymentMethod: 'paymentMethod',
+  platformCommissionRate: 'platformCommissionRate',
+  platformCommission: 'platformCommission',
+  tcsRate: 'tcsRate',
+  tcsAmount: 'tcsAmount',
+  sellerGrossEarnings: 'sellerGrossEarnings',
+  netPayableToSeller: 'netPayableToSeller',
+  settlementStatus: 'settlementStatus',
+  settlementDate: 'settlementDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BookingPaymentScalarFieldEnum = (typeof BookingPaymentScalarFieldEnum)[keyof typeof BookingPaymentScalarFieldEnum]
 
 
 export const BookingScalarFieldEnum = {

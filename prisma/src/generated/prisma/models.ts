@@ -9,6 +9,7 @@
  */
 export type * from './models/Badge.js'
 export type * from './models/ListingBadge.js'
+export type * from './models/BookingPayment.js'
 export type * from './models/Booking.js'
 export type * from './models/Category.js'
 export type * from './models/SubCategory.js'

@@ -39,6 +39,7 @@ model Booking {
   dateRange   InventoryDateRange? @relation(fields: [dateRangeId], references: [id], onDelete: Restrict)
   reschedules Reschedule[]
   review      Review?
+  payment     BookingPayment?
 
   @@map("bookings")
 }

@@ -157,6 +157,15 @@ export const RescheduleStatus = {
 export type RescheduleStatus = (typeof RescheduleStatus)[keyof typeof RescheduleStatus]
 
 
+export const SettlementStatus = {
+  PENDING: 'PENDING',
+  SETTLED: 'SETTLED',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type SettlementStatus = (typeof SettlementStatus)[keyof typeof SettlementStatus]
+
+
 export const BadgeType = {
   certification: 'certification',
   performance: 'performance',
