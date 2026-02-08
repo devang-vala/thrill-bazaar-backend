@@ -146,6 +146,43 @@ export const getF2DatesForMonth = async (c: Context) => {
       orderBy: { availableFromDate: "asc" },
     });
 
+    // Fetch price overrides for this month
+    const priceOverrides = await prisma.listingSlotChange.findMany({
+      where: {
+        listingId,
+        variantId: variantId || null,
+        date: {
+          gte: startOfMonth,
+          lte: endOfMonth,
+        },
+      },
+    });
+
+    // Fetch blocked dates for this month
+    const blockedDates = await prisma.inventoryBlockedDate.findMany({
+      where: {
+        listingId,
+        variantId: variantId || null,
+        blockedDate: {
+          gte: startOfMonth,
+          lte: endOfMonth,
+        },
+      },
+    });
+
+    // Create maps for quick lookup
+    const priceOverrideMap = new Map();
+    priceOverrides.forEach(override => {
+      const dateStr = override.date.toISOString().split("T")[0];
+      priceOverrideMap.set(dateStr, override);
+    });
+
+    const blockedDatesSet = new Set();
+    blockedDates.forEach(block => {
+      const dateStr = block.blockedDate.toISOString().split("T")[0];
+      blockedDatesSet.add(dateStr);
+    });
+
     // Expand ranges into individual dates for the month
     const datesInMonth: any[] = [];
     
@@ -161,18 +198,27 @@ export const getF2DatesForMonth = async (c: Context) => {
       const currentDate = new Date(iterStart);
       
       while (currentDate <= iterEnd) {
+        const dateStr = currentDate.toISOString().split("T")[0];
+        
+        // Check if date is blocked
+        const isBlocked = blockedDatesSet.has(dateStr);
+        
+        // Check for price override
+        const override = priceOverrideMap.get(dateStr);
+        
         datesInMonth.push({
-          date: currentDate.toISOString().split("T")[0],
+          date: dateStr,
           dateRangeId: range.id,
-          basePricePerDay: range.basePricePerDay,
-          totalCapacity: range.totalCapacity,
-          availableCount: range.availableCount,
-          isActive: range.isActive,
+          basePricePerDay: override ? override.price : range.basePricePerDay,
+          totalCapacity: override ? override.totalCapacity : range.totalCapacity,
+          availableCount: override ? override.availableCount : range.availableCount,
+          isActive: !isBlocked,
         });
         currentDate.setDate(currentDate.getDate() + 1);
       }
     });
 
+    console.log(`getF2DatesForMonth: Found ${dateRanges.length} date ranges, ${priceOverrides.length} overrides, ${blockedDates.length} blocked dates, returning ${datesInMonth.length} dates`);
     return c.json({ success: true, data: datesInMonth });
   } catch (error) {
     console.error("Get F2 dates for month error:", error);

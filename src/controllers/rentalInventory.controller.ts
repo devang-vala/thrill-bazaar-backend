@@ -31,15 +31,56 @@ export const upsertPerDayPriceOverride = async (c: Context) => {
       data: updateData,
     });
   } else {
+    // When creating new override, get the base values from the date range if not provided
+    let finalAvailableCount = availableCount;
+    let finalTotalCapacity = totalCapacity;
+    let finalInventoryDateRangeId = inventoryDateRangeId;
+    
+    // Try to find the date range this date belongs to
+    const dateRange = await prisma.inventoryDateRange.findFirst({
+      where: {
+        listingId,
+        variantId: variantId ?? null,
+        availableFromDate: { lte: changeDate },
+        availableToDate: { gte: changeDate },
+        isActive: true,
+      },
+    });
+    
+    if (dateRange) {
+      // If we found a date range, use its ID and values if not provided
+      if (!finalInventoryDateRangeId) {
+        finalInventoryDateRangeId = dateRange.id;
+      }
+      if (finalAvailableCount === undefined || finalAvailableCount === null) {
+        finalAvailableCount = dateRange.availableCount ?? 1;
+      }
+      if (finalTotalCapacity === undefined || finalTotalCapacity === null) {
+        finalTotalCapacity = dateRange.totalCapacity ?? 1;
+      }
+    } else {
+      // No date range found, use reasonable defaults (not 0)
+      if (finalAvailableCount === undefined || finalAvailableCount === null) {
+        finalAvailableCount = 1;
+      }
+      if (finalTotalCapacity === undefined || finalTotalCapacity === null) {
+        finalTotalCapacity = 1;
+      }
+    }
+    
+    // Ensure we never have null values (schema requires non-null)
+    finalAvailableCount = finalAvailableCount ?? 1;
+    finalTotalCapacity = finalTotalCapacity ?? 1;
+    
     await prisma.listingSlotChange.create({
       data: {
-        inventoryDateRangeId: inventoryDateRangeId ?? null,
+        inventoryDateRangeId: finalInventoryDateRangeId ?? null,
         listingId,
         variantId: variantId ?? null,
         date: changeDate,
         price: price,
-        availableCount: availableCount !== undefined && availableCount !== null ? availableCount : 0,
-        totalCapacity: totalCapacity !== undefined && totalCapacity !== null ? totalCapacity : 0,
+        availableCount: finalAvailableCount,
+        totalCapacity: finalTotalCapacity,
         triggerType: "seller_update",
       },
     });
