@@ -132,15 +132,14 @@ export const getRentalAvailability = async (c: Context) => {
   const variantId = c.req.param("variantId") || null;
   // Fetch all date ranges
   const ranges = await prisma.inventoryDateRange.findMany({
-    where: { listingId, variantId },
+    where: { listingId, variantId, slotDefinitionId: null }, // F2 only
     orderBy: { availableFromDate: "asc" },
   });
-  // Fetch all per-day overrides (including booked dates)
+  // Fetch all per-day overrides (including price overrides)
   const slotOverrides = await prisma.listingSlotChange.findMany({
     where: {
       listingId,
       variantId: variantId ?? null,
-      inventoryDateRangeId: null,
     },
     select: {
       date: true,
@@ -155,12 +154,53 @@ export const getRentalAvailability = async (c: Context) => {
   });
   const blockedSet = new Set(blocked.map(b => format(b.blockedDate, "yyyy-MM-dd")));
   
-  // Build a map for booked dates and capacity
-  const capacityMap: Record<string, { totalCapacity: number, availableCount: number }> = {};
+  // Fetch active bookings for this listing to calculate per-date booking count
+  const dateRangeIds = ranges.map(r => r.id);
+  const activeBookings = await prisma.booking.findMany({
+    where: {
+      dateRangeId: { in: dateRangeIds },
+      bookingStatus: { in: ["CONFIRMED", "COMPLETED"] },
+    },
+    select: {
+      dateRangeId: true,
+      pricingDetails: true,
+      bookingStartDate: true,
+      bookingEndDate: true,
+    },
+  });
+
+  // Build a map of booked dates count per date
+  const bookedDatesCount: Record<string, number> = {};
+  activeBookings.forEach((booking) => {
+    // Try to get selectedDates from pricingDetails
+    const pricingDetails = booking.pricingDetails as { selectedDates?: string[] } | null;
+    let selectedDates: string[] = [];
+    
+    if (pricingDetails?.selectedDates && Array.isArray(pricingDetails.selectedDates)) {
+      selectedDates = pricingDetails.selectedDates;
+    } else {
+      // Fall back to generating dates from start/end if selectedDates not available
+      const startDate = new Date(booking.bookingStartDate);
+      const endDate = new Date(booking.bookingEndDate);
+      const currentDate = new Date(startDate);
+      while (currentDate <= endDate) {
+        selectedDates.push(format(currentDate, "yyyy-MM-dd"));
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+    }
+    
+    // Count bookings per date
+    selectedDates.forEach((dateStr) => {
+      bookedDatesCount[dateStr] = (bookedDatesCount[dateStr] || 0) + 1;
+    });
+  });
+
+  // Build a map for price overrides
+  const priceOverrideMap: Record<string, { price: number; totalCapacity?: number }> = {};
   for (const o of slotOverrides) {
-    capacityMap[format(o.date, "yyyy-MM-dd")] = {
+    priceOverrideMap[format(o.date, "yyyy-MM-dd")] = {
+      price: o.price,
       totalCapacity: o.totalCapacity,
-      availableCount: o.availableCount,
     };
   }
   
@@ -171,56 +211,82 @@ export const getRentalAvailability = async (c: Context) => {
     source: string, 
     totalCapacity?: number,
     availableCount?: number,
+    bookedCount?: number,
     remainingCount?: number
   }> = {};
   // 1. Fill from date ranges
   for (const range of ranges) {
     const dates = getDatesInRange(range.availableFromDate, range.availableToDate);
-    for (const date of dates) {
-      calendar[date] = { price: range.basePricePerDay, available: true, source: "range" };
-    }
-  }
-  // 2. Override with per-day slot changes (price and capacity)
-  for (const o of slotOverrides) {
-    const dateStr = format(o.date, "yyyy-MM-dd");
-    const capacity = capacityMap[dateStr];
-    if (calendar[dateStr]) {
-      calendar[dateStr].price = o.price;
-      calendar[dateStr].source = "override";
-      calendar[dateStr].totalCapacity = capacity.totalCapacity;
-      calendar[dateStr].availableCount = capacity.availableCount;
-      calendar[dateStr].remainingCount = capacity.availableCount;
-    } else {
+    for (const dateStr of dates) {
+      const totalCapacity = range.totalCapacity ?? 1;
+      const bookedCount = bookedDatesCount[dateStr] || 0;
+      const availableCount = Math.max(0, totalCapacity - bookedCount);
+      
       calendar[dateStr] = { 
-        price: o.price, 
-        available: true, 
-        source: "override",
-        totalCapacity: capacity.totalCapacity,
-        availableCount: capacity.availableCount,
-        remainingCount: capacity.availableCount,
+        price: range.basePricePerDay, 
+        available: availableCount > 0, 
+        source: "range",
+        totalCapacity: totalCapacity,
+        availableCount: availableCount,
+        bookedCount: bookedCount,
+        remainingCount: availableCount,
       };
     }
   }
-  // 3. Mark booked dates as unavailable (if fully booked)
-  for (const date of Object.keys(capacityMap)) {
-    if (calendar[date]) {
-      const capacity = capacityMap[date];
-      if (capacity.totalCapacity > capacity.availableCount) {
-        calendar[date].available = false;
-        calendar[date].source = "booked";
+  // 2. Override with per-day slot changes (price only, availability calculated from bookings)
+  for (const dateStr of Object.keys(priceOverrideMap)) {
+    const override = priceOverrideMap[dateStr];
+    if (calendar[dateStr]) {
+      calendar[dateStr].price = override.price;
+      calendar[dateStr].source = "override";
+      // Update totalCapacity from override if provided
+      if (override.totalCapacity !== undefined && override.totalCapacity !== null) {
+        const newTotalCapacity = override.totalCapacity;
+        const bookedCount = bookedDatesCount[dateStr] || 0;
+        const newAvailableCount = Math.max(0, newTotalCapacity - bookedCount);
+        calendar[dateStr].totalCapacity = newTotalCapacity;
+        calendar[dateStr].availableCount = newAvailableCount;
+        calendar[dateStr].remainingCount = newAvailableCount;
+        calendar[dateStr].available = newAvailableCount > 0;
       }
-      calendar[date].totalCapacity = capacity.totalCapacity;
-      calendar[date].availableCount = capacity.availableCount;
-      calendar[date].remainingCount = capacity.availableCount;
+    } else {
+      const totalCapacity = override.totalCapacity ?? 1;
+      const bookedCount = bookedDatesCount[dateStr] || 0;
+      const availableCount = Math.max(0, totalCapacity - bookedCount);
+      calendar[dateStr] = { 
+        price: override.price, 
+        available: availableCount > 0, 
+        source: "override",
+        totalCapacity: totalCapacity,
+        availableCount: availableCount,
+        bookedCount: bookedCount,
+        remainingCount: availableCount,
+      };
+    }
+  }
+  // 3. Mark booked dates as unavailable (if fully booked based on actual bookings)
+  for (const dateStr of Object.keys(bookedDatesCount)) {
+    if (calendar[dateStr]) {
+      const bookedCount = bookedDatesCount[dateStr];
+      const totalCapacity = calendar[dateStr].totalCapacity ?? 1;
+      const availableCount = Math.max(0, totalCapacity - bookedCount);
+      
+      if (availableCount === 0) {
+        calendar[dateStr].available = false;
+        calendar[dateStr].source = "booked";
+      }
+      calendar[dateStr].bookedCount = bookedCount;
+      calendar[dateStr].availableCount = availableCount;
+      calendar[dateStr].remainingCount = availableCount;
     }
   }
   // 4. Blocked dates take highest priority
-  for (const date of blockedSet) {
-    if (calendar[date]) {
-      calendar[date].available = false;
-      calendar[date].source = "blocked";
+  for (const dateStr of blockedSet) {
+    if (calendar[dateStr]) {
+      calendar[dateStr].available = false;
+      calendar[dateStr].source = "blocked";
     } else {
-      calendar[date] = { price: 0, available: false, source: "blocked" };
+      calendar[dateStr] = { price: 0, available: false, source: "blocked" };
     }
   }
   return c.json({ success: true, data: calendar });
@@ -234,6 +300,7 @@ export const upsertRentalDateRange = async (c: Context) => {
     where: {
       listingId,
       variantId,
+      slotDefinitionId: null, // Only delete F2 ranges (rental ranges)
       OR: [
         { availableFromDate: { lte: new Date(availableToDate) }, availableToDate: { gte: new Date(availableFromDate) } },
       ],
@@ -243,9 +310,13 @@ export const upsertRentalDateRange = async (c: Context) => {
     data: {
       listingId,
       variantId,
+      slotDefinitionId: null, // F2 = rental, no slot definition
       availableFromDate: new Date(availableFromDate),
       availableToDate: new Date(availableToDate),
       basePricePerDay: Number(basePricePerDay),
+      totalCapacity: 1, // Default capacity for rentals
+      availableCount: 1, // Initially all available
+      isActive: true,
     },
   });
   return c.json({ success: true, data: range });

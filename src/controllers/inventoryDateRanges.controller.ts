@@ -8,9 +8,12 @@ export const createInventoryDateRange = async (c: Context) => {
     const rangeData = {
       listingId: body.listingId,
       variantId: body.variantId || null,
+      slotDefinitionId: body.slotDefinitionId || null,
       availableFromDate: new Date(body.availableFromDate),
       availableToDate:  new Date(body.availableToDate),
       basePricePerDay: parseFloat(body.basePricePerDay),
+      totalCapacity: body.totalCapacity || 1,
+      availableCount: body.availableCount || body.totalCapacity || 1,
       primaryContactPhone: body.primaryContactPhone,
       secondaryContactPhone: body.secondaryContactPhone || null,
       isActive: true,
