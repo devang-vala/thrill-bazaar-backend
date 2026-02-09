@@ -170,6 +170,50 @@ export const getF2DatesForMonth = async (c: Context) => {
       },
     });
 
+    // Fetch active bookings that overlap with this month to calculate per-date availability
+    const dateRangeIds = dateRanges.map(r => r.id);
+    const activeBookings = await prisma.booking.findMany({
+      where: {
+        dateRangeId: { in: dateRangeIds },
+        bookingStatus: { in: ["CONFIRMED", "COMPLETED"] },
+        // Get bookings that overlap with this month
+        bookingStartDate: { lte: endOfMonth },
+        bookingEndDate: { gte: startOfMonth },
+      },
+      select: {
+        dateRangeId: true,
+        pricingDetails: true,
+        bookingStartDate: true,
+        bookingEndDate: true,
+      },
+    });
+
+    // Build a map of booked dates count per date
+    const bookedDatesCount: Record<string, number> = {};
+    activeBookings.forEach((booking) => {
+      // Try to get selectedDates from pricingDetails
+      const pricingDetails = booking.pricingDetails as { selectedDates?: string[] } | null;
+      let selectedDates: string[] = [];
+      
+      if (pricingDetails?.selectedDates && Array.isArray(pricingDetails.selectedDates)) {
+        selectedDates = pricingDetails.selectedDates;
+      } else {
+        // Fall back to generating dates from start/end if selectedDates not available
+        const startDate = new Date(booking.bookingStartDate);
+        const endDate = new Date(booking.bookingEndDate);
+        const currentDate = new Date(startDate);
+        while (currentDate <= endDate) {
+          selectedDates.push(currentDate.toISOString().split("T")[0]);
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      }
+      
+      // Count bookings per date
+      selectedDates.forEach((dateStr) => {
+        bookedDatesCount[dateStr] = (bookedDatesCount[dateStr] || 0) + 1;
+      });
+    });
+
     // Create maps for quick lookup
     const priceOverrideMap = new Map();
     priceOverrides.forEach(override => {
@@ -206,19 +250,27 @@ export const getF2DatesForMonth = async (c: Context) => {
         // Check for price override
         const override = priceOverrideMap.get(dateStr);
         
+        // Get total capacity from override or range
+        const totalCapacity = override?.totalCapacity ?? range.totalCapacity ?? 1; // Default to 1 if not set
+        
+        // Calculate available count based on actual bookings for this date
+        const bookedCount = bookedDatesCount[dateStr] || 0;
+        const availableCount = Math.max(0, totalCapacity - bookedCount);
+        
         datesInMonth.push({
           date: dateStr,
           dateRangeId: range.id,
           basePricePerDay: override ? override.price : range.basePricePerDay,
-          totalCapacity: override ? override.totalCapacity : range.totalCapacity,
-          availableCount: override ? override.availableCount : range.availableCount,
+          totalCapacity: totalCapacity,
+          availableCount: availableCount,
+          bookedCount: bookedCount,
           isActive: !isBlocked,
         });
         currentDate.setDate(currentDate.getDate() + 1);
       }
     });
 
-    console.log(`getF2DatesForMonth: Found ${dateRanges.length} date ranges, ${priceOverrides.length} overrides, ${blockedDates.length} blocked dates, returning ${datesInMonth.length} dates`);
+    console.log(`getF2DatesForMonth: Found ${dateRanges.length} date ranges, ${priceOverrides.length} overrides, ${blockedDates.length} blocked dates, ${activeBookings.length} active bookings, returning ${datesInMonth.length} dates`);
     return c.json({ success: true, data: datesInMonth });
   } catch (error) {
     console.error("Get F2 dates for month error:", error);
