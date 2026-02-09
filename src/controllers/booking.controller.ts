@@ -794,7 +794,7 @@ export const getAdminBookings = async (c: Context) => {
             firstName: true,
             lastName: true,
             email: true,
-            phoneNumber: true,
+            phone: true,
           },
         },
         listingSlot: {
@@ -892,7 +892,7 @@ export const getOperatorBookings = async (c: Context) => {
             firstName: true,
             lastName: true,
             email: true,
-            phoneNumber: true,
+            phone: true,
             profileImg: true,
           },
         },
@@ -955,7 +955,7 @@ export const getOperatorBookings = async (c: Context) => {
     });
 
     // Format bookings with aggregated data
-    const formattedBookings = bookings.map((booking) => ({
+    const formattedBookings = bookings.map((booking: any) => ({
       ...booking,
       listingSlot: booking.listingSlot
         ? {
