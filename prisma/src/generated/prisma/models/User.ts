@@ -69,6 +69,7 @@ export type UserCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   lastLoginAt: number
+  selectedCategoryIds: number
   _all: number
 }
 
@@ -119,6 +120,7 @@ export type UserCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   lastLoginAt?: true
+  selectedCategoryIds?: true
   _all?: true
 }
 
@@ -208,6 +210,7 @@ export type UserGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   lastLoginAt: Date | null
+  selectedCategoryIds: string[]
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -245,6 +248,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  selectedCategoryIds?: Prisma.StringNullableListFilter<"User">
   listings?: Prisma.ListingListRelationFilter
   approvedListings?: Prisma.ListingListRelationFilter
   policies?: Prisma.ListingPolicyListRelationFilter
@@ -282,6 +286,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  selectedCategoryIds?: Prisma.SortOrder
   listings?: Prisma.ListingOrderByRelationAggregateInput
   approvedListings?: Prisma.ListingOrderByRelationAggregateInput
   policies?: Prisma.ListingPolicyOrderByRelationAggregateInput
@@ -322,6 +327,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  selectedCategoryIds?: Prisma.StringNullableListFilter<"User">
   listings?: Prisma.ListingListRelationFilter
   approvedListings?: Prisma.ListingListRelationFilter
   policies?: Prisma.ListingPolicyListRelationFilter
@@ -359,6 +365,7 @@ export type UserOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  selectedCategoryIds?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -381,6 +388,7 @@ export type UserScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  selectedCategoryIds?: Prisma.StringNullableListFilter<"User">
 }
 
 export type UserCreateInput = {
@@ -397,6 +405,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -434,6 +443,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -471,6 +481,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -508,6 +519,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -545,6 +557,7 @@ export type UserCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
 }
 
 export type UserUpdateManyMutationInput = {
@@ -561,6 +574,7 @@ export type UserUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -577,6 +591,7 @@ export type UserUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
 }
 
 export type UserNullableScalarRelationFilter = {
@@ -603,6 +618,7 @@ export type UserCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  selectedCategoryIds?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -953,8 +969,17 @@ export type UserUpdateOneRequiredWithoutAddressesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAddressesInput, Prisma.UserUpdateWithoutAddressesInput>, Prisma.UserUncheckedUpdateWithoutAddressesInput>
 }
 
+export type UserCreateselectedCategoryIdsInput = {
+  set: string[]
+}
+
 export type EnumUserTypeFieldUpdateOperationsInput = {
   set?: $Enums.UserType
+}
+
+export type UserUpdateselectedCategoryIdsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type UserCreateWithoutCreatedBadgesInput = {
@@ -971,6 +996,7 @@ export type UserCreateWithoutCreatedBadgesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -1007,6 +1033,7 @@ export type UserUncheckedCreateWithoutCreatedBadgesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -1059,6 +1086,7 @@ export type UserUpdateWithoutCreatedBadgesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -1095,6 +1123,7 @@ export type UserUncheckedUpdateWithoutCreatedBadgesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -1131,6 +1160,7 @@ export type UserCreateWithoutAssignedListingBadgesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -1167,6 +1197,7 @@ export type UserUncheckedCreateWithoutAssignedListingBadgesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -1219,6 +1250,7 @@ export type UserUpdateWithoutAssignedListingBadgesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -1255,6 +1287,7 @@ export type UserUncheckedUpdateWithoutAssignedListingBadgesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -1291,6 +1324,7 @@ export type UserCreateWithoutBookingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -1327,6 +1361,7 @@ export type UserUncheckedCreateWithoutBookingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -1379,6 +1414,7 @@ export type UserUpdateWithoutBookingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -1415,6 +1451,7 @@ export type UserUncheckedUpdateWithoutBookingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -1451,6 +1488,7 @@ export type UserCreateWithoutBlockedDatesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -1487,6 +1525,7 @@ export type UserUncheckedCreateWithoutBlockedDatesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -1539,6 +1578,7 @@ export type UserUpdateWithoutBlockedDatesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -1575,6 +1615,7 @@ export type UserUncheckedUpdateWithoutBlockedDatesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -1611,6 +1652,7 @@ export type UserCreateWithoutCreatedMetadataDefinitionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -1647,6 +1689,7 @@ export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -1699,6 +1742,7 @@ export type UserUpdateWithoutCreatedMetadataDefinitionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -1735,6 +1779,7 @@ export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -1771,6 +1816,7 @@ export type UserCreateWithoutPoliciesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
@@ -1807,6 +1853,7 @@ export type UserUncheckedCreateWithoutPoliciesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
@@ -1859,6 +1906,7 @@ export type UserUpdateWithoutPoliciesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
@@ -1895,6 +1943,7 @@ export type UserUncheckedUpdateWithoutPoliciesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
@@ -1931,6 +1980,7 @@ export type UserCreateWithoutCreatedVariantMetadataDefinitionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -1967,6 +2017,7 @@ export type UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -2019,6 +2070,7 @@ export type UserUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -2055,6 +2107,7 @@ export type UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -2091,6 +2144,7 @@ export type UserCreateWithoutApprovedListingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
@@ -2127,6 +2181,7 @@ export type UserUncheckedCreateWithoutApprovedListingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
@@ -2168,6 +2223,7 @@ export type UserCreateWithoutListingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
@@ -2204,6 +2260,7 @@ export type UserUncheckedCreateWithoutListingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
@@ -2256,6 +2313,7 @@ export type UserUpdateWithoutApprovedListingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
@@ -2292,6 +2350,7 @@ export type UserUncheckedUpdateWithoutApprovedListingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
@@ -2339,6 +2398,7 @@ export type UserUpdateWithoutListingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
@@ -2375,6 +2435,7 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
   createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
@@ -2411,6 +2472,7 @@ export type UserCreateWithoutOperatorProfileInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -2447,6 +2509,7 @@ export type UserUncheckedCreateWithoutOperatorProfileInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -2488,6 +2551,7 @@ export type UserCreateWithoutVerifiedOperatorsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -2524,6 +2588,7 @@ export type UserUncheckedCreateWithoutVerifiedOperatorsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -2576,6 +2641,7 @@ export type UserUpdateWithoutOperatorProfileInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -2612,6 +2678,7 @@ export type UserUncheckedUpdateWithoutOperatorProfileInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -2659,6 +2726,7 @@ export type UserUpdateWithoutVerifiedOperatorsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -2695,6 +2763,7 @@ export type UserUncheckedUpdateWithoutVerifiedOperatorsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -2731,6 +2800,7 @@ export type UserCreateWithoutReschedulesInitiatedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -2767,6 +2837,7 @@ export type UserUncheckedCreateWithoutReschedulesInitiatedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -2808,6 +2879,7 @@ export type UserCreateWithoutReschedulesAsOperatorInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -2844,6 +2916,7 @@ export type UserUncheckedCreateWithoutReschedulesAsOperatorInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -2885,6 +2958,7 @@ export type UserCreateWithoutReschedulesApprovedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -2921,6 +2995,7 @@ export type UserUncheckedCreateWithoutReschedulesApprovedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -2973,6 +3048,7 @@ export type UserUpdateWithoutReschedulesInitiatedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -3009,6 +3085,7 @@ export type UserUncheckedUpdateWithoutReschedulesInitiatedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -3056,6 +3133,7 @@ export type UserUpdateWithoutReschedulesAsOperatorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -3092,6 +3170,7 @@ export type UserUncheckedUpdateWithoutReschedulesAsOperatorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -3139,6 +3218,7 @@ export type UserUpdateWithoutReschedulesApprovedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -3175,6 +3255,7 @@ export type UserUncheckedUpdateWithoutReschedulesApprovedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -3211,6 +3292,7 @@ export type UserCreateWithoutCustomerReviewsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -3247,6 +3329,7 @@ export type UserUncheckedCreateWithoutCustomerReviewsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -3288,6 +3371,7 @@ export type UserCreateWithoutOperatorReviewsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -3324,6 +3408,7 @@ export type UserUncheckedCreateWithoutOperatorReviewsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -3365,6 +3450,7 @@ export type UserCreateWithoutModeratedReviewsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -3401,6 +3487,7 @@ export type UserUncheckedCreateWithoutModeratedReviewsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -3453,6 +3540,7 @@ export type UserUpdateWithoutCustomerReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -3489,6 +3577,7 @@ export type UserUncheckedUpdateWithoutCustomerReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -3536,6 +3625,7 @@ export type UserUpdateWithoutOperatorReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -3572,6 +3662,7 @@ export type UserUncheckedUpdateWithoutOperatorReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -3619,6 +3710,7 @@ export type UserUpdateWithoutModeratedReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -3655,6 +3747,7 @@ export type UserUncheckedUpdateWithoutModeratedReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -3691,6 +3784,7 @@ export type UserCreateWithoutHelpfulVotesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -3727,6 +3821,7 @@ export type UserUncheckedCreateWithoutHelpfulVotesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -3779,6 +3874,7 @@ export type UserUpdateWithoutHelpfulVotesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -3815,6 +3911,7 @@ export type UserUncheckedUpdateWithoutHelpfulVotesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -3851,6 +3948,7 @@ export type UserCreateWithoutCreatedTagsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -3887,6 +3985,7 @@ export type UserUncheckedCreateWithoutCreatedTagsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -3939,6 +4038,7 @@ export type UserUpdateWithoutCreatedTagsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -3975,6 +4075,7 @@ export type UserUncheckedUpdateWithoutCreatedTagsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -4011,6 +4112,7 @@ export type UserCreateWithoutAssignedListingTagsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -4047,6 +4149,7 @@ export type UserUncheckedCreateWithoutAssignedListingTagsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -4099,6 +4202,7 @@ export type UserUpdateWithoutAssignedListingTagsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -4135,6 +4239,7 @@ export type UserUncheckedUpdateWithoutAssignedListingTagsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -4171,6 +4276,7 @@ export type UserCreateWithoutAddressesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
@@ -4207,6 +4313,7 @@ export type UserUncheckedCreateWithoutAddressesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
   approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
   policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
@@ -4259,6 +4366,7 @@ export type UserUpdateWithoutAddressesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
@@ -4295,6 +4403,7 @@ export type UserUncheckedUpdateWithoutAddressesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
   listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
   approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
   policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
@@ -4533,6 +4642,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   lastLoginAt?: boolean
+  selectedCategoryIds?: boolean
   listings?: boolean | Prisma.User$listingsArgs<ExtArgs>
   approvedListings?: boolean | Prisma.User$approvedListingsArgs<ExtArgs>
   policies?: boolean | Prisma.User$policiesArgs<ExtArgs>
@@ -4571,6 +4681,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   lastLoginAt?: boolean
+  selectedCategoryIds?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -4587,6 +4698,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   lastLoginAt?: boolean
+  selectedCategoryIds?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -4603,9 +4715,10 @@ export type UserSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   lastLoginAt?: boolean
+  selectedCategoryIds?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userType" | "email" | "phone" | "password" | "firstName" | "lastName" | "profileImg" | "isVerified" | "isActive" | "createdAt" | "updatedAt" | "lastLoginAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userType" | "email" | "phone" | "password" | "firstName" | "lastName" | "profileImg" | "isVerified" | "isActive" | "createdAt" | "updatedAt" | "lastLoginAt" | "selectedCategoryIds", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listings?: boolean | Prisma.User$listingsArgs<ExtArgs>
   approvedListings?: boolean | Prisma.User$approvedListingsArgs<ExtArgs>
@@ -4672,6 +4785,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdAt: Date
     updatedAt: Date
     lastLoginAt: Date | null
+    selectedCategoryIds: string[]
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -5129,6 +5243,7 @@ export interface UserFieldRefs {
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly lastLoginAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly selectedCategoryIds: Prisma.FieldRef<"User", 'String[]'>
 }
     
 

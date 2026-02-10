@@ -7,6 +7,8 @@ import {
   updateAnyUser,
   manageUserStatus,
   getOperatorsForFilter,
+  updateUserCategories,
+  getUserCategories,
 } from "../controllers/user.controller.js";
 import {
   authenticateToken,
@@ -28,6 +30,12 @@ userRouter.use(authenticateToken);
 
 // Get user profile
 userRouter.get("/profile", getUserProfile);
+
+// Get user's selected categories
+userRouter.get("/categories", getUserCategories);
+
+// Update user's selected categories
+userRouter.put("/categories", updateUserCategories);
 
 // Get users list (admin only)
 userRouter.post("/paginate", requireAdmin, getUsers);
