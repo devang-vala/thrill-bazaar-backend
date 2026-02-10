@@ -468,14 +468,69 @@ export const createF2Booking = async (c: Context) => {
       }, 400);
     }
 
-    // Check availability if capacity tracking is enabled
-    if (dateRange.totalCapacity !== null && dateRange.availableCount !== null) {
-      if (dateRange.availableCount < 1) {
-        return c.json({ success: false, message: "No availability for selected dates" }, 400);
+    // Check per-date availability by counting existing bookings for each selected date
+    if (dateRange.totalCapacity !== null) {
+      // Fetch all active bookings for this date range
+      const activeBookings = await prisma.booking.findMany({
+        where: {
+          dateRangeId: dateRangeId,
+          bookingStatus: { in: ["CONFIRMED", "COMPLETED"] },
+          // Get bookings that might overlap with our selected dates
+          bookingStartDate: { lte: endDate },
+          bookingEndDate: { gte: startDate },
+        },
+        select: {
+          pricingDetails: true,
+          bookingStartDate: true,
+          bookingEndDate: true,
+        },
+      });
+
+      // Build a map of booked dates count per date
+      const bookedDatesCount: Record<string, number> = {};
+      activeBookings.forEach((booking) => {
+        // Try to get selectedDates from pricingDetails
+        const pricingDetails = booking.pricingDetails as { selectedDates?: string[] } | null;
+        let bookingSelectedDates: string[] = [];
+        
+        if (pricingDetails?.selectedDates && Array.isArray(pricingDetails.selectedDates)) {
+          bookingSelectedDates = pricingDetails.selectedDates;
+        } else {
+          // Fall back to generating dates from start/end if selectedDates not available
+          const bookingStartDate = new Date(booking.bookingStartDate);
+          const bookingEndDate = new Date(booking.bookingEndDate);
+          const currentDate = new Date(bookingStartDate);
+          while (currentDate <= bookingEndDate) {
+            bookingSelectedDates.push(currentDate.toISOString().split("T")[0]);
+            currentDate.setDate(currentDate.getDate() + 1);
+          }
+        }
+        
+        // Count bookings per date
+        bookingSelectedDates.forEach((dateStr) => {
+          bookedDatesCount[dateStr] = (bookedDatesCount[dateStr] || 0) + 1;
+        });
+      });
+
+      // Check if all selected dates have available capacity
+      const unavailableDates: string[] = [];
+      selectedDates.forEach((dateStr: string) => {
+        const bookedCount = bookedDatesCount[dateStr] || 0;
+        const availableForDate = dateRange.totalCapacity! - bookedCount;
+        if (availableForDate < 1) {
+          unavailableDates.push(dateStr);
+        }
+      });
+
+      if (unavailableDates.length > 0) {
+        return c.json({ 
+          success: false, 
+          message: `No availability for selected dates: ${unavailableDates.join(", ")}` 
+        }, 400);
       }
     }
 
-    // Create booking and update availability in transaction
+    // Create booking in transaction
     const result = await prisma.$transaction(async (tx) => {
       // Create booking
       const booking = await tx.booking.create({
@@ -507,17 +562,9 @@ export const createF2Booking = async (c: Context) => {
         },
       });
 
-      // Update availability count if capacity tracking is enabled
-      if (dateRange.totalCapacity !== null && dateRange.availableCount !== null) {
-        await tx.inventoryDateRange.update({
-          where: { id: dateRangeId },
-          data: {
-            availableCount: {
-              decrement: 1,
-            },
-          },
-        });
-      }
+      // Note: For F2 bookings, availability is tracked per-date via the selectedDates
+      // in pricingDetails of each booking. We don't use the availableCount field
+      // on inventoryDateRange for per-date tracking.
 
       return {
         booking,
@@ -950,6 +997,7 @@ export const getOperatorBookings = async (c: Context) => {
           orderBy: { createdAt: "desc" },
           take: 5, // Limit to last 5 reschedules
         },
+        payment: true, // Include payment details
       },
       orderBy: { createdAt: "desc" },
     });
