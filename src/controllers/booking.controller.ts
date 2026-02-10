@@ -530,6 +530,25 @@ export const createF2Booking = async (c: Context) => {
       }
     }
 
+    // Calculate payment breakdown using the payment helper
+    const totalDays = selectedDates.length;
+    const basePricePerDay = subtotal / totalDays; // Calculate base price per day from subtotal
+    
+    const paymentInput: PaymentCalculationInput = {
+      bookingFormat: "F2",
+      basePrice: rupeesToPaise(basePricePerDay), // Convert to paise
+      quantity: totalDays,
+      addonsAmount: rupeesToPaise(addonsTotal || 0),
+      discountAmount: rupeesToPaise(discountAmount || 0),
+      amountPaidOnline: amountPaidNow ? rupeesToPaise(amountPaidNow) : undefined,
+      paymentMethod: paymentMethod || "online",
+      taxRate: dateRange.listing.taxRate ? Math.round(Number(dateRange.listing.taxRate) * 100) : 1800, // Convert to basis points
+    };
+
+    const paymentBreakdown = calculatePaymentBreakdown(paymentInput);
+
+    console.log("F2 Payment breakdown:", paymentBreakdown);
+
     // Create booking in transaction
     const result = await prisma.$transaction(async (tx) => {
       // Create booking
@@ -542,23 +561,47 @@ export const createF2Booking = async (c: Context) => {
           bookingEndDate: endDate,
           participantCount: 1, // For rentals, we use 1 as default
           totalDays: selectedDates.length,
-          basePrice: subtotal || totalAmount,
-          totalAmount: totalAmount,
+          basePrice: basePricePerDay,
+          totalAmount: paymentBreakdown.totalAmount / 100, // Store in rupees
           bookingStatus: "CONFIRMED",
           contactDetails: contactDetails,
           selectedAddons: selectedAddons || [],
           pricingDetails: {
             selectedDates,
-            subtotal: subtotal || totalAmount,
-            addonsTotal: addonsTotal || 0,
-            taxAmount: taxAmount || 0,
-            discountAmount: discountAmount || 0,
+            subtotal: paymentBreakdown.subtotalAmount / 100,
+            addonsTotal: paymentBreakdown.addonsAmount / 100,
+            taxAmount: paymentBreakdown.taxAmount / 100,
+            discountAmount: paymentBreakdown.discountAmount / 100,
             promoCode: promoCode || null,
-            totalAmount,
-            amountPaidNow: amountPaidNow || totalAmount,
-            amountPendingAtVenue: amountPendingAtVenue || 0,
-            paymentMethod: paymentMethod || "online",
+            totalAmount: paymentBreakdown.totalAmount / 100,
+            amountPaidNow: paymentBreakdown.amountPaidOnline / 100,
+            amountPendingAtVenue: paymentBreakdown.amountToCollectOffline / 100,
+            paymentMethod: paymentBreakdown.paymentMethod,
           },
+        },
+      });
+
+      // Create BookingPayment record
+      const bookingPayment = await tx.bookingPayment.create({
+        data: {
+          bookingId: booking.id,
+          basePrice: paymentBreakdown.basePrice,
+          quantity: paymentBreakdown.quantity,
+          subtotalAmount: paymentBreakdown.subtotalAmount,
+          addonsAmount: paymentBreakdown.addonsAmount,
+          discountAmount: paymentBreakdown.discountAmount,
+          taxAmount: paymentBreakdown.taxAmount,
+          totalAmount: paymentBreakdown.totalAmount,
+          amountPaidOnline: paymentBreakdown.amountPaidOnline,
+          amountToCollectOffline: paymentBreakdown.amountToCollectOffline,
+          paymentMethod: paymentBreakdown.paymentMethod,
+          platformCommissionRate: paymentBreakdown.platformCommissionRate,
+          platformCommission: paymentBreakdown.platformCommission,
+          tcsRate: paymentBreakdown.tcsRate,
+          tcsAmount: paymentBreakdown.tcsAmount,
+          sellerGrossEarnings: paymentBreakdown.sellerGrossEarnings,
+          netPayableToSeller: paymentBreakdown.netPayableToSeller,
+          settlementStatus: "PENDING",
         },
       });
 
@@ -568,6 +611,7 @@ export const createF2Booking = async (c: Context) => {
 
       return {
         booking,
+        bookingPayment,
         bookingReference: booking.bookingReference,
       };
     });
