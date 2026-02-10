@@ -33,6 +33,7 @@ interface OperatorCompleteRegistrationRequest {
   state: string;
   pincode: string;
   country?:  string;
+  selectedCategoryIds?: string[];  // Added for category selection
   
   // Step 2: Document fields (text data)
   panNumber?: string;
@@ -108,6 +109,11 @@ export const registerOperatorComplete = async (c: Context) => {
       state: body.state as string,
       pincode: body.pincode as string,
       country: body.country as string,
+      selectedCategoryIds: body.selectedCategoryIds 
+        ? (typeof body.selectedCategoryIds === 'string' 
+            ? JSON.parse(body.selectedCategoryIds) 
+            : body.selectedCategoryIds) 
+        : [],
       panNumber: body.panNumber as string,
       gstinNumber: body.gstinNumber as string,
       bankAccountNumber: body.bankAccountNumber as string,
@@ -231,6 +237,16 @@ export const registerOperatorComplete = async (c: Context) => {
       }
     }
 
+    // Parse selected category IDs
+    let selectedCategoryIds: string[] = [];
+    if (registrationData.selectedCategoryIds) {
+      try {
+        selectedCategoryIds = JSON.parse(registrationData.selectedCategoryIds);
+      } catch (e) {
+        console.error("Error parsing selectedCategoryIds:", e);
+      }
+    }
+
     // Prepare bank account details (will be encrypted in production)
     const bankAccountDetails = {
       accountNumber: registrationData.bankAccountNumber,
@@ -252,6 +268,7 @@ export const registerOperatorComplete = async (c: Context) => {
           userType: "operator",
           isVerified: false, // Will be verified by admin
           isActive: false, // Inactive until admin approval
+          selectedCategoryIds: registrationData.selectedCategoryIds || [],
         },
       });
 

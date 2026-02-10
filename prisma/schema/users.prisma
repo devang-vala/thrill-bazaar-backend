@@ -12,6 +12,7 @@ model User {
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
   lastLoginAt DateTime? @map("last_login_at")
+  selectedCategoryIds String[]  @default([]) @map("selected_category_ids")
 
   // Relations
   listings                          Listing[]                               @relation

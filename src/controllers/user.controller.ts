@@ -541,3 +541,139 @@ export const getOperatorsForFilter = async (c: Context) => {
   }
 };
 
+/**
+ * Update user's selected categories
+ */
+export const updateUserCategories = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    const body = await c.req.json();
+    
+    if (!user || !user.userId) {
+      return c.json({ error: "User not found" }, 404);
+    }
+
+    // Validate categoryIds is an array
+    if (!body.categoryIds || !Array.isArray(body.categoryIds)) {
+      return c.json({ error: "categoryIds must be an array" }, 400);
+    }
+
+    // Validate all category IDs exist
+    const categories = await prisma.category.findMany({
+      where: {
+        id: {
+          in: body.categoryIds,
+        },
+        isActive: true,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (categories.length !== body.categoryIds.length) {
+      return c.json({ error: "One or more invalid category IDs" }, 400);
+    }
+
+    // Update user's selected categories
+    const updatedUser = await prisma.user.update({
+      where: { id: user.userId },
+      data: {
+        selectedCategoryIds: body.categoryIds,
+      },
+      select: {
+        id: true,
+        selectedCategoryIds: true,
+      },
+    });
+
+    return c.json({
+      message: "Categories updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error("Update user categories error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+/**
+ * Get user's selected categories with full details
+ */
+export const getUserCategories = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    
+    if (!user || !user.userId) {
+      return c.json({ error: "User not found" }, 404);
+    }
+
+    const userWithCategories = await prisma.user.findUnique({
+      where: { id: user.userId },
+      select: {
+        id: true,
+        selectedCategoryIds: true,
+      },
+    });
+
+    if (!userWithCategories) {
+      return c.json({ error: "User not found" }, 404);
+    }
+
+    // If no categories selected, return empty array
+    if (!userWithCategories.selectedCategoryIds || userWithCategories.selectedCategoryIds.length === 0) {
+      return c.json({
+        message: "No categories selected",
+        data: {
+          categoryIds: [],
+          categories: [],
+        },
+      });
+    }
+
+    // Fetch full category details
+    const categories = await prisma.category.findMany({
+      where: {
+        id: {
+          in: userWithCategories.selectedCategoryIds,
+        },
+        isActive: true,
+      },
+      select: {
+        id: true,
+        categoryName: true,
+        categorySlug: true,
+        categoryIconUrl: true,
+        bookingFormat: true,
+        hasVariantCatA: true,
+        isInclusionsExclusionsAllowed: true,
+        isAddonsAllowed: true,
+        isBookingOptionAllowed: true,
+        isFaqAllowed: true,
+        isDayWiseAllowed: true,
+        listingType: {
+          select: {
+            id: true,
+            name: true,
+            displayOrder: true,
+          },
+        },
+      },
+      orderBy: {
+        displayOrder: 'asc',
+      },
+    });
+
+    return c.json({
+      message: "User categories retrieved successfully",
+      data: {
+        categoryIds: userWithCategories.selectedCategoryIds,
+        categories: categories,
+      },
+    });
+  } catch (error) {
+    console.error("Get user categories error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
