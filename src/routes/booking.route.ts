@@ -7,6 +7,7 @@ import {
   getUserBookings,
   getBookingWithReschedules,
   getAdminBookings,
+  getAdminBookingById,
   getOperatorBookings,
 } from "../controllers/booking.controller.js";
 import {
@@ -17,8 +18,11 @@ import {
 
 const bookingRouter = new Hono();
 
-// Admin:  Get all bookings
+// Admin: Get all bookings
 bookingRouter.get("/admin/all", authenticateToken, requireAdmin, getAdminBookings);
+
+// Admin: Get single booking by ID
+bookingRouter.get("/admin/:bookingId", authenticateToken, requireAdmin, getAdminBookingById);
 
 // Operator/Seller: Get their bookings
 bookingRouter.get("/operator/:operatorId", authenticateToken, getOperatorBookings);

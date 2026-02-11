@@ -931,6 +931,147 @@ export const getAdminBookings = async (c: Context) => {
 };
 
 /**
+ * Get single booking by ID (Admin only)
+ * GET /api/bookings/admin/:bookingId
+ */
+export const getAdminBookingById = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    const bookingId = c.req.param("bookingId");
+
+    // Only admin can view all bookings
+    if (user.userType !== "admin" && user.userType !== "super_admin") {
+      return c.json(
+        { success: false, message: "Admin access required" },
+        403
+      );
+    }
+
+    const booking = await prisma.booking.findUnique({
+      where: { id: bookingId },
+      include: {
+        customer: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            phone: true,
+          },
+        },
+        listingSlot: {
+          include: {
+            listing: {
+              select: {
+                id: true,
+                listingName: true,
+                frontImageUrl: true,
+                currency: true,
+                startLocationName: true,
+                operatorId: true,
+                bookingFormat: true,
+                category: {
+                  select: {
+                    categoryName: true,
+                  },
+                },
+              },
+            },
+            slotDefinition: {
+              select: {
+                startTime: true,
+                endTime: true,
+              },
+            },
+          },
+        },
+        dateRange: {
+          include: {
+            listing: {
+              select: {
+                id: true,
+                listingName: true,
+                frontImageUrl: true,
+                currency: true,
+                startLocationName: true,
+                operatorId: true,
+                bookingFormat: true,
+                category: {
+                  select: {
+                    categoryName: true,
+                  },
+                },
+              },
+            },
+            slotDefinition: {
+              select: {
+                startTime: true,
+                endTime: true,
+              },
+            },
+          },
+        },
+        payment: true,
+        reschedules: {
+          orderBy: { createdAt: "desc" },
+          include: {
+            initiatedBy: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+              },
+            },
+            approvedByAdmin: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!booking) {
+      return c.json({ success: false, message: "Booking not found" }, 404);
+    }
+
+    // Add startTime and endTime from slotDefinition for easier access
+    const formattedBooking = {
+      ...booking,
+      listingSlot: booking.listingSlot
+        ? {
+            ...booking.listingSlot,
+            startTime:
+              booking.listingSlot.slotDefinition?.startTime ||
+              booking.listingSlot.startTime,
+            endTime:
+              booking.listingSlot.slotDefinition?.endTime ||
+              booking.listingSlot.endTime,
+          }
+        : null,
+      dateRange: booking.dateRange
+        ? {
+            ...booking.dateRange,
+            startTime: booking.dateRange.slotDefinition?.startTime || null,
+            endTime: booking.dateRange.slotDefinition?.endTime || null,
+          }
+        : null,
+    };
+
+    return c.json({ success: true, data: formattedBooking });
+  } catch (error) {
+    console.error("Error fetching admin booking by ID:", error);
+    return c.json(
+      { success: false, message: "Failed to fetch booking" },
+      500
+    );
+  }
+};
+
+/**
  * Get operator/seller bookings
  * GET /api/bookings/operator/:operatorId
  */
