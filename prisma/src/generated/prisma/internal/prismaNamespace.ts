@@ -3392,7 +3392,8 @@ export const ListingMetadataFieldDefinitionScalarFieldEnum = {
   fieldGroup: 'fieldGroup',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdByAdminId: 'createdByAdminId'
+  createdByAdminId: 'createdByAdminId',
+  imageUrl: 'imageUrl'
 } as const
 
 export type ListingMetadataFieldDefinitionScalarFieldEnum = (typeof ListingMetadataFieldDefinitionScalarFieldEnum)[keyof typeof ListingMetadataFieldDefinitionScalarFieldEnum]

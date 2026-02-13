@@ -19,6 +19,7 @@ export interface CreateFieldDefinitionRequest {
   displayOrder?: number;
   fieldGroup?: string;
   createdByAdminId?: string;
+  imageUrl?: string;
 }
 
 export interface UpdateFieldDefinitionRequest {
@@ -34,6 +35,7 @@ export interface UpdateFieldDefinitionRequest {
   placeholderText?: string;
   displayOrder?: number;
   fieldGroup?: string;
+  imageUrl?: string;
 }
 
 /**
@@ -290,6 +292,7 @@ export const createFieldDefinition = async (c: Context) => {
       displayOrder: body.displayOrder || 0,
       fieldGroup: body.fieldGroup ? sanitizeString(body.fieldGroup, 100) : null,
       createdByAdminId: body.createdByAdminId || null,
+      imageUrl: body.imageUrl || null,
     };
 
     const newFieldDefinition = await prisma.listingMetadataFieldDefinition.create({
@@ -415,6 +418,9 @@ export const updateFieldDefinition = async (c: Context) => {
     }
     if (body.fieldGroup !== undefined) {
       updateData.fieldGroup = body.fieldGroup ? sanitizeString(body.fieldGroup, 100) : null;
+    }
+    if (body.imageUrl !== undefined) {
+      updateData.imageUrl = body.imageUrl || null;
     }
 
     const updatedFieldDefinition = await prisma.listingMetadataFieldDefinition.update({

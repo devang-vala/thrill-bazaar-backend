@@ -18,6 +18,7 @@ model ListingMetadataFieldDefinition {
   category         Category                      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   createdByAdmin   User?                         @relation(fields: [createdByAdminId], references: [id])
   options          ListingMetadataFieldOptions[]
+  imageUrl        String?                       @map("image_url")
 
   @@unique([categoryId, fieldKey])
   @@index([categoryId])
