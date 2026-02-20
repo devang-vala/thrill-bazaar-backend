@@ -62,18 +62,51 @@ export const getBatchesForListingVariant = async (c: Context) => {
   try {
     const listingId = c.req.param("listingId");
     const variantId = c.req.param("variantId");
-    const where: any = { listingId, formatType: "F1" };
-    if (variantId) where.variantId = variantId;
-    console.log("[DEBUG] Fetching batches with:", { listingId, variantId, where });
+    
+    // Build where clause - filter for F1 format OR batches with start/end dates
+    const where: any = {
+      listingId,
+      OR: [
+        { formatType: "F1" },
+        { 
+          AND: [
+            { batchStartDate: { not: null } },
+            { batchEndDate: { not: null } }
+          ]
+        }
+      ]
+    };
+    
+    if (variantId) {
+      where.variantId = variantId;
+    }
+    
+    console.log("[DEBUG] Fetching batches with:", { listingId, variantId, where: JSON.stringify(where) });
+    
     const batches = await prisma.listingSlot.findMany({
       where,
       orderBy: { batchStartDate: "asc" },
+      include: {
+        slotDefinition: true, // Include slot definition for time details
+      }
     });
-    console.log("[DEBUG] Batches found:", batches);
+    
+    console.log(`[DEBUG] Batches found: ${batches.length} batches`);
+    console.log("[DEBUG] Batch details:", batches.map(b => ({ 
+      id: b.id, 
+      variantId: b.variantId, 
+      formatType: b.formatType,
+      startDate: b.batchStartDate,
+      endDate: b.batchEndDate,
+      price: b.basePrice,
+      capacity: b.totalCapacity,
+      available: b.availableCount
+    })));
+    
     return c.json({ success: true, data: batches });
   } catch (error) {
     console.error("Get batches error:", error);
-    return c.json({ success: false, message: "Failed to fetch batches" }, 500);
+    return c.json({ success: false, message: "Failed to fetch batches", error: String(error) }, 500);
   }
 };
 
