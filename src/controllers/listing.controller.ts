@@ -120,6 +120,9 @@ export const getListings = async (c: Context) => {
     
     // Get metadata filter parameters (JSON string)
     const metadataFilters = c.req.query("metadata"); // JSON string of metadata filters
+    
+    // Get date filter parameter (YYYY-MM-DD format)
+    const availableOnDate = c.req.query("availableOnDate"); // Filter listings available on this specific date
 
     // Calculate skip for pagination
     const skip = (page - 1) * limit;
@@ -223,9 +226,118 @@ export const getListings = async (c: Context) => {
         console.error("Error parsing metadata filters:", err);
       }
     }
+    
+    // Add date availability filter
+    if (availableOnDate) {
+      try {
+        // Parse the date string to a Date object at start of day
+        const filterDate = new Date(availableOnDate + 'T00:00:00.000Z');
+        const nextDay = new Date(filterDate);
+        nextDay.setDate(nextDay.getDate() + 1);
+        
+        // Determine which formats are being queried
+        const formatList = formats ? formats.split(",").filter(Boolean) : ['F1', 'F2', 'F3', 'F4'];
+        
+        // Separate formats by their data source
+        const activityFormats = formatList.filter(f => f === 'F1' || f === 'F3'); // Use ListingSlot
+        const rentalFormats = formatList.filter(f => f === 'F2' || f === 'F4');   // Use InventoryDateRange
+        
+        const availableListingIds: string[] = [];
+        
+        // Query ListingSlot table for F1/F3 (activities)
+        if (activityFormats.length > 0) {
+          const activitySlots = await prisma.listingSlot.findMany({
+            where: {
+              isActive: true,
+              availableCount: { gt: 0 },
+              // Filter by listing's bookingFormat
+              listing: {
+                bookingFormat: { in: activityFormats }
+              },
+              OR: [
+                // For F1 (batch activities): Check if date falls within batch range
+                {
+                  formatType: 'F1',
+                  batchStartDate: { lte: filterDate },
+                  batchEndDate: { gte: filterDate }
+                },
+                // For F3 (single-day activities): Check if slotDate matches
+                {
+                  formatType: 'F3',
+                  slotDate: {
+                    gte: filterDate,
+                    lt: nextDay
+                  }
+                }
+              ]
+            },
+            select: {
+              listingId: true
+            },
+            distinct: ['listingId']
+          });
+          
+          availableListingIds.push(...activitySlots.map(slot => slot.listingId));
+        }
+        
+        // Query InventoryDateRange table for F2/F4 (rentals)
+        if (rentalFormats.length > 0) {
+          const rentalDateRanges = await prisma.inventoryDateRange.findMany({
+            where: {
+              isActive: true,
+              // Filter by listing's bookingFormat to only get rentals
+              listing: {
+                bookingFormat: { in: rentalFormats }
+              },
+              OR: [
+                // Check if availableCount exists and is greater than 0
+                { availableCount: { gt: 0 } },
+                // If availableCount is null, consider it available
+                { availableCount: null }
+              ],
+              // Check if the filter date falls within the available date range
+              availableFromDate: { lte: filterDate },
+              availableToDate: { gte: filterDate }
+            },
+            select: {
+              listingId: true
+            },
+            distinct: ['listingId']
+          });
+          
+          availableListingIds.push(...rentalDateRanges.map(range => range.listingId));
+        }
+        
+        // Remove duplicates
+        const uniqueListingIds = Array.from(new Set(availableListingIds));
+        
+        // If no listings have availability on this date, return empty result
+        if (uniqueListingIds.length === 0) {
+          return c.json({
+            success: true,
+            data: [],
+            pagination: {
+              page,
+              limit,
+              totalCount: 0,
+              totalPages: 0,
+              hasNextPage: false,
+              hasPreviousPage: false,
+            },
+          });
+        }
+        
+        // Filter listings to only those with availability
+        whereClause.id = { in: uniqueListingIds };
+      } catch (err) {
+        console.error("Error parsing availableOnDate filter:", err);
+        return c.json({ error: "Invalid date format. Use YYYY-MM-DD" }, 400);
+      }
+    }
 
     // Build orderBy clause based on sortBy parameter
     let orderByClause: any = { createdAt: "desc" }; // default
+    let shouldSortByDateClientSide = false; // Flag for client-side date sorting
     
     if (sortBy) {
       switch (sortBy) {
@@ -245,6 +357,12 @@ export const getListings = async (c: Context) => {
         case 'popular':
           // If you have a views/bookings field, use it here
           orderByClause = { createdAt: "desc" }; // fallback for now
+          break;
+        case 'date_earliest':
+        case 'date_latest':
+          // Date sorting will be done client-side after fetching next available dates
+          shouldSortByDateClientSide = true;
+          orderByClause = { createdAt: "desc" }; // default order for initial fetch
           break;
         default:
           orderByClause = { createdAt: "desc" };
@@ -336,6 +454,130 @@ export const getListings = async (c: Context) => {
       take: limit,
     });
 
+    // Fetch next available date for each listing (for date sorting)
+    const now = new Date();
+    const listingIds = listings.map(l => l.id);
+    
+    // Separate listings by format to query appropriate tables
+    const activityListingIds = listings
+      .filter(l => l.bookingFormat === 'F1' || l.bookingFormat === 'F3')
+      .map(l => l.id);
+    
+    const rentalListingIds = listings
+      .filter(l => l.bookingFormat === 'F2' || l.bookingFormat === 'F4')
+      .map(l => l.id);
+    
+    // Create a map of listing ID to next available date
+    const nextAvailableDateMap = new Map<string, Date | null>();
+    
+    // Fetch next available slots from ListingSlot for F1/F3 (activities)
+    if (activityListingIds.length > 0) {
+      const nextAvailableSlots = await prisma.listingSlot.findMany({
+        where: {
+          listingId: { in: activityListingIds },
+          isActive: true,
+          availableCount: { gt: 0 },
+          // Filter by listing's bookingFormat
+          listing: {
+            bookingFormat: { in: ['F1', 'F3'] }
+          },
+          OR: [
+            // For F1 (batch activities)
+            {
+              batchStartDate: { gte: now },
+              formatType: 'F1'
+            },
+            // For F3 (single-day activities)
+            {
+              slotDate: { gte: now },
+              formatType: 'F3'
+            }
+          ]
+        },
+        select: {
+          listingId: true,
+          batchStartDate: true,
+          slotDate: true,
+          formatType: true,
+        },
+        orderBy: [
+          { batchStartDate: 'asc' },
+          { slotDate: 'asc' }
+        ]
+      });
+
+      for (const slot of nextAvailableSlots) {
+        if (!nextAvailableDateMap.has(slot.listingId)) {
+          // Get the appropriate date based on format type
+          const date = (slot.formatType === 'F1') 
+            ? slot.batchStartDate 
+            : slot.slotDate;
+          
+          if (date) {
+            nextAvailableDateMap.set(slot.listingId, date);
+          }
+        }
+      }
+    }
+    
+    // Fetch next available date ranges from InventoryDateRange for F2/F4 (rentals)
+    if (rentalListingIds.length > 0) {
+      const nextAvailableDateRanges = await prisma.inventoryDateRange.findMany({
+        where: {
+          listingId: { in: rentalListingIds },
+          isActive: true,
+          // Filter by listing's bookingFormat
+          listing: {
+            bookingFormat: { in: ['F2', 'F4'] }
+          },
+          OR: [
+            { availableCount: { gt: 0 } },
+            { availableCount: null }
+          ],
+          availableFromDate: { gte: now }
+        },
+        select: {
+          listingId: true,
+          availableFromDate: true,
+        },
+        orderBy: {
+          availableFromDate: 'asc'
+        }
+      });
+
+      for (const range of nextAvailableDateRanges) {
+        if (!nextAvailableDateMap.has(range.listingId)) {
+          nextAvailableDateMap.set(range.listingId, range.availableFromDate);
+        }
+      }
+    }
+
+    // Add nextAvailableDate to each listing
+    let responseData = listings.map(listing => ({
+      ...listing,
+      nextAvailableDate: nextAvailableDateMap.get(listing.id) || null
+    }));
+
+    // Apply date-based sorting if needed (client-side sorting after fetching dates)
+    if (shouldSortByDateClientSide && sortBy) {
+      responseData = responseData.sort((a, b) => {
+        const dateA = a.nextAvailableDate ? new Date(a.nextAvailableDate).getTime() : Infinity;
+        const dateB = b.nextAvailableDate ? new Date(b.nextAvailableDate).getTime() : Infinity;
+        
+        if (sortBy === 'date_earliest') {
+          // Earliest dates first, listings without dates at the end
+          return dateA - dateB;
+        } else if (sortBy === 'date_latest') {
+          // Latest dates first, but listings without dates at the end
+          if (dateA === Infinity && dateB === Infinity) return 0;
+          if (dateA === Infinity) return 1;
+          if (dateB === Infinity) return -1;
+          return dateB - dateA;
+        }
+        return 0;
+      });
+    }
+
     // Check if user is admin or seller/operator
     const isAdminOrSeller = user && (
       user.userType === "admin" || 
@@ -343,10 +585,6 @@ export const getListings = async (c: Context) => {
       user.userType === "operator" ||
       user.role === "seller"
     );
-    
-    // For customers/public users, listings already filtered by select
-    // All users see the same fields (admin fields not selected in query)
-    const responseData = listings;
 
     // Add cache headers for better performance (5 minutes for listing pages)
     c.header('Cache-Control', 'public, max-age=300, s-maxage=300');

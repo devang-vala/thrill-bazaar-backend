@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import {
   uploadImages,
+  uploadIcon,
   deleteImage,
 } from "../controllers/upload.controller.js";
 import {
@@ -14,6 +15,9 @@ const uploadRouter = new Hono();
 
 // Upload single or multiple images
 uploadRouter.post("/images", uploadImages);
+
+// Upload SVG icon for metadata field definitions (SVG only)
+uploadRouter.post("/icon", uploadIcon);
 
 // Delete image by public_id
 uploadRouter.delete("/images", deleteImage);

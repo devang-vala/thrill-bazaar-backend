@@ -198,6 +198,113 @@ export const uploadImages = async (c: Context) => {
 };
 
 /**
+ * Upload SVG icon for metadata field definitions
+ * Only accepts SVG files
+ */
+export const uploadIcon = async (c: Context) => {
+  try {
+    const body = await c.req.parseBody();
+    
+    console.log("📦 Icon Upload Request - Body keys:", Object.keys(body));
+    
+    // Extract all files using the helper function
+    const fileArray = extractFilesFromBody(body);
+
+    console.log(`📊 Total icon files collected: ${fileArray.length}`);
+
+    if (fileArray.length === 0) {
+      console.error("❌ No files found in request");
+      return c.json({ error: "No valid SVG file provided" }, 400);
+    }
+
+    // Only allow SVG files for icons
+    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB (SVGs are typically small)
+    const ALLOWED_TYPE = 'image/svg+xml';
+    
+    for (const file of fileArray) {
+      if (file.type !== ALLOWED_TYPE) {
+        console.error(`❌ Invalid file type: ${file.type} for ${file.name}`);
+        return c.json({ 
+          error: `Invalid file type for ${file.name}. Only SVG files are allowed for icons.` 
+        }, 400);
+      }
+      
+      if (file.size > MAX_FILE_SIZE) {
+        console.error(`❌ File too large: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+        return c.json({ 
+          error: `File ${file.name} is too large. Maximum size: 2MB` 
+        }, 400);
+      }
+    }
+
+    // Upload SVG files to Cloudinary
+    console.log(`⬆️  Starting upload of ${fileArray.length} SVG icon(s)...`);
+    const uploadPromises = fileArray.map(async (file, index) => {
+      console.log(`  [${index + 1}/${fileArray.length}] Uploading SVG: ${file.name}`);
+      
+      try {
+        // Convert File to Buffer
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+
+        // Upload to Cloudinary (SVG as raw resource)
+        const result = await new Promise<any>((resolve, reject) => {
+          const uploadStream = cloudinary.uploader.upload_stream(
+            {
+              folder: "thrill-bazaar/icons",
+              resource_type: "raw", // SVG uploads as raw
+              format: "svg",
+            },
+            (error, result) => {
+              if (error) {
+                console.error(`  ❌ Upload failed for ${file.name}:`, error);
+                reject(error);
+              } else {
+                console.log(`  ✅ Upload successful for ${file.name}: ${result?.secure_url}`);
+                resolve({
+                  url: result?.secure_url,
+                  publicId: result?.public_id,
+                  format: result?.format,
+                  originalName: file.name,
+                });
+              }
+            }
+          );
+
+          // Create a readable stream from buffer
+          const readableStream = new Readable();
+          readableStream.push(buffer);
+          readableStream.push(null);
+          readableStream.pipe(uploadStream);
+        });
+
+        return result;
+      } catch (error) {
+        console.error(`  ❌ Error processing ${file.name}:`, error);
+        throw error;
+      }
+    });
+
+    const uploadResults = await Promise.all(uploadPromises);
+    
+    console.log(`🎉 Icon upload complete: ${uploadResults.length} SVG(s) uploaded successfully`);
+
+    return c.json({
+      success: true,
+      message: `${uploadResults.length} SVG icon(s) uploaded successfully`,
+      data: uploadResults,
+      count: uploadResults.length,
+    });
+  } catch (error) {
+    console.error("❌ Upload icon error:", error);
+    return c.json({ 
+      error: "Failed to upload SVG icon",
+      details: error instanceof Error ? error.message : String(error)
+    }, 500);
+  }
+};
+
+/**
  * Delete image from Cloudinary by public_id
  */
 export const deleteImage = async (c: Context) => {
