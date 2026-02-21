@@ -4,6 +4,9 @@ import {
   getOperatorProfile,
   getAllOperators,
   verifyOperator,
+  assignBadgeToOperator,
+  removeBadgeFromOperator,
+  getOperatorBadges,
 } from "../controllers/operator.controller.js";
 import {
   authenticateToken,
@@ -26,9 +29,17 @@ operatorRouter.use(authenticateToken);
 operatorRouter.post("/list", requireAdmin, getAllOperators);
 operatorRouter.put("/verify/:operatorId", requireAdmin, verifyOperator);
 
+// Operator badge management (admin only)
+operatorRouter.post("/badges/assign", requireAdmin, assignBadgeToOperator);
+operatorRouter.post("/badges/remove", requireAdmin, removeBadgeFromOperator);
+operatorRouter.get("/badges/:operatorId", requireAdmin, getOperatorBadges);
 
+// Admin-accessible operator profile (for verification workflow)
+operatorRouter.get("/admin/profile/:operatorId", requireAdmin, getOperatorProfile);
+
+// Operator-facing profile route (requires verified operator)
 operatorRouter.get(
-  "/profile/: operatorId?",  
+  "/profile/:operatorId?",
   requireVerifiedOperator,
   getOperatorProfile
 );

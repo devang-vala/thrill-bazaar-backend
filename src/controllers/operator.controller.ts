@@ -21,20 +21,20 @@ interface OperatorCompleteRegistrationRequest {
   email: string;
   phone: string;
   password: string;
-  
+
   // Step 1: Basic Details
   businessName: string;
   operatorName: string;
   contactNumber: string;
   contactEmail: string;
   addressLine01: string;
-  addressLine02?:  string;
+  addressLine02?: string;
   city: string;
   state: string;
   pincode: string;
-  country?:  string;
+  country?: string;
   selectedCategoryIds?: string[];  // Added for category selection
-  
+
   // Step 2: Document fields (text data)
   panNumber?: string;
   gstinNumber?: string;
@@ -43,7 +43,7 @@ interface OperatorCompleteRegistrationRequest {
   ifscCode?: string;
   branchName?: string;
   accountHolderName?: string;
-  
+
   // Additional fields
   websiteUrl?: string;
   companyDescription?: string;
@@ -96,11 +96,11 @@ export const registerOperatorComplete = async (c: Context) => {
 
     // Extract all text fields
     const registrationData = {
-      email:  body.email as string,
+      email: body.email as string,
       phone: body.phone as string,
-      password:  body.password as string,
+      password: body.password as string,
       businessName: body.businessName as string,
-      operatorName:  body.operatorName as string,
+      operatorName: body.operatorName as string,
       contactNumber: body.contactNumber as string,
       contactEmail: body.contactEmail as string,
       addressLine01: body.addressLine01 as string,
@@ -109,26 +109,26 @@ export const registerOperatorComplete = async (c: Context) => {
       state: body.state as string,
       pincode: body.pincode as string,
       country: body.country as string,
-      selectedCategoryIds: body.selectedCategoryIds 
-        ? (typeof body.selectedCategoryIds === 'string' 
-            ? JSON.parse(body.selectedCategoryIds) 
-            : body.selectedCategoryIds) 
+      selectedCategoryIds: body.selectedCategoryIds
+        ? (typeof body.selectedCategoryIds === 'string'
+          ? JSON.parse(body.selectedCategoryIds)
+          : body.selectedCategoryIds)
         : [],
       panNumber: body.panNumber as string,
       gstinNumber: body.gstinNumber as string,
       bankAccountNumber: body.bankAccountNumber as string,
       confirmBankAccountNumber: body.confirmBankAccountNumber as string,
       ifscCode: body.ifscCode as string,
-      branchName:  body.branchName as string,
-      accountHolderName:  body.accountHolderName as string,
-      websiteUrl:  body.websiteUrl as string,
+      branchName: body.branchName as string,
+      accountHolderName: body.accountHolderName as string,
+      websiteUrl: body.websiteUrl as string,
       companyDescription: body.companyDescription as string,
       socialMediaLinks: body.socialMediaLinks as string,
     };
 
     // Validate registration data
     const validation = validateOperatorCompleteRegistration(registrationData);
-    if (! validation.isValid) {
+    if (!validation.isValid) {
       return c.json({ error: validation.message }, 400);
     }
 
@@ -140,7 +140,7 @@ export const registerOperatorComplete = async (c: Context) => {
 
     // Check if email already exists
     const existingUser = await prisma.user.findFirst({
-      where: { email:  email },
+      where: { email: email },
     });
 
     if (existingUser) {
@@ -163,7 +163,7 @@ export const registerOperatorComplete = async (c: Context) => {
 
     // Collect uploaded files
     const documentFiles: { key: string; file: File }[] = [];
-    
+
     // KYC Documents
     if (body.panDocument && body.panDocument instanceof File) {
       documentFiles.push({ key: "pan_document", file: body.panDocument });
@@ -188,7 +188,7 @@ export const registerOperatorComplete = async (c: Context) => {
     // Validate that at least PAN and Business License are uploaded
     const hasPan = documentFiles.some(d => d.key === "pan_document");
     const hasBusinessLicense = documentFiles.some(d => d.key === "business_license");
-    
+
     if (!hasPan || !hasBusinessLicense) {
       return c.json(
         { error: "PAN document and Business License are required" },
@@ -261,7 +261,7 @@ export const registerOperatorComplete = async (c: Context) => {
       const newUser = await tx.user.create({
         data: {
           email: email,
-          phone:  phone,
+          phone: phone,
           password: hashedPassword,
           firstName: firstName,
           lastName: lastName,
@@ -322,12 +322,12 @@ export const registerOperatorComplete = async (c: Context) => {
     );
   } catch (error) {
     console.error("Operator registration error:", error);
-    
+
     if (error instanceof Error) {
       console.error("Error details:", error.message);
       console.error("Stack trace:", error.stack);
     }
-    
+
     return c.json({ error: "Internal server error" }, 500);
   }
 };
@@ -335,7 +335,7 @@ export const registerOperatorComplete = async (c: Context) => {
 /**
  * Get operator profile (ONLY for verified operators or admins)
  */
-export const getOperatorProfile = async (c:  Context) => {
+export const getOperatorProfile = async (c: Context) => {
   try {
     const user = c.get("user");
     const operatorId = c.req.param("operatorId") || user.userId;
@@ -350,19 +350,19 @@ export const getOperatorProfile = async (c:  Context) => {
       include: {
         operator: {
           select: {
-            id:  true,
+            id: true,
             email: true,
             phone: true,
             firstName: true,
-            lastName:  true,
-            isVerified:  true,
+            lastName: true,
+            isVerified: true,
             isActive: true,
             createdAt: true,
           },
         },
         verifiedByAdmin: {
           select: {
-            id:  true,
+            id: true,
             firstName: true,
             lastName: true,
             email: true,
@@ -379,7 +379,7 @@ export const getOperatorProfile = async (c:  Context) => {
     const businessAddress = await prisma.userAddress.findFirst({
       where: {
         userId: operatorId,
-        addressType:  "BILLING",
+        addressType: "BILLING",
       },
     });
 
@@ -413,7 +413,7 @@ export const getAllOperators = async (c: Context) => {
     const limit = Math.min(body.limit || 10, 100);
     const offset = (page - 1) * limit;
 
-    const where:  any = {};
+    const where: any = {};
 
     if (body.verificationStatus) {
       where.verificationStatus = body.verificationStatus;
@@ -432,7 +432,7 @@ export const getAllOperators = async (c: Context) => {
         where,
         include: {
           operator: {
-            select:  {
+            select: {
               id: true,
               email: true,
               phone: true,
@@ -444,7 +444,7 @@ export const getAllOperators = async (c: Context) => {
             },
           },
           verifiedByAdmin: {
-            select:  {
+            select: {
               id: true,
               firstName: true,
               lastName: true,
@@ -500,14 +500,14 @@ export const verifyOperator = async (c: Context) => {
 
     const { action, rejectionReason } = body;
 
-    if (! ["verify", "reject"].includes(action)) {
+    if (!["verify", "reject"].includes(action)) {
       return c.json(
         { error: "Invalid action.  Must be 'verify' or 'reject'" },
         400
       );
     }
 
-    if (action === "reject" && ! rejectionReason) {
+    if (action === "reject" && !rejectionReason) {
       return c.json({ error: "Rejection reason is required" }, 400);
     }
 
@@ -534,7 +534,7 @@ export const verifyOperator = async (c: Context) => {
         where: { id: operatorId },
         data: {
           isVerified: action === "verify",
-          isActive:  action === "verify",
+          isActive: action === "verify",
         },
       });
 
@@ -542,11 +542,249 @@ export const verifyOperator = async (c: Context) => {
     });
 
     return c.json({
-      message: `Operator ${action === "verify" ? "verified" :  "rejected"} successfully`,
+      message: `Operator ${action === "verify" ? "verified" : "rejected"} successfully`,
       operatorProfile: result,
     });
   } catch (error) {
     console.error("Verify operator error:", error);
     return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+/**
+ * Assign a badge to an operator (admin only)
+ * Propagates the badge to all operator's listings via ListingBadge
+ */
+export const assignBadgeToOperator = async (c: Context) => {
+  try {
+    const currentUser = c.get("user");
+    const body = await c.req.json();
+    const { operatorId, badgeId } = body;
+
+    if (!operatorId || !badgeId) {
+      return c.json({ error: "operatorId and badgeId are required" }, 400);
+    }
+
+    // Verify badge exists and is active
+    const badge = await prisma.badge.findUnique({ where: { id: badgeId } });
+    if (!badge) {
+      return c.json({ error: "Badge not found" }, 404);
+    }
+    if (!badge.isActive) {
+      return c.json({ error: "Cannot assign an inactive badge" }, 400);
+    }
+
+    // Verify operator exists
+    const profile = await prisma.operatorProfile.findUnique({
+      where: { operatorId },
+    });
+    if (!profile) {
+      return c.json({ error: "Operator profile not found" }, 404);
+    }
+
+    // Get current operator badge IDs from verificationDocuments metadata
+    const verDocs: any = (profile.verificationDocuments as any) || {};
+    const operatorBadgeIds: string[] = Array.isArray(verDocs.operatorBadgeIds)
+      ? verDocs.operatorBadgeIds
+      : [];
+
+    if (operatorBadgeIds.includes(badgeId)) {
+      return c.json({ error: "Badge is already assigned to this operator" }, 409);
+    }
+
+    // Get all operator's listings
+    const listings = await prisma.listing.findMany({
+      where: { operatorId },
+      select: { id: true },
+    });
+
+    await prisma.$transaction(async (tx) => {
+      // 1. Update operator profile metadata
+      const updatedBadgeIds = [...operatorBadgeIds, badgeId];
+      await tx.operatorProfile.update({
+        where: { operatorId },
+        data: {
+          verificationDocuments: {
+            ...verDocs,
+            operatorBadgeIds: updatedBadgeIds,
+          },
+        },
+      });
+
+      // 2. Bulk-assign badge to all operator's listings
+      if (listings.length > 0) {
+        const listingIds = listings.map((l) => l.id);
+
+        // Check for existing assignments
+        const existingAssignments = await tx.listingBadge.findMany({
+          where: {
+            listingId: { in: listingIds },
+            badgeId,
+          },
+        });
+
+        const existingListingIds = new Set(existingAssignments.map((a) => a.listingId));
+
+        // Reactivate inactive ones
+        const inactiveIds = existingAssignments
+          .filter((a) => !a.isActive)
+          .map((a) => a.id);
+
+        if (inactiveIds.length > 0) {
+          await tx.listingBadge.updateMany({
+            where: { id: { in: inactiveIds } },
+            data: {
+              isActive: true,
+              assignedByAdminId: currentUser.userId,
+              assignedAt: new Date(),
+            },
+          });
+        }
+
+        // Create new assignments for listings that don't have this badge
+        const newListingIds = listingIds.filter((id) => !existingListingIds.has(id));
+        if (newListingIds.length > 0) {
+          await tx.listingBadge.createMany({
+            data: newListingIds.map((listingId) => ({
+              listingId,
+              badgeId,
+              assignedByAdminId: currentUser.userId,
+              isActive: true,
+            })),
+          });
+        }
+      }
+    });
+
+    return c.json({
+      success: true,
+      message: `Badge "${badge.badgeName}" assigned to operator and ${listings.length} listing(s)`,
+      data: { operatorId, badgeId, listingsAffected: listings.length },
+    });
+  } catch (error) {
+    console.error("Assign badge to operator error:", error);
+    return c.json({ error: "Failed to assign badge to operator" }, 500);
+  }
+};
+
+/**
+ * Remove a badge from an operator (admin only)
+ * Removes the badge from all operator's listings
+ */
+export const removeBadgeFromOperator = async (c: Context) => {
+  try {
+    const body = await c.req.json();
+    const { operatorId, badgeId } = body;
+
+    if (!operatorId || !badgeId) {
+      return c.json({ error: "operatorId and badgeId are required" }, 400);
+    }
+
+    const profile = await prisma.operatorProfile.findUnique({
+      where: { operatorId },
+    });
+    if (!profile) {
+      return c.json({ error: "Operator profile not found" }, 404);
+    }
+
+    const verDocs: any = (profile.verificationDocuments as any) || {};
+    const operatorBadgeIds: string[] = Array.isArray(verDocs.operatorBadgeIds)
+      ? verDocs.operatorBadgeIds
+      : [];
+
+    if (!operatorBadgeIds.includes(badgeId)) {
+      return c.json({ error: "Badge is not assigned to this operator" }, 404);
+    }
+
+    // Get all operator's listings
+    const listings = await prisma.listing.findMany({
+      where: { operatorId },
+      select: { id: true },
+    });
+
+    await prisma.$transaction(async (tx) => {
+      // 1. Remove badge from operator metadata
+      const updatedBadgeIds = operatorBadgeIds.filter((id) => id !== badgeId);
+      await tx.operatorProfile.update({
+        where: { operatorId },
+        data: {
+          verificationDocuments: {
+            ...verDocs,
+            operatorBadgeIds: updatedBadgeIds,
+          },
+        },
+      });
+
+      // 2. Deactivate badge from all operator's listings
+      if (listings.length > 0) {
+        await tx.listingBadge.updateMany({
+          where: {
+            listingId: { in: listings.map((l) => l.id) },
+            badgeId,
+            isActive: true,
+          },
+          data: { isActive: false },
+        });
+      }
+    });
+
+    return c.json({
+      success: true,
+      message: `Badge removed from operator and ${listings.length} listing(s)`,
+      data: { operatorId, badgeId, listingsAffected: listings.length },
+    });
+  } catch (error) {
+    console.error("Remove badge from operator error:", error);
+    return c.json({ error: "Failed to remove badge from operator" }, 500);
+  }
+};
+
+/**
+ * Get all badges assigned to an operator (admin only)
+ */
+export const getOperatorBadges = async (c: Context) => {
+  try {
+    const operatorId = c.req.param("operatorId");
+
+    const profile = await prisma.operatorProfile.findUnique({
+      where: { operatorId },
+    });
+    if (!profile) {
+      return c.json({ error: "Operator profile not found" }, 404);
+    }
+
+    const verDocs: any = (profile.verificationDocuments as any) || {};
+    const operatorBadgeIds: string[] = Array.isArray(verDocs.operatorBadgeIds)
+      ? verDocs.operatorBadgeIds
+      : [];
+
+    // Fetch full badge details
+    const badges = operatorBadgeIds.length > 0
+      ? await prisma.badge.findMany({
+        where: {
+          id: { in: operatorBadgeIds },
+        },
+        select: {
+          id: true,
+          badgeName: true,
+          badgeType: true,
+          badgeIconUrl: true,
+          badgeColor: true,
+          badgeDescription: true,
+          displayOrder: true,
+          isActive: true,
+        },
+        orderBy: { displayOrder: "asc" },
+      })
+      : [];
+
+    return c.json({
+      success: true,
+      data: badges,
+      operatorId,
+    });
+  } catch (error) {
+    console.error("Get operator badges error:", error);
+    return c.json({ error: "Failed to fetch operator badges" }, 500);
   }
 };

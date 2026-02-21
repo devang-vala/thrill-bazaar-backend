@@ -104,23 +104,23 @@ export const getListings = async (c: Context) => {
     const limit = parseInt(c.req.query("limit") || "12");
     const status = c.req.query("status"); // optional filter by status
     const sortBy = c.req.query("sortBy"); // sorting option
-    
+
     // Get location filter parameters
     const startPrimaryDivisions = c.req.query("startPrimaryDivisions"); // comma-separated IDs
     const startSecondaryDivisions = c.req.query("startSecondaryDivisions"); // comma-separated IDs
     const endPrimaryDivisions = c.req.query("endPrimaryDivisions"); // comma-separated IDs
     const endSecondaryDivisions = c.req.query("endSecondaryDivisions"); // comma-separated IDs
-    
+
     // Get category and seller filter parameters
     const categories = c.req.query("categories"); // comma-separated category IDs
     const sellers = c.req.query("sellers"); // comma-separated operator/seller IDs
-    
+
     // Get format filter parameters
     const formats = c.req.query("formats"); // comma-separated format types (F1, F2, F3, F4)
-    
+
     // Get metadata filter parameters (JSON string)
     const metadataFilters = c.req.query("metadata"); // JSON string of metadata filters
-    
+
     // Get date filter parameter (YYYY-MM-DD format)
     const availableOnDate = c.req.query("availableOnDate"); // Filter listings available on this specific date
 
@@ -129,14 +129,14 @@ export const getListings = async (c: Context) => {
 
     // Build where clause
     const whereClause: any = {};
-    
+
     // Get user context if authenticated
     const user = c.get("user");
-    
+
     // Add seller/operator filter first (needed for determining status filter)
     const sellerIds = sellers ? sellers.split(",").filter(Boolean) : [];
     const isViewingOwnListings = user && sellerIds.length > 0 && sellerIds.includes(user.userId);
-    
+
     if (status) {
       whereClause.status = status;
     } else {
@@ -176,7 +176,7 @@ export const getListings = async (c: Context) => {
         whereClause.endSecondaryDivisionId = { in: divisionIds };
       }
     }
-    
+
     // Add category filter
     if (categories) {
       const categoryIds = categories.split(",").filter(Boolean);
@@ -184,12 +184,12 @@ export const getListings = async (c: Context) => {
         whereClause.categoryId = { in: categoryIds };
       }
     }
-    
+
     // Add seller/operator filter (sellerIds already parsed above)
     if (sellerIds.length > 0) {
       whereClause.operatorId = { in: sellerIds };
     }
-    
+
     // Add format filter
     if (formats) {
       const formatList = formats.split(",").filter(Boolean);
@@ -197,7 +197,7 @@ export const getListings = async (c: Context) => {
         whereClause.bookingFormat = { in: formatList };
       }
     }
-    
+
     // Add metadata filters
     if (metadataFilters) {
       try {
@@ -206,7 +206,7 @@ export const getListings = async (c: Context) => {
           // Filter by metadata JSON field
           // Using path() to query JSON fields in PostgreSQL
           const metadataConditions: any[] = [];
-          
+
           for (const [key, value] of Object.entries(parsedMetadata)) {
             if (value !== null && value !== undefined && value !== '') {
               metadataConditions.push({
@@ -217,7 +217,7 @@ export const getListings = async (c: Context) => {
               });
             }
           }
-          
+
           if (metadataConditions.length > 0) {
             whereClause.AND = metadataConditions;
           }
@@ -226,7 +226,7 @@ export const getListings = async (c: Context) => {
         console.error("Error parsing metadata filters:", err);
       }
     }
-    
+
     // Add date availability filter
     if (availableOnDate) {
       try {
@@ -234,16 +234,16 @@ export const getListings = async (c: Context) => {
         const filterDate = new Date(availableOnDate + 'T00:00:00.000Z');
         const nextDay = new Date(filterDate);
         nextDay.setDate(nextDay.getDate() + 1);
-        
+
         // Determine which formats are being queried
         const formatList = formats ? formats.split(",").filter(Boolean) : ['F1', 'F2', 'F3', 'F4'];
-        
+
         // Separate formats by their data source
         const activityFormats = formatList.filter(f => f === 'F1' || f === 'F3'); // Use ListingSlot
         const rentalFormats = formatList.filter(f => f === 'F2' || f === 'F4');   // Use InventoryDateRange
-        
+
         const availableListingIds: string[] = [];
-        
+
         // Query ListingSlot table for F1/F3 (activities)
         if (activityFormats.length > 0) {
           const activitySlots = await prisma.listingSlot.findMany({
@@ -276,10 +276,10 @@ export const getListings = async (c: Context) => {
             },
             distinct: ['listingId']
           });
-          
+
           availableListingIds.push(...activitySlots.map(slot => slot.listingId));
         }
-        
+
         // Query InventoryDateRange table for F2/F4 (rentals)
         if (rentalFormats.length > 0) {
           const rentalDateRanges = await prisma.inventoryDateRange.findMany({
@@ -304,13 +304,13 @@ export const getListings = async (c: Context) => {
             },
             distinct: ['listingId']
           });
-          
+
           availableListingIds.push(...rentalDateRanges.map(range => range.listingId));
         }
-        
+
         // Remove duplicates
         const uniqueListingIds = Array.from(new Set(availableListingIds));
-        
+
         // If no listings have availability on this date, return empty result
         if (uniqueListingIds.length === 0) {
           return c.json({
@@ -326,7 +326,7 @@ export const getListings = async (c: Context) => {
             },
           });
         }
-        
+
         // Filter listings to only those with availability
         whereClause.id = { in: uniqueListingIds };
       } catch (err) {
@@ -338,7 +338,7 @@ export const getListings = async (c: Context) => {
     // Build orderBy clause based on sortBy parameter
     let orderByClause: any = { createdAt: "desc" }; // default
     let shouldSortByDateClientSide = false; // Flag for client-side date sorting
-    
+
     if (sortBy) {
       switch (sortBy) {
         case 'price_low':
@@ -457,19 +457,19 @@ export const getListings = async (c: Context) => {
     // Fetch next available date for each listing (for date sorting)
     const now = new Date();
     const listingIds = listings.map(l => l.id);
-    
+
     // Separate listings by format to query appropriate tables
     const activityListingIds = listings
       .filter(l => l.bookingFormat === 'F1' || l.bookingFormat === 'F3')
       .map(l => l.id);
-    
+
     const rentalListingIds = listings
       .filter(l => l.bookingFormat === 'F2' || l.bookingFormat === 'F4')
       .map(l => l.id);
-    
+
     // Create a map of listing ID to next available date
     const nextAvailableDateMap = new Map<string, Date | null>();
-    
+
     // Fetch next available slots from ListingSlot for F1/F3 (activities)
     if (activityListingIds.length > 0) {
       const nextAvailableSlots = await prisma.listingSlot.findMany({
@@ -509,17 +509,17 @@ export const getListings = async (c: Context) => {
       for (const slot of nextAvailableSlots) {
         if (!nextAvailableDateMap.has(slot.listingId)) {
           // Get the appropriate date based on format type
-          const date = (slot.formatType === 'F1') 
-            ? slot.batchStartDate 
+          const date = (slot.formatType === 'F1')
+            ? slot.batchStartDate
             : slot.slotDate;
-          
+
           if (date) {
             nextAvailableDateMap.set(slot.listingId, date);
           }
         }
       }
     }
-    
+
     // Fetch next available date ranges from InventoryDateRange for F2/F4 (rentals)
     if (rentalListingIds.length > 0) {
       const nextAvailableDateRanges = await prisma.inventoryDateRange.findMany({
@@ -563,7 +563,7 @@ export const getListings = async (c: Context) => {
       responseData = responseData.sort((a, b) => {
         const dateA = a.nextAvailableDate ? new Date(a.nextAvailableDate).getTime() : Infinity;
         const dateB = b.nextAvailableDate ? new Date(b.nextAvailableDate).getTime() : Infinity;
-        
+
         if (sortBy === 'date_earliest') {
           // Earliest dates first, listings without dates at the end
           return dateA - dateB;
@@ -580,8 +580,8 @@ export const getListings = async (c: Context) => {
 
     // Check if user is admin or seller/operator
     const isAdminOrSeller = user && (
-      user.userType === "admin" || 
-      user.userType === "super_admin" || 
+      user.userType === "admin" ||
+      user.userType === "super_admin" ||
       user.userType === "operator" ||
       user.role === "seller"
     );
@@ -742,9 +742,9 @@ export const getAdminListings = async (c: Context) => {
     });
   } catch (error) {
     console.error("Get admin listings error:", error);
-    return c.json({ 
-      success: false, 
-      error: "Failed to fetch listings" 
+    return c.json({
+      success: false,
+      error: "Failed to fetch listings"
     }, 500);
   }
 };
@@ -848,12 +848,12 @@ export const getListing = async (c: Context) => {
 
     // Check if user is admin
     const isAdmin = user && (user.userType === "admin" || user.userType === "super_admin");
-    
+
     if (!isAdmin) {
       // Remove admin-specific fields for non-admin users (public/customers)
       // Note: Sellers see rejection reason through their own listings query
       const { approvedByAdminId, approvedAt, ...publicListing } = listing;
-      
+
       return c.json({
         success: true,
         data: {
@@ -1055,23 +1055,23 @@ export const getListingById = async (c: Context) => {
 
     // If user is not admin, remove admin-specific fields
     const isAdmin = user && (user.userType === "admin" || user.userType === "super_admin");
-    
+
     // Add cache headers (3 minutes for detail pages)
     c.header('Cache-Control', 'public, max-age=180, s-maxage=180');
-    
+
     if (!isAdmin) {
       // Remove admin-specific sensitive fields for non-admin users
       const { approvedByAdminId, approvedAt, ...publicListing } = listing;
-      
+
       // Also filter out inactive badges/tags and assignedByAdminId for non-admins
       const filteredBadges = listing.badges
         .filter(b => b.isActive)
         .map(({ assignedByAdminId, ...rest }) => rest);
-      
+
       const filteredTags = listing.tags
         .filter(t => t.isActive)
         .map(({ assignedByAdminId, ...rest }) => rest);
-      
+
       return c.json({
         success: true,
         data: {
@@ -1107,9 +1107,9 @@ export const createListing = async (c: Context) => {
 
     // Make operatorId mandatory
     if (!user || !user.userId) {
-      return c.json({ 
+      return c.json({
         success: false,
-        error: "Authentication required. Operator ID is mandatory." 
+        error: "Authentication required. Operator ID is mandatory."
       }, 401);
     }
 
@@ -1170,6 +1170,39 @@ export const createListing = async (c: Context) => {
       },
     });
 
+    // Auto-assign operator-level badges to the new listing
+    try {
+      const operatorProfile = await prisma.operatorProfile.findUnique({
+        where: { operatorId: user.userId },
+        select: { verificationDocuments: true },
+      });
+      const verDocs: any = (operatorProfile?.verificationDocuments as any) || {};
+      const operatorBadgeIds: string[] = Array.isArray(verDocs.operatorBadgeIds)
+        ? verDocs.operatorBadgeIds
+        : [];
+
+      if (operatorBadgeIds.length > 0) {
+        // Verify badges exist and are active
+        const activeBadges = await prisma.badge.findMany({
+          where: { id: { in: operatorBadgeIds }, isActive: true },
+          select: { id: true },
+        });
+
+        if (activeBadges.length > 0) {
+          await prisma.listingBadge.createMany({
+            data: activeBadges.map((badge) => ({
+              listingId: listing.id,
+              badgeId: badge.id,
+              assignedByAdminId: null, // Auto-assigned
+              isActive: true,
+            })),
+          });
+        }
+      }
+    } catch (badgeErr) {
+      console.error("Auto-assign operator badges error (non-critical):", badgeErr);
+    }
+
     // Index in Meilisearch asynchronously
     meilisearchService.indexListing(listing.id).catch(err => console.error("Background indexing failed:", err));
 
@@ -1183,15 +1216,15 @@ export const createListing = async (c: Context) => {
     );
   } catch (error) {
     console.error("Create listing error:", error);
-    
+
     // Log detailed error info
     if (error instanceof Error) {
       console.error("Error name:", error.name);
       console.error("Error message:", error.message);
       console.error("Error stack:", error.stack);
     }
-    
-    return c.json({ 
+
+    return c.json({
       success: false,
       error: "Failed to create listing",
       message: error instanceof Error ? error.message : "Unknown error",
@@ -1252,12 +1285,12 @@ export const updateListing = async (c: Context) => {
     }
     if (body.status !== undefined) {
       updateData.status = body.status;
-      
+
       // If status is being changed to rejected, handle rejection reason
       if (body.status === "rejected" && body.rejectionReason !== undefined) {
         updateData.rejectionReason = sanitizeString(body.rejectionReason, 1000);
       }
-      
+
       // Clear rejection reason only when admin approves (status = active)
       // Keep rejection reason when seller resubmits (status = pending_approval)
       if (body.status === "active") {
@@ -1279,20 +1312,20 @@ export const updateListing = async (c: Context) => {
     if (body.currency !== undefined) {
       updateData.currency = body.currency;
     }
-    
+
     // Handle metadata - merge with existing and separate table fields
     if (body.metadata !== undefined) {
       console.log('=== METADATA UPDATE DEBUG ===');
       console.log('Incoming body.metadata:', JSON.stringify(body.metadata, null, 2));
-      
+
       const incomingMetadata = typeof body.metadata === 'string' ? JSON.parse(body.metadata) : body.metadata;
       const existingMetadata = existingListing.metadata as any || {};
-      
+
       console.log('Existing metadata from DB:', JSON.stringify(existingMetadata, null, 2));
       console.log('Incoming metadata (parsed):', JSON.stringify(incomingMetadata, null, 2));
-      
+
       const cleanedMetadata: any = {};
-      
+
       // List of fields that exist in the listings table
       const tableFields = [
         'startCountryId', 'startPrimaryDivisionId', 'startSecondaryDivisionId',
@@ -1301,7 +1334,7 @@ export const updateListing = async (c: Context) => {
         'endLocationName', 'endLocationCoordinates', 'endGoogleMapsUrl',
         'taxRate', 'advanceBookingPercentage', 'basePriceDisplay', 'currency'
       ];
-      
+
       // Extract table fields from incoming metadata and add them to updateData
       Object.keys(incomingMetadata).forEach(key => {
         if (tableFields.includes(key) && incomingMetadata[key] !== undefined && incomingMetadata[key] !== null && incomingMetadata[key] !== '') {
@@ -1316,13 +1349,13 @@ export const updateListing = async (c: Context) => {
           console.log(`Keeping ${key} in metadata`);
         }
       });
-      
+
       // Merge cleaned incoming metadata with existing metadata
       updateData.metadata = { ...existingMetadata, ...cleanedMetadata };
       console.log('Final merged metadata:', JSON.stringify(updateData.metadata, null, 2));
       console.log('=== END METADATA DEBUG ===');
     }
-    
+
     // Location fields
     if (body.startLocationName !== undefined) {
       updateData.startLocationName = body.startLocationName
@@ -1391,15 +1424,15 @@ export const updateListing = async (c: Context) => {
     });
   } catch (error) {
     console.error("Update listing error:", error);
-    
+
     // Log detailed error info
     if (error instanceof Error) {
       console.error("Error name:", error.name);
       console.error("Error message:", error.message);
       console.error("Error stack:", error.stack);
     }
-    
-    return c.json({ 
+
+    return c.json({
       success: false,
       error: "Failed to update listing",
       message: error instanceof Error ? error.message : "Unknown error",
@@ -1443,7 +1476,7 @@ export const deleteListing = async (c: Context) => {
         where: { listingId },
         select: { id: true }
       });
-      
+
       if (slots.length > 0) {
         const slotIds = slots.map(s => s.id);
         await prisma.booking.deleteMany({
@@ -1452,7 +1485,7 @@ export const deleteListing = async (c: Context) => {
           }
         });
       }
-      
+
       // Now delete the listing (cascades will handle the rest)
       await prisma.listing.delete({
         where: { id: listingId },
