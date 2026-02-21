@@ -23,12 +23,27 @@ export const getListingTypes = async (c: Context) => {
       orderBy: { displayOrder: "asc" },
       include: {
         categories: {
+          where: { isActive: true },
           select: {
             id: true,
             categoryName: true,
             categorySlug: true,
+            bookingFormat: true,
+            displayOrder: true,
             isActive: true,
+            subCategories: {
+              where: { isActive: true },
+              select: {
+                id: true,
+                subCatName: true,
+                subCatSlug: true,
+                displayOrder: true,
+                isActive: true,
+              },
+              orderBy: { displayOrder: "asc" },
+            },
           },
+          orderBy: { displayOrder: "asc" },
         },
       },
     });
