@@ -204,21 +204,39 @@ export const createBooking = async (c: Context) => {
     // Calculate quantity based on booking format
     const quantity = getQuantityForBookingFormat(bookingFormat, participantCount, totalDays);
 
-    // Calculate payment breakdown
+    // Calculate TOTAL base price (considering price overrides)
+    // Frontend should send the TOTAL base price after calculating all price overrides
+    const totalBasePrice = rupeesToPaise(basePrice * quantity);
+
+    // Calculate payment breakdown with CORRECT logic
     const paymentInput: PaymentCalculationInput = {
       bookingFormat,
-      basePrice: rupeesToPaise(basePrice), // Convert to paise
-      quantity,
+      totalBasePrice, // TOTAL base price (with price overrides)
+      quantity, // For display only
       addonsAmount: rupeesToPaise(addonsTotal || 0),
       discountAmount: rupeesToPaise(discountAmount || 0),
-      amountPaidOnline: amountPaidNow ? rupeesToPaise(amountPaidNow) : undefined,
+      advancePaymentAmount: amountPaidNow ? rupeesToPaise(amountPaidNow) : undefined, // User-selected amount
       paymentMethod: paymentMethod || "online",
       taxRate: listingDetails.taxRate ? Math.round(listingDetails.taxRate * 100) : 1800, // Convert to basis points
     };
 
     const paymentBreakdown = calculatePaymentBreakdown(paymentInput);
 
-    console.log("Payment breakdown:", paymentBreakdown);
+    console.log("=== PAYMENT BREAKDOWN (CORRECT: TAX FIRST!) ===");
+    console.log("Total Base Price:", paymentBreakdown.totalBasePrice / 100, "INR");
+    console.log("Quantity:", paymentBreakdown.quantity);
+    console.log("Tax Amount (18%):", paymentBreakdown.taxAmount / 100, "INR");
+    console.log("Subtotal WITH Tax:", paymentBreakdown.subtotalWithTax / 100, "INR");
+    console.log("Discount:", paymentBreakdown.discountAmount / 100, "INR");
+    console.log("Total Base Amount:", paymentBreakdown.totalBaseAmount / 100, "INR");
+    console.log("Add-ons:", paymentBreakdown.addonsAmount / 100, "INR");
+    console.log("Total Amount:", paymentBreakdown.totalAmount / 100, "INR");
+    console.log("Paid (user-selected):", paymentBreakdown.amountPaidOnline / 100, "INR");
+    console.log("Balance:", paymentBreakdown.amountToCollectOffline / 100, "INR");
+    console.log("Platform Commission:", paymentBreakdown.platformCommission / 100, "INR");
+    console.log("TCS:", paymentBreakdown.tcsAmount / 100, "INR");
+    console.log("Net Pay to Seller:", paymentBreakdown.netPayToSeller / 100, "INR");
+    console.log("Total Earnings:", paymentBreakdown.totalEarnings / 100, "INR");
 
     // Create booking with all details in transaction
     const result = await prisma.$transaction(async (tx) => {
@@ -240,29 +258,38 @@ export const createBooking = async (c: Context) => {
           contactDetails: contactDetails,
           selectedAddons: selectedAddons || [],
           pricingDetails: {
-            subtotal: paymentBreakdown.subtotalAmount / 100,
-            addonsTotal: paymentBreakdown.addonsAmount / 100,
-            taxAmount: paymentBreakdown.taxAmount / 100,
+            totalBasePrice: paymentBreakdown.totalBasePrice / 100,
+            quantity: paymentBreakdown.quantity,
+            subtotalWithTax: paymentBreakdown.subtotalWithTax / 100,
             discountAmount: paymentBreakdown.discountAmount / 100,
-            promoCode: promoCode || null,
+            taxAmount: paymentBreakdown.taxAmount / 100,
+            totalBaseAmount: paymentBreakdown.totalBaseAmount / 100,
+            addonsTotal: paymentBreakdown.addonsAmount / 100,
             totalAmount: paymentBreakdown.totalAmount / 100,
+            promoCode: promoCode || null,
             amountPaidNow: paymentBreakdown.amountPaidOnline / 100,
             amountPendingAtVenue: paymentBreakdown.amountToCollectOffline / 100,
             paymentMethod: paymentBreakdown.paymentMethod,
+            platformCommission: paymentBreakdown.platformCommission / 100,
+            tcsAmount: paymentBreakdown.tcsAmount / 100,
+            netPayToSeller: paymentBreakdown.netPayToSeller / 100,
+            totalEarnings: paymentBreakdown.totalEarnings / 100,
           },
         },
       });
 
-      // Create BookingPayment record
+      // Create BookingPayment record with CORRECT fields
       const bookingPayment = await tx.bookingPayment.create({
         data: {
           bookingId: booking.id,
-          basePrice: paymentBreakdown.basePrice,
+          totalBasePrice: paymentBreakdown.totalBasePrice,
           quantity: paymentBreakdown.quantity,
-          subtotalAmount: paymentBreakdown.subtotalAmount,
-          addonsAmount: paymentBreakdown.addonsAmount,
+          taxRate: paymentBreakdown.taxRate,
+          subtotalWithTax: paymentBreakdown.subtotalWithTax,
           discountAmount: paymentBreakdown.discountAmount,
           taxAmount: paymentBreakdown.taxAmount,
+          totalBaseAmount: paymentBreakdown.totalBaseAmount,
+          addonsAmount: paymentBreakdown.addonsAmount,
           totalAmount: paymentBreakdown.totalAmount,
           amountPaidOnline: paymentBreakdown.amountPaidOnline,
           amountToCollectOffline: paymentBreakdown.amountToCollectOffline,
@@ -271,8 +298,9 @@ export const createBooking = async (c: Context) => {
           platformCommission: paymentBreakdown.platformCommission,
           tcsRate: paymentBreakdown.tcsRate,
           tcsAmount: paymentBreakdown.tcsAmount,
-          sellerGrossEarnings: paymentBreakdown.sellerGrossEarnings,
-          netPayableToSeller: paymentBreakdown.netPayableToSeller,
+          netPayToSeller: paymentBreakdown.netPayToSeller,
+          balanceToCollect: paymentBreakdown.balanceToCollect,
+          totalEarnings: paymentBreakdown.totalEarnings,
           settlementStatus: "PENDING",
         },
       });
@@ -532,15 +560,14 @@ export const createF2Booking = async (c: Context) => {
 
     // Calculate payment breakdown using the payment helper
     const totalDays = selectedDates.length;
-    const basePricePerDay = subtotal / totalDays; // Calculate base price per day from subtotal
     
     const paymentInput: PaymentCalculationInput = {
       bookingFormat: "F2",
-      basePrice: rupeesToPaise(basePricePerDay), // Convert to paise
+      totalBasePrice: rupeesToPaise(subtotal), // Total base price (includes overrides)
       quantity: totalDays,
       addonsAmount: rupeesToPaise(addonsTotal || 0),
       discountAmount: rupeesToPaise(discountAmount || 0),
-      amountPaidOnline: amountPaidNow ? rupeesToPaise(amountPaidNow) : undefined,
+      advancePaymentAmount: amountPaidNow ? rupeesToPaise(amountPaidNow) : undefined,
       paymentMethod: paymentMethod || "online",
       taxRate: dateRange.listing.taxRate ? Math.round(Number(dateRange.listing.taxRate) * 100) : 1800, // Convert to basis points
     };
@@ -561,19 +588,22 @@ export const createF2Booking = async (c: Context) => {
           bookingEndDate: endDate,
           participantCount: 1, // For rentals, we use 1 as default
           totalDays: selectedDates.length,
-          basePrice: basePricePerDay,
+          basePrice: subtotal / selectedDates.length, // Base price per day
           totalAmount: paymentBreakdown.totalAmount / 100, // Store in rupees
           bookingStatus: "CONFIRMED",
           contactDetails: contactDetails,
           selectedAddons: selectedAddons || [],
           pricingDetails: {
             selectedDates,
-            subtotal: paymentBreakdown.subtotalAmount / 100,
-            addonsTotal: paymentBreakdown.addonsAmount / 100,
-            taxAmount: paymentBreakdown.taxAmount / 100,
+            totalBasePrice: paymentBreakdown.totalBasePrice / 100,
+            quantity: paymentBreakdown.quantity,
+            subtotalWithTax: paymentBreakdown.subtotalWithTax / 100,
             discountAmount: paymentBreakdown.discountAmount / 100,
-            promoCode: promoCode || null,
+            taxAmount: paymentBreakdown.taxAmount / 100,
+            totalBaseAmount: paymentBreakdown.totalBaseAmount / 100,
+            addonsTotal: paymentBreakdown.addonsAmount / 100,
             totalAmount: paymentBreakdown.totalAmount / 100,
+            promoCode: promoCode || null,
             amountPaidNow: paymentBreakdown.amountPaidOnline / 100,
             amountPendingAtVenue: paymentBreakdown.amountToCollectOffline / 100,
             paymentMethod: paymentBreakdown.paymentMethod,
@@ -581,16 +611,18 @@ export const createF2Booking = async (c: Context) => {
         },
       });
 
-      // Create BookingPayment record
+      // Create BookingPayment record with CORRECT fields
       const bookingPayment = await tx.bookingPayment.create({
         data: {
           bookingId: booking.id,
-          basePrice: paymentBreakdown.basePrice,
+          totalBasePrice: paymentBreakdown.totalBasePrice,
           quantity: paymentBreakdown.quantity,
-          subtotalAmount: paymentBreakdown.subtotalAmount,
-          addonsAmount: paymentBreakdown.addonsAmount,
+          taxRate: paymentBreakdown.taxRate,
+          subtotalWithTax: paymentBreakdown.subtotalWithTax,
           discountAmount: paymentBreakdown.discountAmount,
           taxAmount: paymentBreakdown.taxAmount,
+          totalBaseAmount: paymentBreakdown.totalBaseAmount,
+          addonsAmount: paymentBreakdown.addonsAmount,
           totalAmount: paymentBreakdown.totalAmount,
           amountPaidOnline: paymentBreakdown.amountPaidOnline,
           amountToCollectOffline: paymentBreakdown.amountToCollectOffline,
@@ -599,8 +631,9 @@ export const createF2Booking = async (c: Context) => {
           platformCommission: paymentBreakdown.platformCommission,
           tcsRate: paymentBreakdown.tcsRate,
           tcsAmount: paymentBreakdown.tcsAmount,
-          sellerGrossEarnings: paymentBreakdown.sellerGrossEarnings,
-          netPayableToSeller: paymentBreakdown.netPayableToSeller,
+          netPayToSeller: paymentBreakdown.netPayToSeller,
+          balanceToCollect: paymentBreakdown.balanceToCollect,
+          totalEarnings: paymentBreakdown.totalEarnings,
           settlementStatus: "PENDING",
         },
       });
@@ -1215,8 +1248,16 @@ export const getOperatorBookings = async (c: Context) => {
     return c.json({ success: true, data: formattedBookings });
   } catch (error) {
     console.error("Error fetching operator bookings:", error);
+    if (error instanceof Error) {
+      console.error("Stack trace:", error.stack);
+    }
     return c.json(
-      { success: false, message: "Failed to fetch bookings" },
+      {
+        success: false,
+        message: "Failed to fetch bookings",
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      },
       500
     );
   }

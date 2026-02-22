@@ -26,12 +26,14 @@ export type AggregateBookingPayment = {
 }
 
 export type BookingPaymentAvgAggregateOutputType = {
-  basePrice: number | null
+  totalBasePrice: number | null
   quantity: number | null
-  subtotalAmount: number | null
-  addonsAmount: number | null
+  taxRate: number | null
+  subtotalWithTax: number | null
   discountAmount: number | null
   taxAmount: number | null
+  totalBaseAmount: number | null
+  addonsAmount: number | null
   totalAmount: number | null
   amountPaidOnline: number | null
   amountToCollectOffline: number | null
@@ -39,17 +41,20 @@ export type BookingPaymentAvgAggregateOutputType = {
   platformCommission: number | null
   tcsRate: number | null
   tcsAmount: number | null
-  sellerGrossEarnings: number | null
-  netPayableToSeller: number | null
+  netPayToSeller: number | null
+  balanceToCollect: number | null
+  totalEarnings: number | null
 }
 
 export type BookingPaymentSumAggregateOutputType = {
-  basePrice: number | null
+  totalBasePrice: number | null
   quantity: number | null
-  subtotalAmount: number | null
-  addonsAmount: number | null
+  taxRate: number | null
+  subtotalWithTax: number | null
   discountAmount: number | null
   taxAmount: number | null
+  totalBaseAmount: number | null
+  addonsAmount: number | null
   totalAmount: number | null
   amountPaidOnline: number | null
   amountToCollectOffline: number | null
@@ -57,19 +62,22 @@ export type BookingPaymentSumAggregateOutputType = {
   platformCommission: number | null
   tcsRate: number | null
   tcsAmount: number | null
-  sellerGrossEarnings: number | null
-  netPayableToSeller: number | null
+  netPayToSeller: number | null
+  balanceToCollect: number | null
+  totalEarnings: number | null
 }
 
 export type BookingPaymentMinAggregateOutputType = {
   id: string | null
   bookingId: string | null
-  basePrice: number | null
+  totalBasePrice: number | null
   quantity: number | null
-  subtotalAmount: number | null
-  addonsAmount: number | null
+  taxRate: number | null
+  subtotalWithTax: number | null
   discountAmount: number | null
   taxAmount: number | null
+  totalBaseAmount: number | null
+  addonsAmount: number | null
   totalAmount: number | null
   amountPaidOnline: number | null
   amountToCollectOffline: number | null
@@ -78,8 +86,9 @@ export type BookingPaymentMinAggregateOutputType = {
   platformCommission: number | null
   tcsRate: number | null
   tcsAmount: number | null
-  sellerGrossEarnings: number | null
-  netPayableToSeller: number | null
+  netPayToSeller: number | null
+  balanceToCollect: number | null
+  totalEarnings: number | null
   settlementStatus: $Enums.SettlementStatus | null
   settlementDate: Date | null
   createdAt: Date | null
@@ -89,12 +98,14 @@ export type BookingPaymentMinAggregateOutputType = {
 export type BookingPaymentMaxAggregateOutputType = {
   id: string | null
   bookingId: string | null
-  basePrice: number | null
+  totalBasePrice: number | null
   quantity: number | null
-  subtotalAmount: number | null
-  addonsAmount: number | null
+  taxRate: number | null
+  subtotalWithTax: number | null
   discountAmount: number | null
   taxAmount: number | null
+  totalBaseAmount: number | null
+  addonsAmount: number | null
   totalAmount: number | null
   amountPaidOnline: number | null
   amountToCollectOffline: number | null
@@ -103,8 +114,9 @@ export type BookingPaymentMaxAggregateOutputType = {
   platformCommission: number | null
   tcsRate: number | null
   tcsAmount: number | null
-  sellerGrossEarnings: number | null
-  netPayableToSeller: number | null
+  netPayToSeller: number | null
+  balanceToCollect: number | null
+  totalEarnings: number | null
   settlementStatus: $Enums.SettlementStatus | null
   settlementDate: Date | null
   createdAt: Date | null
@@ -114,12 +126,14 @@ export type BookingPaymentMaxAggregateOutputType = {
 export type BookingPaymentCountAggregateOutputType = {
   id: number
   bookingId: number
-  basePrice: number
+  totalBasePrice: number
   quantity: number
-  subtotalAmount: number
-  addonsAmount: number
+  taxRate: number
+  subtotalWithTax: number
   discountAmount: number
   taxAmount: number
+  totalBaseAmount: number
+  addonsAmount: number
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
@@ -128,8 +142,9 @@ export type BookingPaymentCountAggregateOutputType = {
   platformCommission: number
   tcsRate: number
   tcsAmount: number
-  sellerGrossEarnings: number
-  netPayableToSeller: number
+  netPayToSeller: number
+  balanceToCollect: number
+  totalEarnings: number
   settlementStatus: number
   settlementDate: number
   createdAt: number
@@ -139,12 +154,14 @@ export type BookingPaymentCountAggregateOutputType = {
 
 
 export type BookingPaymentAvgAggregateInputType = {
-  basePrice?: true
+  totalBasePrice?: true
   quantity?: true
-  subtotalAmount?: true
-  addonsAmount?: true
+  taxRate?: true
+  subtotalWithTax?: true
   discountAmount?: true
   taxAmount?: true
+  totalBaseAmount?: true
+  addonsAmount?: true
   totalAmount?: true
   amountPaidOnline?: true
   amountToCollectOffline?: true
@@ -152,17 +169,20 @@ export type BookingPaymentAvgAggregateInputType = {
   platformCommission?: true
   tcsRate?: true
   tcsAmount?: true
-  sellerGrossEarnings?: true
-  netPayableToSeller?: true
+  netPayToSeller?: true
+  balanceToCollect?: true
+  totalEarnings?: true
 }
 
 export type BookingPaymentSumAggregateInputType = {
-  basePrice?: true
+  totalBasePrice?: true
   quantity?: true
-  subtotalAmount?: true
-  addonsAmount?: true
+  taxRate?: true
+  subtotalWithTax?: true
   discountAmount?: true
   taxAmount?: true
+  totalBaseAmount?: true
+  addonsAmount?: true
   totalAmount?: true
   amountPaidOnline?: true
   amountToCollectOffline?: true
@@ -170,19 +190,22 @@ export type BookingPaymentSumAggregateInputType = {
   platformCommission?: true
   tcsRate?: true
   tcsAmount?: true
-  sellerGrossEarnings?: true
-  netPayableToSeller?: true
+  netPayToSeller?: true
+  balanceToCollect?: true
+  totalEarnings?: true
 }
 
 export type BookingPaymentMinAggregateInputType = {
   id?: true
   bookingId?: true
-  basePrice?: true
+  totalBasePrice?: true
   quantity?: true
-  subtotalAmount?: true
-  addonsAmount?: true
+  taxRate?: true
+  subtotalWithTax?: true
   discountAmount?: true
   taxAmount?: true
+  totalBaseAmount?: true
+  addonsAmount?: true
   totalAmount?: true
   amountPaidOnline?: true
   amountToCollectOffline?: true
@@ -191,8 +214,9 @@ export type BookingPaymentMinAggregateInputType = {
   platformCommission?: true
   tcsRate?: true
   tcsAmount?: true
-  sellerGrossEarnings?: true
-  netPayableToSeller?: true
+  netPayToSeller?: true
+  balanceToCollect?: true
+  totalEarnings?: true
   settlementStatus?: true
   settlementDate?: true
   createdAt?: true
@@ -202,12 +226,14 @@ export type BookingPaymentMinAggregateInputType = {
 export type BookingPaymentMaxAggregateInputType = {
   id?: true
   bookingId?: true
-  basePrice?: true
+  totalBasePrice?: true
   quantity?: true
-  subtotalAmount?: true
-  addonsAmount?: true
+  taxRate?: true
+  subtotalWithTax?: true
   discountAmount?: true
   taxAmount?: true
+  totalBaseAmount?: true
+  addonsAmount?: true
   totalAmount?: true
   amountPaidOnline?: true
   amountToCollectOffline?: true
@@ -216,8 +242,9 @@ export type BookingPaymentMaxAggregateInputType = {
   platformCommission?: true
   tcsRate?: true
   tcsAmount?: true
-  sellerGrossEarnings?: true
-  netPayableToSeller?: true
+  netPayToSeller?: true
+  balanceToCollect?: true
+  totalEarnings?: true
   settlementStatus?: true
   settlementDate?: true
   createdAt?: true
@@ -227,12 +254,14 @@ export type BookingPaymentMaxAggregateInputType = {
 export type BookingPaymentCountAggregateInputType = {
   id?: true
   bookingId?: true
-  basePrice?: true
+  totalBasePrice?: true
   quantity?: true
-  subtotalAmount?: true
-  addonsAmount?: true
+  taxRate?: true
+  subtotalWithTax?: true
   discountAmount?: true
   taxAmount?: true
+  totalBaseAmount?: true
+  addonsAmount?: true
   totalAmount?: true
   amountPaidOnline?: true
   amountToCollectOffline?: true
@@ -241,8 +270,9 @@ export type BookingPaymentCountAggregateInputType = {
   platformCommission?: true
   tcsRate?: true
   tcsAmount?: true
-  sellerGrossEarnings?: true
-  netPayableToSeller?: true
+  netPayToSeller?: true
+  balanceToCollect?: true
+  totalEarnings?: true
   settlementStatus?: true
   settlementDate?: true
   createdAt?: true
@@ -339,12 +369,14 @@ export type BookingPaymentGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 export type BookingPaymentGroupByOutputType = {
   id: string
   bookingId: string
-  basePrice: number
+  totalBasePrice: number
   quantity: number
-  subtotalAmount: number
-  addonsAmount: number
+  taxRate: number
+  subtotalWithTax: number
   discountAmount: number
   taxAmount: number
+  totalBaseAmount: number
+  addonsAmount: number
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
@@ -353,8 +385,9 @@ export type BookingPaymentGroupByOutputType = {
   platformCommission: number
   tcsRate: number
   tcsAmount: number
-  sellerGrossEarnings: number
-  netPayableToSeller: number
+  netPayToSeller: number
+  balanceToCollect: number
+  totalEarnings: number
   settlementStatus: $Enums.SettlementStatus
   settlementDate: Date | null
   createdAt: Date
@@ -387,12 +420,14 @@ export type BookingPaymentWhereInput = {
   NOT?: Prisma.BookingPaymentWhereInput | Prisma.BookingPaymentWhereInput[]
   id?: Prisma.StringFilter<"BookingPayment"> | string
   bookingId?: Prisma.StringFilter<"BookingPayment"> | string
-  basePrice?: Prisma.IntFilter<"BookingPayment"> | number
+  totalBasePrice?: Prisma.IntFilter<"BookingPayment"> | number
   quantity?: Prisma.IntFilter<"BookingPayment"> | number
-  subtotalAmount?: Prisma.IntFilter<"BookingPayment"> | number
-  addonsAmount?: Prisma.IntFilter<"BookingPayment"> | number
+  taxRate?: Prisma.IntFilter<"BookingPayment"> | number
+  subtotalWithTax?: Prisma.IntFilter<"BookingPayment"> | number
   discountAmount?: Prisma.IntFilter<"BookingPayment"> | number
   taxAmount?: Prisma.IntFilter<"BookingPayment"> | number
+  totalBaseAmount?: Prisma.IntFilter<"BookingPayment"> | number
+  addonsAmount?: Prisma.IntFilter<"BookingPayment"> | number
   totalAmount?: Prisma.IntFilter<"BookingPayment"> | number
   amountPaidOnline?: Prisma.IntFilter<"BookingPayment"> | number
   amountToCollectOffline?: Prisma.IntFilter<"BookingPayment"> | number
@@ -401,8 +436,9 @@ export type BookingPaymentWhereInput = {
   platformCommission?: Prisma.IntFilter<"BookingPayment"> | number
   tcsRate?: Prisma.IntFilter<"BookingPayment"> | number
   tcsAmount?: Prisma.IntFilter<"BookingPayment"> | number
-  sellerGrossEarnings?: Prisma.IntFilter<"BookingPayment"> | number
-  netPayableToSeller?: Prisma.IntFilter<"BookingPayment"> | number
+  netPayToSeller?: Prisma.IntFilter<"BookingPayment"> | number
+  balanceToCollect?: Prisma.IntFilter<"BookingPayment"> | number
+  totalEarnings?: Prisma.IntFilter<"BookingPayment"> | number
   settlementStatus?: Prisma.EnumSettlementStatusFilter<"BookingPayment"> | $Enums.SettlementStatus
   settlementDate?: Prisma.DateTimeNullableFilter<"BookingPayment"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"BookingPayment"> | Date | string
@@ -413,12 +449,14 @@ export type BookingPaymentWhereInput = {
 export type BookingPaymentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   bookingId?: Prisma.SortOrder
-  basePrice?: Prisma.SortOrder
+  totalBasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  subtotalAmount?: Prisma.SortOrder
-  addonsAmount?: Prisma.SortOrder
+  taxRate?: Prisma.SortOrder
+  subtotalWithTax?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   taxAmount?: Prisma.SortOrder
+  totalBaseAmount?: Prisma.SortOrder
+  addonsAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
@@ -427,8 +465,9 @@ export type BookingPaymentOrderByWithRelationInput = {
   platformCommission?: Prisma.SortOrder
   tcsRate?: Prisma.SortOrder
   tcsAmount?: Prisma.SortOrder
-  sellerGrossEarnings?: Prisma.SortOrder
-  netPayableToSeller?: Prisma.SortOrder
+  netPayToSeller?: Prisma.SortOrder
+  balanceToCollect?: Prisma.SortOrder
+  totalEarnings?: Prisma.SortOrder
   settlementStatus?: Prisma.SortOrder
   settlementDate?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -442,12 +481,14 @@ export type BookingPaymentWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.BookingPaymentWhereInput | Prisma.BookingPaymentWhereInput[]
   OR?: Prisma.BookingPaymentWhereInput[]
   NOT?: Prisma.BookingPaymentWhereInput | Prisma.BookingPaymentWhereInput[]
-  basePrice?: Prisma.IntFilter<"BookingPayment"> | number
+  totalBasePrice?: Prisma.IntFilter<"BookingPayment"> | number
   quantity?: Prisma.IntFilter<"BookingPayment"> | number
-  subtotalAmount?: Prisma.IntFilter<"BookingPayment"> | number
-  addonsAmount?: Prisma.IntFilter<"BookingPayment"> | number
+  taxRate?: Prisma.IntFilter<"BookingPayment"> | number
+  subtotalWithTax?: Prisma.IntFilter<"BookingPayment"> | number
   discountAmount?: Prisma.IntFilter<"BookingPayment"> | number
   taxAmount?: Prisma.IntFilter<"BookingPayment"> | number
+  totalBaseAmount?: Prisma.IntFilter<"BookingPayment"> | number
+  addonsAmount?: Prisma.IntFilter<"BookingPayment"> | number
   totalAmount?: Prisma.IntFilter<"BookingPayment"> | number
   amountPaidOnline?: Prisma.IntFilter<"BookingPayment"> | number
   amountToCollectOffline?: Prisma.IntFilter<"BookingPayment"> | number
@@ -456,8 +497,9 @@ export type BookingPaymentWhereUniqueInput = Prisma.AtLeast<{
   platformCommission?: Prisma.IntFilter<"BookingPayment"> | number
   tcsRate?: Prisma.IntFilter<"BookingPayment"> | number
   tcsAmount?: Prisma.IntFilter<"BookingPayment"> | number
-  sellerGrossEarnings?: Prisma.IntFilter<"BookingPayment"> | number
-  netPayableToSeller?: Prisma.IntFilter<"BookingPayment"> | number
+  netPayToSeller?: Prisma.IntFilter<"BookingPayment"> | number
+  balanceToCollect?: Prisma.IntFilter<"BookingPayment"> | number
+  totalEarnings?: Prisma.IntFilter<"BookingPayment"> | number
   settlementStatus?: Prisma.EnumSettlementStatusFilter<"BookingPayment"> | $Enums.SettlementStatus
   settlementDate?: Prisma.DateTimeNullableFilter<"BookingPayment"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"BookingPayment"> | Date | string
@@ -468,12 +510,14 @@ export type BookingPaymentWhereUniqueInput = Prisma.AtLeast<{
 export type BookingPaymentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   bookingId?: Prisma.SortOrder
-  basePrice?: Prisma.SortOrder
+  totalBasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  subtotalAmount?: Prisma.SortOrder
-  addonsAmount?: Prisma.SortOrder
+  taxRate?: Prisma.SortOrder
+  subtotalWithTax?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   taxAmount?: Prisma.SortOrder
+  totalBaseAmount?: Prisma.SortOrder
+  addonsAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
@@ -482,8 +526,9 @@ export type BookingPaymentOrderByWithAggregationInput = {
   platformCommission?: Prisma.SortOrder
   tcsRate?: Prisma.SortOrder
   tcsAmount?: Prisma.SortOrder
-  sellerGrossEarnings?: Prisma.SortOrder
-  netPayableToSeller?: Prisma.SortOrder
+  netPayToSeller?: Prisma.SortOrder
+  balanceToCollect?: Prisma.SortOrder
+  totalEarnings?: Prisma.SortOrder
   settlementStatus?: Prisma.SortOrder
   settlementDate?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -501,12 +546,14 @@ export type BookingPaymentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.BookingPaymentScalarWhereWithAggregatesInput | Prisma.BookingPaymentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"BookingPayment"> | string
   bookingId?: Prisma.StringWithAggregatesFilter<"BookingPayment"> | string
-  basePrice?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
+  totalBasePrice?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   quantity?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
-  subtotalAmount?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
-  addonsAmount?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
+  taxRate?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
+  subtotalWithTax?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   discountAmount?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   taxAmount?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
+  totalBaseAmount?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
+  addonsAmount?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   totalAmount?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   amountPaidOnline?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   amountToCollectOffline?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
@@ -515,8 +562,9 @@ export type BookingPaymentScalarWhereWithAggregatesInput = {
   platformCommission?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   tcsRate?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   tcsAmount?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
-  sellerGrossEarnings?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
-  netPayableToSeller?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
+  netPayToSeller?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
+  balanceToCollect?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
+  totalEarnings?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   settlementStatus?: Prisma.EnumSettlementStatusWithAggregatesFilter<"BookingPayment"> | $Enums.SettlementStatus
   settlementDate?: Prisma.DateTimeNullableWithAggregatesFilter<"BookingPayment"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BookingPayment"> | Date | string
@@ -525,12 +573,14 @@ export type BookingPaymentScalarWhereWithAggregatesInput = {
 
 export type BookingPaymentCreateInput = {
   id?: string
-  basePrice: number
+  totalBasePrice: number
   quantity: number
-  subtotalAmount: number
-  addonsAmount: number
+  taxRate: number
+  subtotalWithTax: number
   discountAmount: number
   taxAmount: number
+  totalBaseAmount: number
+  addonsAmount: number
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
@@ -539,8 +589,9 @@ export type BookingPaymentCreateInput = {
   platformCommission: number
   tcsRate: number
   tcsAmount: number
-  sellerGrossEarnings: number
-  netPayableToSeller: number
+  netPayToSeller: number
+  balanceToCollect: number
+  totalEarnings: number
   settlementStatus?: $Enums.SettlementStatus
   settlementDate?: Date | string | null
   createdAt?: Date | string
@@ -551,12 +602,14 @@ export type BookingPaymentCreateInput = {
 export type BookingPaymentUncheckedCreateInput = {
   id?: string
   bookingId: string
-  basePrice: number
+  totalBasePrice: number
   quantity: number
-  subtotalAmount: number
-  addonsAmount: number
+  taxRate: number
+  subtotalWithTax: number
   discountAmount: number
   taxAmount: number
+  totalBaseAmount: number
+  addonsAmount: number
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
@@ -565,8 +618,9 @@ export type BookingPaymentUncheckedCreateInput = {
   platformCommission: number
   tcsRate: number
   tcsAmount: number
-  sellerGrossEarnings: number
-  netPayableToSeller: number
+  netPayToSeller: number
+  balanceToCollect: number
+  totalEarnings: number
   settlementStatus?: $Enums.SettlementStatus
   settlementDate?: Date | string | null
   createdAt?: Date | string
@@ -575,12 +629,14 @@ export type BookingPaymentUncheckedCreateInput = {
 
 export type BookingPaymentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBasePrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  addonsAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  taxRate?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalWithTax?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBaseAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  addonsAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   amountPaidOnline?: Prisma.IntFieldUpdateOperationsInput | number
   amountToCollectOffline?: Prisma.IntFieldUpdateOperationsInput | number
@@ -589,8 +645,9 @@ export type BookingPaymentUpdateInput = {
   platformCommission?: Prisma.IntFieldUpdateOperationsInput | number
   tcsRate?: Prisma.IntFieldUpdateOperationsInput | number
   tcsAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  sellerGrossEarnings?: Prisma.IntFieldUpdateOperationsInput | number
-  netPayableToSeller?: Prisma.IntFieldUpdateOperationsInput | number
+  netPayToSeller?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceToCollect?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnings?: Prisma.IntFieldUpdateOperationsInput | number
   settlementStatus?: Prisma.EnumSettlementStatusFieldUpdateOperationsInput | $Enums.SettlementStatus
   settlementDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -601,12 +658,14 @@ export type BookingPaymentUpdateInput = {
 export type BookingPaymentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bookingId?: Prisma.StringFieldUpdateOperationsInput | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBasePrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  addonsAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  taxRate?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalWithTax?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBaseAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  addonsAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   amountPaidOnline?: Prisma.IntFieldUpdateOperationsInput | number
   amountToCollectOffline?: Prisma.IntFieldUpdateOperationsInput | number
@@ -615,8 +674,9 @@ export type BookingPaymentUncheckedUpdateInput = {
   platformCommission?: Prisma.IntFieldUpdateOperationsInput | number
   tcsRate?: Prisma.IntFieldUpdateOperationsInput | number
   tcsAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  sellerGrossEarnings?: Prisma.IntFieldUpdateOperationsInput | number
-  netPayableToSeller?: Prisma.IntFieldUpdateOperationsInput | number
+  netPayToSeller?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceToCollect?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnings?: Prisma.IntFieldUpdateOperationsInput | number
   settlementStatus?: Prisma.EnumSettlementStatusFieldUpdateOperationsInput | $Enums.SettlementStatus
   settlementDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -626,12 +686,14 @@ export type BookingPaymentUncheckedUpdateInput = {
 export type BookingPaymentCreateManyInput = {
   id?: string
   bookingId: string
-  basePrice: number
+  totalBasePrice: number
   quantity: number
-  subtotalAmount: number
-  addonsAmount: number
+  taxRate: number
+  subtotalWithTax: number
   discountAmount: number
   taxAmount: number
+  totalBaseAmount: number
+  addonsAmount: number
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
@@ -640,8 +702,9 @@ export type BookingPaymentCreateManyInput = {
   platformCommission: number
   tcsRate: number
   tcsAmount: number
-  sellerGrossEarnings: number
-  netPayableToSeller: number
+  netPayToSeller: number
+  balanceToCollect: number
+  totalEarnings: number
   settlementStatus?: $Enums.SettlementStatus
   settlementDate?: Date | string | null
   createdAt?: Date | string
@@ -650,12 +713,14 @@ export type BookingPaymentCreateManyInput = {
 
 export type BookingPaymentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBasePrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  addonsAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  taxRate?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalWithTax?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBaseAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  addonsAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   amountPaidOnline?: Prisma.IntFieldUpdateOperationsInput | number
   amountToCollectOffline?: Prisma.IntFieldUpdateOperationsInput | number
@@ -664,8 +729,9 @@ export type BookingPaymentUpdateManyMutationInput = {
   platformCommission?: Prisma.IntFieldUpdateOperationsInput | number
   tcsRate?: Prisma.IntFieldUpdateOperationsInput | number
   tcsAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  sellerGrossEarnings?: Prisma.IntFieldUpdateOperationsInput | number
-  netPayableToSeller?: Prisma.IntFieldUpdateOperationsInput | number
+  netPayToSeller?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceToCollect?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnings?: Prisma.IntFieldUpdateOperationsInput | number
   settlementStatus?: Prisma.EnumSettlementStatusFieldUpdateOperationsInput | $Enums.SettlementStatus
   settlementDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -675,12 +741,14 @@ export type BookingPaymentUpdateManyMutationInput = {
 export type BookingPaymentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bookingId?: Prisma.StringFieldUpdateOperationsInput | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBasePrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  addonsAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  taxRate?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalWithTax?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBaseAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  addonsAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   amountPaidOnline?: Prisma.IntFieldUpdateOperationsInput | number
   amountToCollectOffline?: Prisma.IntFieldUpdateOperationsInput | number
@@ -689,8 +757,9 @@ export type BookingPaymentUncheckedUpdateManyInput = {
   platformCommission?: Prisma.IntFieldUpdateOperationsInput | number
   tcsRate?: Prisma.IntFieldUpdateOperationsInput | number
   tcsAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  sellerGrossEarnings?: Prisma.IntFieldUpdateOperationsInput | number
-  netPayableToSeller?: Prisma.IntFieldUpdateOperationsInput | number
+  netPayToSeller?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceToCollect?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnings?: Prisma.IntFieldUpdateOperationsInput | number
   settlementStatus?: Prisma.EnumSettlementStatusFieldUpdateOperationsInput | $Enums.SettlementStatus
   settlementDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -700,12 +769,14 @@ export type BookingPaymentUncheckedUpdateManyInput = {
 export type BookingPaymentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   bookingId?: Prisma.SortOrder
-  basePrice?: Prisma.SortOrder
+  totalBasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  subtotalAmount?: Prisma.SortOrder
-  addonsAmount?: Prisma.SortOrder
+  taxRate?: Prisma.SortOrder
+  subtotalWithTax?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   taxAmount?: Prisma.SortOrder
+  totalBaseAmount?: Prisma.SortOrder
+  addonsAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
@@ -714,8 +785,9 @@ export type BookingPaymentCountOrderByAggregateInput = {
   platformCommission?: Prisma.SortOrder
   tcsRate?: Prisma.SortOrder
   tcsAmount?: Prisma.SortOrder
-  sellerGrossEarnings?: Prisma.SortOrder
-  netPayableToSeller?: Prisma.SortOrder
+  netPayToSeller?: Prisma.SortOrder
+  balanceToCollect?: Prisma.SortOrder
+  totalEarnings?: Prisma.SortOrder
   settlementStatus?: Prisma.SortOrder
   settlementDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -723,12 +795,14 @@ export type BookingPaymentCountOrderByAggregateInput = {
 }
 
 export type BookingPaymentAvgOrderByAggregateInput = {
-  basePrice?: Prisma.SortOrder
+  totalBasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  subtotalAmount?: Prisma.SortOrder
-  addonsAmount?: Prisma.SortOrder
+  taxRate?: Prisma.SortOrder
+  subtotalWithTax?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   taxAmount?: Prisma.SortOrder
+  totalBaseAmount?: Prisma.SortOrder
+  addonsAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
@@ -736,19 +810,22 @@ export type BookingPaymentAvgOrderByAggregateInput = {
   platformCommission?: Prisma.SortOrder
   tcsRate?: Prisma.SortOrder
   tcsAmount?: Prisma.SortOrder
-  sellerGrossEarnings?: Prisma.SortOrder
-  netPayableToSeller?: Prisma.SortOrder
+  netPayToSeller?: Prisma.SortOrder
+  balanceToCollect?: Prisma.SortOrder
+  totalEarnings?: Prisma.SortOrder
 }
 
 export type BookingPaymentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   bookingId?: Prisma.SortOrder
-  basePrice?: Prisma.SortOrder
+  totalBasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  subtotalAmount?: Prisma.SortOrder
-  addonsAmount?: Prisma.SortOrder
+  taxRate?: Prisma.SortOrder
+  subtotalWithTax?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   taxAmount?: Prisma.SortOrder
+  totalBaseAmount?: Prisma.SortOrder
+  addonsAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
@@ -757,8 +834,9 @@ export type BookingPaymentMaxOrderByAggregateInput = {
   platformCommission?: Prisma.SortOrder
   tcsRate?: Prisma.SortOrder
   tcsAmount?: Prisma.SortOrder
-  sellerGrossEarnings?: Prisma.SortOrder
-  netPayableToSeller?: Prisma.SortOrder
+  netPayToSeller?: Prisma.SortOrder
+  balanceToCollect?: Prisma.SortOrder
+  totalEarnings?: Prisma.SortOrder
   settlementStatus?: Prisma.SortOrder
   settlementDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -768,12 +846,14 @@ export type BookingPaymentMaxOrderByAggregateInput = {
 export type BookingPaymentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   bookingId?: Prisma.SortOrder
-  basePrice?: Prisma.SortOrder
+  totalBasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  subtotalAmount?: Prisma.SortOrder
-  addonsAmount?: Prisma.SortOrder
+  taxRate?: Prisma.SortOrder
+  subtotalWithTax?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   taxAmount?: Prisma.SortOrder
+  totalBaseAmount?: Prisma.SortOrder
+  addonsAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
@@ -782,8 +862,9 @@ export type BookingPaymentMinOrderByAggregateInput = {
   platformCommission?: Prisma.SortOrder
   tcsRate?: Prisma.SortOrder
   tcsAmount?: Prisma.SortOrder
-  sellerGrossEarnings?: Prisma.SortOrder
-  netPayableToSeller?: Prisma.SortOrder
+  netPayToSeller?: Prisma.SortOrder
+  balanceToCollect?: Prisma.SortOrder
+  totalEarnings?: Prisma.SortOrder
   settlementStatus?: Prisma.SortOrder
   settlementDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -791,12 +872,14 @@ export type BookingPaymentMinOrderByAggregateInput = {
 }
 
 export type BookingPaymentSumOrderByAggregateInput = {
-  basePrice?: Prisma.SortOrder
+  totalBasePrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  subtotalAmount?: Prisma.SortOrder
-  addonsAmount?: Prisma.SortOrder
+  taxRate?: Prisma.SortOrder
+  subtotalWithTax?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
   taxAmount?: Prisma.SortOrder
+  totalBaseAmount?: Prisma.SortOrder
+  addonsAmount?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
@@ -804,8 +887,9 @@ export type BookingPaymentSumOrderByAggregateInput = {
   platformCommission?: Prisma.SortOrder
   tcsRate?: Prisma.SortOrder
   tcsAmount?: Prisma.SortOrder
-  sellerGrossEarnings?: Prisma.SortOrder
-  netPayableToSeller?: Prisma.SortOrder
+  netPayToSeller?: Prisma.SortOrder
+  balanceToCollect?: Prisma.SortOrder
+  totalEarnings?: Prisma.SortOrder
 }
 
 export type BookingPaymentNullableScalarRelationFilter = {
@@ -855,12 +939,14 @@ export type BookingPaymentUncheckedUpdateOneWithoutBookingNestedInput = {
 
 export type BookingPaymentCreateWithoutBookingInput = {
   id?: string
-  basePrice: number
+  totalBasePrice: number
   quantity: number
-  subtotalAmount: number
-  addonsAmount: number
+  taxRate: number
+  subtotalWithTax: number
   discountAmount: number
   taxAmount: number
+  totalBaseAmount: number
+  addonsAmount: number
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
@@ -869,8 +955,9 @@ export type BookingPaymentCreateWithoutBookingInput = {
   platformCommission: number
   tcsRate: number
   tcsAmount: number
-  sellerGrossEarnings: number
-  netPayableToSeller: number
+  netPayToSeller: number
+  balanceToCollect: number
+  totalEarnings: number
   settlementStatus?: $Enums.SettlementStatus
   settlementDate?: Date | string | null
   createdAt?: Date | string
@@ -879,12 +966,14 @@ export type BookingPaymentCreateWithoutBookingInput = {
 
 export type BookingPaymentUncheckedCreateWithoutBookingInput = {
   id?: string
-  basePrice: number
+  totalBasePrice: number
   quantity: number
-  subtotalAmount: number
-  addonsAmount: number
+  taxRate: number
+  subtotalWithTax: number
   discountAmount: number
   taxAmount: number
+  totalBaseAmount: number
+  addonsAmount: number
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
@@ -893,8 +982,9 @@ export type BookingPaymentUncheckedCreateWithoutBookingInput = {
   platformCommission: number
   tcsRate: number
   tcsAmount: number
-  sellerGrossEarnings: number
-  netPayableToSeller: number
+  netPayToSeller: number
+  balanceToCollect: number
+  totalEarnings: number
   settlementStatus?: $Enums.SettlementStatus
   settlementDate?: Date | string | null
   createdAt?: Date | string
@@ -919,12 +1009,14 @@ export type BookingPaymentUpdateToOneWithWhereWithoutBookingInput = {
 
 export type BookingPaymentUpdateWithoutBookingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBasePrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  addonsAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  taxRate?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalWithTax?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBaseAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  addonsAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   amountPaidOnline?: Prisma.IntFieldUpdateOperationsInput | number
   amountToCollectOffline?: Prisma.IntFieldUpdateOperationsInput | number
@@ -933,8 +1025,9 @@ export type BookingPaymentUpdateWithoutBookingInput = {
   platformCommission?: Prisma.IntFieldUpdateOperationsInput | number
   tcsRate?: Prisma.IntFieldUpdateOperationsInput | number
   tcsAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  sellerGrossEarnings?: Prisma.IntFieldUpdateOperationsInput | number
-  netPayableToSeller?: Prisma.IntFieldUpdateOperationsInput | number
+  netPayToSeller?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceToCollect?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnings?: Prisma.IntFieldUpdateOperationsInput | number
   settlementStatus?: Prisma.EnumSettlementStatusFieldUpdateOperationsInput | $Enums.SettlementStatus
   settlementDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -943,12 +1036,14 @@ export type BookingPaymentUpdateWithoutBookingInput = {
 
 export type BookingPaymentUncheckedUpdateWithoutBookingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  basePrice?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBasePrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  subtotalAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  addonsAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  taxRate?: Prisma.IntFieldUpdateOperationsInput | number
+  subtotalWithTax?: Prisma.IntFieldUpdateOperationsInput | number
   discountAmount?: Prisma.IntFieldUpdateOperationsInput | number
   taxAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBaseAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  addonsAmount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   amountPaidOnline?: Prisma.IntFieldUpdateOperationsInput | number
   amountToCollectOffline?: Prisma.IntFieldUpdateOperationsInput | number
@@ -957,8 +1052,9 @@ export type BookingPaymentUncheckedUpdateWithoutBookingInput = {
   platformCommission?: Prisma.IntFieldUpdateOperationsInput | number
   tcsRate?: Prisma.IntFieldUpdateOperationsInput | number
   tcsAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  sellerGrossEarnings?: Prisma.IntFieldUpdateOperationsInput | number
-  netPayableToSeller?: Prisma.IntFieldUpdateOperationsInput | number
+  netPayToSeller?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceToCollect?: Prisma.IntFieldUpdateOperationsInput | number
+  totalEarnings?: Prisma.IntFieldUpdateOperationsInput | number
   settlementStatus?: Prisma.EnumSettlementStatusFieldUpdateOperationsInput | $Enums.SettlementStatus
   settlementDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -970,12 +1066,14 @@ export type BookingPaymentUncheckedUpdateWithoutBookingInput = {
 export type BookingPaymentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   bookingId?: boolean
-  basePrice?: boolean
+  totalBasePrice?: boolean
   quantity?: boolean
-  subtotalAmount?: boolean
-  addonsAmount?: boolean
+  taxRate?: boolean
+  subtotalWithTax?: boolean
   discountAmount?: boolean
   taxAmount?: boolean
+  totalBaseAmount?: boolean
+  addonsAmount?: boolean
   totalAmount?: boolean
   amountPaidOnline?: boolean
   amountToCollectOffline?: boolean
@@ -984,8 +1082,9 @@ export type BookingPaymentSelect<ExtArgs extends runtime.Types.Extensions.Intern
   platformCommission?: boolean
   tcsRate?: boolean
   tcsAmount?: boolean
-  sellerGrossEarnings?: boolean
-  netPayableToSeller?: boolean
+  netPayToSeller?: boolean
+  balanceToCollect?: boolean
+  totalEarnings?: boolean
   settlementStatus?: boolean
   settlementDate?: boolean
   createdAt?: boolean
@@ -996,12 +1095,14 @@ export type BookingPaymentSelect<ExtArgs extends runtime.Types.Extensions.Intern
 export type BookingPaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   bookingId?: boolean
-  basePrice?: boolean
+  totalBasePrice?: boolean
   quantity?: boolean
-  subtotalAmount?: boolean
-  addonsAmount?: boolean
+  taxRate?: boolean
+  subtotalWithTax?: boolean
   discountAmount?: boolean
   taxAmount?: boolean
+  totalBaseAmount?: boolean
+  addonsAmount?: boolean
   totalAmount?: boolean
   amountPaidOnline?: boolean
   amountToCollectOffline?: boolean
@@ -1010,8 +1111,9 @@ export type BookingPaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   platformCommission?: boolean
   tcsRate?: boolean
   tcsAmount?: boolean
-  sellerGrossEarnings?: boolean
-  netPayableToSeller?: boolean
+  netPayToSeller?: boolean
+  balanceToCollect?: boolean
+  totalEarnings?: boolean
   settlementStatus?: boolean
   settlementDate?: boolean
   createdAt?: boolean
@@ -1022,12 +1124,14 @@ export type BookingPaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Type
 export type BookingPaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   bookingId?: boolean
-  basePrice?: boolean
+  totalBasePrice?: boolean
   quantity?: boolean
-  subtotalAmount?: boolean
-  addonsAmount?: boolean
+  taxRate?: boolean
+  subtotalWithTax?: boolean
   discountAmount?: boolean
   taxAmount?: boolean
+  totalBaseAmount?: boolean
+  addonsAmount?: boolean
   totalAmount?: boolean
   amountPaidOnline?: boolean
   amountToCollectOffline?: boolean
@@ -1036,8 +1140,9 @@ export type BookingPaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   platformCommission?: boolean
   tcsRate?: boolean
   tcsAmount?: boolean
-  sellerGrossEarnings?: boolean
-  netPayableToSeller?: boolean
+  netPayToSeller?: boolean
+  balanceToCollect?: boolean
+  totalEarnings?: boolean
   settlementStatus?: boolean
   settlementDate?: boolean
   createdAt?: boolean
@@ -1048,12 +1153,14 @@ export type BookingPaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
 export type BookingPaymentSelectScalar = {
   id?: boolean
   bookingId?: boolean
-  basePrice?: boolean
+  totalBasePrice?: boolean
   quantity?: boolean
-  subtotalAmount?: boolean
-  addonsAmount?: boolean
+  taxRate?: boolean
+  subtotalWithTax?: boolean
   discountAmount?: boolean
   taxAmount?: boolean
+  totalBaseAmount?: boolean
+  addonsAmount?: boolean
   totalAmount?: boolean
   amountPaidOnline?: boolean
   amountToCollectOffline?: boolean
@@ -1062,15 +1169,16 @@ export type BookingPaymentSelectScalar = {
   platformCommission?: boolean
   tcsRate?: boolean
   tcsAmount?: boolean
-  sellerGrossEarnings?: boolean
-  netPayableToSeller?: boolean
+  netPayToSeller?: boolean
+  balanceToCollect?: boolean
+  totalEarnings?: boolean
   settlementStatus?: boolean
   settlementDate?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BookingPaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookingId" | "basePrice" | "quantity" | "subtotalAmount" | "addonsAmount" | "discountAmount" | "taxAmount" | "totalAmount" | "amountPaidOnline" | "amountToCollectOffline" | "paymentMethod" | "platformCommissionRate" | "platformCommission" | "tcsRate" | "tcsAmount" | "sellerGrossEarnings" | "netPayableToSeller" | "settlementStatus" | "settlementDate" | "createdAt" | "updatedAt", ExtArgs["result"]["bookingPayment"]>
+export type BookingPaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookingId" | "totalBasePrice" | "quantity" | "taxRate" | "subtotalWithTax" | "discountAmount" | "taxAmount" | "totalBaseAmount" | "addonsAmount" | "totalAmount" | "amountPaidOnline" | "amountToCollectOffline" | "paymentMethod" | "platformCommissionRate" | "platformCommission" | "tcsRate" | "tcsAmount" | "netPayToSeller" | "balanceToCollect" | "totalEarnings" | "settlementStatus" | "settlementDate" | "createdAt" | "updatedAt", ExtArgs["result"]["bookingPayment"]>
 export type BookingPaymentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>
 }
@@ -1089,12 +1197,14 @@ export type $BookingPaymentPayload<ExtArgs extends runtime.Types.Extensions.Inte
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     bookingId: string
-    basePrice: number
+    totalBasePrice: number
     quantity: number
-    subtotalAmount: number
-    addonsAmount: number
+    taxRate: number
+    subtotalWithTax: number
     discountAmount: number
     taxAmount: number
+    totalBaseAmount: number
+    addonsAmount: number
     totalAmount: number
     amountPaidOnline: number
     amountToCollectOffline: number
@@ -1103,8 +1213,9 @@ export type $BookingPaymentPayload<ExtArgs extends runtime.Types.Extensions.Inte
     platformCommission: number
     tcsRate: number
     tcsAmount: number
-    sellerGrossEarnings: number
-    netPayableToSeller: number
+    netPayToSeller: number
+    balanceToCollect: number
+    totalEarnings: number
     settlementStatus: $Enums.SettlementStatus
     settlementDate: Date | null
     createdAt: Date
@@ -1535,12 +1646,14 @@ export interface Prisma__BookingPaymentClient<T, Null = never, ExtArgs extends r
 export interface BookingPaymentFieldRefs {
   readonly id: Prisma.FieldRef<"BookingPayment", 'String'>
   readonly bookingId: Prisma.FieldRef<"BookingPayment", 'String'>
-  readonly basePrice: Prisma.FieldRef<"BookingPayment", 'Int'>
+  readonly totalBasePrice: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly quantity: Prisma.FieldRef<"BookingPayment", 'Int'>
-  readonly subtotalAmount: Prisma.FieldRef<"BookingPayment", 'Int'>
-  readonly addonsAmount: Prisma.FieldRef<"BookingPayment", 'Int'>
+  readonly taxRate: Prisma.FieldRef<"BookingPayment", 'Int'>
+  readonly subtotalWithTax: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly discountAmount: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly taxAmount: Prisma.FieldRef<"BookingPayment", 'Int'>
+  readonly totalBaseAmount: Prisma.FieldRef<"BookingPayment", 'Int'>
+  readonly addonsAmount: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly totalAmount: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly amountPaidOnline: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly amountToCollectOffline: Prisma.FieldRef<"BookingPayment", 'Int'>
@@ -1549,8 +1662,9 @@ export interface BookingPaymentFieldRefs {
   readonly platformCommission: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly tcsRate: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly tcsAmount: Prisma.FieldRef<"BookingPayment", 'Int'>
-  readonly sellerGrossEarnings: Prisma.FieldRef<"BookingPayment", 'Int'>
-  readonly netPayableToSeller: Prisma.FieldRef<"BookingPayment", 'Int'>
+  readonly netPayToSeller: Prisma.FieldRef<"BookingPayment", 'Int'>
+  readonly balanceToCollect: Prisma.FieldRef<"BookingPayment", 'Int'>
+  readonly totalEarnings: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly settlementStatus: Prisma.FieldRef<"BookingPayment", 'SettlementStatus'>
   readonly settlementDate: Prisma.FieldRef<"BookingPayment", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"BookingPayment", 'DateTime'>

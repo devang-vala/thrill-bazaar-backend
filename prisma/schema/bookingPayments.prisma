@@ -2,32 +2,35 @@ model BookingPayment {
   id        String @id @default(uuid())
   bookingId String @unique @map("booking_id")
 
-  // Quantity/unit information (varies by booking format)
+  // Basic info (varies by booking format)
   // F1: numberOfDays, F2: numberOfDays, F3: numberOfParticipants, F4: numberOfDays
-  basePrice Int @map("base_price") // Price per unit in paise (per day or per participant)
-  quantity  Int // Number of days (F1/F2/F4) or participants (F3)
+  totalBasePrice Int @map("total_base_price") // TOTAL base price (with price overrides) in paise
+  quantity       Int // Number of days (F1/F2/F4) or participants (F3) - for display
+  taxRate        Int @map("tax_rate") // Tax rate in basis points (1800 = 18%)
 
-  // Final resolved money snapshot (all values stored in paise/cents)
-  subtotalAmount Int @map("subtotal_amount") // basePrice * quantity
-  addonsAmount   Int @map("addons_amount") // Total of all addon costs
-  discountAmount Int @map("discount_amount") // Discount applied (promo code etc)
-  taxAmount      Int @map("tax_amount") // Tax amount (GST etc)
-  totalAmount    Int @map("total_amount") // Final amount customer pays
+  // Payment calculation breakdown (all values stored in paise)
+  subtotalWithTax    Int @map("subtotal_with_tax") // Total Base Price + Tax
+  discountAmount    Int @map("discount_amount") // Discount applied (promo code etc)
+  taxAmount         Int @map("tax_amount") // Tax on base price
+  totalBaseAmount   Int @map("total_base_amount") // Subtotal WITH Tax - Discount
+  addonsAmount      Int @map("addons_amount") // Total of all addon costs
+  totalAmount       Int @map("total_amount") // Total Base Amount + Addons
 
-  // Payment split
-  amountPaidOnline       Int     @map("amount_paid_online") // Paid now (e.g., 50%)
-  amountToCollectOffline Int     @map("amount_to_collect_offline") // Balance at venue
+  // Payment split (user-selected)
+  amountPaidOnline       Int     @map("amount_paid_online") // User-selected advance payment
+  amountToCollectOffline Int     @map("amount_to_collect_offline") // Balance = Total - Paid
   paymentMethod          String? @map("payment_method") // online, cash, etc
 
   // Platform economics
   platformCommissionRate Int @map("platform_commission_rate") // Rate in basis points (1000 = 10%)
-  platformCommission     Int @map("platform_commission") // Calculated commission amount
-  tcsRate                Int @map("tcs_rate") // TCS rate in basis points (100 = 1%)
-  tcsAmount              Int @map("tcs_amount") // Calculated TCS amount
+  platformCommission     Int @map("platform_commission") // 10% of Total Amount
+  tcsRate                Int @map("tcs_rate") // TCS rate of commission in basis points (100 = 1%)
+  tcsAmount              Int @map("tcs_amount") // 1% of Platform Commission
 
-  // Seller/Operator economics
-  sellerGrossEarnings Int @map("seller_gross_earnings") // totalAmount - platformCommission - tcsAmount
-  netPayableToSeller  Int @map("net_payable_to_seller") // After all deductions
+  // Seller/Operator economics (CORRECT CALCULATION)
+  netPayToSeller   Int @map("net_pay_to_seller") // Paid - Commission - TCS (from advance payment)
+  balanceToCollect Int @map("balance_to_collect") // Amount to collect from customer at venue
+  totalEarnings    Int @map("total_earnings") // Net Pay + Balance (seller's total income)
 
   // Settlement tracking
   settlementStatus SettlementStatus @default(PENDING) @map("settlement_status")
