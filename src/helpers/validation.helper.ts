@@ -203,6 +203,9 @@ export const validateProfileUpdate = (
     phone?: string;
     firstName?: string;
     lastName?: string;
+    gender?: string;
+    dateOfBirth?: string;
+    alternatePhone?: string;
   },
   userType: string
 ): ValidationResult => {
@@ -242,8 +245,32 @@ export const validateProfileUpdate = (
     };
   }
 
+  // Validate gender if provided
+  if (data.gender) {
+    const validGenders = ['Male', 'Female', 'Other', 'Prefer not to say'];
+    if (!validGenders.includes(data.gender)) {
+      return {
+        isValid: false,
+        message: "Invalid gender value",
+      };
+    }
+  }
+
+  // Validate alternate phone if provided
+  if (data.alternatePhone && !isValidPhone(data.alternatePhone)) {
+    return { isValid: false, message: "Invalid alternate phone format" };
+  }
+
   // Check if at least one field is provided
-  if (!data.email && !data.phone && !data.firstName && !data.lastName) {
+  if (
+    !data.email && 
+    !data.phone && 
+    !data.firstName && 
+    !data.lastName &&
+    !data.gender &&
+    !data.dateOfBirth &&
+    !data.alternatePhone
+  ) {
     return {
       isValid: false,
       message: "At least one field must be provided to update",
@@ -403,6 +430,9 @@ export const validateUpdateAnyUser = (data: {
   phone?: string;
   firstName?: string;
   lastName?: string;
+  gender?: string;
+  dateOfBirth?: string;
+  alternatePhone?: string;
   userType?: string;
   isActive?: boolean;
   isVerified?: boolean;
@@ -431,6 +461,22 @@ export const validateUpdateAnyUser = (data: {
       isValid: false,
       message: "Last name must be less than 50 characters",
     };
+  }
+
+  // Validate gender
+  if (data.gender) {
+    const validGenders = ['Male', 'Female', 'Other', 'Prefer not to say'];
+    if (!validGenders.includes(data.gender)) {
+      return {
+        isValid: false,
+        message: "Invalid gender value",
+      };
+    }
+  }
+
+  // Validate alternate phone
+  if (data.alternatePhone && !isValidPhone(data.alternatePhone)) {
+    return { isValid: false, message: "Invalid alternate phone format" };
   }
 
   // Validate user type

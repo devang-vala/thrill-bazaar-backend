@@ -30,6 +30,9 @@ interface UpdateProfileRequest {
   phone?: string;
   firstName?: string;
   lastName?: string;
+  gender?: string;
+  dateOfBirth?: string;
+  alternatePhone?: string;
 }
 
 interface ChangePasswordRequest {
@@ -52,6 +55,9 @@ interface UpdateAnyUserRequest {
   phone?: string;
   firstName?: string;
   lastName?: string;
+  gender?: string;
+  dateOfBirth?: string;
+  alternatePhone?: string;
   userType?: string;
   isActive?: boolean;
   isVerified?: boolean;
@@ -243,6 +249,47 @@ export const updateUserProfile = async (c: Context) => {
 
     if (body.lastName !== undefined) {
       updateData.lastName = sanitizeString(body.lastName, 50) || null;
+    }
+
+    // Handle gender update
+    if (body.gender !== undefined) {
+      // Validate gender value
+      const validGenders = ['Male', 'Female', 'Other', 'Prefer not to say'];
+      if (body.gender && !validGenders.includes(body.gender)) {
+        return c.json({ error: "Invalid gender value" }, 400);
+      }
+      updateData.gender = body.gender || null;
+    }
+
+    // Handle date of birth update
+    if (body.dateOfBirth !== undefined) {
+      if (body.dateOfBirth) {
+        const dob = new Date(body.dateOfBirth);
+        if (isNaN(dob.getTime())) {
+          return c.json({ error: "Invalid date of birth" }, 400);
+        }
+        // Check if date is in the future
+        if (dob > new Date()) {
+          return c.json({ error: "Date of birth cannot be in the future" }, 400);
+        }
+        updateData.dateOfBirth = dob;
+      } else {
+        updateData.dateOfBirth = null;
+      }
+    }
+
+    // Handle alternate phone update
+    if (body.alternatePhone !== undefined) {
+      if (body.alternatePhone) {
+        const sanitizedAlternatePhone = sanitizePhone(body.alternatePhone);
+        // Check if alternate phone is same as primary phone
+        if (sanitizedAlternatePhone === currentUser.phone) {
+          return c.json({ error: "Alternate phone cannot be same as primary phone" }, 400);
+        }
+        updateData.alternatePhone = sanitizedAlternatePhone;
+      } else {
+        updateData.alternatePhone = null;
+      }
     }
 
     // Check if there's anything to update
@@ -463,6 +510,41 @@ export const updateAnyUser = async (c: Context) => {
 
     if (body.lastName !== undefined) {
       updateData.lastName = sanitizeString(body.lastName, 50) || null;
+    }
+
+    // Handle gender update
+    if (body.gender !== undefined) {
+      const validGenders = ['Male', 'Female', 'Other', 'Prefer not to say'];
+      if (body.gender && !validGenders.includes(body.gender)) {
+        return c.json({ error: "Invalid gender value" }, 400);
+      }
+      updateData.gender = body.gender || null;
+    }
+
+    // Handle date of birth update
+    if (body.dateOfBirth !== undefined) {
+      if (body.dateOfBirth) {
+        const dob = new Date(body.dateOfBirth);
+        if (isNaN(dob.getTime())) {
+          return c.json({ error: "Invalid date of birth" }, 400);
+        }
+        if (dob > new Date()) {
+          return c.json({ error: "Date of birth cannot be in the future" }, 400);
+        }
+        updateData.dateOfBirth = dob;
+      } else {
+        updateData.dateOfBirth = null;
+      }
+    }
+
+    // Handle alternate phone update
+    if (body.alternatePhone !== undefined) {
+      if (body.alternatePhone) {
+        const sanitizedAlternatePhone = sanitizePhone(body.alternatePhone);
+        updateData.alternatePhone = sanitizedAlternatePhone;
+      } else {
+        updateData.alternatePhone = null;
+      }
     }
 
     // Handle user type update
