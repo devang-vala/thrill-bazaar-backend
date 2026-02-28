@@ -18,6 +18,7 @@ const f3SlotInventoryRouter = new Hono();
 
 // Get inventory date range by ID (for booking page)
 f3SlotInventoryRouter.get("/range/:id", getInventoryDateRangeById);
+f3SlotInventoryRouter.get("/slot/:id", getInventoryDateRangeById); // Alias for backward compatibility
 
 // Get all dates with a specific slot definition for F3
 f3SlotInventoryRouter.get("/dates-by-slot/:listingId/:variantId/:slotDefinitionId", getF3DatesBySlotDefinition);

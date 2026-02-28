@@ -19,6 +19,7 @@ const listingRouter = new Hono();
 
 // Public routes (with optional auth to determine role)
 listingRouter.get("/", optionalAuth, getListings);
+listingRouter.get("/slug/:slug", getListing);
 listingRouter.get("/:slug", getListing);
 
 // Get listing by ID with all related data (for management)

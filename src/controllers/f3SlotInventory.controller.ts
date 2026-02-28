@@ -136,6 +136,23 @@ export const getF3DatesBySlotDefinition = async (c: Context) => {
       },
     });
 
+    // Fetch blocked dates for this listing+variant
+    const blockedDates = await prisma.inventoryBlockedDate.findMany({
+      where: {
+        listingId,
+        variantId: variantId || null,
+      },
+      select: {
+        blockedDate: true,
+      },
+    });
+
+    // Create a set of blocked date keys
+    const blockedDateSet = new Set<string>();
+    blockedDates.forEach(b => {
+      blockedDateSet.add(b.blockedDate.toISOString().split('T')[0]);
+    });
+
     // Create a map of overrides by date string
     const overridesMap = new Map<string, any>();
     slotChanges.forEach(change => {
@@ -163,6 +180,7 @@ export const getF3DatesBySlotDefinition = async (c: Context) => {
         // Only add if not already in map (to handle overlapping ranges)
         if (!datesMap.has(dateKey)) {
           const override = overridesMap.get(dateKey);
+          const isBlocked = blockedDateSet.has(dateKey);
           
           datesMap.set(dateKey, {
             id: slot.id,
@@ -170,7 +188,7 @@ export const getF3DatesBySlotDefinition = async (c: Context) => {
             basePrice: override ? override.price : slot.basePricePerDay,
             totalCapacity: override ? override.totalCapacity : slot.totalCapacity,
             availableCount: override ? override.availableCount : slot.availableCount,
-            isActive: slot.isActive,
+            isActive: !isBlocked, // Per-date blocking overrides range-level isActive
             hasOverride: !!override,
           });
         }
@@ -236,40 +254,68 @@ export const getInventoryDateRangeById = async (c: Context) => {
   }
 };
 
-// Block F3 slot
+// Block F3 slot for a specific date using InventoryBlockedDate table
 export const blockF3Slot = async (c: Context) => {
   try {
-    const { slotId } = await c.req.json();
-    if (!slotId) {
-      return c.json({ error: "Missing slotId" }, 400);
+    const { listingId, variantId, blockedDate, slotDefinitionId, createdByOperatorId } = await c.req.json();
+    
+    if (!listingId || !blockedDate || !createdByOperatorId) {
+      return c.json({ error: "Missing required fields: listingId, blockedDate, createdByOperatorId" }, 400);
     }
 
-    const updatedSlot = await prisma.inventoryDateRange.update({
-      where: { id: slotId },
-      data: { isActive: false },
+    const targetDate = new Date(blockedDate);
+
+    // Check if already blocked
+    const existing = await prisma.inventoryBlockedDate.findFirst({
+      where: {
+        listingId,
+        variantId: variantId || null,
+        blockedDate: targetDate,
+      },
     });
 
-    return c.json({ success: true, data: updatedSlot });
+    if (existing) {
+      return c.json({ success: true, message: "Date already blocked", data: existing });
+    }
+
+    // Create blocked date entry
+    const block = await prisma.inventoryBlockedDate.create({
+      data: {
+        listingId,
+        variantId: variantId || null,
+        blockedDate: targetDate,
+        reason: slotDefinitionId ? `Blocked for slot ${slotDefinitionId}` : "Operator blocked",
+        createdByOperatorId,
+      },
+    });
+
+    return c.json({ success: true, data: block });
   } catch (error) {
     console.error("Block F3 slot error:", error);
     return c.json({ error: "Failed to block slot" }, 500);
   }
 };
 
-// Unblock F3 slot
+// Unblock F3 slot for a specific date by removing from InventoryBlockedDate table
 export const unblockF3Slot = async (c: Context) => {
   try {
-    const { slotId } = await c.req.json();
-    if (!slotId) {
-      return c.json({ error: "Missing slotId" }, 400);
+    const { listingId, variantId, blockedDate } = await c.req.json();
+    
+    if (!listingId || !blockedDate) {
+      return c.json({ error: "Missing required fields: listingId, blockedDate" }, 400);
     }
 
-    const updatedSlot = await prisma.inventoryDateRange.update({
-      where: { id: slotId },
-      data: { isActive: true },
+    const targetDate = new Date(blockedDate);
+
+    await prisma.inventoryBlockedDate.deleteMany({
+      where: {
+        listingId,
+        variantId: variantId || null,
+        blockedDate: targetDate,
+      },
     });
 
-    return c.json({ success: true, data: updatedSlot });
+    return c.json({ success: true, message: "Date unblocked successfully" });
   } catch (error) {
     console.error("Unblock F3 slot error:", error);
     return c.json({ error: "Failed to unblock slot" }, 500);
@@ -478,6 +524,20 @@ export const getF3SlotsByDate = async (c: Context) => {
 
     const targetDate = new Date(dateStr);
 
+    // Check if this date is blocked
+    const blockedEntry = await prisma.inventoryBlockedDate.findFirst({
+      where: {
+        listingId,
+        variantId: variantId || undefined,
+        blockedDate: targetDate,
+      },
+    });
+
+    if (blockedEntry) {
+      // Date is blocked, return empty slots
+      return c.json({ success: true, data: [] });
+    }
+
     const where: any = {
       listingId,
       isActive: true,
@@ -653,6 +713,23 @@ export const getF3DatesForMonth = async (c: Context) => {
         datesSet.add(`${year}-${month}-${day}`);
       });
     }
+
+    // Remove blocked dates from the available dates
+    const blockedDates = await prisma.inventoryBlockedDate.findMany({
+      where: {
+        listingId,
+        variantId: variantId || undefined,
+        blockedDate: { gte: monthStart, lte: monthEnd },
+      },
+      select: {
+        blockedDate: true,
+      },
+    });
+
+    blockedDates.forEach((b) => {
+      const blockedStr = b.blockedDate.toISOString().split('T')[0];
+      datesSet.delete(blockedStr);
+    });
 
     const dates = Array.from(datesSet).sort();
 

@@ -40,6 +40,7 @@ export const createBooking = async (c: Context) => {
       variantId,
       listingSlotId,  // For F1 format
       dateRangeId,    // For F3/F4 format
+      selectedDate,   // For F3/F4 - specific booking date
       participantCount,
       participants,
       contactDetails,
@@ -151,7 +152,38 @@ export const createBooking = async (c: Context) => {
         return c.json({ success: false, message: "Date range not found" }, 404);
       }
 
-      if (dateRange.availableCount && dateRange.availableCount < participantCount) {
+      // For F3/F4, check per-date availability using ListingSlotChange if available
+      const bookingDate = selectedDate ? new Date(selectedDate) : null;
+      let effectiveAvailableCount = dateRange.availableCount || 0;
+      
+      if (bookingDate) {
+        // Check if there's a per-date override
+        const slotChange = await prisma.listingSlotChange.findFirst({
+          where: {
+            inventoryDateRangeId: dateRangeId,
+            date: bookingDate,
+          },
+        });
+        
+        if (slotChange) {
+          effectiveAvailableCount = slotChange.availableCount;
+        }
+
+        // Check if the date is blocked
+        const isBlocked = await prisma.inventoryBlockedDate.findFirst({
+          where: {
+            listingId: dateRange.listingId,
+            variantId: dateRange.variantId || undefined,
+            blockedDate: bookingDate,
+          },
+        });
+
+        if (isBlocked) {
+          return c.json({ success: false, message: "This date is blocked and not available for booking" }, 400);
+        }
+      }
+
+      if (effectiveAvailableCount < participantCount) {
         return c.json({ success: false, message: "Not enough capacity available" }, 400);
       }
 
@@ -182,9 +214,29 @@ export const createBooking = async (c: Context) => {
       basePrice = slot.basePrice;
     } else if (dateRange) {
       // F3/F4 format - from inventory_date_ranges
-      bookingStartDate = new Date(dateRange.availableFromDate);
-      bookingEndDate = new Date(dateRange.availableToDate);
-      basePrice = dateRange.basePricePerDay;
+      // Use selectedDate for F3/F4 if provided, otherwise fall back to range dates
+      if (selectedDate) {
+        bookingStartDate = new Date(selectedDate);
+        bookingEndDate = new Date(selectedDate);
+      } else {
+        bookingStartDate = new Date(dateRange.availableFromDate);
+        bookingEndDate = new Date(dateRange.availableToDate);
+      }
+      
+      // Check for price override for the specific date
+      let effectivePrice = dateRange.basePricePerDay;
+      if (selectedDate) {
+        const priceOverride = await prisma.listingSlotChange.findFirst({
+          where: {
+            inventoryDateRangeId: dateRangeId,
+            date: new Date(selectedDate),
+          },
+        });
+        if (priceOverride) {
+          effectivePrice = priceOverride.price;
+        }
+      }
+      basePrice = effectivePrice;
     } else {
       return c.json({ 
         success: false, 
@@ -317,15 +369,49 @@ export const createBooking = async (c: Context) => {
           },
         });
       } else if (dateRangeId) {
-        // F3/F4 - update inventory_date_ranges table
-        await tx.inventoryDateRange.update({
-          where: { id: dateRangeId },
-          data: {
-            availableCount: {
-              decrement: participantCount,
-            },
+        // F3/F4 - update per-date availability using ListingSlotChange table
+        const bookingDate = selectedDate ? new Date(selectedDate) : bookingStartDate;
+        
+        // Check if a slot change already exists for this date
+        const existingSlotChange = await tx.listingSlotChange.findFirst({
+          where: {
+            inventoryDateRangeId: dateRangeId,
+            date: bookingDate,
           },
         });
+
+        if (existingSlotChange) {
+          // Update existing slot change - decrement availableCount
+          await tx.listingSlotChange.update({
+            where: { id: existingSlotChange.id },
+            data: {
+              availableCount: {
+                decrement: participantCount,
+              },
+              triggerType: "customer_book",
+            },
+          });
+        } else {
+          // Create new slot change with decremented count from base range
+          const dateRangeData = await tx.inventoryDateRange.findUnique({
+            where: { id: dateRangeId },
+          });
+          
+          if (dateRangeData) {
+            await tx.listingSlotChange.create({
+              data: {
+                inventoryDateRangeId: dateRangeId,
+                listingId: dateRangeData.listingId,
+                variantId: dateRangeData.variantId || null,
+                date: bookingDate,
+                price: dateRangeData.basePricePerDay,
+                totalCapacity: dateRangeData.totalCapacity || 0,
+                availableCount: (dateRangeData.availableCount || 0) - participantCount,
+                triggerType: "customer_book",
+              },
+            });
+          }
+        }
       }
 
       return {
