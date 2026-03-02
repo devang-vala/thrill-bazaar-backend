@@ -892,6 +892,7 @@ export const getBookingWithReschedules = async (c: Context) => {
                 startLocationName: true,
                 operatorId: true,
                 bookingFormat: true,
+                addons: true, // Include addons to enrich selectedAddons
                 category: {
                   select: {
                     categoryName: true,
@@ -918,6 +919,7 @@ export const getBookingWithReschedules = async (c: Context) => {
                 startLocationName: true,
                 operatorId: true,
                 bookingFormat: true,
+                addons: true, // Include addons to enrich selectedAddons
                 category: {
                   select: {
                     categoryName: true,
@@ -960,9 +962,45 @@ export const getBookingWithReschedules = async (c: Context) => {
       return c.json({ success: false, message: "Booking not found" }, 404);
     }
 
+    // Enrich selectedAddons with full addon details
+    let enrichedAddons: any[] = [];
+    if (booking.selectedAddons && Array.isArray(booking.selectedAddons)) {
+      // Get addons JSON from the listing
+      const listingAddonsRecord = booking.listingSlot?.listing?.addons || booking.dateRange?.listing?.addons;
+      const listingAddons = listingAddonsRecord ? (listingAddonsRecord as any).addons : [];
+      
+      enrichedAddons = booking.selectedAddons.map((selectedAddon: any) => {
+        const addonDetails = Array.isArray(listingAddons) 
+          ? listingAddons.find((addon: any) => addon.id === selectedAddon.addonId)
+          : null;
+          
+        if (addonDetails) {
+          return {
+            id: addonDetails.id,
+            addonId: selectedAddon.addonId,
+            name: addonDetails.addonName,
+            description: addonDetails.addonDescription || "",
+            price: addonDetails.price, // Use 'price' not 'addonPrice'
+            quantity: selectedAddon.quantity || 1,
+            totalPrice: (addonDetails.price || 0) * (selectedAddon.quantity || 1),
+          };
+        }
+        // If addon details not found, return minimal info
+        return {
+          addonId: selectedAddon.addonId,
+          name: "Unknown Add-on",
+          description: "",
+          quantity: selectedAddon.quantity || 1,
+          price: 0,
+          totalPrice: 0,
+        };
+      });
+    }
+
     // Add startTime and endTime from slotDefinition to listingSlot for easier access
     const formattedBooking = {
       ...booking,
+      selectedAddons: enrichedAddons, // Replace with enriched data
       listingSlot: booking.listingSlot ?  {
         ...booking.listingSlot,
         startTime:  booking.listingSlot.slotDefinition?.startTime || booking.listingSlot.startTime,
