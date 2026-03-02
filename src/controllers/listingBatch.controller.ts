@@ -28,6 +28,19 @@ export const getVariantsWithBatches = async (c: Context) => {
         slots: {
           where: { formatType: "F1" },
           orderBy: { batchStartDate: "asc" },
+          include: {
+            bookings: {
+              where: {
+                bookingStatus: {
+                  in: ['CONFIRMED', 'COMPLETED']
+                }
+              },
+              select: {
+                id: true,
+                participantCount: true
+              }
+            }
+          }
         },
       },
     });
@@ -37,16 +50,21 @@ export const getVariantsWithBatches = async (c: Context) => {
       id: variant.id,
       variantName: variant.variantName,
       variantDescription: variant.variantDescription,
-      batches: variant.slots.map((slot) => ({
-        id: slot.id,
-        startDate: slot.batchStartDate?.toISOString() || "",
-        endDate: slot.batchEndDate?.toISOString() || "",
-        batchSize: slot.totalCapacity,
-        availableSlots: slot.availableCount,
-        bookings: slot.totalCapacity - slot.availableCount,
-        price: slot.basePrice,
-        status: slot.isActive ? "ACTIVE" : "PAUSED",
-      })),
+      batches: variant.slots.map((slot) => {
+        // Calculate actual bookings count from the bookings relation
+        const bookingsCount = slot.bookings.length;
+        
+        return {
+          id: slot.id,
+          startDate: slot.batchStartDate?.toISOString() || "",
+          endDate: slot.batchEndDate?.toISOString() || "",
+          batchSize: slot.totalCapacity,
+          availableSlots: slot.availableCount,
+          bookings: bookingsCount,
+          price: slot.basePrice,
+          status: slot.isActive ? "ACTIVE" : "PAUSED",
+        };
+      }),
     }));
 
     console.log(`[getVariantsWithBatches] Found ${variants.length} variants for listing ${listingId}`);
@@ -149,6 +167,7 @@ export const updateBatch = async (c: Context) => {
   try {
     const batchId = c.req.param("batchId");
     const body = await c.req.json();
+    
     // Convert date fields to ISO strings if present
     const data: any = { ...body };
     if (data.batchStartDate) {
@@ -157,10 +176,30 @@ export const updateBatch = async (c: Context) => {
     if (data.batchEndDate) {
       data.batchEndDate = new Date(data.batchEndDate).toISOString();
     }
+
+    // If totalCapacity is being updated, recalculate availableCount based on actual bookings
+    if (data.totalCapacity !== undefined) {
+      // Count confirmed/completed bookings for this batch
+      const bookingsCount = await prisma.booking.count({
+        where: {
+          listingSlotId: batchId,
+          bookingStatus: {
+            in: ['CONFIRMED', 'COMPLETED']
+          }
+        }
+      });
+
+      // Calculate available count: total capacity - active bookings
+      data.availableCount = data.totalCapacity - bookingsCount;
+
+      console.log(`[updateBatch] Batch ${batchId}: totalCapacity=${data.totalCapacity}, bookingsCount=${bookingsCount}, availableCount=${data.availableCount}`);
+    }
+    
     const batch = await prisma.listingSlot.update({
       where: { id: batchId },
       data,
     });
+    
     return c.json({ success: true, data: batch });
   } catch (error) {
     console.error("Update batch error:", error);
