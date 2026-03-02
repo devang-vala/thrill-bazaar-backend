@@ -75,6 +75,60 @@ export const getVariantsWithBatches = async (c: Context) => {
   }
 };
 
+// Get a single batch by ID (for booking page)
+export const getBatchById = async (c: Context) => {
+  try {
+    const batchId = c.req.param("batchId");
+    
+    if (!batchId) {
+      return c.json({ success: false, message: "Batch ID is required" }, 400);
+    }
+    
+    const batch = await prisma.listingSlot.findUnique({
+      where: { id: batchId },
+      include: {
+        slotDefinition: true,
+        bookings: {
+          where: {
+            bookingStatus: {
+              in: ['CONFIRMED', 'COMPLETED']
+            }
+          },
+          select: {
+            id: true,
+            participantCount: true
+          }
+        }
+      }
+    });
+    
+    if (!batch) {
+      return c.json({ success: false, message: "Batch not found" }, 404);
+    }
+    
+    // Calculate actual bookings count
+    const bookingsCount = batch.bookings.length;
+    
+    return c.json({ 
+      success: true, 
+      data: {
+        id: batch.id,
+        batchStartDate: batch.batchStartDate,
+        batchEndDate: batch.batchEndDate,
+        basePrice: batch.basePrice,
+        totalCapacity: batch.totalCapacity,
+        availableCount: batch.availableCount,
+        isActive: batch.isActive,
+        bookingsCount,
+        slotDefinition: batch.slotDefinition
+      } 
+    });
+  } catch (error) {
+    console.error("Get batch by ID error:", error);
+    return c.json({ success: false, message: "Failed to fetch batch", error: String(error) }, 500);
+  }
+};
+
 // Get batches for a listing and variant
 export const getBatchesForListingVariant = async (c: Context) => {
   try {

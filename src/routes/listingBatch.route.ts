@@ -3,6 +3,7 @@ import {
   getVariantsForListing,
   getVariantsWithBatches,
   getBatchesForListingVariant,
+  getBatchById,
   createBatch,
   updateBatch,
   toggleBatchActive,
@@ -23,6 +24,9 @@ listingBatchRouter.get("/listing/:listingId/variants-with-batches", getVariantsW
 listingBatchRouter.get("/listing/:listingId/variant/:variantId/batches", getBatchesForListingVariant);
 // Fetch batches for a listing (no variant)
 listingBatchRouter.get("/listing/:listingId/batches", getBatchesForListingVariant);
+
+// Fetch a single batch by ID (for booking page)
+listingBatchRouter.get("/batch/:batchId", getBatchById);
 
 // Create a new batch
 listingBatchRouter.post("/listing/:listingId/variant/:variantId/batch", createBatch);
