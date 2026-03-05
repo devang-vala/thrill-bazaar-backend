@@ -1507,3 +1507,156 @@ export const deleteListing = async (c: Context) => {
     return c.json({ error: "Failed to delete listing" }, 500);
   }
 };
+
+/**
+ * Get similar listings based on category, operator, then random
+ * Priority: Same category > Same operator > Random
+ */
+export const getSimilarListings = async (c: Context) => {
+  try {
+    const listingId = c.req.param("listingId");
+    const limit = parseInt(c.req.query("limit") || "6");
+
+    // Get the current listing to know its category and operator
+    const currentListing = await prisma.listing.findUnique({
+      where: { id: listingId },
+      select: {
+        id: true,
+        categoryId: true,
+        subCatId: true,
+        operatorId: true,
+        bookingFormat: true,
+      }
+    });
+
+    if (!currentListing) {
+      return c.json({ success: false, message: "Listing not found" }, 404);
+    }
+
+    const similarListings: any[] = [];
+    const seenIds = new Set<string>([listingId]); // Exclude current listing
+
+    const includeFields = {
+      category: {
+        select: {
+          id: true,
+          categoryName: true,
+        },
+      },
+      subCategory: {
+        select: {
+          id: true,
+          subCatName: true,
+        },
+      },
+      operator: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+        },
+      },
+      ...badgesIncludeLimited,
+      ...tagsIncludeLimited,
+    };
+
+    const baseWhere = {
+      status: "active",
+      NOT: { id: listingId },
+    };
+
+    // STEP 1: Get listings from same category (and subcategory if available)
+    if (currentListing.categoryId && similarListings.length < limit) {
+      const categoryWhere: any = {
+        ...baseWhere,
+        categoryId: currentListing.categoryId,
+      };
+      
+      // If subcategory exists, prefer it
+      if (currentListing.subCatId) {
+        categoryWhere.subCatId = currentListing.subCatId;
+      }
+
+      const categoryListings = await prisma.listing.findMany({
+        where: categoryWhere,
+        include: includeFields,
+        take: limit,
+        orderBy: { createdAt: "desc" },
+      });
+
+      categoryListings.forEach(listing => {
+        if (!seenIds.has(listing.id)) {
+          similarListings.push(listing);
+          seenIds.add(listing.id);
+        }
+      });
+    }
+
+    // STEP 2: If not enough, get listings from same operator
+    if (currentListing.operatorId && similarListings.length < limit) {
+      const operatorListings = await prisma.listing.findMany({
+        where: {
+          ...baseWhere,
+          operatorId: currentListing.operatorId,
+        },
+        include: includeFields,
+        take: limit - similarListings.length,
+        orderBy: { createdAt: "desc" },
+      });
+
+      operatorListings.forEach(listing => {
+        if (!seenIds.has(listing.id)) {
+          similarListings.push(listing);
+          seenIds.add(listing.id);
+        }
+      });
+    }
+
+    // STEP 3: If still not enough, get random active listings
+    if (similarListings.length < limit) {
+      const randomListings = await prisma.listing.findMany({
+        where: baseWhere,
+        include: includeFields,
+        take: Math.min(20, (limit - similarListings.length) * 2), // Get more to filter duplicates
+        orderBy: { createdAt: "desc" },
+      });
+
+      randomListings.forEach(listing => {
+        if (!seenIds.has(listing.id) && similarListings.length < limit) {
+          similarListings.push(listing);
+          seenIds.add(listing.id);
+        }
+      });
+    }
+
+    // Transform badges and tags
+    const transformedListings = similarListings.map(listing => {
+      const transformedBadges = listing.badges?.map((ab: any) => ({
+        id: ab.badge.id,
+        badgeName: ab.badge.badgeName,
+        badgeIconUrl: ab.badge.badgeIconUrl,
+        badgeColor: ab.badge.badgeColor,
+      })) || [];
+
+      const transformedTags = listing.tags?.map((lt: any) => ({
+        id: lt.tag.id,
+        tagName: lt.tag.tagName,
+        tagColor: lt.tag.tagColor,
+      })) || [];
+
+      return {
+        ...listing,
+        badges: transformedBadges,
+        tags: transformedTags,
+      };
+    });
+
+    return c.json({
+      success: true,
+      data: transformedListings,
+    });
+  } catch (error) {
+    console.error("Get similar listings error:", error);
+    return c.json({ success: false, message: "Failed to fetch similar listings", error: String(error) }, 500);
+  }
+};
