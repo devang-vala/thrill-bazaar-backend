@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { authenticateToken } from "../middlewares/auth.middleware.js";
+import { authenticateToken, optionalAuth } from "../middlewares/auth.middleware.js";
 import {
   createReviewController,
   getReviewController,
@@ -7,10 +7,12 @@ import {
   updateReviewController,
   deleteReviewController,
   moderateReviewController,
-  updateVerifiedBookingController,
+  updateReviewFlagController,
+  updateReplyReviewController,
   toggleHelpfulController,
   getListingReviewStatsController,
   getOperatorReviewStatsController,
+  getSellerReviewDetailsController,
 } from "../controllers/review.controller.js";
 
 const reviewRoutes = new Hono();
@@ -24,14 +26,21 @@ const reviewRoutes = new Hono();
  * @query   listingId, customerId, operatorId, rating, minRating, maxRating, 
  *          page, limit, sortBy (createdAt|rating|helpfulCount), sortOrder (asc|desc)
  */
-reviewRoutes.get("/", getReviewsController);
+reviewRoutes.get("/", optionalAuth, getReviewsController);
+
+/**
+ * @route   GET /api/reviews/seller/:id/details
+ * @desc    Get enriched review details for seller review page
+ * @access  Private (operator owner or admin)
+ */
+reviewRoutes.get("/seller/:id/details", authenticateToken, getSellerReviewDetailsController);
 
 /**
  * @route   GET /api/reviews/:id
  * @desc    Get a single review by ID
  * @access  Public (moderated reviews hidden from non-admins)
  */
-reviewRoutes.get("/:id", getReviewController);
+reviewRoutes.get("/:id", optionalAuth, getReviewController);
 
 /**
  * @route   GET /api/reviews/stats/listing/:listingId
@@ -88,11 +97,19 @@ reviewRoutes.post("/:id/helpful", authenticateToken, toggleHelpfulController);
 reviewRoutes.post("/:id/moderate", authenticateToken, moderateReviewController);
 
 /**
- * @route   PATCH /api/reviews/:id/verify
- * @desc    Update isVerifiedBooking status
+ * @route   PATCH /api/reviews/:id/flag
+ * @desc    Update review flag status
  * @access  Private (Seller only)
- * @body    { isVerifiedBooking: boolean }
+ * @body    { isFlagged: boolean, flaggedReason?: string }
  */
-reviewRoutes.patch("/:id/verify", authenticateToken, updateVerifiedBookingController);
+reviewRoutes.patch("/:id/flag", authenticateToken, updateReviewFlagController);
+
+/**
+ * @route   PATCH /api/reviews/:id/reply
+ * @desc    Update seller reply for a review
+ * @access  Private (Seller only)
+ * @body    { replyReview: string }
+ */
+reviewRoutes.patch("/:id/reply", authenticateToken, updateReplyReviewController);
 
 export default reviewRoutes;

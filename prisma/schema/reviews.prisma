@@ -11,10 +11,12 @@ model Review {
   // Review content
   reviewTitle  String @map("review_title") @db.VarChar(200)
   reviewText   String @map("review_text") @db.Text
+  replyReview  String? @map("reply_review") @db.Text
   reviewImages Json?  @default("[]") @map("review_images") // Array of image URLs
 
-  // Verification and moderation
-  isVerifiedBooking  Boolean @default(true) @map("is_verified_booking")
+  // Seller flagging and admin moderation
+  isFlagged          Boolean @default(false) @map("is_flagged")
+  flaggedReason      String? @map("flagged_reason") @db.Text
   isModerated        Boolean @default(false) @map("is_moderated")
   moderatedByAdminId String? @map("moderated_by_admin_id")
   moderationReason   String? @map("moderation_reason") @db.Text
@@ -42,6 +44,7 @@ model Review {
   @@index([customerId])
   @@index([operatorId])
   @@index([rating])
+  @@index([isFlagged])
   @@index([isModerated])
   @@index([createdAt])
   @@map("reviews")

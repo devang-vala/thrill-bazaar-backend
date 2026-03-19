@@ -31,9 +31,15 @@ export interface ReviewFilters {
   customerId?: string;
   operatorId?: string;
   rating?: number;
+  isFlagged?: boolean;
   isModerated?: boolean;
   minRating?: number;
   maxRating?: number;
+}
+
+export interface ReviewViewerContext {
+  userId?: string;
+  userType?: string;
 }
 
 export interface PaginationOptions {
@@ -150,7 +156,7 @@ export const createReview = async (
         reviewTitle: input.reviewTitle,
         reviewText: input.reviewText,
         reviewImages: input.reviewImages || [],
-        isVerifiedBooking: true,
+        isFlagged: true,
       },
       include: {
         customer: {
@@ -236,7 +242,8 @@ export const getReviewById = async (reviewId: string) => {
  */
 export const getReviews = async (
   filters: ReviewFilters = {},
-  pagination: PaginationOptions = {}
+  pagination: PaginationOptions = {},
+  viewer: ReviewViewerContext = {}
 ) => {
   try {
     const {
@@ -245,6 +252,7 @@ export const getReviews = async (
       customerId,
       operatorId,
       rating,
+      isFlagged,
       isModerated,
       minRating,
       maxRating,
@@ -267,6 +275,7 @@ export const getReviews = async (
     if (customerId) where.customerId = customerId;
     if (operatorId) where.operatorId = operatorId;
     if (rating !== undefined) where.rating = rating;
+    if (isFlagged !== undefined) where.isFlagged = isFlagged;
     if (isModerated !== undefined) where.isModerated = isModerated;
 
     // Rating range filter
@@ -274,6 +283,24 @@ export const getReviews = async (
       where.rating = {};
       if (minRating !== undefined) where.rating.gte = minRating;
       if (maxRating !== undefined) where.rating.lte = maxRating;
+    }
+
+    const isAdmin = viewer.userType === "admin" || viewer.userType === "super_admin";
+    const isOperator = viewer.userType === "operator";
+
+    if (!isAdmin) {
+      // Admin-moderated reviews are hidden from seller/customer/public views.
+      where.isModerated = false;
+
+      // Reviews not approved by seller are hidden from customer/public views.
+      if (!isOperator) {
+        where.isFlagged = true;
+      }
+    }
+
+    if (isOperator && viewer.userId) {
+      // Operators can only query reviews belonging to their own listings.
+      where.operatorId = viewer.userId;
     }
 
     // Get total count
@@ -465,12 +492,13 @@ export const moderateReview = async (
 };
 
 /**
- * Update isVerifiedBooking status (Seller/Operator only)
+ * Update review flag status (Seller/Operator only)
  */
-export const updateVerifiedBookingStatus = async (
+export const updateReviewFlagStatus = async (
   reviewId: string,
   operatorId: string,
-  isVerifiedBooking: boolean
+  isFlagged: boolean,
+  flaggedReason?: string
 ): Promise<{ success: boolean; review?: any; error?: string }> => {
   try {
     // Check if review exists and belongs to the operator
@@ -484,20 +512,64 @@ export const updateVerifiedBookingStatus = async (
 
     // Verify that the review belongs to this operator
     if (review.operatorId !== operatorId) {
-      return { success: false, error: "You can only update verification status for your own listings" };
+      return { success: false, error: "You can only update flag status for your own listings" };
+    }
+
+    if (review.isModerated) {
+      return { success: false, error: "This review has been moderated by admin and cannot be updated" };
     }
 
     const updatedReview = await prisma.review.update({
       where: { id: reviewId },
       data: {
-        isVerifiedBooking,
+        isFlagged,
+        flaggedReason: isFlagged ? null : (flaggedReason?.trim() || null),
       },
     });
 
     return { success: true, review: updatedReview };
   } catch (error: any) {
-    console.error("Error updating verified booking status:", error);
-    return { success: false, error: error.message || "Failed to update verification status" };
+    console.error("Error updating review flag status:", error);
+    return { success: false, error: error.message || "Failed to update flag status" };
+  }
+};
+
+/**
+ * Update operator reply for a review.
+ */
+export const updateReplyReview = async (
+  reviewId: string,
+  operatorId: string,
+  replyReview: string
+): Promise<{ success: boolean; review?: any; error?: string }> => {
+  try {
+    const review = await prisma.review.findUnique({
+      where: { id: reviewId },
+      select: {
+        id: true,
+        operatorId: true,
+      },
+    });
+
+    if (!review) {
+      return { success: false, error: "Review not found" };
+    }
+
+    if (review.operatorId !== operatorId) {
+      return { success: false, error: "You can only reply to reviews for your own listings" };
+    }
+
+    const updatedReview = await prisma.review.update({
+      where: { id: reviewId },
+      data: {
+        replyReview,
+      },
+    });
+
+    return { success: true, review: updatedReview };
+  } catch (error: any) {
+    console.error("Error updating reply review:", error);
+    return { success: false, error: error.message || "Failed to update review reply" };
   }
 };
 
@@ -579,6 +651,7 @@ export const getListingReviewStats = async (listingId: string) => {
       where: {
         listingId,
         isModerated: false, // Only count non-moderated reviews
+        isFlagged: true, // Hide seller-hidden reviews from customer-facing stats
       },
       _count: {
         rating: true,
@@ -641,5 +714,200 @@ export const getOperatorReviewStats = async (operatorId: string) => {
   } catch (error) {
     console.error("Error fetching operator review stats:", error);
     throw error;
+  }
+};
+
+/**
+ * Get enriched review details for seller review details page.
+ * Includes booking metadata (participants, contact, addons, slot/date info) and
+ * validates that requester is either the listing operator or an admin.
+ */
+export const getSellerReviewDetails = async (
+  reviewId: string,
+  requesterUserId: string,
+  isAdmin: boolean
+): Promise<{ success: boolean; data?: any; error?: string; statusCode?: number }> => {
+  try {
+    const review = await prisma.review.findUnique({
+      where: { id: reviewId },
+      include: {
+        customer: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            profileImg: true,
+            email: true,
+            phone: true,
+            gender: true,
+          },
+        },
+        operator: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            phone: true,
+          },
+        },
+        listing: {
+          select: {
+            id: true,
+            listingName: true,
+            frontImageUrl: true,
+            startLocationName: true,
+          },
+        },
+        booking: {
+          include: {
+            customer: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                profileImg: true,
+                phone: true,
+                email: true,
+                gender: true,
+              },
+            },
+            listingSlot: {
+              include: {
+                listing: {
+                  select: {
+                    id: true,
+                    listingName: true,
+                    frontImageUrl: true,
+                    startLocationName: true,
+                    operatorId: true,
+                    addons: true,
+                    bookingFormat: true,
+                  },
+                },
+                slotDefinition: {
+                  select: {
+                    startTime: true,
+                    endTime: true,
+                  },
+                },
+              },
+            },
+            dateRange: {
+              include: {
+                listing: {
+                  select: {
+                    id: true,
+                    listingName: true,
+                    frontImageUrl: true,
+                    startLocationName: true,
+                    operatorId: true,
+                    addons: true,
+                    bookingFormat: true,
+                  },
+                },
+                slotDefinition: {
+                  select: {
+                    startTime: true,
+                    endTime: true,
+                  },
+                },
+              },
+            },
+            payment: true,
+          },
+        },
+      },
+    });
+
+    if (!review) {
+      return { success: false, error: "Review not found", statusCode: 404 };
+    }
+
+    const bookingOperatorId =
+      review.booking?.listingSlot?.listing?.operatorId ||
+      review.booking?.dateRange?.listing?.operatorId ||
+      review.operatorId;
+
+    if (!isAdmin && bookingOperatorId !== requesterUserId) {
+      return { success: false, error: "Unauthorized to view this review", statusCode: 403 };
+    }
+
+    if (!isAdmin && review.isModerated) {
+      return { success: false, error: "This review has been moderated", statusCode: 403 };
+    }
+
+    const listingAddonsRecord =
+      review.booking?.listingSlot?.listing?.addons ||
+      review.booking?.dateRange?.listing?.addons;
+    const listingAddons = listingAddonsRecord ? (listingAddonsRecord as any).addons : [];
+
+    let enrichedAddons: any[] = [];
+    if (review.booking?.selectedAddons && Array.isArray(review.booking.selectedAddons)) {
+      enrichedAddons = review.booking.selectedAddons.map((selectedAddon: any) => {
+        const addonDetails = Array.isArray(listingAddons)
+          ? listingAddons.find((addon: any) => addon.id === selectedAddon.addonId)
+          : null;
+
+        if (addonDetails) {
+          const quantity = selectedAddon.quantity || 1;
+          const price = addonDetails.price || 0;
+          return {
+            id: addonDetails.id,
+            addonId: selectedAddon.addonId,
+            name: addonDetails.addonName,
+            description: addonDetails.addonDescription || "",
+            quantity,
+            price,
+            totalPrice: price * quantity,
+          };
+        }
+
+        return {
+          addonId: selectedAddon.addonId,
+          name: "Unknown Add-on",
+          description: "",
+          quantity: selectedAddon.quantity || 1,
+          price: 0,
+          totalPrice: 0,
+        };
+      });
+    }
+
+    const data = {
+      ...review,
+      booking: review.booking
+        ? {
+            ...review.booking,
+            selectedAddons: enrichedAddons,
+            listingSlot: review.booking.listingSlot
+              ? {
+                  ...review.booking.listingSlot,
+                  startTime:
+                    review.booking.listingSlot.slotDefinition?.startTime ||
+                    review.booking.listingSlot.startTime,
+                  endTime:
+                    review.booking.listingSlot.slotDefinition?.endTime ||
+                    review.booking.listingSlot.endTime,
+                }
+              : null,
+            dateRange: review.booking.dateRange
+              ? {
+                  ...review.booking.dateRange,
+                  startTime: review.booking.dateRange.slotDefinition?.startTime || null,
+                  endTime: review.booking.dateRange.slotDefinition?.endTime || null,
+                }
+              : null,
+          }
+        : null,
+    };
+
+    return { success: true, data };
+  } catch (error: any) {
+    console.error("Error fetching seller review details:", error);
+    return {
+      success: false,
+      error: error?.message || "Failed to fetch seller review details",
+      statusCode: 500,
+    };
   }
 };

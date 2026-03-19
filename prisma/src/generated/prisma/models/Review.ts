@@ -44,7 +44,9 @@ export type ReviewMinAggregateOutputType = {
   rating: number | null
   reviewTitle: string | null
   reviewText: string | null
-  isVerifiedBooking: boolean | null
+  replyReview: string | null
+  isFlagged: boolean | null
+  flaggedReason: string | null
   isModerated: boolean | null
   moderatedByAdminId: string | null
   moderationReason: string | null
@@ -62,7 +64,9 @@ export type ReviewMaxAggregateOutputType = {
   rating: number | null
   reviewTitle: string | null
   reviewText: string | null
-  isVerifiedBooking: boolean | null
+  replyReview: string | null
+  isFlagged: boolean | null
+  flaggedReason: string | null
   isModerated: boolean | null
   moderatedByAdminId: string | null
   moderationReason: string | null
@@ -80,8 +84,10 @@ export type ReviewCountAggregateOutputType = {
   rating: number
   reviewTitle: number
   reviewText: number
+  replyReview: number
   reviewImages: number
-  isVerifiedBooking: number
+  isFlagged: number
+  flaggedReason: number
   isModerated: number
   moderatedByAdminId: number
   moderationReason: number
@@ -111,7 +117,9 @@ export type ReviewMinAggregateInputType = {
   rating?: true
   reviewTitle?: true
   reviewText?: true
-  isVerifiedBooking?: true
+  replyReview?: true
+  isFlagged?: true
+  flaggedReason?: true
   isModerated?: true
   moderatedByAdminId?: true
   moderationReason?: true
@@ -129,7 +137,9 @@ export type ReviewMaxAggregateInputType = {
   rating?: true
   reviewTitle?: true
   reviewText?: true
-  isVerifiedBooking?: true
+  replyReview?: true
+  isFlagged?: true
+  flaggedReason?: true
   isModerated?: true
   moderatedByAdminId?: true
   moderationReason?: true
@@ -147,8 +157,10 @@ export type ReviewCountAggregateInputType = {
   rating?: true
   reviewTitle?: true
   reviewText?: true
+  replyReview?: true
   reviewImages?: true
-  isVerifiedBooking?: true
+  isFlagged?: true
+  flaggedReason?: true
   isModerated?: true
   moderatedByAdminId?: true
   moderationReason?: true
@@ -253,8 +265,10 @@ export type ReviewGroupByOutputType = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview: string | null
   reviewImages: runtime.JsonValue | null
-  isVerifiedBooking: boolean
+  isFlagged: boolean
+  flaggedReason: string | null
   isModerated: boolean
   moderatedByAdminId: string | null
   moderationReason: string | null
@@ -295,8 +309,10 @@ export type ReviewWhereInput = {
   rating?: Prisma.IntFilter<"Review"> | number
   reviewTitle?: Prisma.StringFilter<"Review"> | string
   reviewText?: Prisma.StringFilter<"Review"> | string
+  replyReview?: Prisma.StringNullableFilter<"Review"> | string | null
   reviewImages?: Prisma.JsonNullableFilter<"Review">
-  isVerifiedBooking?: Prisma.BoolFilter<"Review"> | boolean
+  isFlagged?: Prisma.BoolFilter<"Review"> | boolean
+  flaggedReason?: Prisma.StringNullableFilter<"Review"> | string | null
   isModerated?: Prisma.BoolFilter<"Review"> | boolean
   moderatedByAdminId?: Prisma.StringNullableFilter<"Review"> | string | null
   moderationReason?: Prisma.StringNullableFilter<"Review"> | string | null
@@ -320,8 +336,10 @@ export type ReviewOrderByWithRelationInput = {
   rating?: Prisma.SortOrder
   reviewTitle?: Prisma.SortOrder
   reviewText?: Prisma.SortOrder
+  replyReview?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewImages?: Prisma.SortOrderInput | Prisma.SortOrder
-  isVerifiedBooking?: Prisma.SortOrder
+  isFlagged?: Prisma.SortOrder
+  flaggedReason?: Prisma.SortOrderInput | Prisma.SortOrder
   isModerated?: Prisma.SortOrder
   moderatedByAdminId?: Prisma.SortOrderInput | Prisma.SortOrder
   moderationReason?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -348,8 +366,10 @@ export type ReviewWhereUniqueInput = Prisma.AtLeast<{
   rating?: Prisma.IntFilter<"Review"> | number
   reviewTitle?: Prisma.StringFilter<"Review"> | string
   reviewText?: Prisma.StringFilter<"Review"> | string
+  replyReview?: Prisma.StringNullableFilter<"Review"> | string | null
   reviewImages?: Prisma.JsonNullableFilter<"Review">
-  isVerifiedBooking?: Prisma.BoolFilter<"Review"> | boolean
+  isFlagged?: Prisma.BoolFilter<"Review"> | boolean
+  flaggedReason?: Prisma.StringNullableFilter<"Review"> | string | null
   isModerated?: Prisma.BoolFilter<"Review"> | boolean
   moderatedByAdminId?: Prisma.StringNullableFilter<"Review"> | string | null
   moderationReason?: Prisma.StringNullableFilter<"Review"> | string | null
@@ -373,8 +393,10 @@ export type ReviewOrderByWithAggregationInput = {
   rating?: Prisma.SortOrder
   reviewTitle?: Prisma.SortOrder
   reviewText?: Prisma.SortOrder
+  replyReview?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewImages?: Prisma.SortOrderInput | Prisma.SortOrder
-  isVerifiedBooking?: Prisma.SortOrder
+  isFlagged?: Prisma.SortOrder
+  flaggedReason?: Prisma.SortOrderInput | Prisma.SortOrder
   isModerated?: Prisma.SortOrder
   moderatedByAdminId?: Prisma.SortOrderInput | Prisma.SortOrder
   moderationReason?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -400,8 +422,10 @@ export type ReviewScalarWhereWithAggregatesInput = {
   rating?: Prisma.IntWithAggregatesFilter<"Review"> | number
   reviewTitle?: Prisma.StringWithAggregatesFilter<"Review"> | string
   reviewText?: Prisma.StringWithAggregatesFilter<"Review"> | string
+  replyReview?: Prisma.StringNullableWithAggregatesFilter<"Review"> | string | null
   reviewImages?: Prisma.JsonNullableWithAggregatesFilter<"Review">
-  isVerifiedBooking?: Prisma.BoolWithAggregatesFilter<"Review"> | boolean
+  isFlagged?: Prisma.BoolWithAggregatesFilter<"Review"> | boolean
+  flaggedReason?: Prisma.StringNullableWithAggregatesFilter<"Review"> | string | null
   isModerated?: Prisma.BoolWithAggregatesFilter<"Review"> | boolean
   moderatedByAdminId?: Prisma.StringNullableWithAggregatesFilter<"Review"> | string | null
   moderationReason?: Prisma.StringNullableWithAggregatesFilter<"Review"> | string | null
@@ -415,8 +439,10 @@ export type ReviewCreateInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderationReason?: string | null
   helpfulCount?: number
@@ -439,8 +465,10 @@ export type ReviewUncheckedCreateInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderatedByAdminId?: string | null
   moderationReason?: string | null
@@ -455,8 +483,10 @@ export type ReviewUpdateInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   helpfulCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -479,8 +509,10 @@ export type ReviewUncheckedUpdateInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderatedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -499,8 +531,10 @@ export type ReviewCreateManyInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderatedByAdminId?: string | null
   moderationReason?: string | null
@@ -514,8 +548,10 @@ export type ReviewUpdateManyMutationInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   helpfulCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -532,8 +568,10 @@ export type ReviewUncheckedUpdateManyInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderatedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -566,8 +604,10 @@ export type ReviewCountOrderByAggregateInput = {
   rating?: Prisma.SortOrder
   reviewTitle?: Prisma.SortOrder
   reviewText?: Prisma.SortOrder
+  replyReview?: Prisma.SortOrder
   reviewImages?: Prisma.SortOrder
-  isVerifiedBooking?: Prisma.SortOrder
+  isFlagged?: Prisma.SortOrder
+  flaggedReason?: Prisma.SortOrder
   isModerated?: Prisma.SortOrder
   moderatedByAdminId?: Prisma.SortOrder
   moderationReason?: Prisma.SortOrder
@@ -590,7 +630,9 @@ export type ReviewMaxOrderByAggregateInput = {
   rating?: Prisma.SortOrder
   reviewTitle?: Prisma.SortOrder
   reviewText?: Prisma.SortOrder
-  isVerifiedBooking?: Prisma.SortOrder
+  replyReview?: Prisma.SortOrder
+  isFlagged?: Prisma.SortOrder
+  flaggedReason?: Prisma.SortOrder
   isModerated?: Prisma.SortOrder
   moderatedByAdminId?: Prisma.SortOrder
   moderationReason?: Prisma.SortOrder
@@ -608,7 +650,9 @@ export type ReviewMinOrderByAggregateInput = {
   rating?: Prisma.SortOrder
   reviewTitle?: Prisma.SortOrder
   reviewText?: Prisma.SortOrder
-  isVerifiedBooking?: Prisma.SortOrder
+  replyReview?: Prisma.SortOrder
+  isFlagged?: Prisma.SortOrder
+  flaggedReason?: Prisma.SortOrder
   isModerated?: Prisma.SortOrder
   moderatedByAdminId?: Prisma.SortOrder
   moderationReason?: Prisma.SortOrder
@@ -846,8 +890,10 @@ export type ReviewCreateWithoutBookingInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderationReason?: string | null
   helpfulCount?: number
@@ -868,8 +914,10 @@ export type ReviewUncheckedCreateWithoutBookingInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderatedByAdminId?: string | null
   moderationReason?: string | null
@@ -900,8 +948,10 @@ export type ReviewUpdateWithoutBookingInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   helpfulCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -922,8 +972,10 @@ export type ReviewUncheckedUpdateWithoutBookingInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderatedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -938,8 +990,10 @@ export type ReviewCreateWithoutListingInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderationReason?: string | null
   helpfulCount?: number
@@ -960,8 +1014,10 @@ export type ReviewUncheckedCreateWithoutListingInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderatedByAdminId?: string | null
   moderationReason?: string | null
@@ -1009,8 +1065,10 @@ export type ReviewScalarWhereInput = {
   rating?: Prisma.IntFilter<"Review"> | number
   reviewTitle?: Prisma.StringFilter<"Review"> | string
   reviewText?: Prisma.StringFilter<"Review"> | string
+  replyReview?: Prisma.StringNullableFilter<"Review"> | string | null
   reviewImages?: Prisma.JsonNullableFilter<"Review">
-  isVerifiedBooking?: Prisma.BoolFilter<"Review"> | boolean
+  isFlagged?: Prisma.BoolFilter<"Review"> | boolean
+  flaggedReason?: Prisma.StringNullableFilter<"Review"> | string | null
   isModerated?: Prisma.BoolFilter<"Review"> | boolean
   moderatedByAdminId?: Prisma.StringNullableFilter<"Review"> | string | null
   moderationReason?: Prisma.StringNullableFilter<"Review"> | string | null
@@ -1024,8 +1082,10 @@ export type ReviewCreateWithoutHelpfulVotesInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderationReason?: string | null
   helpfulCount?: number
@@ -1047,8 +1107,10 @@ export type ReviewUncheckedCreateWithoutHelpfulVotesInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderatedByAdminId?: string | null
   moderationReason?: string | null
@@ -1078,8 +1140,10 @@ export type ReviewUpdateWithoutHelpfulVotesInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   helpfulCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1101,8 +1165,10 @@ export type ReviewUncheckedUpdateWithoutHelpfulVotesInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderatedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1116,8 +1182,10 @@ export type ReviewCreateWithoutCustomerInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderationReason?: string | null
   helpfulCount?: number
@@ -1138,8 +1206,10 @@ export type ReviewUncheckedCreateWithoutCustomerInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderatedByAdminId?: string | null
   moderationReason?: string | null
@@ -1164,8 +1234,10 @@ export type ReviewCreateWithoutOperatorInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderationReason?: string | null
   helpfulCount?: number
@@ -1186,8 +1258,10 @@ export type ReviewUncheckedCreateWithoutOperatorInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderatedByAdminId?: string | null
   moderationReason?: string | null
@@ -1212,8 +1286,10 @@ export type ReviewCreateWithoutModeratedByAdminInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderationReason?: string | null
   helpfulCount?: number
@@ -1235,8 +1311,10 @@ export type ReviewUncheckedCreateWithoutModeratedByAdminInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderationReason?: string | null
   helpfulCount?: number
@@ -1311,8 +1389,10 @@ export type ReviewCreateManyListingInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderatedByAdminId?: string | null
   moderationReason?: string | null
@@ -1326,8 +1406,10 @@ export type ReviewUpdateWithoutListingInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   helpfulCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1348,8 +1430,10 @@ export type ReviewUncheckedUpdateWithoutListingInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderatedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1367,8 +1451,10 @@ export type ReviewUncheckedUpdateManyWithoutListingInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderatedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1385,8 +1471,10 @@ export type ReviewCreateManyCustomerInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderatedByAdminId?: string | null
   moderationReason?: string | null
@@ -1403,8 +1491,10 @@ export type ReviewCreateManyOperatorInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderatedByAdminId?: string | null
   moderationReason?: string | null
@@ -1422,8 +1512,10 @@ export type ReviewCreateManyModeratedByAdminInput = {
   rating: number
   reviewTitle: string
   reviewText: string
+  replyReview?: string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: string | null
   isModerated?: boolean
   moderationReason?: string | null
   helpfulCount?: number
@@ -1436,8 +1528,10 @@ export type ReviewUpdateWithoutCustomerInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   helpfulCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1458,8 +1552,10 @@ export type ReviewUncheckedUpdateWithoutCustomerInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderatedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1477,8 +1573,10 @@ export type ReviewUncheckedUpdateManyWithoutCustomerInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderatedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1492,8 +1590,10 @@ export type ReviewUpdateWithoutOperatorInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   helpfulCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1514,8 +1614,10 @@ export type ReviewUncheckedUpdateWithoutOperatorInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderatedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1533,8 +1635,10 @@ export type ReviewUncheckedUpdateManyWithoutOperatorInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderatedByAdminId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1548,8 +1652,10 @@ export type ReviewUpdateWithoutModeratedByAdminInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   helpfulCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1571,8 +1677,10 @@ export type ReviewUncheckedUpdateWithoutModeratedByAdminInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   helpfulCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1590,8 +1698,10 @@ export type ReviewUncheckedUpdateManyWithoutModeratedByAdminInput = {
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   reviewTitle?: Prisma.StringFieldUpdateOperationsInput | string
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
+  replyReview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewImages?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isVerifiedBooking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFlagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  flaggedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isModerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   moderationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   helpfulCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1639,8 +1749,10 @@ export type ReviewSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   rating?: boolean
   reviewTitle?: boolean
   reviewText?: boolean
+  replyReview?: boolean
   reviewImages?: boolean
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: boolean
   isModerated?: boolean
   moderatedByAdminId?: boolean
   moderationReason?: boolean
@@ -1665,8 +1777,10 @@ export type ReviewSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   rating?: boolean
   reviewTitle?: boolean
   reviewText?: boolean
+  replyReview?: boolean
   reviewImages?: boolean
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: boolean
   isModerated?: boolean
   moderatedByAdminId?: boolean
   moderationReason?: boolean
@@ -1689,8 +1803,10 @@ export type ReviewSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   rating?: boolean
   reviewTitle?: boolean
   reviewText?: boolean
+  replyReview?: boolean
   reviewImages?: boolean
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: boolean
   isModerated?: boolean
   moderatedByAdminId?: boolean
   moderationReason?: boolean
@@ -1713,8 +1829,10 @@ export type ReviewSelectScalar = {
   rating?: boolean
   reviewTitle?: boolean
   reviewText?: boolean
+  replyReview?: boolean
   reviewImages?: boolean
-  isVerifiedBooking?: boolean
+  isFlagged?: boolean
+  flaggedReason?: boolean
   isModerated?: boolean
   moderatedByAdminId?: boolean
   moderationReason?: boolean
@@ -1723,7 +1841,7 @@ export type ReviewSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookingId" | "listingId" | "customerId" | "operatorId" | "rating" | "reviewTitle" | "reviewText" | "reviewImages" | "isVerifiedBooking" | "isModerated" | "moderatedByAdminId" | "moderationReason" | "helpfulCount" | "createdAt" | "updatedAt", ExtArgs["result"]["review"]>
+export type ReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookingId" | "listingId" | "customerId" | "operatorId" | "rating" | "reviewTitle" | "reviewText" | "replyReview" | "reviewImages" | "isFlagged" | "flaggedReason" | "isModerated" | "moderatedByAdminId" | "moderationReason" | "helpfulCount" | "createdAt" | "updatedAt", ExtArgs["result"]["review"]>
 export type ReviewInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
@@ -1767,8 +1885,10 @@ export type $ReviewPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     rating: number
     reviewTitle: string
     reviewText: string
+    replyReview: string | null
     reviewImages: runtime.JsonValue | null
-    isVerifiedBooking: boolean
+    isFlagged: boolean
+    flaggedReason: string | null
     isModerated: boolean
     moderatedByAdminId: string | null
     moderationReason: string | null
@@ -2212,8 +2332,10 @@ export interface ReviewFieldRefs {
   readonly rating: Prisma.FieldRef<"Review", 'Int'>
   readonly reviewTitle: Prisma.FieldRef<"Review", 'String'>
   readonly reviewText: Prisma.FieldRef<"Review", 'String'>
+  readonly replyReview: Prisma.FieldRef<"Review", 'String'>
   readonly reviewImages: Prisma.FieldRef<"Review", 'Json'>
-  readonly isVerifiedBooking: Prisma.FieldRef<"Review", 'Boolean'>
+  readonly isFlagged: Prisma.FieldRef<"Review", 'Boolean'>
+  readonly flaggedReason: Prisma.FieldRef<"Review", 'String'>
   readonly isModerated: Prisma.FieldRef<"Review", 'Boolean'>
   readonly moderatedByAdminId: Prisma.FieldRef<"Review", 'String'>
   readonly moderationReason: Prisma.FieldRef<"Review", 'String'>
