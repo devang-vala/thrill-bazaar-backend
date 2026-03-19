@@ -6,10 +6,12 @@ import {
   updateReview,
   deleteReview,
   moderateReview,
-  updateVerifiedBookingStatus,
+  updateReviewFlagStatus,
+  updateReplyReview,
   toggleHelpfulVote,
   getListingReviewStats,
   getOperatorReviewStats,
+  getSellerReviewDetails,
 } from "../helpers/review.helper.js";
 
 /**
@@ -123,13 +125,20 @@ export const getReviewController = async (c: Context) => {
       );
     }
 
-    // Hide moderated reviews from public (unless admin)
     const user = c.get("user");
     const isAdmin = user?.userType === "admin" || user?.userType === "super_admin";
+    const isOperatorOwner = user?.userType === "operator" && user?.userId === review.operatorId;
 
-    if (review.isModerated && !isAdmin) {
+    if (!isAdmin && review.isModerated) {
       return c.json(
         { success: false, error: "This review has been moderated" },
+        403
+      );
+    }
+
+    if (!isAdmin && !isOperatorOwner && !review.isFlagged) {
+      return c.json(
+        { success: false, error: "This review is not visible" },
         403
       );
     }
@@ -155,6 +164,17 @@ export const getReviewController = async (c: Context) => {
 export const getReviewsController = async (c: Context) => {
   try {
     const query = c.req.query();
+    const user = c.get("user");
+
+    const parseBoolean = (value?: string): boolean | undefined => {
+      if (value === undefined) return undefined;
+      if (value === "true") return true;
+      if (value === "false") return false;
+      return undefined;
+    };
+
+    const isFlaggedParam =
+      parseBoolean(query.isFlagged) ?? parseBoolean(query.isVerifiedBooking);
 
     // Parse filters
     const filters: any = {
@@ -165,6 +185,7 @@ export const getReviewsController = async (c: Context) => {
       rating: query.rating ? parseInt(query.rating) : undefined,
       minRating: query.minRating ? parseInt(query.minRating) : undefined,
       maxRating: query.maxRating ? parseInt(query.maxRating) : undefined,
+      isFlagged: isFlaggedParam,
     };
 
     // Parse pagination
@@ -180,7 +201,10 @@ export const getReviewsController = async (c: Context) => {
       pagination.limit = 100; // Max limit
     }
 
-    const result = await getReviews(filters, pagination);
+    const result = await getReviews(filters, pagination, {
+      userId: user?.userId,
+      userType: user?.userType,
+    });
 
     return c.json({
       success: true,
@@ -378,11 +402,11 @@ export const moderateReviewController = async (c: Context) => {
 };
 
 /**
- * Update isVerifiedBooking status
- * @route PATCH /api/reviews/:id/verify
+ * Update seller review visibility flag
+ * @route PATCH /api/reviews/:id/flag
  * @access Private (Seller/Operator only)
  */
-export const updateVerifiedBookingController = async (c: Context) => {
+export const updateReviewFlagController = async (c: Context) => {
   try {
     const user = c.get("user");
 
@@ -400,19 +424,34 @@ export const updateVerifiedBookingController = async (c: Context) => {
     }
 
     const body = await c.req.json();
-    const { isVerifiedBooking } = body;
+    const { isFlagged, flaggedReason } = body;
 
-    if (typeof isVerifiedBooking !== "boolean") {
+    if (typeof isFlagged !== "boolean") {
       return c.json(
-        { success: false, error: "isVerifiedBooking must be a boolean value" },
+        { success: false, error: "isFlagged must be a boolean value" },
         400
       );
     }
 
-    const result = await updateVerifiedBookingStatus(
+    if (!isFlagged && typeof flaggedReason !== "string") {
+      return c.json(
+        { success: false, error: "flaggedReason is required when isFlagged is false" },
+        400
+      );
+    }
+
+    if (!isFlagged && !flaggedReason.trim()) {
+      return c.json(
+        { success: false, error: "flaggedReason cannot be empty when isFlagged is false" },
+        400
+      );
+    }
+
+    const result = await updateReviewFlagStatus(
       reviewId,
       user.userId,
-      isVerifiedBooking
+      isFlagged,
+      flaggedReason
     );
 
     if (!result.success) {
@@ -425,15 +464,58 @@ export const updateVerifiedBookingController = async (c: Context) => {
 
     return c.json({
       success: true,
-      message: "Verification status updated successfully",
+      message: "Review flag status updated successfully",
       data: result.review,
     });
   } catch (error: any) {
-    console.error("Error in updateVerifiedBookingController:", error);
+    console.error("Error in updateReviewFlagController:", error);
     return c.json(
       { success: false, error: "Internal server error" },
       500
     );
+  }
+};
+
+/**
+ * Update seller reply text for a review
+ * @route PATCH /api/reviews/:id/reply
+ * @access Private (Seller/Operator only)
+ */
+export const updateReplyReviewController = async (c: Context) => {
+  try {
+    const user = c.get("user");
+
+    if (!user) {
+      return c.json({ success: false, error: "Unauthorized" }, 401);
+    }
+
+    const reviewId = c.req.param("id");
+    if (!reviewId) {
+      return c.json({ success: false, error: "Review ID is required" }, 400);
+    }
+
+    const body = await c.req.json();
+    const { replyReview } = body;
+
+    if (typeof replyReview !== "string") {
+      return c.json({ success: false, error: "replyReview must be a string" }, 400);
+    }
+
+    const result = await updateReplyReview(reviewId, user.userId, replyReview.trim());
+
+    if (!result.success) {
+      const statusCode = result.error === "Review not found" ? 404 : 403;
+      return c.json({ success: false, error: result.error }, statusCode);
+    }
+
+    return c.json({
+      success: true,
+      message: "Reply updated successfully",
+      data: result.review,
+    });
+  } catch (error: any) {
+    console.error("Error in updateReplyReviewController:", error);
+    return c.json({ success: false, error: "Internal server error" }, 500);
   }
 };
 
@@ -545,5 +627,44 @@ export const getOperatorReviewStatsController = async (c: Context) => {
       { success: false, error: "Internal server error" },
       500
     );
+  }
+};
+
+/**
+ * Get seller review details with enriched booking metadata
+ * @route GET /api/reviews/seller/:id/details
+ * @access Private (Operator owner or Admin)
+ */
+export const getSellerReviewDetailsController = async (c: Context) => {
+  try {
+    const user = c.get("user");
+
+    if (!user) {
+      return c.json({ success: false, error: "Unauthorized" }, 401);
+    }
+
+    const reviewId = c.req.param("id");
+    if (!reviewId) {
+      return c.json({ success: false, error: "Review ID is required" }, 400);
+    }
+
+    const isAdmin = user.userType === "admin" || user.userType === "super_admin";
+
+    const result = await getSellerReviewDetails(reviewId, user.userId, isAdmin);
+
+    if (!result.success) {
+      return c.json(
+        { success: false, error: result.error || "Failed to fetch review details" },
+        (result.statusCode as 400 | 401 | 403 | 404 | 500 | undefined) || 400
+      );
+    }
+
+    return c.json({
+      success: true,
+      data: result.data,
+    });
+  } catch (error: any) {
+    console.error("Error in getSellerReviewDetailsController:", error);
+    return c.json({ success: false, error: "Internal server error" }, 500);
   }
 };
