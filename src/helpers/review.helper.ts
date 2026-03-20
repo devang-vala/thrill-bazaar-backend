@@ -21,6 +21,7 @@ export interface UpdateReviewInput {
 
 export interface ModerateReviewInput {
   isModerated: boolean;
+  isFlagged?: boolean;
   moderatedByAdminId: string;
   moderationReason?: string;
 }
@@ -325,6 +326,21 @@ export const getReviews = async (
           select: {
             id: true,
             listingName: true,
+            startLocationName: true,
+            endLocationName: true,
+          },
+        },
+        operator: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            phone: true,
+            operatorProfile: {
+              select: {
+                companyName: true,
+              },
+            },
           },
         },
         booking: {
@@ -332,6 +348,8 @@ export const getReviews = async (
             bookingReference: true,
             bookingStartDate: true,
             bookingEndDate: true,
+            participantCount: true,
+            createdAt: true,
           },
         },
       },
@@ -470,10 +488,20 @@ export const moderateReview = async (
       where: { id: reviewId },
       data: {
         isModerated: input.isModerated,
-        moderatedByAdminId: input.moderatedByAdminId,
-        moderationReason: input.moderationReason,
+        // Admin moderation owns both flags; they must move together.
+        isFlagged: input.isModerated,
+        moderatedByAdminId: input.isModerated ? input.moderatedByAdminId : null,
+        moderationReason: input.isModerated ? (input.moderationReason || null) : null,
       },
       include: {
+        customer: true,
+        listing: true,
+        operator: {
+          include: {
+            operatorProfile: true,
+          },
+        },
+        booking: true,
         moderatedByAdmin: {
           select: {
             id: true,

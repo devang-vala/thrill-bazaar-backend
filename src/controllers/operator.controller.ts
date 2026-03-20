@@ -94,36 +94,52 @@ export const registerOperatorComplete = async (c: Context) => {
     // Parse form data
     const body = await c.req.parseBody();
 
+    const toSingleString = (value: unknown): string => {
+      if (Array.isArray(value)) {
+        const first = value[0];
+        return typeof first === "string" ? first : "";
+      }
+      return typeof value === "string" ? value : "";
+    };
+
+    const normalizeIndianPhoneForValidation = (value: string): string => {
+      const digits = (value || "").replace(/\D/g, "");
+      if (digits.length >= 10) {
+        return digits.slice(-10);
+      }
+      return value || "";
+    };
+
     // Extract all text fields
     const registrationData = {
-      email: body.email as string,
-      phone: body.phone as string,
-      password: body.password as string,
-      businessName: body.businessName as string,
-      operatorName: body.operatorName as string,
-      contactNumber: body.contactNumber as string,
-      contactEmail: body.contactEmail as string,
-      addressLine01: body.addressLine01 as string,
-      addressLine02: body.addressLine02 as string,
-      city: body.city as string,
-      state: body.state as string,
-      pincode: body.pincode as string,
-      country: body.country as string,
+      email: toSingleString(body.email),
+      phone: normalizeIndianPhoneForValidation(toSingleString(body.phone) || toSingleString(body.contactNumber)),
+      password: toSingleString(body.password),
+      businessName: toSingleString(body.businessName),
+      operatorName: toSingleString(body.operatorName),
+      contactNumber: normalizeIndianPhoneForValidation(toSingleString(body.contactNumber) || toSingleString(body.phone)),
+      contactEmail: toSingleString(body.contactEmail),
+      addressLine01: toSingleString(body.addressLine01),
+      addressLine02: toSingleString(body.addressLine02),
+      city: toSingleString(body.city),
+      state: toSingleString(body.state),
+      pincode: toSingleString(body.pincode),
+      country: toSingleString(body.country),
       selectedCategoryIds: body.selectedCategoryIds
         ? (typeof body.selectedCategoryIds === 'string'
           ? JSON.parse(body.selectedCategoryIds)
           : body.selectedCategoryIds)
         : [],
-      panNumber: body.panNumber as string,
-      gstinNumber: body.gstinNumber as string,
-      bankAccountNumber: body.bankAccountNumber as string,
-      confirmBankAccountNumber: body.confirmBankAccountNumber as string,
-      ifscCode: body.ifscCode as string,
-      branchName: body.branchName as string,
-      accountHolderName: body.accountHolderName as string,
-      websiteUrl: body.websiteUrl as string,
-      companyDescription: body.companyDescription as string,
-      socialMediaLinks: body.socialMediaLinks as string,
+      panNumber: toSingleString(body.panNumber),
+      gstinNumber: toSingleString(body.gstinNumber),
+      bankAccountNumber: toSingleString(body.bankAccountNumber),
+      confirmBankAccountNumber: toSingleString(body.confirmBankAccountNumber),
+      ifscCode: toSingleString(body.ifscCode),
+      branchName: toSingleString(body.branchName),
+      accountHolderName: toSingleString(body.accountHolderName),
+      websiteUrl: toSingleString(body.websiteUrl),
+      companyDescription: toSingleString(body.companyDescription),
+      socialMediaLinks: toSingleString(body.socialMediaLinks),
     };
 
     // Validate registration data

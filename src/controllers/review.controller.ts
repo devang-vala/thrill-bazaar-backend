@@ -175,6 +175,7 @@ export const getReviewsController = async (c: Context) => {
 
     const isFlaggedParam =
       parseBoolean(query.isFlagged) ?? parseBoolean(query.isVerifiedBooking);
+    const isModeratedParam = parseBoolean(query.isModerated);
 
     // Parse filters
     const filters: any = {
@@ -186,6 +187,7 @@ export const getReviewsController = async (c: Context) => {
       minRating: query.minRating ? parseInt(query.minRating) : undefined,
       maxRating: query.maxRating ? parseInt(query.maxRating) : undefined,
       isFlagged: isFlaggedParam,
+      isModerated: isModeratedParam,
     };
 
     // Parse pagination
@@ -358,11 +360,18 @@ export const moderateReviewController = async (c: Context) => {
     }
 
     const body = await c.req.json();
-    const { isModerated, moderationReason } = body;
+    const { isModerated, isFlagged, moderationReason } = body;
 
     if (typeof isModerated !== "boolean") {
       return c.json(
         { success: false, error: "isModerated must be a boolean value" },
+        400
+      );
+    }
+
+    if (isFlagged !== undefined && typeof isFlagged !== "boolean") {
+      return c.json(
+        { success: false, error: "isFlagged must be a boolean value when provided" },
         400
       );
     }
@@ -376,6 +385,7 @@ export const moderateReviewController = async (c: Context) => {
 
     const result = await moderateReview(reviewId, {
       isModerated,
+      isFlagged,
       moderatedByAdminId: user.userId,
       moderationReason: isModerated ? moderationReason : null,
     });
