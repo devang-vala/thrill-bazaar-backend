@@ -134,9 +134,13 @@ export const isValidEmail = (email: string): boolean => {
 };
 
 export const isValidPhone = (phone: string): boolean => {
-  // Basic phone validation - at least 10 digits
-  const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
-  return phoneRegex.test(phone);
+  const raw = (phone || "").toString().trim();
+  if (!raw) return false;
+
+  // Normalize to digits only and validate length. This is resilient to
+  // +91, spaces, dashes, brackets and similar user input formats.
+  const digits = raw.replace(/\D/g, "");
+  return digits.length >= 10 && digits.length <= 15;
 };
 
 export const validatePassword = (
