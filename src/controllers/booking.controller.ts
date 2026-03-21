@@ -832,6 +832,39 @@ export const getUserBookings = async (c: Context) => {
                     categoryName: true,
                   },
                 },
+                badges: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    badge: {
+                      select: {
+                        id: true,
+                        badgeName: true,
+                        badgeIconUrl: true,
+                        badgeColor: true,
+                      },
+                    },
+                  },
+                  take: 1,
+                  orderBy: { badge: { displayOrder: "asc" } },
+                },
+                tags: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    tag: {
+                      select: {
+                        id: true,
+                        tagName: true,
+                        tagColor: true,
+                      },
+                    },
+                  },
+                  take: 2,
+                  orderBy: { tag: { displayOrder: "asc" } },
+                },
               },
             },
           },
@@ -850,6 +883,39 @@ export const getUserBookings = async (c: Context) => {
                   select: {
                     categoryName: true,
                   },
+                },
+                badges: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    badge: {
+                      select: {
+                        id: true,
+                        badgeName: true,
+                        badgeIconUrl: true,
+                        badgeColor: true,
+                      },
+                    },
+                  },
+                  take: 1,
+                  orderBy: { badge: { displayOrder: "asc" } },
+                },
+                tags: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    tag: {
+                      select: {
+                        id: true,
+                        tagName: true,
+                        tagColor: true,
+                      },
+                    },
+                  },
+                  take: 2,
+                  orderBy: { tag: { displayOrder: "asc" } },
                 },
               },
             },
@@ -898,6 +964,39 @@ export const getBookingWithReschedules = async (c: Context) => {
                     categoryName: true,
                   },
                 },
+                badges: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    badge: {
+                      select: {
+                        id: true,
+                        badgeName: true,
+                        badgeIconUrl: true,
+                        badgeColor: true,
+                      },
+                    },
+                  },
+                  take: 1,
+                  orderBy: { badge: { displayOrder: "asc" } },
+                },
+                tags: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    tag: {
+                      select: {
+                        id: true,
+                        tagName: true,
+                        tagColor: true,
+                      },
+                    },
+                  },
+                  take: 2,
+                  orderBy: { tag: { displayOrder: "asc" } },
+                },
               },
             },
             slotDefinition: {
@@ -924,6 +1023,39 @@ export const getBookingWithReschedules = async (c: Context) => {
                   select: {
                     categoryName: true,
                   },
+                },
+                badges: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    badge: {
+                      select: {
+                        id: true,
+                        badgeName: true,
+                        badgeIconUrl: true,
+                        badgeColor: true,
+                      },
+                    },
+                  },
+                  take: 1,
+                  orderBy: { badge: { displayOrder: "asc" } },
+                },
+                tags: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    tag: {
+                      select: {
+                        id: true,
+                        tagName: true,
+                        tagColor: true,
+                      },
+                    },
+                  },
+                  take: 2,
+                  orderBy: { tag: { displayOrder: "asc" } },
                 },
               },
             },
@@ -1055,6 +1187,30 @@ export const getAdminBookings = async (c: Context) => {
                 currency: true,
                 startLocationName: true,
                 operatorId: true,
+                badges: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    badge: {
+                      select: { id: true, badgeName: true, badgeIconUrl: true, badgeColor: true },
+                    },
+                  },
+                  take: 1,
+                  orderBy: { badge: { displayOrder: "asc" } },
+                },
+                tags: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    tag: {
+                      select: { id: true, tagName: true, tagColor: true },
+                    },
+                  },
+                  take: 2,
+                  orderBy: { tag: { displayOrder: "asc" } },
+                },
               },
             },
           },
@@ -1069,6 +1225,30 @@ export const getAdminBookings = async (c: Context) => {
                 currency: true,
                 startLocationName: true,
                 operatorId: true,
+                badges: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    badge: {
+                      select: { id: true, badgeName: true, badgeIconUrl: true, badgeColor: true },
+                    },
+                  },
+                  take: 1,
+                  orderBy: { badge: { displayOrder: "asc" } },
+                },
+                tags: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    tag: {
+                      select: { id: true, tagName: true, tagColor: true },
+                    },
+                  },
+                  take: 2,
+                  orderBy: { tag: { displayOrder: "asc" } },
+                },
               },
             },
           },
@@ -1128,9 +1308,31 @@ export const getAdminBookingById = async (c: Context) => {
                 operatorId: true,
                 bookingFormat: true,
                 category: {
+                  select: { categoryName: true },
+                },
+                badges: {
+                  where: { isActive: true },
                   select: {
-                    categoryName: true,
+                    id: true,
+                    isActive: true,
+                    badge: {
+                      select: { id: true, badgeName: true, badgeIconUrl: true, badgeColor: true },
+                    },
                   },
+                  take: 1,
+                  orderBy: { badge: { displayOrder: "asc" } },
+                },
+                tags: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    tag: {
+                      select: { id: true, tagName: true, tagColor: true },
+                    },
+                  },
+                  take: 2,
+                  orderBy: { tag: { displayOrder: "asc" } },
                 },
               },
             },
@@ -1154,9 +1356,31 @@ export const getAdminBookingById = async (c: Context) => {
                 operatorId: true,
                 bookingFormat: true,
                 category: {
+                  select: { categoryName: true },
+                },
+                badges: {
+                  where: { isActive: true },
                   select: {
-                    categoryName: true,
+                    id: true,
+                    isActive: true,
+                    badge: {
+                      select: { id: true, badgeName: true, badgeIconUrl: true, badgeColor: true },
+                    },
                   },
+                  take: 1,
+                  orderBy: { badge: { displayOrder: "asc" } },
+                },
+                tags: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    tag: {
+                      select: { id: true, tagName: true, tagColor: true },
+                    },
+                  },
+                  take: 2,
+                  orderBy: { tag: { displayOrder: "asc" } },
                 },
               },
             },
@@ -1296,9 +1520,31 @@ export const getOperatorBookings = async (c: Context) => {
                 startLocationName: true,
                 bookingFormat: true,
                 category: {
+                  select: { categoryName: true },
+                },
+                badges: {
+                  where: { isActive: true },
                   select: {
-                    categoryName: true,
+                    id: true,
+                    isActive: true,
+                    badge: {
+                      select: { id: true, badgeName: true, badgeIconUrl: true, badgeColor: true },
+                    },
                   },
+                  take: 1,
+                  orderBy: { badge: { displayOrder: "asc" } },
+                },
+                tags: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    tag: {
+                      select: { id: true, tagName: true, tagColor: true },
+                    },
+                  },
+                  take: 2,
+                  orderBy: { tag: { displayOrder: "asc" } },
                 },
               },
             },
@@ -1321,9 +1567,31 @@ export const getOperatorBookings = async (c: Context) => {
                 startLocationName: true,
                 bookingFormat: true,
                 category: {
+                  select: { categoryName: true },
+                },
+                badges: {
+                  where: { isActive: true },
                   select: {
-                    categoryName: true,
+                    id: true,
+                    isActive: true,
+                    badge: {
+                      select: { id: true, badgeName: true, badgeIconUrl: true, badgeColor: true },
+                    },
                   },
+                  take: 1,
+                  orderBy: { badge: { displayOrder: "asc" } },
+                },
+                tags: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    tag: {
+                      select: { id: true, tagName: true, tagColor: true },
+                    },
+                  },
+                  take: 2,
+                  orderBy: { tag: { displayOrder: "asc" } },
                 },
               },
             },

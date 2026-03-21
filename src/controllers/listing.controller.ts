@@ -1560,7 +1560,7 @@ export const getSimilarListings = async (c: Context) => {
       ...tagsIncludeLimited,
     };
 
-    const baseWhere = {
+    const baseWhere: any = {
       status: "active",
       NOT: { id: listingId },
     };
