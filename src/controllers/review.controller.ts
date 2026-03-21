@@ -129,7 +129,7 @@ export const getReviewController = async (c: Context) => {
     const isAdmin = user?.userType === "admin" || user?.userType === "super_admin";
     const isOperatorOwner = user?.userType === "operator" && user?.userId === review.operatorId;
 
-    if (!isAdmin && review.isModerated) {
+    if (!isAdmin && !isOperatorOwner && review.isModerated) {
       return c.json(
         { success: false, error: "This review has been moderated" },
         403
@@ -443,16 +443,16 @@ export const updateReviewFlagController = async (c: Context) => {
       );
     }
 
-    if (!isFlagged && typeof flaggedReason !== "string") {
+    if (isFlagged && typeof flaggedReason !== "string") {
       return c.json(
-        { success: false, error: "flaggedReason is required when isFlagged is false" },
+        { success: false, error: "flaggedReason is required when isFlagged is true" },
         400
       );
     }
 
-    if (!isFlagged && !flaggedReason.trim()) {
+    if (isFlagged && !flaggedReason.trim()) {
       return c.json(
-        { success: false, error: "flaggedReason cannot be empty when isFlagged is false" },
+        { success: false, error: "flaggedReason cannot be empty when isFlagged is true" },
         400
       );
     }
