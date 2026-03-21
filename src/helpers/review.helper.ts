@@ -289,14 +289,12 @@ export const getReviews = async (
     const isAdmin = viewer.userType === "admin" || viewer.userType === "super_admin";
     const isOperator = viewer.userType === "operator";
 
-    if (!isAdmin) {
-      // Admin-moderated reviews are hidden from seller/customer/public views.
+    if (!isAdmin && !isOperator) {
+      // Admin-moderated reviews are hidden from customer/public views.
       where.isModerated = false;
 
       // Reviews not approved by seller are hidden from customer/public views.
-      if (!isOperator) {
-        where.isFlagged = true;
-      }
+      where.isFlagged = true;
     }
 
     if (isOperator && viewer.userId) {
@@ -543,15 +541,11 @@ export const updateReviewFlagStatus = async (
       return { success: false, error: "You can only update flag status for your own listings" };
     }
 
-    if (review.isModerated) {
-      return { success: false, error: "This review has been moderated by admin and cannot be updated" };
-    }
-
     const updatedReview = await prisma.review.update({
       where: { id: reviewId },
       data: {
         isFlagged,
-        flaggedReason: isFlagged ? null : (flaggedReason?.trim() || null),
+        flaggedReason: isFlagged ? (flaggedReason?.trim() || null) : null,
       },
     });
 
@@ -723,7 +717,6 @@ export const getOperatorReviewStats = async (operatorId: string) => {
     const reviews = await prisma.review.findMany({
       where: {
         operatorId,
-        isModerated: false,
       },
       select: {
         rating: true,
@@ -858,10 +851,6 @@ export const getSellerReviewDetails = async (
 
     if (!isAdmin && bookingOperatorId !== requesterUserId) {
       return { success: false, error: "Unauthorized to view this review", statusCode: 403 };
-    }
-
-    if (!isAdmin && review.isModerated) {
-      return { success: false, error: "This review has been moderated", statusCode: 403 };
     }
 
     const listingAddonsRecord =
