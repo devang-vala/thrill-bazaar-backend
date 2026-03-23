@@ -420,6 +420,7 @@ export const ModelName = {
   Review: 'Review',
   ReviewHelpfulVote: 'ReviewHelpfulVote',
   SecondaryDivision: 'SecondaryDivision',
+  Setting: 'Setting',
   SlotDefinition: 'SlotDefinition',
   Tag: 'Tag',
   ListingTag: 'ListingTag',
@@ -440,7 +441,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "badge" | "listingBadge" | "bookingPayment" | "booking" | "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "operatorProfile" | "otp" | "primaryDivision" | "reschedule" | "review" | "reviewHelpfulVote" | "secondaryDivision" | "slotDefinition" | "tag" | "listingTag" | "userAddress" | "user"
+    modelProps: "badge" | "listingBadge" | "bookingPayment" | "booking" | "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "operatorProfile" | "otp" | "primaryDivision" | "reschedule" | "review" | "reviewHelpfulVote" | "secondaryDivision" | "setting" | "slotDefinition" | "tag" | "listingTag" | "userAddress" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2738,6 +2739,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Setting: {
+      payload: Prisma.$SettingPayload<ExtArgs>
+      fields: Prisma.SettingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SettingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SettingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingPayload>
+        }
+        findFirst: {
+          args: Prisma.SettingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SettingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingPayload>
+        }
+        findMany: {
+          args: Prisma.SettingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingPayload>[]
+        }
+        create: {
+          args: Prisma.SettingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingPayload>
+        }
+        createMany: {
+          args: Prisma.SettingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SettingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingPayload>[]
+        }
+        delete: {
+          args: Prisma.SettingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingPayload>
+        }
+        update: {
+          args: Prisma.SettingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingPayload>
+        }
+        deleteMany: {
+          args: Prisma.SettingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SettingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SettingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingPayload>[]
+        }
+        upsert: {
+          args: Prisma.SettingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingPayload>
+        }
+        aggregate: {
+          args: Prisma.SettingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSetting>
+        }
+        groupBy: {
+          args: Prisma.SettingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SettingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SettingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SettingCountAggregateOutputType> | number
+        }
+      }
+    }
     SlotDefinition: {
       payload: Prisma.$SlotDefinitionPayload<ExtArgs>
       fields: Prisma.SlotDefinitionFieldRefs
@@ -3689,6 +3764,20 @@ export const SecondaryDivisionScalarFieldEnum = {
 export type SecondaryDivisionScalarFieldEnum = (typeof SecondaryDivisionScalarFieldEnum)[keyof typeof SecondaryDivisionScalarFieldEnum]
 
 
+export const SettingScalarFieldEnum = {
+  id: 'id',
+  number: 'number',
+  instagramLink: 'instagramLink',
+  facebookLink: 'facebookLink',
+  twitterLink: 'twitterLink',
+  email: 'email',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SettingScalarFieldEnum = (typeof SettingScalarFieldEnum)[keyof typeof SettingScalarFieldEnum]
+
+
 export const SlotDefinitionScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
@@ -4244,6 +4333,7 @@ export type GlobalOmitConfig = {
   review?: Prisma.ReviewOmit
   reviewHelpfulVote?: Prisma.ReviewHelpfulVoteOmit
   secondaryDivision?: Prisma.SecondaryDivisionOmit
+  setting?: Prisma.SettingOmit
   slotDefinition?: Prisma.SlotDefinitionOmit
   tag?: Prisma.TagOmit
   listingTag?: Prisma.ListingTagOmit

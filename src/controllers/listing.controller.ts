@@ -578,16 +578,12 @@ export const getListings = async (c: Context) => {
       });
     }
 
-    // Check if user is admin or seller/operator
-    const isAdminOrSeller = user && (
-      user.userType === "admin" ||
-      user.userType === "super_admin" ||
-      user.userType === "operator" ||
-      user.role === "seller"
-    );
-
-    // Add cache headers for better performance (5 minutes for listing pages)
-    c.header('Cache-Control', 'public, max-age=300, s-maxage=300');
+    // Keep public caching only for unauthenticated catalog traffic.
+    if (user) {
+      c.header('Cache-Control', 'no-store');
+    } else {
+      c.header('Cache-Control', 'public, max-age=300, s-maxage=300');
+    }
 
     return c.json({
       success: true,
@@ -1056,8 +1052,12 @@ export const getListingById = async (c: Context) => {
     // If user is not admin, remove admin-specific fields
     const isAdmin = user && (user.userType === "admin" || user.userType === "super_admin");
 
-    // Add cache headers (3 minutes for detail pages)
-    c.header('Cache-Control', 'public, max-age=180, s-maxage=180');
+    // Avoid stale status/rejection reason for authenticated users.
+    if (user) {
+      c.header('Cache-Control', 'no-store');
+    } else {
+      c.header('Cache-Control', 'public, max-age=180, s-maxage=180');
+    }
 
     if (!isAdmin) {
       // Remove admin-specific sensitive fields for non-admin users
@@ -1286,9 +1286,9 @@ export const updateListing = async (c: Context) => {
     if (body.status !== undefined) {
       updateData.status = body.status;
 
-      // If status is being changed to rejected, handle rejection reason
-      if (body.status === "rejected" && body.rejectionReason !== undefined) {
-        updateData.rejectionReason = sanitizeString(body.rejectionReason, 1000);
+      // Persist rejection reason when admin blocks or requests changes.
+      if ((body.status === "rejected" || body.status === "archived") && body.rejectionReason !== undefined) {
+        updateData.rejectionReason = body.rejectionReason ? sanitizeString(body.rejectionReason, 1000) : null;
       }
 
       // Clear rejection reason only when admin approves (status = active)
@@ -1297,7 +1297,7 @@ export const updateListing = async (c: Context) => {
         updateData.rejectionReason = null;
       }
     }
-    if (body.rejectionReason !== undefined && body.status === "rejected") {
+    if (body.rejectionReason !== undefined && (body.status === "rejected" || body.status === "archived")) {
       updateData.rejectionReason = body.rejectionReason ? sanitizeString(body.rejectionReason, 1000) : null;
     }
     if (body.taxRate !== undefined) {

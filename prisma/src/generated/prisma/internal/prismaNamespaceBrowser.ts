@@ -79,6 +79,7 @@ export const ModelName = {
   Review: 'Review',
   ReviewHelpfulVote: 'ReviewHelpfulVote',
   SecondaryDivision: 'SecondaryDivision',
+  Setting: 'Setting',
   SlotDefinition: 'SlotDefinition',
   Tag: 'Tag',
   ListingTag: 'ListingTag',
@@ -642,6 +643,20 @@ export const SecondaryDivisionScalarFieldEnum = {
 } as const
 
 export type SecondaryDivisionScalarFieldEnum = (typeof SecondaryDivisionScalarFieldEnum)[keyof typeof SecondaryDivisionScalarFieldEnum]
+
+
+export const SettingScalarFieldEnum = {
+  id: 'id',
+  number: 'number',
+  instagramLink: 'instagramLink',
+  facebookLink: 'facebookLink',
+  twitterLink: 'twitterLink',
+  email: 'email',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SettingScalarFieldEnum = (typeof SettingScalarFieldEnum)[keyof typeof SettingScalarFieldEnum]
 
 
 export const SlotDefinitionScalarFieldEnum = {
