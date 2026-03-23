@@ -199,6 +199,11 @@ export type ReviewHelpfulVote = Prisma.ReviewHelpfulVoteModel
  */
 export type SecondaryDivision = Prisma.SecondaryDivisionModel
 /**
+ * Model Setting
+ * 
+ */
+export type Setting = Prisma.SettingModel
+/**
  * Model SlotDefinition
  * 
  */

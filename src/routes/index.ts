@@ -35,6 +35,7 @@ import rescheduleRouter from "./reschedule.route.js";
 import reviewRouter from "./review.routes.js";
 import badgeRouter from "./badge.route.js";
 import tagRouter from "./tag.route.js";
+import settingsRouter from "./settings.route.js";
 
 
 const router = new Hono();
@@ -112,5 +113,8 @@ router.route("/reviews", reviewRouter);
 // Mount badge and tag routes
 router.route("/badges", badgeRouter);
 router.route("/tags", tagRouter);
+
+// Mount settings routes
+router.route("/settings", settingsRouter);
 
 export default router;

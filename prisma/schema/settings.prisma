@@ -1,0 +1,12 @@
+model Setting {
+  id            String   @id @default(uuid()) @map("setting_id")
+  number        String   @map("number")
+  instagramLink String?  @map("instagram_link")
+  facebookLink  String?  @map("facebook_link")
+  twitterLink   String?  @map("twitter_link")
+  email         String   @map("email")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("settings")
+}
