@@ -123,6 +123,8 @@ export const getListings = async (c: Context) => {
 
     // Get date filter parameter (YYYY-MM-DD format)
     const availableOnDate = c.req.query("availableOnDate"); // Filter listings available on this specific date
+    const dateRangeStart = c.req.query("dateRangeStart"); // Filter listings available in this date range
+    const dateRangeEnd = c.req.query("dateRangeEnd"); // Filter listings available in this date range
 
     // Calculate skip for pagination
     const skip = (page - 1) * limit;
@@ -227,8 +229,195 @@ export const getListings = async (c: Context) => {
       }
     }
 
-    // Add date availability filter
-    if (availableOnDate) {
+    // Add date range availability filter
+    if (dateRangeStart && dateRangeEnd) {
+      try {
+        const filterDateStart = new Date(`${dateRangeStart}T00:00:00.000Z`);
+        const filterDateEnd = new Date(`${dateRangeEnd}T23:59:59.999Z`);
+        const formatList = formats ? formats.split(",").filter(Boolean) : ["F1", "F2", "F3", "F4"];
+        const availableListingIds: string[] = [];
+
+        const enumerateUtcDateKeys = (start: Date, end: Date) => {
+          const keys: string[] = [];
+          const current = new Date(start);
+
+          while (current <= end) {
+            keys.push(current.toISOString().split("T")[0]);
+            current.setUTCDate(current.getUTCDate() + 1);
+          }
+
+          return keys;
+        };
+
+        if (formatList.includes("F1")) {
+          const f1Slots = await prisma.listingSlot.findMany({
+            where: {
+              isActive: true,
+              availableCount: { gt: 0 },
+              formatType: "F1",
+              listing: {
+                bookingFormat: "F1",
+              },
+              batchStartDate: {
+                gte: filterDateStart,
+                lte: filterDateEnd,
+              },
+            },
+            select: {
+              listingId: true,
+            },
+            distinct: ["listingId"],
+          });
+
+          availableListingIds.push(...f1Slots.map((slot) => slot.listingId));
+        }
+
+        if (formatList.includes("F3")) {
+          const f3Slots = await prisma.listingSlot.findMany({
+            where: {
+              isActive: true,
+              availableCount: { gt: 0 },
+              formatType: "F3",
+              listing: {
+                bookingFormat: "F3",
+              },
+              slotDate: {
+                gte: filterDateStart,
+                lte: filterDateEnd,
+              },
+            },
+            select: {
+              listingId: true,
+            },
+            distinct: ["listingId"],
+          });
+
+          availableListingIds.push(...f3Slots.map((slot) => slot.listingId));
+        }
+
+        if (formatList.includes("F2") || formatList.includes("F4")) {
+          const rentalFormats = formatList.filter((format) => format === "F2" || format === "F4");
+          const selectedDateKeys = enumerateUtcDateKeys(filterDateStart, filterDateEnd);
+
+          const candidateDateRanges = await prisma.inventoryDateRange.findMany({
+            where: {
+              isActive: true,
+              listing: {
+                bookingFormat: { in: rentalFormats },
+              },
+              OR: [
+                { availableCount: { gt: 0 } },
+                { availableCount: null },
+              ],
+              availableFromDate: { lte: filterDateEnd },
+              availableToDate: { gte: filterDateStart },
+            },
+            select: {
+              listingId: true,
+              variantId: true,
+              slotDefinitionId: true,
+              availableFromDate: true,
+              availableToDate: true,
+              listing: {
+                select: {
+                  bookingFormat: true,
+                },
+              },
+            },
+          });
+
+          const blockedDates = await prisma.inventoryBlockedDate.findMany({
+            where: {
+              listing: {
+                bookingFormat: { in: rentalFormats },
+              },
+              blockedDate: {
+                gte: filterDateStart,
+                lte: filterDateEnd,
+              },
+            },
+            select: {
+              listingId: true,
+              variantId: true,
+              blockedDate: true,
+            },
+          });
+
+          const groupedRanges = new Map<string, typeof candidateDateRanges>();
+          for (const range of candidateDateRanges) {
+            const slotKey =
+              range.listing.bookingFormat === "F4"
+                ? range.slotDefinitionId ?? "__no_slot__"
+                : "__no_slot__";
+            const groupKey = `${range.listingId}::${range.variantId ?? "__no_variant__"}::${slotKey}`;
+            const existing = groupedRanges.get(groupKey) ?? [];
+            existing.push(range);
+            groupedRanges.set(groupKey, existing);
+          }
+
+          const blockedDateMap = new Map<string, Set<string>>();
+          for (const blockedDate of blockedDates) {
+            const groupPrefix = `${blockedDate.listingId}::${blockedDate.variantId ?? "__no_variant__"}::`;
+            const blockedKey = blockedDate.blockedDate.toISOString().split("T")[0];
+
+            for (const groupKey of groupedRanges.keys()) {
+              if (!groupKey.startsWith(groupPrefix)) continue;
+
+              if (!blockedDateMap.has(groupKey)) {
+                blockedDateMap.set(groupKey, new Set<string>());
+              }
+              blockedDateMap.get(groupKey)!.add(blockedKey);
+            }
+          }
+
+          for (const [groupKey, ranges] of groupedRanges.entries()) {
+            const coveredKeys = new Set<string>();
+            const blockedKeys = blockedDateMap.get(groupKey) ?? new Set<string>();
+
+            for (const range of ranges) {
+              const overlappingStart = range.availableFromDate > filterDateStart ? range.availableFromDate : filterDateStart;
+              const overlappingEnd = range.availableToDate < filterDateEnd ? range.availableToDate : filterDateEnd;
+
+              if (overlappingStart > overlappingEnd) continue;
+
+              for (const dateKey of enumerateUtcDateKeys(overlappingStart, overlappingEnd)) {
+                coveredKeys.add(dateKey);
+              }
+            }
+
+            const hasFullCoverage = selectedDateKeys.every(
+              (dateKey) => coveredKeys.has(dateKey) && !blockedKeys.has(dateKey)
+            );
+
+            if (hasFullCoverage) {
+              availableListingIds.push(groupKey.split("::")[0]);
+            }
+          }
+        }
+
+        const uniqueListingIds = Array.from(new Set(availableListingIds));
+
+        if (uniqueListingIds.length === 0) {
+          return c.json({
+            success: true,
+            data: [],
+            pagination: {
+              page,
+              limit,
+              totalCount: 0,
+              totalPages: 0,
+              hasNextPage: false,
+              hasPreviousPage: false,
+            },
+          });
+        }
+
+        whereClause.id = { in: uniqueListingIds };
+      } catch (err) {
+        console.error("Error parsing date range filter:", err);
+        return c.json({ error: "Invalid date range format. Use YYYY-MM-DD" }, 400);
+      }
+    } else if (availableOnDate) {
       try {
         // Parse the date string to a Date object at start of day
         const filterDate = new Date(availableOnDate + 'T00:00:00.000Z');
