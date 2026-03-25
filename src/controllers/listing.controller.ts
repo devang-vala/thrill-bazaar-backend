@@ -577,11 +577,32 @@ export const getListings = async (c: Context) => {
         rejectionReason: true,
         basePriceDisplay: true,
         currency: true,
+        startCountryId: true,
+        startPrimaryDivisionId: true,
+        startSecondaryDivisionId: true,
         startLocationName: true,
         startLocationCoordinates: true,
         endLocationName: true,
         createdAt: true,
         updatedAt: true,
+        startCountry: {
+          select: {
+            country_id: true,
+            country_name: true,
+          },
+        },
+        startPrimaryDivision: {
+          select: {
+            primary_division_id: true,
+            division_name: true,
+          },
+        },
+        startSecondaryDivision: {
+          select: {
+            secondary_division_id: true,
+            division_name: true,
+          },
+        },
         category: {
           select: {
             id: true,
