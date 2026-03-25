@@ -1,19 +1,26 @@
 import { MeiliSearch } from "meilisearch";
 import { prisma } from "../db.js";
 
-const MEILISEARCH_URL = process.env.MEILISEARCH_URL || "";
-const MEILISEARCH_MASTER_KEY = process.env.MEILISEARCH_MASTER_KEY || "";
-
 let meilisearchAvailable = false;
-
-const client = MEILISEARCH_URL && MEILISEARCH_MASTER_KEY 
-    ? new MeiliSearch({
-        host: MEILISEARCH_URL,
-        apiKey: MEILISEARCH_MASTER_KEY,
-      })
-    : null;
+let client: MeiliSearch | null = null;
 
 const LISTINGS_INDEX = "listings";
+
+/**
+ * Lazily initialize the MeiliSearch client (reads env vars at call time,
+ * not at module-load time, to avoid ES-module hoisting issues with dotenv).
+ */
+const getClient = (): MeiliSearch | null => {
+    if (client) return client;
+
+    const url = process.env.MEILISEARCH_URL || "";
+    const key = process.env.MEILISEARCH_MASTER_KEY || "";
+
+    if (!url || !key) return null;
+
+    client = new MeiliSearch({ host: url, apiKey: key });
+    return client;
+};
 
 /**
  * Initialize Meilisearch index and settings
@@ -21,14 +28,15 @@ const LISTINGS_INDEX = "listings";
 export const initMeilisearch = async () => {
     try {
         // Check if Meilisearch is configured
-        if (!MEILISEARCH_URL || !MEILISEARCH_MASTER_KEY || !client) {
+        const meiliClient = getClient();
+        if (!meiliClient) {
             console.log("ℹ️  MeiliSearch not configured - search functionality will use database queries");
             return;
         }
 
         // Test connection first
         try {
-            await client.health();
+            await meiliClient.health();
             console.log("✅ MeiliSearch health check passed");
             meilisearchAvailable = true;
         } catch (healthError) {
@@ -39,7 +47,7 @@ export const initMeilisearch = async () => {
 
         // Explicitly create the index if it doesn't exist
         try {
-            await client.createIndex(LISTINGS_INDEX, { primaryKey: 'id' });
+            await meiliClient.createIndex(LISTINGS_INDEX, { primaryKey: 'id' });
             console.log(`✅ Created MeiliSearch index: ${LISTINGS_INDEX}`);
         } catch (createError: any) {
             // Index might already exist, which is fine
@@ -50,31 +58,41 @@ export const initMeilisearch = async () => {
             }
         }
 
-        const index = client.index(LISTINGS_INDEX);
+        const index = meiliClient.index(LISTINGS_INDEX);
 
         // Update index settings
         await index.updateSettings({
             searchableAttributes: [
                 "listingName",
                 "listingSlug",
-                "startLocationName",
-                "endLocationName",
+                "operatorName",
                 "categoryName",
                 "subCategoryName",
+                "startLocationName",
+                "endLocationName",
+                "startPrimaryDivisionName",
+                "startSecondaryDivisionName",
+                "endPrimaryDivisionName",
+                "endSecondaryDivisionName",
                 "startCountryName",
                 "endCountryName",
-                "contentOverview", // From content.overview
+                "contentOverview",
             ],
             filterableAttributes: [
                 "id",
                 "status",
                 "categoryId",
                 "subCatId",
+                "operatorId",
                 "startCountryId",
                 "endCountryId",
+                "startPrimaryDivisionId",
+                "startSecondaryDivisionId",
+                "endPrimaryDivisionId",
+                "endSecondaryDivisionId",
                 "bookingFormat",
                 "basePriceDisplay",
-                "rating", // if enabled
+                "rating",
             ],
             sortableAttributes: [
                 "createdAt",
@@ -104,7 +122,7 @@ export const initMeilisearch = async () => {
 export const indexListing = async (listingId: string) => {
     try {
         // Check if Meilisearch is available
-        if (!meilisearchAvailable || !client) {
+        if (!meilisearchAvailable || !getClient()) {
             return; // Silently skip if MeiliSearch is not available
         }
 
@@ -113,7 +131,14 @@ export const indexListing = async (listingId: string) => {
             include: {
                 category: true,
                 subCategory: true,
-                content: true, // to get overview
+                operator: { select: { firstName: true, lastName: true } },
+                startPrimaryDivision: true,
+                startSecondaryDivision: true,
+                endPrimaryDivision: true,
+                endSecondaryDivision: true,
+                startCountry: true,
+                endCountry: true,
+                content: true,
                 media: {
                     take: 1,
                     orderBy: { createdAt: 'asc' }
@@ -126,20 +151,33 @@ export const indexListing = async (listingId: string) => {
         }
 
         const overview = listing.content.find(c => c.contentType === 'overview')?.contentText || "";
+        const operatorName = [listing.operator?.firstName, listing.operator?.lastName].filter(Boolean).join(" ") || "";
 
         const document = {
             id: listing.id,
             listingName: listing.listingName,
             listingSlug: listing.listingSlug,
             status: listing.status,
+            operatorId: listing.operatorId,
+            operatorName,
             categoryId: listing.categoryId,
             categoryName: listing.category?.categoryName || "",
             subCatId: listing.subCatId,
             subCategoryName: listing.subCategory?.subCatName || "",
             startLocationName: listing.startLocationName,
             endLocationName: listing.endLocationName,
+            startPrimaryDivisionId: listing.startPrimaryDivisionId,
+            startPrimaryDivisionName: listing.startPrimaryDivision?.division_name || "",
+            startSecondaryDivisionId: listing.startSecondaryDivisionId,
+            startSecondaryDivisionName: listing.startSecondaryDivision?.division_name || "",
+            endPrimaryDivisionId: listing.endPrimaryDivisionId,
+            endPrimaryDivisionName: listing.endPrimaryDivision?.division_name || "",
+            endSecondaryDivisionId: listing.endSecondaryDivisionId,
+            endSecondaryDivisionName: listing.endSecondaryDivision?.division_name || "",
             startCountryId: listing.startCountryId,
+            startCountryName: listing.startCountry?.country_name || "",
             endCountryId: listing.endCountryId,
+            endCountryName: listing.endCountry?.country_name || "",
             bookingFormat: listing.bookingFormat,
             basePriceDisplay: Number(listing.basePriceDisplay),
             frontImageUrl: listing.frontImageUrl,
@@ -148,14 +186,14 @@ export const indexListing = async (listingId: string) => {
             updatedAt: listing.updatedAt.toISOString(),
         };
 
-        const index = client.index(LISTINGS_INDEX);
+        const index = getClient()!.index(LISTINGS_INDEX);
         
         // Check if index exists, if not try to create it
         try {
             await index.getStats();
         } catch (statsError: any) {
             if (statsError?.code === 'index_not_found') {
-                await client.createIndex(LISTINGS_INDEX, { primaryKey: 'id' });
+                await getClient()!.createIndex(LISTINGS_INDEX, { primaryKey: 'id' });
             } else {
                 throw statsError;
             }
@@ -177,11 +215,11 @@ export const indexListing = async (listingId: string) => {
  */
 export const removeListing = async (listingId: string) => {
     try {
-        if (!meilisearchAvailable || !client) {
+        if (!meilisearchAvailable || !getClient()) {
             return; // Silently skip if MeiliSearch is not available
         }
         
-        const index = client.index(LISTINGS_INDEX);
+        const index = getClient()!.index(LISTINGS_INDEX);
         await index.deleteDocument(listingId);
     } catch (error) {
         // Silently fail
@@ -193,11 +231,11 @@ export const removeListing = async (listingId: string) => {
  */
 export const searchListings = async (query: string, options: any = {}) => {
     try {
-        if (!meilisearchAvailable || !client) {
+        if (!meilisearchAvailable || !getClient()) {
             throw new Error("MeiliSearch not available");
         }
         
-        const index = client.index(LISTINGS_INDEX);
+        const index = getClient()!.index(LISTINGS_INDEX);
 
         // Default filters
         const filter = options.filter || [];
