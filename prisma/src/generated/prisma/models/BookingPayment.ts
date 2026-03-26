@@ -37,6 +37,9 @@ export type BookingPaymentAvgAggregateOutputType = {
   totalAmount: number | null
   amountPaidOnline: number | null
   amountToCollectOffline: number | null
+  convenienceFeeRate: number | null
+  convenienceFeeAmount: number | null
+  totalPayableOnline: number | null
   platformCommissionRate: number | null
   platformCommission: number | null
   tcsRate: number | null
@@ -58,6 +61,9 @@ export type BookingPaymentSumAggregateOutputType = {
   totalAmount: number | null
   amountPaidOnline: number | null
   amountToCollectOffline: number | null
+  convenienceFeeRate: number | null
+  convenienceFeeAmount: number | null
+  totalPayableOnline: number | null
   platformCommissionRate: number | null
   platformCommission: number | null
   tcsRate: number | null
@@ -81,6 +87,9 @@ export type BookingPaymentMinAggregateOutputType = {
   totalAmount: number | null
   amountPaidOnline: number | null
   amountToCollectOffline: number | null
+  convenienceFeeRate: number | null
+  convenienceFeeAmount: number | null
+  totalPayableOnline: number | null
   paymentMethod: string | null
   platformCommissionRate: number | null
   platformCommission: number | null
@@ -109,6 +118,9 @@ export type BookingPaymentMaxAggregateOutputType = {
   totalAmount: number | null
   amountPaidOnline: number | null
   amountToCollectOffline: number | null
+  convenienceFeeRate: number | null
+  convenienceFeeAmount: number | null
+  totalPayableOnline: number | null
   paymentMethod: string | null
   platformCommissionRate: number | null
   platformCommission: number | null
@@ -137,6 +149,9 @@ export type BookingPaymentCountAggregateOutputType = {
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
+  convenienceFeeRate: number
+  convenienceFeeAmount: number
+  totalPayableOnline: number
   paymentMethod: number
   platformCommissionRate: number
   platformCommission: number
@@ -165,6 +180,9 @@ export type BookingPaymentAvgAggregateInputType = {
   totalAmount?: true
   amountPaidOnline?: true
   amountToCollectOffline?: true
+  convenienceFeeRate?: true
+  convenienceFeeAmount?: true
+  totalPayableOnline?: true
   platformCommissionRate?: true
   platformCommission?: true
   tcsRate?: true
@@ -186,6 +204,9 @@ export type BookingPaymentSumAggregateInputType = {
   totalAmount?: true
   amountPaidOnline?: true
   amountToCollectOffline?: true
+  convenienceFeeRate?: true
+  convenienceFeeAmount?: true
+  totalPayableOnline?: true
   platformCommissionRate?: true
   platformCommission?: true
   tcsRate?: true
@@ -209,6 +230,9 @@ export type BookingPaymentMinAggregateInputType = {
   totalAmount?: true
   amountPaidOnline?: true
   amountToCollectOffline?: true
+  convenienceFeeRate?: true
+  convenienceFeeAmount?: true
+  totalPayableOnline?: true
   paymentMethod?: true
   platformCommissionRate?: true
   platformCommission?: true
@@ -237,6 +261,9 @@ export type BookingPaymentMaxAggregateInputType = {
   totalAmount?: true
   amountPaidOnline?: true
   amountToCollectOffline?: true
+  convenienceFeeRate?: true
+  convenienceFeeAmount?: true
+  totalPayableOnline?: true
   paymentMethod?: true
   platformCommissionRate?: true
   platformCommission?: true
@@ -265,6 +292,9 @@ export type BookingPaymentCountAggregateInputType = {
   totalAmount?: true
   amountPaidOnline?: true
   amountToCollectOffline?: true
+  convenienceFeeRate?: true
+  convenienceFeeAmount?: true
+  totalPayableOnline?: true
   paymentMethod?: true
   platformCommissionRate?: true
   platformCommission?: true
@@ -380,6 +410,9 @@ export type BookingPaymentGroupByOutputType = {
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
+  convenienceFeeRate: number
+  convenienceFeeAmount: number
+  totalPayableOnline: number
   paymentMethod: string | null
   platformCommissionRate: number
   platformCommission: number
@@ -431,6 +464,9 @@ export type BookingPaymentWhereInput = {
   totalAmount?: Prisma.IntFilter<"BookingPayment"> | number
   amountPaidOnline?: Prisma.IntFilter<"BookingPayment"> | number
   amountToCollectOffline?: Prisma.IntFilter<"BookingPayment"> | number
+  convenienceFeeRate?: Prisma.IntFilter<"BookingPayment"> | number
+  convenienceFeeAmount?: Prisma.IntFilter<"BookingPayment"> | number
+  totalPayableOnline?: Prisma.IntFilter<"BookingPayment"> | number
   paymentMethod?: Prisma.StringNullableFilter<"BookingPayment"> | string | null
   platformCommissionRate?: Prisma.IntFilter<"BookingPayment"> | number
   platformCommission?: Prisma.IntFilter<"BookingPayment"> | number
@@ -460,6 +496,9 @@ export type BookingPaymentOrderByWithRelationInput = {
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
+  convenienceFeeRate?: Prisma.SortOrder
+  convenienceFeeAmount?: Prisma.SortOrder
+  totalPayableOnline?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   platformCommissionRate?: Prisma.SortOrder
   platformCommission?: Prisma.SortOrder
@@ -492,6 +531,9 @@ export type BookingPaymentWhereUniqueInput = Prisma.AtLeast<{
   totalAmount?: Prisma.IntFilter<"BookingPayment"> | number
   amountPaidOnline?: Prisma.IntFilter<"BookingPayment"> | number
   amountToCollectOffline?: Prisma.IntFilter<"BookingPayment"> | number
+  convenienceFeeRate?: Prisma.IntFilter<"BookingPayment"> | number
+  convenienceFeeAmount?: Prisma.IntFilter<"BookingPayment"> | number
+  totalPayableOnline?: Prisma.IntFilter<"BookingPayment"> | number
   paymentMethod?: Prisma.StringNullableFilter<"BookingPayment"> | string | null
   platformCommissionRate?: Prisma.IntFilter<"BookingPayment"> | number
   platformCommission?: Prisma.IntFilter<"BookingPayment"> | number
@@ -521,6 +563,9 @@ export type BookingPaymentOrderByWithAggregationInput = {
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
+  convenienceFeeRate?: Prisma.SortOrder
+  convenienceFeeAmount?: Prisma.SortOrder
+  totalPayableOnline?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   platformCommissionRate?: Prisma.SortOrder
   platformCommission?: Prisma.SortOrder
@@ -557,6 +602,9 @@ export type BookingPaymentScalarWhereWithAggregatesInput = {
   totalAmount?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   amountPaidOnline?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   amountToCollectOffline?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
+  convenienceFeeRate?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
+  convenienceFeeAmount?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
+  totalPayableOnline?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   paymentMethod?: Prisma.StringNullableWithAggregatesFilter<"BookingPayment"> | string | null
   platformCommissionRate?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   platformCommission?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
@@ -584,6 +632,9 @@ export type BookingPaymentCreateInput = {
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
+  convenienceFeeRate?: number
+  convenienceFeeAmount?: number
+  totalPayableOnline?: number
   paymentMethod?: string | null
   platformCommissionRate: number
   platformCommission: number
@@ -613,6 +664,9 @@ export type BookingPaymentUncheckedCreateInput = {
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
+  convenienceFeeRate?: number
+  convenienceFeeAmount?: number
+  totalPayableOnline?: number
   paymentMethod?: string | null
   platformCommissionRate: number
   platformCommission: number
@@ -640,6 +694,9 @@ export type BookingPaymentUpdateInput = {
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   amountPaidOnline?: Prisma.IntFieldUpdateOperationsInput | number
   amountToCollectOffline?: Prisma.IntFieldUpdateOperationsInput | number
+  convenienceFeeRate?: Prisma.IntFieldUpdateOperationsInput | number
+  convenienceFeeAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPayableOnline?: Prisma.IntFieldUpdateOperationsInput | number
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platformCommissionRate?: Prisma.IntFieldUpdateOperationsInput | number
   platformCommission?: Prisma.IntFieldUpdateOperationsInput | number
@@ -669,6 +726,9 @@ export type BookingPaymentUncheckedUpdateInput = {
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   amountPaidOnline?: Prisma.IntFieldUpdateOperationsInput | number
   amountToCollectOffline?: Prisma.IntFieldUpdateOperationsInput | number
+  convenienceFeeRate?: Prisma.IntFieldUpdateOperationsInput | number
+  convenienceFeeAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPayableOnline?: Prisma.IntFieldUpdateOperationsInput | number
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platformCommissionRate?: Prisma.IntFieldUpdateOperationsInput | number
   platformCommission?: Prisma.IntFieldUpdateOperationsInput | number
@@ -697,6 +757,9 @@ export type BookingPaymentCreateManyInput = {
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
+  convenienceFeeRate?: number
+  convenienceFeeAmount?: number
+  totalPayableOnline?: number
   paymentMethod?: string | null
   platformCommissionRate: number
   platformCommission: number
@@ -724,6 +787,9 @@ export type BookingPaymentUpdateManyMutationInput = {
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   amountPaidOnline?: Prisma.IntFieldUpdateOperationsInput | number
   amountToCollectOffline?: Prisma.IntFieldUpdateOperationsInput | number
+  convenienceFeeRate?: Prisma.IntFieldUpdateOperationsInput | number
+  convenienceFeeAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPayableOnline?: Prisma.IntFieldUpdateOperationsInput | number
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platformCommissionRate?: Prisma.IntFieldUpdateOperationsInput | number
   platformCommission?: Prisma.IntFieldUpdateOperationsInput | number
@@ -752,6 +818,9 @@ export type BookingPaymentUncheckedUpdateManyInput = {
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   amountPaidOnline?: Prisma.IntFieldUpdateOperationsInput | number
   amountToCollectOffline?: Prisma.IntFieldUpdateOperationsInput | number
+  convenienceFeeRate?: Prisma.IntFieldUpdateOperationsInput | number
+  convenienceFeeAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPayableOnline?: Prisma.IntFieldUpdateOperationsInput | number
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platformCommissionRate?: Prisma.IntFieldUpdateOperationsInput | number
   platformCommission?: Prisma.IntFieldUpdateOperationsInput | number
@@ -780,6 +849,9 @@ export type BookingPaymentCountOrderByAggregateInput = {
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
+  convenienceFeeRate?: Prisma.SortOrder
+  convenienceFeeAmount?: Prisma.SortOrder
+  totalPayableOnline?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   platformCommissionRate?: Prisma.SortOrder
   platformCommission?: Prisma.SortOrder
@@ -806,6 +878,9 @@ export type BookingPaymentAvgOrderByAggregateInput = {
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
+  convenienceFeeRate?: Prisma.SortOrder
+  convenienceFeeAmount?: Prisma.SortOrder
+  totalPayableOnline?: Prisma.SortOrder
   platformCommissionRate?: Prisma.SortOrder
   platformCommission?: Prisma.SortOrder
   tcsRate?: Prisma.SortOrder
@@ -829,6 +904,9 @@ export type BookingPaymentMaxOrderByAggregateInput = {
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
+  convenienceFeeRate?: Prisma.SortOrder
+  convenienceFeeAmount?: Prisma.SortOrder
+  totalPayableOnline?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   platformCommissionRate?: Prisma.SortOrder
   platformCommission?: Prisma.SortOrder
@@ -857,6 +935,9 @@ export type BookingPaymentMinOrderByAggregateInput = {
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
+  convenienceFeeRate?: Prisma.SortOrder
+  convenienceFeeAmount?: Prisma.SortOrder
+  totalPayableOnline?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   platformCommissionRate?: Prisma.SortOrder
   platformCommission?: Prisma.SortOrder
@@ -883,6 +964,9 @@ export type BookingPaymentSumOrderByAggregateInput = {
   totalAmount?: Prisma.SortOrder
   amountPaidOnline?: Prisma.SortOrder
   amountToCollectOffline?: Prisma.SortOrder
+  convenienceFeeRate?: Prisma.SortOrder
+  convenienceFeeAmount?: Prisma.SortOrder
+  totalPayableOnline?: Prisma.SortOrder
   platformCommissionRate?: Prisma.SortOrder
   platformCommission?: Prisma.SortOrder
   tcsRate?: Prisma.SortOrder
@@ -950,6 +1034,9 @@ export type BookingPaymentCreateWithoutBookingInput = {
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
+  convenienceFeeRate?: number
+  convenienceFeeAmount?: number
+  totalPayableOnline?: number
   paymentMethod?: string | null
   platformCommissionRate: number
   platformCommission: number
@@ -977,6 +1064,9 @@ export type BookingPaymentUncheckedCreateWithoutBookingInput = {
   totalAmount: number
   amountPaidOnline: number
   amountToCollectOffline: number
+  convenienceFeeRate?: number
+  convenienceFeeAmount?: number
+  totalPayableOnline?: number
   paymentMethod?: string | null
   platformCommissionRate: number
   platformCommission: number
@@ -1020,6 +1110,9 @@ export type BookingPaymentUpdateWithoutBookingInput = {
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   amountPaidOnline?: Prisma.IntFieldUpdateOperationsInput | number
   amountToCollectOffline?: Prisma.IntFieldUpdateOperationsInput | number
+  convenienceFeeRate?: Prisma.IntFieldUpdateOperationsInput | number
+  convenienceFeeAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPayableOnline?: Prisma.IntFieldUpdateOperationsInput | number
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platformCommissionRate?: Prisma.IntFieldUpdateOperationsInput | number
   platformCommission?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1047,6 +1140,9 @@ export type BookingPaymentUncheckedUpdateWithoutBookingInput = {
   totalAmount?: Prisma.IntFieldUpdateOperationsInput | number
   amountPaidOnline?: Prisma.IntFieldUpdateOperationsInput | number
   amountToCollectOffline?: Prisma.IntFieldUpdateOperationsInput | number
+  convenienceFeeRate?: Prisma.IntFieldUpdateOperationsInput | number
+  convenienceFeeAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPayableOnline?: Prisma.IntFieldUpdateOperationsInput | number
   paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platformCommissionRate?: Prisma.IntFieldUpdateOperationsInput | number
   platformCommission?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1077,6 +1173,9 @@ export type BookingPaymentSelect<ExtArgs extends runtime.Types.Extensions.Intern
   totalAmount?: boolean
   amountPaidOnline?: boolean
   amountToCollectOffline?: boolean
+  convenienceFeeRate?: boolean
+  convenienceFeeAmount?: boolean
+  totalPayableOnline?: boolean
   paymentMethod?: boolean
   platformCommissionRate?: boolean
   platformCommission?: boolean
@@ -1106,6 +1205,9 @@ export type BookingPaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   totalAmount?: boolean
   amountPaidOnline?: boolean
   amountToCollectOffline?: boolean
+  convenienceFeeRate?: boolean
+  convenienceFeeAmount?: boolean
+  totalPayableOnline?: boolean
   paymentMethod?: boolean
   platformCommissionRate?: boolean
   platformCommission?: boolean
@@ -1135,6 +1237,9 @@ export type BookingPaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   totalAmount?: boolean
   amountPaidOnline?: boolean
   amountToCollectOffline?: boolean
+  convenienceFeeRate?: boolean
+  convenienceFeeAmount?: boolean
+  totalPayableOnline?: boolean
   paymentMethod?: boolean
   platformCommissionRate?: boolean
   platformCommission?: boolean
@@ -1164,6 +1269,9 @@ export type BookingPaymentSelectScalar = {
   totalAmount?: boolean
   amountPaidOnline?: boolean
   amountToCollectOffline?: boolean
+  convenienceFeeRate?: boolean
+  convenienceFeeAmount?: boolean
+  totalPayableOnline?: boolean
   paymentMethod?: boolean
   platformCommissionRate?: boolean
   platformCommission?: boolean
@@ -1178,7 +1286,7 @@ export type BookingPaymentSelectScalar = {
   updatedAt?: boolean
 }
 
-export type BookingPaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookingId" | "totalBasePrice" | "quantity" | "taxRate" | "subtotalWithTax" | "discountAmount" | "taxAmount" | "totalBaseAmount" | "addonsAmount" | "totalAmount" | "amountPaidOnline" | "amountToCollectOffline" | "paymentMethod" | "platformCommissionRate" | "platformCommission" | "tcsRate" | "tcsAmount" | "netPayToSeller" | "balanceToCollect" | "totalEarnings" | "settlementStatus" | "settlementDate" | "createdAt" | "updatedAt", ExtArgs["result"]["bookingPayment"]>
+export type BookingPaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookingId" | "totalBasePrice" | "quantity" | "taxRate" | "subtotalWithTax" | "discountAmount" | "taxAmount" | "totalBaseAmount" | "addonsAmount" | "totalAmount" | "amountPaidOnline" | "amountToCollectOffline" | "convenienceFeeRate" | "convenienceFeeAmount" | "totalPayableOnline" | "paymentMethod" | "platformCommissionRate" | "platformCommission" | "tcsRate" | "tcsAmount" | "netPayToSeller" | "balanceToCollect" | "totalEarnings" | "settlementStatus" | "settlementDate" | "createdAt" | "updatedAt", ExtArgs["result"]["bookingPayment"]>
 export type BookingPaymentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>
 }
@@ -1208,6 +1316,9 @@ export type $BookingPaymentPayload<ExtArgs extends runtime.Types.Extensions.Inte
     totalAmount: number
     amountPaidOnline: number
     amountToCollectOffline: number
+    convenienceFeeRate: number
+    convenienceFeeAmount: number
+    totalPayableOnline: number
     paymentMethod: string | null
     platformCommissionRate: number
     platformCommission: number
@@ -1657,6 +1768,9 @@ export interface BookingPaymentFieldRefs {
   readonly totalAmount: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly amountPaidOnline: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly amountToCollectOffline: Prisma.FieldRef<"BookingPayment", 'Int'>
+  readonly convenienceFeeRate: Prisma.FieldRef<"BookingPayment", 'Int'>
+  readonly convenienceFeeAmount: Prisma.FieldRef<"BookingPayment", 'Int'>
+  readonly totalPayableOnline: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly paymentMethod: Prisma.FieldRef<"BookingPayment", 'String'>
   readonly platformCommissionRate: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly platformCommission: Prisma.FieldRef<"BookingPayment", 'Int'>

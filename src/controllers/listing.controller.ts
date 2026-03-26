@@ -574,11 +574,32 @@ export const getListings = async (c: Context) => {
           rejectionReason: true,
           basePriceDisplay: true,
           currency: true,
+          startCountryId: true,
+          startPrimaryDivisionId: true,
+          startSecondaryDivisionId: true,
           startLocationName: true,
           startLocationCoordinates: true,
           endLocationName: true,
           createdAt: true,
           updatedAt: true,
+          startCountry: {
+            select: {
+              country_id: true,
+              country_name: true,
+            },
+          },
+          startPrimaryDivision: {
+            select: {
+              primary_division_id: true,
+              division_name: true,
+            },
+          },
+          startSecondaryDivision: {
+            select: {
+              secondary_division_id: true,
+              division_name: true,
+            },
+          },
           category: {
             select: {
               id: true,
@@ -1469,6 +1490,8 @@ export const createListing = async (c: Context) => {
         : undefined,
       taxRate: body.taxRate || 0,
       advanceBookingPercentage: body.advanceBookingPercentage || 25,
+      platformCommissionPercentage: body.platformCommissionPercentage || 0,
+      tcsPercentage: body.tcsPercentage || 0,
       basePriceDisplay: body.basePriceDisplay || 0,
       currency: body.currency || "INR",
       metadata: body.metadata || undefined,
@@ -1639,6 +1662,12 @@ export const updateListing = async (c: Context) => {
     if (body.advanceBookingPercentage !== undefined) {
       updateData.advanceBookingPercentage = body.advanceBookingPercentage;
     }
+    if (body.platformCommissionPercentage !== undefined) {
+      updateData.platformCommissionPercentage = body.platformCommissionPercentage;
+    }
+    if (body.tcsPercentage !== undefined) {
+      updateData.tcsPercentage = body.tcsPercentage;
+    }
     if (body.basePriceDisplay !== undefined) {
       updateData.basePriceDisplay = body.basePriceDisplay;
     }
@@ -1665,7 +1694,8 @@ export const updateListing = async (c: Context) => {
         'endCountryId', 'endPrimaryDivisionId', 'endSecondaryDivisionId',
         'startLocationName', 'startLocationCoordinates', 'startGoogleMapsUrl',
         'endLocationName', 'endLocationCoordinates', 'endGoogleMapsUrl',
-        'taxRate', 'advanceBookingPercentage', 'basePriceDisplay', 'currency'
+        'taxRate', 'advanceBookingPercentage', 'platformCommissionPercentage',
+        'tcsPercentage', 'basePriceDisplay', 'currency'
       ];
 
       // Extract table fields from incoming metadata and add them to updateData

@@ -29,6 +29,8 @@ model Listing {
   endGoogleMapsUrl         String?                    @map("end_google_maps_url")
   taxRate                  Decimal                    @default(0.00) @map("tax_rate") @db.Decimal(5, 2)
   advanceBookingPercentage Decimal                    @default(25.00) @map("advance_booking_percentage") @db.Decimal(5, 2)
+  platformCommissionPercentage Decimal                @default(0.00) @map("platform_commission_percentage") @db.Decimal(5, 2)
+  tcsPercentage            Decimal                    @default(0.00) @map("tcs_percentage") @db.Decimal(5, 2)
   basePriceDisplay         Decimal                    @default(0.00) @map("base_price_display") @db.Decimal(10, 2)
   currency                 String                     @default("INR")
   metadata                 Json?                      @map("metadata")

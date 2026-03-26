@@ -19,8 +19,18 @@ export type SettingModel = runtime.Types.Result.DefaultSelection<Prisma.$Setting
 
 export type AggregateSetting = {
   _count: SettingCountAggregateOutputType | null
+  _avg: SettingAvgAggregateOutputType | null
+  _sum: SettingSumAggregateOutputType | null
   _min: SettingMinAggregateOutputType | null
   _max: SettingMaxAggregateOutputType | null
+}
+
+export type SettingAvgAggregateOutputType = {
+  convenienceFeePercentage: number | null
+}
+
+export type SettingSumAggregateOutputType = {
+  convenienceFeePercentage: number | null
 }
 
 export type SettingMinAggregateOutputType = {
@@ -30,6 +40,7 @@ export type SettingMinAggregateOutputType = {
   facebookLink: string | null
   twitterLink: string | null
   email: string | null
+  convenienceFeePercentage: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -41,6 +52,7 @@ export type SettingMaxAggregateOutputType = {
   facebookLink: string | null
   twitterLink: string | null
   email: string | null
+  convenienceFeePercentage: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,11 +64,20 @@ export type SettingCountAggregateOutputType = {
   facebookLink: number
   twitterLink: number
   email: number
+  convenienceFeePercentage: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
+
+export type SettingAvgAggregateInputType = {
+  convenienceFeePercentage?: true
+}
+
+export type SettingSumAggregateInputType = {
+  convenienceFeePercentage?: true
+}
 
 export type SettingMinAggregateInputType = {
   id?: true
@@ -65,6 +86,7 @@ export type SettingMinAggregateInputType = {
   facebookLink?: true
   twitterLink?: true
   email?: true
+  convenienceFeePercentage?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -76,6 +98,7 @@ export type SettingMaxAggregateInputType = {
   facebookLink?: true
   twitterLink?: true
   email?: true
+  convenienceFeePercentage?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -87,6 +110,7 @@ export type SettingCountAggregateInputType = {
   facebookLink?: true
   twitterLink?: true
   email?: true
+  convenienceFeePercentage?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -130,6 +154,18 @@ export type SettingAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: SettingAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: SettingSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: SettingMinAggregateInputType
@@ -160,6 +196,8 @@ export type SettingGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: SettingCountAggregateInputType | true
+  _avg?: SettingAvgAggregateInputType
+  _sum?: SettingSumAggregateInputType
   _min?: SettingMinAggregateInputType
   _max?: SettingMaxAggregateInputType
 }
@@ -171,9 +209,12 @@ export type SettingGroupByOutputType = {
   facebookLink: string | null
   twitterLink: string | null
   email: string
+  convenienceFeePercentage: number
   createdAt: Date
   updatedAt: Date
   _count: SettingCountAggregateOutputType | null
+  _avg: SettingAvgAggregateOutputType | null
+  _sum: SettingSumAggregateOutputType | null
   _min: SettingMinAggregateOutputType | null
   _max: SettingMaxAggregateOutputType | null
 }
@@ -203,6 +244,7 @@ export type SettingWhereInput = {
   facebookLink?: Prisma.StringNullableFilter<"Setting"> | string | null
   twitterLink?: Prisma.StringNullableFilter<"Setting"> | string | null
   email?: Prisma.StringFilter<"Setting"> | string
+  convenienceFeePercentage?: Prisma.FloatFilter<"Setting"> | number
   createdAt?: Prisma.DateTimeFilter<"Setting"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Setting"> | Date | string
 }
@@ -214,6 +256,7 @@ export type SettingOrderByWithRelationInput = {
   facebookLink?: Prisma.SortOrderInput | Prisma.SortOrder
   twitterLink?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
+  convenienceFeePercentage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -228,6 +271,7 @@ export type SettingWhereUniqueInput = Prisma.AtLeast<{
   facebookLink?: Prisma.StringNullableFilter<"Setting"> | string | null
   twitterLink?: Prisma.StringNullableFilter<"Setting"> | string | null
   email?: Prisma.StringFilter<"Setting"> | string
+  convenienceFeePercentage?: Prisma.FloatFilter<"Setting"> | number
   createdAt?: Prisma.DateTimeFilter<"Setting"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Setting"> | Date | string
 }, "id">
@@ -239,11 +283,14 @@ export type SettingOrderByWithAggregationInput = {
   facebookLink?: Prisma.SortOrderInput | Prisma.SortOrder
   twitterLink?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
+  convenienceFeePercentage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SettingCountOrderByAggregateInput
+  _avg?: Prisma.SettingAvgOrderByAggregateInput
   _max?: Prisma.SettingMaxOrderByAggregateInput
   _min?: Prisma.SettingMinOrderByAggregateInput
+  _sum?: Prisma.SettingSumOrderByAggregateInput
 }
 
 export type SettingScalarWhereWithAggregatesInput = {
@@ -256,6 +303,7 @@ export type SettingScalarWhereWithAggregatesInput = {
   facebookLink?: Prisma.StringNullableWithAggregatesFilter<"Setting"> | string | null
   twitterLink?: Prisma.StringNullableWithAggregatesFilter<"Setting"> | string | null
   email?: Prisma.StringWithAggregatesFilter<"Setting"> | string
+  convenienceFeePercentage?: Prisma.FloatWithAggregatesFilter<"Setting"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Setting"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Setting"> | Date | string
 }
@@ -267,6 +315,7 @@ export type SettingCreateInput = {
   facebookLink?: string | null
   twitterLink?: string | null
   email: string
+  convenienceFeePercentage?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -278,6 +327,7 @@ export type SettingUncheckedCreateInput = {
   facebookLink?: string | null
   twitterLink?: string | null
   email: string
+  convenienceFeePercentage?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -289,6 +339,7 @@ export type SettingUpdateInput = {
   facebookLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitterLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  convenienceFeePercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -300,6 +351,7 @@ export type SettingUncheckedUpdateInput = {
   facebookLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitterLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  convenienceFeePercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -311,6 +363,7 @@ export type SettingCreateManyInput = {
   facebookLink?: string | null
   twitterLink?: string | null
   email: string
+  convenienceFeePercentage?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -322,6 +375,7 @@ export type SettingUpdateManyMutationInput = {
   facebookLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitterLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  convenienceFeePercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -333,6 +387,7 @@ export type SettingUncheckedUpdateManyInput = {
   facebookLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   twitterLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  convenienceFeePercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -344,8 +399,13 @@ export type SettingCountOrderByAggregateInput = {
   facebookLink?: Prisma.SortOrder
   twitterLink?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  convenienceFeePercentage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type SettingAvgOrderByAggregateInput = {
+  convenienceFeePercentage?: Prisma.SortOrder
 }
 
 export type SettingMaxOrderByAggregateInput = {
@@ -355,6 +415,7 @@ export type SettingMaxOrderByAggregateInput = {
   facebookLink?: Prisma.SortOrder
   twitterLink?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  convenienceFeePercentage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -366,8 +427,13 @@ export type SettingMinOrderByAggregateInput = {
   facebookLink?: Prisma.SortOrder
   twitterLink?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  convenienceFeePercentage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type SettingSumOrderByAggregateInput = {
+  convenienceFeePercentage?: Prisma.SortOrder
 }
 
 
@@ -379,6 +445,7 @@ export type SettingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   facebookLink?: boolean
   twitterLink?: boolean
   email?: boolean
+  convenienceFeePercentage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["setting"]>
@@ -390,6 +457,7 @@ export type SettingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   facebookLink?: boolean
   twitterLink?: boolean
   email?: boolean
+  convenienceFeePercentage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["setting"]>
@@ -401,6 +469,7 @@ export type SettingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   facebookLink?: boolean
   twitterLink?: boolean
   email?: boolean
+  convenienceFeePercentage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["setting"]>
@@ -412,11 +481,12 @@ export type SettingSelectScalar = {
   facebookLink?: boolean
   twitterLink?: boolean
   email?: boolean
+  convenienceFeePercentage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "instagramLink" | "facebookLink" | "twitterLink" | "email" | "createdAt" | "updatedAt", ExtArgs["result"]["setting"]>
+export type SettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "instagramLink" | "facebookLink" | "twitterLink" | "email" | "convenienceFeePercentage" | "createdAt" | "updatedAt", ExtArgs["result"]["setting"]>
 
 export type $SettingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Setting"
@@ -428,6 +498,7 @@ export type $SettingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     facebookLink: string | null
     twitterLink: string | null
     email: string
+    convenienceFeePercentage: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["setting"]>
@@ -859,6 +930,7 @@ export interface SettingFieldRefs {
   readonly facebookLink: Prisma.FieldRef<"Setting", 'String'>
   readonly twitterLink: Prisma.FieldRef<"Setting", 'String'>
   readonly email: Prisma.FieldRef<"Setting", 'String'>
+  readonly convenienceFeePercentage: Prisma.FieldRef<"Setting", 'Float'>
   readonly createdAt: Prisma.FieldRef<"Setting", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Setting", 'DateTime'>
 }

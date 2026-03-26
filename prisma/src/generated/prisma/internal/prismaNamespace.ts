@@ -3267,6 +3267,9 @@ export const BookingPaymentScalarFieldEnum = {
   totalAmount: 'totalAmount',
   amountPaidOnline: 'amountPaidOnline',
   amountToCollectOffline: 'amountToCollectOffline',
+  convenienceFeeRate: 'convenienceFeeRate',
+  convenienceFeeAmount: 'convenienceFeeAmount',
+  totalPayableOnline: 'totalPayableOnline',
   paymentMethod: 'paymentMethod',
   platformCommissionRate: 'platformCommissionRate',
   platformCommission: 'platformCommission',
@@ -3632,6 +3635,8 @@ export const ListingScalarFieldEnum = {
   endGoogleMapsUrl: 'endGoogleMapsUrl',
   taxRate: 'taxRate',
   advanceBookingPercentage: 'advanceBookingPercentage',
+  platformCommissionPercentage: 'platformCommissionPercentage',
+  tcsPercentage: 'tcsPercentage',
   basePriceDisplay: 'basePriceDisplay',
   currency: 'currency',
   metadata: 'metadata'
@@ -3771,6 +3776,7 @@ export const SettingScalarFieldEnum = {
   facebookLink: 'facebookLink',
   twitterLink: 'twitterLink',
   email: 'email',
+  convenienceFeePercentage: 'convenienceFeePercentage',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

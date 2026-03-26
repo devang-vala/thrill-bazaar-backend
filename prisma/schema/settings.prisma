@@ -5,6 +5,7 @@ model Setting {
   facebookLink  String?  @map("facebook_link")
   twitterLink   String?  @map("twitter_link")
   email         String   @map("email")
+  convenienceFeePercentage Float @default(0) @map("convenience_fee_percentage")
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
