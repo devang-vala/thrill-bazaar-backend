@@ -28,12 +28,16 @@ export type AggregateListing = {
 export type ListingAvgAggregateOutputType = {
   taxRate: runtime.Decimal | null
   advanceBookingPercentage: runtime.Decimal | null
+  platformCommissionPercentage: runtime.Decimal | null
+  tcsPercentage: runtime.Decimal | null
   basePriceDisplay: runtime.Decimal | null
 }
 
 export type ListingSumAggregateOutputType = {
   taxRate: runtime.Decimal | null
   advanceBookingPercentage: runtime.Decimal | null
+  platformCommissionPercentage: runtime.Decimal | null
+  tcsPercentage: runtime.Decimal | null
   basePriceDisplay: runtime.Decimal | null
 }
 
@@ -68,6 +72,8 @@ export type ListingMinAggregateOutputType = {
   endGoogleMapsUrl: string | null
   taxRate: runtime.Decimal | null
   advanceBookingPercentage: runtime.Decimal | null
+  platformCommissionPercentage: runtime.Decimal | null
+  tcsPercentage: runtime.Decimal | null
   basePriceDisplay: runtime.Decimal | null
   currency: string | null
 }
@@ -103,6 +109,8 @@ export type ListingMaxAggregateOutputType = {
   endGoogleMapsUrl: string | null
   taxRate: runtime.Decimal | null
   advanceBookingPercentage: runtime.Decimal | null
+  platformCommissionPercentage: runtime.Decimal | null
+  tcsPercentage: runtime.Decimal | null
   basePriceDisplay: runtime.Decimal | null
   currency: string | null
 }
@@ -138,6 +146,8 @@ export type ListingCountAggregateOutputType = {
   endGoogleMapsUrl: number
   taxRate: number
   advanceBookingPercentage: number
+  platformCommissionPercentage: number
+  tcsPercentage: number
   basePriceDisplay: number
   currency: number
   metadata: number
@@ -148,12 +158,16 @@ export type ListingCountAggregateOutputType = {
 export type ListingAvgAggregateInputType = {
   taxRate?: true
   advanceBookingPercentage?: true
+  platformCommissionPercentage?: true
+  tcsPercentage?: true
   basePriceDisplay?: true
 }
 
 export type ListingSumAggregateInputType = {
   taxRate?: true
   advanceBookingPercentage?: true
+  platformCommissionPercentage?: true
+  tcsPercentage?: true
   basePriceDisplay?: true
 }
 
@@ -188,6 +202,8 @@ export type ListingMinAggregateInputType = {
   endGoogleMapsUrl?: true
   taxRate?: true
   advanceBookingPercentage?: true
+  platformCommissionPercentage?: true
+  tcsPercentage?: true
   basePriceDisplay?: true
   currency?: true
 }
@@ -223,6 +239,8 @@ export type ListingMaxAggregateInputType = {
   endGoogleMapsUrl?: true
   taxRate?: true
   advanceBookingPercentage?: true
+  platformCommissionPercentage?: true
+  tcsPercentage?: true
   basePriceDisplay?: true
   currency?: true
 }
@@ -258,6 +276,8 @@ export type ListingCountAggregateInputType = {
   endGoogleMapsUrl?: true
   taxRate?: true
   advanceBookingPercentage?: true
+  platformCommissionPercentage?: true
+  tcsPercentage?: true
   basePriceDisplay?: true
   currency?: true
   metadata?: true
@@ -381,6 +401,8 @@ export type ListingGroupByOutputType = {
   endGoogleMapsUrl: string | null
   taxRate: runtime.Decimal
   advanceBookingPercentage: runtime.Decimal
+  platformCommissionPercentage: runtime.Decimal
+  tcsPercentage: runtime.Decimal
   basePriceDisplay: runtime.Decimal
   currency: string
   metadata: runtime.JsonValue | null
@@ -440,6 +462,8 @@ export type ListingWhereInput = {
   endGoogleMapsUrl?: Prisma.StringNullableFilter<"Listing"> | string | null
   taxRate?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Listing"> | string
   metadata?: Prisma.JsonNullableFilter<"Listing">
@@ -500,6 +524,8 @@ export type ListingOrderByWithRelationInput = {
   endGoogleMapsUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   taxRate?: Prisma.SortOrder
   advanceBookingPercentage?: Prisma.SortOrder
+  platformCommissionPercentage?: Prisma.SortOrder
+  tcsPercentage?: Prisma.SortOrder
   basePriceDisplay?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -563,6 +589,8 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   endGoogleMapsUrl?: Prisma.StringNullableFilter<"Listing"> | string | null
   taxRate?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Listing"> | string
   metadata?: Prisma.JsonNullableFilter<"Listing">
@@ -623,6 +651,8 @@ export type ListingOrderByWithAggregationInput = {
   endGoogleMapsUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   taxRate?: Prisma.SortOrder
   advanceBookingPercentage?: Prisma.SortOrder
+  platformCommissionPercentage?: Prisma.SortOrder
+  tcsPercentage?: Prisma.SortOrder
   basePriceDisplay?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -667,6 +697,8 @@ export type ListingScalarWhereWithAggregatesInput = {
   endGoogleMapsUrl?: Prisma.StringNullableWithAggregatesFilter<"Listing"> | string | null
   taxRate?: Prisma.DecimalWithAggregatesFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalWithAggregatesFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalWithAggregatesFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalWithAggregatesFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalWithAggregatesFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringWithAggregatesFilter<"Listing"> | string
   metadata?: Prisma.JsonNullableWithAggregatesFilter<"Listing">
@@ -693,6 +725,8 @@ export type ListingCreateInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -753,6 +787,8 @@ export type ListingUncheckedCreateInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -793,6 +829,8 @@ export type ListingUpdateInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -853,6 +891,8 @@ export type ListingUncheckedUpdateInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -903,6 +943,8 @@ export type ListingCreateManyInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -929,6 +971,8 @@ export type ListingUpdateManyMutationInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -965,6 +1009,8 @@ export type ListingUncheckedUpdateManyInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1016,6 +1062,8 @@ export type ListingCountOrderByAggregateInput = {
   endGoogleMapsUrl?: Prisma.SortOrder
   taxRate?: Prisma.SortOrder
   advanceBookingPercentage?: Prisma.SortOrder
+  platformCommissionPercentage?: Prisma.SortOrder
+  tcsPercentage?: Prisma.SortOrder
   basePriceDisplay?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   metadata?: Prisma.SortOrder
@@ -1024,6 +1072,8 @@ export type ListingCountOrderByAggregateInput = {
 export type ListingAvgOrderByAggregateInput = {
   taxRate?: Prisma.SortOrder
   advanceBookingPercentage?: Prisma.SortOrder
+  platformCommissionPercentage?: Prisma.SortOrder
+  tcsPercentage?: Prisma.SortOrder
   basePriceDisplay?: Prisma.SortOrder
 }
 
@@ -1058,6 +1108,8 @@ export type ListingMaxOrderByAggregateInput = {
   endGoogleMapsUrl?: Prisma.SortOrder
   taxRate?: Prisma.SortOrder
   advanceBookingPercentage?: Prisma.SortOrder
+  platformCommissionPercentage?: Prisma.SortOrder
+  tcsPercentage?: Prisma.SortOrder
   basePriceDisplay?: Prisma.SortOrder
   currency?: Prisma.SortOrder
 }
@@ -1093,6 +1145,8 @@ export type ListingMinOrderByAggregateInput = {
   endGoogleMapsUrl?: Prisma.SortOrder
   taxRate?: Prisma.SortOrder
   advanceBookingPercentage?: Prisma.SortOrder
+  platformCommissionPercentage?: Prisma.SortOrder
+  tcsPercentage?: Prisma.SortOrder
   basePriceDisplay?: Prisma.SortOrder
   currency?: Prisma.SortOrder
 }
@@ -1100,6 +1154,8 @@ export type ListingMinOrderByAggregateInput = {
 export type ListingSumOrderByAggregateInput = {
   taxRate?: Prisma.SortOrder
   advanceBookingPercentage?: Prisma.SortOrder
+  platformCommissionPercentage?: Prisma.SortOrder
+  tcsPercentage?: Prisma.SortOrder
   basePriceDisplay?: Prisma.SortOrder
 }
 
@@ -1748,6 +1804,8 @@ export type ListingCreateWithoutBadgesInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1807,6 +1865,8 @@ export type ListingUncheckedCreateWithoutBadgesInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1862,6 +1922,8 @@ export type ListingUpdateWithoutBadgesInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1921,6 +1983,8 @@ export type ListingUncheckedUpdateWithoutBadgesInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1960,6 +2024,8 @@ export type ListingCreateWithoutCategoryInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2018,6 +2084,8 @@ export type ListingUncheckedCreateWithoutCategoryInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2097,6 +2165,8 @@ export type ListingScalarWhereInput = {
   endGoogleMapsUrl?: Prisma.StringNullableFilter<"Listing"> | string | null
   taxRate?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Listing"> | string
   metadata?: Prisma.JsonNullableFilter<"Listing">
@@ -2123,6 +2193,8 @@ export type ListingCreateWithoutSubCategoryInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2181,6 +2253,8 @@ export type ListingUncheckedCreateWithoutSubCategoryInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2247,6 +2321,8 @@ export type ListingCreateWithoutEndCountryInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2305,6 +2381,8 @@ export type ListingUncheckedCreateWithoutEndCountryInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2355,6 +2433,8 @@ export type ListingCreateWithoutStartCountryInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2413,6 +2493,8 @@ export type ListingUncheckedCreateWithoutStartCountryInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2495,6 +2577,8 @@ export type ListingCreateWithoutBlockedDatesInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2554,6 +2638,8 @@ export type ListingUncheckedCreateWithoutBlockedDatesInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2609,6 +2695,8 @@ export type ListingUpdateWithoutBlockedDatesInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2668,6 +2756,8 @@ export type ListingUncheckedUpdateWithoutBlockedDatesInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2707,6 +2797,8 @@ export type ListingCreateWithoutDateRangesInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2766,6 +2858,8 @@ export type ListingUncheckedCreateWithoutDateRangesInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2821,6 +2915,8 @@ export type ListingUpdateWithoutDateRangesInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2880,6 +2976,8 @@ export type ListingUncheckedUpdateWithoutDateRangesInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2919,6 +3017,8 @@ export type ListingCreateWithoutAddonsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2978,6 +3078,8 @@ export type ListingUncheckedCreateWithoutAddonsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3033,6 +3135,8 @@ export type ListingUpdateWithoutAddonsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3092,6 +3196,8 @@ export type ListingUncheckedUpdateWithoutAddonsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3131,6 +3237,8 @@ export type ListingCreateWithoutContentInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3190,6 +3298,8 @@ export type ListingUncheckedCreateWithoutContentInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3245,6 +3355,8 @@ export type ListingUpdateWithoutContentInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3304,6 +3416,8 @@ export type ListingUncheckedUpdateWithoutContentInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3343,6 +3457,8 @@ export type ListingCreateWithoutFaqsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3402,6 +3518,8 @@ export type ListingUncheckedCreateWithoutFaqsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3457,6 +3575,8 @@ export type ListingUpdateWithoutFaqsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3516,6 +3636,8 @@ export type ListingUncheckedUpdateWithoutFaqsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3555,6 +3677,8 @@ export type ListingCreateWithoutInclusionsExclusionsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3614,6 +3738,8 @@ export type ListingUncheckedCreateWithoutInclusionsExclusionsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3669,6 +3795,8 @@ export type ListingUpdateWithoutInclusionsExclusionsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3728,6 +3856,8 @@ export type ListingUncheckedUpdateWithoutInclusionsExclusionsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3767,6 +3897,8 @@ export type ListingCreateWithoutMediaInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3826,6 +3958,8 @@ export type ListingUncheckedCreateWithoutMediaInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3881,6 +4015,8 @@ export type ListingUpdateWithoutMediaInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3940,6 +4076,8 @@ export type ListingUncheckedUpdateWithoutMediaInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3979,6 +4117,8 @@ export type ListingCreateWithoutSlotChangesInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4038,6 +4178,8 @@ export type ListingUncheckedCreateWithoutSlotChangesInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4093,6 +4235,8 @@ export type ListingUpdateWithoutSlotChangesInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4152,6 +4296,8 @@ export type ListingUncheckedUpdateWithoutSlotChangesInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4191,6 +4337,8 @@ export type ListingCreateWithoutSlotsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4250,6 +4398,8 @@ export type ListingUncheckedCreateWithoutSlotsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4305,6 +4455,8 @@ export type ListingUpdateWithoutSlotsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4364,6 +4516,8 @@ export type ListingUncheckedUpdateWithoutSlotsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4403,6 +4557,8 @@ export type ListingCreateWithoutVariantsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4462,6 +4618,8 @@ export type ListingUncheckedCreateWithoutVariantsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4517,6 +4675,8 @@ export type ListingUpdateWithoutVariantsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4576,6 +4736,8 @@ export type ListingUncheckedUpdateWithoutVariantsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4615,6 +4777,8 @@ export type ListingCreateWithoutEndPrimaryDivisionInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4673,6 +4837,8 @@ export type ListingUncheckedCreateWithoutEndPrimaryDivisionInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4723,6 +4889,8 @@ export type ListingCreateWithoutStartPrimaryDivisionInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4781,6 +4949,8 @@ export type ListingUncheckedCreateWithoutStartPrimaryDivisionInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4863,6 +5033,8 @@ export type ListingCreateWithoutReviewsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4922,6 +5094,8 @@ export type ListingUncheckedCreateWithoutReviewsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4977,6 +5151,8 @@ export type ListingUpdateWithoutReviewsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5036,6 +5212,8 @@ export type ListingUncheckedUpdateWithoutReviewsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5075,6 +5253,8 @@ export type ListingCreateWithoutEndSecondaryDivisionInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5133,6 +5313,8 @@ export type ListingUncheckedCreateWithoutEndSecondaryDivisionInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5183,6 +5365,8 @@ export type ListingCreateWithoutStartSecondaryDivisionInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5241,6 +5425,8 @@ export type ListingUncheckedCreateWithoutStartSecondaryDivisionInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5323,6 +5509,8 @@ export type ListingCreateWithoutSlotDefinitionsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5382,6 +5570,8 @@ export type ListingUncheckedCreateWithoutSlotDefinitionsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5437,6 +5627,8 @@ export type ListingUpdateWithoutSlotDefinitionsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5496,6 +5688,8 @@ export type ListingUncheckedUpdateWithoutSlotDefinitionsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5535,6 +5729,8 @@ export type ListingCreateWithoutTagsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5594,6 +5790,8 @@ export type ListingUncheckedCreateWithoutTagsInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5649,6 +5847,8 @@ export type ListingUpdateWithoutTagsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5708,6 +5908,8 @@ export type ListingUncheckedUpdateWithoutTagsInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5747,6 +5949,8 @@ export type ListingCreateWithoutOperatorInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5805,6 +6009,8 @@ export type ListingUncheckedCreateWithoutOperatorInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5855,6 +6061,8 @@ export type ListingCreateWithoutApprovedByAdminInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5913,6 +6121,8 @@ export type ListingUncheckedCreateWithoutApprovedByAdminInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6004,6 +6214,8 @@ export type ListingCreateManyCategoryInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6030,6 +6242,8 @@ export type ListingUpdateWithoutCategoryInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6088,6 +6302,8 @@ export type ListingUncheckedUpdateWithoutCategoryInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6137,6 +6353,8 @@ export type ListingUncheckedUpdateManyWithoutCategoryInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6172,6 +6390,8 @@ export type ListingCreateManySubCategoryInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6198,6 +6418,8 @@ export type ListingUpdateWithoutSubCategoryInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6256,6 +6478,8 @@ export type ListingUncheckedUpdateWithoutSubCategoryInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6305,6 +6529,8 @@ export type ListingUncheckedUpdateManyWithoutSubCategoryInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6340,6 +6566,8 @@ export type ListingCreateManyEndCountryInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6375,6 +6603,8 @@ export type ListingCreateManyStartCountryInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6401,6 +6631,8 @@ export type ListingUpdateWithoutEndCountryInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6459,6 +6691,8 @@ export type ListingUncheckedUpdateWithoutEndCountryInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6508,6 +6742,8 @@ export type ListingUncheckedUpdateManyWithoutEndCountryInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6534,6 +6770,8 @@ export type ListingUpdateWithoutStartCountryInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6592,6 +6830,8 @@ export type ListingUncheckedUpdateWithoutStartCountryInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6641,6 +6881,8 @@ export type ListingUncheckedUpdateManyWithoutStartCountryInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6676,6 +6918,8 @@ export type ListingCreateManyEndPrimaryDivisionInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6711,6 +6955,8 @@ export type ListingCreateManyStartPrimaryDivisionInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6737,6 +6983,8 @@ export type ListingUpdateWithoutEndPrimaryDivisionInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6795,6 +7043,8 @@ export type ListingUncheckedUpdateWithoutEndPrimaryDivisionInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6844,6 +7094,8 @@ export type ListingUncheckedUpdateManyWithoutEndPrimaryDivisionInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6870,6 +7122,8 @@ export type ListingUpdateWithoutStartPrimaryDivisionInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6928,6 +7182,8 @@ export type ListingUncheckedUpdateWithoutStartPrimaryDivisionInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6977,6 +7233,8 @@ export type ListingUncheckedUpdateManyWithoutStartPrimaryDivisionInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7012,6 +7270,8 @@ export type ListingCreateManyEndSecondaryDivisionInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7047,6 +7307,8 @@ export type ListingCreateManyStartSecondaryDivisionInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7073,6 +7335,8 @@ export type ListingUpdateWithoutEndSecondaryDivisionInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7131,6 +7395,8 @@ export type ListingUncheckedUpdateWithoutEndSecondaryDivisionInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7180,6 +7446,8 @@ export type ListingUncheckedUpdateManyWithoutEndSecondaryDivisionInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7206,6 +7474,8 @@ export type ListingUpdateWithoutStartSecondaryDivisionInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7264,6 +7534,8 @@ export type ListingUncheckedUpdateWithoutStartSecondaryDivisionInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7313,6 +7585,8 @@ export type ListingUncheckedUpdateManyWithoutStartSecondaryDivisionInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7348,6 +7622,8 @@ export type ListingCreateManyOperatorInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7383,6 +7659,8 @@ export type ListingCreateManyApprovedByAdminInput = {
   endGoogleMapsUrl?: string | null
   taxRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7409,6 +7687,8 @@ export type ListingUpdateWithoutOperatorInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7467,6 +7747,8 @@ export type ListingUncheckedUpdateWithoutOperatorInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7516,6 +7798,8 @@ export type ListingUncheckedUpdateManyWithoutOperatorInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7542,6 +7826,8 @@ export type ListingUpdateWithoutApprovedByAdminInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7600,6 +7886,8 @@ export type ListingUncheckedUpdateWithoutApprovedByAdminInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7649,6 +7937,8 @@ export type ListingUncheckedUpdateManyWithoutApprovedByAdminInput = {
   endGoogleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   advanceBookingPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  platformCommissionPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tcsPercentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   basePriceDisplay?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7806,6 +8096,8 @@ export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   endGoogleMapsUrl?: boolean
   taxRate?: boolean
   advanceBookingPercentage?: boolean
+  platformCommissionPercentage?: boolean
+  tcsPercentage?: boolean
   basePriceDisplay?: boolean
   currency?: boolean
   metadata?: boolean
@@ -7867,6 +8159,8 @@ export type ListingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   endGoogleMapsUrl?: boolean
   taxRate?: boolean
   advanceBookingPercentage?: boolean
+  platformCommissionPercentage?: boolean
+  tcsPercentage?: boolean
   basePriceDisplay?: boolean
   currency?: boolean
   metadata?: boolean
@@ -7913,6 +8207,8 @@ export type ListingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   endGoogleMapsUrl?: boolean
   taxRate?: boolean
   advanceBookingPercentage?: boolean
+  platformCommissionPercentage?: boolean
+  tcsPercentage?: boolean
   basePriceDisplay?: boolean
   currency?: boolean
   metadata?: boolean
@@ -7959,12 +8255,14 @@ export type ListingSelectScalar = {
   endGoogleMapsUrl?: boolean
   taxRate?: boolean
   advanceBookingPercentage?: boolean
+  platformCommissionPercentage?: boolean
+  tcsPercentage?: boolean
   basePriceDisplay?: boolean
   currency?: boolean
   metadata?: boolean
 }
 
-export type ListingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "operatorId" | "categoryId" | "subCatId" | "listingName" | "listingSlug" | "tbaId" | "frontImageUrl" | "bookingFormat" | "hasMultipleOptions" | "status" | "createdAt" | "updatedAt" | "approvedByAdminId" | "approvedAt" | "rejectionReason" | "startCountryId" | "startPrimaryDivisionId" | "startSecondaryDivisionId" | "endCountryId" | "endPrimaryDivisionId" | "endSecondaryDivisionId" | "startLocationName" | "startLocationCoordinates" | "startGoogleMapsUrl" | "endLocationName" | "endLocationCoordinates" | "endGoogleMapsUrl" | "taxRate" | "advanceBookingPercentage" | "basePriceDisplay" | "currency" | "metadata", ExtArgs["result"]["listing"]>
+export type ListingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "operatorId" | "categoryId" | "subCatId" | "listingName" | "listingSlug" | "tbaId" | "frontImageUrl" | "bookingFormat" | "hasMultipleOptions" | "status" | "createdAt" | "updatedAt" | "approvedByAdminId" | "approvedAt" | "rejectionReason" | "startCountryId" | "startPrimaryDivisionId" | "startSecondaryDivisionId" | "endCountryId" | "endPrimaryDivisionId" | "endSecondaryDivisionId" | "startLocationName" | "startLocationCoordinates" | "startGoogleMapsUrl" | "endLocationName" | "endLocationCoordinates" | "endGoogleMapsUrl" | "taxRate" | "advanceBookingPercentage" | "platformCommissionPercentage" | "tcsPercentage" | "basePriceDisplay" | "currency" | "metadata", ExtArgs["result"]["listing"]>
 export type ListingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   blockedDates?: boolean | Prisma.Listing$blockedDatesArgs<ExtArgs>
   dateRanges?: boolean | Prisma.Listing$dateRangesArgs<ExtArgs>
@@ -8076,6 +8374,8 @@ export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     endGoogleMapsUrl: string | null
     taxRate: runtime.Decimal
     advanceBookingPercentage: runtime.Decimal
+    platformCommissionPercentage: runtime.Decimal
+    tcsPercentage: runtime.Decimal
     basePriceDisplay: runtime.Decimal
     currency: string
     metadata: runtime.JsonValue | null
@@ -8556,6 +8856,8 @@ export interface ListingFieldRefs {
   readonly endGoogleMapsUrl: Prisma.FieldRef<"Listing", 'String'>
   readonly taxRate: Prisma.FieldRef<"Listing", 'Decimal'>
   readonly advanceBookingPercentage: Prisma.FieldRef<"Listing", 'Decimal'>
+  readonly platformCommissionPercentage: Prisma.FieldRef<"Listing", 'Decimal'>
+  readonly tcsPercentage: Prisma.FieldRef<"Listing", 'Decimal'>
   readonly basePriceDisplay: Prisma.FieldRef<"Listing", 'Decimal'>
   readonly currency: Prisma.FieldRef<"Listing", 'String'>
   readonly metadata: Prisma.FieldRef<"Listing", 'Json'>

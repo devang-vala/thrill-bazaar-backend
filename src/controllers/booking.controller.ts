@@ -15,14 +15,17 @@ const generateBookingReference = () => {
   return `${prefix}-${year}-${random}`;
 };
 
-const getConvenienceFeeRateInBasisPoints = async () => {
-  const latestSetting = await prisma.setting.findFirst({
-    orderBy: { createdAt: "desc" },
-    select: { convenienceFeePercentage: true },
-  });
+const percentageToBasisPoints = (value: unknown, fallback = 0) => {
+  if (value === null || value === undefined || value === "") {
+    return fallback;
+  }
 
-  const percentage = latestSetting?.convenienceFeePercentage ?? 0;
-  return Math.max(0, Math.round(percentage * 100));
+  const numericValue = Number(value);
+  if (Number.isNaN(numericValue)) {
+    return fallback;
+  }
+
+  return Math.max(0, Math.round(numericValue * 100));
 };
 
 // Create comprehensive booking with participants and addons
@@ -119,6 +122,8 @@ export const createBooking = async (c: Context) => {
               listingName: true, 
               currency: true, 
               taxRate: true,
+              platformCommissionPercentage: true,
+              tcsPercentage: true,
               operatorId: true,
               bookingFormat: true,
             }
@@ -145,6 +150,8 @@ export const createBooking = async (c: Context) => {
               listingName: true, 
               currency: true, 
               taxRate: true,
+              platformCommissionPercentage: true,
+              tcsPercentage: true,
               operatorId: true,
               bookingFormat: true,
             }
@@ -271,8 +278,6 @@ export const createBooking = async (c: Context) => {
     const totalBasePrice = rupeesToPaise(basePrice * quantity);
 
     // Calculate payment breakdown with CORRECT logic
-    const platformCommissionRate = await getConvenienceFeeRateInBasisPoints();
-
     const paymentInput: PaymentCalculationInput = {
       bookingFormat,
       totalBasePrice, // TOTAL base price (with price overrides)
@@ -281,8 +286,9 @@ export const createBooking = async (c: Context) => {
       discountAmount: rupeesToPaise(discountAmount || 0),
       advancePaymentAmount: amountPaidNow ? rupeesToPaise(amountPaidNow) : undefined, // User-selected amount
       paymentMethod: paymentMethod || "online",
-      taxRate: listingDetails.taxRate ? Math.round(listingDetails.taxRate * 100) : 1800, // Convert to basis points
-      platformCommissionRate,
+      taxRate: percentageToBasisPoints(listingDetails.taxRate, 1800),
+      platformCommissionRate: percentageToBasisPoints(listingDetails.platformCommissionPercentage),
+      tcsRateOfCommission: percentageToBasisPoints(listingDetails.tcsPercentage),
     };
 
     const paymentBreakdown = calculatePaymentBreakdown(paymentInput);
@@ -577,6 +583,8 @@ export const createF2Booking = async (c: Context) => {
             listingName: true, 
             currency: true, 
             taxRate: true,
+            platformCommissionPercentage: true,
+            tcsPercentage: true,
             operatorId: true,
           }
         }
@@ -660,8 +668,6 @@ export const createF2Booking = async (c: Context) => {
     // Calculate payment breakdown using the payment helper
     const totalDays = selectedDates.length;
     
-    const platformCommissionRate = await getConvenienceFeeRateInBasisPoints();
-
     const paymentInput: PaymentCalculationInput = {
       bookingFormat: "F2",
       totalBasePrice: rupeesToPaise(subtotal), // Total base price (includes overrides)
@@ -670,8 +676,9 @@ export const createF2Booking = async (c: Context) => {
       discountAmount: rupeesToPaise(discountAmount || 0),
       advancePaymentAmount: amountPaidNow ? rupeesToPaise(amountPaidNow) : undefined,
       paymentMethod: paymentMethod || "online",
-      taxRate: dateRange.listing.taxRate ? Math.round(Number(dateRange.listing.taxRate) * 100) : 1800, // Convert to basis points
-      platformCommissionRate,
+      taxRate: percentageToBasisPoints(dateRange.listing.taxRate, 1800),
+      platformCommissionRate: percentageToBasisPoints(dateRange.listing.platformCommissionPercentage),
+      tcsRateOfCommission: percentageToBasisPoints(dateRange.listing.tcsPercentage),
     };
 
     const paymentBreakdown = calculatePaymentBreakdown(paymentInput);

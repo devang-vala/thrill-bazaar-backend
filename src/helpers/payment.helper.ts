@@ -8,16 +8,16 @@
  * 4. Add Add-ons → Total Amount
  * 5. Paid = User-selected amount
  * 6. Balance = Total Amount - Paid
- * 7. Platform Commission = 10% of Total Amount
- * 8. TCS = 1% of Platform Commission
+ * 7. Platform Commission = Admin-configured % of Total Amount
+ * 8. TCS = Admin-configured % of Platform Commission
  * 9. Net Pay = Paid - Commission - TCS
  * 10. Total Earnings = Net Pay + Balance
  */
 
-// Default rates (can be overridden by admin in future)
+// Default rates
 const DEFAULT_TAX_RATE = 1800; // 18% in basis points (1800 = 18%)
-const DEFAULT_PLATFORM_COMMISSION_RATE = 1000; // 10% in basis points (1000 = 10%)
-const DEFAULT_TCS_RATE_OF_COMMISSION = 100; // 1% of commission in basis points (100 = 1%)
+const DEFAULT_PLATFORM_COMMISSION_RATE = 0; // Listing-specific, fallback to 0%
+const DEFAULT_TCS_RATE_OF_COMMISSION = 0; // Listing-specific, fallback to 0%
 
 export interface PaymentCalculationInput {
   bookingFormat: "F1" | "F2" | "F3" | "F4";
@@ -53,9 +53,9 @@ export interface PaymentCalculationResult {
   
   // Platform economics
   platformCommissionRate: number;
-  platformCommission: number; // 10% of Total Amount
+  platformCommission: number; // Admin-configured % of Total Amount
   tcsRate: number; // Rate applied to commission
-  tcsAmount: number; // 1% of Platform Commission
+  tcsAmount: number; // Admin-configured % of Platform Commission
   
   // Seller economics
   netPayToSeller: number; // Paid - Commission - TCS (from advance payment)
@@ -75,8 +75,8 @@ export interface PaymentCalculationResult {
  * Step 6: Add Add-ons to get Total Amount
  * Step 7: User-Selected Paid Amount
  * Step 8: Calculate Balance (Total - Paid)
- * Step 9: Calculate Platform Commission (10% of Total Amount)
- * Step 10: Calculate TCS (1% of Platform Commission)
+ * Step 9: Calculate Platform Commission (admin-configured % of Total Amount)
+ * Step 10: Calculate TCS (admin-configured % of Platform Commission)
  * Step 11: Calculate Net Pay to Seller (Paid - Commission - TCS)
  * Step 12: Calculate Total Earnings (Net Pay + Balance)
  */
@@ -113,10 +113,10 @@ export function calculatePaymentBreakdown(input: PaymentCalculationInput): Payme
   // Step 7: Calculate Balance
   const amountToCollectOffline = totalAmount - amountPaidOnline;
 
-  // Step 8: Calculate Platform Commission (10% of Total Amount)
+  // Step 8: Calculate Platform Commission
   const platformCommission = Math.round((totalAmount * platformCommissionRate) / 10000);
 
-  // Step 9: Calculate TCS (1% of Platform Commission)
+  // Step 9: Calculate TCS on platform commission
   const tcsAmount = Math.round((platformCommission * tcsRateOfCommission) / 10000);
 
   // Step 10: Calculate Net Pay to Seller (Paid - Commission - TCS)

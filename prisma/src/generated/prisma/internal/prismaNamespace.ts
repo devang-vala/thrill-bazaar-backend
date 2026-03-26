@@ -3632,6 +3632,8 @@ export const ListingScalarFieldEnum = {
   endGoogleMapsUrl: 'endGoogleMapsUrl',
   taxRate: 'taxRate',
   advanceBookingPercentage: 'advanceBookingPercentage',
+  platformCommissionPercentage: 'platformCommissionPercentage',
+  tcsPercentage: 'tcsPercentage',
   basePriceDisplay: 'basePriceDisplay',
   currency: 'currency',
   metadata: 'metadata'
