@@ -19,6 +19,9 @@ model BookingPayment {
   // Payment split (user-selected)
   amountPaidOnline       Int     @map("amount_paid_online") // User-selected advance payment
   amountToCollectOffline Int     @map("amount_to_collect_offline") // Balance = Total - Paid
+  convenienceFeeRate     Int     @default(0) @map("convenience_fee_rate") // Rate in basis points
+  convenienceFeeAmount   Int     @default(0) @map("convenience_fee_amount") // Convenience fee on online payment
+  totalPayableOnline     Int     @default(0) @map("total_payable_online") // Paid online + convenience fee
   paymentMethod          String? @map("payment_method") // online, cash, etc
 
   // Platform economics

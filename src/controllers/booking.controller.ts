@@ -28,6 +28,15 @@ const percentageToBasisPoints = (value: unknown, fallback = 0) => {
   return Math.max(0, Math.round(numericValue * 100));
 };
 
+const getConvenienceFeeRateInBasisPoints = async () => {
+  const latestSetting = await prisma.setting.findFirst({
+    orderBy: { createdAt: "desc" },
+    select: { convenienceFeePercentage: true },
+  });
+
+  return percentageToBasisPoints(latestSetting?.convenienceFeePercentage, 0);
+};
+
 // Create comprehensive booking with participants and addons
 export const createBooking = async (c: Context) => {
   try {
@@ -122,6 +131,7 @@ export const createBooking = async (c: Context) => {
               listingName: true, 
               currency: true, 
               taxRate: true,
+              advanceBookingPercentage: true,
               platformCommissionPercentage: true,
               tcsPercentage: true,
               operatorId: true,
@@ -150,6 +160,7 @@ export const createBooking = async (c: Context) => {
               listingName: true, 
               currency: true, 
               taxRate: true,
+              advanceBookingPercentage: true,
               platformCommissionPercentage: true,
               tcsPercentage: true,
               operatorId: true,
@@ -273,20 +284,27 @@ export const createBooking = async (c: Context) => {
     // Calculate quantity based on booking format
     const quantity = getQuantityForBookingFormat(bookingFormat, participantCount, totalDays);
 
-    // Calculate TOTAL base price (considering price overrides)
-    // Frontend should send the TOTAL base price after calculating all price overrides
-    const totalBasePrice = rupeesToPaise(basePrice * quantity);
+    // Calculate TOTAL base price.
+    // F1/F3 are participant-priced; F2/F4 are already date-based totals.
+    const totalBasePriceMultiplier =
+      bookingFormat === "F1" || bookingFormat === "F3"
+        ? Math.max(1, participantCount)
+        : quantity;
+    const totalBasePrice = rupeesToPaise(basePrice * totalBasePriceMultiplier);
 
     // Calculate payment breakdown with CORRECT logic
+    const convenienceFeeRate = await getConvenienceFeeRateInBasisPoints();
+
     const paymentInput: PaymentCalculationInput = {
       bookingFormat,
       totalBasePrice, // TOTAL base price (with price overrides)
       quantity, // For display only
       addonsAmount: rupeesToPaise(addonsTotal || 0),
       discountAmount: rupeesToPaise(discountAmount || 0),
-      advancePaymentAmount: amountPaidNow ? rupeesToPaise(amountPaidNow) : undefined, // User-selected amount
+      advancePaymentPercentage: percentageToBasisPoints(listingDetails.advanceBookingPercentage, 10000),
       paymentMethod: paymentMethod || "online",
       taxRate: percentageToBasisPoints(listingDetails.taxRate, 1800),
+      convenienceFeeRate,
       platformCommissionRate: percentageToBasisPoints(listingDetails.platformCommissionPercentage),
       tcsRateOfCommission: percentageToBasisPoints(listingDetails.tcsPercentage),
     };
@@ -340,6 +358,9 @@ export const createBooking = async (c: Context) => {
             promoCode: promoCode || null,
             amountPaidNow: paymentBreakdown.amountPaidOnline / 100,
             amountPendingAtVenue: paymentBreakdown.amountToCollectOffline / 100,
+            convenienceFeeRate: paymentBreakdown.convenienceFeeRate / 100,
+            convenienceFeeAmount: paymentBreakdown.convenienceFeeAmount / 100,
+            totalPayableOnline: paymentBreakdown.totalPayableOnline / 100,
             paymentMethod: paymentBreakdown.paymentMethod,
             platformCommission: paymentBreakdown.platformCommission / 100,
             tcsAmount: paymentBreakdown.tcsAmount / 100,
@@ -364,6 +385,9 @@ export const createBooking = async (c: Context) => {
           totalAmount: paymentBreakdown.totalAmount,
           amountPaidOnline: paymentBreakdown.amountPaidOnline,
           amountToCollectOffline: paymentBreakdown.amountToCollectOffline,
+          convenienceFeeRate: paymentBreakdown.convenienceFeeRate,
+          convenienceFeeAmount: paymentBreakdown.convenienceFeeAmount,
+          totalPayableOnline: paymentBreakdown.totalPayableOnline,
           paymentMethod: paymentBreakdown.paymentMethod,
           platformCommissionRate: paymentBreakdown.platformCommissionRate,
           platformCommission: paymentBreakdown.platformCommission,
@@ -583,6 +607,7 @@ export const createF2Booking = async (c: Context) => {
             listingName: true, 
             currency: true, 
             taxRate: true,
+            advanceBookingPercentage: true,
             platformCommissionPercentage: true,
             tcsPercentage: true,
             operatorId: true,
@@ -668,15 +693,18 @@ export const createF2Booking = async (c: Context) => {
     // Calculate payment breakdown using the payment helper
     const totalDays = selectedDates.length;
     
+    const convenienceFeeRate = await getConvenienceFeeRateInBasisPoints();
+
     const paymentInput: PaymentCalculationInput = {
       bookingFormat: "F2",
       totalBasePrice: rupeesToPaise(subtotal), // Total base price (includes overrides)
       quantity: totalDays,
       addonsAmount: rupeesToPaise(addonsTotal || 0),
       discountAmount: rupeesToPaise(discountAmount || 0),
-      advancePaymentAmount: amountPaidNow ? rupeesToPaise(amountPaidNow) : undefined,
+      advancePaymentPercentage: percentageToBasisPoints(dateRange.listing.advanceBookingPercentage, 10000),
       paymentMethod: paymentMethod || "online",
       taxRate: percentageToBasisPoints(dateRange.listing.taxRate, 1800),
+      convenienceFeeRate,
       platformCommissionRate: percentageToBasisPoints(dateRange.listing.platformCommissionPercentage),
       tcsRateOfCommission: percentageToBasisPoints(dateRange.listing.tcsPercentage),
     };
@@ -715,6 +743,9 @@ export const createF2Booking = async (c: Context) => {
             promoCode: promoCode || null,
             amountPaidNow: paymentBreakdown.amountPaidOnline / 100,
             amountPendingAtVenue: paymentBreakdown.amountToCollectOffline / 100,
+            convenienceFeeRate: paymentBreakdown.convenienceFeeRate / 100,
+            convenienceFeeAmount: paymentBreakdown.convenienceFeeAmount / 100,
+            totalPayableOnline: paymentBreakdown.totalPayableOnline / 100,
             paymentMethod: paymentBreakdown.paymentMethod,
           },
         },
@@ -735,6 +766,9 @@ export const createF2Booking = async (c: Context) => {
           totalAmount: paymentBreakdown.totalAmount,
           amountPaidOnline: paymentBreakdown.amountPaidOnline,
           amountToCollectOffline: paymentBreakdown.amountToCollectOffline,
+          convenienceFeeRate: paymentBreakdown.convenienceFeeRate,
+          convenienceFeeAmount: paymentBreakdown.convenienceFeeAmount,
+          totalPayableOnline: paymentBreakdown.totalPayableOnline,
           paymentMethod: paymentBreakdown.paymentMethod,
           platformCommissionRate: paymentBreakdown.platformCommissionRate,
           platformCommission: paymentBreakdown.platformCommission,

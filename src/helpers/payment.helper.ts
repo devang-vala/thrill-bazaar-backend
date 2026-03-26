@@ -6,7 +6,7 @@
  * 2. Apply TAX (18%) to base → Subtotal WITH tax
  * 3. Apply Discount/Promo → Total Base Amount
  * 4. Add Add-ons → Total Amount
- * 5. Paid = User-selected amount
+ * 5. Paid online = Advance % of Total Base Amount + full Add-ons
  * 6. Balance = Total Amount - Paid
  * 7. Platform Commission = Admin-configured % of Total Amount
  * 8. TCS = Admin-configured % of Platform Commission
@@ -25,9 +25,11 @@ export interface PaymentCalculationInput {
   quantity: number; // Number of days (F1/F2/F4) or participants (F3) - for display only
   addonsAmount?: number; // Total addons cost in paise
   discountAmount?: number; // Discount amount in paise
-  advancePaymentAmount?: number; // EXACT amount user chose to pay (calculated by frontend)
+  advancePaymentAmount?: number; // Optional explicit override
+  advancePaymentPercentage?: number; // Advance % applied on total base amount in basis points
   paymentMethod?: string;
   taxRate?: number; // Tax rate in basis points (1800 = 18%)
+  convenienceFeeRate?: number; // Convenience fee on online payment in basis points
   platformCommissionRate?: number; // Platform commission rate in basis points
   tcsRateOfCommission?: number; // TCS as % of commission in basis points
 }
@@ -47,8 +49,11 @@ export interface PaymentCalculationResult {
   totalAmount: number; // Total Base Amount + Addons
   
   // Payment split
-  amountPaidOnline: number; // User-selected amount
+  amountPaidOnline: number; // Advance % of Total Base Amount + full Add-ons
   amountToCollectOffline: number; // Balance = Total - Paid
+  convenienceFeeRate: number;
+  convenienceFeeAmount: number;
+  totalPayableOnline: number;
   paymentMethod: string;
   
   // Platform economics
@@ -73,7 +78,7 @@ export interface PaymentCalculationResult {
  * Step 4: Apply Discount to Subtotal
  * Step 5: Total Base Amount = Subtotal - Discount
  * Step 6: Add Add-ons to get Total Amount
- * Step 7: User-Selected Paid Amount
+ * Step 7: Calculate Paid Amount using advance % on Total Base Amount + full Add-ons
  * Step 8: Calculate Balance (Total - Paid)
  * Step 9: Calculate Platform Commission (admin-configured % of Total Amount)
  * Step 10: Calculate TCS (admin-configured % of Platform Commission)
@@ -86,9 +91,11 @@ export function calculatePaymentBreakdown(input: PaymentCalculationInput): Payme
     quantity,
     addonsAmount = 0,
     discountAmount = 0,
-    advancePaymentAmount, // User-selected amount
+    advancePaymentAmount,
+    advancePaymentPercentage = 10000,
     paymentMethod = "online",
     taxRate = DEFAULT_TAX_RATE,
+    convenienceFeeRate = 0,
     platformCommissionRate = DEFAULT_PLATFORM_COMMISSION_RATE,
     tcsRateOfCommission = DEFAULT_TCS_RATE_OF_COMMISSION,
   } = input;
@@ -106,12 +113,21 @@ export function calculatePaymentBreakdown(input: PaymentCalculationInput): Payme
   // Step 5: Add addons to get Total Amount
   const totalAmount = totalBaseAmount + addonsAmount;
 
-  // Step 6: Use user-selected paid amount
-  // If not provided, default to totalAmount (100% payment)
-  const amountPaidOnline = advancePaymentAmount !== undefined ? advancePaymentAmount : totalAmount;
+  // Step 6: Calculate online payment.
+  // Advance percentage is applied only on the base amount; add-ons are always collected online.
+  const calculatedAdvanceOnBaseAmount = Math.round((totalBaseAmount * advancePaymentPercentage) / 10000);
+  const calculatedPaidOnline = Math.min(
+    totalAmount,
+    Math.max(0, calculatedAdvanceOnBaseAmount + addonsAmount)
+  );
+  const amountPaidOnline = advancePaymentAmount !== undefined ? advancePaymentAmount : calculatedPaidOnline;
 
   // Step 7: Calculate Balance
   const amountToCollectOffline = totalAmount - amountPaidOnline;
+
+  // Step 7.1: Calculate convenience fee on the online payment amount
+  const convenienceFeeAmount = Math.round((amountPaidOnline * convenienceFeeRate) / 10000);
+  const totalPayableOnline = amountPaidOnline + convenienceFeeAmount;
 
   // Step 8: Calculate Platform Commission
   const platformCommission = Math.round((totalAmount * platformCommissionRate) / 10000);
@@ -142,6 +158,9 @@ export function calculatePaymentBreakdown(input: PaymentCalculationInput): Payme
     // Payment split
     amountPaidOnline,
     amountToCollectOffline,
+    convenienceFeeRate,
+    convenienceFeeAmount,
+    totalPayableOnline,
     paymentMethod,
     
     // Platform economics
@@ -198,7 +217,7 @@ export function getQuantityLabel(bookingFormat: "F1" | "F2" | "F3" | "F4"): stri
 
 /**
  * Determine quantity based on booking format
- * - F1: Number of days between start and end date
+ * - F1: Number of participants
  * - F2: Number of days between start and end date
  * - F3: Number of participants
  * - F4: Number of days between start and end date
@@ -210,7 +229,7 @@ export function getQuantityForBookingFormat(
 ): number {
   switch (bookingFormat) {
     case "F1":
-      return totalDays;
+      return participantCount;
     case "F2":
       return totalDays;
     case "F3":
