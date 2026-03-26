@@ -21,13 +21,15 @@ const listingRouter = new Hono();
 // Public routes (with optional auth to determine role)
 listingRouter.get("/", optionalAuth, getListings);
 listingRouter.get("/slug/:slug", getListing);
-listingRouter.get("/:slug", getListing);
 
 // Get similar listings based on category, operator, then random
 listingRouter.get("/:listingId/similar", getSimilarListings);
 
 // Get listing by ID with all related data (for management)
 listingRouter.get("/:id/details", authenticateToken, getListingById);
+
+// Public catch-all slug route should stay last among GET detail routes
+listingRouter.get("/:slug", getListing);
 
 // Admin-only route to get all listings (excluding drafts)
 listingRouter.post("/admin/all", authenticateToken, requireAdmin, getAdminListings);

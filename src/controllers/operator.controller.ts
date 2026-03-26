@@ -50,6 +50,14 @@ interface OperatorCompleteRegistrationRequest {
   socialMediaLinks?: string; // JSON string
 }
 
+const SELLER_POLICY_TYPES = [
+  "why_choose_us",
+  "terms_conditions",
+  "rescheduling",
+  "cancellation",
+  "exchange",
+] as const;
+
 /**
  * Helper function to upload file to Cloudinary
  */
@@ -802,5 +810,292 @@ export const getOperatorBadges = async (c: Context) => {
   } catch (error) {
     console.error("Get operator badges error:", error);
     return c.json({ error: "Failed to fetch operator badges" }, 500);
+  }
+};
+
+/**
+ * Get seller dashboard summary
+ * GET /api/operators/dashboard/:operatorId
+ */
+export const getOperatorDashboardSummary = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    const operatorId = c.req.param("operatorId");
+
+    if (!operatorId) {
+      return c.json({ error: "Operator ID is required" }, 400);
+    }
+
+    if (
+      user.userId !== operatorId &&
+      user.userType !== "admin" &&
+      user.userType !== "super_admin"
+    ) {
+      return c.json({ error: "Unauthorized to view this dashboard" }, 403);
+    }
+
+    const [
+      totalBookings,
+      totalEarningsAgg,
+      liveListingsCount,
+      operatorRatingAgg,
+      policies,
+      liveListingsRaw,
+      recentBookingsRaw,
+    ] = await Promise.all([
+      prisma.booking.count({
+        where: {
+          OR: [
+            { listingSlot: { listing: { operatorId } } },
+            { dateRange: { listing: { operatorId } } },
+          ],
+        },
+      }),
+      prisma.bookingPayment.aggregate({
+        _sum: { totalEarnings: true },
+        where: {
+          booking: {
+            OR: [
+              { listingSlot: { listing: { operatorId } } },
+              { dateRange: { listing: { operatorId } } },
+            ],
+            bookingStatus: { in: ["CONFIRMED", "COMPLETED"] },
+          },
+        },
+      }),
+      prisma.listing.count({
+        where: {
+          operatorId,
+          status: "active",
+        },
+      }),
+      prisma.review.aggregate({
+        _avg: { rating: true },
+        where: { operatorId },
+      }),
+      prisma.listingPolicy.findMany({
+        where: {
+          sellerId: operatorId,
+          policyType: { in: SELLER_POLICY_TYPES as any },
+        },
+        orderBy: { updatedAt: "desc" },
+      }),
+      prisma.listing.findMany({
+        where: {
+          operatorId,
+          status: "active",
+        },
+        select: {
+          id: true,
+          listingName: true,
+          startLocationName: true,
+          bookingFormat: true,
+          category: { select: { categoryName: true } },
+          frontImageUrl: true,
+        },
+        orderBy: { updatedAt: "desc" },
+        take: 5,
+      }),
+      prisma.booking.findMany({
+        where: {
+          OR: [
+            { listingSlot: { listing: { operatorId } } },
+            { dateRange: { listing: { operatorId } } },
+          ],
+        },
+        select: {
+          id: true,
+          bookingReference: true,
+          bookingStartDate: true,
+          bookingEndDate: true,
+          bookingStatus: true,
+          totalAmount: true,
+          customer: {
+            select: {
+              firstName: true,
+              lastName: true,
+            },
+          },
+          listingSlot: {
+            select: {
+              listing: {
+                select: {
+                  listingName: true,
+                  startLocationName: true,
+                  frontImageUrl: true,
+                },
+              },
+              slotDefinition: {
+                select: {
+                  startTime: true,
+                  endTime: true,
+                },
+              },
+              startTime: true,
+              endTime: true,
+            },
+          },
+          dateRange: {
+            select: {
+              listing: {
+                select: {
+                  listingName: true,
+                  startLocationName: true,
+                  frontImageUrl: true,
+                },
+              },
+              slotDefinition: {
+                select: {
+                  startTime: true,
+                  endTime: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      }),
+    ]);
+
+    const policyMap = new Map<string, any>();
+    for (const policy of policies) {
+      if (!policyMap.has(policy.policyType)) {
+        policyMap.set(policy.policyType, policy);
+      }
+    }
+
+    const policyChecklist = SELLER_POLICY_TYPES.map((policyType) => {
+      const policy = policyMap.get(policyType);
+
+      if (policy) {
+        return {
+          policyType,
+          status: "added",
+          statusLabel: "Added",
+          policyId: policy.id,
+        };
+      }
+
+      if (policyType === "rescheduling") {
+        return {
+          policyType,
+          status: "draft",
+          statusLabel: "Draft",
+          policyId: null,
+        };
+      }
+
+      return {
+        policyType,
+        status: "add",
+        statusLabel: "Add",
+        policyId: null,
+      };
+    });
+
+    const liveListings = await Promise.all(
+      liveListingsRaw.map(async (listing) => {
+        let activeCount = 0;
+        let activeLabel = "Units";
+
+        if (listing.bookingFormat === "F2") {
+          activeCount = await prisma.inventoryDateRange.count({
+            where: {
+              listingId: listing.id,
+              isActive: true,
+            },
+          });
+          activeLabel = "Days";
+        } else if (listing.bookingFormat === "F3") {
+          activeCount = await prisma.listingSlot.count({
+            where: {
+              listingId: listing.id,
+              isActive: true,
+              slotDefinitionId: { not: null },
+            },
+          });
+          activeLabel = "Slots";
+        } else if (listing.bookingFormat === "F4") {
+          activeCount = await prisma.inventoryDateRange.count({
+            where: {
+              listingId: listing.id,
+              isActive: true,
+              slotDefinitionId: { not: null },
+            },
+          });
+          activeLabel = "Slots";
+        } else {
+          activeCount = await prisma.listingSlot.count({
+            where: {
+              listingId: listing.id,
+              isActive: true,
+            },
+          });
+          activeLabel = "Batches";
+        }
+
+        return {
+          id: listing.id,
+          activityName: listing.listingName || "Untitled Listing",
+          location: listing.startLocationName || "-",
+          category: listing.category?.categoryName || "-",
+          imageUrl: listing.frontImageUrl || null,
+          activeCount,
+          activeLabel,
+        };
+      })
+    );
+
+    const recentBookings = recentBookingsRaw.map((booking) => {
+      const listing = booking.listingSlot?.listing || booking.dateRange?.listing;
+      const slotStart =
+        booking.listingSlot?.slotDefinition?.startTime ||
+        booking.listingSlot?.startTime ||
+        booking.dateRange?.slotDefinition?.startTime ||
+        null;
+      const slotEnd =
+        booking.listingSlot?.slotDefinition?.endTime ||
+        booking.listingSlot?.endTime ||
+        booking.dateRange?.slotDefinition?.endTime ||
+        null;
+
+      return {
+        id: booking.id,
+        bookingReference: booking.bookingReference,
+        customerName:
+          `${booking.customer?.firstName || ""} ${booking.customer?.lastName || ""}`.trim() ||
+          "Customer",
+        activityName: listing?.listingName || "-",
+        location: listing?.startLocationName || "-",
+        imageUrl: listing?.frontImageUrl || null,
+        bookingDate: booking.bookingStartDate,
+        bookingEndDate: booking.bookingEndDate,
+        slotStart,
+        slotEnd,
+        totalAmount: Number(booking.totalAmount || 0),
+        bookingStatus: booking.bookingStatus,
+      };
+    });
+
+    const totalEarningsRupees = (totalEarningsAgg._sum.totalEarnings || 0) / 100;
+
+    return c.json({
+      success: true,
+      data: {
+        stats: {
+          totalBookings,
+          totalEarnings: totalEarningsRupees,
+          liveListings: liveListingsCount,
+          customerRating: Number(operatorRatingAgg._avg.rating || 0),
+        },
+        policyChecklist,
+        liveListings,
+        recentBookings,
+      },
+    });
+  } catch (error) {
+    console.error("Get operator dashboard summary error:", error);
+    return c.json({ error: "Failed to fetch dashboard summary" }, 500);
   }
 };

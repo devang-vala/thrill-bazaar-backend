@@ -7,6 +7,7 @@ import {
   assignBadgeToOperator,
   removeBadgeFromOperator,
   getOperatorBadges,
+  getOperatorDashboardSummary,
 } from "../controllers/operator.controller.js";
 import {
   authenticateToken,
@@ -24,6 +25,9 @@ operatorRouter.post("/register", registerOperatorComplete);
 
 // Authenticated routes
 operatorRouter.use(authenticateToken);
+
+// Seller dashboard summary
+operatorRouter.get("/dashboard/:operatorId", getOperatorDashboardSummary);
 
 // Admin routes 
 operatorRouter.post("/list", requireAdmin, getAllOperators);
