@@ -302,56 +302,56 @@ export const getReviews = async (
       where.operatorId = viewer.userId;
     }
 
-    // Get total count
-    const total = await prisma.review.count({ where });
-
-    // Get reviews
-    const reviews = await prisma.review.findMany({
-      where,
-      skip,
-      take: limit,
-      orderBy: { [sortBy]: sortOrder },
-      include: {
-        customer: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            profileImg: true,
+    const [total, reviews] = await Promise.all([
+      prisma.review.count({ where }),
+      prisma.review.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { [sortBy]: sortOrder },
+        select: {
+          id: true,
+          bookingId: true,
+          listingId: true,
+          customerId: true,
+          operatorId: true,
+          rating: true,
+          reviewTitle: true,
+          reviewText: true,
+          replyReview: true,
+          reviewImages: true,
+          isFlagged: true,
+          flaggedReason: true,
+          isModerated: true,
+          helpfulCount: true,
+          createdAt: true,
+          updatedAt: true,
+          customer: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              gender: true,
+              profileImg: true,
+            },
           },
-        },
-        listing: {
-          select: {
-            id: true,
-            listingName: true,
-            startLocationName: true,
-            endLocationName: true,
-          },
-        },
-        operator: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            phone: true,
-            operatorProfile: {
-              select: {
-                companyName: true,
+          listing: {
+            select: {
+              id: true,
+              listingName: true,
+              frontImageUrl: true,
+              startLocationName: true,
+              endLocationName: true,
+              category: {
+                select: {
+                  categoryName: true,
+                },
               },
             },
           },
         },
-        booking: {
-          select: {
-            bookingReference: true,
-            bookingStartDate: true,
-            bookingEndDate: true,
-            participantCount: true,
-            createdAt: true,
-          },
-        },
-      },
-    });
+      }),
+    ]);
 
     return {
       reviews,
@@ -714,23 +714,21 @@ export const getListingReviewStats = async (listingId: string) => {
  */
 export const getOperatorReviewStats = async (operatorId: string) => {
   try {
-    const reviews = await prisma.review.findMany({
+    const stats = await prisma.review.aggregate({
       where: {
         operatorId,
       },
-      select: {
+      _count: {
+        _all: true,
+      },
+      _avg: {
         rating: true,
       },
     });
 
-    const total = reviews.length;
-    const avgRating = total > 0
-      ? reviews.reduce((sum: number, r: any) => sum + r.rating, 0) / total
-      : 0;
-
     return {
-      totalReviews: total,
-      averageRating: Math.round(avgRating * 10) / 10,
+      totalReviews: stats._count._all || 0,
+      averageRating: Math.round(Number(stats._avg.rating || 0) * 10) / 10,
     };
   } catch (error) {
     console.error("Error fetching operator review stats:", error);
@@ -751,15 +749,29 @@ export const getSellerReviewDetails = async (
   try {
     const review = await prisma.review.findUnique({
       where: { id: reviewId },
-      include: {
+      select: {
+        id: true,
+        bookingId: true,
+        listingId: true,
+        customerId: true,
+        operatorId: true,
+        rating: true,
+        reviewTitle: true,
+        reviewText: true,
+        replyReview: true,
+        reviewImages: true,
+        isFlagged: true,
+        flaggedReason: true,
+        isModerated: true,
+        helpfulCount: true,
+        createdAt: true,
+        updatedAt: true,
         customer: {
           select: {
             id: true,
             firstName: true,
             lastName: true,
             profileImg: true,
-            email: true,
-            phone: true,
             gender: true,
           },
         },
@@ -780,20 +792,19 @@ export const getSellerReviewDetails = async (
           },
         },
         booking: {
-          include: {
-            customer: {
-              select: {
-                id: true,
-                firstName: true,
-                lastName: true,
-                profileImg: true,
-                phone: true,
-                email: true,
-                gender: true,
-              },
-            },
+          select: {
+            bookingReference: true,
+            bookingStartDate: true,
+            bookingEndDate: true,
+            participantCount: true,
+            bookingStatus: true,
+            participants: true,
+            selectedAddons: true,
+            createdAt: true,
             listingSlot: {
-              include: {
+              select: {
+                startTime: true,
+                endTime: true,
                 listing: {
                   select: {
                     id: true,
@@ -802,19 +813,12 @@ export const getSellerReviewDetails = async (
                     startLocationName: true,
                     operatorId: true,
                     addons: true,
-                    bookingFormat: true,
-                  },
-                },
-                slotDefinition: {
-                  select: {
-                    startTime: true,
-                    endTime: true,
                   },
                 },
               },
             },
             dateRange: {
-              include: {
+              select: {
                 listing: {
                   select: {
                     id: true,
@@ -823,18 +827,10 @@ export const getSellerReviewDetails = async (
                     startLocationName: true,
                     operatorId: true,
                     addons: true,
-                    bookingFormat: true,
-                  },
-                },
-                slotDefinition: {
-                  select: {
-                    startTime: true,
-                    endTime: true,
                   },
                 },
               },
             },
-            payment: true,
           },
         },
       },
@@ -899,19 +895,11 @@ export const getSellerReviewDetails = async (
             listingSlot: review.booking.listingSlot
               ? {
                   ...review.booking.listingSlot,
-                  startTime:
-                    review.booking.listingSlot.slotDefinition?.startTime ||
-                    review.booking.listingSlot.startTime,
-                  endTime:
-                    review.booking.listingSlot.slotDefinition?.endTime ||
-                    review.booking.listingSlot.endTime,
                 }
               : null,
             dateRange: review.booking.dateRange
               ? {
                   ...review.booking.dateRange,
-                  startTime: review.booking.dateRange.slotDefinition?.startTime || null,
-                  endTime: review.booking.dateRange.slotDefinition?.endTime || null,
                 }
               : null,
           }

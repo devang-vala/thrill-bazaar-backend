@@ -9,6 +9,10 @@ import {
   getOperatorsForFilter,
   updateUserCategories,
   getUserCategories,
+  getAdminAccounts,
+  createAdminAccount,
+  updateAdminAccountStatus,
+  deleteAdminAccount,
 } from "../controllers/user.controller.js";
 import {
   authenticateToken,
@@ -51,5 +55,11 @@ userRouter.put("/change-password", requireAnyAdmin, changePassword);
 
 // Manage user account status (superadmin only) - activate/deactivate
 userRouter.put("/status/:userId", requireSuperAdmin, manageUserStatus);
+
+// Superadmin admin management
+userRouter.post("/admins/list", requireSuperAdmin, getAdminAccounts);
+userRouter.post("/admins/create", requireSuperAdmin, createAdminAccount);
+userRouter.put("/admins/:userId/status", requireSuperAdmin, updateAdminAccountStatus);
+userRouter.delete("/admins/:userId", requireSuperAdmin, deleteAdminAccount);
 
 export default userRouter;

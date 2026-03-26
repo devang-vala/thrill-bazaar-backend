@@ -558,185 +558,174 @@ export const getListings = async (c: Context) => {
       }
     }
 
-    // Get total count for pagination
-    const totalCount = await prisma.listing.count({
-      where: whereClause,
-    });
-
-    // Fetch listings with pagination - use select for better performance
-    // UPDATED: Include badges and tags for listing cards
-    const listings = await prisma.listing.findMany({
-      where: whereClause,
-      select: {
-        id: true,
-        listingName: true,
-        listingSlug: true,
-        frontImageUrl: true,
-        bookingFormat: true,
-        status: true,
-        rejectionReason: true,
-        basePriceDisplay: true,
-        currency: true,
-        startLocationName: true,
-        startLocationCoordinates: true,
-        endLocationName: true,
-        createdAt: true,
-        updatedAt: true,
-        category: {
-          select: {
-            id: true,
-            categoryName: true,
-          },
-        },
-        operator: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-          },
-        },
-        media: {
-          select: {
-            media: true,
-          },
-          take: 1, // Only get first image for listing card
-          orderBy: { createdAt: "asc" },
-        },
-        // ADDED: Badges for listing cards (limited to 1)
-        badges: {
-          where: { isActive: true },
-          select: {
-            id: true,
-            isActive: true,
-            badge: {
-              select: {
-                id: true,
-                badgeName: true,
-                badgeIconUrl: true,
-                badgeColor: true,
-              },
-            },
-          },
-          take: 1,
-          orderBy: { badge: { displayOrder: "asc" } },
-        },
-        // ADDED: Tags for listing cards (limited to 2)
-        tags: {
-          where: { isActive: true },
-          select: {
-            id: true,
-            isActive: true,
-            tag: {
-              select: {
-                id: true,
-                tagName: true,
-                tagColor: true,
-              },
-            },
-          },
-          take: 2,
-          orderBy: { tag: { displayOrder: "asc" } },
-        },
-      },
-      orderBy: orderByClause,
-      skip,
-      take: limit,
-    });
-
-    // Fetch next available date for each listing (for date sorting)
-    const now = new Date();
-    const listingIds = listings.map(l => l.id);
-
-    // Separate listings by format to query appropriate tables
-    const activityListingIds = listings
-      .filter(l => l.bookingFormat === 'F1' || l.bookingFormat === 'F3')
-      .map(l => l.id);
-
-    const rentalListingIds = listings
-      .filter(l => l.bookingFormat === 'F2' || l.bookingFormat === 'F4')
-      .map(l => l.id);
-
-    // Create a map of listing ID to next available date
-    const nextAvailableDateMap = new Map<string, Date | null>();
-
-    // Fetch next available slots from ListingSlot for F1/F3 (activities)
-    if (activityListingIds.length > 0) {
-      const nextAvailableSlots = await prisma.listingSlot.findMany({
-        where: {
-          listingId: { in: activityListingIds },
-          isActive: true,
-          availableCount: { gt: 0 },
-          // Filter by listing's bookingFormat
-          listing: {
-            bookingFormat: { in: ['F1', 'F3'] }
-          },
-          OR: [
-            // For F1 (batch activities)
-            {
-              batchStartDate: { gte: now },
-              formatType: 'F1'
-            },
-            // For F3 (single-day activities)
-            {
-              slotDate: { gte: now },
-              formatType: 'F3'
-            }
-          ]
-        },
+    const [totalCount, listings] = await Promise.all([
+      prisma.listing.count({
+        where: whereClause,
+      }),
+      prisma.listing.findMany({
+        where: whereClause,
         select: {
-          listingId: true,
-          batchStartDate: true,
-          slotDate: true,
-          formatType: true,
+          id: true,
+          listingName: true,
+          listingSlug: true,
+          frontImageUrl: true,
+          bookingFormat: true,
+          status: true,
+          rejectionReason: true,
+          basePriceDisplay: true,
+          currency: true,
+          startLocationName: true,
+          startLocationCoordinates: true,
+          endLocationName: true,
+          createdAt: true,
+          updatedAt: true,
+          category: {
+            select: {
+              id: true,
+              categoryName: true,
+            },
+          },
+          operator: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+          media: {
+            select: {
+              media: true,
+            },
+            take: 1,
+            orderBy: { createdAt: "asc" },
+          },
+          badges: {
+            where: { isActive: true },
+            select: {
+              id: true,
+              isActive: true,
+              badge: {
+                select: {
+                  id: true,
+                  badgeName: true,
+                  badgeIconUrl: true,
+                  badgeColor: true,
+                },
+              },
+            },
+            take: 1,
+            orderBy: { badge: { displayOrder: "asc" } },
+          },
+          tags: {
+            where: { isActive: true },
+            select: {
+              id: true,
+              isActive: true,
+              tag: {
+                select: {
+                  id: true,
+                  tagName: true,
+                  tagColor: true,
+                },
+              },
+            },
+            take: 2,
+            orderBy: { tag: { displayOrder: "asc" } },
+          },
         },
-        orderBy: [
-          { batchStartDate: 'asc' },
-          { slotDate: 'asc' }
-        ]
-      });
+        orderBy: orderByClause,
+        skip,
+        take: limit,
+      }),
+    ]);
 
-      for (const slot of nextAvailableSlots) {
-        if (!nextAvailableDateMap.has(slot.listingId)) {
-          // Get the appropriate date based on format type
-          const date = (slot.formatType === 'F1')
-            ? slot.batchStartDate
-            : slot.slotDate;
+    const shouldIncludeNextAvailableDate =
+      shouldSortByDateClientSide || Boolean(availableOnDate || (dateRangeStart && dateRangeEnd));
 
-          if (date) {
-            nextAvailableDateMap.set(slot.listingId, date);
+    let nextAvailableDateMap = new Map<string, Date | null>();
+
+    if (shouldIncludeNextAvailableDate) {
+      const now = new Date();
+      const activityListingIds = listings
+        .filter(l => l.bookingFormat === 'F1' || l.bookingFormat === 'F3')
+        .map(l => l.id);
+
+      const rentalListingIds = listings
+        .filter(l => l.bookingFormat === 'F2' || l.bookingFormat === 'F4')
+        .map(l => l.id);
+
+      if (activityListingIds.length > 0) {
+        const nextAvailableSlots = await prisma.listingSlot.findMany({
+          where: {
+            listingId: { in: activityListingIds },
+            isActive: true,
+            availableCount: { gt: 0 },
+            listing: {
+              bookingFormat: { in: ['F1', 'F3'] }
+            },
+            OR: [
+              {
+                batchStartDate: { gte: now },
+                formatType: 'F1'
+              },
+              {
+                slotDate: { gte: now },
+                formatType: 'F3'
+              }
+            ]
+          },
+          select: {
+            listingId: true,
+            batchStartDate: true,
+            slotDate: true,
+            formatType: true,
+          },
+          orderBy: [
+            { batchStartDate: 'asc' },
+            { slotDate: 'asc' }
+          ]
+        });
+
+        for (const slot of nextAvailableSlots) {
+          if (!nextAvailableDateMap.has(slot.listingId)) {
+            const date = (slot.formatType === 'F1')
+              ? slot.batchStartDate
+              : slot.slotDate;
+
+            if (date) {
+              nextAvailableDateMap.set(slot.listingId, date);
+            }
           }
         }
       }
-    }
 
-    // Fetch next available date ranges from InventoryDateRange for F2/F4 (rentals)
-    if (rentalListingIds.length > 0) {
-      const nextAvailableDateRanges = await prisma.inventoryDateRange.findMany({
-        where: {
-          listingId: { in: rentalListingIds },
-          isActive: true,
-          // Filter by listing's bookingFormat
-          listing: {
-            bookingFormat: { in: ['F2', 'F4'] }
+      if (rentalListingIds.length > 0) {
+        const nextAvailableDateRanges = await prisma.inventoryDateRange.findMany({
+          where: {
+            listingId: { in: rentalListingIds },
+            isActive: true,
+            listing: {
+              bookingFormat: { in: ['F2', 'F4'] }
+            },
+            OR: [
+              { availableCount: { gt: 0 } },
+              { availableCount: null }
+            ],
+            availableFromDate: { gte: now }
           },
-          OR: [
-            { availableCount: { gt: 0 } },
-            { availableCount: null }
-          ],
-          availableFromDate: { gte: now }
-        },
-        select: {
-          listingId: true,
-          availableFromDate: true,
-        },
-        orderBy: {
-          availableFromDate: 'asc'
-        }
-      });
+          select: {
+            listingId: true,
+            availableFromDate: true,
+          },
+          orderBy: {
+            availableFromDate: 'asc'
+          }
+        });
 
-      for (const range of nextAvailableDateRanges) {
-        if (!nextAvailableDateMap.has(range.listingId)) {
-          nextAvailableDateMap.set(range.listingId, range.availableFromDate);
+        for (const range of nextAvailableDateRanges) {
+          if (!nextAvailableDateMap.has(range.listingId)) {
+            nextAvailableDateMap.set(range.listingId, range.availableFromDate);
+          }
         }
       }
     }
@@ -798,31 +787,28 @@ export const getListings = async (c: Context) => {
  */
 export const getAdminListings = async (c: Context) => {
   try {
-    // Get pagination from body
-    const body = await c.req.json();
-    const page = body.page || 1;
-    const limit = body.limit || 12;
-    const searchTerm = body.searchTerm || "";
-    const statusFilter = body.statusFilter || "";
+    const body = await c.req.json().catch(() => ({}));
+    const page = Math.max(1, Number(body.page) || 1);
+    const limit = Math.min(100, Math.max(1, Number(body.limit) || 12));
+    const searchTerm = typeof body.searchTerm === "string" ? body.searchTerm.trim() : "";
+    const statusFilter = typeof body.statusFilter === "string" ? body.statusFilter.trim() : "";
+    const categoryId = typeof body.categoryId === "string" ? body.categoryId.trim() : "";
 
-    // Calculate skip for pagination
     const skip = (page - 1) * limit;
 
-    // Build where clause - exclude drafts
-    const whereClause: any = {
+    const baseWhereClause: any = {
       status: {
         not: "draft",
       },
     };
 
-    // Add optional status filter
-    if (statusFilter && statusFilter !== "all") {
-      whereClause.status = statusFilter;
+    if (categoryId && categoryId !== "all") {
+      baseWhereClause.categoryId = categoryId;
     }
 
     // Add search filter
     if (searchTerm) {
-      whereClause.OR = [
+      baseWhereClause.OR = [
         { listingName: { contains: searchTerm, mode: "insensitive" } },
         { listingSlug: { contains: searchTerm, mode: "insensitive" } },
         {
@@ -842,80 +828,108 @@ export const getAdminListings = async (c: Context) => {
       ];
     }
 
-    // Get total count for pagination
-    const totalCount = await prisma.listing.count({
-      where: whereClause,
-    });
+    const whereClause: any = {
+      ...baseWhereClause,
+    };
 
-    // Fetch listings with pagination
-    // UPDATED: Include badges and tags for admin view
-    const listings = await prisma.listing.findMany({
-      where: whereClause,
-      include: {
-        category: {
-          select: {
-            categoryName: true,
-          },
-        },
-        subCategory: {
-          select: {
-            subCatName: true,
-          },
-        },
-        operator: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-          },
-        },
-        // ADDED: Badges for admin listings
-        badges: {
-          where: { isActive: true },
-          select: {
-            id: true,
-            isActive: true,
-            assignedAt: true,
-            badge: {
-              select: {
-                id: true,
-                badgeName: true,
-                badgeType: true,
-                badgeIconUrl: true,
-                badgeColor: true,
-              },
+    // Add optional status filter
+    if (statusFilter && statusFilter !== "all") {
+      whereClause.status = statusFilter;
+    }
+
+    const [totalCount, listings, groupedStatusCounts] = await Promise.all([
+      prisma.listing.count({
+        where: whereClause,
+      }),
+      prisma.listing.findMany({
+        where: whereClause,
+        include: {
+          category: {
+            select: {
+              id: true,
+              categoryName: true,
             },
           },
-          orderBy: { badge: { displayOrder: "asc" } },
-        },
-        // ADDED: Tags for admin listings
-        tags: {
-          where: { isActive: true },
-          select: {
-            id: true,
-            isActive: true,
-            assignedAt: true,
-            tag: {
-              select: {
-                id: true,
-                tagName: true,
-                tagType: true,
-                tagColor: true,
-              },
+          subCategory: {
+            select: {
+              id: true,
+              subCatName: true,
             },
           },
-          orderBy: { tag: { displayOrder: "asc" } },
+          operator: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true,
+            },
+          },
+          badges: {
+            where: { isActive: true },
+            select: {
+              id: true,
+              isActive: true,
+              assignedAt: true,
+              badge: {
+                select: {
+                  id: true,
+                  badgeName: true,
+                  badgeType: true,
+                  badgeIconUrl: true,
+                  badgeColor: true,
+                },
+              },
+            },
+            orderBy: { badge: { displayOrder: "asc" } },
+          },
+          tags: {
+            where: { isActive: true },
+            select: {
+              id: true,
+              isActive: true,
+              assignedAt: true,
+              tag: {
+                select: {
+                  id: true,
+                  tagName: true,
+                  tagType: true,
+                  tagColor: true,
+                },
+              },
+            },
+            orderBy: { tag: { displayOrder: "asc" } },
+          },
         },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.listing.groupBy({
+        by: ["status"],
+        where: baseWhereClause,
+        _count: {
+          status: true,
+        },
+      }),
+    ]);
+
+    const statusCounts = groupedStatusCounts.reduce<Record<string, number>>(
+      (acc, item) => {
+        acc[item.status] = item._count.status;
+        return acc;
       },
-      orderBy: { createdAt: "desc" },
-      skip,
-      take: limit,
-    });
+      {
+        pending_approval: 0,
+        active: 0,
+        archived: 0,
+        rejected: 0,
+      }
+    );
 
     return c.json({
       success: true,
       data: listings,
+      statusCounts,
       pagination: {
         page,
         limit,
@@ -942,82 +956,210 @@ export const getListing = async (c: Context) => {
     const listingSlug = c.req.param("slug");
     const user = c.get("user");
 
-    // UPDATED: Include badges and tags in listing detail
     const listing = await prisma.listing.findUnique({
       where: { listingSlug: listingSlug },
-      include: {
-        category: {
-          include: {
-            listingType: true,
+      select: {
+          id: true,
+          listingName: true,
+          listingSlug: true,
+          frontImageUrl: true,
+          bookingFormat: true,
+          status: true,
+          basePriceDisplay: true,
+          currency: true,
+          taxRate: true,
+          advanceBookingPercentage: true,
+          metadata: true,
+          startLocationName: true,
+          startLocationCoordinates: true,
+          startGoogleMapsUrl: true,
+          endLocationName: true,
+          endLocationCoordinates: true,
+          endGoogleMapsUrl: true,
+          approvedByAdminId: true,
+          approvedAt: true,
+          categoryId: true,
+          category: {
+            select: {
+              id: true,
+              categoryName: true,
+            },
           },
-        },
-        subCategory: true,
-        operator: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
+          subCategory: {
+            select: {
+              id: true,
+              subCatName: true,
+            },
           },
-        },
-        startCountry: true,
-        startPrimaryDivision: true,
-        startSecondaryDivision: true,
-        endCountry: true,
-        endPrimaryDivision: true,
-        endSecondaryDivision: true,
-        variants: true,
-        content: true,
-        inclusionsExclusions: true,
-        addons: true,
-        media: true,
-        faqs: true,
-        // ADDED: Full badges for detail page
-        badges: {
-          where: { isActive: true },
-          select: {
-            id: true,
-            isActive: true,
-            assignedAt: true,
-            badge: {
-              select: {
-                id: true,
-                badgeName: true,
-                badgeType: true,
-                badgeDescription: true,
-                badgeIconUrl: true,
-                badgeColor: true,
-                displayOrder: true,
+          operator: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true,
+              policies: {
+                select: {
+                  id: true,
+                  policyType: true,
+                  policyContent: true,
+                  updatedAt: true,
+                },
+                orderBy: { policyType: "asc" },
               },
             },
           },
-          orderBy: { badge: { displayOrder: "asc" } },
-        },
-        // ADDED: Full tags for detail page
-        tags: {
-          where: { isActive: true },
-          select: {
-            id: true,
-            isActive: true,
-            assignedAt: true,
-            tag: {
-              select: {
-                id: true,
-                tagName: true,
-                tagType: true,
-                tagColor: true,
-                displayOrder: true,
-              },
+          startCountry: {
+            select: {
+              country_id: true,
+              country_name: true,
             },
           },
-          orderBy: { tag: { displayOrder: "asc" } },
+          startPrimaryDivision: {
+            select: {
+              primary_division_id: true,
+              division_name: true,
+            },
+          },
+          startSecondaryDivision: {
+            select: {
+              secondary_division_id: true,
+              division_name: true,
+            },
+          },
+          endCountry: {
+            select: {
+              country_id: true,
+              country_name: true,
+            },
+          },
+          endPrimaryDivision: {
+            select: {
+              primary_division_id: true,
+              division_name: true,
+            },
+          },
+          endSecondaryDivision: {
+            select: {
+              secondary_division_id: true,
+              division_name: true,
+            },
+          },
+          variants: {
+            select: {
+              id: true,
+              variantName: true,
+              variantDescription: true,
+              validParticipantNumbers: true,
+              variantMetadata: true,
+              variantOrder: true,
+            },
+            orderBy: { variantOrder: "asc" },
+          },
+          content: {
+            select: {
+              id: true,
+              contentType: true,
+              title: true,
+              contentText: true,
+              contentOrder: true,
+              imageUrls: true,
+            },
+            orderBy: { contentOrder: "asc" },
+          },
+          inclusionsExclusions: {
+            select: {
+              inclusions: true,
+              exclusions: true,
+            },
+          },
+          addons: {
+            select: {
+              addons: true,
+            },
+          },
+          media: {
+            select: {
+              id: true,
+              media: true,
+            },
+          },
+          faqs: {
+            select: {
+              id: true,
+              faqs: true,
+            },
+          },
+          badges: {
+            where: { isActive: true },
+            select: {
+              id: true,
+              isActive: true,
+              badge: {
+                select: {
+                  id: true,
+                  badgeName: true,
+                  badgeType: true,
+                  badgeDescription: true,
+                  badgeIconUrl: true,
+                  badgeColor: true,
+                  displayOrder: true,
+                },
+              },
+            },
+            orderBy: { badge: { displayOrder: "asc" } },
+          },
+          tags: {
+            where: { isActive: true },
+            select: {
+              id: true,
+              isActive: true,
+              tag: {
+                select: {
+                  id: true,
+                  tagName: true,
+                  tagType: true,
+                  tagColor: true,
+                  displayOrder: true,
+                },
+              },
+            },
+            orderBy: { tag: { displayOrder: "asc" } },
+          },
         },
-      },
     });
 
     if (!listing) {
       return c.json({ error: "Listing not found" }, 404);
     }
+
+    const fieldDefinitions = listing.categoryId
+      ? await prisma.listingMetadataFieldDefinition.findMany({
+          where: {
+            categoryId: listing.categoryId,
+          },
+          select: {
+            id: true,
+            categoryId: true,
+            fieldKey: true,
+            fieldLabel: true,
+            fieldType: true,
+            isRequired: true,
+            displayOrder: true,
+            fieldGroup: true,
+            imageUrl: true,
+            options: {
+              select: {
+                optionId: true,
+                optionValue: true,
+                optionLabel: true,
+                displayOrder: true,
+              },
+              orderBy: { displayOrder: "asc" },
+            },
+          },
+          orderBy: { displayOrder: "asc" },
+        })
+      : [];
 
     // Transform media from JSON format to flat structure
     const transformedMedia = listing.media.map((m: any) => {
@@ -1044,6 +1186,7 @@ export const getListing = async (c: Context) => {
         data: {
           ...publicListing,
           media: transformedMedia,
+          fieldDefinitions,
         },
       });
     }
@@ -1054,6 +1197,7 @@ export const getListing = async (c: Context) => {
       data: {
         ...listing,
         media: transformedMedia,
+        fieldDefinitions,
       },
     });
   } catch (error) {
