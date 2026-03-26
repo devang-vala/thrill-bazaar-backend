@@ -7,6 +7,7 @@ interface SettingsPayload {
   facebook_link?: string | null;
   twiiter_link?: string | null;
   email: string;
+  convenience_fee_percentage?: number | null;
 }
 
 const mapResponse = (setting: any) => ({
@@ -16,6 +17,7 @@ const mapResponse = (setting: any) => ({
   facebook_link: setting.facebookLink,
   twiiter_link: setting.twitterLink,
   email: setting.email,
+  convenience_fee_percentage: setting.convenienceFeePercentage ?? 0,
   createdAt: setting.createdAt,
   updatedAt: setting.updatedAt,
 });
@@ -28,6 +30,19 @@ const normalizeOptional = (value?: string | null) => {
 
 const isValidEmail = (email: string) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+const normalizeConvenienceFeePercentage = (value?: number | null) => {
+  if (value === undefined || value === null || Number.isNaN(Number(value))) {
+    return 0;
+  }
+
+  const normalized = Number(value);
+  if (normalized < 0 || normalized > 100) {
+    return null;
+  }
+
+  return normalized;
 };
 
 const isValidHttpUrl = (url: string | null) => {
@@ -101,9 +116,14 @@ export const createSetting = async (c: Context) => {
     const instagramLink = normalizeOptional(body.instagram_link);
     const facebookLink = normalizeOptional(body.facebook_link);
     const twitterLink = normalizeOptional(body.twiiter_link);
+    const convenienceFeePercentage = normalizeConvenienceFeePercentage(body.convenience_fee_percentage);
 
     if (!isValidHttpUrl(instagramLink) || !isValidHttpUrl(facebookLink) || !isValidHttpUrl(twitterLink)) {
       return c.json({ success: false, message: "Social links must be valid http/https URLs" }, 400);
+    }
+
+    if (convenienceFeePercentage === null) {
+      return c.json({ success: false, message: "convenience_fee_percentage must be between 0 and 100" }, 400);
     }
 
     const created = await prisma.setting.create({
@@ -113,6 +133,7 @@ export const createSetting = async (c: Context) => {
         instagramLink,
         facebookLink,
         twitterLink,
+        convenienceFeePercentage,
       },
     });
 
@@ -188,6 +209,14 @@ export const updateSetting = async (c: Context) => {
         return c.json({ success: false, message: "Invalid twiiter_link URL" }, 400);
       }
       updateData.twitterLink = twitterLink;
+    }
+
+    if (body.convenience_fee_percentage !== undefined) {
+      const convenienceFeePercentage = normalizeConvenienceFeePercentage(body.convenience_fee_percentage);
+      if (convenienceFeePercentage === null) {
+        return c.json({ success: false, message: "convenience_fee_percentage must be between 0 and 100" }, 400);
+      }
+      updateData.convenienceFeePercentage = convenienceFeePercentage;
     }
 
     const updated = await prisma.setting.update({

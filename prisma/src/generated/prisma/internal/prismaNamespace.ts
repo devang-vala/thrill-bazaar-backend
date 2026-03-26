@@ -3771,6 +3771,7 @@ export const SettingScalarFieldEnum = {
   facebookLink: 'facebookLink',
   twitterLink: 'twitterLink',
   email: 'email',
+  convenienceFeePercentage: 'convenienceFeePercentage',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

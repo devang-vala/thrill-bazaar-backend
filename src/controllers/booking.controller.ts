@@ -15,6 +15,16 @@ const generateBookingReference = () => {
   return `${prefix}-${year}-${random}`;
 };
 
+const getConvenienceFeeRateInBasisPoints = async () => {
+  const latestSetting = await prisma.setting.findFirst({
+    orderBy: { createdAt: "desc" },
+    select: { convenienceFeePercentage: true },
+  });
+
+  const percentage = latestSetting?.convenienceFeePercentage ?? 0;
+  return Math.max(0, Math.round(percentage * 100));
+};
+
 // Create comprehensive booking with participants and addons
 export const createBooking = async (c: Context) => {
   try {
@@ -261,6 +271,8 @@ export const createBooking = async (c: Context) => {
     const totalBasePrice = rupeesToPaise(basePrice * quantity);
 
     // Calculate payment breakdown with CORRECT logic
+    const platformCommissionRate = await getConvenienceFeeRateInBasisPoints();
+
     const paymentInput: PaymentCalculationInput = {
       bookingFormat,
       totalBasePrice, // TOTAL base price (with price overrides)
@@ -270,6 +282,7 @@ export const createBooking = async (c: Context) => {
       advancePaymentAmount: amountPaidNow ? rupeesToPaise(amountPaidNow) : undefined, // User-selected amount
       paymentMethod: paymentMethod || "online",
       taxRate: listingDetails.taxRate ? Math.round(listingDetails.taxRate * 100) : 1800, // Convert to basis points
+      platformCommissionRate,
     };
 
     const paymentBreakdown = calculatePaymentBreakdown(paymentInput);
@@ -647,6 +660,8 @@ export const createF2Booking = async (c: Context) => {
     // Calculate payment breakdown using the payment helper
     const totalDays = selectedDates.length;
     
+    const platformCommissionRate = await getConvenienceFeeRateInBasisPoints();
+
     const paymentInput: PaymentCalculationInput = {
       bookingFormat: "F2",
       totalBasePrice: rupeesToPaise(subtotal), // Total base price (includes overrides)
@@ -656,6 +671,7 @@ export const createF2Booking = async (c: Context) => {
       advancePaymentAmount: amountPaidNow ? rupeesToPaise(amountPaidNow) : undefined,
       paymentMethod: paymentMethod || "online",
       taxRate: dateRange.listing.taxRate ? Math.round(Number(dateRange.listing.taxRate) * 100) : 1800, // Convert to basis points
+      platformCommissionRate,
     };
 
     const paymentBreakdown = calculatePaymentBreakdown(paymentInput);
