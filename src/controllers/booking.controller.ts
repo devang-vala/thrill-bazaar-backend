@@ -7,6 +7,14 @@ import {
   type PaymentCalculationInput,
 } from "../helpers/payment.helper.js";
 
+const BOOKING_DEBUG = process.env.BOOKING_DEBUG === "true";
+
+const debugLog = (...args: unknown[]) => {
+  if (BOOKING_DEBUG) {
+    console.log(...args);
+  }
+};
+
 // Generate unique booking reference
 const generateBookingReference = () => {
   const prefix = "BOK";
@@ -21,10 +29,17 @@ export const createBooking = async (c: Context) => {
     const body = await c.req.json();
     const user = c.get("user");
     
-    // Debug logging
-    console.log("=== BOOKING REQUEST DEBUG ===");
-    console.log("Body received:", JSON.stringify(body, null, 2));
-    console.log("User from token:", user);
+    debugLog("=== BOOKING REQUEST DEBUG ===");
+    debugLog("Booking request summary:", {
+      customerId: body?.customerId,
+      listingId: body?.listingId,
+      listingSlotId: body?.listingSlotId,
+      dateRangeId: body?.dateRangeId,
+      participantCount: body?.participantCount,
+      selectedDate: body?.selectedDate,
+      userType: user?.userType,
+      role: user?.role,
+    });
     
     // Check if user is a customer
     if (user && user.userType !== "customer") {
@@ -56,13 +71,13 @@ export const createBooking = async (c: Context) => {
       paymentMethod,
     } = body;
 
-    // Detailed validation logging
-    console.log("Field validation:");
-    console.log("- customerId:", customerId);
-    console.log("- listingSlotId:", listingSlotId);
-    console.log("- dateRangeId:", dateRangeId);
-    console.log("- participantCount:", participantCount);
-    console.log("- participants:", participants);
+    debugLog("Field validation", {
+      customerId,
+      listingSlotId,
+      dateRangeId,
+      participantCount,
+      participantItems: Array.isArray(participants) ? participants.length : 0,
+    });
     
     // Validate required fields with specific error messages
     const missingFields = [];
@@ -72,7 +87,7 @@ export const createBooking = async (c: Context) => {
     if (!participants) missingFields.push("participants");
     
     if (missingFields.length > 0) {
-      console.log("VALIDATION FAILED - Missing fields:", missingFields);
+      debugLog("VALIDATION FAILED - Missing fields", missingFields);
       return c.json({ 
         success: false, 
         message: `Missing required fields: ${missingFields.join(", ")}` 
@@ -85,14 +100,14 @@ export const createBooking = async (c: Context) => {
     });
 
     if (!customer) {
-      console.log("VALIDATION FAILED - Customer not found:", customerId);
+      debugLog("VALIDATION FAILED - Customer not found", customerId);
       return c.json({ 
         success: false, 
         message: "Customer not found. Please login again." 
       }, 404);
     }
 
-    console.log("Customer verified:", customer.email);
+    debugLog("Customer verified", customer.email);
 
     // Get slot/dateRange details based on format
     let slot: any = null;
@@ -244,7 +259,7 @@ export const createBooking = async (c: Context) => {
       }, 400);
     }
 
-    console.log("Booking dates:", { bookingStartDate, bookingEndDate });
+    debugLog("Booking dates", { bookingStartDate, bookingEndDate });
 
     // Calculate total days
     const timeDiff = bookingEndDate.getTime() - bookingStartDate.getTime();
@@ -274,21 +289,22 @@ export const createBooking = async (c: Context) => {
 
     const paymentBreakdown = calculatePaymentBreakdown(paymentInput);
 
-    console.log("=== PAYMENT BREAKDOWN (CORRECT: TAX FIRST!) ===");
-    console.log("Total Base Price:", paymentBreakdown.totalBasePrice / 100, "INR");
-    console.log("Quantity:", paymentBreakdown.quantity);
-    console.log("Tax Amount (18%):", paymentBreakdown.taxAmount / 100, "INR");
-    console.log("Subtotal WITH Tax:", paymentBreakdown.subtotalWithTax / 100, "INR");
-    console.log("Discount:", paymentBreakdown.discountAmount / 100, "INR");
-    console.log("Total Base Amount:", paymentBreakdown.totalBaseAmount / 100, "INR");
-    console.log("Add-ons:", paymentBreakdown.addonsAmount / 100, "INR");
-    console.log("Total Amount:", paymentBreakdown.totalAmount / 100, "INR");
-    console.log("Paid (user-selected):", paymentBreakdown.amountPaidOnline / 100, "INR");
-    console.log("Balance:", paymentBreakdown.amountToCollectOffline / 100, "INR");
-    console.log("Platform Commission:", paymentBreakdown.platformCommission / 100, "INR");
-    console.log("TCS:", paymentBreakdown.tcsAmount / 100, "INR");
-    console.log("Net Pay to Seller:", paymentBreakdown.netPayToSeller / 100, "INR");
-    console.log("Total Earnings:", paymentBreakdown.totalEarnings / 100, "INR");
+    debugLog("Payment breakdown", {
+      totalBasePrice: paymentBreakdown.totalBasePrice / 100,
+      quantity: paymentBreakdown.quantity,
+      taxAmount: paymentBreakdown.taxAmount / 100,
+      subtotalWithTax: paymentBreakdown.subtotalWithTax / 100,
+      discountAmount: paymentBreakdown.discountAmount / 100,
+      totalBaseAmount: paymentBreakdown.totalBaseAmount / 100,
+      addonsAmount: paymentBreakdown.addonsAmount / 100,
+      totalAmount: paymentBreakdown.totalAmount / 100,
+      amountPaidOnline: paymentBreakdown.amountPaidOnline / 100,
+      amountToCollectOffline: paymentBreakdown.amountToCollectOffline / 100,
+      platformCommission: paymentBreakdown.platformCommission / 100,
+      tcsAmount: paymentBreakdown.tcsAmount / 100,
+      netPayToSeller: paymentBreakdown.netPayToSeller / 100,
+      totalEarnings: paymentBreakdown.totalEarnings / 100,
+    });
 
     // Create booking with all details in transaction
     const result = await prisma.$transaction(async (tx) => {
@@ -660,7 +676,7 @@ export const createF2Booking = async (c: Context) => {
 
     const paymentBreakdown = calculatePaymentBreakdown(paymentInput);
 
-    console.log("F2 Payment breakdown:", paymentBreakdown);
+    debugLog("F2 Payment breakdown", paymentBreakdown);
 
     // Create booking in transaction
     const result = await prisma.$transaction(async (tx) => {
