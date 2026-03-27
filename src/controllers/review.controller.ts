@@ -183,6 +183,7 @@ export const getReviewsController = async (c: Context) => {
       listingId: query.listingId,
       customerId: query.customerId,
       operatorId: query.operatorId,
+      searchTerm: query.searchTerm,
       rating: query.rating ? parseInt(query.rating) : undefined,
       minRating: query.minRating ? parseInt(query.minRating) : undefined,
       maxRating: query.maxRating ? parseInt(query.maxRating) : undefined,

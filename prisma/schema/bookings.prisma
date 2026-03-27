@@ -17,7 +17,10 @@ model Booking {
   basePrice   Decimal @map("base_price") @db.Decimal(10, 2)
   totalAmount Decimal @map("total_amount") @db.Decimal(10, 2)
 
-  bookingStatus BookingStatus @map("booking_status")
+  bookingStatus   BookingStatus @map("booking_status")
+  otp             String?       @map("otp")
+  otpVerification Boolean       @default(false) @map("otp_verification")
+  reason          String?       @db.Text @map("reason")
 
   // Reschedule tracking
   rescheduleCount   Int       @default(0) @map("reschedule_count")

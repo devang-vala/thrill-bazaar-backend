@@ -31,6 +31,7 @@ export interface ReviewFilters {
   listingId?: string;
   customerId?: string;
   operatorId?: string;
+  searchTerm?: string;
   rating?: number;
   isFlagged?: boolean;
   isModerated?: boolean;
@@ -252,6 +253,7 @@ export const getReviews = async (
       listingId,
       customerId,
       operatorId,
+      searchTerm,
       rating,
       isFlagged,
       isModerated,
@@ -275,6 +277,27 @@ export const getReviews = async (
     if (listingId) where.listingId = listingId;
     if (customerId) where.customerId = customerId;
     if (operatorId) where.operatorId = operatorId;
+    if (searchTerm?.trim()) {
+      const normalizedSearchTerm = searchTerm.trim();
+
+      where.OR = [
+        { reviewTitle: { contains: normalizedSearchTerm, mode: "insensitive" } },
+        { reviewText: { contains: normalizedSearchTerm, mode: "insensitive" } },
+        {
+          customer: {
+            OR: [
+              { firstName: { contains: normalizedSearchTerm, mode: "insensitive" } },
+              { lastName: { contains: normalizedSearchTerm, mode: "insensitive" } },
+            ],
+          },
+        },
+        {
+          listing: {
+            listingName: { contains: normalizedSearchTerm, mode: "insensitive" },
+          },
+        },
+      ];
+    }
     if (rating !== undefined) where.rating = rating;
     if (isFlagged !== undefined) where.isFlagged = isFlagged;
     if (isModerated !== undefined) where.isModerated = isModerated;

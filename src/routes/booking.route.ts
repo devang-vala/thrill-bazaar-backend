@@ -9,6 +9,8 @@ import {
   getAdminBookings,
   getAdminBookingById,
   getOperatorBookings,
+  verifyBookingOtp,
+  resendBookingOtp,
 } from "../controllers/booking.controller.js";
 import {
   authenticateToken,
@@ -38,6 +40,12 @@ bookingRouter.post("/f2", optionalAuth, createF2Booking);
 
 // Cancel booking
 bookingRouter.post("/:bookingId/cancel", optionalAuth, cancelBooking);
+
+// Verify booking OTP (seller/admin check-in)
+bookingRouter.post("/:bookingId/verify-otp", authenticateToken, verifyBookingOtp);
+
+// Resend booking OTP (seller/admin check-in)
+bookingRouter.post("/:bookingId/resend-otp", authenticateToken, resendBookingOtp);
 
 // Get user bookings
 bookingRouter.get("/user/:customerId", optionalAuth, getUserBookings);
