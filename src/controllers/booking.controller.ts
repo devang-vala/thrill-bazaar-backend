@@ -6,6 +6,7 @@ import {
   getQuantityForBookingFormat,
   type PaymentCalculationInput,
 } from "../helpers/payment.helper.js";
+import { generateOtp, isMasterOtp, sendOtpSMS } from "../helpers/auth.helper.js";
 
 const BOOKING_DEBUG = process.env.BOOKING_DEBUG === "true";
 
@@ -43,6 +44,27 @@ const getConvenienceFeeRateInBasisPoints = async () => {
   });
 
   return percentageToBasisPoints(latestSetting?.convenienceFeePercentage, 0);
+};
+
+const createBookingOtp = () => generateOtp();
+
+const generateUniqueBookingOtp = async (excludeBookingId?: string) => {
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const otp = createBookingOtp();
+    const existingBooking = await prisma.booking.findFirst({
+      where: {
+        otp,
+        ...(excludeBookingId ? { NOT: { id: excludeBookingId } } : {}),
+      },
+      select: { id: true },
+    });
+
+    if (!existingBooking) {
+      return otp;
+    }
+  }
+
+  throw new Error("Failed to generate a unique booking OTP");
 };
 
 // Create comprehensive booking with participants and addons
@@ -345,6 +367,8 @@ export const createBooking = async (c: Context) => {
 
     // Create booking with all details in transaction
     const result = await prisma.$transaction(async (tx) => {
+      const bookingOtp = await generateUniqueBookingOtp();
+
       // Create booking with all metadata
       const booking = await tx.booking.create({
         data: {
@@ -359,6 +383,8 @@ export const createBooking = async (c: Context) => {
           basePrice: basePrice,
           totalAmount: paymentBreakdown.totalAmount / 100, // Store in rupees
           bookingStatus: "CONFIRMED",
+          otp: bookingOtp,
+          otpVerification: false,
           participants: participants,
           contactDetails: contactDetails,
           selectedAddons: selectedAddons || [],
@@ -537,6 +563,8 @@ export const createF1Booking = async (c: Context) => {
 
     // Create booking and update slot availability in transaction
     const result = await prisma.$transaction(async (tx) => {
+      const bookingOtp = await generateUniqueBookingOtp();
+
       // Create booking
       const booking = await tx.booking.create({
         data: {
@@ -550,6 +578,8 @@ export const createF1Booking = async (c: Context) => {
           basePrice,
           totalAmount,
           bookingStatus: "CONFIRMED",
+          otp: bookingOtp,
+          otpVerification: false,
         },
       });
 
@@ -731,6 +761,8 @@ export const createF2Booking = async (c: Context) => {
 
     // Create booking in transaction
     const result = await prisma.$transaction(async (tx) => {
+      const bookingOtp = await generateUniqueBookingOtp();
+
       // Create booking
       const booking = await tx.booking.create({
         data: {
@@ -744,6 +776,8 @@ export const createF2Booking = async (c: Context) => {
           basePrice: subtotal / selectedDates.length, // Base price per day
           totalAmount: paymentBreakdown.totalAmount / 100, // Store in rupees
           bookingStatus: "CONFIRMED",
+          otp: bookingOtp,
+          otpVerification: false,
           contactDetails: contactDetails,
           selectedAddons: selectedAddons || [],
           pricingDetails: {
@@ -826,9 +860,15 @@ export const createF2Booking = async (c: Context) => {
 export const cancelBooking = async (c: Context) => {
   try {
     const bookingId = c.req.param("bookingId");
+    const body = await c.req.json().catch(() => ({}));
+    const reason = String(body?.reason || "").trim();
 
     if (!bookingId) {
       return c.json({ success: false, message: "Booking ID required" }, 400);
+    }
+
+    if (!reason) {
+      return c.json({ success: false, message: "Cancellation reason is required" }, 400);
     }
 
     // Get booking details
@@ -851,6 +891,9 @@ export const cancelBooking = async (c: Context) => {
         where: { id: bookingId },
         data: {
           bookingStatus: "CANCELLED",
+          reason,
+          otp: null,
+          otpVerification: false,
         },
       });
 
@@ -871,10 +914,244 @@ export const cancelBooking = async (c: Context) => {
       return updatedBooking;
     });
 
-    return c.json({ success: true, data: result });
+    return c.json({ success: true, data: result, message: "Booking cancelled successfully" });
   } catch (error) {
     console.error("Error cancelling booking:", error);
     return c.json({ success: false, message: "Failed to cancel booking" }, 500);
+  }
+};
+
+// Verify booking OTP and mark customer as checked in
+export const verifyBookingOtp = async (c: Context) => {
+  try {
+    const bookingId = c.req.param("bookingId");
+    const user = c.get("user");
+    const body = await c.req.json().catch(() => ({}));
+    const otp = String(body?.otp || "").replace(/\D/g, "").trim();
+
+    if (!bookingId) {
+      return c.json({ success: false, message: "Booking ID required" }, 400);
+    }
+
+    if (!otp || otp.length !== 6) {
+      return c.json({ success: false, message: "Valid 6 digit OTP is required" }, 400);
+    }
+
+    if (!user) {
+      return c.json({ success: false, message: "Authentication required" }, 401);
+    }
+
+    const booking = await prisma.booking.findUnique({
+      where: { id: bookingId },
+      select: {
+        id: true,
+        bookingReference: true,
+        bookingStatus: true,
+        otp: true,
+        otpVerification: true,
+        listingSlot: {
+          select: {
+            listing: {
+              select: {
+                operatorId: true,
+              },
+            },
+          },
+        },
+        dateRange: {
+          select: {
+            listing: {
+              select: {
+                operatorId: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!booking) {
+      return c.json({ success: false, message: "Booking not found" }, 404);
+    }
+
+    const operatorId =
+      booking.listingSlot?.listing?.operatorId ||
+      booking.dateRange?.listing?.operatorId ||
+      null;
+
+    if (!operatorId) {
+      return c.json({ success: false, message: "Unable to resolve booking operator" }, 400);
+    }
+
+    const isAdmin = user.userType === "admin" || user.userType === "super_admin";
+    if (!isAdmin && user.userId !== operatorId) {
+      return c.json({ success: false, message: "Unauthorized to verify OTP for this booking" }, 403);
+    }
+
+    if (booking.bookingStatus === "CANCELLED") {
+      return c.json({ success: false, message: "Cannot verify OTP for cancelled booking" }, 400);
+    }
+
+    if (booking.otpVerification) {
+      return c.json({
+        success: true,
+        message: "OTP already verified for this booking",
+        data: booking,
+      });
+    }
+
+    const normalizedStoredOtp = String(booking.otp || "").replace(/\D/g, "");
+
+    if (!normalizedStoredOtp && !isMasterOtp(otp)) {
+      return c.json({
+        success: false,
+        message: "No active OTP found for this booking. Please resend OTP and try again.",
+      }, 400);
+    }
+
+    const isOtpValid = normalizedStoredOtp === otp || isMasterOtp(otp);
+
+    if (!isOtpValid) {
+      return c.json({
+        success: false,
+        message: "Invalid OTP entered",
+        debug: process.env.NODE_ENV !== "production" ? { expectedOtp: normalizedStoredOtp || null } : undefined,
+      }, 400);
+    }
+
+    const updatedBooking = await prisma.booking.update({
+      where: { id: bookingId },
+      data: {
+        otpVerification: true,
+        bookingStatus: "COMPLETED",
+        otp: null,
+      },
+    });
+
+    return c.json({
+      success: true,
+      message: "OTP verified successfully. Customer checked in.",
+      data: updatedBooking,
+    });
+  } catch (error) {
+    console.error("Error verifying booking OTP:", error);
+    return c.json({ success: false, message: "Failed to verify booking OTP" }, 500);
+  }
+};
+
+// Resend booking OTP for check-in flow
+export const resendBookingOtp = async (c: Context) => {
+  try {
+    const bookingId = c.req.param("bookingId");
+    const user = c.get("user");
+
+    if (!bookingId) {
+      return c.json({ success: false, message: "Booking ID required" }, 400);
+    }
+
+    if (!user) {
+      return c.json({ success: false, message: "Authentication required" }, 401);
+    }
+
+    const booking = await prisma.booking.findUnique({
+      where: { id: bookingId },
+      select: {
+        id: true,
+        bookingStatus: true,
+        otpVerification: true,
+        customer: {
+          select: {
+            phone: true,
+          },
+        },
+        contactDetails: true,
+        listingSlot: {
+          select: {
+            listing: {
+              select: {
+                operatorId: true,
+              },
+            },
+          },
+        },
+        dateRange: {
+          select: {
+            listing: {
+              select: {
+                operatorId: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!booking) {
+      return c.json({ success: false, message: "Booking not found" }, 404);
+    }
+
+    const operatorId =
+      booking.listingSlot?.listing?.operatorId ||
+      booking.dateRange?.listing?.operatorId ||
+      null;
+
+    if (!operatorId) {
+      return c.json({ success: false, message: "Unable to resolve booking operator" }, 400);
+    }
+
+    const isAdmin = user.userType === "admin" || user.userType === "super_admin";
+    if (!isAdmin && user.userId !== operatorId) {
+      return c.json({ success: false, message: "Unauthorized to resend OTP for this booking" }, 403);
+    }
+
+    if (booking.bookingStatus === "CANCELLED") {
+      return c.json({ success: false, message: "Cannot resend OTP for cancelled booking" }, 400);
+    }
+
+    if (booking.otpVerification) {
+      return c.json({ success: false, message: "Booking is already checked in" }, 400);
+    }
+
+    const newOtp = await generateUniqueBookingOtp(bookingId);
+
+    await prisma.booking.update({
+      where: { id: bookingId },
+      data: {
+        otp: newOtp,
+        otpVerification: false,
+      },
+    });
+
+    const contactDetails =
+      booking.contactDetails && typeof booking.contactDetails === "object"
+        ? (booking.contactDetails as Record<string, unknown>)
+        : null;
+
+    const customerPhone =
+      booking.customer?.phone ||
+      (typeof contactDetails?.phone === "string" ? contactDetails.phone : null) ||
+      (typeof contactDetails?.mobile === "string" ? contactDetails.mobile : null) ||
+      (typeof contactDetails?.phoneNumber === "string" ? contactDetails.phoneNumber : null);
+
+    let smsSent = false;
+    if (customerPhone) {
+      smsSent = await sendOtpSMS(customerPhone, newOtp);
+    }
+
+    const exposeOtp = process.env.NODE_ENV !== "production";
+
+    return c.json({
+      success: true,
+      message: smsSent ? "Booking OTP resent successfully" : "Booking OTP regenerated successfully",
+      data: {
+        bookingId,
+        smsSent,
+        otp: exposeOtp ? newOtp : !smsSent ? newOtp : undefined,
+      },
+    });
+  } catch (error) {
+    console.error("Error resending booking OTP:", error);
+    return c.json({ success: false, message: "Failed to resend booking OTP" }, 500);
   }
 };
 
@@ -1029,6 +1306,8 @@ export const getBookingWithReschedules = async (c: Context) => {
                 frontImageUrl: true,
                 currency: true,
                 startLocationName: true,
+                endLocationName: true,
+                startGoogleMapsUrl: true,
                 operatorId: true,
                 bookingFormat: true,
                 addons: true, // Include addons to enrich selectedAddons
@@ -1089,6 +1368,8 @@ export const getBookingWithReschedules = async (c: Context) => {
                 frontImageUrl: true,
                 currency: true,
                 startLocationName: true,
+                endLocationName: true,
+                startGoogleMapsUrl: true,
                 operatorId: true,
                 bookingFormat: true,
                 addons: true, // Include addons to enrich selectedAddons

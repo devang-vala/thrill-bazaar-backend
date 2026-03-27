@@ -12,6 +12,34 @@ import { initMeilisearch } from "./services/meilisearch.service.js";
 const cloudinary = configureCloudinary();
 // console.log("Cloudinary Secrets Loaded:", cloudinarySecrets);
 
+const ensureBookingReasonColumn = async () => {
+  try {
+    const rows = (await prisma.$queryRawUnsafe(`
+      SELECT EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'bookings'
+          AND column_name = 'reason'
+      ) AS exists
+    `)) as Array<{ exists: boolean }>;
+
+    const hasReasonColumn = rows?.[0]?.exists === true;
+    if (!hasReasonColumn) {
+      console.warn("[DB Drift] Missing bookings.reason column. Applying safe auto-fix...");
+      await prisma.$executeRawUnsafe(
+        `ALTER TABLE "bookings" ADD COLUMN IF NOT EXISTS "reason" TEXT;`
+      );
+      console.log("[DB Drift] Added bookings.reason column successfully.");
+    }
+  } catch (error) {
+    console.warn(
+      "[DB Drift] Failed to verify/apply bookings.reason column fix:",
+      error instanceof Error ? error.message : error
+    );
+  }
+};
+
 // Initialize Meilisearch
 // Initialize Meilisearch (non-blocking)
 initMeilisearch().catch(err => {
@@ -33,13 +61,22 @@ app.get("/", (c) => {
 // Mount API routes under /api
 app.route("/api", apiRouter);
 
-serve(
-  {
-    fetch: app.fetch,
-    port: process.env.PORT ? Number(process.env.PORT) : 3000,
-  },
-  (info) => {
-    const boundPort = info?.port ?? process.env.PORT ?? 3000;
-    console.log(`Server is running on http://localhost:${boundPort}`);
-  }
-);
+const startServer = async () => {
+  await ensureBookingReasonColumn();
+
+  serve(
+    {
+      fetch: app.fetch,
+      port: process.env.PORT ? Number(process.env.PORT) : 3000,
+    },
+    (info) => {
+      const boundPort = info?.port ?? process.env.PORT ?? 3000;
+      console.log(`Server is running on http://localhost:${boundPort}`);
+    }
+  );
+};
+
+startServer().catch((error) => {
+  console.error("Failed to start server:", error);
+  process.exit(1);
+});
