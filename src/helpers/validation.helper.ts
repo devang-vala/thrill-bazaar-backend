@@ -254,26 +254,12 @@ export const validateProfileUpdate = (
   },
   userType: string
 ): ValidationResult => {
-  // Customers can only update phone and names
-  if (userType === "customer") {
-    if (data.phone) {
-      return {
-        isValid: false,
-        message: "Customers cannot update email address",
-      };
-    }
-  } else {
-    // Admin users can only update email and names
-    if (data.phone) {
-      return {
-        isValid: false,
-        message: "Admin users cannot update phone number",
-      };
-    }
-
-    if (data.email && !isValidEmail(data.email)) {
-      return { isValid: false, message: "Invalid email format" };
-    }
+  if (data.phone && !isValidPhone(data.phone)) {
+    return { isValid: false, message: "Invalid phone format" };
+  }
+  
+  if (data.email && !isValidEmail(data.email)) {
+    return { isValid: false, message: "Invalid email format" };
   }
 
   if (data.firstName && data.firstName.length > 50) {

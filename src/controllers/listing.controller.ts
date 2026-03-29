@@ -1273,6 +1273,8 @@ export const getListingById = async (c: Context) => {
             firstName: true,
             lastName: true,
             email: true,
+            phone: true,
+            alternatePhone: true,
           },
         },
         startCountry: {
