@@ -294,6 +294,7 @@ export type UserWhereInput = {
   assignedListingBadges?: Prisma.ListingBadgeListRelationFilter
   createdTags?: Prisma.TagListRelationFilter
   assignedListingTags?: Prisma.ListingTagListRelationFilter
+  targetedOffers?: Prisma.OfferPromocodeListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -335,16 +336,18 @@ export type UserOrderByWithRelationInput = {
   assignedListingBadges?: Prisma.ListingBadgeOrderByRelationAggregateInput
   createdTags?: Prisma.TagOrderByRelationAggregateInput
   assignedListingTags?: Prisma.ListingTagOrderByRelationAggregateInput
+  targetedOffers?: Prisma.OfferPromocodeOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  email?: string
-  phone?: string
+  email_phone?: Prisma.UserEmailPhoneCompoundUniqueInput
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   userType?: Prisma.EnumUserTypeFilter<"User"> | $Enums.UserType
+  email?: Prisma.StringNullableFilter<"User"> | string | null
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
   password?: Prisma.StringNullableFilter<"User"> | string | null
   firstName?: Prisma.StringNullableFilter<"User"> | string | null
   lastName?: Prisma.StringNullableFilter<"User"> | string | null
@@ -379,7 +382,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   assignedListingBadges?: Prisma.ListingBadgeListRelationFilter
   createdTags?: Prisma.TagListRelationFilter
   assignedListingTags?: Prisma.ListingTagListRelationFilter
-}, "id" | "email" | "phone">
+  targetedOffers?: Prisma.OfferPromocodeListRelationFilter
+}, "id" | "email_phone">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -466,6 +470,7 @@ export type UserCreateInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -507,6 +512,7 @@ export type UserUncheckedCreateInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUpdateInput = {
@@ -548,6 +554,7 @@ export type UserUpdateInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -589,6 +596,7 @@ export type UserUncheckedUpdateInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -659,6 +667,21 @@ export type UserNullableScalarRelationFilter = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserListRelationFilter = {
+  every?: Prisma.UserWhereInput
+  some?: Prisma.UserWhereInput
+  none?: Prisma.UserWhereInput
+}
+
+export type UserOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type UserEmailPhoneCompoundUniqueInput = {
+  email: string
+  phone: string
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -855,6 +878,44 @@ export type UserUpdateOneWithoutListingsNestedInput = {
   delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutListingsInput, Prisma.UserUpdateWithoutListingsInput>, Prisma.UserUncheckedUpdateWithoutListingsInput>
+}
+
+export type UserCreateNestedManyWithoutTargetedOffersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTargetedOffersInput, Prisma.UserUncheckedCreateWithoutTargetedOffersInput> | Prisma.UserCreateWithoutTargetedOffersInput[] | Prisma.UserUncheckedCreateWithoutTargetedOffersInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTargetedOffersInput | Prisma.UserCreateOrConnectWithoutTargetedOffersInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUncheckedCreateNestedManyWithoutTargetedOffersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTargetedOffersInput, Prisma.UserUncheckedCreateWithoutTargetedOffersInput> | Prisma.UserCreateWithoutTargetedOffersInput[] | Prisma.UserUncheckedCreateWithoutTargetedOffersInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTargetedOffersInput | Prisma.UserCreateOrConnectWithoutTargetedOffersInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUpdateManyWithoutTargetedOffersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTargetedOffersInput, Prisma.UserUncheckedCreateWithoutTargetedOffersInput> | Prisma.UserCreateWithoutTargetedOffersInput[] | Prisma.UserUncheckedCreateWithoutTargetedOffersInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTargetedOffersInput | Prisma.UserCreateOrConnectWithoutTargetedOffersInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutTargetedOffersInput | Prisma.UserUpsertWithWhereUniqueWithoutTargetedOffersInput[]
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutTargetedOffersInput | Prisma.UserUpdateWithWhereUniqueWithoutTargetedOffersInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutTargetedOffersInput | Prisma.UserUpdateManyWithWhereWithoutTargetedOffersInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserUncheckedUpdateManyWithoutTargetedOffersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTargetedOffersInput, Prisma.UserUncheckedCreateWithoutTargetedOffersInput> | Prisma.UserCreateWithoutTargetedOffersInput[] | Prisma.UserUncheckedCreateWithoutTargetedOffersInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTargetedOffersInput | Prisma.UserCreateOrConnectWithoutTargetedOffersInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutTargetedOffersInput | Prisma.UserUpsertWithWhereUniqueWithoutTargetedOffersInput[]
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutTargetedOffersInput | Prisma.UserUpdateWithWhereUniqueWithoutTargetedOffersInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutTargetedOffersInput | Prisma.UserUpdateManyWithWhereWithoutTargetedOffersInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
 export type UserCreateNestedOneWithoutOperatorProfileInput = {
@@ -1086,6 +1147,7 @@ export type UserCreateWithoutCreatedBadgesInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutCreatedBadgesInput = {
@@ -1126,6 +1188,7 @@ export type UserUncheckedCreateWithoutCreatedBadgesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutCreatedBadgesInput = {
@@ -1182,6 +1245,7 @@ export type UserUpdateWithoutCreatedBadgesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedBadgesInput = {
@@ -1222,6 +1286,7 @@ export type UserUncheckedUpdateWithoutCreatedBadgesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutAssignedListingBadgesInput = {
@@ -1262,6 +1327,7 @@ export type UserCreateWithoutAssignedListingBadgesInput = {
   createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutAssignedListingBadgesInput = {
@@ -1302,6 +1368,7 @@ export type UserUncheckedCreateWithoutAssignedListingBadgesInput = {
   createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutAssignedListingBadgesInput = {
@@ -1358,6 +1425,7 @@ export type UserUpdateWithoutAssignedListingBadgesInput = {
   createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssignedListingBadgesInput = {
@@ -1398,6 +1466,7 @@ export type UserUncheckedUpdateWithoutAssignedListingBadgesInput = {
   createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutBookingsInput = {
@@ -1438,6 +1507,7 @@ export type UserCreateWithoutBookingsInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutBookingsInput = {
@@ -1478,6 +1548,7 @@ export type UserUncheckedCreateWithoutBookingsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutBookingsInput = {
@@ -1534,6 +1605,7 @@ export type UserUpdateWithoutBookingsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBookingsInput = {
@@ -1574,6 +1646,7 @@ export type UserUncheckedUpdateWithoutBookingsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutBlockedDatesInput = {
@@ -1614,6 +1687,7 @@ export type UserCreateWithoutBlockedDatesInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutBlockedDatesInput = {
@@ -1654,6 +1728,7 @@ export type UserUncheckedCreateWithoutBlockedDatesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutBlockedDatesInput = {
@@ -1710,6 +1785,7 @@ export type UserUpdateWithoutBlockedDatesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBlockedDatesInput = {
@@ -1750,6 +1826,7 @@ export type UserUncheckedUpdateWithoutBlockedDatesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutCreatedMetadataDefinitionsInput = {
@@ -1790,6 +1867,7 @@ export type UserCreateWithoutCreatedMetadataDefinitionsInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
@@ -1830,6 +1908,7 @@ export type UserUncheckedCreateWithoutCreatedMetadataDefinitionsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutCreatedMetadataDefinitionsInput = {
@@ -1886,6 +1965,7 @@ export type UserUpdateWithoutCreatedMetadataDefinitionsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
@@ -1926,6 +2006,7 @@ export type UserUncheckedUpdateWithoutCreatedMetadataDefinitionsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutPoliciesInput = {
@@ -1966,6 +2047,7 @@ export type UserCreateWithoutPoliciesInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutPoliciesInput = {
@@ -2006,6 +2088,7 @@ export type UserUncheckedCreateWithoutPoliciesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutPoliciesInput = {
@@ -2062,6 +2145,7 @@ export type UserUpdateWithoutPoliciesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPoliciesInput = {
@@ -2102,6 +2186,7 @@ export type UserUncheckedUpdateWithoutPoliciesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -2142,6 +2227,7 @@ export type UserCreateWithoutCreatedVariantMetadataDefinitionsInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -2182,6 +2268,7 @@ export type UserUncheckedCreateWithoutCreatedVariantMetadataDefinitionsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -2238,6 +2325,7 @@ export type UserUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
@@ -2278,6 +2366,7 @@ export type UserUncheckedUpdateWithoutCreatedVariantMetadataDefinitionsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutApprovedListingsInput = {
@@ -2318,6 +2407,7 @@ export type UserCreateWithoutApprovedListingsInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutApprovedListingsInput = {
@@ -2358,6 +2448,7 @@ export type UserUncheckedCreateWithoutApprovedListingsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutApprovedListingsInput = {
@@ -2403,6 +2494,7 @@ export type UserCreateWithoutListingsInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutListingsInput = {
@@ -2443,6 +2535,7 @@ export type UserUncheckedCreateWithoutListingsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutListingsInput = {
@@ -2499,6 +2592,7 @@ export type UserUpdateWithoutApprovedListingsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApprovedListingsInput = {
@@ -2539,6 +2633,7 @@ export type UserUncheckedUpdateWithoutApprovedListingsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUpsertWithoutListingsInput = {
@@ -2590,6 +2685,7 @@ export type UserUpdateWithoutListingsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutListingsInput = {
@@ -2630,6 +2726,133 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
+}
+
+export type UserCreateWithoutTargetedOffersInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  gender?: string | null
+  dateOfBirth?: Date | string | null
+  alternatePhone?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
+  listings?: Prisma.ListingCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleCreateNestedManyWithoutApprovedByAdminInput
+  customerReviews?: Prisma.ReviewCreateNestedManyWithoutCustomerInput
+  operatorReviews?: Prisma.ReviewCreateNestedManyWithoutOperatorInput
+  moderatedReviews?: Prisma.ReviewCreateNestedManyWithoutModeratedByAdminInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutTargetedOffersInput = {
+  id?: string
+  userType?: $Enums.UserType
+  email?: string | null
+  phone?: string | null
+  password?: string | null
+  firstName?: string | null
+  lastName?: string | null
+  gender?: string | null
+  dateOfBirth?: Date | string | null
+  alternatePhone?: string | null
+  profileImg?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  selectedCategoryIds?: Prisma.UserCreateselectedCategoryIdsInput | string[]
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutOperatorInput
+  approvedListings?: Prisma.ListingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  policies?: Prisma.ListingPolicyUncheckedCreateNestedManyWithoutSellerInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutCreatedByOperatorInput
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedCreateNestedOneWithoutOperatorInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedCreateNestedManyWithoutVerifiedByAdminInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedCreateNestedManyWithoutInitiatedByInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedCreateNestedManyWithoutOperatorInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  customerReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCustomerInput
+  operatorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutOperatorInput
+  moderatedReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutModeratedByAdminInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedCreateNestedManyWithoutUserInput
+  createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutTargetedOffersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTargetedOffersInput, Prisma.UserUncheckedCreateWithoutTargetedOffersInput>
+}
+
+export type UserUpsertWithWhereUniqueWithoutTargetedOffersInput = {
+  where: Prisma.UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTargetedOffersInput, Prisma.UserUncheckedUpdateWithoutTargetedOffersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTargetedOffersInput, Prisma.UserUncheckedCreateWithoutTargetedOffersInput>
+}
+
+export type UserUpdateWithWhereUniqueWithoutTargetedOffersInput = {
+  where: Prisma.UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTargetedOffersInput, Prisma.UserUncheckedUpdateWithoutTargetedOffersInput>
+}
+
+export type UserUpdateManyWithWhereWithoutTargetedOffersInput = {
+  where: Prisma.UserScalarWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutTargetedOffersInput>
+}
+
+export type UserScalarWhereInput = {
+  AND?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  OR?: Prisma.UserScalarWhereInput[]
+  NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  id?: Prisma.StringFilter<"User"> | string
+  userType?: Prisma.EnumUserTypeFilter<"User"> | $Enums.UserType
+  email?: Prisma.StringNullableFilter<"User"> | string | null
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
+  password?: Prisma.StringNullableFilter<"User"> | string | null
+  firstName?: Prisma.StringNullableFilter<"User"> | string | null
+  lastName?: Prisma.StringNullableFilter<"User"> | string | null
+  gender?: Prisma.StringNullableFilter<"User"> | string | null
+  dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  alternatePhone?: Prisma.StringNullableFilter<"User"> | string | null
+  profileImg?: Prisma.StringNullableFilter<"User"> | string | null
+  isVerified?: Prisma.BoolFilter<"User"> | boolean
+  isActive?: Prisma.BoolFilter<"User"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  selectedCategoryIds?: Prisma.StringNullableListFilter<"User">
 }
 
 export type UserCreateWithoutOperatorProfileInput = {
@@ -2670,6 +2893,7 @@ export type UserCreateWithoutOperatorProfileInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutOperatorProfileInput = {
@@ -2710,6 +2934,7 @@ export type UserUncheckedCreateWithoutOperatorProfileInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutOperatorProfileInput = {
@@ -2755,6 +2980,7 @@ export type UserCreateWithoutVerifiedOperatorsInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutVerifiedOperatorsInput = {
@@ -2795,6 +3021,7 @@ export type UserUncheckedCreateWithoutVerifiedOperatorsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutVerifiedOperatorsInput = {
@@ -2851,6 +3078,7 @@ export type UserUpdateWithoutOperatorProfileInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOperatorProfileInput = {
@@ -2891,6 +3119,7 @@ export type UserUncheckedUpdateWithoutOperatorProfileInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUpsertWithoutVerifiedOperatorsInput = {
@@ -2942,6 +3171,7 @@ export type UserUpdateWithoutVerifiedOperatorsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVerifiedOperatorsInput = {
@@ -2982,6 +3212,7 @@ export type UserUncheckedUpdateWithoutVerifiedOperatorsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutReschedulesInitiatedInput = {
@@ -3022,6 +3253,7 @@ export type UserCreateWithoutReschedulesInitiatedInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutReschedulesInitiatedInput = {
@@ -3062,6 +3294,7 @@ export type UserUncheckedCreateWithoutReschedulesInitiatedInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutReschedulesInitiatedInput = {
@@ -3107,6 +3340,7 @@ export type UserCreateWithoutReschedulesAsOperatorInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutReschedulesAsOperatorInput = {
@@ -3147,6 +3381,7 @@ export type UserUncheckedCreateWithoutReschedulesAsOperatorInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutReschedulesAsOperatorInput = {
@@ -3192,6 +3427,7 @@ export type UserCreateWithoutReschedulesApprovedInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutReschedulesApprovedInput = {
@@ -3232,6 +3468,7 @@ export type UserUncheckedCreateWithoutReschedulesApprovedInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutReschedulesApprovedInput = {
@@ -3288,6 +3525,7 @@ export type UserUpdateWithoutReschedulesInitiatedInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReschedulesInitiatedInput = {
@@ -3328,6 +3566,7 @@ export type UserUncheckedUpdateWithoutReschedulesInitiatedInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUpsertWithoutReschedulesAsOperatorInput = {
@@ -3379,6 +3618,7 @@ export type UserUpdateWithoutReschedulesAsOperatorInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReschedulesAsOperatorInput = {
@@ -3419,6 +3659,7 @@ export type UserUncheckedUpdateWithoutReschedulesAsOperatorInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUpsertWithoutReschedulesApprovedInput = {
@@ -3470,6 +3711,7 @@ export type UserUpdateWithoutReschedulesApprovedInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReschedulesApprovedInput = {
@@ -3510,6 +3752,7 @@ export type UserUncheckedUpdateWithoutReschedulesApprovedInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutCustomerReviewsInput = {
@@ -3550,6 +3793,7 @@ export type UserCreateWithoutCustomerReviewsInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutCustomerReviewsInput = {
@@ -3590,6 +3834,7 @@ export type UserUncheckedCreateWithoutCustomerReviewsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutCustomerReviewsInput = {
@@ -3635,6 +3880,7 @@ export type UserCreateWithoutOperatorReviewsInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutOperatorReviewsInput = {
@@ -3675,6 +3921,7 @@ export type UserUncheckedCreateWithoutOperatorReviewsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutOperatorReviewsInput = {
@@ -3720,6 +3967,7 @@ export type UserCreateWithoutModeratedReviewsInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutModeratedReviewsInput = {
@@ -3760,6 +4008,7 @@ export type UserUncheckedCreateWithoutModeratedReviewsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutModeratedReviewsInput = {
@@ -3816,6 +4065,7 @@ export type UserUpdateWithoutCustomerReviewsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCustomerReviewsInput = {
@@ -3856,6 +4106,7 @@ export type UserUncheckedUpdateWithoutCustomerReviewsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUpsertWithoutOperatorReviewsInput = {
@@ -3907,6 +4158,7 @@ export type UserUpdateWithoutOperatorReviewsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOperatorReviewsInput = {
@@ -3947,6 +4199,7 @@ export type UserUncheckedUpdateWithoutOperatorReviewsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUpsertWithoutModeratedReviewsInput = {
@@ -3998,6 +4251,7 @@ export type UserUpdateWithoutModeratedReviewsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutModeratedReviewsInput = {
@@ -4038,6 +4292,7 @@ export type UserUncheckedUpdateWithoutModeratedReviewsInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutHelpfulVotesInput = {
@@ -4078,6 +4333,7 @@ export type UserCreateWithoutHelpfulVotesInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutHelpfulVotesInput = {
@@ -4118,6 +4374,7 @@ export type UserUncheckedCreateWithoutHelpfulVotesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutHelpfulVotesInput = {
@@ -4174,6 +4431,7 @@ export type UserUpdateWithoutHelpfulVotesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutHelpfulVotesInput = {
@@ -4214,6 +4472,7 @@ export type UserUncheckedUpdateWithoutHelpfulVotesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutCreatedTagsInput = {
@@ -4254,6 +4513,7 @@ export type UserCreateWithoutCreatedTagsInput = {
   createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutCreatedTagsInput = {
@@ -4294,6 +4554,7 @@ export type UserUncheckedCreateWithoutCreatedTagsInput = {
   createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutCreatedTagsInput = {
@@ -4350,6 +4611,7 @@ export type UserUpdateWithoutCreatedTagsInput = {
   createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedTagsInput = {
@@ -4390,6 +4652,7 @@ export type UserUncheckedUpdateWithoutCreatedTagsInput = {
   createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutAssignedListingTagsInput = {
@@ -4430,6 +4693,7 @@ export type UserCreateWithoutAssignedListingTagsInput = {
   createdBadges?: Prisma.BadgeCreateNestedManyWithoutCreatedByAdminInput
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutAssignedListingTagsInput = {
@@ -4470,6 +4734,7 @@ export type UserUncheckedCreateWithoutAssignedListingTagsInput = {
   createdBadges?: Prisma.BadgeUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutAssignedListingTagsInput = {
@@ -4526,6 +4791,7 @@ export type UserUpdateWithoutAssignedListingTagsInput = {
   createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssignedListingTagsInput = {
@@ -4566,6 +4832,7 @@ export type UserUncheckedUpdateWithoutAssignedListingTagsInput = {
   createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserCreateWithoutAddressesInput = {
@@ -4606,6 +4873,7 @@ export type UserCreateWithoutAddressesInput = {
   assignedListingBadges?: Prisma.ListingBadgeCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserUncheckedCreateWithoutAddressesInput = {
@@ -4646,6 +4914,7 @@ export type UserUncheckedCreateWithoutAddressesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedCreateNestedManyWithoutAssignedByAdminInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByAdminInput
   assignedListingTags?: Prisma.ListingTagUncheckedCreateNestedManyWithoutAssignedByAdminInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetSellersInput
 }
 
 export type UserCreateOrConnectWithoutAddressesInput = {
@@ -4702,6 +4971,7 @@ export type UserUpdateWithoutAddressesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetSellersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAddressesInput = {
@@ -4742,6 +5012,109 @@ export type UserUncheckedUpdateWithoutAddressesInput = {
   assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetSellersNestedInput
+}
+
+export type UserUpdateWithoutTargetedOffersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  alternatePhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
+  listings?: Prisma.ListingUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUpdateManyWithoutApprovedByAdminNestedInput
+  customerReviews?: Prisma.ReviewUpdateManyWithoutCustomerNestedInput
+  operatorReviews?: Prisma.ReviewUpdateManyWithoutOperatorNestedInput
+  moderatedReviews?: Prisma.ReviewUpdateManyWithoutModeratedByAdminNestedInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUpdateManyWithoutAssignedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTargetedOffersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  alternatePhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutOperatorNestedInput
+  approvedListings?: Prisma.ListingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  policies?: Prisma.ListingPolicyUncheckedUpdateManyWithoutSellerNestedInput
+  createdMetadataDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdVariantMetadataDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutCreatedByOperatorNestedInput
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  operatorProfile?: Prisma.OperatorProfileUncheckedUpdateOneWithoutOperatorNestedInput
+  verifiedOperators?: Prisma.OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reschedulesInitiated?: Prisma.RescheduleUncheckedUpdateManyWithoutInitiatedByNestedInput
+  reschedulesAsOperator?: Prisma.RescheduleUncheckedUpdateManyWithoutOperatorNestedInput
+  reschedulesApproved?: Prisma.RescheduleUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  customerReviews?: Prisma.ReviewUncheckedUpdateManyWithoutCustomerNestedInput
+  operatorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutOperatorNestedInput
+  moderatedReviews?: Prisma.ReviewUncheckedUpdateManyWithoutModeratedByAdminNestedInput
+  helpfulVotes?: Prisma.ReviewHelpfulVoteUncheckedUpdateManyWithoutUserNestedInput
+  createdBadges?: Prisma.BadgeUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingBadges?: Prisma.ListingBadgeUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  assignedListingTags?: Prisma.ListingTagUncheckedUpdateManyWithoutAssignedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateManyWithoutTargetedOffersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  alternatePhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selectedCategoryIds?: Prisma.UserUpdateselectedCategoryIdsInput | string[]
 }
 
 
@@ -4770,6 +5143,7 @@ export type UserCountOutputType = {
   assignedListingBadges: number
   createdTags: number
   assignedListingTags: number
+  targetedOffers: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4793,6 +5167,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   assignedListingBadges?: boolean | UserCountOutputTypeCountAssignedListingBadgesArgs
   createdTags?: boolean | UserCountOutputTypeCountCreatedTagsArgs
   assignedListingTags?: boolean | UserCountOutputTypeCountAssignedListingTagsArgs
+  targetedOffers?: boolean | UserCountOutputTypeCountTargetedOffersArgs
 }
 
 /**
@@ -4945,6 +5320,13 @@ export type UserCountOutputTypeCountAssignedListingTagsArgs<ExtArgs extends runt
   where?: Prisma.ListingTagWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTargetedOffersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OfferPromocodeWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4985,6 +5367,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   assignedListingBadges?: boolean | Prisma.User$assignedListingBadgesArgs<ExtArgs>
   createdTags?: boolean | Prisma.User$createdTagsArgs<ExtArgs>
   assignedListingTags?: boolean | Prisma.User$assignedListingTagsArgs<ExtArgs>
+  targetedOffers?: boolean | Prisma.User$targetedOffersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -5071,6 +5454,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   assignedListingBadges?: boolean | Prisma.User$assignedListingBadgesArgs<ExtArgs>
   createdTags?: boolean | Prisma.User$createdTagsArgs<ExtArgs>
   assignedListingTags?: boolean | Prisma.User$assignedListingTagsArgs<ExtArgs>
+  targetedOffers?: boolean | Prisma.User$targetedOffersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -5100,6 +5484,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     assignedListingBadges: Prisma.$ListingBadgePayload<ExtArgs>[]
     createdTags: Prisma.$TagPayload<ExtArgs>[]
     assignedListingTags: Prisma.$ListingTagPayload<ExtArgs>[]
+    targetedOffers: Prisma.$OfferPromocodePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -5534,6 +5919,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   assignedListingBadges<T extends Prisma.User$assignedListingBadgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignedListingBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingBadgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdTags<T extends Prisma.User$createdTagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdTagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assignedListingTags<T extends Prisma.User$assignedListingTagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignedListingTagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  targetedOffers<T extends Prisma.User$targetedOffersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$targetedOffersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OfferPromocodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6464,6 +6850,30 @@ export type User$assignedListingTagsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.ListingTagScalarFieldEnum | Prisma.ListingTagScalarFieldEnum[]
+}
+
+/**
+ * User.targetedOffers
+ */
+export type User$targetedOffersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OfferPromocode
+   */
+  select?: Prisma.OfferPromocodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OfferPromocode
+   */
+  omit?: Prisma.OfferPromocodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OfferPromocodeInclude<ExtArgs> | null
+  where?: Prisma.OfferPromocodeWhereInput
+  orderBy?: Prisma.OfferPromocodeOrderByWithRelationInput | Prisma.OfferPromocodeOrderByWithRelationInput[]
+  cursor?: Prisma.OfferPromocodeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OfferPromocodeScalarFieldEnum | Prisma.OfferPromocodeScalarFieldEnum[]
 }
 
 /**

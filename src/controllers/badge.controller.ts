@@ -256,7 +256,7 @@ export const createBadge = async (c: Context) => {
         badgeType: badgeType as any,
         badgeIconUrl: badgeIconUrl,
         badgeDescription: badgeDescription ? sanitizeString(badgeDescription, 1000) : null,
-        badgeColor: badgeColor ? sanitizeString(badgeColor, 20) : null,
+        badgeColor: badgeColor ? sanitizeString(badgeColor, 200) : null,
         displayOrder: displayOrder,
         createdByAdminId: user?.userId || null,
         isActive: true,
@@ -328,7 +328,7 @@ export const updateBadge = async (c: Context) => {
         updateData.badgeDescription = body.badgeDescription ? sanitizeString(body.badgeDescription as string, 1000) : null;
       }
       if (body.badgeColor !== undefined) {
-        updateData.badgeColor = body.badgeColor ? sanitizeString(body.badgeColor as string, 20) : null;
+        updateData.badgeColor = body.badgeColor ? sanitizeString(body.badgeColor as string, 200) : null;
       }
       if (body.displayOrder !== undefined) {
         updateData.displayOrder = parseInt(body.displayOrder as string) || 0;
@@ -394,7 +394,7 @@ export const updateBadge = async (c: Context) => {
       }
 
       if (body.badgeColor !== undefined) {
-        updateData.badgeColor = body.badgeColor ? sanitizeString(body.badgeColor, 20) : null;
+        updateData.badgeColor = body.badgeColor ? sanitizeString(body.badgeColor, 200) : null;
       }
 
       if (body.displayOrder !== undefined) {

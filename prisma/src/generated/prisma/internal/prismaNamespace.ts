@@ -413,6 +413,7 @@ export const ModelName = {
   ListingVariantMetadataFieldOptions: 'ListingVariantMetadataFieldOptions',
   ListingVariant: 'ListingVariant',
   Listing: 'Listing',
+  OfferPromocode: 'OfferPromocode',
   OperatorProfile: 'OperatorProfile',
   Otp: 'Otp',
   PrimaryDivision: 'PrimaryDivision',
@@ -441,7 +442,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "badge" | "listingBadge" | "bookingPayment" | "booking" | "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "operatorProfile" | "otp" | "primaryDivision" | "reschedule" | "review" | "reviewHelpfulVote" | "secondaryDivision" | "setting" | "slotDefinition" | "tag" | "listingTag" | "userAddress" | "user"
+    modelProps: "badge" | "listingBadge" | "bookingPayment" | "booking" | "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "offerPromocode" | "operatorProfile" | "otp" | "primaryDivision" | "reschedule" | "review" | "reviewHelpfulVote" | "secondaryDivision" | "setting" | "slotDefinition" | "tag" | "listingTag" | "userAddress" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2221,6 +2222,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    OfferPromocode: {
+      payload: Prisma.$OfferPromocodePayload<ExtArgs>
+      fields: Prisma.OfferPromocodeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OfferPromocodeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferPromocodePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OfferPromocodeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferPromocodePayload>
+        }
+        findFirst: {
+          args: Prisma.OfferPromocodeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferPromocodePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OfferPromocodeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferPromocodePayload>
+        }
+        findMany: {
+          args: Prisma.OfferPromocodeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferPromocodePayload>[]
+        }
+        create: {
+          args: Prisma.OfferPromocodeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferPromocodePayload>
+        }
+        createMany: {
+          args: Prisma.OfferPromocodeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OfferPromocodeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferPromocodePayload>[]
+        }
+        delete: {
+          args: Prisma.OfferPromocodeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferPromocodePayload>
+        }
+        update: {
+          args: Prisma.OfferPromocodeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferPromocodePayload>
+        }
+        deleteMany: {
+          args: Prisma.OfferPromocodeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OfferPromocodeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OfferPromocodeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferPromocodePayload>[]
+        }
+        upsert: {
+          args: Prisma.OfferPromocodeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferPromocodePayload>
+        }
+        aggregate: {
+          args: Prisma.OfferPromocodeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOfferPromocode>
+        }
+        groupBy: {
+          args: Prisma.OfferPromocodeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OfferPromocodeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OfferPromocodeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OfferPromocodeCountAggregateOutputType> | number
+        }
+      }
+    }
     OperatorProfile: {
       payload: Prisma.$OperatorProfilePayload<ExtArgs>
       fields: Prisma.OperatorProfileFieldRefs
@@ -3648,6 +3723,29 @@ export const ListingScalarFieldEnum = {
 export type ListingScalarFieldEnum = (typeof ListingScalarFieldEnum)[keyof typeof ListingScalarFieldEnum]
 
 
+export const OfferPromocodeScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  code: 'code',
+  discountType: 'discountType',
+  discountValue: 'discountValue',
+  minOrderAmount: 'minOrderAmount',
+  maxDiscountLimit: 'maxDiscountLimit',
+  description: 'description',
+  details: 'details',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isActive: 'isActive',
+  applyToAllSellers: 'applyToAllSellers',
+  applyToAllCategories: 'applyToAllCategories',
+  applyToAllListings: 'applyToAllListings',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OfferPromocodeScalarFieldEnum = (typeof OfferPromocodeScalarFieldEnum)[keyof typeof OfferPromocodeScalarFieldEnum]
+
+
 export const OperatorProfileScalarFieldEnum = {
   id: 'id',
   operatorId: 'operatorId',
@@ -4128,6 +4226,34 @@ export type ListEnumListingStatusFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'OfferType'
+ */
+export type EnumOfferTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OfferType'>
+    
+
+
+/**
+ * Reference to a field of type 'OfferType[]'
+ */
+export type ListEnumOfferTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OfferType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DiscountType'
+ */
+export type EnumDiscountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiscountType'>
+    
+
+
+/**
+ * Reference to a field of type 'DiscountType[]'
+ */
+export type ListEnumDiscountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiscountType[]'>
+    
+
+
+/**
  * Reference to a field of type 'VerificationStatus'
  */
 export type EnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationStatus'>
@@ -4335,6 +4461,7 @@ export type GlobalOmitConfig = {
   listingVariantMetadataFieldOptions?: Prisma.ListingVariantMetadataFieldOptionsOmit
   listingVariant?: Prisma.ListingVariantOmit
   listing?: Prisma.ListingOmit
+  offerPromocode?: Prisma.OfferPromocodeOmit
   operatorProfile?: Prisma.OperatorProfileOmit
   otp?: Prisma.OtpOmit
   primaryDivision?: Prisma.PrimaryDivisionOmit

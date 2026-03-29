@@ -1,4 +1,5 @@
 import type { Context } from "hono";
+import jwt from "jsonwebtoken";
 import { prisma } from "../db.js";
 import {
   generateToken,
@@ -23,6 +24,9 @@ import {
   validateCustomerLoginRequest,
   validateAdminLoginRequest,
   validateOtpRequest,
+  validateOperatorOtpStart,
+  validateOperatorOtpVerify,
+  validateOperatorPasswordSetup,
   sanitizeEmail,
   sanitizePhone,
   sanitizeString,
@@ -71,6 +75,51 @@ interface AdminLoginRequest {
   password: string;
 }
 
+interface OperatorOtpRequest {
+  email: string;
+  phone: string;
+}
+
+interface OperatorOtpVerifyRequest {
+  email: string;
+  phone: string;
+  phoneOtp: string;
+  emailOtp: string;
+}
+
+interface OperatorPasswordSetupRequest {
+  signupToken: string;
+  password: string;
+}
+
+interface OperatorLoginRequest {
+  email?: string;
+  phone?: string;
+  password: string;
+}
+
+const SIGNUP_TOKEN_EXPIRY = "20m";
+
+const generateOperatorSignupToken = (email: string, phone: string) => {
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    throw new Error("JWT_SECRET is not configured");
+  }
+  return jwt.sign(
+    { email, phone, purpose: "operator_signup" },
+    jwtSecret,
+    { expiresIn: SIGNUP_TOKEN_EXPIRY }
+  );
+};
+
+const verifyOperatorSignupToken = (token: string) => {
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    throw new Error("JWT_SECRET is not configured");
+  }
+  return jwt.verify(token, jwtSecret) as { email: string; phone: string; purpose: string };
+};
+
 export const registerUser = async (c: Context) => {
   try {
     const body = (await c.req.json()) as RegisterUserRequest;
@@ -87,9 +136,9 @@ export const registerUser = async (c: Context) => {
       // Sanitize phone number
       const phone = sanitizePhone(body.phone!);
 
-      // Check if customer already exists
+      // Check if customer already exists (scoped to customers only)
       const existingUser = await prisma.user.findFirst({
-        where: { phone: phone },
+        where: { phone: phone, userType: "customer" },
       });
 
       if (existingUser) {
@@ -435,6 +484,231 @@ export const customerVerifyOtp = async (c: Context) => {
   }
 };
 
+export const requestOperatorOtp = async (c: Context) => {
+  try {
+    const body = (await c.req.json()) as OperatorOtpRequest;
+
+    const validation = validateOperatorOtpStart(body);
+    if (!validation.isValid) {
+      return c.json({ error: validation.message }, 400);
+    }
+
+    const email = sanitizeEmail(body.email);
+    const phone = sanitizePhone(body.phone);
+
+    const phoneOtp = generateOtp();
+    const emailOtp = generateOtp();
+    const expiresAt = calculateOtpExpiry(5);
+
+    // Clear existing OTPs for identifiers
+    await prisma.otp.deleteMany({ where: { phone: phone } });
+    await prisma.otp.deleteMany({ where: { phone: `email:${email}` } });
+
+    await prisma.otp.create({
+      data: {
+        phone: phone,
+        otp: phoneOtp,
+        expiresAt,
+        verified: false,
+        attempts: 0,
+      },
+    });
+
+    await prisma.otp.create({
+      data: {
+        phone: `email:${email}`,
+        otp: emailOtp,
+        expiresAt,
+        verified: false,
+        attempts: 0,
+      },
+    });
+
+    const smsSent = await sendOtpSMS(phone, phoneOtp);
+    const devMode = process.env.NODE_ENV !== "production";
+
+    const existingOperators = await prisma.user.count({
+      where: {
+        userType: "operator",
+        OR: [{ email }, { phone }],
+      },
+    });
+
+    return c.json({
+      message: "OTP generated successfully",
+      expiresIn: "5 minutes",
+      phoneOtp: devMode ? phoneOtp : smsSent ? undefined : phoneOtp,
+      emailOtp: devMode ? emailOtp : emailOtp,
+      existingAccounts: existingOperators,
+    });
+  } catch (error) {
+    console.error("Operator OTP request error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+export const verifyOperatorOtp = async (c: Context) => {
+  try {
+    const body = (await c.req.json()) as OperatorOtpVerifyRequest;
+
+    const validation = validateOperatorOtpVerify(body);
+    if (!validation.isValid) {
+      return c.json({ error: validation.message }, 400);
+    }
+
+    const email = sanitizeEmail(body.email);
+    const phone = sanitizePhone(body.phone);
+    const emailKey = `email:${email}`;
+
+    const verifyOtp = async (identifier: string, otpValue: string) => {
+      if (isMasterOtp(otpValue)) {
+        return { ok: true };
+      }
+
+      const otpRecord = await prisma.otp.findFirst({
+        where: {
+          phone: identifier,
+          verified: false,
+          expiresAt: { gt: new Date() },
+        },
+        orderBy: { createdAt: "desc" },
+      });
+
+      if (!otpRecord) {
+        return { ok: false, message: "Invalid or expired OTP" };
+      }
+
+      if (otpRecord.otp !== otpValue) {
+        await prisma.otp.update({
+          where: { id: otpRecord.id },
+          data: { attempts: otpRecord.attempts + 1 },
+        });
+
+        if (otpRecord.attempts >= 2) {
+          await prisma.otp.delete({ where: { id: otpRecord.id } });
+          return { ok: false, message: "Too many failed attempts. Please request a new OTP" };
+        }
+
+        return { ok: false, message: "Invalid OTP" };
+      }
+
+      await prisma.otp.update({
+        where: { id: otpRecord.id },
+        data: { verified: true },
+      });
+
+      return { ok: true };
+    };
+
+    const phoneResult = await verifyOtp(phone, body.phoneOtp);
+    if (!phoneResult.ok) {
+      return c.json({ error: phoneResult.message }, 400);
+    }
+
+    const emailResult = await verifyOtp(emailKey, body.emailOtp);
+    if (!emailResult.ok) {
+      return c.json({ error: emailResult.message }, 400);
+    }
+
+    const signupToken = generateOperatorSignupToken(email, phone);
+
+    return c.json({
+      message: "OTP verified successfully",
+      signupToken,
+    });
+  } catch (error) {
+    console.error("Operator OTP verification error:", error);
+    if (error instanceof Error && error.name === "JsonWebTokenError") {
+      return c.json({ error: "Invalid token" }, 401);
+    }
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+export const setOperatorPassword = async (c: Context) => {
+  try {
+    const body = (await c.req.json()) as OperatorPasswordSetupRequest;
+
+    const validation = validateOperatorPasswordSetup({ password: body.password });
+    if (!validation.isValid) {
+      return c.json({ error: validation.message }, 400);
+    }
+
+    const decoded = verifyOperatorSignupToken(body.signupToken);
+    if (decoded.purpose !== "operator_signup") {
+      return c.json({ error: "Invalid signup token" }, 401);
+    }
+
+    const email = sanitizeEmail(decoded.email);
+    const phone = sanitizePhone(decoded.phone);
+    const hashedPassword = await hashPassword(body.password);
+
+    let user = await prisma.user.findFirst({
+      where: { userType: "operator", email, phone },
+    });
+
+    if (user) {
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          password: hashedPassword,
+          isActive: true,
+        },
+      });
+    } else {
+      user = await prisma.user.create({
+        data: {
+          email,
+          phone,
+          password: hashedPassword,
+          userType: "operator",
+          isVerified: false,
+          isActive: true,
+          selectedCategoryIds: [],
+        },
+      });
+    }
+
+    const token = generateToken(user.id, user.userType);
+
+    const operatorProfile = await prisma.operatorProfile.findUnique({
+      where: { operatorId: user.id },
+      select: { verificationStatus: true },
+    });
+
+    let nextStep: "onboarding" | "under_verification" | "dashboard" = "onboarding";
+    if (operatorProfile) {
+      if (operatorProfile.verificationStatus === "VERIFIED" && user.isVerified) {
+        nextStep = "dashboard";
+      } else {
+        nextStep = "under_verification";
+      }
+    }
+
+    return c.json({
+      message: "Password set successfully",
+      user: {
+        id: user.id,
+        email: user.email,
+        phone: user.phone,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userType: user.userType,
+        isVerified: user.isVerified,
+        isActive: user.isActive,
+      },
+      token,
+      nextStep,
+    });
+  } catch (error) {
+    console.error("Operator password setup error:", error);
+    if (error instanceof Error && error.name === "JsonWebTokenError") {
+      return c.json({ error: "Invalid or expired signup token" }, 401);
+    }
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
 export const adminLogin = async (c: Context) => {
   try {
     const body = (await c.req.json()) as AdminLoginRequest;
@@ -548,13 +822,13 @@ export const registerAdmin = async (c: Context) => {
     // Sanitize email
     const email = sanitizeEmail(body.email);
 
-    // Check if user already exists
+    // Check if admin/super_admin already exists (scoped to admin types only)
     const existingUser = await prisma.user.findFirst({
-      where: { email: email },
+      where: { email: email, userType: { in: ["admin", "super_admin"] } },
     });
 
     if (existingUser) {
-      return c.json({ error: "User with this email already exists" }, 409);
+      return c.json({ error: "Admin with this email already exists" }, 409);
     }
 
     // Hash password using helper function
@@ -614,77 +888,280 @@ export const registerAdmin = async (c: Context) => {
  */
 export const operatorLogin = async (c: Context) => {
   try {
-    const body = (await c.req.json()) as AdminLoginRequest;
+    const body = (await c.req.json()) as OperatorLoginRequest;
 
-    // Validate login request
-    const validation = validateAdminLoginRequest(body);
+    const validation = validateLoginRequest(body);
     if (!validation.isValid) {
       return c.json({ error: validation.message }, 400);
     }
 
-    // Sanitize email
-    const email = sanitizeEmail(body.email);
+    const email = body.email ? sanitizeEmail(body.email) : undefined;
+    const phone = body.phone ? sanitizePhone(body.phone) : undefined;
 
-    // Check for master password
-    if (isMasterPassword(body.password)) {
-      const user = await prisma.user.findFirst({
-        where: {
-          email: email,
-          userType: "operator",
+    // Case 1: Only one identifier provided
+    if ((email && !phone) || (phone && !email)) {
+      const whereClause: any = {
+        userType: "operator",
+        OR: [
+          ...(email ? [{ email }] : []),
+          ...(phone ? [{ phone }] : []),
+        ],
+      };
+
+      const users = await prisma.user.findMany({ where: whereClause });
+
+      if (users.length === 0) {
+        return c.json({ error: "Invalid credentials" }, 401);
+      }
+
+      // Single match — normal password login
+      if (users.length === 1) {
+        const user = users[0];
+
+        if (!isMasterPassword(body.password)) {
+          if (!user.password) {
+            return c.json({ error: "Password not set for this account" }, 401);
+          }
+          const valid = await verifyPassword(body.password, user.password);
+          if (!valid) {
+            return c.json({ error: "Invalid credentials" }, 401);
+          }
+        }
+
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { lastLoginAt: new Date() },
+        });
+
+        const token = generateToken(user.id, user.userType);
+
+        return c.json({
+          message: "Login successful",
+          user: {
+            id: user.id,
+            email: user.email,
+            phone: user.phone,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            userType: user.userType,
+            isVerified: user.isVerified,
+            isActive: user.isActive,
+          },
+          token,
+          note: !user.isVerified
+            ? "Your account is pending verification. You can upload documents but cannot create listings yet."
+            : null,
+        });
+      }
+
+      // Multiple matches — ask for the other identifier
+      return c.json(
+        {
+          error: "Multiple accounts found. Please provide the other identifier to continue.",
+          code: "MULTIPLE_MATCHES",
+          require: email ? "phone" : "email",
+          count: users.length,
         },
+        409
+      );
+    }
+
+    // Case 2: Both identifiers provided (disambiguation)
+    if (email && phone) {
+      const user = await prisma.user.findFirst({
+        where: { email, phone, userType: "operator" },
       });
 
       if (!user) {
-        return c.json({ error: "Operator not found" }, 404);
+        return c.json({ error: "No account found with this email and phone combination" }, 401);
       }
 
-      // Update last login
+      // Verify password first
+      if (!isMasterPassword(body.password)) {
+        if (!user.password) {
+          return c.json({ error: "Password not set for this account" }, 401);
+        }
+        const valid = await verifyPassword(body.password, user.password);
+        if (!valid) {
+          return c.json({ error: "Invalid credentials" }, 401);
+        }
+      }
+
+      // Find which field was original (shared) and which was secondary (unique)
+      // Count how many operators share this email vs this phone
+      const [emailCount, phoneCount] = await Promise.all([
+        prisma.user.count({ where: { email, userType: "operator" } }),
+        prisma.user.count({ where: { phone, userType: "operator" } }),
+      ]);
+
+      // If neither identifier is shared (only one account with each), direct login
+      if (emailCount <= 1 && phoneCount <= 1) {
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { lastLoginAt: new Date() },
+        });
+
+        const token = generateToken(user.id, user.userType);
+        return c.json({
+          message: "Login successful",
+          user: {
+            id: user.id,
+            email: user.email,
+            phone: user.phone,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            userType: user.userType,
+            isVerified: user.isVerified,
+            isActive: user.isActive,
+          },
+          token,
+          note: !user.isVerified
+            ? "Your account is pending verification. You can upload documents but cannot create listings yet."
+            : null,
+        });
+      }
+
+      // One of the identifiers is shared — OTP verify on the unique one
+      const otpTarget = emailCount > 1 ? "phone" : "email";
+      const otpIdentifier = otpTarget === "phone" ? phone : email;
+      const otpKey = otpTarget === "phone" ? phone : `email:${email}`;
+
+      const otp = generateOtp();
+      const expiresAt = calculateOtpExpiry(5);
+
+      // Clear existing & create new OTP
+      await prisma.otp.deleteMany({ where: { phone: otpKey } });
+      await prisma.otp.create({
+        data: {
+          phone: otpKey,
+          otp,
+          expiresAt,
+          verified: false,
+          attempts: 0,
+        },
+      });
+
+      if (otpTarget === "phone") {
+        await sendOtpSMS(phone, otp);
+      }
+
+      const devMode = process.env.NODE_ENV !== "production";
+
+      return c.json(
+        {
+          message: `OTP sent to your ${otpTarget} for verification`,
+          code: "OTP_REQUIRED",
+          otpSentTo: otpTarget,
+          email,
+          phone,
+          devOtp: devMode ? otp : undefined,
+        },
+        200
+      );
+    }
+
+    return c.json({ error: "Please provide email or phone number" }, 400);
+  } catch (error) {
+    console.error("Operator login error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+/**
+ * Verify OTP for operator login disambiguation
+ */
+export const verifyOperatorLoginOtp = async (c: Context) => {
+  try {
+    const body = (await c.req.json()) as { email: string; phone: string; otp: string };
+
+    if (!body.email || !body.phone || !body.otp) {
+      return c.json({ error: "Email, phone and OTP are required" }, 400);
+    }
+
+    const email = sanitizeEmail(body.email);
+    const phone = sanitizePhone(body.phone);
+
+    // Find the specific operator account
+    const user = await prisma.user.findFirst({
+      where: { email, phone, userType: "operator" },
+    });
+
+    if (!user) {
+      return c.json({ error: "Account not found" }, 404);
+    }
+
+    // Determine which field the OTP was sent to
+    const [emailCount, phoneCount] = await Promise.all([
+      prisma.user.count({ where: { email, userType: "operator" } }),
+      prisma.user.count({ where: { phone, userType: "operator" } }),
+    ]);
+
+    const otpTarget = emailCount > 1 ? "phone" : "email";
+    const otpKey = otpTarget === "phone" ? phone : `email:${email}`;
+
+    // Master OTP bypass (dev mode)
+    if (isMasterOtp(body.otp)) {
       await prisma.user.update({
-        where: { id:  user.id },
+        where: { id: user.id },
         data: { lastLoginAt: new Date() },
       });
 
       const token = generateToken(user.id, user.userType);
 
       return c.json({
-        message: "Login successful (Master Password)",
+        message: "Login successful (Master OTP)",
         user: {
           id: user.id,
           email: user.email,
+          phone: user.phone,
           firstName: user.firstName,
           lastName: user.lastName,
           userType: user.userType,
           isVerified: user.isVerified,
           isActive: user.isActive,
         },
-        token: token,
-        note: ! user.isVerified ? "Your account is pending verification" : null,
+        token,
+        note: !user.isVerified
+          ? "Your account is pending verification. You can upload documents but cannot create listings yet."
+          : null,
       });
     }
 
-    // Find operator by email (allow login even if not active/verified)
-    const user = await prisma.user.findFirst({
+    // Verify OTP
+    const otpRecord = await prisma.otp.findFirst({
       where: {
-        email: email,
-        userType: "operator",
+        phone: otpKey,
+        verified: false,
+        expiresAt: { gt: new Date() },
       },
+      orderBy: { createdAt: "desc" },
     });
 
-    if (!user) {
-      return c.json({ error: "Invalid credentials" }, 401);
+    if (!otpRecord) {
+      return c.json({ error: "Invalid or expired OTP" }, 400);
     }
 
-    if (!user.password) {
-      return c.json({ error: "Password not set for this account" }, 401);
+    if (otpRecord.otp !== body.otp) {
+      await prisma.otp.update({
+        where: { id: otpRecord.id },
+        data: { attempts: otpRecord.attempts + 1 },
+      });
+
+      if (otpRecord.attempts >= 2) {
+        await prisma.otp.delete({ where: { id: otpRecord.id } });
+        return c.json({ error: "Too many failed attempts. Please try logging in again." }, 400);
+      }
+
+      return c.json({ error: "Invalid OTP" }, 400);
     }
 
-    // Verify password
-    const isValidPassword = await verifyPassword(body.password, user.password);
-    if (!isValidPassword) {
-      return c.json({ error: "Invalid credentials" }, 401);
-    }
+    // Mark OTP as verified
+    await prisma.otp.update({
+      where: { id: otpRecord.id },
+      data: { verified: true },
+    });
 
-    // Update last login
+    // Update last login and generate token
     await prisma.user.update({
       where: { id: user.id },
       data: { lastLoginAt: new Date() },
@@ -697,19 +1174,20 @@ export const operatorLogin = async (c: Context) => {
       user: {
         id: user.id,
         email: user.email,
+        phone: user.phone,
         firstName: user.firstName,
         lastName: user.lastName,
         userType: user.userType,
-        isVerified:  user.isVerified,
+        isVerified: user.isVerified,
         isActive: user.isActive,
       },
-      token: token,
-      note: !user.isVerified 
-        ? "Your account is pending verification.  You can upload documents but cannot create listings yet." 
+      token,
+      note: !user.isVerified
+        ? "Your account is pending verification. You can upload documents but cannot create listings yet."
         : null,
     });
   } catch (error) {
-    console.error("Operator login error:", error);
+    console.error("Operator login OTP verification error:", error);
     return c.json({ error: "Internal server error" }, 500);
   }
 };

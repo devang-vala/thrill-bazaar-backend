@@ -132,3 +132,13 @@ enum TagType {
   characteristic
   tier
 }
+
+enum OfferType {
+  offer
+  promocode
+}
+
+enum DiscountType {
+  price
+  percentage
+}

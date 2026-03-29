@@ -332,6 +332,7 @@ export type CategoryWhereInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionListRelationFilter
   listings?: Prisma.ListingListRelationFilter
   subCategories?: Prisma.SubCategoryListRelationFilter
+  targetedOffers?: Prisma.OfferPromocodeListRelationFilter
 }
 
 export type CategoryOrderByWithRelationInput = {
@@ -359,6 +360,7 @@ export type CategoryOrderByWithRelationInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionOrderByRelationAggregateInput
   listings?: Prisma.ListingOrderByRelationAggregateInput
   subCategories?: Prisma.SubCategoryOrderByRelationAggregateInput
+  targetedOffers?: Prisma.OfferPromocodeOrderByRelationAggregateInput
 }
 
 export type CategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -389,6 +391,7 @@ export type CategoryWhereUniqueInput = Prisma.AtLeast<{
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionListRelationFilter
   listings?: Prisma.ListingListRelationFilter
   subCategories?: Prisma.SubCategoryListRelationFilter
+  targetedOffers?: Prisma.OfferPromocodeListRelationFilter
 }, "id" | "categorySlug">
 
 export type CategoryOrderByWithAggregationInput = {
@@ -467,6 +470,7 @@ export type CategoryCreateInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
   listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
   subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetCategoriesInput
 }
 
 export type CategoryUncheckedCreateInput = {
@@ -493,6 +497,7 @@ export type CategoryUncheckedCreateInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
   subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetCategoriesInput
 }
 
 export type CategoryUpdateInput = {
@@ -519,6 +524,7 @@ export type CategoryUpdateInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
   subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetCategoriesNestedInput
 }
 
 export type CategoryUncheckedUpdateInput = {
@@ -545,6 +551,7 @@ export type CategoryUncheckedUpdateInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
   subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetCategoriesNestedInput
 }
 
 export type CategoryCreateManyInput = {
@@ -810,6 +817,44 @@ export type CategoryUpdateOneWithoutListingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutListingsInput, Prisma.CategoryUpdateWithoutListingsInput>, Prisma.CategoryUncheckedUpdateWithoutListingsInput>
 }
 
+export type CategoryCreateNestedManyWithoutTargetedOffersInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutTargetedOffersInput, Prisma.CategoryUncheckedCreateWithoutTargetedOffersInput> | Prisma.CategoryCreateWithoutTargetedOffersInput[] | Prisma.CategoryUncheckedCreateWithoutTargetedOffersInput[]
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutTargetedOffersInput | Prisma.CategoryCreateOrConnectWithoutTargetedOffersInput[]
+  connect?: Prisma.CategoryWhereUniqueInput | Prisma.CategoryWhereUniqueInput[]
+}
+
+export type CategoryUncheckedCreateNestedManyWithoutTargetedOffersInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutTargetedOffersInput, Prisma.CategoryUncheckedCreateWithoutTargetedOffersInput> | Prisma.CategoryCreateWithoutTargetedOffersInput[] | Prisma.CategoryUncheckedCreateWithoutTargetedOffersInput[]
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutTargetedOffersInput | Prisma.CategoryCreateOrConnectWithoutTargetedOffersInput[]
+  connect?: Prisma.CategoryWhereUniqueInput | Prisma.CategoryWhereUniqueInput[]
+}
+
+export type CategoryUpdateManyWithoutTargetedOffersNestedInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutTargetedOffersInput, Prisma.CategoryUncheckedCreateWithoutTargetedOffersInput> | Prisma.CategoryCreateWithoutTargetedOffersInput[] | Prisma.CategoryUncheckedCreateWithoutTargetedOffersInput[]
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutTargetedOffersInput | Prisma.CategoryCreateOrConnectWithoutTargetedOffersInput[]
+  upsert?: Prisma.CategoryUpsertWithWhereUniqueWithoutTargetedOffersInput | Prisma.CategoryUpsertWithWhereUniqueWithoutTargetedOffersInput[]
+  set?: Prisma.CategoryWhereUniqueInput | Prisma.CategoryWhereUniqueInput[]
+  disconnect?: Prisma.CategoryWhereUniqueInput | Prisma.CategoryWhereUniqueInput[]
+  delete?: Prisma.CategoryWhereUniqueInput | Prisma.CategoryWhereUniqueInput[]
+  connect?: Prisma.CategoryWhereUniqueInput | Prisma.CategoryWhereUniqueInput[]
+  update?: Prisma.CategoryUpdateWithWhereUniqueWithoutTargetedOffersInput | Prisma.CategoryUpdateWithWhereUniqueWithoutTargetedOffersInput[]
+  updateMany?: Prisma.CategoryUpdateManyWithWhereWithoutTargetedOffersInput | Prisma.CategoryUpdateManyWithWhereWithoutTargetedOffersInput[]
+  deleteMany?: Prisma.CategoryScalarWhereInput | Prisma.CategoryScalarWhereInput[]
+}
+
+export type CategoryUncheckedUpdateManyWithoutTargetedOffersNestedInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutTargetedOffersInput, Prisma.CategoryUncheckedCreateWithoutTargetedOffersInput> | Prisma.CategoryCreateWithoutTargetedOffersInput[] | Prisma.CategoryUncheckedCreateWithoutTargetedOffersInput[]
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutTargetedOffersInput | Prisma.CategoryCreateOrConnectWithoutTargetedOffersInput[]
+  upsert?: Prisma.CategoryUpsertWithWhereUniqueWithoutTargetedOffersInput | Prisma.CategoryUpsertWithWhereUniqueWithoutTargetedOffersInput[]
+  set?: Prisma.CategoryWhereUniqueInput | Prisma.CategoryWhereUniqueInput[]
+  disconnect?: Prisma.CategoryWhereUniqueInput | Prisma.CategoryWhereUniqueInput[]
+  delete?: Prisma.CategoryWhereUniqueInput | Prisma.CategoryWhereUniqueInput[]
+  connect?: Prisma.CategoryWhereUniqueInput | Prisma.CategoryWhereUniqueInput[]
+  update?: Prisma.CategoryUpdateWithWhereUniqueWithoutTargetedOffersInput | Prisma.CategoryUpdateWithWhereUniqueWithoutTargetedOffersInput[]
+  updateMany?: Prisma.CategoryUpdateManyWithWhereWithoutTargetedOffersInput | Prisma.CategoryUpdateManyWithWhereWithoutTargetedOffersInput[]
+  deleteMany?: Prisma.CategoryScalarWhereInput | Prisma.CategoryScalarWhereInput[]
+}
+
 export type CategoryCreateWithoutSubCategoriesInput = {
   id?: string
   categoryName: string
@@ -833,6 +878,7 @@ export type CategoryCreateWithoutSubCategoriesInput = {
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
   listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetCategoriesInput
 }
 
 export type CategoryUncheckedCreateWithoutSubCategoriesInput = {
@@ -858,6 +904,7 @@ export type CategoryUncheckedCreateWithoutSubCategoriesInput = {
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetCategoriesInput
 }
 
 export type CategoryCreateOrConnectWithoutSubCategoriesInput = {
@@ -899,6 +946,7 @@ export type CategoryUpdateWithoutSubCategoriesInput = {
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetCategoriesNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutSubCategoriesInput = {
@@ -924,6 +972,7 @@ export type CategoryUncheckedUpdateWithoutSubCategoriesInput = {
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetCategoriesNestedInput
 }
 
 export type CategoryCreateWithoutMetadataFieldDefinitionsInput = {
@@ -949,6 +998,7 @@ export type CategoryCreateWithoutMetadataFieldDefinitionsInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
   listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
   subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetCategoriesInput
 }
 
 export type CategoryUncheckedCreateWithoutMetadataFieldDefinitionsInput = {
@@ -974,6 +1024,7 @@ export type CategoryUncheckedCreateWithoutMetadataFieldDefinitionsInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
   subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetCategoriesInput
 }
 
 export type CategoryCreateOrConnectWithoutMetadataFieldDefinitionsInput = {
@@ -1015,6 +1066,7 @@ export type CategoryUpdateWithoutMetadataFieldDefinitionsInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
   subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetCategoriesNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutMetadataFieldDefinitionsInput = {
@@ -1040,6 +1092,7 @@ export type CategoryUncheckedUpdateWithoutMetadataFieldDefinitionsInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
   subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetCategoriesNestedInput
 }
 
 export type CategoryCreateWithoutListingTypeInput = {
@@ -1065,6 +1118,7 @@ export type CategoryCreateWithoutListingTypeInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
   listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
   subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetCategoriesInput
 }
 
 export type CategoryUncheckedCreateWithoutListingTypeInput = {
@@ -1090,6 +1144,7 @@ export type CategoryUncheckedCreateWithoutListingTypeInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
   subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetCategoriesInput
 }
 
 export type CategoryCreateOrConnectWithoutListingTypeInput = {
@@ -1166,6 +1221,7 @@ export type CategoryCreateWithoutVariantMetadataFieldDefinitionsInput = {
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
   listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
   subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetCategoriesInput
 }
 
 export type CategoryUncheckedCreateWithoutVariantMetadataFieldDefinitionsInput = {
@@ -1191,6 +1247,7 @@ export type CategoryUncheckedCreateWithoutVariantMetadataFieldDefinitionsInput =
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
   subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetCategoriesInput
 }
 
 export type CategoryCreateOrConnectWithoutVariantMetadataFieldDefinitionsInput = {
@@ -1232,6 +1289,7 @@ export type CategoryUpdateWithoutVariantMetadataFieldDefinitionsInput = {
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
   subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetCategoriesNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutVariantMetadataFieldDefinitionsInput = {
@@ -1257,6 +1315,7 @@ export type CategoryUncheckedUpdateWithoutVariantMetadataFieldDefinitionsInput =
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
   subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetCategoriesNestedInput
 }
 
 export type CategoryCreateWithoutListingsInput = {
@@ -1282,6 +1341,7 @@ export type CategoryCreateWithoutListingsInput = {
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
   subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
+  targetedOffers?: Prisma.OfferPromocodeCreateNestedManyWithoutTargetCategoriesInput
 }
 
 export type CategoryUncheckedCreateWithoutListingsInput = {
@@ -1307,6 +1367,7 @@ export type CategoryUncheckedCreateWithoutListingsInput = {
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
   subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedCreateNestedManyWithoutTargetCategoriesInput
 }
 
 export type CategoryCreateOrConnectWithoutListingsInput = {
@@ -1348,6 +1409,7 @@ export type CategoryUpdateWithoutListingsInput = {
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
   subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetCategoriesNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutListingsInput = {
@@ -1373,6 +1435,80 @@ export type CategoryUncheckedUpdateWithoutListingsInput = {
   metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
   subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetCategoriesNestedInput
+}
+
+export type CategoryCreateWithoutTargetedOffersInput = {
+  id?: string
+  categoryName: string
+  categorySlug: string
+  categoryIconUrl?: string | null
+  categoryDescription?: string | null
+  displayOrder?: number
+  bookingFormat: $Enums.BookingFormat
+  isRental?: boolean
+  hasVariantCatA?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
+  listingType?: Prisma.ListingTypeCreateNestedOneWithoutCategoriesInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
+  variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingCreateNestedManyWithoutCategoryInput
+  subCategories?: Prisma.SubCategoryCreateNestedManyWithoutCategoryInput
+}
+
+export type CategoryUncheckedCreateWithoutTargetedOffersInput = {
+  id?: string
+  categoryName: string
+  categorySlug: string
+  categoryIconUrl?: string | null
+  categoryDescription?: string | null
+  displayOrder?: number
+  bookingFormat: $Enums.BookingFormat
+  isRental?: boolean
+  hasVariantCatA?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isAddonsAllowed?: boolean
+  isBookingOptionAllowed?: boolean
+  isInclusionsExclusionsAllowed?: boolean
+  isFaqAllowed?: boolean
+  isDayWiseAllowed?: boolean
+  isEndLocation?: boolean
+  listingTypeId?: string | null
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
+  variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedCreateNestedManyWithoutCategoryInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutCategoryInput
+  subCategories?: Prisma.SubCategoryUncheckedCreateNestedManyWithoutCategoryInput
+}
+
+export type CategoryCreateOrConnectWithoutTargetedOffersInput = {
+  where: Prisma.CategoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutTargetedOffersInput, Prisma.CategoryUncheckedCreateWithoutTargetedOffersInput>
+}
+
+export type CategoryUpsertWithWhereUniqueWithoutTargetedOffersInput = {
+  where: Prisma.CategoryWhereUniqueInput
+  update: Prisma.XOR<Prisma.CategoryUpdateWithoutTargetedOffersInput, Prisma.CategoryUncheckedUpdateWithoutTargetedOffersInput>
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutTargetedOffersInput, Prisma.CategoryUncheckedCreateWithoutTargetedOffersInput>
+}
+
+export type CategoryUpdateWithWhereUniqueWithoutTargetedOffersInput = {
+  where: Prisma.CategoryWhereUniqueInput
+  data: Prisma.XOR<Prisma.CategoryUpdateWithoutTargetedOffersInput, Prisma.CategoryUncheckedUpdateWithoutTargetedOffersInput>
+}
+
+export type CategoryUpdateManyWithWhereWithoutTargetedOffersInput = {
+  where: Prisma.CategoryScalarWhereInput
+  data: Prisma.XOR<Prisma.CategoryUpdateManyMutationInput, Prisma.CategoryUncheckedUpdateManyWithoutTargetedOffersInput>
 }
 
 export type CategoryCreateManyListingTypeInput = {
@@ -1419,6 +1555,7 @@ export type CategoryUpdateWithoutListingTypeInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
   subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUpdateManyWithoutTargetCategoriesNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutListingTypeInput = {
@@ -1444,6 +1581,7 @@ export type CategoryUncheckedUpdateWithoutListingTypeInput = {
   variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
   subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  targetedOffers?: Prisma.OfferPromocodeUncheckedUpdateManyWithoutTargetCategoriesNestedInput
 }
 
 export type CategoryUncheckedUpdateManyWithoutListingTypeInput = {
@@ -1467,6 +1605,80 @@ export type CategoryUncheckedUpdateManyWithoutListingTypeInput = {
   isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
+export type CategoryUpdateWithoutTargetedOffersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryName?: Prisma.StringFieldUpdateOperationsInput | string
+  categorySlug?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryIconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listingType?: Prisma.ListingTypeUpdateOneWithoutCategoriesNestedInput
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
+  variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutCategoryNestedInput
+  subCategories?: Prisma.SubCategoryUpdateManyWithoutCategoryNestedInput
+}
+
+export type CategoryUncheckedUpdateWithoutTargetedOffersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryName?: Prisma.StringFieldUpdateOperationsInput | string
+  categorySlug?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryIconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadataFieldDefinitions?: Prisma.ListingMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
+  variantMetadataFieldDefinitions?: Prisma.ListingVariantMetadataFieldDefinitionUncheckedUpdateManyWithoutCategoryNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutCategoryNestedInput
+  subCategories?: Prisma.SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+}
+
+export type CategoryUncheckedUpdateManyWithoutTargetedOffersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryName?: Prisma.StringFieldUpdateOperationsInput | string
+  categorySlug?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryIconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingFormat?: Prisma.EnumBookingFormatFieldUpdateOperationsInput | $Enums.BookingFormat
+  isRental?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasVariantCatA?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAddonsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBookingOptionAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInclusionsExclusionsAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFaqAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isDayWiseAllowed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEndLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listingTypeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 
 /**
  * Count Type CategoryCountOutputType
@@ -1477,6 +1689,7 @@ export type CategoryCountOutputType = {
   variantMetadataFieldDefinitions: number
   listings: number
   subCategories: number
+  targetedOffers: number
 }
 
 export type CategoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1484,6 +1697,7 @@ export type CategoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   variantMetadataFieldDefinitions?: boolean | CategoryCountOutputTypeCountVariantMetadataFieldDefinitionsArgs
   listings?: boolean | CategoryCountOutputTypeCountListingsArgs
   subCategories?: boolean | CategoryCountOutputTypeCountSubCategoriesArgs
+  targetedOffers?: boolean | CategoryCountOutputTypeCountTargetedOffersArgs
 }
 
 /**
@@ -1524,6 +1738,13 @@ export type CategoryCountOutputTypeCountSubCategoriesArgs<ExtArgs extends runtim
   where?: Prisma.SubCategoryWhereInput
 }
 
+/**
+ * CategoryCountOutputType without action
+ */
+export type CategoryCountOutputTypeCountTargetedOffersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OfferPromocodeWhereInput
+}
+
 
 export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1550,6 +1771,7 @@ export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   variantMetadataFieldDefinitions?: boolean | Prisma.Category$variantMetadataFieldDefinitionsArgs<ExtArgs>
   listings?: boolean | Prisma.Category$listingsArgs<ExtArgs>
   subCategories?: boolean | Prisma.Category$subCategoriesArgs<ExtArgs>
+  targetedOffers?: boolean | Prisma.Category$targetedOffersArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["category"]>
 
@@ -1628,6 +1850,7 @@ export type CategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   variantMetadataFieldDefinitions?: boolean | Prisma.Category$variantMetadataFieldDefinitionsArgs<ExtArgs>
   listings?: boolean | Prisma.Category$listingsArgs<ExtArgs>
   subCategories?: boolean | Prisma.Category$subCategoriesArgs<ExtArgs>
+  targetedOffers?: boolean | Prisma.Category$targetedOffersArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CategoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1645,6 +1868,7 @@ export type $CategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     variantMetadataFieldDefinitions: Prisma.$ListingVariantMetadataFieldDefinitionPayload<ExtArgs>[]
     listings: Prisma.$ListingPayload<ExtArgs>[]
     subCategories: Prisma.$SubCategoryPayload<ExtArgs>[]
+    targetedOffers: Prisma.$OfferPromocodePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2065,6 +2289,7 @@ export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends runtime
   variantMetadataFieldDefinitions<T extends Prisma.Category$variantMetadataFieldDefinitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$variantMetadataFieldDefinitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingVariantMetadataFieldDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   listings<T extends Prisma.Category$listingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subCategories<T extends Prisma.Category$subCategoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$subCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  targetedOffers<T extends Prisma.Category$targetedOffersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$targetedOffersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OfferPromocodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2621,6 +2846,30 @@ export type Category$subCategoriesArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.SubCategoryScalarFieldEnum | Prisma.SubCategoryScalarFieldEnum[]
+}
+
+/**
+ * Category.targetedOffers
+ */
+export type Category$targetedOffersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OfferPromocode
+   */
+  select?: Prisma.OfferPromocodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OfferPromocode
+   */
+  omit?: Prisma.OfferPromocodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OfferPromocodeInclude<ExtArgs> | null
+  where?: Prisma.OfferPromocodeWhereInput
+  orderBy?: Prisma.OfferPromocodeOrderByWithRelationInput | Prisma.OfferPromocodeOrderByWithRelationInput[]
+  cursor?: Prisma.OfferPromocodeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OfferPromocodeScalarFieldEnum | Prisma.OfferPromocodeScalarFieldEnum[]
 }
 
 /**

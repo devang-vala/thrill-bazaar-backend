@@ -179,6 +179,51 @@ export const validateOtpRequest = (data: {
   return { isValid: true };
 };
 
+export const validateOperatorOtpStart = (data: {
+  email?: string;
+  phone?: string;
+}): ValidationResult => {
+  if (!data.email) {
+    return { isValid: false, message: "Email is required" };
+  }
+  if (!isValidEmail(data.email)) {
+    return { isValid: false, message: "Invalid email format" };
+  }
+  if (!data.phone) {
+    return { isValid: false, message: "Phone number is required" };
+  }
+  if (!isValidPhone(data.phone)) {
+    return { isValid: false, message: "Invalid phone number format" };
+  }
+  return { isValid: true };
+};
+
+export const validateOperatorOtpVerify = (data: {
+  email?: string;
+  phone?: string;
+  phoneOtp?: string;
+  emailOtp?: string;
+}): ValidationResult => {
+  const startValidation = validateOperatorOtpStart(data);
+  if (!startValidation.isValid) return startValidation;
+
+  if (!data.phoneOtp || data.phoneOtp.length !== 6) {
+    return { isValid: false, message: "Phone OTP must be 6 digits" };
+  }
+  if (!data.emailOtp || data.emailOtp.length !== 6) {
+    return { isValid: false, message: "Email OTP must be 6 digits" };
+  }
+  return { isValid: true };
+};
+
+export const validateOperatorPasswordSetup = (data: {
+  password?: string;
+}): ValidationResult => {
+  const passwordValidation = validatePassword(data.password || "");
+  if (!passwordValidation.isValid) return passwordValidation;
+  return { isValid: true };
+};
+
 export const sanitizeString = (
   input: string,
   maxLength: number = 255
