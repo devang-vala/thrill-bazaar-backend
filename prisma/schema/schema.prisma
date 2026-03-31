@@ -116,9 +116,12 @@ enum RescheduleStatus {
 }
 
 enum SettlementStatus {
+  PAID
   PENDING
-  SETTLED
+  REFUND_PENDING
   REFUNDED
+  SETTLEMENT_ISSUE
+  ISSUE_RESOLVED
 }
 
 enum BadgeType {

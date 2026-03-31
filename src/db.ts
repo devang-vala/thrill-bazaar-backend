@@ -1,5 +1,4 @@
+import "dotenv/config";
 import { PrismaClient } from "../prisma/src/generated/prisma/client.js";
 
-export const prisma = new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL
-})
+export const prisma = new PrismaClient();

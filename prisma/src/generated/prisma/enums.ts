@@ -158,9 +158,12 @@ export type RescheduleStatus = (typeof RescheduleStatus)[keyof typeof Reschedule
 
 
 export const SettlementStatus = {
+  PAID: 'PAID',
   PENDING: 'PENDING',
-  SETTLED: 'SETTLED',
-  REFUNDED: 'REFUNDED'
+  REFUND_PENDING: 'REFUND_PENDING',
+  REFUNDED: 'REFUNDED',
+  SETTLEMENT_ISSUE: 'SETTLEMENT_ISSUE',
+  ISSUE_RESOLVED: 'ISSUE_RESOLVED'
 } as const
 
 export type SettlementStatus = (typeof SettlementStatus)[keyof typeof SettlementStatus]

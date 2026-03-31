@@ -813,6 +813,446 @@ export const getOperatorBadges = async (c: Context) => {
   }
 };
 
+const SETTLEMENT_STATUS_LABELS = {
+  PAID: "Paid",
+  PENDING: "Pending",
+  REFUND_PENDING: "Refund Pending",
+  REFUNDED: "Refunded",
+  SETTLEMENT_ISSUE: "Settlement Issue",
+  ISSUE_RESOLVED: "Issue Resolved",
+} as const;
+
+const PENDING_SETTLEMENT_STATUSES = [
+  "PENDING",
+  "REFUND_PENDING",
+  "SETTLEMENT_ISSUE",
+] as const;
+
+const parsePositiveInteger = (value: string | undefined, fallback: number, max?: number) => {
+  const parsed = Number.parseInt(value || "", 10);
+
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return fallback;
+  }
+
+  if (typeof max === "number") {
+    return Math.min(parsed, max);
+  }
+
+  return parsed;
+};
+
+const normalizeSettlementStatus = (value: string | undefined) => {
+  if (!value || value.toLowerCase() === "all") {
+    return undefined;
+  }
+
+  const normalized = value
+    .trim()
+    .toUpperCase()
+    .replace(/\s+/g, "_");
+
+  return normalized;
+};
+
+const getDateRangeBounds = (range: string | undefined) => {
+  if (!range || range === "all") {
+    return undefined;
+  }
+
+  const now = new Date();
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  if (range === "today") {
+    const endOfToday = new Date(startOfToday);
+    endOfToday.setDate(endOfToday.getDate() + 1);
+
+    return {
+      gte: startOfToday,
+      lt: endOfToday,
+    };
+  }
+
+  if (range === "next_7_days") {
+    const end = new Date(startOfToday);
+    end.setDate(end.getDate() + 7);
+
+    return {
+      gte: startOfToday,
+      lte: end,
+    };
+  }
+
+  if (range === "this_month") {
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const nextMonthStart = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    return {
+      gte: monthStart,
+      lt: nextMonthStart,
+    };
+  }
+
+  if (range === "past") {
+    return {
+      lt: startOfToday,
+    };
+  }
+
+  return undefined;
+};
+
+const maskAccountNumber = (accountNumber: unknown) => {
+  const digits = String(accountNumber || "").replace(/\s+/g, "");
+
+  if (!digits) {
+    return null;
+  }
+
+  if (digits.length <= 4) {
+    return digits;
+  }
+
+  return `${"*".repeat(Math.max(0, digits.length - 4))}${digits.slice(-4)}`;
+};
+
+/**
+ * Get seller settlements page payload
+ * GET /api/operators/:operatorId/settlements
+ */
+export const getOperatorSettlements = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    const operatorId = c.req.param("operatorId");
+
+    if (!operatorId) {
+      return c.json({ success: false, error: "Operator ID is required" }, 400);
+    }
+
+    const isAdmin = user.userType === "admin" || user.userType === "super_admin";
+    if (!isAdmin && user.userId !== operatorId) {
+      return c.json({ success: false, error: "Unauthorized to view settlements" }, 403);
+    }
+
+    const page = parsePositiveInteger(c.req.query("page"), 1);
+    const limit = parsePositiveInteger(c.req.query("limit"), 10, 50);
+    const search = (c.req.query("search") || "").trim();
+    const category = (c.req.query("category") || "").trim();
+    const dateRange = (c.req.query("dateRange") || "all").trim();
+    const settlementStatus = normalizeSettlementStatus(c.req.query("status"));
+    const skip = (page - 1) * limit;
+
+    const operatorBookingScope = {
+      OR: [
+        { listingSlot: { listing: { operatorId } } },
+        { dateRange: { listing: { operatorId } } },
+      ],
+    };
+
+    const bookingStartDate = getDateRangeBounds(dateRange);
+
+    const whereClause: any = {
+      booking: {
+        ...operatorBookingScope,
+        ...(bookingStartDate ? { bookingStartDate } : {}),
+      },
+    };
+
+    if (settlementStatus) {
+      whereClause.settlementStatus = settlementStatus as any;
+    }
+
+    if (search) {
+      whereClause.OR = [
+        {
+          booking: {
+            bookingReference: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        },
+        {
+          booking: {
+            listingSlot: {
+              listing: {
+                listingName: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            },
+          },
+        },
+        {
+          booking: {
+            dateRange: {
+              listing: {
+                listingName: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            },
+          },
+        },
+        {
+          booking: {
+            listingSlot: {
+              listing: {
+                startLocationName: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            },
+          },
+        },
+        {
+          booking: {
+            dateRange: {
+              listing: {
+                startLocationName: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            },
+          },
+        },
+      ];
+    }
+
+    if (category) {
+      whereClause.booking = {
+        ...whereClause.booking,
+        OR: [
+          {
+            listingSlot: {
+              listing: {
+                operatorId,
+                category: {
+                  categoryName: category,
+                },
+              },
+            },
+          },
+          {
+            dateRange: {
+              listing: {
+                operatorId,
+                category: {
+                  categoryName: category,
+                },
+              },
+            },
+          },
+        ],
+      };
+    }
+
+    const [summaryAgg, pendingCount, totalCount, payments, operatorProfile, categories] = await Promise.all([
+      prisma.bookingPayment.aggregate({
+        _sum: {
+          totalEarnings: true,
+        },
+        where: {
+          booking: operatorBookingScope,
+        },
+      }),
+      prisma.bookingPayment.count({
+        where: {
+          booking: operatorBookingScope,
+          settlementStatus: {
+            in: [...PENDING_SETTLEMENT_STATUSES] as any,
+          },
+        },
+      }),
+      prisma.bookingPayment.count({
+        where: whereClause,
+      }),
+      prisma.bookingPayment.findMany({
+        where: whereClause,
+        include: {
+          booking: {
+            select: {
+              id: true,
+              bookingReference: true,
+              bookingStartDate: true,
+              bookingEndDate: true,
+              createdAt: true,
+              listingSlot: {
+                select: {
+                  startTime: true,
+                  endTime: true,
+                  slotDefinition: {
+                    select: {
+                      startTime: true,
+                      endTime: true,
+                    },
+                  },
+                  listing: {
+                    select: {
+                      id: true,
+                      listingName: true,
+                      frontImageUrl: true,
+                      startLocationName: true,
+                      currency: true,
+                      category: {
+                        select: {
+                          categoryName: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              dateRange: {
+                select: {
+                  slotDefinition: {
+                    select: {
+                      startTime: true,
+                      endTime: true,
+                    },
+                  },
+                  listing: {
+                    select: {
+                      id: true,
+                      listingName: true,
+                      frontImageUrl: true,
+                      startLocationName: true,
+                      currency: true,
+                      category: {
+                        select: {
+                          categoryName: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        orderBy: [
+          { booking: { bookingStartDate: "desc" } },
+          { createdAt: "desc" },
+        ],
+        skip,
+        take: limit,
+      }),
+      prisma.operatorProfile.findUnique({
+        where: { operatorId },
+        select: {
+          companyName: true,
+          bankAccountDetails: true,
+        },
+      }),
+      prisma.listing.findMany({
+        where: {
+          operatorId,
+          category: {
+            isNot: null,
+          },
+        },
+        select: {
+          category: {
+            select: {
+              categoryName: true,
+            },
+          },
+        },
+        distinct: ["categoryId"],
+        orderBy: {
+          category: {
+            categoryName: "asc",
+          },
+        },
+      }),
+    ]);
+
+    const settlements = payments.map((payment) => {
+      const listing = payment.booking.listingSlot?.listing || payment.booking.dateRange?.listing;
+      const slotStart =
+        payment.booking.listingSlot?.slotDefinition?.startTime ||
+        payment.booking.listingSlot?.startTime ||
+        payment.booking.dateRange?.slotDefinition?.startTime ||
+        null;
+      const slotEnd =
+        payment.booking.listingSlot?.slotDefinition?.endTime ||
+        payment.booking.listingSlot?.endTime ||
+        payment.booking.dateRange?.slotDefinition?.endTime ||
+        null;
+
+      return {
+        id: payment.id,
+        bookingId: payment.booking.id,
+        bookingReference: payment.booking.bookingReference,
+        bookingStartDate: payment.booking.bookingStartDate,
+        bookingEndDate: payment.booking.bookingEndDate,
+        bookingCreatedAt: payment.booking.createdAt,
+        slotStart,
+        slotEnd,
+        listingId: listing?.id || null,
+        activityName: listing?.listingName || "Untitled Activity",
+        activityImageUrl: listing?.frontImageUrl || null,
+        location: listing?.startLocationName || "-",
+        category: listing?.category?.categoryName || null,
+        currency: listing?.currency || "INR",
+        totalEarnings: payment.totalEarnings,
+        balanceToCollect: payment.balanceToCollect,
+        netPayToSeller: payment.netPayToSeller,
+        settlementStatus: payment.settlementStatus,
+        settlementStatusLabel:
+          SETTLEMENT_STATUS_LABELS[payment.settlementStatus as keyof typeof SETTLEMENT_STATUS_LABELS] ||
+          payment.settlementStatus,
+        settlementDate: payment.settlementDate,
+      };
+    });
+
+    const totalPages = Math.max(1, Math.ceil(totalCount / limit));
+    const bankDetails = (operatorProfile?.bankAccountDetails as Record<string, unknown> | null) || null;
+
+    return c.json({
+      success: true,
+      data: {
+        summary: {
+          totalEarnings: (summaryAgg._sum.totalEarnings || 0) / 100,
+          pendingSettlementCount: pendingCount,
+        },
+        filters: {
+          categories: categories
+            .map((entry) => entry.category?.categoryName)
+            .filter((value): value is string => Boolean(value)),
+          statuses: Object.entries(SETTLEMENT_STATUS_LABELS).map(([value, label]) => ({
+            value,
+            label,
+          })),
+        },
+        bankDetails: bankDetails
+          ? {
+              companyName: operatorProfile?.companyName || null,
+              accountHolderName: bankDetails.accountHolderName || null,
+              accountNumberMasked: maskAccountNumber(bankDetails.accountNumber),
+              ifscCode: bankDetails.ifscCode || null,
+              branchName: bankDetails.branchName || null,
+            }
+          : null,
+        settlements,
+        pagination: {
+          page,
+          limit,
+          total: totalCount,
+          totalPages,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Get operator settlements error:", error);
+    return c.json({ success: false, error: "Failed to fetch settlements" }, 500);
+  }
+};
+
 /**
  * Get seller dashboard summary
  * GET /api/operators/dashboard/:operatorId
