@@ -137,6 +137,11 @@ export type ListingVariant = Prisma.ListingVariantModel
  */
 export type Listing = Prisma.ListingModel
 /**
+ * Model OfferPromocode
+ * 
+ */
+export type OfferPromocode = Prisma.OfferPromocodeModel
+/**
  * Model OperatorProfile
  * 
  */

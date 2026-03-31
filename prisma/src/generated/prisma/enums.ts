@@ -185,3 +185,19 @@ export const TagType = {
 } as const
 
 export type TagType = (typeof TagType)[keyof typeof TagType]
+
+
+export const OfferType = {
+  offer: 'offer',
+  promocode: 'promocode'
+} as const
+
+export type OfferType = (typeof OfferType)[keyof typeof OfferType]
+
+
+export const DiscountType = {
+  price: 'price',
+  percentage: 'percentage'
+} as const
+
+export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType]

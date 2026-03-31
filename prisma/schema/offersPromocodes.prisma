@@ -1,0 +1,29 @@
+model OfferPromocode {
+  id                   String       @id @default(uuid()) @map("offer_promocode_id")
+  type                 OfferType
+  code                 String       @unique
+  discountType         DiscountType @map("discount_type")
+  discountValue        Decimal      @db.Decimal(10, 2) @map("discount_value")
+  minOrderAmount       Decimal?     @db.Decimal(10, 2) @map("min_order_amount")
+  maxDiscountLimit     Decimal?     @db.Decimal(10, 2) @map("max_discount_limit")
+  description          String
+  details              String       @db.Text
+  startDate            DateTime?    @map("start_date")
+  endDate              DateTime?    @map("end_date")
+  isActive             Boolean      @default(true) @map("is_active")
+
+  // Target modes
+  applyToAllSellers    Boolean      @default(false) @map("apply_to_all_sellers")
+  applyToAllCategories Boolean      @default(false) @map("apply_to_all_categories")
+  applyToAllListings   Boolean      @default(false) @map("apply_to_all_listings")
+
+  // Target relations
+  targetSellers        User[]       @relation("OfferTargetSellers")
+  targetCategories     Category[]   @relation("OfferTargetCategories")
+  targetListings       Listing[]    @relation("OfferTargetListings")
+
+  createdAt            DateTime     @default(now()) @map("created_at")
+  updatedAt            DateTime     @updatedAt @map("updated_at")
+
+  @@map("offers_promocodes")
+}

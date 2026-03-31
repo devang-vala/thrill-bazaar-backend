@@ -246,8 +246,8 @@ export const updateUserProfile = async (c: Context) => {
       updateData.email = sanitizedEmail;
     }
 
-    // Handle phone update (for customer users)
-    if (body.phone && currentUser.userType === "customer") {
+    // Handle phone update
+    if (body.phone) {
       const sanitizedPhone = sanitizePhone(body.phone);
 
       // Check if phone already exists (excluding current user)
@@ -301,8 +301,9 @@ export const updateUserProfile = async (c: Context) => {
     if (body.alternatePhone !== undefined) {
       if (body.alternatePhone) {
         const sanitizedAlternatePhone = sanitizePhone(body.alternatePhone);
-        // Check if alternate phone is same as primary phone
-        if (sanitizedAlternatePhone === currentUser.phone) {
+        // Check if alternate phone is same as NEW primary phone (or current if not changed)
+        const primaryPhoneToCompare = updateData.phone || currentUser.phone;
+        if (primaryPhoneToCompare && sanitizedAlternatePhone === primaryPhoneToCompare) {
           return c.json({ error: "Alternate phone cannot be same as primary phone" }, 400);
         }
         updateData.alternatePhone = sanitizedAlternatePhone;

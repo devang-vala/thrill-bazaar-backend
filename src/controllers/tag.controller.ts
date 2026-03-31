@@ -158,7 +158,7 @@ export const createTag = async (c: Context) => {
         tagName: sanitizeString(tagName, 100),
         tagType: tagType as any,
         description: description ? sanitizeString(description, 1000) : null,
-        tagColor: tagColor ? sanitizeString(tagColor, 20) : null,
+        tagColor: tagColor ? sanitizeString(tagColor, 200) : null,
         displayOrder: displayOrder || 0,
         createdByAdminId: user?.userId || null,
         isActive: true,
@@ -240,7 +240,7 @@ export const updateTag = async (c: Context) => {
     }
 
     if (body.tagColor !== undefined) {
-      updateData.tagColor = body.tagColor ? sanitizeString(body.tagColor, 20) : null;
+      updateData.tagColor = body.tagColor ? sanitizeString(body.tagColor, 200) : null;
     }
 
     if (body.displayOrder !== undefined) {

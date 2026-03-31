@@ -72,6 +72,7 @@ export const ModelName = {
   ListingVariantMetadataFieldOptions: 'ListingVariantMetadataFieldOptions',
   ListingVariant: 'ListingVariant',
   Listing: 'Listing',
+  OfferPromocode: 'OfferPromocode',
   OperatorProfile: 'OperatorProfile',
   Otp: 'Otp',
   PrimaryDivision: 'PrimaryDivision',
@@ -527,6 +528,29 @@ export const ListingScalarFieldEnum = {
 } as const
 
 export type ListingScalarFieldEnum = (typeof ListingScalarFieldEnum)[keyof typeof ListingScalarFieldEnum]
+
+
+export const OfferPromocodeScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  code: 'code',
+  discountType: 'discountType',
+  discountValue: 'discountValue',
+  minOrderAmount: 'minOrderAmount',
+  maxDiscountLimit: 'maxDiscountLimit',
+  description: 'description',
+  details: 'details',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isActive: 'isActive',
+  applyToAllSellers: 'applyToAllSellers',
+  applyToAllCategories: 'applyToAllCategories',
+  applyToAllListings: 'applyToAllListings',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OfferPromocodeScalarFieldEnum = (typeof OfferPromocodeScalarFieldEnum)[keyof typeof OfferPromocodeScalarFieldEnum]
 
 
 export const OperatorProfileScalarFieldEnum = {

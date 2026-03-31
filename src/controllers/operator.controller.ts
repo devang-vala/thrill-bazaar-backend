@@ -5,6 +5,7 @@ import { Readable } from "stream";
 import {
   hashPassword,
   formatUserResponse,
+  verifyToken,
 } from "../helpers/auth.helper.js";
 import {
   validateOperatorCompleteRegistration,
@@ -102,6 +103,23 @@ export const registerOperatorComplete = async (c: Context) => {
     // Parse form data
     const body = await c.req.parseBody();
 
+    // Optional auth header so already-signed-up operators can continue onboarding
+    const authHeader = c.req.header("authorization");
+    let existingOperatorUser: any = null;
+    if (authHeader?.startsWith("Bearer ")) {
+      const token = authHeader.split(" ")[1];
+      try {
+        const payload = verifyToken(token);
+        if (payload.userType === "operator") {
+          existingOperatorUser = await prisma.user.findUnique({
+            where: { id: payload.userId },
+          });
+        }
+      } catch (err) {
+        // Ignore token errors and continue as unauthenticated registration
+      }
+    }
+
     const toSingleString = (value: unknown): string => {
       if (Array.isArray(value)) {
         const first = value[0];
@@ -150,6 +168,13 @@ export const registerOperatorComplete = async (c: Context) => {
       socialMediaLinks: toSingleString(body.socialMediaLinks),
     };
 
+    if (existingOperatorUser) {
+      registrationData.email = existingOperatorUser.email || registrationData.email;
+      registrationData.phone = existingOperatorUser.phone || registrationData.phone;
+      // Supply a placeholder to satisfy validation; password isn't overwritten here
+      registrationData.password = registrationData.password || "Placeholder@123";
+    }
+
     // Validate registration data
     const validation = validateOperatorCompleteRegistration(registrationData);
     if (!validation.isValid) {
@@ -162,22 +187,19 @@ export const registerOperatorComplete = async (c: Context) => {
     const businessName = sanitizeString(registrationData.businessName, 100);
     const operatorName = sanitizeString(registrationData.operatorName, 100);
 
-    // Check if email already exists
-    const existingUser = await prisma.user.findFirst({
-      where: { email: email },
-    });
+    // Allow same email or phone individually, but block exact duplicates unless continuing onboarding for an existing operator
+    if (!existingOperatorUser) {
+      const existingCombo = await prisma.user.findFirst({
+        where: {
+          userType: "operator",
+          email: email,
+          phone: phone,
+        },
+      });
 
-    if (existingUser) {
-      return c.json({ error: "Email already registered" }, 409);
-    }
-
-    // Check if phone already exists
-    const existingPhone = await prisma.user.findFirst({
-      where: { phone: phone },
-    });
-
-    if (existingPhone) {
-      return c.json({ error: "Phone number already registered" }, 409);
+      if (existingCombo) {
+        return c.json({ error: "Account already exists with this email and phone" }, 409);
+      }
     }
 
     // Validate bank account confirmation
@@ -220,8 +242,10 @@ export const registerOperatorComplete = async (c: Context) => {
       );
     }
 
-    // Hash password
-    const hashedPassword = await hashPassword(registrationData.password);
+    // Hash password (may be skipped when continuing onboarding)
+    const hashedPassword = registrationData.password
+      ? await hashPassword(registrationData.password)
+      : null;
 
     // Split operator name
     const nameParts = operatorName.trim().split(" ");
@@ -279,41 +303,82 @@ export const registerOperatorComplete = async (c: Context) => {
       accountHolderName: registrationData.accountHolderName,
     };
 
-    // Create everything in a transaction
+    // Create or update everything in a transaction
     const result = await prisma.$transaction(async (tx) => {
-      // Create user
-      const newUser = await tx.user.create({
-        data: {
-          email: email,
-          phone: phone,
-          password: hashedPassword,
-          firstName: firstName,
-          lastName: lastName,
-          userType: "operator",
-          isVerified: false, // Will be verified by admin
-          isActive: false, // Inactive until admin approval
-          selectedCategoryIds: registrationData.selectedCategoryIds || [],
-        },
+      let userRecord = existingOperatorUser;
+
+      if (userRecord) {
+        userRecord = await tx.user.update({
+          where: { id: userRecord.id },
+          data: {
+            email,
+            phone,
+            firstName,
+            lastName,
+            isActive: true,
+            ...(hashedPassword ? { password: hashedPassword } : {}),
+            selectedCategoryIds: registrationData.selectedCategoryIds || userRecord.selectedCategoryIds || [],
+          },
+        });
+      } else {
+        userRecord = await tx.user.create({
+          data: {
+            email: email,
+            phone: phone,
+            password: hashedPassword,
+            firstName: firstName,
+            lastName: lastName,
+            userType: "operator",
+            isVerified: false, // Will be verified by admin
+            isActive: false, // Inactive until admin approval
+            selectedCategoryIds: registrationData.selectedCategoryIds || [],
+          },
+        });
+      }
+
+      const billingAddress = await tx.userAddress.findFirst({
+        where: { userId: userRecord.id, addressType: "BILLING" },
       });
 
-      // Create business address
-      await tx.userAddress.create({
-        data: {
-          userId: newUser.id,
-          addressType: "BILLING",
-          fullAddress: `${registrationData.addressLine01}${registrationData.addressLine02 ? ", " + registrationData.addressLine02 : ""}`,
-          city: sanitizeString(registrationData.city, 100),
-          state: sanitizeString(registrationData.state, 100),
-          country: sanitizeString(registrationData.country || "India", 100),
-          postalCode: sanitizeString(registrationData.pincode, 20),
-          isDefault: true,
-        },
-      });
+      const addressData = {
+        userId: userRecord.id,
+        addressType: "BILLING" as const,
+        fullAddress: `${registrationData.addressLine01}${registrationData.addressLine02 ? ", " + registrationData.addressLine02 : ""}`,
+        city: sanitizeString(registrationData.city, 100),
+        state: sanitizeString(registrationData.state, 100),
+        country: sanitizeString(registrationData.country || "India", 100),
+        postalCode: sanitizeString(registrationData.pincode, 20),
+        isDefault: true,
+      };
 
-      // Create operator profile with all details
-      const operatorProfile = await tx.operatorProfile.create({
-        data: {
-          operatorId: newUser.id,
+      if (billingAddress) {
+        await tx.userAddress.update({
+          where: { id: billingAddress.id },
+          data: addressData,
+        });
+      } else {
+        await tx.userAddress.create({ data: addressData });
+      }
+
+      const operatorProfile = await tx.operatorProfile.upsert({
+        where: { operatorId: userRecord.id },
+        create: {
+          operatorId: userRecord.id,
+          companyName: businessName,
+          businessRegistrationNumber: registrationData.panNumber || null,
+          taxId: registrationData.gstinNumber || null,
+          companyDescription: registrationData.companyDescription
+            ? sanitizeString(registrationData.companyDescription, 1000)
+            : null,
+          websiteUrl: registrationData.websiteUrl
+            ? sanitizeString(registrationData.websiteUrl, 255)
+            : null,
+          socialMediaLinks: parsedSocialMediaLinks,
+          bankAccountDetails: bankAccountDetails,
+          verificationDocuments: allDocuments,
+          verificationStatus: "PENDING",
+        },
+        update: {
           companyName: businessName,
           businessRegistrationNumber: registrationData.panNumber || null,
           taxId: registrationData.gstinNumber || null,
@@ -330,7 +395,7 @@ export const registerOperatorComplete = async (c: Context) => {
         },
       });
 
-      return { user: newUser, operatorProfile };
+      return { user: userRecord, operatorProfile };
     });
 
     return c.json(

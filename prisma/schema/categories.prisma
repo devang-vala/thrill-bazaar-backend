@@ -24,6 +24,9 @@ model Category {
   listings                        Listing[]
   subCategories                   SubCategory[]
 
+  // Offer/Promocode Target Relations
+  targetedOffers                  OfferPromocode[] @relation("OfferTargetCategories")
+
   @@map("categories")
 }
 

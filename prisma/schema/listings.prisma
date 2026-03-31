@@ -61,5 +61,8 @@ model Listing {
   badges ListingBadge[]
   tags   ListingTag[]
 
+  // Offer/Promocode Target Relations
+  targetedOffers OfferPromocode[] @relation("OfferTargetListings")
+
   @@map("listings")
 }

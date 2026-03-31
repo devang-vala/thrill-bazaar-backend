@@ -51,16 +51,24 @@ export const getVariantsWithBatches = async (c: Context) => {
       variantName: variant.variantName,
       variantDescription: variant.variantDescription,
       batches: variant.slots.map((slot) => {
-        // Calculate actual bookings count from the bookings relation
-        const bookingsCount = slot.bookings.length;
+        // Count seats booked, not just booking rows.
+        const bookedParticipants = slot.bookings.reduce(
+          (sum, booking) => sum + (booking.participantCount || 0),
+          0
+        );
+        const maxRemainingCapacity = Math.max(0, (slot.totalCapacity || 0) - bookedParticipants);
+        const effectiveAvailableSlots =
+          slot.availableCount === null || slot.availableCount === undefined
+            ? maxRemainingCapacity
+            : Math.min(Math.max(0, slot.availableCount), maxRemainingCapacity);
         
         return {
           id: slot.id,
           startDate: slot.batchStartDate?.toISOString() || "",
           endDate: slot.batchEndDate?.toISOString() || "",
           batchSize: slot.totalCapacity,
-          availableSlots: slot.availableCount,
-          bookings: bookingsCount,
+          availableSlots: effectiveAvailableSlots,
+          bookings: bookedParticipants,
           price: slot.basePrice,
           status: slot.isActive ? "ACTIVE" : "PAUSED",
         };
@@ -107,7 +115,15 @@ export const getBatchById = async (c: Context) => {
     }
     
     // Calculate actual bookings count
-    const bookingsCount = batch.bookings.length;
+    const bookedParticipants = batch.bookings.reduce(
+      (sum, booking) => sum + (booking.participantCount || 0),
+      0
+    );
+    const maxRemainingCapacity = Math.max(0, (batch.totalCapacity || 0) - bookedParticipants);
+    const effectiveAvailableCount =
+      batch.availableCount === null || batch.availableCount === undefined
+        ? maxRemainingCapacity
+        : Math.min(Math.max(0, batch.availableCount), maxRemainingCapacity);
     
     return c.json({ 
       success: true, 
@@ -117,9 +133,9 @@ export const getBatchById = async (c: Context) => {
         batchEndDate: batch.batchEndDate,
         basePrice: batch.basePrice,
         totalCapacity: batch.totalCapacity,
-        availableCount: batch.availableCount,
+        availableCount: effectiveAvailableCount,
         isActive: batch.isActive,
-        bookingsCount,
+        bookingsCount: bookedParticipants,
         slotDefinition: batch.slotDefinition
       } 
     });
@@ -231,22 +247,66 @@ export const updateBatch = async (c: Context) => {
       data.batchEndDate = new Date(data.batchEndDate).toISOString();
     }
 
-    // If totalCapacity is being updated, recalculate availableCount based on actual bookings
-    if (data.totalCapacity !== undefined) {
-      // Count confirmed/completed bookings for this batch
-      const bookingsCount = await prisma.booking.count({
-        where: {
-          listingSlotId: batchId,
-          bookingStatus: {
-            in: ['CONFIRMED', 'COMPLETED']
-          }
+    const existingBatch = await prisma.listingSlot.findUnique({
+      where: { id: batchId },
+      select: {
+        totalCapacity: true,
+      },
+    });
+
+    if (!existingBatch) {
+      return c.json({ success: false, message: "Batch not found" }, 404);
+    }
+
+    const activeBookings = await prisma.booking.findMany({
+      where: {
+        listingSlotId: batchId,
+        bookingStatus: {
+          in: ['CONFIRMED', 'COMPLETED']
         }
-      });
+      },
+      select: {
+        participantCount: true
+      }
+    });
 
-      // Calculate available count: total capacity - active bookings
-      data.availableCount = data.totalCapacity - bookingsCount;
+    const bookedParticipants = activeBookings.reduce(
+      (sum, booking) => sum + (booking.participantCount || 0),
+      0
+    );
 
-      console.log(`[updateBatch] Batch ${batchId}: totalCapacity=${data.totalCapacity}, bookingsCount=${bookingsCount}, availableCount=${data.availableCount}`);
+    // Keep existing batch size fixed for live batches; only availability is editable.
+    if (data.totalCapacity !== undefined) {
+      delete data.totalCapacity;
+    }
+
+    if (data.availableCount !== undefined) {
+      const maxAllowedAvailable = Math.max(0, (existingBatch.totalCapacity || 0) - bookedParticipants);
+      data.availableCount = Math.min(
+        Math.max(0, Number(data.availableCount) || 0),
+        maxAllowedAvailable
+      );
+    }
+
+    if (data.availableCount === undefined && data.totalCapacity !== undefined) {
+      // Defensive fallback if older callers still try to send capacity updates.
+      const maxAllowedAvailable = Math.max(0, (existingBatch.totalCapacity || 0) - bookedParticipants);
+      data.availableCount = maxAllowedAvailable;
+    }
+
+    if (data.availableCount !== undefined) {
+      console.log(
+        `[updateBatch] Batch ${batchId}: totalCapacity=${existingBatch.totalCapacity}, bookedParticipants=${bookedParticipants}, availableCount=${data.availableCount}`
+      );
+    } else {
+      // Count confirmed/completed bookings for this batch
+      const maxAllowedAvailable = Math.max(0, (existingBatch.totalCapacity || 0) - bookedParticipants);
+      if (existingBatch.totalCapacity !== undefined && existingBatch.totalCapacity !== null) {
+        data.availableCount = Math.min(
+          maxAllowedAvailable,
+          Number(existingBatch.totalCapacity) - bookedParticipants
+        );
+      }
     }
     
     const batch = await prisma.listingSlot.update({

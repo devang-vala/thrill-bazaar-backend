@@ -6,7 +6,11 @@ import {
   customerLogin,
   customerVerifyOtp,
   adminLogin,
-  operatorLogin
+  operatorLogin,
+  requestOperatorOtp,
+  verifyOperatorOtp,
+  setOperatorPassword,
+  verifyOperatorLoginOtp
 } from "../controllers/auth.controller.js";
 import {
   authenticateToken,
@@ -37,6 +41,11 @@ authRouter.post("/verify-otp", customerVerifyOtp);
 // Admin/Operator/Super Admin Authentication (Email + Password)
 authRouter.post("/login/admin", adminLogin);
 
+// Operator signup (OTP + password)
+authRouter.post("/operator/send-otp", requestOperatorOtp);
+authRouter.post("/operator/verify-otp", verifyOperatorOtp);
+authRouter.post("/operator/set-password", setOperatorPassword);
+
 // testing middleware
 authRouter.get("/admin-only", authenticateToken, requireAdmin, (c) => {
   const user = c.get("user");
@@ -47,5 +56,6 @@ authRouter.get("/admin-only", authenticateToken, requireAdmin, (c) => {
 });
 
 authRouter.post("/login/operator", operatorLogin);
+authRouter.post("/login/operator/verify-login-otp", verifyOperatorLoginOtp);
 
 export default authRouter;
