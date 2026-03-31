@@ -1138,7 +1138,18 @@ export const getOperatorSettlements = async (c: Context) => {
       }),
       prisma.bookingPayment.findMany({
         where: whereClause,
-        include: {
+        select: {
+          id: true,
+          bookingId: true,
+          totalEarnings: true,
+          balanceToCollect: true,
+          netPayToSeller: true,
+          settlementStatus: true,
+          settlementDate: true,
+          reason: true,
+          reasonbyadmin: true,
+          createdAt: true,
+          updatedAt: true,
           booking: {
             select: {
               id: true,
@@ -1146,6 +1157,7 @@ export const getOperatorSettlements = async (c: Context) => {
               bookingStartDate: true,
               bookingEndDate: true,
               createdAt: true,
+              participantCount: true,
               listingSlot: {
                 select: {
                   startTime: true,
@@ -1264,6 +1276,7 @@ export const getOperatorSettlements = async (c: Context) => {
         location: listing?.startLocationName || "-",
         category: listing?.category?.categoryName || null,
         currency: listing?.currency || "INR",
+        participantCount: payment.booking.participantCount,
         totalEarnings: payment.totalEarnings,
         balanceToCollect: payment.balanceToCollect,
         netPayToSeller: payment.netPayToSeller,
@@ -1272,6 +1285,12 @@ export const getOperatorSettlements = async (c: Context) => {
           SETTLEMENT_STATUS_LABELS[payment.settlementStatus as keyof typeof SETTLEMENT_STATUS_LABELS] ||
           payment.settlementStatus,
         settlementDate: payment.settlementDate,
+        reason: payment.reason,
+        reasonByAdmin: payment.reasonbyadmin,
+        concernRaisedAt: payment.reason ? payment.updatedAt : null,
+        adminRespondedAt: payment.reasonbyadmin ? payment.updatedAt : null,
+        createdAt: payment.createdAt,
+        updatedAt: payment.updatedAt,
       };
     });
 
@@ -1315,6 +1334,91 @@ export const getOperatorSettlements = async (c: Context) => {
   } catch (error) {
     console.error("Get operator settlements error:", error);
     return c.json({ success: false, error: "Failed to fetch settlements" }, 500);
+  }
+};
+
+/**
+ * Raise or edit a settlement concern for a seller-owned booking payment.
+ * POST /api/operators/:operatorId/settlements/:settlementId/concern
+ */
+export const upsertOperatorSettlementConcern = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    const operatorId = c.req.param("operatorId");
+    const settlementId = c.req.param("settlementId");
+    const body = await c.req.json().catch(() => ({}));
+    const concern = sanitizeString(String(body?.reason || ""), 2000).trim();
+
+    if (!operatorId || !settlementId) {
+      return c.json({ success: false, error: "Operator ID and settlement ID are required" }, 400);
+    }
+
+    if (user.userType !== "operator" || user.userId !== operatorId) {
+      return c.json({ success: false, error: "Unauthorized to update this settlement" }, 403);
+    }
+
+    if (!concern) {
+      return c.json({ success: false, error: "Concern note is required" }, 400);
+    }
+
+    if (concern.length > 200) {
+      return c.json({ success: false, error: "Concern note must be 200 characters or fewer" }, 400);
+    }
+
+    const existingPayment = await prisma.bookingPayment.findFirst({
+      where: {
+        id: settlementId,
+        booking: {
+          OR: [
+            { listingSlot: { listing: { operatorId } } },
+            { dateRange: { listing: { operatorId } } },
+          ],
+        },
+      },
+      select: {
+        id: true,
+        reason: true,
+        reasonbyadmin: true,
+        settlementStatus: true,
+      },
+    });
+
+    if (!existingPayment) {
+      return c.json({ success: false, error: "Settlement not found" }, 404);
+    }
+
+    const updatedPayment = await prisma.bookingPayment.update({
+      where: { id: settlementId },
+      data: {
+        reason: concern,
+        reasonbyadmin: null,
+        settlementStatus: "SETTLEMENT_ISSUE",
+      },
+      select: {
+        id: true,
+        reason: true,
+        reasonbyadmin: true,
+        settlementStatus: true,
+        updatedAt: true,
+      },
+    });
+
+    return c.json({
+      success: true,
+      message: existingPayment.reason
+        ? "Concern updated successfully"
+        : "Concern raised successfully",
+      data: {
+        id: updatedPayment.id,
+        reason: updatedPayment.reason,
+        reasonByAdmin: updatedPayment.reasonbyadmin,
+        settlementStatus: updatedPayment.settlementStatus,
+        updatedAt: updatedPayment.updatedAt,
+      },
+    });
+  } catch (error) {
+    console.error("Upsert operator settlement concern error:", error);
+    return c.json({ success: false, error: "Failed to update settlement concern" }, 500);
   }
 };
 

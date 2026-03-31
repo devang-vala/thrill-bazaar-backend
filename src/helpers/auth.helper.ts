@@ -17,11 +17,43 @@ export interface SMSConfig {
   phoneNumber?: string;
 }
 
-// Initialize Twilio client
-const twilioClient = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
+let twilioClient: ReturnType<typeof twilio> | null = null;
+
+const getTwilioConfig = (): Required<SMSConfig> | null => {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID?.trim();
+  const authToken = process.env.TWILIO_AUTH_TOKEN?.trim();
+  const phoneNumber = process.env.TWILIO_PHONE_NUMBER?.trim();
+
+  if (!accountSid || !authToken || !phoneNumber) {
+    return null;
+  }
+
+  // Twilio Account SID must start with AC. Without this guard, twilio()
+  // throws during client construction and can crash app startup.
+  if (!accountSid.startsWith("AC")) {
+    return null;
+  }
+
+  return {
+    accountSid,
+    authToken,
+    phoneNumber,
+  };
+};
+
+const getTwilioClient = () => {
+  if (twilioClient) {
+    return twilioClient;
+  }
+
+  const config = getTwilioConfig();
+  if (!config) {
+    return null;
+  }
+
+  twilioClient = twilio(config.accountSid, config.authToken);
+  return twilioClient;
+};
 
 export const generateToken = (userId: string, userType: string): string => {
   const jwtSecret = process.env.JWT_SECRET;
@@ -87,18 +119,17 @@ export const sendSMS = async (
   message: string
 ): Promise<boolean> => {
   try {
-    if (
-      !process.env.TWILIO_ACCOUNT_SID ||
-      !process.env.TWILIO_AUTH_TOKEN ||
-      !process.env.TWILIO_PHONE_NUMBER
-    ) {
+    const config = getTwilioConfig();
+    const client = getTwilioClient();
+
+    if (!config || !client) {
       console.warn("Twilio credentials not configured, skipping SMS");
       return false;
     }
 
-    await twilioClient.messages.create({
+    await client.messages.create({
       body: message,
-      from: process.env.TWILIO_PHONE_NUMBER,
+      from: config.phoneNumber,
       to: phone,
     });
 
@@ -192,11 +223,7 @@ export const formatUserResponse = (user: any) => {
 };
 
 export const isTwilioConfigured = (): boolean => {
-  return !!(
-    process.env.TWILIO_ACCOUNT_SID &&
-    process.env.TWILIO_AUTH_TOKEN &&
-    process.env.TWILIO_PHONE_NUMBER
-  );
+  return getTwilioConfig() !== null;
 };
 
 export const generateSecureRandom = (length: number = 32): string => {

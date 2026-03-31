@@ -8,6 +8,7 @@ import {
   getBookingWithReschedules,
   getAdminBookings,
   getAdminBookingById,
+  updateAdminBookingSettlement,
   getOperatorBookings,
   verifyBookingOtp,
   resendBookingOtp,
@@ -25,6 +26,7 @@ bookingRouter.get("/admin/all", authenticateToken, requireAdmin, getAdminBooking
 
 // Admin: Get single booking by ID
 bookingRouter.get("/admin/:bookingId", authenticateToken, requireAdmin, getAdminBookingById);
+bookingRouter.put("/admin/:bookingId/settlement", authenticateToken, requireAdmin, updateAdminBookingSettlement);
 
 // Operator/Seller: Get their bookings
 bookingRouter.get("/operator/:operatorId", authenticateToken, getOperatorBookings);
