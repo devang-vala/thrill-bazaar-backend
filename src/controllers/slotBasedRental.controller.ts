@@ -96,6 +96,10 @@ export const getSlotRentalAvailability = async (c: Context) => {
       orderBy: { availableFromDate: "asc" },
     });
 
+    if (ranges.length === 0) {
+      return c.json({ success: true, data: {} });
+    }
+
     // Fetch slot overrides for this slot definition via inventory date ranges
     const slotOverrides = await prisma.listingSlotChange.findMany({
       where: {
@@ -111,8 +115,80 @@ export const getSlotRentalAvailability = async (c: Context) => {
       },
     });
 
+    const overallStart = new Date(
+      Math.min(...ranges.map((range) => new Date(range.availableFromDate).getTime()))
+    );
+    const overallEnd = new Date(
+      Math.max(...ranges.map((range) => new Date(range.availableToDate).getTime()))
+    );
+
+    const blockedDates = await prisma.inventoryBlockedDate.findMany({
+      where: {
+        listingId,
+        variantId,
+        blockedDate: {
+          gte: overallStart,
+          lte: overallEnd,
+        },
+      },
+      select: {
+        blockedDate: true,
+      },
+    });
+
+    const activeBookings = await prisma.booking.findMany({
+      where: {
+        dateRangeId: { in: ranges.map((range) => range.id) },
+        bookingStatus: { in: ["CONFIRMED", "COMPLETED"] },
+        bookingStartDate: { lte: overallEnd },
+        bookingEndDate: { gte: overallStart },
+      },
+      select: {
+        pricingDetails: true,
+        bookingStartDate: true,
+        bookingEndDate: true,
+      },
+    });
+
+    const blockedDatesSet = new Set<string>();
+    blockedDates.forEach((blockedDate) => {
+      blockedDatesSet.add(blockedDate.blockedDate.toISOString().split("T")[0]);
+    });
+
+    const bookedDatesCount: Record<string, number> = {};
+    activeBookings.forEach((booking) => {
+      const pricingDetails = booking.pricingDetails as { selectedDates?: string[] } | null;
+      const selectedDates: string[] = [];
+
+      if (pricingDetails?.selectedDates && Array.isArray(pricingDetails.selectedDates)) {
+        selectedDates.push(...pricingDetails.selectedDates);
+      } else {
+        const bookingStartDate = new Date(booking.bookingStartDate);
+        const bookingEndDate = new Date(booking.bookingEndDate);
+        const currentDate = new Date(bookingStartDate);
+
+        while (currentDate <= bookingEndDate) {
+          selectedDates.push(currentDate.toISOString().split("T")[0]);
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      }
+
+      selectedDates.forEach((dateStr) => {
+        bookedDatesCount[dateStr] = (bookedDatesCount[dateStr] || 0) + 1;
+      });
+    });
+
     // Build calendar
-    const calendar: Record<string, { price: number, available: boolean, source: string }> = {};
+    const calendar: Record<string, {
+      date: string;
+      dateRangeId: string;
+      basePrice: number;
+      totalCapacity: number;
+      availableCount: number;
+      bookedCount: number;
+      isActive: boolean;
+      source: string;
+    }> = {};
     
     // Fill from date ranges (base pricing)
     for (const range of ranges) {
@@ -121,10 +197,19 @@ export const getSlotRentalAvailability = async (c: Context) => {
       
       while (currentDate <= endDate) {
         const dateStr = format(currentDate, "yyyy-MM-dd");
+        const totalCapacity = range.totalCapacity ?? 1;
+        const bookedCount = bookedDatesCount[dateStr] || 0;
+        const isBlocked = blockedDatesSet.has(dateStr);
+
         calendar[dateStr] = { 
-          price: range.basePricePerDay, 
-          available: true, 
-          source: "range" 
+          date: dateStr,
+          dateRangeId: range.id,
+          basePrice: range.basePricePerDay,
+          totalCapacity,
+          availableCount: Math.max(0, totalCapacity - bookedCount),
+          bookedCount,
+          isActive: !isBlocked && range.isActive,
+          source: "range",
         };
         currentDate.setDate(currentDate.getDate() + 1);
       }
@@ -133,10 +218,17 @@ export const getSlotRentalAvailability = async (c: Context) => {
     // Apply slot overrides (specific date overrides)
     for (const override of slotOverrides) {
       const dateStr = format(override.date, "yyyy-MM-dd");
+      const bookedCount = bookedDatesCount[dateStr] || 0;
+      const isBlocked = blockedDatesSet.has(dateStr);
       calendar[dateStr] = {
-        price: override.price,
-        available: true,
-        source: "override"
+        date: dateStr,
+        dateRangeId: override.inventoryDateRangeId || calendar[dateStr]?.dateRangeId || "",
+        basePrice: override.price,
+        totalCapacity: override.totalCapacity,
+        availableCount: Math.max(0, override.availableCount - bookedCount),
+        bookedCount,
+        isActive: !isBlocked,
+        source: "override",
       };
     }
 
