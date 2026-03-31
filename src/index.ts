@@ -40,6 +40,70 @@ const ensureBookingReasonColumn = async () => {
   }
 };
 
+const ensureBookingPaymentConcernColumns = async () => {
+  try {
+    const rows = (await prisma.$queryRawUnsafe(`
+      SELECT column_name
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = 'booking_payments'
+        AND column_name IN ('reason', 'reason_by_admin')
+    `)) as Array<{ column_name: string }>;
+
+    const existingColumns = new Set(rows.map((row) => row.column_name));
+
+    if (!existingColumns.has("reason")) {
+      console.warn('[DB Drift] Missing booking_payments.reason column. Applying safe auto-fix...');
+      await prisma.$executeRawUnsafe(
+        `ALTER TABLE "booking_payments" ADD COLUMN IF NOT EXISTS "reason" TEXT;`
+      );
+      console.log("[DB Drift] Added booking_payments.reason column successfully.");
+    }
+
+    if (!existingColumns.has("reason_by_admin")) {
+      console.warn('[DB Drift] Missing booking_payments.reason_by_admin column. Applying safe auto-fix...');
+      await prisma.$executeRawUnsafe(
+        `ALTER TABLE "booking_payments" ADD COLUMN IF NOT EXISTS "reason_by_admin" TEXT;`
+      );
+      console.log("[DB Drift] Added booking_payments.reason_by_admin column successfully.");
+    }
+  } catch (error) {
+    console.warn(
+      "[DB Drift] Failed to verify/apply booking_payments concern column fix:",
+      error instanceof Error ? error.message : error
+    );
+  }
+};
+
+const ensureBookingPaymentSettlementModeColumn = async () => {
+  try {
+    const rows = (await prisma.$queryRawUnsafe(`
+      SELECT EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'booking_payments'
+          AND column_name = 'settlement_mode'
+      ) AS exists
+    `)) as Array<{ exists: boolean }>;
+
+    const hasSettlementModeColumn = rows?.[0]?.exists === true;
+
+    if (!hasSettlementModeColumn) {
+      console.warn('[DB Drift] Missing booking_payments.settlement_mode column. Applying safe auto-fix...');
+      await prisma.$executeRawUnsafe(
+        `ALTER TABLE "booking_payments" ADD COLUMN IF NOT EXISTS "settlement_mode" TEXT;`
+      );
+      console.log("[DB Drift] Added booking_payments.settlement_mode column successfully.");
+    }
+  } catch (error) {
+    console.warn(
+      "[DB Drift] Failed to verify/apply booking_payments settlement_mode column fix:",
+      error instanceof Error ? error.message : error
+    );
+  }
+};
+
 // Initialize Meilisearch
 // Initialize Meilisearch (non-blocking)
 initMeilisearch().catch(err => {
@@ -63,6 +127,8 @@ app.route("/api", apiRouter);
 
 const startServer = async () => {
   await ensureBookingReasonColumn();
+  await ensureBookingPaymentConcernColumns();
+  await ensureBookingPaymentSettlementModeColumn();
 
   serve(
     {

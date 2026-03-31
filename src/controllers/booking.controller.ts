@@ -1520,98 +1520,489 @@ export const getAdminBookings = async (c: Context) => {
       );
     }
 
-    const bookings = await prisma.booking.findMany({
-      include: {
-        customer: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-            phone: true,
-          },
+    const parsePositiveInteger = (value: string | undefined, fallback: number, max?: number) => {
+      const parsed = Number.parseInt(value || "", 10);
+
+      if (!Number.isFinite(parsed) || parsed <= 0) {
+        return fallback;
+      }
+
+      return typeof max === "number" ? Math.min(parsed, max) : parsed;
+    };
+
+    const normalizeSettlementStatus = (value: string | undefined) => {
+      if (!value || value.toLowerCase() === "all") {
+        return undefined;
+      }
+
+      return value.trim().toUpperCase().replace(/\s+/g, "_");
+    };
+
+    const page = parsePositiveInteger(c.req.query("page"), 1);
+    const limit = parsePositiveInteger(c.req.query("limit"), 10, 50);
+    const search = (c.req.query("search") || "").trim();
+    const category = (c.req.query("category") || "").trim();
+    const bookingStatus = (c.req.query("status") || c.req.query("bookingStatus") || "").trim();
+    const paymentStatus = normalizeSettlementStatus(c.req.query("paymentStatus"));
+    const startDate = (c.req.query("startDate") || "").trim();
+    const endDate = (c.req.query("endDate") || "").trim();
+    const skip = (page - 1) * limit;
+
+    const normalizedStartDate = startDate ? new Date(`${startDate}T00:00:00`) : null;
+    const normalizedEndDate = endDate ? new Date(`${endDate}T23:59:59`) : null;
+
+    const whereClause: any = {};
+
+    if (bookingStatus && bookingStatus.toLowerCase() !== "all") {
+      whereClause.bookingStatus = bookingStatus.toUpperCase();
+    }
+
+    if (paymentStatus) {
+      whereClause.payment = {
+        is: {
+          settlementStatus: paymentStatus as any,
         },
-        listingSlot: {
-          include: {
-            listing: {
-              select: {
-                id: true,
-                listingName: true,
-                frontImageUrl: true,
-                currency: true,
-                startLocationName: true,
-                operatorId: true,
-                badges: {
-                  where: { isActive: true },
-                  select: {
-                    id: true,
-                    isActive: true,
-                    badge: {
-                      select: { id: true, badgeName: true, badgeIconUrl: true, badgeColor: true },
-                    },
+      };
+    }
+
+    if (normalizedStartDate || normalizedEndDate) {
+      whereClause.AND = [
+        ...(whereClause.AND || []),
+        {
+          ...(normalizedStartDate ? { bookingEndDate: { gte: normalizedStartDate } } : {}),
+          ...(normalizedEndDate ? { bookingStartDate: { lte: normalizedEndDate } } : {}),
+        },
+      ];
+    }
+
+    if (category) {
+      whereClause.AND = [
+        ...(whereClause.AND || []),
+        {
+          OR: [
+            {
+              listingSlot: {
+                listing: {
+                  category: {
+                    categoryName: category,
                   },
-                  take: 1,
-                  orderBy: { badge: { displayOrder: "asc" } },
-                },
-                tags: {
-                  where: { isActive: true },
-                  select: {
-                    id: true,
-                    isActive: true,
-                    tag: {
-                      select: { id: true, tagName: true, tagColor: true },
-                    },
-                  },
-                  take: 2,
-                  orderBy: { tag: { displayOrder: "asc" } },
                 },
               },
             },
-          },
-        },
-        dateRange: {
-          include: {
-            listing: {
-              select: {
-                id: true,
-                listingName: true,
-                frontImageUrl: true,
-                currency: true,
-                startLocationName: true,
-                operatorId: true,
-                badges: {
-                  where: { isActive: true },
-                  select: {
-                    id: true,
-                    isActive: true,
-                    badge: {
-                      select: { id: true, badgeName: true, badgeIconUrl: true, badgeColor: true },
-                    },
+            {
+              dateRange: {
+                listing: {
+                  category: {
+                    categoryName: category,
                   },
-                  take: 1,
-                  orderBy: { badge: { displayOrder: "asc" } },
-                },
-                tags: {
-                  where: { isActive: true },
-                  select: {
-                    id: true,
-                    isActive: true,
-                    tag: {
-                      select: { id: true, tagName: true, tagColor: true },
-                    },
-                  },
-                  take: 2,
-                  orderBy: { tag: { displayOrder: "asc" } },
                 },
               },
+            },
+          ],
+        },
+      ];
+    }
+
+    if (search) {
+      whereClause.AND = [
+        ...(whereClause.AND || []),
+        {
+          OR: [
+            {
+              bookingReference: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              customer: {
+                firstName: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            },
+            {
+              customer: {
+                lastName: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            },
+            {
+              customer: {
+                email: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            },
+            {
+              customer: {
+                phone: {
+                  contains: search,
+                },
+              },
+            },
+            {
+              listingSlot: {
+                listing: {
+                  listingName: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+            {
+              dateRange: {
+                listing: {
+                  listingName: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+            {
+              listingSlot: {
+                listing: {
+                  operator: {
+                    firstName: {
+                      contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            },
+            {
+              listingSlot: {
+                listing: {
+                  operator: {
+                    lastName: {
+                      contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            },
+            {
+              listingSlot: {
+                listing: {
+                  operator: {
+                    operatorProfile: {
+                      companyName: {
+                        contains: search,
+                        mode: "insensitive",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            {
+              dateRange: {
+                listing: {
+                  operator: {
+                    firstName: {
+                      contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            },
+            {
+              dateRange: {
+                listing: {
+                  operator: {
+                    lastName: {
+                      contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            },
+            {
+              dateRange: {
+                listing: {
+                  operator: {
+                    operatorProfile: {
+                      companyName: {
+                        contains: search,
+                        mode: "insensitive",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        },
+      ];
+    }
+
+    const listingSelect = {
+      id: true,
+      listingName: true,
+      frontImageUrl: true,
+      currency: true,
+      startLocationName: true,
+      operatorId: true,
+      category: {
+        select: {
+          categoryName: true,
+        },
+      },
+      operator: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          phone: true,
+          email: true,
+          operatorProfile: {
+            select: {
+              companyName: true,
             },
           },
         },
       },
-      orderBy: { createdAt: "desc" },
+    };
+
+    const [totalCount, bookings, bookingCounts, paymentCounts, rescheduleCounts, categories] = await Promise.all([
+      prisma.booking.count({
+        where: whereClause,
+      }),
+      prisma.booking.findMany({
+        where: whereClause,
+        select: {
+          id: true,
+          bookingReference: true,
+          bookingStartDate: true,
+          bookingEndDate: true,
+          participantCount: true,
+          totalAmount: true,
+          bookingStatus: true,
+          createdAt: true,
+          updatedAt: true,
+          customer: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true,
+              phone: true,
+            },
+          },
+          payment: {
+            select: {
+              settlementStatus: true,
+            },
+          },
+          reschedules: {
+            orderBy: {
+              createdAt: "desc",
+            },
+            take: 1,
+            select: {
+              id: true,
+              status: true,
+              createdAt: true,
+            },
+          },
+          listingSlot: {
+            select: {
+              startTime: true,
+              endTime: true,
+              slotDefinition: {
+                select: {
+                  startTime: true,
+                  endTime: true,
+                },
+              },
+              listing: {
+                select: listingSelect,
+              },
+            },
+          },
+          dateRange: {
+            select: {
+              slotDefinition: {
+                select: {
+                  startTime: true,
+                  endTime: true,
+                },
+              },
+              listing: {
+                select: listingSelect,
+              },
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        skip,
+        take: limit,
+      }),
+      prisma.booking.groupBy({
+        by: ["bookingStatus"],
+        _count: {
+          _all: true,
+        },
+      }),
+      prisma.bookingPayment.groupBy({
+        by: ["settlementStatus"],
+        _count: {
+          _all: true,
+        },
+      }),
+      prisma.reschedule.groupBy({
+        by: ["status"],
+        _count: {
+          _all: true,
+        },
+      }),
+      prisma.listing.findMany({
+        where: {
+          category: {
+            isNot: null,
+          },
+        },
+        select: {
+          category: {
+            select: {
+              categoryName: true,
+            },
+          },
+        },
+        distinct: ["categoryId"],
+        orderBy: {
+          category: {
+            categoryName: "asc",
+          },
+        },
+      }),
+    ]);
+
+    const bookingCountMap = Object.fromEntries(
+      bookingCounts.map((entry) => [entry.bookingStatus, entry._count._all])
+    ) as Record<string, number>;
+    const paymentCountMap = Object.fromEntries(
+      paymentCounts.map((entry) => [entry.settlementStatus, entry._count._all])
+    ) as Record<string, number>;
+    const rescheduleCountMap = Object.fromEntries(
+      rescheduleCounts.map((entry) => [entry.status, entry._count._all])
+    ) as Record<string, number>;
+
+    const data = bookings.map((booking) => {
+      const listing = booking.listingSlot?.listing || booking.dateRange?.listing;
+      const operator = listing?.operator;
+      const latestReschedule = booking.reschedules[0] || null;
+      const slotStart =
+        booking.listingSlot?.slotDefinition?.startTime ||
+        booking.listingSlot?.startTime ||
+        booking.dateRange?.slotDefinition?.startTime ||
+        null;
+      const slotEnd =
+        booking.listingSlot?.slotDefinition?.endTime ||
+        booking.listingSlot?.endTime ||
+        booking.dateRange?.slotDefinition?.endTime ||
+        null;
+
+      return {
+        id: booking.id,
+        bookingReference: booking.bookingReference,
+        bookingStartDate: booking.bookingStartDate,
+        bookingEndDate: booking.bookingEndDate,
+        participantCount: booking.participantCount,
+        totalAmount: Number(booking.totalAmount),
+        bookingStatus: booking.bookingStatus,
+        createdAt: booking.createdAt,
+        updatedAt: booking.updatedAt,
+        slotStart,
+        slotEnd,
+        customer: booking.customer,
+        activity: {
+          id: listing?.id || null,
+          name: listing?.listingName || "Unknown Listing",
+          imageUrl: listing?.frontImageUrl || null,
+          location: listing?.startLocationName || "-",
+          category: listing?.category?.categoryName || null,
+          currency: listing?.currency || "INR",
+        },
+        operator: {
+          id: operator?.id || null,
+          companyName:
+            operator?.operatorProfile?.companyName ||
+            `${operator?.firstName || ""} ${operator?.lastName || ""}`.trim() ||
+            "Unknown Operator",
+          phone: operator?.phone || "",
+          email: operator?.email || "",
+        },
+        payment: {
+          settlementStatus: booking.payment?.settlementStatus || "PENDING",
+        },
+        latestReschedule: latestReschedule
+          ? {
+              id: latestReschedule.id,
+              status: latestReschedule.status,
+              createdAt: latestReschedule.createdAt,
+            }
+          : null,
+      };
     });
 
-    return c.json({ success: true, data: bookings });
+    const totalPages = Math.max(1, Math.ceil(totalCount / limit));
+
+    return c.json({
+      success: true,
+      data,
+      count: totalCount,
+      page,
+      totalPages,
+      summary: {
+        totalBookings:
+          (bookingCountMap.CONFIRMED || 0) +
+          (bookingCountMap.COMPLETED || 0) +
+          (bookingCountMap.CANCELLED || 0) +
+          (bookingCountMap.NO_SHOW || 0),
+        cancellationAndRefunds:
+          (bookingCountMap.CANCELLED || 0) +
+          (paymentCountMap.REFUND_PENDING || 0) +
+          (paymentCountMap.REFUNDED || 0),
+        rescheduleRequests:
+          (rescheduleCountMap.pending || 0) +
+          (rescheduleCountMap.approved || 0) +
+          (rescheduleCountMap.approved_with_charge || 0) +
+          (rescheduleCountMap.rejected || 0),
+        requestsResolved:
+          (rescheduleCountMap.approved || 0) +
+          (rescheduleCountMap.approved_with_charge || 0) +
+          (rescheduleCountMap.rejected || 0) +
+          (rescheduleCountMap.cancelled || 0),
+        settlementIssues: paymentCountMap.SETTLEMENT_ISSUE || 0,
+      },
+      filters: {
+        categories: categories
+          .map((entry) => entry.category?.categoryName)
+          .filter((value): value is string => Boolean(value)),
+        bookingStatuses: ["CONFIRMED", "COMPLETED", "CANCELLED", "NO_SHOW"],
+        paymentStatuses: [
+          "PAID",
+          "PENDING",
+          "REFUND_PENDING",
+          "REFUNDED",
+          "SETTLEMENT_ISSUE",
+          "ISSUE_RESOLVED",
+        ],
+      },
+    });
   } catch (error) {
     console.error("Error fetching admin bookings:", error);
     return c.json(
@@ -1661,8 +2052,24 @@ export const getAdminBookingById = async (c: Context) => {
                 startLocationName: true,
                 operatorId: true,
                 bookingFormat: true,
+                taxRate: true,
+                addons: true,
                 category: {
                   select: { categoryName: true },
+                },
+                operator: {
+                  select: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    phone: true,
+                    email: true,
+                    operatorProfile: {
+                      select: {
+                        companyName: true,
+                      },
+                    },
+                  },
                 },
                 badges: {
                   where: { isActive: true },
@@ -1709,8 +2116,24 @@ export const getAdminBookingById = async (c: Context) => {
                 startLocationName: true,
                 operatorId: true,
                 bookingFormat: true,
+                taxRate: true,
+                addons: true,
                 category: {
                   select: { categoryName: true },
+                },
+                operator: {
+                  select: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    phone: true,
+                    email: true,
+                    operatorProfile: {
+                      select: {
+                        companyName: true,
+                      },
+                    },
+                  },
                 },
                 badges: {
                   where: { isActive: true },
@@ -1773,9 +2196,46 @@ export const getAdminBookingById = async (c: Context) => {
       return c.json({ success: false, message: "Booking not found" }, 404);
     }
 
+    let enrichedAddons: any[] = [];
+    if (booking.selectedAddons && Array.isArray(booking.selectedAddons)) {
+      const listingAddonsRecord =
+        booking.listingSlot?.listing?.addons || booking.dateRange?.listing?.addons;
+      const listingAddons = listingAddonsRecord ? (listingAddonsRecord as any).addons : [];
+
+      enrichedAddons = booking.selectedAddons.map((selectedAddon: any) => {
+        const addonDetails = Array.isArray(listingAddons)
+          ? listingAddons.find((addon: any) => addon.id === selectedAddon.addonId)
+          : null;
+
+        if (addonDetails) {
+          return {
+            id: addonDetails.id,
+            addonId: selectedAddon.addonId,
+            name: addonDetails.addonName,
+            description: addonDetails.addonDescription || "",
+            price: addonDetails.price || 0,
+            quantity: selectedAddon.quantity || 1,
+            totalPrice: (addonDetails.price || 0) * (selectedAddon.quantity || 1),
+          };
+        }
+
+        return {
+          addonId: selectedAddon.addonId,
+          name: selectedAddon.name || "Unknown Add-on",
+          description: selectedAddon.description || "",
+          quantity: selectedAddon.quantity || 1,
+          price: selectedAddon.price || 0,
+          totalPrice:
+            selectedAddon.totalPrice ||
+            (selectedAddon.price || 0) * (selectedAddon.quantity || 1),
+        };
+      });
+    }
+
     // Add startTime and endTime from slotDefinition for easier access
     const formattedBooking = {
       ...booking,
+      selectedAddons: enrichedAddons,
       listingSlot: booking.listingSlot
         ? {
             ...booking.listingSlot,
@@ -1803,6 +2263,141 @@ export const getAdminBookingById = async (c: Context) => {
       { success: false, message: "Failed to fetch booking" },
       500
     );
+  }
+};
+
+/**
+ * Update booking settlement state (Admin only)
+ * PUT /api/bookings/admin/:bookingId/settlement
+ */
+export const updateAdminBookingSettlement = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    const bookingId = c.req.param("bookingId");
+    const body = await c.req.json().catch(() => ({}));
+
+    if (user.userType !== "admin" && user.userType !== "super_admin") {
+      return c.json({ success: false, message: "Admin access required" }, 403);
+    }
+
+    if (!bookingId) {
+      return c.json({ success: false, message: "Booking ID is required" }, 400);
+    }
+
+    const action = String(body?.action || "").trim().toLowerCase();
+    const settlementMode = String(body?.settlementMode || "").trim();
+    const settlementDateRaw = String(body?.settlementDate || "").trim();
+    const settlementStatusRaw = String(body?.settlementStatus || "").trim().toUpperCase();
+    const resolutionNote = String(body?.resolutionNote || "").trim();
+
+    if (action !== "settle" && action !== "unsettle" && action !== "resolve_issue") {
+      return c.json({ success: false, message: "Invalid settlement action" }, 400);
+    }
+
+    const existingBooking = await prisma.booking.findUnique({
+      where: { id: bookingId },
+      select: {
+        id: true,
+        payment: {
+          select: {
+            id: true,
+            settlementStatus: true,
+            settlementDate: true,
+            settlementmode: true,
+          },
+        },
+      },
+    });
+
+    if (!existingBooking) {
+      return c.json({ success: false, message: "Booking not found" }, 404);
+    }
+
+    if (!existingBooking.payment) {
+      return c.json({ success: false, message: "Payment record not found for this booking" }, 404);
+    }
+
+    let nextSettlementDate: Date | null = null;
+
+    if (action === "settle") {
+      if (!settlementMode) {
+        return c.json({ success: false, message: "Settlement mode is required" }, 400);
+      }
+
+      if (!settlementDateRaw) {
+        return c.json({ success: false, message: "Settlement date is required" }, 400);
+      }
+
+      nextSettlementDate = new Date(`${settlementDateRaw}T00:00:00`);
+
+      if (Number.isNaN(nextSettlementDate.getTime())) {
+        return c.json({ success: false, message: "Invalid settlement date" }, 400);
+      }
+    }
+
+    if (action === "resolve_issue") {
+      if (existingBooking.payment.settlementStatus !== "SETTLEMENT_ISSUE") {
+        return c.json({ success: false, message: "Only settlement issues can be resolved" }, 400);
+      }
+
+      if (!resolutionNote) {
+        return c.json({ success: false, message: "Resolution note is required" }, 400);
+      }
+
+      if (settlementStatusRaw !== "ISSUE_RESOLVED") {
+        return c.json({ success: false, message: "Settlement status must be ISSUE_RESOLVED" }, 400);
+      }
+    }
+
+    const updatedPayment = await prisma.bookingPayment.update({
+      where: { bookingId },
+      select: {
+        id: true,
+        bookingId: true,
+        settlementStatus: true,
+        settlementDate: true,
+        settlementmode: true,
+        updatedAt: true,
+      },
+      data:
+        action === "settle"
+          ? {
+              settlementStatus: "PAID",
+              settlementDate: nextSettlementDate,
+              settlementmode: settlementMode,
+            }
+          : action === "resolve_issue"
+            ? {
+                settlementStatus: "ISSUE_RESOLVED",
+                reasonbyadmin: resolutionNote,
+              }
+          : {
+              settlementStatus: "PENDING",
+              settlementDate: null,
+              settlementmode: null,
+            },
+    });
+
+    return c.json({
+      success: true,
+      message:
+        action === "settle"
+          ? "Payment settled successfully"
+          : action === "resolve_issue"
+            ? "Settlement issue resolved successfully"
+            : "Payment unsettled successfully",
+      data: {
+        id: updatedPayment.id,
+        bookingId: updatedPayment.bookingId,
+        settlementStatus: updatedPayment.settlementStatus,
+        settlementDate: updatedPayment.settlementDate,
+        settlementMode: updatedPayment.settlementmode,
+        updatedAt: updatedPayment.updatedAt,
+      },
+    });
+  } catch (error) {
+    console.error("Error updating admin booking settlement:", error);
+    return c.json({ success: false, message: "Failed to update settlement status" }, 500);
   }
 };
 

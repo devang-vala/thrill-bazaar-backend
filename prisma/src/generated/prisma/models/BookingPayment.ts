@@ -100,6 +100,9 @@ export type BookingPaymentMinAggregateOutputType = {
   totalEarnings: number | null
   settlementStatus: $Enums.SettlementStatus | null
   settlementDate: Date | null
+  settlementmode: string | null
+  reason: string | null
+  reasonbyadmin: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -131,6 +134,9 @@ export type BookingPaymentMaxAggregateOutputType = {
   totalEarnings: number | null
   settlementStatus: $Enums.SettlementStatus | null
   settlementDate: Date | null
+  settlementmode: string | null
+  reason: string | null
+  reasonbyadmin: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -162,6 +168,9 @@ export type BookingPaymentCountAggregateOutputType = {
   totalEarnings: number
   settlementStatus: number
   settlementDate: number
+  settlementmode: number
+  reason: number
+  reasonbyadmin: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -243,6 +252,9 @@ export type BookingPaymentMinAggregateInputType = {
   totalEarnings?: true
   settlementStatus?: true
   settlementDate?: true
+  settlementmode?: true
+  reason?: true
+  reasonbyadmin?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -274,6 +286,9 @@ export type BookingPaymentMaxAggregateInputType = {
   totalEarnings?: true
   settlementStatus?: true
   settlementDate?: true
+  settlementmode?: true
+  reason?: true
+  reasonbyadmin?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -305,6 +320,9 @@ export type BookingPaymentCountAggregateInputType = {
   totalEarnings?: true
   settlementStatus?: true
   settlementDate?: true
+  settlementmode?: true
+  reason?: true
+  reasonbyadmin?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -423,6 +441,9 @@ export type BookingPaymentGroupByOutputType = {
   totalEarnings: number
   settlementStatus: $Enums.SettlementStatus
   settlementDate: Date | null
+  settlementmode: string | null
+  reason: string | null
+  reasonbyadmin: string | null
   createdAt: Date
   updatedAt: Date
   _count: BookingPaymentCountAggregateOutputType | null
@@ -477,6 +498,9 @@ export type BookingPaymentWhereInput = {
   totalEarnings?: Prisma.IntFilter<"BookingPayment"> | number
   settlementStatus?: Prisma.EnumSettlementStatusFilter<"BookingPayment"> | $Enums.SettlementStatus
   settlementDate?: Prisma.DateTimeNullableFilter<"BookingPayment"> | Date | string | null
+  settlementmode?: Prisma.StringNullableFilter<"BookingPayment"> | string | null
+  reason?: Prisma.StringNullableFilter<"BookingPayment"> | string | null
+  reasonbyadmin?: Prisma.StringNullableFilter<"BookingPayment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BookingPayment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BookingPayment"> | Date | string
   booking?: Prisma.XOR<Prisma.BookingScalarRelationFilter, Prisma.BookingWhereInput>
@@ -509,6 +533,9 @@ export type BookingPaymentOrderByWithRelationInput = {
   totalEarnings?: Prisma.SortOrder
   settlementStatus?: Prisma.SortOrder
   settlementDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  settlementmode?: Prisma.SortOrderInput | Prisma.SortOrder
+  reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  reasonbyadmin?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   booking?: Prisma.BookingOrderByWithRelationInput
@@ -544,6 +571,9 @@ export type BookingPaymentWhereUniqueInput = Prisma.AtLeast<{
   totalEarnings?: Prisma.IntFilter<"BookingPayment"> | number
   settlementStatus?: Prisma.EnumSettlementStatusFilter<"BookingPayment"> | $Enums.SettlementStatus
   settlementDate?: Prisma.DateTimeNullableFilter<"BookingPayment"> | Date | string | null
+  settlementmode?: Prisma.StringNullableFilter<"BookingPayment"> | string | null
+  reason?: Prisma.StringNullableFilter<"BookingPayment"> | string | null
+  reasonbyadmin?: Prisma.StringNullableFilter<"BookingPayment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BookingPayment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BookingPayment"> | Date | string
   booking?: Prisma.XOR<Prisma.BookingScalarRelationFilter, Prisma.BookingWhereInput>
@@ -576,6 +606,9 @@ export type BookingPaymentOrderByWithAggregationInput = {
   totalEarnings?: Prisma.SortOrder
   settlementStatus?: Prisma.SortOrder
   settlementDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  settlementmode?: Prisma.SortOrderInput | Prisma.SortOrder
+  reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  reasonbyadmin?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.BookingPaymentCountOrderByAggregateInput
@@ -615,6 +648,9 @@ export type BookingPaymentScalarWhereWithAggregatesInput = {
   totalEarnings?: Prisma.IntWithAggregatesFilter<"BookingPayment"> | number
   settlementStatus?: Prisma.EnumSettlementStatusWithAggregatesFilter<"BookingPayment"> | $Enums.SettlementStatus
   settlementDate?: Prisma.DateTimeNullableWithAggregatesFilter<"BookingPayment"> | Date | string | null
+  settlementmode?: Prisma.StringNullableWithAggregatesFilter<"BookingPayment"> | string | null
+  reason?: Prisma.StringNullableWithAggregatesFilter<"BookingPayment"> | string | null
+  reasonbyadmin?: Prisma.StringNullableWithAggregatesFilter<"BookingPayment"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BookingPayment"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"BookingPayment"> | Date | string
 }
@@ -645,6 +681,9 @@ export type BookingPaymentCreateInput = {
   totalEarnings: number
   settlementStatus?: $Enums.SettlementStatus
   settlementDate?: Date | string | null
+  settlementmode?: string | null
+  reason?: string | null
+  reasonbyadmin?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   booking: Prisma.BookingCreateNestedOneWithoutPaymentInput
@@ -677,6 +716,9 @@ export type BookingPaymentUncheckedCreateInput = {
   totalEarnings: number
   settlementStatus?: $Enums.SettlementStatus
   settlementDate?: Date | string | null
+  settlementmode?: string | null
+  reason?: string | null
+  reasonbyadmin?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -707,6 +749,9 @@ export type BookingPaymentUpdateInput = {
   totalEarnings?: Prisma.IntFieldUpdateOperationsInput | number
   settlementStatus?: Prisma.EnumSettlementStatusFieldUpdateOperationsInput | $Enums.SettlementStatus
   settlementDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  settlementmode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reasonbyadmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   booking?: Prisma.BookingUpdateOneRequiredWithoutPaymentNestedInput
@@ -739,6 +784,9 @@ export type BookingPaymentUncheckedUpdateInput = {
   totalEarnings?: Prisma.IntFieldUpdateOperationsInput | number
   settlementStatus?: Prisma.EnumSettlementStatusFieldUpdateOperationsInput | $Enums.SettlementStatus
   settlementDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  settlementmode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reasonbyadmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -770,6 +818,9 @@ export type BookingPaymentCreateManyInput = {
   totalEarnings: number
   settlementStatus?: $Enums.SettlementStatus
   settlementDate?: Date | string | null
+  settlementmode?: string | null
+  reason?: string | null
+  reasonbyadmin?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -800,6 +851,9 @@ export type BookingPaymentUpdateManyMutationInput = {
   totalEarnings?: Prisma.IntFieldUpdateOperationsInput | number
   settlementStatus?: Prisma.EnumSettlementStatusFieldUpdateOperationsInput | $Enums.SettlementStatus
   settlementDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  settlementmode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reasonbyadmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -831,6 +885,9 @@ export type BookingPaymentUncheckedUpdateManyInput = {
   totalEarnings?: Prisma.IntFieldUpdateOperationsInput | number
   settlementStatus?: Prisma.EnumSettlementStatusFieldUpdateOperationsInput | $Enums.SettlementStatus
   settlementDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  settlementmode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reasonbyadmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -862,6 +919,9 @@ export type BookingPaymentCountOrderByAggregateInput = {
   totalEarnings?: Prisma.SortOrder
   settlementStatus?: Prisma.SortOrder
   settlementDate?: Prisma.SortOrder
+  settlementmode?: Prisma.SortOrder
+  reason?: Prisma.SortOrder
+  reasonbyadmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -917,6 +977,9 @@ export type BookingPaymentMaxOrderByAggregateInput = {
   totalEarnings?: Prisma.SortOrder
   settlementStatus?: Prisma.SortOrder
   settlementDate?: Prisma.SortOrder
+  settlementmode?: Prisma.SortOrder
+  reason?: Prisma.SortOrder
+  reasonbyadmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -948,6 +1011,9 @@ export type BookingPaymentMinOrderByAggregateInput = {
   totalEarnings?: Prisma.SortOrder
   settlementStatus?: Prisma.SortOrder
   settlementDate?: Prisma.SortOrder
+  settlementmode?: Prisma.SortOrder
+  reason?: Prisma.SortOrder
+  reasonbyadmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -1047,6 +1113,9 @@ export type BookingPaymentCreateWithoutBookingInput = {
   totalEarnings: number
   settlementStatus?: $Enums.SettlementStatus
   settlementDate?: Date | string | null
+  settlementmode?: string | null
+  reason?: string | null
+  reasonbyadmin?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1077,6 +1146,9 @@ export type BookingPaymentUncheckedCreateWithoutBookingInput = {
   totalEarnings: number
   settlementStatus?: $Enums.SettlementStatus
   settlementDate?: Date | string | null
+  settlementmode?: string | null
+  reason?: string | null
+  reasonbyadmin?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1123,6 +1195,9 @@ export type BookingPaymentUpdateWithoutBookingInput = {
   totalEarnings?: Prisma.IntFieldUpdateOperationsInput | number
   settlementStatus?: Prisma.EnumSettlementStatusFieldUpdateOperationsInput | $Enums.SettlementStatus
   settlementDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  settlementmode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reasonbyadmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1153,6 +1228,9 @@ export type BookingPaymentUncheckedUpdateWithoutBookingInput = {
   totalEarnings?: Prisma.IntFieldUpdateOperationsInput | number
   settlementStatus?: Prisma.EnumSettlementStatusFieldUpdateOperationsInput | $Enums.SettlementStatus
   settlementDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  settlementmode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reasonbyadmin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1186,6 +1264,9 @@ export type BookingPaymentSelect<ExtArgs extends runtime.Types.Extensions.Intern
   totalEarnings?: boolean
   settlementStatus?: boolean
   settlementDate?: boolean
+  settlementmode?: boolean
+  reason?: boolean
+  reasonbyadmin?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>
@@ -1218,6 +1299,9 @@ export type BookingPaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   totalEarnings?: boolean
   settlementStatus?: boolean
   settlementDate?: boolean
+  settlementmode?: boolean
+  reason?: boolean
+  reasonbyadmin?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>
@@ -1250,6 +1334,9 @@ export type BookingPaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   totalEarnings?: boolean
   settlementStatus?: boolean
   settlementDate?: boolean
+  settlementmode?: boolean
+  reason?: boolean
+  reasonbyadmin?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>
@@ -1282,11 +1369,14 @@ export type BookingPaymentSelectScalar = {
   totalEarnings?: boolean
   settlementStatus?: boolean
   settlementDate?: boolean
+  settlementmode?: boolean
+  reason?: boolean
+  reasonbyadmin?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BookingPaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookingId" | "totalBasePrice" | "quantity" | "taxRate" | "subtotalWithTax" | "discountAmount" | "taxAmount" | "totalBaseAmount" | "addonsAmount" | "totalAmount" | "amountPaidOnline" | "amountToCollectOffline" | "convenienceFeeRate" | "convenienceFeeAmount" | "totalPayableOnline" | "paymentMethod" | "platformCommissionRate" | "platformCommission" | "tcsRate" | "tcsAmount" | "netPayToSeller" | "balanceToCollect" | "totalEarnings" | "settlementStatus" | "settlementDate" | "createdAt" | "updatedAt", ExtArgs["result"]["bookingPayment"]>
+export type BookingPaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookingId" | "totalBasePrice" | "quantity" | "taxRate" | "subtotalWithTax" | "discountAmount" | "taxAmount" | "totalBaseAmount" | "addonsAmount" | "totalAmount" | "amountPaidOnline" | "amountToCollectOffline" | "convenienceFeeRate" | "convenienceFeeAmount" | "totalPayableOnline" | "paymentMethod" | "platformCommissionRate" | "platformCommission" | "tcsRate" | "tcsAmount" | "netPayToSeller" | "balanceToCollect" | "totalEarnings" | "settlementStatus" | "settlementDate" | "settlementmode" | "reason" | "reasonbyadmin" | "createdAt" | "updatedAt", ExtArgs["result"]["bookingPayment"]>
 export type BookingPaymentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>
 }
@@ -1329,6 +1419,9 @@ export type $BookingPaymentPayload<ExtArgs extends runtime.Types.Extensions.Inte
     totalEarnings: number
     settlementStatus: $Enums.SettlementStatus
     settlementDate: Date | null
+    settlementmode: string | null
+    reason: string | null
+    reasonbyadmin: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["bookingPayment"]>
@@ -1781,6 +1874,9 @@ export interface BookingPaymentFieldRefs {
   readonly totalEarnings: Prisma.FieldRef<"BookingPayment", 'Int'>
   readonly settlementStatus: Prisma.FieldRef<"BookingPayment", 'SettlementStatus'>
   readonly settlementDate: Prisma.FieldRef<"BookingPayment", 'DateTime'>
+  readonly settlementmode: Prisma.FieldRef<"BookingPayment", 'String'>
+  readonly reason: Prisma.FieldRef<"BookingPayment", 'String'>
+  readonly reasonbyadmin: Prisma.FieldRef<"BookingPayment", 'String'>
   readonly createdAt: Prisma.FieldRef<"BookingPayment", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"BookingPayment", 'DateTime'>
 }

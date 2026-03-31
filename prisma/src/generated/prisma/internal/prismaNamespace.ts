@@ -3355,6 +3355,9 @@ export const BookingPaymentScalarFieldEnum = {
   totalEarnings: 'totalEarnings',
   settlementStatus: 'settlementStatus',
   settlementDate: 'settlementDate',
+  settlementmode: 'settlementmode',
+  reason: 'reason',
+  reasonbyadmin: 'reasonbyadmin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

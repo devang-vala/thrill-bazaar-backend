@@ -38,6 +38,9 @@ model BookingPayment {
   // Settlement tracking
   settlementStatus SettlementStatus @default(PENDING) @map("settlement_status")
   settlementDate   DateTime?        @map("settlement_date")
+  settlementmode   String?          @map("settlement_mode") // bank transfer, wallet, etc
+  reason           String?          @db.Text @map("reason") // For failed settlements
+  reasonbyadmin     String?          @db.Text @map("reason_by_admin") // Admin notes for settlement failures
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
