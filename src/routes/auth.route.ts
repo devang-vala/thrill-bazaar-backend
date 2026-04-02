@@ -6,6 +6,11 @@ import {
   customerLogin,
   customerVerifyOtp,
   adminLogin,
+  verifyAdminLoginOtp,
+  requestAdminForgotPasswordOtp,
+  verifyAdminForgotPasswordOtp,
+  resetAdminPassword,
+  superAdminLogin,
   operatorLogin,
   requestOperatorOtp,
   verifyOperatorOtp,
@@ -40,6 +45,11 @@ authRouter.post("/verify-otp", customerVerifyOtp);
 
 // Admin/Operator/Super Admin Authentication (Email + Password)
 authRouter.post("/login/admin", adminLogin);
+authRouter.post("/login/admin/verify-otp", verifyAdminLoginOtp);
+authRouter.post("/login/admin/forgot-password/request-otp", requestAdminForgotPasswordOtp);
+authRouter.post("/login/admin/forgot-password/verify-otp", verifyAdminForgotPasswordOtp);
+authRouter.post("/login/admin/forgot-password/reset-password", resetAdminPassword);
+authRouter.post("/login/super-admin", superAdminLogin);
 
 // Operator signup (OTP + password)
 authRouter.post("/operator/send-otp", requestOperatorOtp);

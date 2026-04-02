@@ -230,6 +230,37 @@ export const generateSecureRandom = (length: number = 32): string => {
   return crypto.randomBytes(length).toString("hex");
 };
 
+export const generateSystemPassword = (): string => {
+  const uppercase = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+  const lowercase = "abcdefghijkmnopqrstuvwxyz";
+  const numbers = "23456789";
+  const symbols = "!@#$%^&*";
+  const allCharacters = `${uppercase}${lowercase}${numbers}${symbols}`;
+
+  const pick = (characters: string) => {
+    const index = crypto.randomInt(0, characters.length);
+    return characters[index];
+  };
+
+  const chars = [
+    pick(uppercase),
+    pick(lowercase),
+    pick(numbers),
+    pick(symbols),
+  ];
+
+  for (let index = chars.length; index < 12; index += 1) {
+    chars.push(pick(allCharacters));
+  }
+
+  for (let index = chars.length - 1; index > 0; index -= 1) {
+    const swapIndex = crypto.randomInt(0, index + 1);
+    [chars[index], chars[swapIndex]] = [chars[swapIndex], chars[index]];
+  }
+
+  return chars.join("");
+};
+
 export const calculateOtpExpiry = (minutes: number = 5): Date => {
   return new Date(Date.now() + minutes * 60 * 1000);
 };

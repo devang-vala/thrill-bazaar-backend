@@ -4,6 +4,7 @@ model User {
   email       String?
   phone       String?
   password    String?   @map("password_hash")
+  isPasswordSystemGenerated Boolean @default(false) @map("is_password_system_generated")
   firstName      String?   @map("first_name")
   lastName       String?   @map("last_name")
   gender         String?   @map("gender")

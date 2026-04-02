@@ -4,6 +4,7 @@ import {
   hashPassword,
   verifyPassword,
   formatUserResponse,
+  generateSystemPassword,
 } from "../helpers/auth.helper.js";
 import {
   validateProfileUpdate,
@@ -389,6 +390,7 @@ export const changePassword = async (c: Context) => {
     // Update password in database
     const updatedUser = await updateUserById(user.userId, {
       password: hashedNewPassword,
+      isPasswordSystemGenerated: false,
     });
 
     if (!updatedUser) {
@@ -515,6 +517,7 @@ export const getAdminAccounts = async (c: Context) => {
           userType: true,
           isVerified: true,
           isActive: true,
+          isPasswordSystemGenerated: true,
           createdAt: true,
           updatedAt: true,
           lastLoginAt: true,
@@ -568,10 +571,6 @@ export const createAdminAccount = async (c: Context) => {
       return c.json({ error: "Email is required" }, 400);
     }
 
-    if (body.password && body.password.length < 6) {
-      return c.json({ error: "Password must be at least 6 characters" }, 400);
-    }
-
     const email = sanitizeEmail(body.email);
 
     const existing = await prisma.user.findFirst({ where: { email } });
@@ -582,7 +581,7 @@ export const createAdminAccount = async (c: Context) => {
     const nameParts = body.name.trim().split(/\s+/);
     const firstName = sanitizeString(nameParts[0] || "", 50) || null;
     const lastName = sanitizeString(nameParts.slice(1).join(" "), 50) || null;
-    const generatedPassword = body.password || `TB@${Math.random().toString(36).slice(-8)}!`;
+    const generatedPassword = generateSystemPassword();
     const hashedPassword = await hashPassword(generatedPassword);
 
     const admin = await prisma.user.create({
@@ -592,8 +591,9 @@ export const createAdminAccount = async (c: Context) => {
         firstName,
         lastName,
         userType: "admin",
-        isVerified: body.isVerified ?? true,
+        isVerified: false,
         isActive: body.isActive ?? true,
+        isPasswordSystemGenerated: true,
       },
       select: {
         id: true,
@@ -603,6 +603,7 @@ export const createAdminAccount = async (c: Context) => {
         userType: true,
         isVerified: true,
         isActive: true,
+        isPasswordSystemGenerated: true,
         createdAt: true,
         updatedAt: true,
         lastLoginAt: true,
@@ -613,7 +614,7 @@ export const createAdminAccount = async (c: Context) => {
       {
         message: "Admin account created successfully",
         data: admin,
-        temporaryPassword: body.password ? null : generatedPassword,
+        temporaryPassword: generatedPassword,
       },
       201
     );
@@ -672,6 +673,7 @@ export const updateAdminAccountStatus = async (c: Context) => {
         userType: true,
         isVerified: true,
         isActive: true,
+        isPasswordSystemGenerated: true,
         createdAt: true,
         updatedAt: true,
         lastLoginAt: true,
@@ -843,6 +845,7 @@ export const updateAnyUser = async (c: Context) => {
     if (body.password) {
       const hashedPassword = await hashPassword(body.password);
       updateData.password = hashedPassword;
+      updateData.isPasswordSystemGenerated = false;
     }
 
     // Check if there's anything to update
