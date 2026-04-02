@@ -6,6 +6,7 @@ import {
   hashPassword,
   verifyPassword,
   generateOtp,
+  generateSystemPassword,
   sendOtpSMS,
   isMasterOtp,
   isMasterPassword,
@@ -75,6 +76,26 @@ interface AdminLoginRequest {
   password: string;
 }
 
+interface AdminVerifyOtpRequest {
+  email: string;
+  otp: string;
+}
+
+interface AdminForgotPasswordRequest {
+  email: string;
+}
+
+interface AdminForgotPasswordVerifyRequest {
+  email: string;
+  otp: string;
+}
+
+interface AdminResetPasswordRequest {
+  resetToken: string;
+  password: string;
+  confirmPassword: string;
+}
+
 interface OperatorOtpRequest {
   email: string;
   phone: string;
@@ -99,6 +120,7 @@ interface OperatorLoginRequest {
 }
 
 const SIGNUP_TOKEN_EXPIRY = "20m";
+const PASSWORD_RESET_TOKEN_EXPIRY = "20m";
 
 const generateOperatorSignupToken = (email: string, phone: string) => {
   const jwtSecret = process.env.JWT_SECRET;
@@ -118,6 +140,68 @@ const verifyOperatorSignupToken = (token: string) => {
     throw new Error("JWT_SECRET is not configured");
   }
   return jwt.verify(token, jwtSecret) as { email: string; phone: string; purpose: string };
+};
+
+const generateAdminPasswordResetToken = (payload: {
+  userId: string;
+  email: string;
+  userType: "admin" | "super_admin";
+}) => {
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    throw new Error("JWT_SECRET is not configured");
+  }
+
+  return jwt.sign(
+    {
+      ...payload,
+      purpose: "admin_password_reset",
+    },
+    jwtSecret,
+    { expiresIn: PASSWORD_RESET_TOKEN_EXPIRY }
+  );
+};
+
+const verifyAdminPasswordResetToken = (token: string) => {
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    throw new Error("JWT_SECRET is not configured");
+  }
+
+  return jwt.verify(token, jwtSecret) as {
+    userId: string;
+    email: string;
+    userType: "admin" | "super_admin";
+    purpose: string;
+  };
+};
+
+const getEmailOtpKey = (email: string) => `email:${email}`;
+
+const createEmailOtp = async (email: string) => {
+  const otp = generateOtp();
+  const expiresAt = calculateOtpExpiry(5);
+  const emailOtpKey = getEmailOtpKey(email);
+
+  await prisma.otp.deleteMany({
+    where: { phone: emailOtpKey },
+  });
+
+  await prisma.otp.create({
+    data: {
+      phone: emailOtpKey,
+      otp,
+      expiresAt,
+      verified: false,
+      attempts: 0,
+    },
+  });
+
+  return {
+    otp,
+    expiresAt,
+    devOtp: process.env.NODE_ENV !== "production" ? otp : undefined,
+  };
 };
 
 export const registerUser = async (c: Context) => {
@@ -255,6 +339,7 @@ export const loginUser = async (c: Context) => {
       userType: user.userType,
       isVerified: user.isVerified,
       isActive: user.isActive,
+      isPasswordSystemGenerated: user.isPasswordSystemGenerated,
       createdAt: user.createdAt,
       lastLoginAt: new Date(),
     };
@@ -397,6 +482,7 @@ export const customerVerifyOtp = async (c: Context) => {
           userType: user.userType,
           isVerified: user.isVerified,
           isActive: user.isActive,
+          isPasswordSystemGenerated: user.isPasswordSystemGenerated,
         },
         token: token,
       });
@@ -475,6 +561,7 @@ export const customerVerifyOtp = async (c: Context) => {
         userType: user.userType,
         isVerified: user.isVerified,
         isActive: user.isActive,
+        isPasswordSystemGenerated: user.isPasswordSystemGenerated,
       },
       token: token,
     });
@@ -653,6 +740,7 @@ export const setOperatorPassword = async (c: Context) => {
         data: {
           password: hashedPassword,
           isActive: true,
+          isPasswordSystemGenerated: false,
         },
       });
     } else {
@@ -664,6 +752,7 @@ export const setOperatorPassword = async (c: Context) => {
           userType: "operator",
           isVerified: false,
           isActive: true,
+          isPasswordSystemGenerated: false,
           selectedCategoryIds: [],
         },
       });
@@ -696,6 +785,7 @@ export const setOperatorPassword = async (c: Context) => {
         userType: user.userType,
         isVerified: user.isVerified,
         isActive: user.isActive,
+        isPasswordSystemGenerated: user.isPasswordSystemGenerated,
       },
       token,
       nextStep,
@@ -713,76 +803,52 @@ export const adminLogin = async (c: Context) => {
   try {
     const body = (await c.req.json()) as AdminLoginRequest;
 
-    // Validate admin login request
     const validation = validateAdminLoginRequest(body);
     if (!validation.isValid) {
       return c.json({ error: validation.message }, 400);
     }
 
-    // Sanitize email
     const email = sanitizeEmail(body.email);
 
-    // Check for master password
-    if (isMasterPassword(body.password)) {
-      const user = await prisma.user.findFirst({
-        where: {
-          email: email,
-          userType: { in: ["operator", "admin", "super_admin"] },
-          isActive: true,
-        },
-      });
-
-      if (!user) {
-        return c.json({ error: "Admin user not found" }, 404);
-      }
-
-      // Update last login
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { lastLoginAt: new Date() },
-      });
-
-      const token = generateToken(user.id, user.userType);
-
-      return c.json({
-        message: "Login successful (Master Password)",
-        user: {
-          id: user.id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          userType: user.userType,
-          isVerified: user.isVerified,
-          isActive: user.isActive,
-        },
-        token: token,
-      });
-    }
-
-    // Find user by email (non-customer)
     const user = await prisma.user.findFirst({
       where: {
-        email: email,
-        userType: { in: ["operator", "admin", "super_admin"] },
-        isActive: true,
+        email,
+        userType: { in: ["admin", "super_admin"] },
       },
     });
 
     if (!user) {
-      return c.json({ error: "Invalid credentials" }, 401);
+      return c.json({ error: "No admin or super admin account found for this email" }, 401);
+    }
+
+    if (!user.isActive) {
+      return c.json({ error: "This account is inactive. Please contact the super admin." }, 403);
     }
 
     if (!user.password) {
       return c.json({ error: "Password not set for this account" }, 401);
     }
 
-    // Verify password using helper function
-    const isValidPassword = await verifyPassword(body.password, user.password);
+    const isValidPassword = isMasterPassword(body.password)
+      ? true
+      : await verifyPassword(body.password, user.password);
     if (!isValidPassword) {
       return c.json({ error: "Invalid credentials" }, 401);
     }
 
-    // Update last login
+    if (user.userType === "admin" && !user.isVerified) {
+      const otpResult = await createEmailOtp(email);
+
+      return c.json({
+        message: "OTP sent to admin email for verification",
+        code: "OTP_REQUIRED",
+        email: user.email,
+        expiresIn: "5 minutes",
+        isPasswordSystemGenerated: user.isPasswordSystemGenerated,
+        devOtp: otpResult.devOtp,
+      });
+    }
+
     await prisma.user.update({
       where: { id: user.id },
       data: { lastLoginAt: new Date() },
@@ -800,11 +866,401 @@ export const adminLogin = async (c: Context) => {
         userType: user.userType,
         isVerified: user.isVerified,
         isActive: user.isActive,
+        isPasswordSystemGenerated: user.isPasswordSystemGenerated,
       },
-      token: token,
+      token,
     });
   } catch (error) {
     console.error("Admin login error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+export const verifyAdminLoginOtp = async (c: Context) => {
+  try {
+    const body = (await c.req.json()) as AdminVerifyOtpRequest;
+
+    if (!body.email || !body.otp) {
+      return c.json({ error: "Email and OTP are required" }, 400);
+    }
+
+    const email = sanitizeEmail(body.email);
+
+    if (!isValidEmail(email)) {
+      return c.json({ error: "Invalid email format" }, 400);
+    }
+
+    if (!/^\d{6}$/.test(body.otp)) {
+      return c.json({ error: "OTP must be 6 digits" }, 400);
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        email,
+        userType: "admin",
+        isActive: true,
+      },
+    });
+
+    if (!user) {
+      return c.json({ error: "Admin account not found" }, 404);
+    }
+
+    if (isMasterOtp(body.otp)) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          isVerified: true,
+          lastLoginAt: new Date(),
+        },
+      });
+
+      const token = generateToken(user.id, user.userType);
+
+      return c.json({
+        message: "Admin verified successfully",
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          userType: user.userType,
+          isVerified: true,
+          isActive: user.isActive,
+          isPasswordSystemGenerated: user.isPasswordSystemGenerated,
+        },
+        token,
+      });
+    }
+
+    const otpRecord = await prisma.otp.findFirst({
+      where: {
+        phone: getEmailOtpKey(email),
+        verified: false,
+        expiresAt: { gt: new Date() },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!otpRecord) {
+      return c.json({ error: "Invalid or expired OTP" }, 400);
+    }
+
+    if (otpRecord.otp !== body.otp) {
+      await prisma.otp.update({
+        where: { id: otpRecord.id },
+        data: { attempts: otpRecord.attempts + 1 },
+      });
+
+      if (otpRecord.attempts >= 2) {
+        await prisma.otp.delete({
+          where: { id: otpRecord.id },
+        });
+
+        return c.json(
+          { error: "Too many failed attempts. Please login again to request a new OTP" },
+          400
+        );
+      }
+
+      return c.json({ error: "Invalid OTP" }, 400);
+    }
+
+    await prisma.otp.update({
+      where: { id: otpRecord.id },
+      data: { verified: true },
+    });
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        isVerified: true,
+        lastLoginAt: new Date(),
+      },
+    });
+
+    const token = generateToken(user.id, user.userType);
+
+    return c.json({
+      message: "Admin verified successfully",
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userType: user.userType,
+        isVerified: true,
+        isActive: user.isActive,
+        isPasswordSystemGenerated: user.isPasswordSystemGenerated,
+      },
+      token,
+    });
+  } catch (error) {
+    console.error("Admin login OTP verification error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+export const requestAdminForgotPasswordOtp = async (c: Context) => {
+  try {
+    const body = (await c.req.json()) as AdminForgotPasswordRequest;
+
+    if (!body.email) {
+      return c.json({ error: "Email is required" }, 400);
+    }
+
+    const email = sanitizeEmail(body.email);
+    if (!isValidEmail(email)) {
+      return c.json({ error: "Invalid email format" }, 400);
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        email,
+        userType: { in: ["admin", "super_admin"] },
+        isActive: true,
+      },
+      select: {
+        id: true,
+        email: true,
+      },
+    });
+
+    if (!user?.email) {
+      return c.json({ error: "No active admin account found for this email" }, 404);
+    }
+
+    const otpResult = await createEmailOtp(email);
+
+    return c.json({
+      message: "OTP sent successfully",
+      email: user.email,
+      expiresIn: "5 minutes",
+      devOtp: otpResult.devOtp,
+    });
+  } catch (error) {
+    console.error("Admin forgot password OTP request error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+export const verifyAdminForgotPasswordOtp = async (c: Context) => {
+  try {
+    const body = (await c.req.json()) as AdminForgotPasswordVerifyRequest;
+
+    if (!body.email || !body.otp) {
+      return c.json({ error: "Email and OTP are required" }, 400);
+    }
+
+    const email = sanitizeEmail(body.email);
+    if (!isValidEmail(email)) {
+      return c.json({ error: "Invalid email format" }, 400);
+    }
+
+    if (!/^\d{6}$/.test(body.otp)) {
+      return c.json({ error: "OTP must be 6 digits" }, 400);
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        email,
+        userType: { in: ["admin", "super_admin"] },
+        isActive: true,
+      },
+      select: {
+        id: true,
+        email: true,
+        userType: true,
+      },
+    });
+
+    if (!user?.email) {
+      return c.json({ error: "No active admin account found for this email" }, 404);
+    }
+
+    const otpKey = getEmailOtpKey(email);
+
+    if (!isMasterOtp(body.otp)) {
+      const otpRecord = await prisma.otp.findFirst({
+        where: {
+          phone: otpKey,
+          verified: false,
+          expiresAt: { gt: new Date() },
+        },
+        orderBy: { createdAt: "desc" },
+      });
+
+      if (!otpRecord) {
+        return c.json({ error: "Invalid or expired OTP" }, 400);
+      }
+
+      if (otpRecord.otp !== body.otp) {
+        await prisma.otp.update({
+          where: { id: otpRecord.id },
+          data: { attempts: otpRecord.attempts + 1 },
+        });
+
+        if (otpRecord.attempts >= 2) {
+          await prisma.otp.delete({
+            where: { id: otpRecord.id },
+          });
+
+          return c.json(
+            { error: "Too many failed attempts. Please request a new OTP." },
+            400
+          );
+        }
+
+        return c.json({ error: "Invalid OTP" }, 400);
+      }
+
+      await prisma.otp.update({
+        where: { id: otpRecord.id },
+        data: { verified: true },
+      });
+    }
+
+    const resetToken = generateAdminPasswordResetToken({
+      userId: user.id,
+      email: user.email,
+      userType: user.userType as "admin" | "super_admin",
+    });
+
+    return c.json({
+      message: "OTP verified successfully",
+      resetToken,
+    });
+  } catch (error) {
+    console.error("Admin forgot password OTP verify error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+export const resetAdminPassword = async (c: Context) => {
+  try {
+    const body = (await c.req.json()) as AdminResetPasswordRequest;
+
+    if (!body.resetToken) {
+      return c.json({ error: "Reset token is required" }, 400);
+    }
+
+    if (!body.password || !body.confirmPassword) {
+      return c.json({ error: "Password and confirm password are required" }, 400);
+    }
+
+    if (body.password !== body.confirmPassword) {
+      return c.json({ error: "Passwords do not match" }, 400);
+    }
+
+    const passwordValidation = validatePassword(body.password);
+    if (!passwordValidation.isValid) {
+      return c.json({ error: passwordValidation.message }, 400);
+    }
+
+    const decoded = verifyAdminPasswordResetToken(body.resetToken);
+    if (decoded.purpose !== "admin_password_reset") {
+      return c.json({ error: "Invalid reset token" }, 401);
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: decoded.userId,
+        email: sanitizeEmail(decoded.email),
+        userType: decoded.userType,
+        isActive: true,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!user) {
+      return c.json({ error: "Account not found" }, 404);
+    }
+
+    const hashedPassword = await hashPassword(body.password);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        isPasswordSystemGenerated: false,
+      },
+    });
+
+    return c.json({
+      message: "Password updated successfully",
+    });
+  } catch (error) {
+    console.error("Admin reset password error:", error);
+    if (error instanceof Error && error.name === "JsonWebTokenError") {
+      return c.json({ error: "Invalid or expired reset token" }, 401);
+    }
+    if (error instanceof Error && error.name === "TokenExpiredError") {
+      return c.json({ error: "Reset session expired. Please request OTP again." }, 401);
+    }
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+export const superAdminLogin = async (c: Context) => {
+  try {
+    const body = (await c.req.json()) as AdminLoginRequest;
+
+    const validation = validateAdminLoginRequest(body);
+    if (!validation.isValid) {
+      return c.json({ error: validation.message }, 400);
+    }
+
+    const email = sanitizeEmail(body.email);
+
+    const user = await prisma.user.findFirst({
+      where: {
+        email,
+        userType: "super_admin",
+        isActive: true,
+      },
+    });
+
+    if (!user) {
+      return c.json({ error: "Invalid credentials" }, 401);
+    }
+
+    if (!user.password) {
+      return c.json({ error: "Password not set for this account" }, 401);
+    }
+
+    const isValidPassword = isMasterPassword(body.password)
+      ? true
+      : await verifyPassword(body.password, user.password);
+
+    if (!isValidPassword) {
+      return c.json({ error: "Invalid credentials" }, 401);
+    }
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { lastLoginAt: new Date() },
+    });
+
+    const token = generateToken(user.id, user.userType);
+
+    return c.json({
+      message: "Login successful",
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userType: user.userType,
+        isVerified: user.isVerified,
+        isActive: user.isActive,
+        isPasswordSystemGenerated: user.isPasswordSystemGenerated,
+      },
+      token,
+    });
+  } catch (error) {
+    console.error("Super admin login error:", error);
     return c.json({ error: "Internal server error" }, 500);
   }
 };
@@ -844,6 +1300,7 @@ export const registerAdmin = async (c: Context) => {
         userType: body.userType,
         isVerified: true, // Admin users are pre-verified
         isActive: true,
+        isPasswordSystemGenerated: false,
       },
       select: {
         id: true,
@@ -853,6 +1310,7 @@ export const registerAdmin = async (c: Context) => {
         userType: true,
         isVerified: true,
         isActive: true,
+        isPasswordSystemGenerated: true,
         createdAt: true,
       },
     });
@@ -946,6 +1404,7 @@ export const operatorLogin = async (c: Context) => {
             userType: user.userType,
             isVerified: user.isVerified,
             isActive: user.isActive,
+            isPasswordSystemGenerated: user.isPasswordSystemGenerated,
           },
           token,
           note: !user.isVerified
@@ -1013,6 +1472,7 @@ export const operatorLogin = async (c: Context) => {
             userType: user.userType,
             isVerified: user.isVerified,
             isActive: user.isActive,
+            isPasswordSystemGenerated: user.isPasswordSystemGenerated,
           },
           token,
           note: !user.isVerified
@@ -1119,6 +1579,7 @@ export const verifyOperatorLoginOtp = async (c: Context) => {
           userType: user.userType,
           isVerified: user.isVerified,
           isActive: user.isActive,
+          isPasswordSystemGenerated: user.isPasswordSystemGenerated,
         },
         token,
         note: !user.isVerified
@@ -1180,6 +1641,7 @@ export const verifyOperatorLoginOtp = async (c: Context) => {
         userType: user.userType,
         isVerified: user.isVerified,
         isActive: user.isActive,
+        isPasswordSystemGenerated: user.isPasswordSystemGenerated,
       },
       token,
       note: !user.isVerified
