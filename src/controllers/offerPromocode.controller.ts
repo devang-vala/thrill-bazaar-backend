@@ -1,6 +1,15 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
 
+const isMissingOffersTableError = (error: unknown) => {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    (error as { code?: string }).code === "P2021"
+  );
+};
+
 // Utility to parse relations for updates
 const parseRelationUpdate = (allFlag: boolean, identifiers: string[]) => {
   if (allFlag) {
@@ -108,6 +117,12 @@ export const getOffers = async (c: Context) => {
       data: offers,
     });
   } catch (error) {
+    if (isMissingOffersTableError(error)) {
+      return c.json({
+        success: true,
+        data: [],
+      });
+    }
     console.error("Get Offers error:", error);
     return c.json({ error: "Failed to retrieve offers/promocodes" }, 500);
   }
@@ -301,6 +316,9 @@ export const validatePromoCode = async (c: Context) => {
       });
   
     } catch (error) {
+      if (isMissingOffersTableError(error)) {
+        return c.json({ error: "Offers are not configured for this database yet" }, 400);
+      }
       console.error("Validate Promo error:", error);
       return c.json({ error: "Failed to validate promo code" }, 500);
     }
@@ -379,6 +397,12 @@ export const getOffersForListing = async (c: Context) => {
     });
 
   } catch (error) {
+    if (isMissingOffersTableError(error)) {
+      return c.json({
+        success: true,
+        data: [],
+      });
+    }
     console.error("Get Offers For Listing error:", error);
     return c.json({ error: "Failed to retrieve offers for listing" }, 500);
   }
