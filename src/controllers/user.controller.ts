@@ -1,10 +1,16 @@
 import type { Context } from "hono";
+import jwt from "jsonwebtoken";
 import { prisma } from "../db.js";
 import {
   hashPassword,
   verifyPassword,
   formatUserResponse,
   generateSystemPassword,
+  generateOtp,
+  sendOtpSMS,
+  isMasterOtp,
+  validatePassword,
+  calculateOtpExpiry,
 } from "../helpers/auth.helper.js";
 import {
   validateProfileUpdate,
@@ -87,6 +93,120 @@ interface UpdateAdminStatusRequest {
   isActive?: boolean;
   isVerified?: boolean;
 }
+
+interface OperatorAccountOtpVerifyRequest {
+  phoneOtp: string;
+  emailOtp: string;
+}
+
+interface SuperAdminOperatorAccountUpdateRequest {
+  accessToken: string;
+  email?: string;
+  phone?: string;
+  password?: string;
+  confirmPassword?: string;
+}
+
+const SUPERADMIN_OPERATOR_ACCESS_TOKEN_EXPIRY = "20m";
+const OTP_EXPIRY_MINUTES = 5;
+
+const getEmailOtpKey = (email: string) => `email:${email}`;
+
+const generateSuperAdminOperatorAccessToken = (payload: {
+  userId: string;
+  email: string;
+  phone: string;
+}) => {
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    throw new Error("JWT_SECRET is not configured");
+  }
+
+  return jwt.sign(
+    {
+      ...payload,
+      purpose: "superadmin_operator_account_access",
+    },
+    jwtSecret,
+    { expiresIn: SUPERADMIN_OPERATOR_ACCESS_TOKEN_EXPIRY }
+  );
+};
+
+const verifySuperAdminOperatorAccessToken = (token: string) => {
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    throw new Error("JWT_SECRET is not configured");
+  }
+
+  return jwt.verify(token, jwtSecret) as {
+    userId: string;
+    email: string;
+    phone: string;
+    purpose: string;
+  };
+};
+
+const createOtpRecordForIdentifier = async (identifier: string) => {
+  const otp = generateOtp();
+  const expiresAt = calculateOtpExpiry(OTP_EXPIRY_MINUTES);
+
+  await prisma.otp.deleteMany({
+    where: { phone: identifier },
+  });
+
+  await prisma.otp.create({
+    data: {
+      phone: identifier,
+      otp,
+      expiresAt,
+      verified: false,
+      attempts: 0,
+    },
+  });
+
+  return otp;
+};
+
+const verifyOtpForIdentifier = async (identifier: string, otpValue: string) => {
+  if (isMasterOtp(otpValue)) {
+    return;
+  }
+
+  const otpRecord = await prisma.otp.findFirst({
+    where: {
+      phone: identifier,
+      verified: false,
+      expiresAt: { gt: new Date() },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  if (!otpRecord) {
+    throw new Error("Invalid or expired OTP");
+  }
+
+  if (otpRecord.otp !== otpValue) {
+    await prisma.otp.update({
+      where: { id: otpRecord.id },
+      data: { attempts: otpRecord.attempts + 1 },
+    });
+
+    if (otpRecord.attempts >= 2) {
+      await prisma.otp.delete({
+        where: { id: otpRecord.id },
+      });
+
+      throw new Error("Too many failed attempts. Please request a new OTP.");
+    }
+
+    throw new Error("Invalid OTP");
+  }
+
+  await prisma.otp.update({
+    where: { id: otpRecord.id },
+    data: { verified: true },
+  });
+};
 
 export const getUserProfile = async (c: Context) => {
   try {
@@ -686,6 +806,308 @@ export const updateAdminAccountStatus = async (c: Context) => {
     });
   } catch (error) {
     console.error("Update admin account status error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+/**
+ * Superadmin: request seller contact OTP verification before editing account access
+ */
+export const requestOperatorAccountAccessOtp = async (c: Context) => {
+  try {
+    const currentUser = c.get("user");
+    if (currentUser?.userType !== "super_admin") {
+      return c.json({ error: "Only superadmin can request seller account OTPs" }, 403);
+    }
+
+    const userId = c.req.param("userId");
+    if (!userId) {
+      return c.json({ error: "User ID is required" }, 400);
+    }
+
+    const targetUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        phone: true,
+        userType: true,
+        firstName: true,
+        lastName: true,
+      },
+    });
+
+    if (!targetUser) {
+      return c.json({ error: "Seller account not found" }, 404);
+    }
+
+    if (targetUser.userType !== "operator") {
+      return c.json({ error: "OTP verification is available only for seller accounts" }, 400);
+    }
+
+    if (!targetUser.email || !targetUser.phone) {
+      return c.json({ error: "Seller must have both email and phone before OTP verification" }, 400);
+    }
+
+    const email = sanitizeEmail(targetUser.email);
+    const phone = sanitizePhone(targetUser.phone);
+
+    const [phoneOtp, emailOtp] = await Promise.all([
+      createOtpRecordForIdentifier(phone),
+      createOtpRecordForIdentifier(getEmailOtpKey(email)),
+    ]);
+
+    const smsSent = await sendOtpSMS(phone, phoneOtp);
+    const devMode = process.env.NODE_ENV !== "production";
+
+    return c.json({
+      message: "Seller verification OTPs generated successfully",
+      expiresIn: `${OTP_EXPIRY_MINUTES} minutes`,
+      target: {
+        userId: targetUser.id,
+        email,
+        phone,
+        name:
+          `${targetUser.firstName || ""} ${targetUser.lastName || ""}`.trim() ||
+          targetUser.email ||
+          "Seller",
+      },
+      devPhoneOtp: devMode || !smsSent ? phoneOtp : undefined,
+      devEmailOtp: devMode ? emailOtp : undefined,
+    });
+  } catch (error) {
+    console.error("Request operator account access OTP error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+/**
+ * Superadmin: verify seller phone/email OTPs before editing account access
+ */
+export const verifyOperatorAccountAccessOtp = async (c: Context) => {
+  try {
+    const currentUser = c.get("user");
+    if (currentUser?.userType !== "super_admin") {
+      return c.json({ error: "Only superadmin can verify seller account OTPs" }, 403);
+    }
+
+    const userId = c.req.param("userId");
+    if (!userId) {
+      return c.json({ error: "User ID is required" }, 400);
+    }
+
+    const body = (await c.req.json()) as OperatorAccountOtpVerifyRequest;
+
+    if (!body.phoneOtp || !body.emailOtp) {
+      return c.json({ error: "Phone OTP and email OTP are required" }, 400);
+    }
+
+    const targetUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        phone: true,
+        userType: true,
+      },
+    });
+
+    if (!targetUser) {
+      return c.json({ error: "Seller account not found" }, 404);
+    }
+
+    if (targetUser.userType !== "operator") {
+      return c.json({ error: "OTP verification is available only for seller accounts" }, 400);
+    }
+
+    if (!targetUser.email || !targetUser.phone) {
+      return c.json({ error: "Seller must have both email and phone before OTP verification" }, 400);
+    }
+
+    const email = sanitizeEmail(targetUser.email);
+    const phone = sanitizePhone(targetUser.phone);
+
+    try {
+      await verifyOtpForIdentifier(phone, body.phoneOtp);
+      await verifyOtpForIdentifier(getEmailOtpKey(email), body.emailOtp);
+    } catch (otpError) {
+      return c.json(
+        {
+          error: otpError instanceof Error ? otpError.message : "OTP verification failed",
+        },
+        400
+      );
+    }
+
+    const accessToken = generateSuperAdminOperatorAccessToken({
+      userId: targetUser.id,
+      email,
+      phone,
+    });
+
+    return c.json({
+      message: "Seller contact verification completed successfully",
+      accessToken,
+    });
+  } catch (error) {
+    console.error("Verify operator account access OTP error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+/**
+ * Superadmin: update seller email/phone/password after OTP verification
+ */
+export const updateOperatorAccountAccess = async (c: Context) => {
+  try {
+    const currentUser = c.get("user");
+    if (currentUser?.userType !== "super_admin") {
+      return c.json({ error: "Only superadmin can update seller account access" }, 403);
+    }
+
+    const userId = c.req.param("userId");
+    if (!userId) {
+      return c.json({ error: "User ID is required" }, 400);
+    }
+
+    const body = (await c.req.json()) as SuperAdminOperatorAccountUpdateRequest;
+
+    if (!body.accessToken) {
+      return c.json({ error: "Verified access token is required" }, 400);
+    }
+
+    const targetUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        phone: true,
+        userType: true,
+        firstName: true,
+        lastName: true,
+        isPasswordSystemGenerated: true,
+      },
+    });
+
+    if (!targetUser) {
+      return c.json({ error: "Seller account not found" }, 404);
+    }
+
+    if (targetUser.userType !== "operator") {
+      return c.json({ error: "Account access editing is available only for seller accounts" }, 400);
+    }
+
+    if (!targetUser.email || !targetUser.phone) {
+      return c.json({ error: "Seller must have both email and phone before editing account access" }, 400);
+    }
+
+    let verifiedAccess;
+    try {
+      verifiedAccess = verifySuperAdminOperatorAccessToken(body.accessToken);
+    } catch (tokenError) {
+      return c.json({ error: "Invalid or expired access session. Please verify OTP again." }, 401);
+    }
+
+    const currentEmail = sanitizeEmail(targetUser.email);
+    const currentPhone = sanitizePhone(targetUser.phone);
+
+    if (
+      verifiedAccess.purpose !== "superadmin_operator_account_access" ||
+      verifiedAccess.userId !== targetUser.id ||
+      sanitizeEmail(verifiedAccess.email) !== currentEmail ||
+      sanitizePhone(verifiedAccess.phone) !== currentPhone
+    ) {
+      return c.json({ error: "Access session no longer matches this seller. Please verify OTP again." }, 401);
+    }
+
+    const updateData: {
+      email?: string;
+      phone?: string;
+      password?: string;
+      isPasswordSystemGenerated?: boolean;
+    } = {};
+
+    let nextEmail = currentEmail;
+    let nextPhone = currentPhone;
+
+    if (body.email !== undefined) {
+      if (!body.email.trim()) {
+        return c.json({ error: "Email cannot be empty" }, 400);
+      }
+      nextEmail = sanitizeEmail(body.email);
+      updateData.email = nextEmail;
+    }
+
+    if (body.phone !== undefined) {
+      if (!body.phone.trim()) {
+        return c.json({ error: "Phone number cannot be empty" }, 400);
+      }
+      nextPhone = sanitizePhone(body.phone);
+      updateData.phone = nextPhone;
+    }
+
+    if (body.password !== undefined || body.confirmPassword !== undefined) {
+      if (!body.password || !body.confirmPassword) {
+        return c.json({ error: "Password and confirm password are required" }, 400);
+      }
+
+      if (body.password !== body.confirmPassword) {
+        return c.json({ error: "Passwords do not match" }, 400);
+      }
+
+      const passwordValidation = validatePassword(body.password);
+      if (!passwordValidation.isValid) {
+        return c.json({ error: passwordValidation.message }, 400);
+      }
+
+      updateData.password = await hashPassword(body.password);
+      updateData.isPasswordSystemGenerated = false;
+    }
+
+    const hasEmailChange = nextEmail !== currentEmail;
+    const hasPhoneChange = nextPhone !== currentPhone;
+    const hasPasswordChange = Boolean(updateData.password);
+
+    if (!hasEmailChange && !hasPhoneChange && !hasPasswordChange) {
+      return c.json({ error: "No account access changes were provided" }, 400);
+    }
+
+    const conflictingUser = await prisma.user.findFirst({
+      where: {
+        id: { not: userId },
+        email: nextEmail,
+        phone: nextPhone,
+      },
+      select: { id: true },
+    });
+
+    if (conflictingUser) {
+      return c.json({ error: "Another account already uses this email and phone combination" }, 409);
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: updateData,
+      select: {
+        id: true,
+        email: true,
+        phone: true,
+        firstName: true,
+        lastName: true,
+        userType: true,
+        isActive: true,
+        isVerified: true,
+        isPasswordSystemGenerated: true,
+        updatedAt: true,
+      },
+    });
+
+    return c.json({
+      message: "Seller account access updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error("Update operator account access error:", error);
     return c.json({ error: "Internal server error" }, 500);
   }
 };

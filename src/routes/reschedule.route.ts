@@ -3,6 +3,7 @@ import {
   initiateReschedule,
   reviewReschedule,
   completeReschedulePayment,
+  confirmRescheduleByAdmin,
   getReschedulesByBooking,
   getPendingReschedules,
   cancelReschedule,
@@ -27,6 +28,13 @@ rescheduleRouter.post("/initiate", initiateReschedule);
 
 // Admin: Review (approve/reject) reschedule
 rescheduleRouter.put("/:rescheduleId/review", requireAdmin, reviewReschedule);
+
+// Admin: Confirm a payment-pending reschedule manually
+rescheduleRouter.post(
+  "/:rescheduleId/confirm",
+  requireAdmin,
+  confirmRescheduleByAdmin
+);
 
 // Customer: Complete payment for approved reschedule with charge
 rescheduleRouter.post("/:rescheduleId/pay", completeReschedulePayment);
