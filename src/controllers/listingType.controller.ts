@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import { prisma } from "../db.js";
+import { prisma, withPrismaRetry } from "../db.js";
 import { sanitizeString } from "../helpers/validation.helper.js";
 
 export interface CreateListingTypeRequest {
@@ -19,34 +19,38 @@ export interface UpdateListingTypeRequest {
  */
 export const getListingTypes = async (c: Context) => {
   try {
-    const listingTypes = await prisma.listingType.findMany({
-      orderBy: { displayOrder: "asc" },
-      include: {
-        categories: {
-          where: { isActive: true },
-          select: {
-            id: true,
-            categoryName: true,
-            categorySlug: true,
-            bookingFormat: true,
-            displayOrder: true,
-            isActive: true,
-            subCategories: {
+    const listingTypes = await withPrismaRetry(
+      () =>
+        prisma.listingType.findMany({
+          orderBy: { displayOrder: "asc" },
+          include: {
+            categories: {
               where: { isActive: true },
               select: {
                 id: true,
-                subCatName: true,
-                subCatSlug: true,
+                categoryName: true,
+                categorySlug: true,
+                bookingFormat: true,
                 displayOrder: true,
                 isActive: true,
+                subCategories: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    subCatName: true,
+                    subCatSlug: true,
+                    displayOrder: true,
+                    isActive: true,
+                  },
+                  orderBy: { displayOrder: "asc" },
+                },
               },
               orderBy: { displayOrder: "asc" },
             },
           },
-          orderBy: { displayOrder: "asc" },
-        },
-      },
-    });
+        }),
+      "getListingTypes.findMany"
+    );
 
     return c.json({
       success: true,

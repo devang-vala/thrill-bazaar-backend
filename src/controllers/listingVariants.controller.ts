@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import { prisma } from "../db.js";
+import { prisma, withPrismaRetry } from "../db.js";
 import { sanitizeString } from "../helpers/validation.helper.js";
 
 /**
@@ -400,15 +400,19 @@ export const getVariantFieldsForCategory = async (c: Context) => {
     const categoryId = c.req.param("categoryId");
 
     // Check if category exists and has Cat-A variants
-    const category = await prisma.category.findUnique({
-      where: { id: categoryId },
-      select: {
-        id: true,
-        categoryName: true,
-        hasVariantCatA: true,
-        isRental: true,
-      },
-    });
+    const category = await withPrismaRetry(
+      () =>
+        prisma.category.findUnique({
+          where: { id: categoryId },
+          select: {
+            id: true,
+            categoryName: true,
+            hasVariantCatA: true,
+            isRental: true,
+          },
+        }),
+      "getVariantFieldsForCategory.category.findUnique"
+    );
 
     if (!category) {
       return c.json({ error: "Category not found" }, 404);
@@ -423,17 +427,21 @@ export const getVariantFieldsForCategory = async (c: Context) => {
     }
 
     // Get variant field definitions for this category
-    const fieldDefinitions = await prisma.listingVariantMetadataFieldDefinition.findMany({
-      where: {
-        categoryId,
-      },
-      include: {
-        options: {
+    const fieldDefinitions = await withPrismaRetry(
+      () =>
+        prisma.listingVariantMetadataFieldDefinition.findMany({
+          where: {
+            categoryId,
+          },
+          include: {
+            options: {
+              orderBy: { displayOrder: "asc" },
+            },
+          },
           orderBy: { displayOrder: "asc" },
-        },
-      },
-      orderBy: { displayOrder: "asc" },
-    });
+        }),
+      "getVariantFieldsForCategory.fieldDefinitions.findMany"
+    );
 
     return c.json({
       success: true,

@@ -1097,7 +1097,10 @@ export const getOperatorSettlements = async (c: Context) => {
               listing: {
                 operatorId,
                 category: {
-                  categoryName: category,
+                  categoryName: {
+                    equals: category,
+                    mode: "insensitive",
+                  },
                 },
               },
             },
@@ -1107,7 +1110,10 @@ export const getOperatorSettlements = async (c: Context) => {
               listing: {
                 operatorId,
                 category: {
-                  categoryName: category,
+                  categoryName: {
+                    equals: category,
+                    mode: "insensitive",
+                  },
                 },
               },
             },
