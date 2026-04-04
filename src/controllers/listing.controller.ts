@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import { prisma } from "../db.js";
+import { prisma, withPrismaRetry } from "../db.js";
 import { sanitizeString, generateSlug } from "../helpers/validation.helper.js";
 import meilisearchService from "../services/meilisearch.service.js";
 
@@ -1237,9 +1237,11 @@ export const getListingById = async (c: Context) => {
 
     // Fetch listing with only essential data first
     // UPDATED: Include badges and tags
-    const listing = await prisma.listing.findUnique({
-      where: { id: listingId },
-      include: {
+    const listing = await withPrismaRetry(
+      () =>
+        prisma.listing.findUnique({
+          where: { id: listingId },
+          include: {
         category: {
           select: {
             id: true,
@@ -1371,8 +1373,10 @@ export const getListingById = async (c: Context) => {
           },
           orderBy: { tag: { displayOrder: "asc" } },
         },
-      },
-    });
+          },
+        }),
+      "getListingById.findUnique"
+    );
 
     if (!listing) {
       return c.json({ success: false, message: "Listing not found" }, 404);
@@ -1380,29 +1384,34 @@ export const getListingById = async (c: Context) => {
 
     // Only fetch variant field definitions if category has variant fields
     let variantFieldDefinitions = null;
-    if (listing.categoryId && listing.category?.hasVariantCatA) {
-      variantFieldDefinitions = await prisma.listingVariantMetadataFieldDefinition.findMany({
-        where: {
-          categoryId: listing.categoryId,
-        },
-        select: {
-          id: true,
-          fieldKey: true,
-          fieldLabel: true,
-          fieldType: true,
-          displayOrder: true,
-          options: {
+    const categoryId = listing.categoryId;
+    if (categoryId && listing.category?.hasVariantCatA) {
+      variantFieldDefinitions = await withPrismaRetry(
+        () =>
+          prisma.listingVariantMetadataFieldDefinition.findMany({
+            where: {
+              categoryId,
+            },
             select: {
-              optionId: true,
-              optionValue: true,
-              optionLabel: true,
+              id: true,
+              fieldKey: true,
+              fieldLabel: true,
+              fieldType: true,
               displayOrder: true,
+              options: {
+                select: {
+                  optionId: true,
+                  optionValue: true,
+                  optionLabel: true,
+                  displayOrder: true,
+                },
+                orderBy: { displayOrder: "asc" },
+              },
             },
             orderBy: { displayOrder: "asc" },
-          },
-        },
-        orderBy: { displayOrder: "asc" },
-      });
+          }),
+        "getListingById.variantFieldDefinitions"
+      );
     }
 
     // If user is not admin, remove admin-specific fields
