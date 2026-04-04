@@ -1278,6 +1278,18 @@ export const getUserBookings = async (c: Context) => {
           },
         },
         payment: true,
+        reschedules: {
+          orderBy: { createdAt: "desc" },
+          take: 1,
+          select: {
+            id: true,
+            status: true,
+            createdAt: true,
+            approvedAt: true,
+            isPaymentRequired: true,
+            rescheduleFeeAmount: true,
+          },
+        },
       },
       orderBy: { createdAt: "desc" },
     });

@@ -452,7 +452,11 @@ export const reviewReschedule = async (c:  Context) => {
       );
     }
 
-    if (reschedule.status !== "pending") {
+    const canEditPendingPaymentRequest =
+      reschedule.status === "approved_with_charge" &&
+      reschedule.isPaymentRequired;
+
+    if (reschedule.status !== "pending" && !canEditPendingPaymentRequest) {
       return c.json(
         {
           success: false,
@@ -460,6 +464,46 @@ export const reviewReschedule = async (c:  Context) => {
         },
         400
       );
+    }
+
+    if (canEditPendingPaymentRequest) {
+      if (decision !== "approved_with_charge") {
+        return c.json(
+          {
+            success: false,
+            message:
+              "Pending payment requests can only be updated or confirmed separately",
+          },
+          400
+        );
+      }
+
+      if (!rescheduleFeeAmount || rescheduleFeeAmount <= 0) {
+        return c.json(
+          {
+            success: false,
+            message: "Reschedule fee amount required for approval with charge",
+          },
+          400
+        );
+      }
+
+      const updated = await prisma.reschedule.update({
+        where: { id: rescheduleId },
+        data: {
+          adminNotes: adminNotes || null,
+          rescheduleFeeAmount,
+          approvedByAdminId: user.userId,
+          approvedAt: new Date(),
+          isPaymentRequired: true,
+        },
+      });
+
+      return c.json({
+        success: true,
+        message: "Payment request updated successfully",
+        data: updated,
+      });
     }
 
     // If rejected, just update status
@@ -530,6 +574,95 @@ export const reviewReschedule = async (c:  Context) => {
       {
         success: false,
         message: error.message || "Failed to review reschedule",
+      },
+      500
+    );
+  }
+};
+
+/**
+ * Admin: Confirm an approved reschedule request with pending payment
+ * POST /api/reschedules/:rescheduleId/confirm
+ */
+export const confirmRescheduleByAdmin = async (c: Context) => {
+  try {
+    const rescheduleId = c.req.param("rescheduleId");
+    const user = c.get("user");
+    const body = await c.req.json().catch(() => ({}));
+    const adminNotes =
+      typeof body?.adminNotes === "string" ? body.adminNotes.trim() : "";
+
+    if (user.userType !== "admin" && user.userType !== "super_admin") {
+      return c.json(
+        { success: false, message: "Only admins can confirm reschedules" },
+        403
+      );
+    }
+
+    const reschedule = await prisma.reschedule.findUnique({
+      where: { id: rescheduleId },
+    });
+
+    if (!reschedule) {
+      return c.json(
+        { success: false, message: "Reschedule request not found" },
+        404
+      );
+    }
+
+    if (
+      reschedule.status !== "approved_with_charge" ||
+      !reschedule.isPaymentRequired
+    ) {
+      return c.json(
+        {
+          success: false,
+          message:
+            "Only payment-pending reschedule requests can be confirmed manually",
+        },
+        400
+      );
+    }
+
+    if (adminNotes) {
+      await prisma.reschedule.update({
+        where: { id: rescheduleId },
+        data: {
+          adminNotes: reschedule.adminNotes
+            ? `${reschedule.adminNotes}\n${adminNotes}`
+            : adminNotes,
+          approvedByAdminId: user.userId,
+          approvedAt: new Date(),
+        },
+      });
+    }
+
+    await processReschedule(rescheduleId);
+
+    const updated = await prisma.reschedule.findUnique({
+      where: { id: rescheduleId },
+      include: {
+        approvedByAdmin: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+    });
+
+    return c.json({
+      success: true,
+      message: "Reschedule request confirmed successfully",
+      data: updated,
+    });
+  } catch (error: any) {
+    console.error("Error confirming reschedule:", error);
+    return c.json(
+      {
+        success: false,
+        message: error.message || "Failed to confirm reschedule",
       },
       500
     );
