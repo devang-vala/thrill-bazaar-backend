@@ -48,6 +48,39 @@ const getConvenienceFeeRateInBasisPoints = async () => {
 
 const createBookingOtp = () => generateOtp();
 
+const ADMIN_RESCHEDULE_ACTIVITY_STATUS = {
+  PENDING: "RESCHEDULE_PENDING",
+  APPROVED: "RESCHEDULE_APPROVED",
+  REJECTED: "RESCHEDULE_REJECTED",
+} as const;
+
+const getAdminActivityStatus = (
+  bookingStatus: string | null | undefined,
+  latestRescheduleStatus: string | null | undefined,
+) => {
+  const normalizedBookingStatus = String(bookingStatus || "").toUpperCase();
+  const normalizedRescheduleStatus = String(latestRescheduleStatus || "").toLowerCase();
+
+  if (normalizedBookingStatus === "CONFIRMED") {
+    if (normalizedRescheduleStatus === "pending") {
+      return ADMIN_RESCHEDULE_ACTIVITY_STATUS.PENDING;
+    }
+
+    if (
+      normalizedRescheduleStatus === "approved" ||
+      normalizedRescheduleStatus === "approved_with_charge"
+    ) {
+      return ADMIN_RESCHEDULE_ACTIVITY_STATUS.APPROVED;
+    }
+
+    if (normalizedRescheduleStatus === "rejected") {
+      return ADMIN_RESCHEDULE_ACTIVITY_STATUS.REJECTED;
+    }
+  }
+
+  return normalizedBookingStatus;
+};
+
 const generateUniqueBookingOtp = async (excludeBookingId?: string) => {
   for (let attempt = 0; attempt < 12; attempt += 1) {
     const otp = createBookingOtp();
@@ -1575,7 +1608,7 @@ export const getAdminBookings = async (c: Context) => {
     const limit = parsePositiveInteger(c.req.query("limit"), 10, 50);
     const search = (c.req.query("search") || "").trim();
     const category = (c.req.query("category") || "").trim();
-    const bookingStatus = (c.req.query("status") || c.req.query("bookingStatus") || "").trim();
+    const activityStatus = (c.req.query("status") || c.req.query("bookingStatus") || "").trim();
     const paymentStatus = normalizeSettlementStatus(c.req.query("paymentStatus"));
     const startDate = (c.req.query("startDate") || "").trim();
     const endDate = (c.req.query("endDate") || "").trim();
@@ -1586,8 +1619,23 @@ export const getAdminBookings = async (c: Context) => {
 
     const whereClause: any = {};
 
-    if (bookingStatus && bookingStatus.toLowerCase() !== "all") {
-      whereClause.bookingStatus = bookingStatus.toUpperCase();
+    const normalizedActivityStatus = activityStatus.toUpperCase();
+    const shouldPostFilterConfirmedActivity =
+      normalizedActivityStatus === "CONFIRMED" ||
+      normalizedActivityStatus === ADMIN_RESCHEDULE_ACTIVITY_STATUS.PENDING ||
+      normalizedActivityStatus === ADMIN_RESCHEDULE_ACTIVITY_STATUS.APPROVED ||
+      normalizedActivityStatus === ADMIN_RESCHEDULE_ACTIVITY_STATUS.REJECTED;
+
+    if (normalizedActivityStatus && normalizedActivityStatus !== "ALL") {
+      if (shouldPostFilterConfirmedActivity) {
+        whereClause.bookingStatus = "CONFIRMED";
+      } else if (normalizedActivityStatus === "CANCELLED") {
+        whereClause.bookingStatus = {
+          in: ["CANCELLED", "NO_SHOW"],
+        };
+      } else {
+        whereClause.bookingStatus = normalizedActivityStatus;
+      }
     }
 
     if (paymentStatus) {
@@ -1807,81 +1855,79 @@ export const getAdminBookings = async (c: Context) => {
       },
     };
 
-    const [totalCount, bookings, bookingCounts, paymentCounts, rescheduleCounts, categories] = await Promise.all([
-      prisma.booking.count({
-        where: whereClause,
-      }),
-      prisma.booking.findMany({
-        where: whereClause,
+    const bookingSelect = {
+      id: true,
+      bookingReference: true,
+      bookingStartDate: true,
+      bookingEndDate: true,
+      participantCount: true,
+      totalAmount: true,
+      bookingStatus: true,
+      createdAt: true,
+      updatedAt: true,
+      customer: {
         select: {
           id: true,
-          bookingReference: true,
-          bookingStartDate: true,
-          bookingEndDate: true,
-          participantCount: true,
-          totalAmount: true,
-          bookingStatus: true,
-          createdAt: true,
-          updatedAt: true,
-          customer: {
-            select: {
-              id: true,
-              firstName: true,
-              lastName: true,
-              email: true,
-              phone: true,
-            },
-          },
-          payment: {
-            select: {
-              settlementStatus: true,
-            },
-          },
-          reschedules: {
-            orderBy: {
-              createdAt: "desc",
-            },
-            take: 1,
-            select: {
-              id: true,
-              status: true,
-              createdAt: true,
-            },
-          },
-          listingSlot: {
-            select: {
-              startTime: true,
-              endTime: true,
-              slotDefinition: {
-                select: {
-                  startTime: true,
-                  endTime: true,
-                },
-              },
-              listing: {
-                select: listingSelect,
-              },
-            },
-          },
-          dateRange: {
-            select: {
-              slotDefinition: {
-                select: {
-                  startTime: true,
-                  endTime: true,
-                },
-              },
-              listing: {
-                select: listingSelect,
-              },
-            },
-          },
+          firstName: true,
+          lastName: true,
+          email: true,
+          phone: true,
         },
+      },
+      payment: {
+        select: {
+          settlementStatus: true,
+        },
+      },
+      reschedules: {
         orderBy: {
           createdAt: "desc",
         },
-        skip,
-        take: limit,
+        take: 1,
+        select: {
+          id: true,
+          status: true,
+          createdAt: true,
+        },
+      },
+      listingSlot: {
+        select: {
+          startTime: true,
+          endTime: true,
+          slotDefinition: {
+            select: {
+              startTime: true,
+              endTime: true,
+            },
+          },
+          listing: {
+            select: listingSelect,
+          },
+        },
+      },
+      dateRange: {
+        select: {
+          slotDefinition: {
+            select: {
+              startTime: true,
+              endTime: true,
+            },
+          },
+          listing: {
+            select: listingSelect,
+          },
+        },
+      },
+    } as const;
+
+    const [bookings, bookingCounts, paymentCounts, rescheduleCounts, categories] = await Promise.all([
+      prisma.booking.findMany({
+        where: whereClause,
+        select: bookingSelect,
+        orderBy: {
+          createdAt: "desc",
+        },
+        ...(shouldPostFilterConfirmedActivity ? {} : { skip, take: limit }),
       }),
       prisma.booking.groupBy({
         by: ["bookingStatus"],
@@ -1933,10 +1979,14 @@ export const getAdminBookings = async (c: Context) => {
       rescheduleCounts.map((entry) => [entry.status, entry._count._all])
     ) as Record<string, number>;
 
-    const data = bookings.map((booking) => {
+    const mappedBookings = bookings.map((booking) => {
       const listing = booking.listingSlot?.listing || booking.dateRange?.listing;
       const operator = listing?.operator;
       const latestReschedule = booking.reschedules[0] || null;
+      const adminActivityStatus = getAdminActivityStatus(
+        booking.bookingStatus,
+        latestReschedule?.status,
+      );
       const slotStart =
         booking.listingSlot?.slotDefinition?.startTime ||
         booking.listingSlot?.startTime ||
@@ -1956,6 +2006,7 @@ export const getAdminBookings = async (c: Context) => {
         participantCount: booking.participantCount,
         totalAmount: Number(booking.totalAmount),
         bookingStatus: booking.bookingStatus,
+        adminActivityStatus,
         createdAt: booking.createdAt,
         updatedAt: booking.updatedAt,
         slotStart,
@@ -1991,6 +2042,21 @@ export const getAdminBookings = async (c: Context) => {
       };
     });
 
+    const filteredBookings =
+      normalizedActivityStatus && normalizedActivityStatus !== "ALL"
+        ? mappedBookings.filter((booking) => booking.adminActivityStatus === normalizedActivityStatus)
+        : mappedBookings;
+
+    const totalCount = shouldPostFilterConfirmedActivity
+      ? filteredBookings.length
+      : await prisma.booking.count({
+          where: whereClause,
+        });
+
+    const data = shouldPostFilterConfirmedActivity
+      ? filteredBookings.slice(skip, skip + limit)
+      : filteredBookings;
+
     const totalPages = Math.max(1, Math.ceil(totalCount / limit));
 
     return c.json({
@@ -2025,7 +2091,15 @@ export const getAdminBookings = async (c: Context) => {
         categories: categories
           .map((entry) => entry.category?.categoryName)
           .filter((value): value is string => Boolean(value)),
-        bookingStatuses: ["CONFIRMED", "COMPLETED", "CANCELLED", "NO_SHOW"],
+        bookingStatuses: [
+          "CONFIRMED",
+          "COMPLETED",
+          "CANCELLED",
+          "NO_SHOW",
+          ADMIN_RESCHEDULE_ACTIVITY_STATUS.PENDING,
+          ADMIN_RESCHEDULE_ACTIVITY_STATUS.APPROVED,
+          ADMIN_RESCHEDULE_ACTIVITY_STATUS.REJECTED,
+        ],
         paymentStatuses: [
           "PAID",
           "PENDING",
@@ -2451,12 +2525,6 @@ export const updateAdminBookingSettlement = async (c: Context) => {
                   existingBooking.bookingStatus === "CANCELLED"
                     ? (settlementStatusRaw as "REFUND_PENDING" | "REFUNDED")
                     : "ISSUE_RESOLVED",
-                reasonbyadmin: resolutionNote,
-              }
-          : action === "mark_refunded"
-            ? {
-                settlementStatus: "REFUNDED",
-                settlementDate: new Date(),
                 reasonbyadmin: resolutionNote,
               }
           : action === "mark_refunded"

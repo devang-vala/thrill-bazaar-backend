@@ -3,6 +3,146 @@ import { prisma, withPrismaRetry } from "../db.js";
 import { sanitizeString, generateSlug } from "../helpers/validation.helper.js";
 import meilisearchService from "../services/meilisearch.service.js";
 
+const normalizeMetadataBoolean = (value: unknown): boolean | null => {
+  if (typeof value === "boolean") {
+    return value;
+  }
+
+  if (typeof value === "string") {
+    const normalizedValue = value.trim().toLowerCase();
+    if (normalizedValue === "true") {
+      return true;
+    }
+    if (normalizedValue === "false") {
+      return false;
+    }
+  }
+
+  return null;
+};
+
+const buildMetadataFilterCondition = (
+  fieldKey: string,
+  rawValue: unknown,
+  fieldType?: string | null,
+) => {
+  if (rawValue === null || rawValue === undefined || rawValue === "") {
+    return null;
+  }
+
+  switch (fieldType) {
+    case "text":
+    case "textarea": {
+      if (typeof rawValue !== "string" || !rawValue.trim()) {
+        return null;
+      }
+
+      return {
+        metadata: {
+          path: [fieldKey],
+          string_contains: rawValue.trim(),
+        },
+      };
+    }
+
+    case "number": {
+      const numericValue =
+        typeof rawValue === "number" ? rawValue : Number(String(rawValue).trim());
+
+      if (!Number.isFinite(numericValue)) {
+        return null;
+      }
+
+      return {
+        metadata: {
+          path: [fieldKey],
+          equals: numericValue,
+        },
+      };
+    }
+
+    case "boolean": {
+      const booleanValue = normalizeMetadataBoolean(rawValue);
+      if (booleanValue === null) {
+        return null;
+      }
+
+      return {
+        metadata: {
+          path: [fieldKey],
+          equals: booleanValue,
+        },
+      };
+    }
+
+    case "multiselect":
+    case "json_array": {
+      const values = (Array.isArray(rawValue) ? rawValue : [rawValue])
+        .map((value) => String(value).trim())
+        .filter(Boolean);
+
+      if (values.length === 0) {
+        return null;
+      }
+
+      return {
+        OR: values.map((value) => ({
+          metadata: {
+            path: [fieldKey],
+            array_contains: [value],
+          },
+        })),
+      };
+    }
+
+    case "select":
+    case "date":
+    case "time":
+    case "datetime":
+    default: {
+      if (Array.isArray(rawValue)) {
+        const values = rawValue
+          .map((value) => String(value).trim())
+          .filter(Boolean);
+
+        if (values.length === 0) {
+          return null;
+        }
+
+        return {
+          OR: values.map((value) => ({
+            metadata: {
+              path: [fieldKey],
+              equals: value,
+            },
+          })),
+        };
+      }
+
+      if (typeof rawValue === "string") {
+        const trimmedValue = rawValue.trim();
+        if (!trimmedValue) {
+          return null;
+        }
+
+        return {
+          metadata: {
+            path: [fieldKey],
+            equals: trimmedValue,
+          },
+        };
+      }
+
+      return {
+        metadata: {
+          path: [fieldKey],
+          equals: rawValue,
+        },
+      };
+    }
+  }
+};
+
 /**
  * Common include object for badges - reusable across endpoints
  */
@@ -255,24 +395,56 @@ export const getListings = async (c: Context) => {
     if (metadataFilters) {
       try {
         const parsedMetadata = JSON.parse(metadataFilters);
-        if (Object.keys(parsedMetadata).length > 0) {
-          // Filter by metadata JSON field
-          // Using path() to query JSON fields in PostgreSQL
-          const metadataConditions: any[] = [];
+        if (
+          parsedMetadata &&
+          typeof parsedMetadata === "object" &&
+          !Array.isArray(parsedMetadata) &&
+          Object.keys(parsedMetadata).length > 0
+        ) {
+          const metadataEntries = Object.entries(parsedMetadata).filter(
+            ([, value]) =>
+              value !== null &&
+              value !== undefined &&
+              value !== "" &&
+              (!Array.isArray(value) || value.length > 0),
+          );
 
-          for (const [key, value] of Object.entries(parsedMetadata)) {
-            if (value !== null && value !== undefined && value !== '') {
-              metadataConditions.push({
-                metadata: {
-                  path: [key],
-                  equals: value
-                }
-              });
+          if (metadataEntries.length > 0) {
+            const fieldDefinitions = await prisma.listingMetadataFieldDefinition.findMany({
+              where: {
+                fieldKey: {
+                  in: metadataEntries.map(([key]) => key),
+                },
+                isFilter: true,
+              },
+              select: {
+                fieldKey: true,
+                fieldType: true,
+              },
+            });
+
+            const fieldTypeByKey = new Map(
+              fieldDefinitions.map((fieldDefinition) => [
+                fieldDefinition.fieldKey,
+                fieldDefinition.fieldType,
+              ]),
+            );
+
+            const metadataConditions = metadataEntries
+              .map(([key, value]) =>
+                buildMetadataFilterCondition(key, value, fieldTypeByKey.get(key)),
+              )
+              .filter(Boolean);
+
+            if (metadataConditions.length > 0) {
+              const existingAndConditions = Array.isArray(whereClause.AND)
+                ? whereClause.AND
+                : whereClause.AND
+                  ? [whereClause.AND]
+                  : [];
+
+              whereClause.AND = [...existingAndConditions, ...metadataConditions];
             }
-          }
-
-          if (metadataConditions.length > 0) {
-            whereClause.AND = metadataConditions;
           }
         }
       } catch (err) {
