@@ -372,6 +372,19 @@ export const getReviews = async (
               },
             },
           },
+          operator: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              phone: true,
+              operatorProfile: {
+                select: {
+                  companyName: true,
+                },
+              },
+            },
+          },
         },
       }),
     ]);
