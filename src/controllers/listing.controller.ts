@@ -1882,9 +1882,21 @@ export const deleteListing = async (c: Context) => {
   }
 };
 
+const getRelatedBookingFormats = (bookingFormat?: string | null) => {
+  if (bookingFormat === "F1" || bookingFormat === "F3") {
+    return ["F1", "F3"];
+  }
+
+  if (bookingFormat === "F2" || bookingFormat === "F4") {
+    return ["F2", "F4"];
+  }
+
+  return bookingFormat ? [bookingFormat] : [];
+};
+
 /**
- * Get similar listings based on category, operator, then random
- * Priority: Same category > Same operator > Random
+ * Get similar listings based on booking family, category, operator, then fallback
+ * Priority: Same booking family + category/subcategory > Same booking family + operator > Same booking family fallback
  */
 export const getSimilarListings = async (c: Context) => {
   try {
@@ -1934,12 +1946,21 @@ export const getSimilarListings = async (c: Context) => {
       ...tagsIncludeLimited,
     };
 
+    const relatedFormats = getRelatedBookingFormats(currentListing.bookingFormat);
+
     const baseWhere: any = {
       status: "active",
       NOT: { id: listingId },
+      ...(relatedFormats.length > 0
+        ? {
+            bookingFormat: {
+              in: relatedFormats,
+            },
+          }
+        : {}),
     };
 
-    // STEP 1: Get listings from same category (and subcategory if available)
+    // STEP 1: Same booking family + same category (prefer same subcategory)
     if (currentListing.categoryId && similarListings.length < limit) {
       const categoryWhere: any = {
         ...baseWhere,
@@ -1966,7 +1987,31 @@ export const getSimilarListings = async (c: Context) => {
       });
     }
 
-    // STEP 2: If not enough, get listings from same operator
+    // STEP 1B: Same booking family + same category, but allow sibling subcategories too
+    if (currentListing.categoryId && currentListing.subCatId && similarListings.length < limit) {
+      const siblingCategoryListings = await prisma.listing.findMany({
+        where: {
+          ...baseWhere,
+          categoryId: currentListing.categoryId,
+          NOT: [
+            { id: listingId },
+            { subCatId: currentListing.subCatId },
+          ],
+        },
+        include: includeFields,
+        take: limit - similarListings.length,
+        orderBy: { createdAt: "desc" },
+      });
+
+      siblingCategoryListings.forEach(listing => {
+        if (!seenIds.has(listing.id)) {
+          similarListings.push(listing);
+          seenIds.add(listing.id);
+        }
+      });
+    }
+
+    // STEP 2: Same booking family + same operator
     if (currentListing.operatorId && similarListings.length < limit) {
       const operatorListings = await prisma.listing.findMany({
         where: {
@@ -1986,16 +2031,16 @@ export const getSimilarListings = async (c: Context) => {
       });
     }
 
-    // STEP 3: If still not enough, get random active listings
+    // STEP 3: Same booking family fallback
     if (similarListings.length < limit) {
-      const randomListings = await prisma.listing.findMany({
+      const fallbackListings = await prisma.listing.findMany({
         where: baseWhere,
         include: includeFields,
-        take: Math.min(20, (limit - similarListings.length) * 2), // Get more to filter duplicates
+        take: Math.min(20, (limit - similarListings.length) * 3),
         orderBy: { createdAt: "desc" },
       });
 
-      randomListings.forEach(listing => {
+      fallbackListings.forEach(listing => {
         if (!seenIds.has(listing.id) && similarListings.length < limit) {
           similarListings.push(listing);
           seenIds.add(listing.id);
