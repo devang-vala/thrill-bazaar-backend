@@ -583,6 +583,44 @@ export const requestOperatorOtp = async (c: Context) => {
     const email = sanitizeEmail(body.email);
     const phone = sanitizePhone(body.phone);
 
+    // Check if email or phone is already used by a non-operator role
+    const crossRoleConflict = await prisma.user.findFirst({
+      where: {
+        userType: { not: "operator" },
+        OR: [{ email }, { phone }],
+      },
+      select: { userType: true, email: true, phone: true },
+    });
+
+    if (crossRoleConflict) {
+      const conflictField =
+        crossRoleConflict.email === email && crossRoleConflict.phone === phone
+          ? "email and phone number"
+          : crossRoleConflict.email === email
+            ? "email"
+            : "phone number";
+      return c.json(
+        {
+          error: `This ${conflictField} is already registered with a different account type. Please use a different ${conflictField}.`,
+        },
+        409
+      );
+    }
+
+    // Check if exact same email+phone combo already exists as operator
+    const existingExactOperator = await prisma.user.findFirst({
+      where: { userType: "operator", email, phone },
+    });
+
+    if (existingExactOperator) {
+      return c.json(
+        {
+          error: "An operator account with this exact email and phone number already exists. Please log in instead.",
+        },
+        409
+      );
+    }
+
     const phoneOtp = generateOtp();
     const emailOtp = generateOtp();
     const expiresAt = calculateOtpExpiry(5);
@@ -729,6 +767,22 @@ export const setOperatorPassword = async (c: Context) => {
     const email = sanitizeEmail(decoded.email);
     const phone = sanitizePhone(decoded.phone);
     const hashedPassword = await hashPassword(body.password);
+
+    // Cross-role duplicate check before creating
+    const crossRoleConflict = await prisma.user.findFirst({
+      where: {
+        userType: { not: "operator" },
+        OR: [{ email }, { phone }],
+      },
+      select: { userType: true },
+    });
+
+    if (crossRoleConflict) {
+      return c.json(
+        { error: "This email or phone number is already registered with a different account type." },
+        409
+      );
+    }
 
     let user = await prisma.user.findFirst({
       where: { userType: "operator", email, phone },
