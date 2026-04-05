@@ -30,6 +30,7 @@ export const getListingTypes = async (c: Context) => {
                 id: true,
                 categoryName: true,
                 categorySlug: true,
+                categoryIconUrl: true,
                 bookingFormat: true,
                 displayOrder: true,
                 isActive: true,
