@@ -874,6 +874,18 @@ export const cancelBooking = async (c: Context) => {
     // Get booking details
     const booking = await prisma.booking.findUnique({
       where: { id: bookingId },
+      select: {
+        id: true,
+        listingSlotId: true,
+        participantCount: true,
+        bookingStatus: true,
+        payment: {
+          select: {
+            id: true,
+            settlementStatus: true,
+          },
+        },
+      },
     });
 
     if (!booking) {
@@ -896,6 +908,15 @@ export const cancelBooking = async (c: Context) => {
           otpVerification: false,
         },
       });
+
+      if (booking.payment) {
+        await tx.bookingPayment.update({
+          where: { bookingId },
+          data: {
+            settlementStatus: "REFUND_PENDING",
+          },
+        });
+      }
 
       // Restore slot availability (for F1, F3, F4)
       if (booking.listingSlotId) {
@@ -2302,7 +2323,12 @@ export const updateAdminBookingSettlement = async (c: Context) => {
     const settlementStatusRaw = String(body?.settlementStatus || "").trim().toUpperCase();
     const resolutionNote = String(body?.resolutionNote || "").trim();
 
-    if (action !== "settle" && action !== "unsettle" && action !== "resolve_issue") {
+    if (
+      action !== "settle" &&
+      action !== "unsettle" &&
+      action !== "resolve_issue" &&
+      action !== "mark_refunded"
+    ) {
       return c.json({ success: false, message: "Invalid settlement action" }, 400);
     }
 
@@ -2361,6 +2387,20 @@ export const updateAdminBookingSettlement = async (c: Context) => {
       }
     }
 
+    if (action === "mark_refunded") {
+      if (existingBooking.payment.settlementStatus !== "REFUND_PENDING") {
+        return c.json({ success: false, message: "Only refund pending payments can be marked as refunded" }, 400);
+      }
+
+      if (settlementStatusRaw !== "REFUNDED") {
+        return c.json({ success: false, message: "Settlement status must be REFUNDED" }, 400);
+      }
+
+      if (!resolutionNote) {
+        return c.json({ success: false, message: "Resolution note is required" }, 400);
+      }
+    }
+
     const updatedPayment = await prisma.bookingPayment.update({
       where: { bookingId },
       select: {
@@ -2383,6 +2423,12 @@ export const updateAdminBookingSettlement = async (c: Context) => {
                 settlementStatus: "ISSUE_RESOLVED",
                 reasonbyadmin: resolutionNote,
               }
+          : action === "mark_refunded"
+            ? {
+                settlementStatus: "REFUNDED",
+                settlementDate: new Date(),
+                reasonbyadmin: resolutionNote,
+              }
           : {
               settlementStatus: "PENDING",
               settlementDate: null,
@@ -2397,6 +2443,8 @@ export const updateAdminBookingSettlement = async (c: Context) => {
           ? "Payment settled successfully"
           : action === "resolve_issue"
             ? "Settlement issue resolved successfully"
+            : action === "mark_refunded"
+              ? "Payment marked as refunded successfully"
             : "Payment unsettled successfully",
       data: {
         id: updatedPayment.id,
