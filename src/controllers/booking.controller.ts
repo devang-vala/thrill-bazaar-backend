@@ -2336,6 +2336,7 @@ export const updateAdminBookingSettlement = async (c: Context) => {
       where: { id: bookingId },
       select: {
         id: true,
+        bookingStatus: true,
         payment: {
           select: {
             id: true,
@@ -2374,16 +2375,42 @@ export const updateAdminBookingSettlement = async (c: Context) => {
     }
 
     if (action === "resolve_issue") {
-      if (existingBooking.payment.settlementStatus !== "SETTLEMENT_ISSUE") {
-        return c.json({ success: false, message: "Only settlement issues can be resolved" }, 400);
-      }
-
       if (!resolutionNote) {
         return c.json({ success: false, message: "Resolution note is required" }, 400);
       }
 
-      if (settlementStatusRaw !== "ISSUE_RESOLVED") {
-        return c.json({ success: false, message: "Settlement status must be ISSUE_RESOLVED" }, 400);
+      if (existingBooking.bookingStatus === "CANCELLED") {
+        if (settlementStatusRaw !== "REFUND_PENDING" && settlementStatusRaw !== "REFUNDED") {
+          return c.json(
+            {
+              success: false,
+              message: "Refund status must be REFUND_PENDING or REFUNDED",
+            },
+            400,
+          );
+        }
+      } else {
+        if (existingBooking.payment.settlementStatus !== "SETTLEMENT_ISSUE") {
+          return c.json({ success: false, message: "Only settlement issues can be resolved" }, 400);
+        }
+
+        if (settlementStatusRaw !== "ISSUE_RESOLVED") {
+          return c.json({ success: false, message: "Settlement status must be ISSUE_RESOLVED" }, 400);
+        }
+      }
+    }
+
+    if (action === "mark_refunded") {
+      if (existingBooking.payment.settlementStatus !== "REFUND_PENDING") {
+        return c.json({ success: false, message: "Only refund pending payments can be marked as refunded" }, 400);
+      }
+
+      if (settlementStatusRaw !== "REFUNDED") {
+        return c.json({ success: false, message: "Settlement status must be REFUNDED" }, 400);
+      }
+
+      if (!resolutionNote) {
+        return c.json({ success: false, message: "Resolution note is required" }, 400);
       }
     }
 
@@ -2420,7 +2447,16 @@ export const updateAdminBookingSettlement = async (c: Context) => {
             }
           : action === "resolve_issue"
             ? {
-                settlementStatus: "ISSUE_RESOLVED",
+                settlementStatus:
+                  existingBooking.bookingStatus === "CANCELLED"
+                    ? (settlementStatusRaw as "REFUND_PENDING" | "REFUNDED")
+                    : "ISSUE_RESOLVED",
+                reasonbyadmin: resolutionNote,
+              }
+          : action === "mark_refunded"
+            ? {
+                settlementStatus: "REFUNDED",
+                settlementDate: new Date(),
                 reasonbyadmin: resolutionNote,
               }
           : action === "mark_refunded"
@@ -2442,7 +2478,9 @@ export const updateAdminBookingSettlement = async (c: Context) => {
         action === "settle"
           ? "Payment settled successfully"
           : action === "resolve_issue"
-            ? "Settlement issue resolved successfully"
+            ? existingBooking.bookingStatus === "CANCELLED"
+              ? "Refund status updated successfully"
+              : "Settlement issue resolved successfully"
             : action === "mark_refunded"
               ? "Payment marked as refunded successfully"
             : "Payment unsettled successfully",

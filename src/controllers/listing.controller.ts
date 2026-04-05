@@ -104,6 +104,7 @@ export const getListings = async (c: Context) => {
     const limit = parseInt(c.req.query("limit") || "12");
     const status = c.req.query("status"); // optional filter by status
     const sortBy = c.req.query("sortBy"); // sorting option
+    const searchTerm = (c.req.query("search") || c.req.query("q") || "").trim();
 
     // Get location filter parameters
     const startPrimaryDivisions = c.req.query("startPrimaryDivisions"); // comma-separated IDs
@@ -198,6 +199,56 @@ export const getListings = async (c: Context) => {
       if (formatList.length > 0) {
         whereClause.bookingFormat = { in: formatList };
       }
+    }
+
+    if (searchTerm) {
+      whereClause.OR = [
+        { listingName: { contains: searchTerm, mode: "insensitive" } },
+        { listingSlug: { contains: searchTerm, mode: "insensitive" } },
+        { startLocationName: { contains: searchTerm, mode: "insensitive" } },
+        {
+          startPrimaryDivision: {
+            division_name: { contains: searchTerm, mode: "insensitive" },
+          },
+        },
+        {
+          startSecondaryDivision: {
+            division_name: { contains: searchTerm, mode: "insensitive" },
+          },
+        },
+        {
+          endPrimaryDivision: {
+            division_name: { contains: searchTerm, mode: "insensitive" },
+          },
+        },
+        {
+          endSecondaryDivision: {
+            division_name: { contains: searchTerm, mode: "insensitive" },
+          },
+        },
+        {
+          category: {
+            categoryName: { contains: searchTerm, mode: "insensitive" },
+          },
+        },
+        {
+          operator: {
+            OR: [
+              { firstName: { contains: searchTerm, mode: "insensitive" } },
+              { lastName: { contains: searchTerm, mode: "insensitive" } },
+              { email: { contains: searchTerm, mode: "insensitive" } },
+              {
+                operatorProfile: {
+                  companyName: {
+                    contains: searchTerm,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            ],
+          },
+        },
+      ];
     }
 
     // Add metadata filters
