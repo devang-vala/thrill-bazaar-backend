@@ -4,7 +4,7 @@ dotenv.config();
 
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { prisma } from "./db.js";
+import { ensurePrismaConnected, prisma } from "./db.js";
 import apiRouter from "./routes/index.js";
 import { cors } from "hono/cors";
 import { configureCloudinary, cloudinarySecrets } from "./config/cloudinary.config.js";
@@ -126,6 +126,7 @@ app.get("/", (c) => {
 app.route("/api", apiRouter);
 
 const startServer = async () => {
+  await ensurePrismaConnected();
   await ensureBookingReasonColumn();
   await ensureBookingPaymentConcernColumns();
   await ensureBookingPaymentSettlementModeColumn();

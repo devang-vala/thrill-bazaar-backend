@@ -1200,9 +1200,11 @@ export const getListing = async (c: Context) => {
     const listingSlug = c.req.param("slug");
     const user = c.get("user");
 
-    const listing = await prisma.listing.findUnique({
-      where: { listingSlug: listingSlug },
-      select: {
+    const listing = await withPrismaRetry(
+      () =>
+        prisma.listing.findUnique({
+          where: { listingSlug: listingSlug },
+          select: {
           id: true,
           listingName: true,
           listingSlug: true,
@@ -1369,8 +1371,10 @@ export const getListing = async (c: Context) => {
             },
             orderBy: { tag: { displayOrder: "asc" } },
           },
-        },
-    });
+          },
+        }),
+      "getListing.findUnique"
+    );
 
     if (!listing) {
       return c.json({ error: "Listing not found" }, 404);
