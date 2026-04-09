@@ -59,6 +59,132 @@ const SELLER_POLICY_TYPES = [
   "exchange",
 ] as const;
 
+const OPERATOR_ADMIN_REVIEW_STATES = [
+  "PENDING",
+  "CHANGES_REQUESTED",
+  "VERIFIED",
+  "REJECTED",
+  "BLOCKED",
+] as const;
+
+type OperatorAdminReviewState = (typeof OPERATOR_ADMIN_REVIEW_STATES)[number];
+
+type OperatorCategoryRate = {
+  categoryId: string;
+  commissionRate: number;
+  tcsRate: number;
+  updatedAt: string;
+  updatedByAdminId?: string | null;
+};
+
+const getOperatorMetadata = (profile: { verificationDocuments?: unknown } | null | undefined) => {
+  const raw = (profile?.verificationDocuments as any) || {};
+  return typeof raw === "object" && raw !== null ? raw : {};
+};
+
+const getOperatorCategoryRates = (profile: { verificationDocuments?: unknown } | null | undefined): OperatorCategoryRate[] => {
+  const metadata = getOperatorMetadata(profile);
+  const rawRates = Array.isArray(metadata.categoryRates) ? metadata.categoryRates : [];
+
+  return rawRates
+    .map((rate: any) => ({
+      categoryId: String(rate?.categoryId || ""),
+      commissionRate: Number(rate?.commissionRate || 0),
+      tcsRate: Number(rate?.tcsRate || 0),
+      updatedAt: rate?.updatedAt ? String(rate.updatedAt) : new Date(0).toISOString(),
+      updatedByAdminId: rate?.updatedByAdminId ? String(rate.updatedByAdminId) : null,
+    }))
+    .filter((rate: OperatorCategoryRate) => rate.categoryId);
+};
+
+const getOperatorAdminReview = (profile: { verificationDocuments?: unknown; verificationStatus?: string } | null | undefined) => {
+  const metadata = getOperatorMetadata(profile);
+  const rawReview = metadata.adminReview;
+
+  const review =
+    typeof rawReview === "object" && rawReview !== null
+      ? rawReview
+      : {};
+
+  return {
+    state:
+      typeof review.state === "string" &&
+      (OPERATOR_ADMIN_REVIEW_STATES as readonly string[]).includes(review.state)
+        ? (review.state as OperatorAdminReviewState)
+        : undefined,
+    requestChangesNote:
+      typeof review.requestChangesNote === "string" ? review.requestChangesNote : null,
+    requestChangesAt:
+      typeof review.requestChangesAt === "string" ? review.requestChangesAt : null,
+    requestChangesByAdminId:
+      typeof review.requestChangesByAdminId === "string"
+        ? review.requestChangesByAdminId
+        : null,
+    blockedReason:
+      typeof review.blockedReason === "string" ? review.blockedReason : null,
+    blockedAt: typeof review.blockedAt === "string" ? review.blockedAt : null,
+    blockedByAdminId:
+      typeof review.blockedByAdminId === "string" ? review.blockedByAdminId : null,
+    verifiedAt: typeof review.verifiedAt === "string" ? review.verifiedAt : null,
+    verifiedByAdminId:
+      typeof review.verifiedByAdminId === "string" ? review.verifiedByAdminId : null,
+  };
+};
+
+const getOperatorAdminStatus = (profile: { verificationDocuments?: unknown; verificationStatus?: string }) => {
+  const review = getOperatorAdminReview(profile);
+
+  if (profile.verificationStatus === "VERIFIED") {
+    return "VERIFIED" as OperatorAdminReviewState;
+  }
+
+  if (review.state === "CHANGES_REQUESTED") {
+    return "CHANGES_REQUESTED" as OperatorAdminReviewState;
+  }
+
+  if (review.state === "BLOCKED") {
+    return "BLOCKED" as OperatorAdminReviewState;
+  }
+
+  if (profile.verificationStatus === "REJECTED") {
+    return "REJECTED" as OperatorAdminReviewState;
+  }
+
+  return "PENDING" as OperatorAdminReviewState;
+};
+
+const buildVerificationDocuments = (
+  profile: { verificationDocuments?: unknown },
+  overrides: Record<string, unknown>
+) => {
+  const metadata = getOperatorMetadata(profile);
+  return {
+    ...metadata,
+    ...overrides,
+  };
+};
+
+const toValidPercentage = (value: unknown) => {
+  const numeric = Number(value);
+
+  if (!Number.isFinite(numeric) || numeric < 0 || numeric > 100) {
+    return null;
+  }
+
+  return Number(numeric.toFixed(2));
+};
+
+const normalizeOperatorListItem = (profile: any) => {
+  const adminReviewStatus = getOperatorAdminStatus(profile);
+  const adminReview = getOperatorAdminReview(profile);
+
+  return {
+    ...profile,
+    adminReviewStatus,
+    adminReview,
+  };
+};
+
 /**
  * Helper function to upload file to Cloudinary
  */
@@ -425,31 +551,32 @@ export const registerOperatorComplete = async (c: Context) => {
  * Get operator profile (ONLY for verified operators or admins)
  */
 export const getOperatorProfile = async (c: Context) => {
-  try {
-    const user = c.get("user");
-    const operatorId = c.req.param("operatorId") || user.userId;
+    try {
+      const user = c.get("user");
+      const operatorId = c.req.param("operatorId") || user.userId;
 
     // Check permissions
     if (user.userType === "operator" && operatorId !== user.userId) {
       return c.json({ error: "Can only view your own profile" }, 403);
     }
 
-    const operatorProfile = await prisma.operatorProfile.findUnique({
-      where: { operatorId: operatorId },
-      include: {
-        operator: {
-          select: {
-            id: true,
-            email: true,
-            phone: true,
-            firstName: true,
-            lastName: true,
-            isVerified: true,
-            isActive: true,
-            createdAt: true,
+      const operatorProfile = await prisma.operatorProfile.findUnique({
+        where: { operatorId: operatorId },
+        include: {
+          operator: {
+            select: {
+              id: true,
+              email: true,
+              phone: true,
+              firstName: true,
+              lastName: true,
+              isVerified: true,
+              isActive: true,
+              selectedCategoryIds: true,
+              createdAt: true,
+            },
           },
-        },
-        verifiedByAdmin: {
+          verifiedByAdmin: {
           select: {
             id: true,
             firstName: true,
@@ -474,18 +601,71 @@ export const getOperatorProfile = async (c: Context) => {
 
     // Hide sensitive bank details from operator view
     let profileData = { ...operatorProfile };
-    if (user.userType === "operator") {
-      profileData = {
-        ...profileData,
-        bankAccountDetails: null, // Hide bank details from operator
-      };
-    }
+      if (user.userType === "operator") {
+        profileData = {
+          ...profileData,
+          bankAccountDetails: null, // Hide bank details from operator
+        };
+      }
 
-    return c.json({
-      message: "Operator profile retrieved successfully",
-      operatorProfile: profileData,
-      businessAddress: businessAddress,
-    });
+      const selectedCategoryIds = Array.isArray(operatorProfile.operator?.selectedCategoryIds)
+        ? operatorProfile.operator.selectedCategoryIds
+        : [];
+
+      const selectedCategories = selectedCategoryIds.length
+        ? await prisma.category.findMany({
+            where: {
+              id: { in: selectedCategoryIds },
+            },
+            select: {
+              id: true,
+              categoryName: true,
+              categorySlug: true,
+              categoryIconUrl: true,
+              listingTypeId: true,
+              listingType: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+            orderBy: {
+              displayOrder: "asc",
+            },
+          })
+        : [];
+
+      const rawCategoryRates = getOperatorCategoryRates(operatorProfile);
+      const categoryRates = selectedCategories.map((category) => {
+        const existingRate = rawCategoryRates.find((rate) => rate.categoryId === category.id);
+
+        return {
+          categoryId: category.id,
+          categoryName: category.categoryName,
+          listingType: category.listingType,
+          commissionRate: existingRate?.commissionRate ?? null,
+          tcsRate: existingRate?.tcsRate ?? null,
+          updatedAt: existingRate?.updatedAt ?? null,
+          updatedByAdminId: existingRate?.updatedByAdminId ?? null,
+        };
+      });
+
+      const adminReviewStatus = getOperatorAdminStatus(operatorProfile);
+      const adminReview = getOperatorAdminReview(operatorProfile);
+      const normalizedProfile = {
+        ...profileData,
+        adminReviewStatus,
+        adminReview,
+        categoryRates,
+        selectedCategories,
+      };
+
+      return c.json({
+        message: "Operator profile retrieved successfully",
+        operatorProfile: normalizedProfile,
+        businessAddress: businessAddress,
+      });
   } catch (error) {
     console.error("Get operator profile error:", error);
     return c.json({ error: "Internal server error" }, 500);
@@ -495,18 +675,27 @@ export const getOperatorProfile = async (c: Context) => {
  * Get all operators (admin only) - with pagination and filters
  */
 export const getAllOperators = async (c: Context) => {
-  try {
-    const body = await c.req.json().catch(() => ({}));
+    try {
+      const body = await c.req.json().catch(() => ({}));
 
-    const page = body.page || 1;
-    const limit = Math.min(body.limit || 10, 100);
-    const offset = (page - 1) * limit;
+      const page = body.page || 1;
+      const limit = Math.min(body.limit || 10, 100);
+      const offset = (page - 1) * limit;
 
-    const where: any = {};
+      const where: any = {};
+      const requestedStatus = typeof body.verificationStatus === "string"
+        ? body.verificationStatus
+        : undefined;
 
-    if (body.verificationStatus) {
-      where.verificationStatus = body.verificationStatus;
-    }
+      if (requestedStatus === "VERIFIED") {
+        where.verificationStatus = "VERIFIED";
+      } else if (requestedStatus === "BLOCKED") {
+        where.verificationStatus = "REJECTED";
+      } else if (requestedStatus === "REJECTED") {
+        where.verificationStatus = "REJECTED";
+      } else if (requestedStatus === "PENDING" || requestedStatus === "CHANGES_REQUESTED") {
+        where.verificationStatus = "PENDING";
+      }
 
     if (body.search) {
       where.OR = [
@@ -516,8 +705,7 @@ export const getAllOperators = async (c: Context) => {
       ];
     }
 
-    const [operators, totalCount] = await Promise.all([
-      prisma.operatorProfile.findMany({
+      const operators = await prisma.operatorProfile.findMany({
         where,
         include: {
           operator: {
@@ -542,21 +730,41 @@ export const getAllOperators = async (c: Context) => {
           },
         },
         orderBy: { createdAt: "desc" },
-        take: limit,
-        skip: offset,
-      }),
-      prisma.operatorProfile.count({ where }),
-    ]);
+      });
 
-    const totalPages = Math.ceil(totalCount / limit);
+      const normalizedOperators = operators
+        .map(normalizeOperatorListItem)
+        .filter((profile) => {
+          if (requestedStatus === "PENDING") {
+            return profile.adminReviewStatus === "PENDING";
+          }
 
-    return c.json({
-      message: "Operators retrieved successfully",
-      data: {
-        operators,
-        pagination: {
-          currentPage: page,
-          totalPages,
+          if (requestedStatus === "CHANGES_REQUESTED") {
+            return profile.adminReviewStatus === "CHANGES_REQUESTED";
+          }
+
+          if (requestedStatus === "BLOCKED") {
+            return profile.adminReviewStatus === "BLOCKED";
+          }
+
+          if (requestedStatus === "REJECTED") {
+            return profile.adminReviewStatus === "REJECTED";
+          }
+
+          return true;
+        });
+
+      const totalCount = normalizedOperators.length;
+      const totalPages = Math.max(1, Math.ceil(totalCount / limit));
+      const paginatedOperators = normalizedOperators.slice(offset, offset + limit);
+
+      return c.json({
+        message: "Operators retrieved successfully",
+        data: {
+          operators: paginatedOperators,
+          pagination: {
+            currentPage: page,
+            totalPages,
           totalCount,
           limit,
           hasNextPage: page < totalPages,
@@ -578,27 +786,34 @@ export const getAllOperators = async (c: Context) => {
  * Verify/Reject operator (admin only)
  */
 export const verifyOperator = async (c: Context) => {
-  try {
-    const currentUser = c.get("user");
-    const operatorId = c.req.param("operatorId");
-    const body = await c.req.json();
+    try {
+      const currentUser = c.get("user");
+      const operatorId = c.req.param("operatorId");
+      const body = await c.req.json();
 
     if (!["admin", "super_admin"].includes(currentUser.userType)) {
       return c.json({ error: "Only admins can verify operators" }, 403);
     }
 
-    const { action, rejectionReason } = body;
+      const { action } = body;
+      const reviewNote = typeof body.note === "string"
+        ? body.note.trim()
+        : typeof body.rejectionReason === "string"
+          ? body.rejectionReason.trim()
+          : typeof body.requestChangesNote === "string"
+            ? body.requestChangesNote.trim()
+            : "";
 
-    if (!["verify", "reject"].includes(action)) {
-      return c.json(
-        { error: "Invalid action.  Must be 'verify' or 'reject'" },
-        400
-      );
-    }
+      if (!["verify", "reject", "request_changes", "block"].includes(action)) {
+        return c.json(
+          { error: "Invalid action. Must be 'verify', 'reject', 'request_changes', or 'block'" },
+          400
+        );
+      }
 
-    if (action === "reject" && !rejectionReason) {
-      return c.json({ error: "Rejection reason is required" }, 400);
-    }
+      if ((action === "reject" || action === "request_changes") && !reviewNote) {
+        return c.json({ error: "A note is required for this action" }, 400);
+      }
 
     const operatorProfile = await prisma.operatorProfile.findUnique({
       where: { operatorId: operatorId },
@@ -608,35 +823,270 @@ export const verifyOperator = async (c: Context) => {
       return c.json({ error: "Operator profile not found" }, 404);
     }
 
-    const result = await prisma.$transaction(async (tx) => {
-      const updatedProfile = await tx.operatorProfile.update({
-        where: { operatorId: operatorId },
+      const result = await prisma.$transaction(async (tx) => {
+        const currentMetadata = getOperatorMetadata(operatorProfile);
+        const currentReview = getOperatorAdminReview(operatorProfile);
+        const now = new Date();
+        const nowIso = now.toISOString();
+
+        let nextVerificationStatus: "PENDING" | "VERIFIED" | "REJECTED" = "PENDING";
+        let nextUserIsVerified = false;
+        let nextUserIsActive = true;
+        let nextRejectionReason: string | null = null;
+        let nextReviewState: OperatorAdminReviewState = "PENDING";
+
+        if (action === "verify") {
+          nextVerificationStatus = "VERIFIED";
+          nextUserIsVerified = true;
+          nextUserIsActive = true;
+          nextReviewState = "VERIFIED";
+        } else if (action === "request_changes") {
+          nextVerificationStatus = "PENDING";
+          nextUserIsVerified = false;
+          nextUserIsActive = true;
+          nextReviewState = "CHANGES_REQUESTED";
+        } else if (action === "block") {
+          nextVerificationStatus = "REJECTED";
+          nextUserIsVerified = false;
+          nextUserIsActive = false;
+          nextRejectionReason = reviewNote || "Seller blocked by admin";
+          nextReviewState = "BLOCKED";
+        } else {
+          nextVerificationStatus = "REJECTED";
+          nextUserIsVerified = false;
+          nextUserIsActive = false;
+          nextRejectionReason = reviewNote;
+          nextReviewState = "REJECTED";
+        }
+
+        const nextReview = {
+          ...currentReview,
+          state: nextReviewState,
+          requestChangesNote: action === "request_changes" ? reviewNote : null,
+          requestChangesAt: action === "request_changes" ? nowIso : null,
+          requestChangesByAdminId: action === "request_changes" ? currentUser.userId : null,
+          blockedReason: action === "block" ? nextRejectionReason : null,
+          blockedAt: action === "block" ? nowIso : null,
+          blockedByAdminId: action === "block" ? currentUser.userId : null,
+          verifiedAt: action === "verify" ? nowIso : currentReview.verifiedAt,
+          verifiedByAdminId: action === "verify" ? currentUser.userId : currentReview.verifiedByAdminId,
+        };
+
+        const updatedProfile = await tx.operatorProfile.update({
+          where: { operatorId: operatorId },
+          data: {
+            verificationStatus: nextVerificationStatus,
+            verifiedByAdminId: currentUser.userId,
+            verifiedAt: action === "verify" ? now : operatorProfile.verifiedAt,
+            rejectionReason: nextRejectionReason,
+            verificationDocuments: {
+              ...currentMetadata,
+              adminReview: nextReview,
+            },
+          },
+        });
+
+        await tx.user.update({
+          where: { id: operatorId },
+          data: {
+            isVerified: nextUserIsVerified,
+            isActive: nextUserIsActive,
+          },
+        });
+
+        return updatedProfile;
+      });
+
+      return c.json({
+        message:
+          action === "verify"
+            ? "Operator verified successfully"
+            : action === "request_changes"
+              ? "Change request sent successfully"
+              : action === "block"
+                ? "Seller blocked successfully"
+                : "Operator rejected successfully",
+        operatorProfile: normalizeOperatorListItem(result),
+      });
+    } catch (error) {
+      console.error("Verify operator error:", error);
+      return c.json({ error: "Internal server error" }, 500);
+    }
+  };
+
+/**
+ * Upsert operator category commission/TCS rates (admin only)
+ */
+export const upsertOperatorCategoryRate = async (c: Context) => {
+  try {
+    const currentUser = c.get("user");
+    const operatorId = c.req.param("operatorId");
+    const body = await c.req.json();
+
+    const categoryId = typeof body.categoryId === "string" ? body.categoryId : "";
+    const commissionRate = toValidPercentage(body.commissionRate);
+    const tcsRate = toValidPercentage(body.tcsRate);
+
+    if (!categoryId) {
+      return c.json({ error: "categoryId is required" }, 400);
+    }
+
+    if (commissionRate === null || tcsRate === null) {
+      return c.json({ error: "Commission rate and TCS rate must be between 0 and 100" }, 400);
+    }
+
+    const [operatorProfile, category] = await Promise.all([
+      prisma.operatorProfile.findUnique({
+        where: { operatorId },
+        include: {
+          operator: {
+            select: {
+              selectedCategoryIds: true,
+            },
+          },
+        },
+      }),
+      prisma.category.findUnique({
+        where: { id: categoryId },
+        select: {
+          id: true,
+          categoryName: true,
+          listingType: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      }),
+    ]);
+
+    if (!operatorProfile) {
+      return c.json({ error: "Operator profile not found" }, 404);
+    }
+
+    if (!category) {
+      return c.json({ error: "Category not found" }, 404);
+    }
+
+    const selectedCategoryIds = Array.isArray(operatorProfile.operator?.selectedCategoryIds)
+      ? operatorProfile.operator.selectedCategoryIds
+      : [];
+
+    if (!selectedCategoryIds.includes(categoryId)) {
+      return c.json({ error: "This category is not selected by the provider" }, 400);
+    }
+
+    const currentRates = getOperatorCategoryRates(operatorProfile);
+    const nowIso = new Date().toISOString();
+
+    const nextRates = [
+      ...currentRates.filter((rate) => rate.categoryId !== categoryId),
+      {
+        categoryId,
+        commissionRate,
+        tcsRate,
+        updatedAt: nowIso,
+        updatedByAdminId: currentUser.userId,
+      },
+    ].sort((left, right) => left.categoryId.localeCompare(right.categoryId));
+
+    await prisma.operatorProfile.update({
+      where: { operatorId },
+      data: {
+        verificationDocuments: buildVerificationDocuments(operatorProfile, {
+          categoryRates: nextRates,
+        }),
+      },
+    });
+
+    return c.json({
+      success: true,
+      message: "Category rate saved successfully",
+      data: {
+        categoryId,
+        categoryName: category.categoryName,
+        listingType: category.listingType,
+        commissionRate,
+        tcsRate,
+        updatedAt: nowIso,
+        updatedByAdminId: currentUser.userId,
+      },
+    });
+  } catch (error) {
+    console.error("Upsert operator category rate error:", error);
+    return c.json({ error: "Failed to save category rate" }, 500);
+  }
+};
+
+/**
+ * Delete operator category commission/TCS rates (admin only)
+ */
+export const deleteOperatorCategoryRate = async (c: Context) => {
+  try {
+    const operatorId = c.req.param("operatorId");
+    const categoryId = c.req.param("categoryId");
+
+    if (!operatorId || !categoryId) {
+      return c.json({ error: "operatorId and categoryId are required" }, 400);
+    }
+
+    const operatorProfile = await prisma.operatorProfile.findUnique({
+      where: { operatorId },
+      include: {
+        operator: {
+          select: {
+            selectedCategoryIds: true,
+          },
+        },
+      },
+    });
+
+    if (!operatorProfile) {
+      return c.json({ error: "Operator profile not found" }, 404);
+    }
+
+    const currentRates = getOperatorCategoryRates(operatorProfile);
+
+    if (!currentRates.some((rate) => rate.categoryId === categoryId)) {
+      return c.json({ error: "No saved rate found for this category" }, 404);
+    }
+
+    const nextRates = currentRates.filter((rate) => rate.categoryId !== categoryId);
+
+    const selectedCategoryIds = Array.isArray(operatorProfile.operator?.selectedCategoryIds)
+      ? operatorProfile.operator.selectedCategoryIds
+      : [];
+
+    await prisma.$transaction(async (tx) => {
+      await tx.operatorProfile.update({
+        where: { operatorId },
         data: {
-          verificationStatus: action === "verify" ? "VERIFIED" : "REJECTED",
-          verifiedByAdminId: currentUser.userId,
-          verifiedAt: new Date(),
-          rejectionReason: action === "reject" ? rejectionReason : null,
+          verificationDocuments: buildVerificationDocuments(operatorProfile, {
+            categoryRates: nextRates,
+          }),
         },
       });
 
       await tx.user.update({
         where: { id: operatorId },
         data: {
-          isVerified: action === "verify",
-          isActive: action === "verify",
+          selectedCategoryIds: selectedCategoryIds.filter((id) => id !== categoryId),
         },
       });
-
-      return updatedProfile;
     });
 
     return c.json({
-      message: `Operator ${action === "verify" ? "verified" : "rejected"} successfully`,
-      operatorProfile: result,
+      success: true,
+      message: "Seller category deleted successfully",
+      data: {
+        operatorId,
+        categoryId,
+      },
     });
   } catch (error) {
-    console.error("Verify operator error:", error);
-    return c.json({ error: "Internal server error" }, 500);
+    console.error("Delete operator category rate error:", error);
+    return c.json({ error: "Failed to delete category rate" }, 500);
   }
 };
 

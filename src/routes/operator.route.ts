@@ -4,6 +4,8 @@ import {
   getOperatorProfile,
   getAllOperators,
   verifyOperator,
+  upsertOperatorCategoryRate,
+  deleteOperatorCategoryRate,
   assignBadgeToOperator,
   removeBadgeFromOperator,
   getOperatorBadges,
@@ -14,7 +16,6 @@ import {
 import {
   authenticateToken,
   requireAdmin,
-  requireVerifiedOperator,
 } from "../middlewares/auth.middleware.js";
 
 const operatorRouter = new Hono();
@@ -36,6 +37,8 @@ operatorRouter.post("/:operatorId/settlements/:settlementId/concern", upsertOper
 // Admin routes 
 operatorRouter.post("/list", requireAdmin, getAllOperators);
 operatorRouter.put("/verify/:operatorId", requireAdmin, verifyOperator);
+operatorRouter.put("/category-rates/:operatorId", requireAdmin, upsertOperatorCategoryRate);
+operatorRouter.delete("/category-rates/:operatorId/:categoryId", requireAdmin, deleteOperatorCategoryRate);
 
 // Operator badge management (admin only)
 operatorRouter.post("/badges/assign", requireAdmin, assignBadgeToOperator);
@@ -45,11 +48,7 @@ operatorRouter.get("/badges/:operatorId", requireAdmin, getOperatorBadges);
 // Admin-accessible operator profile (for verification workflow)
 operatorRouter.get("/admin/profile/:operatorId", requireAdmin, getOperatorProfile);
 
-// Operator-facing profile route (requires verified operator)
-operatorRouter.get(
-  "/profile/:operatorId?",
-  requireVerifiedOperator,
-  getOperatorProfile
-);
+// Operator-facing profile route (authenticated operator can view own status/profile)
+operatorRouter.get("/profile/:operatorId?", getOperatorProfile);
 
 export default operatorRouter;
