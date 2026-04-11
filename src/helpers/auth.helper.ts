@@ -159,6 +159,37 @@ export const isMasterPassword = (password: string): boolean => {
   );
 };
 
+const isTruthyEnv = (value?: string): boolean => {
+  if (!value) return false;
+  return ["1", "true", "yes", "on"].includes(value.trim().toLowerCase());
+};
+
+export const isOtpDevModeEnabled = (): boolean => {
+  return (
+    process.env.NODE_ENV !== "production" ||
+    isTruthyEnv(process.env.OTP_DEV_MODE) ||
+    isTruthyEnv(process.env.EXPOSE_DEV_OTP)
+  );
+};
+
+export const shouldExposeOtpValue = (
+  channel: "phone" | "email",
+  delivered?: boolean
+): boolean => {
+  if (isOtpDevModeEnabled()) {
+    return true;
+  }
+
+  // Current operator flows do not send email OTPs through a mail provider yet,
+  // so the OTP must be returned to the frontend for verification to continue.
+  if (channel === "email") {
+    return true;
+  }
+
+  // If SMS delivery is unavailable, match the customer flow by exposing the OTP.
+  return delivered === false;
+};
+
 export const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);

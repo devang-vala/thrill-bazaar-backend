@@ -17,6 +17,7 @@ import {
   isValidAdminType,
   formatUserResponse,
   calculateOtpExpiry,
+  shouldExposeOtpValue,
 } from "../helpers/auth.helper.js";
 import {
   validateCustomerRegistration,
@@ -645,7 +646,6 @@ export const requestOperatorOtp = async (c: Context) => {
     });
 
     const smsSent = await sendOtpSMS(phone, phoneOtp);
-    const devMode = process.env.NODE_ENV !== "production";
 
     const existingOperators = await prisma.user.count({
       where: {
@@ -657,8 +657,8 @@ export const requestOperatorOtp = async (c: Context) => {
     return c.json({
       message: "OTP generated successfully",
       expiresIn: "5 minutes",
-      phoneOtp: devMode ? phoneOtp : smsSent ? undefined : phoneOtp,
-      emailOtp: devMode ? emailOtp : emailOtp,
+      phoneOtp: shouldExposeOtpValue("phone", smsSent) ? phoneOtp : undefined,
+      emailOtp: shouldExposeOtpValue("email", false) ? emailOtp : undefined,
       existingAccounts: existingOperators,
     });
   } catch (error) {
@@ -1598,11 +1598,10 @@ export const operatorLogin = async (c: Context) => {
         },
       });
 
+      let smsSent = false;
       if (otpTarget === "phone") {
-        await sendOtpSMS(phone, otp);
+        smsSent = await sendOtpSMS(phone, otp);
       }
-
-      const devMode = process.env.NODE_ENV !== "production";
 
       return c.json(
         {
@@ -1611,7 +1610,9 @@ export const operatorLogin = async (c: Context) => {
           otpSentTo: otpTarget,
           email,
           phone,
-          devOtp: devMode ? otp : undefined,
+          devOtp: shouldExposeOtpValue(otpTarget, otpTarget === "phone" ? smsSent : false)
+            ? otp
+            : undefined,
         },
         200
       );
@@ -1805,11 +1806,10 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
           },
         });
 
+        let smsSent = false;
         if (otpTarget === "phone") {
-          await sendOtpSMS(phone!, otp);
+          smsSent = await sendOtpSMS(phone!, otp);
         } // Email sending omitted per current system patterns
-
-        const devMode = process.env.NODE_ENV !== "production";
 
         return c.json(
           {
@@ -1818,7 +1818,9 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
             otpSentTo: otpTarget,
             email: user.email,
             phone: user.phone,
-            devOtp: devMode ? otp : undefined,
+            devOtp: shouldExposeOtpValue(otpTarget, otpTarget === "phone" ? smsSent : false)
+              ? otp
+              : undefined,
           },
           200
         );
@@ -1868,11 +1870,10 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
         },
       });
 
+      let smsSent = false;
       if (otpTarget === "phone") {
-        await sendOtpSMS(phone, otp);
+        smsSent = await sendOtpSMS(phone, otp);
       }
-
-      const devMode = process.env.NODE_ENV !== "production";
 
       return c.json(
         {
@@ -1881,7 +1882,9 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
           otpSentTo: otpTarget,
           email,
           phone,
-          devOtp: devMode ? otp : undefined,
+          devOtp: shouldExposeOtpValue(otpTarget, otpTarget === "phone" ? smsSent : false)
+            ? otp
+            : undefined,
         },
         200
       );
