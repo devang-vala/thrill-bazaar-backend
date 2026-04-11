@@ -108,13 +108,13 @@ export const uploadImages = async (c: Context) => {
 
     // Validate file types and sizes
     const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-    const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+    const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     
     for (const file of fileArray) {
       if (!ALLOWED_TYPES.includes(file.type)) {
         console.error(`❌ Invalid file type: ${file.type} for ${file.name}`);
         return c.json({ 
-          error: `Invalid file type for ${file.name}. Allowed types: JPEG, PNG, WebP, GIF` 
+          error: `Invalid file type for ${file.name}. Allowed types: JPEG, PNG, WebP, GIF, PDF, DOC, DOCX` 
         }, 400);
       }
       
@@ -135,16 +135,19 @@ export const uploadImages = async (c: Context) => {
         // Convert File to Buffer
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
+        const isImage = file.type.startsWith('image/');
 
         // Upload to Cloudinary
         const result = await new Promise<any>((resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
             {
-              folder: "thrill-bazaar/reviews",
+              folder: "thrill-bazaar/uploads",
               resource_type: "auto",
-              transformation: [
-                { width: 1500, height: 1500, crop: "limit", quality: "auto:good" }
-              ],
+              ...(isImage ? {
+                transformation: [
+                  { width: 1500, height: 1500, crop: "limit", quality: "auto:good" }
+                ],
+              } : {}),
             },
             (error, result) => {
               if (error) {

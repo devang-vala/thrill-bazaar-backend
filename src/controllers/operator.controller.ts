@@ -357,16 +357,8 @@ export const registerOperatorComplete = async (c: Context) => {
       }
     }
 
-    // Validate that at least PAN and Business License are uploaded
-    const hasPan = documentFiles.some(d => d.key === "pan_document");
-    const hasBusinessLicense = documentFiles.some(d => d.key === "business_license");
-
-    if (!hasPan || !hasBusinessLicense) {
-      return c.json(
-        { error: "PAN document and Business License are required" },
-        400
-      );
-    }
+    // PAN and Business License are optional - the current onboarding UI
+    // only collects Bank Details and Certifications on Step 2.
 
     // Hash password (may be skipped when continuing onboarding)
     const hashedPassword = registrationData.password
@@ -411,15 +403,10 @@ export const registerOperatorComplete = async (c: Context) => {
       }
     }
 
-    // Parse selected category IDs
-    let selectedCategoryIds: string[] = [];
-    if (registrationData.selectedCategoryIds) {
-      try {
-        selectedCategoryIds = JSON.parse(registrationData.selectedCategoryIds);
-      } catch (e) {
-        console.error("Error parsing selectedCategoryIds:", e);
-      }
-    }
+    // selectedCategoryIds is already parsed during registrationData extraction (line ~280)
+    const selectedCategoryIds: string[] = Array.isArray(registrationData.selectedCategoryIds)
+      ? registrationData.selectedCategoryIds
+      : [];
 
     // Prepare bank account details (will be encrypted in production)
     const bankAccountDetails = {
@@ -599,14 +586,8 @@ export const getOperatorProfile = async (c: Context) => {
       },
     });
 
-    // Hide sensitive bank details from operator view
+    // Allow operators to see their own bank details for profile page
     let profileData = { ...operatorProfile };
-      if (user.userType === "operator") {
-        profileData = {
-          ...profileData,
-          bankAccountDetails: null, // Hide bank details from operator
-        };
-      }
 
       const selectedCategoryIds = Array.isArray(operatorProfile.operator?.selectedCategoryIds)
         ? operatorProfile.operator.selectedCategoryIds
@@ -671,6 +652,123 @@ export const getOperatorProfile = async (c: Context) => {
     return c.json({ error: "Internal server error" }, 500);
   }
 };
+
+/**
+ * Update operator profile (operator-facing self-service)
+ * Allows operators to update business address, bank details, and GSTIN.
+ * Resets verification status to PENDING on any edit so admin can re-review.
+ */
+export const updateOperatorProfile = async (c: Context) => {
+  try {
+    const user = c.get("user");
+
+    if (user.userType !== "operator") {
+      return c.json({ error: "Only operators can update their own profile" }, 403);
+    }
+
+    const operatorId = user.userId;
+    const body = await c.req.json();
+
+    const operatorProfile = await prisma.operatorProfile.findUnique({
+      where: { operatorId },
+    });
+
+    if (!operatorProfile) {
+      return c.json({ error: "Operator profile not found" }, 404);
+    }
+
+    const currentMetadata = getOperatorMetadata(operatorProfile);
+    const currentReview = getOperatorAdminReview(operatorProfile);
+
+    await prisma.$transaction(async (tx) => {
+      // Update business address if provided
+      if (body.businessAddress) {
+        const addr = body.businessAddress;
+        await tx.userAddress.updateMany({
+          where: { userId: operatorId, addressType: "BILLING" },
+          data: {
+            fullAddress: addr.fullAddress ?? undefined,
+            city: addr.city ?? undefined,
+            state: addr.state ?? undefined,
+            postalCode: addr.postalCode ?? undefined,
+          },
+        });
+      }
+
+      // Update bank details if provided
+      if (body.bankAccountDetails) {
+        const bank = body.bankAccountDetails;
+        await tx.operatorProfile.update({
+          where: { operatorId },
+          data: {
+            bankAccountDetails: {
+              accountNumber: bank.accountNumber ?? (operatorProfile.bankAccountDetails as any)?.accountNumber,
+              ifscCode: bank.ifscCode ?? (operatorProfile.bankAccountDetails as any)?.ifscCode,
+              branchName: bank.branchName ?? (operatorProfile.bankAccountDetails as any)?.branchName,
+              accountHolderName: bank.accountHolderName ?? (operatorProfile.bankAccountDetails as any)?.accountHolderName,
+            },
+          },
+        });
+      }
+
+      // Update GSTIN if provided
+      if (body.gstinNumber !== undefined) {
+        await tx.operatorProfile.update({
+          where: { operatorId },
+          data: { taxId: body.gstinNumber || null },
+        });
+      }
+
+      // Update selected category IDs if provided
+      if (Array.isArray(body.selectedCategoryIds)) {
+        await tx.user.update({
+          where: { id: operatorId },
+          data: { selectedCategoryIds: body.selectedCategoryIds },
+        });
+      }
+
+      // Update certifications if provided
+      let updatedMetadata = { ...currentMetadata };
+      if (Array.isArray(body.certifications)) {
+        updatedMetadata = {
+          ...updatedMetadata,
+          certifications: body.certifications,
+        };
+      }
+
+      // Reset verification status to PENDING for admin re-review
+      const nextReview = {
+        ...currentReview,
+        state: "PENDING" as OperatorAdminReviewState,
+        requestChangesNote: null,
+        requestChangesAt: null,
+        requestChangesByAdminId: null,
+      };
+
+      await tx.operatorProfile.update({
+        where: { operatorId },
+        data: {
+          verificationStatus: "PENDING",
+          verificationDocuments: {
+            ...updatedMetadata,
+            adminReview: nextReview,
+          },
+        },
+      });
+
+      await tx.user.update({
+        where: { id: operatorId },
+        data: { isVerified: false },
+      });
+    });
+
+    return c.json({ message: "Profile updated successfully. Your profile will be re-verified by admin." });
+  } catch (error) {
+    console.error("Update operator profile error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
 /**
  * Get all operators (admin only) - with pagination and filters
  */

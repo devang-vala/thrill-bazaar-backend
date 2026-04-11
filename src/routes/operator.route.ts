@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import {
   registerOperatorComplete,
   getOperatorProfile,
+  updateOperatorProfile,
   getAllOperators,
   verifyOperator,
   upsertOperatorCategoryRate,
@@ -50,5 +51,8 @@ operatorRouter.get("/admin/profile/:operatorId", requireAdmin, getOperatorProfil
 
 // Operator-facing profile route (authenticated operator can view own status/profile)
 operatorRouter.get("/profile/:operatorId?", getOperatorProfile);
+
+// Operator self-service profile update
+operatorRouter.put("/profile", updateOperatorProfile);
 
 export default operatorRouter;

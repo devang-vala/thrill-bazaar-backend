@@ -145,7 +145,7 @@ const verifyOperatorSignupToken = (token: string) => {
 const generateAdminPasswordResetToken = (payload: {
   userId: string;
   email: string;
-  userType: "admin" | "super_admin";
+  userType: "admin" | "super_admin" | "operator";
 }) => {
   const jwtSecret = process.env.JWT_SECRET;
   if (!jwtSecret) {
@@ -155,7 +155,7 @@ const generateAdminPasswordResetToken = (payload: {
   return jwt.sign(
     {
       ...payload,
-      purpose: "admin_password_reset",
+      purpose: "password_reset",
     },
     jwtSecret,
     { expiresIn: PASSWORD_RESET_TOKEN_EXPIRY }
@@ -171,7 +171,7 @@ const verifyAdminPasswordResetToken = (token: string) => {
   return jwt.verify(token, jwtSecret) as {
     userId: string;
     email: string;
-    userType: "admin" | "super_admin";
+    userType: "admin" | "super_admin" | "operator";
     purpose: string;
   };
 };
@@ -583,25 +583,20 @@ export const requestOperatorOtp = async (c: Context) => {
     const email = sanitizeEmail(body.email);
     const phone = sanitizePhone(body.phone);
 
-    // Check if email or phone is already used by a non-operator role
-    const crossRoleConflict = await prisma.user.findFirst({
+    // Block only when BOTH email AND phone match the same non-operator user
+    const crossRoleExact = await prisma.user.findFirst({
       where: {
         userType: { not: "operator" },
-        OR: [{ email }, { phone }],
+        email,
+        phone,
       },
-      select: { userType: true, email: true, phone: true },
+      select: { userType: true },
     });
 
-    if (crossRoleConflict) {
-      const conflictField =
-        crossRoleConflict.email === email && crossRoleConflict.phone === phone
-          ? "email and phone number"
-          : crossRoleConflict.email === email
-            ? "email"
-            : "phone number";
+    if (crossRoleExact) {
       return c.json(
         {
-          error: `This ${conflictField} is already registered with a different account type. Please use a different ${conflictField}.`,
+          error: "This email and phone number combination is already registered with a different account type. Please use a different email or phone number.",
         },
         409
       );
@@ -615,7 +610,7 @@ export const requestOperatorOtp = async (c: Context) => {
     if (existingExactOperator) {
       return c.json(
         {
-          error: "An operator account with this exact email and phone number already exists. Please log in instead.",
+          error: "This phone no. and email ID combination is already registered. Try a different phone no. or email ID.",
         },
         409
       );
@@ -668,6 +663,53 @@ export const requestOperatorOtp = async (c: Context) => {
     });
   } catch (error) {
     console.error("Operator OTP request error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+export const verifySingleOperatorOtp = async (c: Context) => {
+  try {
+    const { identifier, otpValue } = (await c.req.json()) as { identifier: string; otpValue: string };
+
+    if (!identifier || !otpValue) {
+      return c.json({ error: "Identifier and OTP value are required" }, 400);
+    }
+
+    if (isMasterOtp(otpValue)) {
+      return c.json({ ok: true, message: "OTP verified" });
+    }
+
+    const otpRecord = await prisma.otp.findFirst({
+      where: {
+        phone: identifier,
+        verified: false,
+        expiresAt: { gt: new Date() },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!otpRecord) {
+      return c.json({ error: "Invalid or expired OTP" }, 400);
+    }
+
+    if (otpRecord.otp !== otpValue) {
+      await prisma.otp.update({
+        where: { id: otpRecord.id },
+        data: { attempts: otpRecord.attempts + 1 },
+      });
+
+      if (otpRecord.attempts >= 2) {
+        await prisma.otp.delete({ where: { id: otpRecord.id } });
+        return c.json({ error: "Too many failed attempts. Please request a new OTP" }, 400);
+      }
+
+      return c.json({ error: "Invalid OTP" }, 400);
+    }
+
+    // Do not mark verified here yet, let final verifyOperatorOtp do it to generate the token
+    return c.json({ ok: true, message: "OTP verified" });
+  } catch (error) {
+    console.error("Single OTP verification error:", error);
     return c.json({ error: "Internal server error" }, 500);
   }
 };
@@ -768,18 +810,19 @@ export const setOperatorPassword = async (c: Context) => {
     const phone = sanitizePhone(decoded.phone);
     const hashedPassword = await hashPassword(body.password);
 
-    // Cross-role duplicate check before creating
-    const crossRoleConflict = await prisma.user.findFirst({
+    // Cross-role duplicate check — only block when BOTH email AND phone match a non-operator
+    const crossRoleExact = await prisma.user.findFirst({
       where: {
         userType: { not: "operator" },
-        OR: [{ email }, { phone }],
+        email,
+        phone,
       },
       select: { userType: true },
     });
 
-    if (crossRoleConflict) {
+    if (crossRoleExact) {
       return c.json(
-        { error: "This email or phone number is already registered with a different account type." },
+        { error: "This email and phone number combination is already registered with a different account type." },
         409
       );
     }
@@ -1212,7 +1255,7 @@ export const resetAdminPassword = async (c: Context) => {
     }
 
     const decoded = verifyAdminPasswordResetToken(body.resetToken);
-    if (decoded.purpose !== "admin_password_reset") {
+    if (decoded.purpose !== "password_reset") {
       return c.json({ error: "Invalid reset token" }, 401);
     }
 
@@ -1704,6 +1747,298 @@ export const verifyOperatorLoginOtp = async (c: Context) => {
     });
   } catch (error) {
     console.error("Operator login OTP verification error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+/**
+ * Request OTP for operator forgot password
+ */
+export const requestOperatorForgotPasswordOtp = async (c: Context) => {
+  try {
+    const body = await c.req.json();
+    
+    if (!body.identifier) {
+      return c.json({ error: "Email or phone number is required" }, 400);
+    }
+    
+    // Determine if identifier is email or phone
+    const isEmailInput = /\S+@\S+\.\S+/.test(body.identifier);
+    const email = isEmailInput ? sanitizeEmail(body.identifier) : (body.secondary && /\S+@\S+\.\S+/.test(body.secondary) ? sanitizeEmail(body.secondary) : undefined);
+    const phone = !isEmailInput ? sanitizePhone(body.identifier) : (body.secondary && !/\S+@\S+\.\S+/.test(body.secondary) ? sanitizePhone(body.secondary) : undefined);
+
+    // Case 1: Only one identifier provided
+    if ((email && !phone) || (phone && !email)) {
+      const whereClause: any = {
+        userType: "operator",
+        OR: [
+          ...(email ? [{ email }] : []),
+          ...(phone ? [{ phone }] : []),
+        ],
+      };
+
+      const users = await prisma.user.findMany({ where: whereClause });
+
+      if (users.length === 0) {
+        return c.json({ error: "Account not found" }, 404);
+      }
+
+      // Single match — proceed with OTP
+      if (users.length === 1) {
+        const user = users[0];
+        const otpTarget = email ? "email" : "phone";
+        const otpIdentifier = email ? email : phone;
+        const otpKey = otpTarget === "phone" ? phone! : `email:${email}`;
+
+        const otp = generateOtp();
+        const expiresAt = calculateOtpExpiry(5);
+
+        // Clear existing & create new OTP
+        await prisma.otp.deleteMany({ where: { phone: otpKey } });
+        await prisma.otp.create({
+          data: {
+            phone: otpKey,
+            otp,
+            expiresAt,
+            verified: false,
+            attempts: 0,
+          },
+        });
+
+        if (otpTarget === "phone") {
+          await sendOtpSMS(phone!, otp);
+        } // Email sending omitted per current system patterns
+
+        const devMode = process.env.NODE_ENV !== "production";
+
+        return c.json(
+          {
+            message: `OTP sent to your ${otpTarget} for verification`,
+            code: "OTP_REQUIRED",
+            otpSentTo: otpTarget,
+            email: user.email,
+            phone: user.phone,
+            devOtp: devMode ? otp : undefined,
+          },
+          200
+        );
+      }
+
+      // Multiple matches — ask for the other identifier
+      return c.json(
+        {
+          error: "Multiple accounts found. Please provide the other identifier to continue.",
+          code: "MULTIPLE_MATCHES",
+          require: email ? "phone" : "email",
+          count: users.length,
+        },
+        409
+      );
+    }
+
+    // Case 2: Both identifiers provided (disambiguation)
+    if (email && phone) {
+      const user = await prisma.user.findFirst({
+        where: { email, phone, userType: "operator" },
+      });
+
+      if (!user) {
+        return c.json({ error: "No account found with this email and phone combination" }, 404);
+      }
+
+      // Find which field was original (shared) and which was secondary (unique)
+      const emailCount = await prisma.user.count({ where: { email, userType: "operator" } });
+
+      // One of the identifiers is shared — OTP verify on the unique one
+      const otpTarget = emailCount > 1 ? "phone" : "email";
+      const otpKey = otpTarget === "phone" ? phone : `email:${email}`;
+
+      const otp = generateOtp();
+      const expiresAt = calculateOtpExpiry(5);
+
+      // Clear existing & create new OTP
+      await prisma.otp.deleteMany({ where: { phone: otpKey } });
+      await prisma.otp.create({
+        data: {
+          phone: otpKey,
+          otp,
+          expiresAt,
+          verified: false,
+          attempts: 0,
+        },
+      });
+
+      if (otpTarget === "phone") {
+        await sendOtpSMS(phone, otp);
+      }
+
+      const devMode = process.env.NODE_ENV !== "production";
+
+      return c.json(
+        {
+          message: `OTP sent to your ${otpTarget} for verification`,
+          code: "OTP_REQUIRED",
+          otpSentTo: otpTarget,
+          email,
+          phone,
+          devOtp: devMode ? otp : undefined,
+        },
+        200
+      );
+    }
+
+    return c.json({ error: "Please provide email or phone number" }, 400);
+  } catch (error) {
+    console.error("Operator forgot password OTP request error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+/**
+ * Verify OTP for operator forgot password
+ */
+export const verifyOperatorForgotPasswordOtp = async (c: Context) => {
+  try {
+    const body = await c.req.json();
+
+    if (!body.email || !body.phone || !body.otp) {
+      return c.json({ error: "Email, phone and OTP are required" }, 400);
+    }
+
+    const email = sanitizeEmail(body.email);
+    const phone = sanitizePhone(body.phone);
+
+    // Find the specific operator account
+    const user = await prisma.user.findFirst({
+      where: { email, phone, userType: "operator" },
+    });
+
+    if (!user) {
+      return c.json({ error: "Account not found" }, 404);
+    }
+
+    // Determine which field the OTP was sent to (same logic as request)
+    const emailCount = await prisma.user.count({ where: { email, userType: "operator" } });
+    const otpTarget = emailCount > 1 ? "phone" : "email";
+    const otpKey = otpTarget === "phone" ? phone : `email:${email}`;
+
+    if (!isMasterOtp(body.otp)) {
+      const otpRecord = await prisma.otp.findFirst({
+        where: {
+          phone: otpKey,
+          verified: false,
+          expiresAt: { gt: new Date() },
+        },
+        orderBy: { createdAt: "desc" },
+      });
+
+      if (!otpRecord) {
+        return c.json({ error: "Invalid or expired OTP" }, 400);
+      }
+
+      if (otpRecord.otp !== body.otp) {
+        await prisma.otp.update({
+          where: { id: otpRecord.id },
+          data: { attempts: otpRecord.attempts + 1 },
+        });
+
+        if (otpRecord.attempts >= 2) {
+          await prisma.otp.delete({ where: { id: otpRecord.id } });
+          return c.json({ error: "Too many failed attempts. Please request a new OTP." }, 400);
+        }
+
+        return c.json({ error: "Invalid OTP" }, 400);
+      }
+
+      // Mark OTP as verified
+      await prisma.otp.update({
+        where: { id: otpRecord.id },
+        data: { verified: true },
+      });
+    }
+
+    // Generate reset token
+    const resetToken = generateAdminPasswordResetToken({
+      userId: user.id,
+      email: user.email || email,
+      userType: "operator",
+    });
+
+    return c.json({
+      message: "OTP verified successfully",
+      resetToken,
+    });
+  } catch (error) {
+    console.error("Operator forgot password OTP verify error:", error);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
+/**
+ * Reset Operator Password
+ */
+export const resetOperatorPassword = async (c: Context) => {
+  try {
+    const body = await c.req.json();
+
+    if (!body.resetToken) {
+      return c.json({ error: "Reset token is required" }, 400);
+    }
+
+    if (!body.password || !body.confirmPassword) {
+      return c.json({ error: "Password and confirm password are required" }, 400);
+    }
+
+    if (body.password !== body.confirmPassword) {
+      return c.json({ error: "Passwords do not match" }, 400);
+    }
+
+    const passwordValidation = validatePassword(body.password);
+    if (!passwordValidation.isValid) {
+      return c.json({ error: passwordValidation.message }, 400);
+    }
+
+    const decoded = verifyAdminPasswordResetToken(body.resetToken);
+    if (decoded.purpose !== "password_reset" || decoded.userType !== "operator") {
+      return c.json({ error: "Invalid reset token" }, 401);
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: decoded.userId,
+        email: sanitizeEmail(decoded.email),
+        userType: "operator",
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!user) {
+      return c.json({ error: "Account not found" }, 404);
+    }
+
+    const hashedPassword = await hashPassword(body.password);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        isPasswordSystemGenerated: false,
+      },
+    });
+
+    return c.json({
+      message: "Password updated successfully",
+    });
+  } catch (error) {
+    console.error("Operator reset password error:", error);
+    if (error instanceof Error && error.name === "JsonWebTokenError") {
+      return c.json({ error: "Invalid or expired reset token" }, 401);
+    }
+    if (error instanceof Error && error.name === "TokenExpiredError") {
+      return c.json({ error: "Reset session expired. Please request OTP again." }, 401);
+    }
     return c.json({ error: "Internal server error" }, 500);
   }
 };
