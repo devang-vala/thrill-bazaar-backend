@@ -1,4 +1,5 @@
 import type { Context } from "hono";
+import type { BookingOptionApprovalStatus } from "../../prisma/src/generated/prisma/client.js";
 import { prisma, withPrismaRetry } from "../db.js";
 import { sanitizeString } from "../helpers/validation.helper.js";
 
@@ -8,7 +9,7 @@ const UUID_REGEX =
 const isUuid = (value: unknown): value is string =>
   typeof value === "string" && UUID_REGEX.test(value.trim());
 
-const getNewVariantApprovalStatus = () => "pending_approval";
+const getNewVariantApprovalStatus = (): BookingOptionApprovalStatus => "pending_approval";
 
 const normalizeComparableVariantPayload = (variant: any, index: number) => {
   const validParticipantNumbers = Array.isArray(variant?.validParticipantNumbers)
