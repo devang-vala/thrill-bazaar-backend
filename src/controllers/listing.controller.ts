@@ -254,6 +254,7 @@ export const getListings = async (c: Context) => {
 
     // Get category and seller filter parameters
     const categories = c.req.query("categories"); // comma-separated category IDs
+    const subcategories = c.req.query("subcategories"); // comma-separated sub-category IDs
     const sellers = c.req.query("sellers"); // comma-separated operator/seller IDs
 
     // Get format filter parameters
@@ -328,6 +329,13 @@ export const getListings = async (c: Context) => {
       }
     }
 
+    if (subcategories) {
+      const subCategoryIds = subcategories.split(",").filter(Boolean);
+      if (subCategoryIds.length > 0) {
+        whereClause.subCatId = { in: subCategoryIds };
+      }
+    }
+
     // Add seller/operator filter (sellerIds already parsed above)
     if (sellerIds.length > 0) {
       whereClause.operatorId = { in: sellerIds };
@@ -369,6 +377,11 @@ export const getListings = async (c: Context) => {
         {
           category: {
             categoryName: { contains: searchTerm, mode: "insensitive" },
+          },
+        },
+        {
+          subCategory: {
+            subCatName: { contains: searchTerm, mode: "insensitive" },
           },
         },
         {
@@ -827,6 +840,12 @@ export const getListings = async (c: Context) => {
             select: {
               id: true,
               categoryName: true,
+            },
+          },
+          subCategory: {
+            select: {
+              id: true,
+              subCatName: true,
             },
           },
           operator: {

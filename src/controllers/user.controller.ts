@@ -1310,15 +1310,40 @@ export const getOperatorsForFilter = async (c: Context) => {
         firstName: true,
         lastName: true,
         email: true,
-      },
-      orderBy: {
-        firstName: "asc",
+        operatorProfile: {
+          select: {
+            companyName: true,
+          },
+        },
       },
     });
 
+    const normalizedOperators = operators
+      .map((operator) => {
+        const fullName = [operator.firstName, operator.lastName]
+          .filter(Boolean)
+          .join(" ")
+          .trim();
+        const displayName =
+          operator.operatorProfile?.companyName?.trim() ||
+          fullName ||
+          operator.email?.trim() ||
+          `Operator ${operator.id.slice(0, 8)}`;
+
+        return {
+          id: operator.id,
+          firstName: operator.firstName,
+          lastName: operator.lastName,
+          email: operator.email,
+          companyName: operator.operatorProfile?.companyName || null,
+          displayName,
+        };
+      })
+      .sort((a, b) => a.displayName.localeCompare(b.displayName));
+
     return c.json({
       success: true,
-      data: operators,
+      data: normalizedOperators,
     });
   } catch (error) {
     console.error("Get operators for filter error:", error);
