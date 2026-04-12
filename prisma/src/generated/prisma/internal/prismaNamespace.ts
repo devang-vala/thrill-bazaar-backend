@@ -3679,7 +3679,8 @@ export const ListingVariantScalarFieldEnum = {
   updatedAt: 'updatedAt',
   variantDescription: 'variantDescription',
   variantMetadata: 'variantMetadata',
-  validParticipantNumbers: 'validParticipantNumbers'
+  validParticipantNumbers: 'validParticipantNumbers',
+  approvalStatus: 'approvalStatus'
 } as const
 
 export type ListingVariantScalarFieldEnum = (typeof ListingVariantScalarFieldEnum)[keyof typeof ListingVariantScalarFieldEnum]
@@ -4212,6 +4213,20 @@ export type EnumTriggerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'TriggerType[]'
  */
 export type ListEnumTriggerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TriggerType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BookingOptionApprovalStatus'
+ */
+export type EnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingOptionApprovalStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'BookingOptionApprovalStatus[]'
+ */
+export type ListEnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingOptionApprovalStatus[]'>
     
 
 

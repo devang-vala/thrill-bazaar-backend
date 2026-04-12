@@ -7,7 +7,7 @@ export interface CreateReviewInput {
   customerId: string;
   operatorId: string;
   rating: number;
-  reviewTitle: string;
+  reviewTitle?: string;
   reviewText: string;
   reviewImages?: string[];
 }
@@ -64,6 +64,27 @@ export const validateReviewText = (text: string): boolean => {
   return text.length >= 10; // Minimum 10 characters for meaningful review
 };
 
+const buildReviewTitle = (reviewText: string, rating: number): string => {
+  const cleanedText = reviewText.replace(/\s+/g, " ").trim();
+
+  if (cleanedText) {
+    const normalized = cleanedText.endsWith(".")
+      ? cleanedText.slice(0, -1)
+      : cleanedText;
+    return normalized.slice(0, 200);
+  }
+
+  const labels = {
+    1: "Poor experience",
+    2: "Fair experience",
+    3: "Good experience",
+    4: "Very good experience",
+    5: "Excellent experience",
+  } as const;
+
+  return labels[rating as keyof typeof labels] || "Customer review";
+};
+
 // ===== Helper Functions =====
 
 /**
@@ -112,13 +133,16 @@ export const createReview = async (
   input: CreateReviewInput
 ): Promise<{ success: boolean; review?: any; error?: string }> => {
   try {
+    const resolvedTitle =
+      (input.reviewTitle || "").trim() || buildReviewTitle(input.reviewText, input.rating);
+
     // Validate rating
     if (!validateRating(input.rating)) {
       return { success: false, error: "Rating must be an integer between 1 and 5" };
     }
 
     // Validate title
-    if (!validateReviewTitle(input.reviewTitle)) {
+    if (!validateReviewTitle(resolvedTitle)) {
       return { success: false, error: "Review title must be between 1 and 200 characters" };
     }
 
@@ -155,7 +179,7 @@ export const createReview = async (
         customerId: input.customerId,
         operatorId: input.operatorId,
         rating: input.rating,
-        reviewTitle: input.reviewTitle,
+        reviewTitle: resolvedTitle,
         reviewText: input.reviewText,
         reviewImages: input.reviewImages || [],
         isFlagged: true,
@@ -948,6 +972,102 @@ export const getSellerReviewDetails = async (
     return {
       success: false,
       error: error?.message || "Failed to fetch seller review details",
+      statusCode: 500,
+    };
+  }
+};
+
+/**
+ * Get enriched review details for customer review detail dialog.
+ * Validates that requester is the review owner or an admin.
+ */
+export const getCustomerReviewDetails = async (
+  reviewId: string,
+  requesterUserId: string,
+  isAdmin: boolean
+): Promise<{ success: boolean; data?: any; error?: string; statusCode?: number }> => {
+  try {
+    const review = await prisma.review.findUnique({
+      where: { id: reviewId },
+      select: {
+        id: true,
+        bookingId: true,
+        listingId: true,
+        customerId: true,
+        operatorId: true,
+        rating: true,
+        reviewTitle: true,
+        reviewText: true,
+        replyReview: true,
+        reviewImages: true,
+        isFlagged: true,
+        flaggedReason: true,
+        isModerated: true,
+        helpfulCount: true,
+        createdAt: true,
+        updatedAt: true,
+        customer: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            profileImg: true,
+          },
+        },
+        operator: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            phone: true,
+            operatorProfile: {
+              select: {
+                companyName: true,
+              },
+            },
+          },
+        },
+        listing: {
+          select: {
+            id: true,
+            listingName: true,
+            frontImageUrl: true,
+            startLocationName: true,
+          },
+        },
+        booking: {
+          select: {
+            bookingReference: true,
+            bookingStartDate: true,
+            bookingEndDate: true,
+            participantCount: true,
+            bookingStatus: true,
+            payment: {
+              select: {
+                totalAmount: true,
+                amountPaidOnline: true,
+                amountToCollectOffline: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!review) {
+      return { success: false, error: "Review not found", statusCode: 404 };
+    }
+
+    if (!isAdmin && review.customerId !== requesterUserId) {
+      return { success: false, error: "Unauthorized to view this review", statusCode: 403 };
+    }
+
+    return { success: true, data: review };
+  } catch (error: any) {
+    console.error("Error fetching customer review details:", error);
+    return {
+      success: false,
+      error: error?.message || "Failed to fetch customer review details",
       statusCode: 500,
     };
   }

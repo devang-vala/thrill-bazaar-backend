@@ -1298,6 +1298,7 @@ export const getListing = async (c: Context) => {
               validParticipantNumbers: true,
               variantMetadata: true,
               variantOrder: true,
+              approvalStatus: true,
             },
             orderBy: { variantOrder: "asc" },
           },
@@ -1428,11 +1429,16 @@ export const getListing = async (c: Context) => {
       // Remove admin-specific fields for non-admin users (public/customers)
       // Note: Sellers see rejection reason through their own listings query
       const { approvedByAdminId, approvedAt, ...publicListing } = listing;
+      const variantsForPublic =
+        listing.status === "active"
+          ? (publicListing.variants || []).filter((variant: any) => variant.approvalStatus === "approved")
+          : publicListing.variants;
 
       return c.json({
         success: true,
         data: {
           ...publicListing,
+          variants: variantsForPublic,
           media: transformedMedia,
           fieldDefinitions,
         },
@@ -1654,6 +1660,10 @@ export const getListingById = async (c: Context) => {
     if (!isAdmin) {
       // Remove admin-specific sensitive fields for non-admin users
       const { approvedByAdminId, approvedAt, ...publicListing } = listing;
+      const variantsForPublic =
+        listing.status === "active"
+          ? (publicListing.variants || []).filter((variant: any) => variant.approvalStatus === "approved")
+          : publicListing.variants;
 
       // Also filter out inactive badges/tags and assignedByAdminId for non-admins
       const filteredBadges = listing.badges
@@ -1668,6 +1678,7 @@ export const getListingById = async (c: Context) => {
         success: true,
         data: {
           ...publicListing,
+          variants: variantsForPublic,
           badges: filteredBadges,
           tags: filteredTags,
           variantFieldDefinitions,
@@ -1900,12 +1911,6 @@ export const updateListing = async (c: Context) => {
     if (body.advanceBookingPercentage !== undefined) {
       updateData.advanceBookingPercentage = body.advanceBookingPercentage;
     }
-    if (body.platformCommissionPercentage !== undefined) {
-      updateData.platformCommissionPercentage = body.platformCommissionPercentage;
-    }
-    if (body.tcsPercentage !== undefined) {
-      updateData.tcsPercentage = body.tcsPercentage;
-    }
     if (body.basePriceDisplay !== undefined) {
       updateData.basePriceDisplay = body.basePriceDisplay;
     }
@@ -1932,8 +1937,7 @@ export const updateListing = async (c: Context) => {
         'endCountryId', 'endPrimaryDivisionId', 'endSecondaryDivisionId',
         'startLocationName', 'startLocationCoordinates', 'startGoogleMapsUrl',
         'endLocationName', 'endLocationCoordinates', 'endGoogleMapsUrl',
-        'taxRate', 'advanceBookingPercentage', 'platformCommissionPercentage',
-        'tcsPercentage', 'basePriceDisplay', 'currency'
+        'taxRate', 'advanceBookingPercentage', 'basePriceDisplay', 'currency'
       ];
 
       // Extract table fields from incoming metadata and add them to updateData
@@ -2014,6 +2018,20 @@ export const updateListing = async (c: Context) => {
         },
       },
     });
+
+    if (body.status === "active") {
+      await prisma.listingVariant.updateMany({
+        where: {
+          listingId,
+          approvalStatus: {
+            not: "approved",
+          },
+        },
+        data: {
+          approvalStatus: "approved",
+        },
+      });
+    }
 
     // Update index in Meilisearch asynchronously
     meilisearchService.indexListing(updatedListing.id).catch(err => console.error("Background indexing update failed:", err));

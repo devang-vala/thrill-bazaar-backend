@@ -486,7 +486,8 @@ export const ListingVariantScalarFieldEnum = {
   updatedAt: 'updatedAt',
   variantDescription: 'variantDescription',
   variantMetadata: 'variantMetadata',
-  validParticipantNumbers: 'validParticipantNumbers'
+  validParticipantNumbers: 'validParticipantNumbers',
+  approvalStatus: 'approvalStatus'
 } as const
 
 export type ListingVariantScalarFieldEnum = (typeof ListingVariantScalarFieldEnum)[keyof typeof ListingVariantScalarFieldEnum]

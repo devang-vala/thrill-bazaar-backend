@@ -201,3 +201,12 @@ export const DiscountType = {
 } as const
 
 export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType]
+
+
+export const BookingOptionApprovalStatus = {
+  pending_approval: 'pending_approval',
+  approved: 'approved',
+  rejected: 'rejected'
+} as const
+
+export type BookingOptionApprovalStatus = (typeof BookingOptionApprovalStatus)[keyof typeof BookingOptionApprovalStatus]

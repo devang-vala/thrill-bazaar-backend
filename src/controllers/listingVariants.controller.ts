@@ -2,6 +2,63 @@ import type { Context } from "hono";
 import { prisma, withPrismaRetry } from "../db.js";
 import { sanitizeString } from "../helpers/validation.helper.js";
 
+const UUID_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+const isUuid = (value: unknown): value is string =>
+  typeof value === "string" && UUID_REGEX.test(value.trim());
+
+const getNewVariantApprovalStatus = () => "pending_approval";
+
+const normalizeComparableVariantPayload = (variant: any, index: number) => {
+  const validParticipantNumbers = Array.isArray(variant?.validParticipantNumbers)
+    ? variant.validParticipantNumbers
+        .map((p: any) => Number(p))
+        .filter((num: number) => Number.isInteger(num) && num > 0)
+        .sort((a: number, b: number) => a - b)
+    : [];
+
+  return {
+    variantName: sanitizeString(variant?.variantName || "", 255),
+    variantDescription: variant?.variantDescription
+      ? sanitizeString(variant.variantDescription, 5000)
+      : null,
+    validParticipantNumbers,
+    variantOrder: variant?.variantOrder ?? index + 1,
+    variantMetadata: variant?.variantMetadata || null,
+  };
+};
+
+const isVariantPayloadChanged = (
+  existingVariant: {
+    variantName: string;
+    variantDescription: string | null;
+    validParticipantNumbers: number[];
+    variantOrder: number;
+    variantMetadata: any;
+  },
+  nextPayload: {
+    variantName: string;
+    variantDescription: string | null;
+    validParticipantNumbers: number[];
+    variantOrder: number;
+    variantMetadata: any;
+  },
+) => {
+  const existingParticipants = [...(existingVariant.validParticipantNumbers || [])].sort(
+    (a, b) => a - b,
+  );
+
+  return (
+    existingVariant.variantName !== nextPayload.variantName ||
+    (existingVariant.variantDescription || null) !== (nextPayload.variantDescription || null) ||
+    JSON.stringify(existingParticipants) !== JSON.stringify(nextPayload.validParticipantNumbers) ||
+    existingVariant.variantOrder !== nextPayload.variantOrder ||
+    JSON.stringify(existingVariant.variantMetadata || null) !==
+      JSON.stringify(nextPayload.variantMetadata || null)
+  );
+};
+
 /**
  * Get variants for a listing
  */
@@ -105,6 +162,7 @@ export const createListingVariant = async (c: Context) => {
       variantName: sanitizeString(body.variantName, 255),
       validParticipantNumbers: validParticipants,
       variantOrder: body.variantOrder || 0,
+      approvalStatus: getNewVariantApprovalStatus(),
     };
 
     // Add description if provided
@@ -166,10 +224,30 @@ export const updateListingVariant = async (c: Context) => {
     // Check if variant exists
     const existingVariant = await prisma.listingVariant.findUnique({
       where: { id: variantId },
+      include: {
+        listing: {
+          select: {
+            status: true,
+          },
+        },
+      },
     });
 
     if (!existingVariant) {
       return c.json({ error: "Variant not found" }, 404);
+    }
+
+    if (
+      existingVariant.listing?.status === "active" &&
+      existingVariant.approvalStatus === "approved"
+    ) {
+      return c.json(
+        {
+          error:
+            "Approved booking options cannot be edited after listing approval. Create a new booking option instead.",
+        },
+        400,
+      );
     }
 
     const updateData: any = {};
@@ -244,10 +322,30 @@ export const deleteListingVariant = async (c: Context) => {
     // Check if variant exists
     const existingVariant = await prisma.listingVariant.findUnique({
       where: { id: variantId },
+      include: {
+        listing: {
+          select: {
+            status: true,
+          },
+        },
+      },
     });
 
     if (!existingVariant) {
       return c.json({ error: "Variant not found" }, 404);
+    }
+
+    if (
+      existingVariant.listing?.status === "active" &&
+      existingVariant.approvalStatus === "approved"
+    ) {
+      return c.json(
+        {
+          error:
+            "Approved booking options cannot be deleted after listing approval. Create a new booking option instead.",
+        },
+        400,
+      );
     }
 
     await prisma.listingVariant.delete({
@@ -272,7 +370,7 @@ export const bulkCreateVariants = async (c: Context) => {
     const listingId = c.req.param("listingId");
     const body = await c.req.json();
 
-    if (!body.variants || !Array.isArray(body.variants) || body.variants.length === 0) {
+    if (!body.variants || !Array.isArray(body.variants)) {
       return c.json({ error: "variants array is required" }, 400);
     }
 
@@ -292,96 +390,192 @@ export const bulkCreateVariants = async (c: Context) => {
       return c.json({ error: "Listing not found" }, 404);
     }
 
-    let createdCount = 0;
-    let updatedCount = 0;
-    const processedVariants = [];
+    const existingVariants = await prisma.listingVariant.findMany({
+      where: { listingId },
+      select: {
+        id: true,
+        variantName: true,
+        variantDescription: true,
+        validParticipantNumbers: true,
+        variantOrder: true,
+        variantMetadata: true,
+        approvalStatus: true,
+      },
+    });
 
-    // Process each variant - update if id exists, create if not
-    for (const [index, variant] of body.variants.entries()) {
-      // Validate validParticipantNumbers (required)
-      if (!variant.validParticipantNumbers || !Array.isArray(variant.validParticipantNumbers) || variant.validParticipantNumbers.length === 0) {
-        throw new Error(`validParticipantNumbers array is required for variant "${variant.variantName}"`);
+    const existingVariantMap = new Map(existingVariants.map((variant) => [variant.id, variant]));
+
+    const submittedVariantIds = new Set(
+      body.variants
+        .map((variant: any) =>
+          isUuid(variant.id)
+            ? variant.id.trim()
+            : null,
+        )
+        .filter(Boolean),
+    );
+
+    const variantIdsToDelete = existingVariants
+      .map((variant) => variant.id)
+      .filter((id) => !submittedVariantIds.has(id));
+
+    if (variantIdsToDelete.length > 0) {
+      if (listing.status === "active") {
+        const deletingApprovedVariants = variantIdsToDelete.some((id) => {
+          const existingVariant = existingVariantMap.get(id);
+          return existingVariant?.approvalStatus === "approved";
+        });
+
+        if (deletingApprovedVariants) {
+          return c.json(
+            {
+              error:
+                "Approved booking options cannot be deleted after listing approval. Create new booking options instead.",
+            },
+            400,
+          );
+        }
       }
 
-      const validParticipants = variant.validParticipantNumbers.map((p: any) => {
-        const num = Number(p);
-        if (isNaN(num) || num <= 0 || !Number.isInteger(num)) {
-          throw new Error(`validParticipantNumbers must contain positive integers only for variant "${variant.variantName}"`);
-        }
-        return num;
+      const blockingBookings = await prisma.booking.findFirst({
+        where: {
+          OR: [
+            { listingSlot: { variantId: { in: variantIdsToDelete } } },
+            { dateRange: { variantId: { in: variantIdsToDelete } } },
+          ],
+        },
+        select: {
+          bookingReference: true,
+        },
       });
 
-      // Validate participant numbers if present in metadata
-      if (variant.variantMetadata && variant.variantMetadata.participantNumbers) {
-        const participants = variant.variantMetadata.participantNumbers;
-        if (typeof participants === 'string') {
-          const participantArray = participants.split(',').map((p: string) => p.trim());
-          const isValid = participantArray.every((p: string) => !isNaN(Number(p)) && Number(p) > 0);
-          if (!isValid) {
-            throw new Error(`Invalid participantNumbers for variant "${variant.variantName}": must be comma-separated positive numbers`);
-          }
-        } else if (Array.isArray(participants)) {
-          const isValid = participants.every((p: any) => typeof p === 'number' && p > 0);
-          if (!isValid) {
-            throw new Error(`Invalid participantNumbers for variant "${variant.variantName}": must be an array of positive numbers`);
-          }
-        } else {
-          throw new Error(`Invalid participantNumbers for variant "${variant.variantName}": must be a string or array`);
-        }
-      }
-
-      const variantData = {
-        listingId,
-        variantName: sanitizeString(variant.variantName, 255),
-        variantDescription: variant.variantDescription ? sanitizeString(variant.variantDescription, 5000) : null,
-        validParticipantNumbers: validParticipants,
-        variantOrder: variant.variantOrder ?? index,
-        variantMetadata: variant.variantMetadata || null,
-      };
-
-      // If variant has id, update it; otherwise create new
-      if (variant.id) {
-        // Check if variant exists
-        const existingVariant = await prisma.listingVariant.findUnique({
-          where: { id: variant.id },
-        });
-
-        if (existingVariant && existingVariant.listingId === listingId) {
-          // Update existing variant
-          const updated = await prisma.listingVariant.update({
-            where: { id: variant.id },
-            data: variantData,
-          });
-          processedVariants.push(updated);
-          updatedCount++;
-        } else {
-          // ID provided but variant doesn't exist or belongs to different listing, create new
-          const created = await prisma.listingVariant.create({
-            data: variantData,
-          });
-          processedVariants.push(created);
-          createdCount++;
-        }
-      } else {
-        // No id provided, create new variant
-        const created = await prisma.listingVariant.create({
-          data: variantData,
-        });
-        processedVariants.push(created);
-        createdCount++;
+      if (blockingBookings) {
+        return c.json(
+          {
+            error:
+              "One or more booking options cannot be deleted because they are already used in bookings.",
+          },
+          400
+        );
       }
     }
 
-    // Fetch all variants for this listing to return
-    const allVariants = await prisma.listingVariant.findMany({
-      where: { listingId },
-      orderBy: { variantOrder: "asc" },
+    let createdCount = 0;
+    let updatedCount = 0;
+
+    const allVariants = await prisma.$transaction(async (tx) => {
+      if (variantIdsToDelete.length > 0) {
+        await tx.listingVariant.deleteMany({
+          where: {
+            listingId,
+            id: { in: variantIdsToDelete },
+          },
+        });
+      }
+
+      for (const [index, variant] of body.variants.entries()) {
+        if (!variant.validParticipantNumbers || !Array.isArray(variant.validParticipantNumbers) || variant.validParticipantNumbers.length === 0) {
+          throw new Error(`validParticipantNumbers array is required for variant "${variant.variantName}"`);
+        }
+
+        const validParticipants = variant.validParticipantNumbers.map((p: any) => {
+          const num = Number(p);
+          if (isNaN(num) || num <= 0 || !Number.isInteger(num)) {
+            throw new Error(`validParticipantNumbers must contain positive integers only for variant "${variant.variantName}"`);
+          }
+          return num;
+        });
+
+        if (variant.variantMetadata && variant.variantMetadata.participantNumbers) {
+          const participants = variant.variantMetadata.participantNumbers;
+          if (typeof participants === 'string') {
+            const participantArray = participants.split(',').map((p: string) => p.trim());
+            const isValid = participantArray.every((p: string) => !isNaN(Number(p)) && Number(p) > 0);
+            if (!isValid) {
+              throw new Error(`Invalid participantNumbers for variant "${variant.variantName}": must be comma-separated positive numbers`);
+            }
+          } else if (Array.isArray(participants)) {
+            const isValid = participants.every((p: any) => typeof p === 'number' && p > 0);
+            if (!isValid) {
+              throw new Error(`Invalid participantNumbers for variant "${variant.variantName}": must be an array of positive numbers`);
+            }
+          } else {
+            throw new Error(`Invalid participantNumbers for variant "${variant.variantName}": must be a string or array`);
+          }
+        }
+
+        const variantData = {
+          listingId,
+          variantName: sanitizeString(variant.variantName, 255),
+          variantDescription: variant.variantDescription ? sanitizeString(variant.variantDescription, 5000) : null,
+          validParticipantNumbers: validParticipants,
+          variantOrder: variant.variantOrder ?? index + 1,
+          variantMetadata: variant.variantMetadata || null,
+        };
+
+        if (isUuid(variant.id)) {
+          const existingVariant = await tx.listingVariant.findUnique({
+            where: { id: variant.id },
+          });
+
+          if (existingVariant && existingVariant.listingId === listingId) {
+            if (listing.status === "active" && existingVariant.approvalStatus === "approved") {
+              const comparableIncomingPayload = normalizeComparableVariantPayload(variant, index);
+              const hasChanged = isVariantPayloadChanged(
+                {
+                  variantName: existingVariant.variantName,
+                  variantDescription: existingVariant.variantDescription,
+                  validParticipantNumbers: existingVariant.validParticipantNumbers,
+                  variantOrder: existingVariant.variantOrder,
+                  variantMetadata: existingVariant.variantMetadata,
+                },
+                comparableIncomingPayload,
+              );
+
+              if (hasChanged) {
+                throw new Error(
+                  `Approved booking option \"${existingVariant.variantName}\" cannot be edited after listing approval. Create a new booking option instead.`,
+                );
+              }
+
+              continue;
+            }
+
+            await tx.listingVariant.update({
+              where: { id: variant.id },
+              data: variantData,
+            });
+            updatedCount++;
+          } else {
+            await tx.listingVariant.create({
+              data: {
+                ...variantData,
+                approvalStatus: getNewVariantApprovalStatus(),
+              },
+            });
+            createdCount++;
+          }
+        } else {
+          await tx.listingVariant.create({
+            data: {
+              ...variantData,
+              approvalStatus: getNewVariantApprovalStatus(),
+            },
+          });
+          createdCount++;
+        }
+      }
+
+      return tx.listingVariant.findMany({
+        where: { listingId },
+        orderBy: { variantOrder: "asc" },
+      });
     });
 
     return c.json(
       {
         success: true,
-        message: `${createdCount} variants created, ${updatedCount} variants updated`,
+        message: `${createdCount} variants created, ${updatedCount} variants updated, ${variantIdsToDelete.length} variants deleted`,
         data: allVariants,
       },
       201

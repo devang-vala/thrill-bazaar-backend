@@ -164,15 +164,9 @@ export const upsertListingAddons = async (c: Context) => {
       },
     });
 
-    // Update listing status to pending_approval when addons are saved
-    await prisma.listing.update({
-      where: { id: listingId },
-      data: { status: "pending_approval" }
-    });
-
     return c.json({
       success: true,
-      message: "Addons updated successfully and listing set to pending approval",
+      message: "Addons updated successfully",
       data: saved,
     });
   } catch (error) {

@@ -16,15 +16,15 @@ const listingFaqRouter = new Hono();
 // listingFaqRouter.use(requireAnyAdmin);
 
 // Get FAQs for a specific listing
-listingFaqRouter.get("/listing", getListingFaqs);
+listingFaqRouter.get("/listing/:listingId", getListingFaqs);
 
 // Create FAQs for a listing
 listingFaqRouter.post("/listing", createListingFaqs);
 
 // Update FAQs for a listing
-listingFaqRouter.put("/listing/:id", updateListingFaqs);
+listingFaqRouter.put("/listing/:listingId", updateListingFaqs);
 
 // Delete FAQs for a listing
-listingFaqRouter.delete("/listing/:id", deleteListingFaqs);
+listingFaqRouter.delete("/listing/:listingId", deleteListingFaqs);
 
 export default listingFaqRouter;
