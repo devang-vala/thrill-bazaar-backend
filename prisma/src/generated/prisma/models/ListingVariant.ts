@@ -43,6 +43,7 @@ export type ListingVariantMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   variantDescription: string | null
+  approvalStatus: $Enums.BookingOptionApprovalStatus | null
 }
 
 export type ListingVariantMaxAggregateOutputType = {
@@ -53,6 +54,7 @@ export type ListingVariantMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   variantDescription: string | null
+  approvalStatus: $Enums.BookingOptionApprovalStatus | null
 }
 
 export type ListingVariantCountAggregateOutputType = {
@@ -65,6 +67,7 @@ export type ListingVariantCountAggregateOutputType = {
   variantDescription: number
   variantMetadata: number
   validParticipantNumbers: number
+  approvalStatus: number
   _all: number
 }
 
@@ -87,6 +90,7 @@ export type ListingVariantMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   variantDescription?: true
+  approvalStatus?: true
 }
 
 export type ListingVariantMaxAggregateInputType = {
@@ -97,6 +101,7 @@ export type ListingVariantMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   variantDescription?: true
+  approvalStatus?: true
 }
 
 export type ListingVariantCountAggregateInputType = {
@@ -109,6 +114,7 @@ export type ListingVariantCountAggregateInputType = {
   variantDescription?: true
   variantMetadata?: true
   validParticipantNumbers?: true
+  approvalStatus?: true
   _all?: true
 }
 
@@ -208,6 +214,7 @@ export type ListingVariantGroupByOutputType = {
   variantDescription: string | null
   variantMetadata: runtime.JsonValue | null
   validParticipantNumbers: number[]
+  approvalStatus: $Enums.BookingOptionApprovalStatus
   _count: ListingVariantCountAggregateOutputType | null
   _avg: ListingVariantAvgAggregateOutputType | null
   _sum: ListingVariantSumAggregateOutputType | null
@@ -243,6 +250,7 @@ export type ListingVariantWhereInput = {
   variantDescription?: Prisma.StringNullableFilter<"ListingVariant"> | string | null
   variantMetadata?: Prisma.JsonNullableFilter<"ListingVariant">
   validParticipantNumbers?: Prisma.IntNullableListFilter<"ListingVariant">
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFilter<"ListingVariant"> | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
   dateRanges?: Prisma.InventoryDateRangeListRelationFilter
   slotChanges?: Prisma.ListingSlotChangeListRelationFilter
@@ -261,6 +269,7 @@ export type ListingVariantOrderByWithRelationInput = {
   variantDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   variantMetadata?: Prisma.SortOrderInput | Prisma.SortOrder
   validParticipantNumbers?: Prisma.SortOrder
+  approvalStatus?: Prisma.SortOrder
   blockedDates?: Prisma.InventoryBlockedDateOrderByRelationAggregateInput
   dateRanges?: Prisma.InventoryDateRangeOrderByRelationAggregateInput
   slotChanges?: Prisma.ListingSlotChangeOrderByRelationAggregateInput
@@ -282,6 +291,7 @@ export type ListingVariantWhereUniqueInput = Prisma.AtLeast<{
   variantDescription?: Prisma.StringNullableFilter<"ListingVariant"> | string | null
   variantMetadata?: Prisma.JsonNullableFilter<"ListingVariant">
   validParticipantNumbers?: Prisma.IntNullableListFilter<"ListingVariant">
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFilter<"ListingVariant"> | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateListRelationFilter
   dateRanges?: Prisma.InventoryDateRangeListRelationFilter
   slotChanges?: Prisma.ListingSlotChangeListRelationFilter
@@ -300,6 +310,7 @@ export type ListingVariantOrderByWithAggregationInput = {
   variantDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   variantMetadata?: Prisma.SortOrderInput | Prisma.SortOrder
   validParticipantNumbers?: Prisma.SortOrder
+  approvalStatus?: Prisma.SortOrder
   _count?: Prisma.ListingVariantCountOrderByAggregateInput
   _avg?: Prisma.ListingVariantAvgOrderByAggregateInput
   _max?: Prisma.ListingVariantMaxOrderByAggregateInput
@@ -320,6 +331,7 @@ export type ListingVariantScalarWhereWithAggregatesInput = {
   variantDescription?: Prisma.StringNullableWithAggregatesFilter<"ListingVariant"> | string | null
   variantMetadata?: Prisma.JsonNullableWithAggregatesFilter<"ListingVariant">
   validParticipantNumbers?: Prisma.IntNullableListFilter<"ListingVariant">
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusWithAggregatesFilter<"ListingVariant"> | $Enums.BookingOptionApprovalStatus
 }
 
 export type ListingVariantCreateInput = {
@@ -331,6 +343,7 @@ export type ListingVariantCreateInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutVariantInput
@@ -349,6 +362,7 @@ export type ListingVariantUncheckedCreateInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
@@ -365,6 +379,7 @@ export type ListingVariantUpdateInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutVariantNestedInput
@@ -383,6 +398,7 @@ export type ListingVariantUncheckedUpdateInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
@@ -400,6 +416,7 @@ export type ListingVariantCreateManyInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
 }
 
 export type ListingVariantUpdateManyMutationInput = {
@@ -411,6 +428,7 @@ export type ListingVariantUpdateManyMutationInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
 }
 
 export type ListingVariantUncheckedUpdateManyInput = {
@@ -423,6 +441,7 @@ export type ListingVariantUncheckedUpdateManyInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
 }
 
 export type ListingVariantNullableScalarRelationFilter = {
@@ -448,6 +467,7 @@ export type ListingVariantCountOrderByAggregateInput = {
   variantDescription?: Prisma.SortOrder
   variantMetadata?: Prisma.SortOrder
   validParticipantNumbers?: Prisma.SortOrder
+  approvalStatus?: Prisma.SortOrder
 }
 
 export type ListingVariantAvgOrderByAggregateInput = {
@@ -463,6 +483,7 @@ export type ListingVariantMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   variantDescription?: Prisma.SortOrder
+  approvalStatus?: Prisma.SortOrder
 }
 
 export type ListingVariantMinOrderByAggregateInput = {
@@ -473,6 +494,7 @@ export type ListingVariantMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   variantDescription?: Prisma.SortOrder
+  approvalStatus?: Prisma.SortOrder
 }
 
 export type ListingVariantSumOrderByAggregateInput = {
@@ -563,6 +585,10 @@ export type ListingVariantUpdatevalidParticipantNumbersInput = {
   push?: number | number[]
 }
 
+export type EnumBookingOptionApprovalStatusFieldUpdateOperationsInput = {
+  set?: $Enums.BookingOptionApprovalStatus
+}
+
 export type ListingVariantCreateNestedManyWithoutListingInput = {
   create?: Prisma.XOR<Prisma.ListingVariantCreateWithoutListingInput, Prisma.ListingVariantUncheckedCreateWithoutListingInput> | Prisma.ListingVariantCreateWithoutListingInput[] | Prisma.ListingVariantUncheckedCreateWithoutListingInput[]
   connectOrCreate?: Prisma.ListingVariantCreateOrConnectWithoutListingInput | Prisma.ListingVariantCreateOrConnectWithoutListingInput[]
@@ -630,6 +656,7 @@ export type ListingVariantCreateWithoutBlockedDatesInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutVariantInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutVariantInput
@@ -647,6 +674,7 @@ export type ListingVariantUncheckedCreateWithoutBlockedDatesInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
@@ -678,6 +706,7 @@ export type ListingVariantUpdateWithoutBlockedDatesInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutVariantNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutVariantNestedInput
@@ -695,6 +724,7 @@ export type ListingVariantUncheckedUpdateWithoutBlockedDatesInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
@@ -710,6 +740,7 @@ export type ListingVariantCreateWithoutDateRangesInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutVariantInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutVariantInput
@@ -727,6 +758,7 @@ export type ListingVariantUncheckedCreateWithoutDateRangesInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
@@ -758,6 +790,7 @@ export type ListingVariantUpdateWithoutDateRangesInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutVariantNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutVariantNestedInput
@@ -775,6 +808,7 @@ export type ListingVariantUncheckedUpdateWithoutDateRangesInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
@@ -790,6 +824,7 @@ export type ListingVariantCreateWithoutSlotChangesInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutVariantInput
   slots?: Prisma.ListingSlotCreateNestedManyWithoutVariantInput
@@ -807,6 +842,7 @@ export type ListingVariantUncheckedCreateWithoutSlotChangesInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutVariantInput
   slots?: Prisma.ListingSlotUncheckedCreateNestedManyWithoutVariantInput
@@ -838,6 +874,7 @@ export type ListingVariantUpdateWithoutSlotChangesInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutVariantNestedInput
   slots?: Prisma.ListingSlotUpdateManyWithoutVariantNestedInput
@@ -855,6 +892,7 @@ export type ListingVariantUncheckedUpdateWithoutSlotChangesInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutVariantNestedInput
   slots?: Prisma.ListingSlotUncheckedUpdateManyWithoutVariantNestedInput
@@ -870,6 +908,7 @@ export type ListingVariantCreateWithoutSlotsInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutVariantInput
@@ -887,6 +926,7 @@ export type ListingVariantUncheckedCreateWithoutSlotsInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
@@ -918,6 +958,7 @@ export type ListingVariantUpdateWithoutSlotsInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutVariantNestedInput
@@ -935,6 +976,7 @@ export type ListingVariantUncheckedUpdateWithoutSlotsInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
@@ -950,6 +992,7 @@ export type ListingVariantCreateWithoutListingInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutVariantInput
@@ -966,6 +1009,7 @@ export type ListingVariantUncheckedCreateWithoutListingInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
@@ -1012,6 +1056,7 @@ export type ListingVariantScalarWhereInput = {
   variantDescription?: Prisma.StringNullableFilter<"ListingVariant"> | string | null
   variantMetadata?: Prisma.JsonNullableFilter<"ListingVariant">
   validParticipantNumbers?: Prisma.IntNullableListFilter<"ListingVariant">
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFilter<"ListingVariant"> | $Enums.BookingOptionApprovalStatus
 }
 
 export type ListingVariantCreateWithoutSlotDefinitionsInput = {
@@ -1023,6 +1068,7 @@ export type ListingVariantCreateWithoutSlotDefinitionsInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeCreateNestedManyWithoutVariantInput
@@ -1040,6 +1086,7 @@ export type ListingVariantUncheckedCreateWithoutSlotDefinitionsInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUncheckedCreateNestedManyWithoutVariantInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedCreateNestedManyWithoutVariantInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedCreateNestedManyWithoutVariantInput
@@ -1071,6 +1118,7 @@ export type ListingVariantUpdateWithoutSlotDefinitionsInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutVariantNestedInput
@@ -1088,6 +1136,7 @@ export type ListingVariantUncheckedUpdateWithoutSlotDefinitionsInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
@@ -1103,6 +1152,7 @@ export type ListingVariantCreateManyListingInput = {
   variantDescription?: string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantCreatevalidParticipantNumbersInput | number[]
+  approvalStatus?: $Enums.BookingOptionApprovalStatus
 }
 
 export type ListingVariantUpdateWithoutListingInput = {
@@ -1114,6 +1164,7 @@ export type ListingVariantUpdateWithoutListingInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUpdateManyWithoutVariantNestedInput
@@ -1130,6 +1181,7 @@ export type ListingVariantUncheckedUpdateWithoutListingInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
   blockedDates?: Prisma.InventoryBlockedDateUncheckedUpdateManyWithoutVariantNestedInput
   dateRanges?: Prisma.InventoryDateRangeUncheckedUpdateManyWithoutVariantNestedInput
   slotChanges?: Prisma.ListingSlotChangeUncheckedUpdateManyWithoutVariantNestedInput
@@ -1146,6 +1198,7 @@ export type ListingVariantUncheckedUpdateManyWithoutListingInput = {
   variantDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variantMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   validParticipantNumbers?: Prisma.ListingVariantUpdatevalidParticipantNumbersInput | number[]
+  approvalStatus?: Prisma.EnumBookingOptionApprovalStatusFieldUpdateOperationsInput | $Enums.BookingOptionApprovalStatus
 }
 
 
@@ -1225,6 +1278,7 @@ export type ListingVariantSelect<ExtArgs extends runtime.Types.Extensions.Intern
   variantDescription?: boolean
   variantMetadata?: boolean
   validParticipantNumbers?: boolean
+  approvalStatus?: boolean
   blockedDates?: boolean | Prisma.ListingVariant$blockedDatesArgs<ExtArgs>
   dateRanges?: boolean | Prisma.ListingVariant$dateRangesArgs<ExtArgs>
   slotChanges?: boolean | Prisma.ListingVariant$slotChangesArgs<ExtArgs>
@@ -1244,6 +1298,7 @@ export type ListingVariantSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   variantDescription?: boolean
   variantMetadata?: boolean
   validParticipantNumbers?: boolean
+  approvalStatus?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["listingVariant"]>
 
@@ -1257,6 +1312,7 @@ export type ListingVariantSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   variantDescription?: boolean
   variantMetadata?: boolean
   validParticipantNumbers?: boolean
+  approvalStatus?: boolean
   listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["listingVariant"]>
 
@@ -1270,9 +1326,10 @@ export type ListingVariantSelectScalar = {
   variantDescription?: boolean
   variantMetadata?: boolean
   validParticipantNumbers?: boolean
+  approvalStatus?: boolean
 }
 
-export type ListingVariantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "variantName" | "variantOrder" | "createdAt" | "updatedAt" | "variantDescription" | "variantMetadata" | "validParticipantNumbers", ExtArgs["result"]["listingVariant"]>
+export type ListingVariantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "variantName" | "variantOrder" | "createdAt" | "updatedAt" | "variantDescription" | "variantMetadata" | "validParticipantNumbers" | "approvalStatus", ExtArgs["result"]["listingVariant"]>
 export type ListingVariantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   blockedDates?: boolean | Prisma.ListingVariant$blockedDatesArgs<ExtArgs>
   dateRanges?: boolean | Prisma.ListingVariant$dateRangesArgs<ExtArgs>
@@ -1309,6 +1366,7 @@ export type $ListingVariantPayload<ExtArgs extends runtime.Types.Extensions.Inte
     variantDescription: string | null
     variantMetadata: runtime.JsonValue | null
     validParticipantNumbers: number[]
+    approvalStatus: $Enums.BookingOptionApprovalStatus
   }, ExtArgs["result"]["listingVariant"]>
   composites: {}
 }
@@ -1747,6 +1805,7 @@ export interface ListingVariantFieldRefs {
   readonly variantDescription: Prisma.FieldRef<"ListingVariant", 'String'>
   readonly variantMetadata: Prisma.FieldRef<"ListingVariant", 'Json'>
   readonly validParticipantNumbers: Prisma.FieldRef<"ListingVariant", 'Int[]'>
+  readonly approvalStatus: Prisma.FieldRef<"ListingVariant", 'BookingOptionApprovalStatus'>
 }
     
 

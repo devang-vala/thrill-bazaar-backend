@@ -13,6 +13,7 @@ import {
   getListingReviewStatsController,
   getOperatorReviewStatsController,
   getSellerReviewDetailsController,
+  getCustomerReviewDetailsController,
 } from "../controllers/review.controller.js";
 
 const reviewRoutes = new Hono();
@@ -34,6 +35,13 @@ reviewRoutes.get("/", optionalAuth, getReviewsController);
  * @access  Private (operator owner or admin)
  */
 reviewRoutes.get("/seller/:id/details", authenticateToken, getSellerReviewDetailsController);
+
+/**
+ * @route   GET /api/reviews/customer/:id/details
+ * @desc    Get enriched review details for customer review dialog
+ * @access  Private (review owner or admin)
+ */
+reviewRoutes.get("/customer/:id/details", authenticateToken, getCustomerReviewDetailsController);
 
 /**
  * @route   GET /api/reviews/:id

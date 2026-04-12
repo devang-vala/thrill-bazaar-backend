@@ -466,6 +466,23 @@ export type EnumTriggerTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumTriggerTypeFilter<$PrismaModel>
 }
 
+export type EnumBookingOptionApprovalStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.BookingOptionApprovalStatus | Prisma.EnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.BookingOptionApprovalStatus[] | Prisma.ListEnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BookingOptionApprovalStatus[] | Prisma.ListEnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBookingOptionApprovalStatusFilter<$PrismaModel> | $Enums.BookingOptionApprovalStatus
+}
+
+export type EnumBookingOptionApprovalStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.BookingOptionApprovalStatus | Prisma.EnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.BookingOptionApprovalStatus[] | Prisma.ListEnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BookingOptionApprovalStatus[] | Prisma.ListEnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBookingOptionApprovalStatusWithAggregatesFilter<$PrismaModel> | $Enums.BookingOptionApprovalStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumBookingOptionApprovalStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumBookingOptionApprovalStatusFilter<$PrismaModel>
+}
+
 export type EnumBookingFormatNullableFilter<$PrismaModel = never> = {
   equals?: $Enums.BookingFormat | Prisma.EnumBookingFormatFieldRefInput<$PrismaModel> | null
   in?: $Enums.BookingFormat[] | Prisma.ListEnumBookingFormatFieldRefInput<$PrismaModel> | null
@@ -1127,6 +1144,23 @@ export type NestedEnumTriggerTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTriggerTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTriggerTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumBookingOptionApprovalStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.BookingOptionApprovalStatus | Prisma.EnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.BookingOptionApprovalStatus[] | Prisma.ListEnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BookingOptionApprovalStatus[] | Prisma.ListEnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBookingOptionApprovalStatusFilter<$PrismaModel> | $Enums.BookingOptionApprovalStatus
+}
+
+export type NestedEnumBookingOptionApprovalStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.BookingOptionApprovalStatus | Prisma.EnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.BookingOptionApprovalStatus[] | Prisma.ListEnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BookingOptionApprovalStatus[] | Prisma.ListEnumBookingOptionApprovalStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBookingOptionApprovalStatusWithAggregatesFilter<$PrismaModel> | $Enums.BookingOptionApprovalStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumBookingOptionApprovalStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumBookingOptionApprovalStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumBookingFormatNullableFilter<$PrismaModel = never> = {

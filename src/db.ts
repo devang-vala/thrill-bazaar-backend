@@ -1,7 +1,32 @@
 import "dotenv/config";
 import { PrismaClient } from "../prisma/src/generated/prisma/client.js";
 
-export const prisma = new PrismaClient();
+const globalForPrisma = globalThis as typeof globalThis & {
+	prisma?: PrismaClient;
+	prismaConnectPromise?: Promise<void>;
+};
+
+export const prisma = globalForPrisma.prisma ?? new PrismaClient();
+
+if (process.env.NODE_ENV !== "production") {
+	globalForPrisma.prisma = prisma;
+}
+
+const getConnectPromise = (): Promise<void> => {
+	if (!globalForPrisma.prismaConnectPromise) {
+		globalForPrisma.prismaConnectPromise = prisma.$connect().finally(() => {
+			if (globalForPrisma.prismaConnectPromise) {
+				globalForPrisma.prismaConnectPromise = undefined;
+			}
+		});
+	}
+
+	return globalForPrisma.prismaConnectPromise;
+};
+
+export const ensurePrismaConnected = async (): Promise<void> => {
+	await getConnectPromise();
+};
 
 const isTransientPrismaConnectionError = (error: unknown): boolean => {
 	if (!error || typeof error !== "object") return false;
@@ -11,7 +36,10 @@ const isTransientPrismaConnectionError = (error: unknown): boolean => {
 
 	const maybeMessage = (error as { message?: unknown }).message;
 	if (typeof maybeMessage === "string") {
-		return maybeMessage.includes("Server has closed the connection");
+		return (
+			maybeMessage.includes("Server has closed the connection") ||
+			maybeMessage.includes("Engine is not yet connected")
+		);
 	}
 
 	return false;
@@ -22,21 +50,15 @@ export const withPrismaRetry = async <T>(
 	context = "Prisma operation"
 ): Promise<T> => {
 	try {
+		await ensurePrismaConnected();
 		return await operation();
 	} catch (error) {
 		if (!isTransientPrismaConnectionError(error)) {
 			throw error;
 		}
 
-		console.warn(`[Prisma] ${context} failed with closed connection. Reconnecting and retrying once...`);
-
-		try {
-			await prisma.$disconnect();
-		} catch {
-			// Ignore disconnect failures and try reconnect anyway.
-		}
-
-		await prisma.$connect();
+		console.warn(`[Prisma] ${context} failed with a connection error. Reconnecting and retrying once...`);
+		await ensurePrismaConnected();
 		return operation();
 	}
 };

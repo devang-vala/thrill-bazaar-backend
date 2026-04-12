@@ -8,6 +8,7 @@ model ListingVariant {
   variantDescription      String?                @map("variant_description")
   variantMetadata         Json?                  @map("variant_metadata")
   validParticipantNumbers Int[]                  @map("valid_participant_numbers")
+  approvalStatus          BookingOptionApprovalStatus @default(pending_approval) @map("approval_status")
   blockedDates            InventoryBlockedDate[]
   dateRanges              InventoryDateRange[]
   slotChanges             ListingSlotChange[]

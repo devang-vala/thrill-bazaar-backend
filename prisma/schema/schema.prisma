@@ -145,3 +145,9 @@ enum DiscountType {
   price
   percentage
 }
+
+enum BookingOptionApprovalStatus {
+  pending_approval
+  approved
+  rejected
+}

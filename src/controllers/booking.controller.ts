@@ -48,11 +48,33 @@ const getConvenienceFeeRateInBasisPoints = async () => {
 
 const createBookingOtp = () => generateOtp();
 
+const CANCELLATION_REASON_SUFFIXES = {
+  customer: "cancelled by customer",
+  seller: "cancelled by seller",
+} as const;
+
+const stripCancellationReasonSuffix = (value: string) =>
+  value
+    .replace(/\s*[-,|:]*\s*cancelled by seller\s*$/i, "")
+    .replace(/\s*[-,|:]*\s*cancelled by customer\s*$/i, "")
+    .trim();
+
+const buildCancellationReason = (
+  rawReason: string,
+  cancelledBy: keyof typeof CANCELLATION_REASON_SUFFIXES,
+) => {
+  const normalizedReason = stripCancellationReasonSuffix(rawReason);
+  const suffix = CANCELLATION_REASON_SUFFIXES[cancelledBy];
+  return normalizedReason ? `${normalizedReason} ${suffix}` : suffix;
+};
+
 const ADMIN_RESCHEDULE_ACTIVITY_STATUS = {
   PENDING: "RESCHEDULE_PENDING",
   APPROVED: "RESCHEDULE_APPROVED",
   REJECTED: "RESCHEDULE_REJECTED",
 } as const;
+
+const APPROVED_RESCHEDULE_STATUSES = ["approved", "approved_with_charge"] as const;
 
 const getAdminActivityStatus = (
   bookingStatus: string | null | undefined,
@@ -66,10 +88,7 @@ const getAdminActivityStatus = (
       return ADMIN_RESCHEDULE_ACTIVITY_STATUS.PENDING;
     }
 
-    if (
-      normalizedRescheduleStatus === "approved" ||
-      normalizedRescheduleStatus === "approved_with_charge"
-    ) {
+    if (APPROVED_RESCHEDULE_STATUSES.includes(normalizedRescheduleStatus as (typeof APPROVED_RESCHEDULE_STATUSES)[number])) {
       return ADMIN_RESCHEDULE_ACTIVITY_STATUS.APPROVED;
     }
 
@@ -893,11 +912,16 @@ export const createF2Booking = async (c: Context) => {
 export const cancelBooking = async (c: Context) => {
   try {
     const bookingId = c.req.param("bookingId");
+    const user = c.get("user");
     const body = await c.req.json().catch(() => ({}));
     const reason = String(body?.reason || "").trim();
 
     if (!bookingId) {
       return c.json({ success: false, message: "Booking ID required" }, 400);
+    }
+
+    if (!user) {
+      return c.json({ success: false, message: "Authentication required" }, 401);
     }
 
     if (!reason) {
@@ -909,13 +933,42 @@ export const cancelBooking = async (c: Context) => {
       where: { id: bookingId },
       select: {
         id: true,
+        customerId: true,
         listingSlotId: true,
+        dateRangeId: true,
+        bookingStartDate: true,
         participantCount: true,
         bookingStatus: true,
         payment: {
           select: {
             id: true,
             settlementStatus: true,
+          },
+        },
+        listingSlot: {
+          select: {
+            listing: {
+              select: {
+                operatorId: true,
+                bookingFormat: true,
+              },
+            },
+          },
+        },
+        dateRange: {
+          select: {
+            id: true,
+            listingId: true,
+            variantId: true,
+            basePricePerDay: true,
+            totalCapacity: true,
+            availableCount: true,
+            listing: {
+              select: {
+                operatorId: true,
+                bookingFormat: true,
+              },
+            },
           },
         },
       },
@@ -929,6 +982,21 @@ export const cancelBooking = async (c: Context) => {
       return c.json({ success: false, message: "Booking already cancelled" }, 400);
     }
 
+    const operatorId =
+      booking.listingSlot?.listing?.operatorId || booking.dateRange?.listing?.operatorId || null;
+    const isAdmin = user.userType === "admin" || user.userType === "super_admin";
+    const isBookingCustomer = user.userType === "customer" && booking.customerId === user.userId;
+    const isBookingOperator = user.userType === "operator" && operatorId === user.userId;
+
+    if (!isAdmin && !isBookingCustomer && !isBookingOperator) {
+      return c.json({ success: false, message: "Unauthorized to cancel this booking" }, 403);
+    }
+
+    const cancellationReason = buildCancellationReason(
+      reason,
+      isBookingOperator ? "seller" : "customer",
+    );
+
     // Update booking and restore availability in transaction
     const result = await prisma.$transaction(async (tx) => {
       // Update booking status
@@ -936,13 +1004,13 @@ export const cancelBooking = async (c: Context) => {
         where: { id: bookingId },
         data: {
           bookingStatus: "CANCELLED",
-          reason,
+          reason: cancellationReason,
           otp: null,
           otpVerification: false,
         },
       });
 
-      if (booking.payment) {
+      if (booking.payment && booking.payment.settlementStatus !== "REFUNDED") {
         await tx.bookingPayment.update({
           where: { bookingId },
           data: {
@@ -963,7 +1031,51 @@ export const cancelBooking = async (c: Context) => {
         });
       }
 
-      // For F2, we'll add the logic later to update listing_slot_changes
+      const bookingFormat =
+        booking.listingSlot?.listing?.bookingFormat || booking.dateRange?.listing?.bookingFormat;
+
+      if (booking.dateRangeId && booking.dateRange && bookingFormat !== "F2") {
+        const existingSlotChange = await tx.listingSlotChange.findFirst({
+          where: {
+            inventoryDateRangeId: booking.dateRangeId,
+            date: booking.bookingStartDate,
+          },
+        });
+
+        if (existingSlotChange) {
+          await tx.listingSlotChange.update({
+            where: { id: existingSlotChange.id },
+            data: {
+              availableCount: {
+                increment: booking.participantCount,
+              },
+              triggerType: "customer_cancel",
+            },
+          });
+        } else {
+          const nextAvailableCount = Math.min(
+            booking.dateRange.totalCapacity ?? Number.MAX_SAFE_INTEGER,
+            (booking.dateRange.availableCount || 0) + booking.participantCount,
+          );
+
+          await tx.listingSlotChange.create({
+            data: {
+              inventoryDateRangeId: booking.dateRangeId,
+              listingId: booking.dateRange.listingId,
+              variantId: booking.dateRange.variantId || null,
+              date: booking.bookingStartDate,
+              price: booking.dateRange.basePricePerDay,
+              totalCapacity: booking.dateRange.totalCapacity || 0,
+              availableCount:
+                booking.dateRange.totalCapacity !== null &&
+                booking.dateRange.totalCapacity !== undefined
+                  ? nextAvailableCount
+                  : (booking.dateRange.availableCount || 0) + booking.participantCount,
+              triggerType: "customer_cancel",
+            },
+          });
+        }
+      }
 
       return updatedBooking;
     });
@@ -1231,58 +1343,19 @@ export const getUserBookings = async (c: Context) => {
                 currency: true,
                 startLocationName: true,
                 bookingFormat: true,
-                category: {
-                  select: {
-                    categoryName: true,
-                  },
-                },
-                badges: {
-                  where: { isActive: true },
+                operator: {
                   select: {
                     id: true,
-                    isActive: true,
-                    badge: {
+                    firstName: true,
+                    lastName: true,
+                    phone: true,
+                    operatorProfile: {
                       select: {
-                        id: true,
-                        badgeName: true,
-                        badgeIconUrl: true,
-                        badgeColor: true,
+                        companyName: true,
                       },
                     },
                   },
-                  take: 1,
-                  orderBy: { badge: { displayOrder: "asc" } },
                 },
-                tags: {
-                  where: { isActive: true },
-                  select: {
-                    id: true,
-                    isActive: true,
-                    tag: {
-                      select: {
-                        id: true,
-                        tagName: true,
-                        tagColor: true,
-                      },
-                    },
-                  },
-                  take: 2,
-                  orderBy: { tag: { displayOrder: "asc" } },
-                },
-              },
-            },
-          },
-        },
-        dateRange: {
-          include: {
-            listing: {
-              select: {
-                id: true,
-                listingName: true,
-                frontImageUrl: true,
-                currency: true,
-                startLocationName: true,
-                bookingFormat: true,
                 category: {
                   select: {
                     categoryName: true,
@@ -1331,6 +1404,78 @@ export const getUserBookings = async (c: Context) => {
             },
           },
         },
+        dateRange: {
+          include: {
+            listing: {
+              select: {
+                id: true,
+                listingName: true,
+                frontImageUrl: true,
+                currency: true,
+                startLocationName: true,
+                bookingFormat: true,
+                operator: {
+                  select: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    phone: true,
+                    operatorProfile: {
+                      select: {
+                        companyName: true,
+                      },
+                    },
+                  },
+                },
+                category: {
+                  select: {
+                    categoryName: true,
+                  },
+                },
+                badges: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    badge: {
+                      select: {
+                        id: true,
+                        badgeName: true,
+                        badgeIconUrl: true,
+                        badgeColor: true,
+                      },
+                    },
+                  },
+                  take: 1,
+                  orderBy: { badge: { displayOrder: "asc" } },
+                },
+                tags: {
+                  where: { isActive: true },
+                  select: {
+                    id: true,
+                    isActive: true,
+                    tag: {
+                      select: {
+                        id: true,
+                        tagName: true,
+                        tagColor: true,
+                      },
+                    },
+                  },
+                  take: 2,
+                  orderBy: { tag: { displayOrder: "asc" } },
+                },
+              },
+            },
+            slotDefinition: {
+              select: {
+                startTime: true,
+                endTime: true,
+              },
+            },
+          },
+        },
+        review: true,
         payment: true,
         reschedules: {
           orderBy: { createdAt: "desc" },
@@ -1348,7 +1493,29 @@ export const getUserBookings = async (c: Context) => {
       orderBy: { createdAt: "desc" },
     });
 
-    return c.json({ success: true, data: bookings });
+    const formattedBookings = bookings.map((booking: any) => ({
+      ...booking,
+      listingSlot: booking.listingSlot
+        ? {
+            ...booking.listingSlot,
+            startTime:
+              booking.listingSlot.slotDefinition?.startTime ||
+              booking.listingSlot.startTime,
+            endTime:
+              booking.listingSlot.slotDefinition?.endTime ||
+              booking.listingSlot.endTime,
+          }
+        : null,
+      dateRange: booking.dateRange
+        ? {
+            ...booking.dateRange,
+            startTime: booking.dateRange.slotDefinition?.startTime || null,
+            endTime: booking.dateRange.slotDefinition?.endTime || null,
+          }
+        : null,
+    }));
+
+    return c.json({ success: true, data: formattedBookings });
   } catch (error) {
     console.error("Error fetching user bookings:", error);
     return c.json({ success: false, message: "Failed to fetch bookings" }, 500);
@@ -2071,20 +2238,14 @@ export const getAdminBookings = async (c: Context) => {
           (bookingCountMap.COMPLETED || 0) +
           (bookingCountMap.CANCELLED || 0) +
           (bookingCountMap.NO_SHOW || 0),
-        cancellationAndRefunds:
-          (bookingCountMap.CANCELLED || 0) +
-          (paymentCountMap.REFUND_PENDING || 0) +
-          (paymentCountMap.REFUNDED || 0),
+        cancellationAndRefunds: paymentCountMap.REFUND_PENDING || 0,
+        reschedulePending: rescheduleCountMap.pending || 0,
         rescheduleRequests:
           (rescheduleCountMap.pending || 0) +
           (rescheduleCountMap.approved || 0) +
           (rescheduleCountMap.approved_with_charge || 0) +
           (rescheduleCountMap.rejected || 0),
-        requestsResolved:
-          (rescheduleCountMap.approved || 0) +
-          (rescheduleCountMap.approved_with_charge || 0) +
-          (rescheduleCountMap.rejected || 0) +
-          (rescheduleCountMap.cancelled || 0),
+        unsettled: paymentCountMap.PENDING || 0,
         settlementIssues: paymentCountMap.SETTLEMENT_ISSUE || 0,
       },
       filters: {
@@ -2401,7 +2562,8 @@ export const updateAdminBookingSettlement = async (c: Context) => {
       action !== "settle" &&
       action !== "unsettle" &&
       action !== "resolve_issue" &&
-      action !== "mark_refunded"
+      action !== "mark_refunded" &&
+      action !== "save_refund_note"
     ) {
       return c.json({ success: false, message: "Invalid settlement action" }, 400);
     }
@@ -2430,6 +2592,10 @@ export const updateAdminBookingSettlement = async (c: Context) => {
       return c.json({ success: false, message: "Payment record not found for this booking" }, 404);
     }
 
+    const isSettlementIssueFlow = existingBooking.payment.settlementStatus === "SETTLEMENT_ISSUE";
+    const isCancellationRefundFlow =
+      existingBooking.bookingStatus === "CANCELLED" && !isSettlementIssueFlow;
+
     let nextSettlementDate: Date | null = null;
 
     if (action === "settle") {
@@ -2453,7 +2619,9 @@ export const updateAdminBookingSettlement = async (c: Context) => {
         return c.json({ success: false, message: "Resolution note is required" }, 400);
       }
 
-      if (existingBooking.bookingStatus === "CANCELLED") {
+      if (isSettlementIssueFlow) {
+        // Settlement issue resolution should work even if the booking itself is cancelled.
+      } else if (isCancellationRefundFlow) {
         if (settlementStatusRaw !== "REFUND_PENDING" && settlementStatusRaw !== "REFUNDED") {
           return c.json(
             {
@@ -2467,10 +2635,6 @@ export const updateAdminBookingSettlement = async (c: Context) => {
         if (existingBooking.payment.settlementStatus !== "SETTLEMENT_ISSUE") {
           return c.json({ success: false, message: "Only settlement issues can be resolved" }, 400);
         }
-
-        if (settlementStatusRaw !== "ISSUE_RESOLVED") {
-          return c.json({ success: false, message: "Settlement status must be ISSUE_RESOLVED" }, 400);
-        }
       }
     }
 
@@ -2481,6 +2645,16 @@ export const updateAdminBookingSettlement = async (c: Context) => {
 
       if (settlementStatusRaw !== "REFUNDED") {
         return c.json({ success: false, message: "Settlement status must be REFUNDED" }, 400);
+      }
+
+      if (!resolutionNote) {
+        return c.json({ success: false, message: "Resolution note is required" }, 400);
+      }
+    }
+
+    if (action === "save_refund_note") {
+      if (existingBooking.bookingStatus !== "CANCELLED") {
+        return c.json({ success: false, message: "Refund notes can only be saved for cancelled bookings" }, 400);
       }
 
       if (!resolutionNote) {
@@ -2522,7 +2696,7 @@ export const updateAdminBookingSettlement = async (c: Context) => {
           : action === "resolve_issue"
             ? {
                 settlementStatus:
-                  existingBooking.bookingStatus === "CANCELLED"
+                  isCancellationRefundFlow
                     ? (settlementStatusRaw as "REFUND_PENDING" | "REFUNDED")
                     : "ISSUE_RESOLVED",
                 reasonbyadmin: resolutionNote,
@@ -2531,6 +2705,10 @@ export const updateAdminBookingSettlement = async (c: Context) => {
             ? {
                 settlementStatus: "REFUNDED",
                 settlementDate: new Date(),
+                reasonbyadmin: resolutionNote,
+              }
+          : action === "save_refund_note"
+            ? {
                 reasonbyadmin: resolutionNote,
               }
           : {
@@ -2546,11 +2724,13 @@ export const updateAdminBookingSettlement = async (c: Context) => {
         action === "settle"
           ? "Payment settled successfully"
           : action === "resolve_issue"
-            ? existingBooking.bookingStatus === "CANCELLED"
+            ? isCancellationRefundFlow
               ? "Refund status updated successfully"
               : "Settlement issue resolved successfully"
             : action === "mark_refunded"
               ? "Payment marked as refunded successfully"
+            : action === "save_refund_note"
+              ? "Refund note saved successfully"
             : "Payment unsettled successfully",
       data: {
         id: updatedPayment.id,

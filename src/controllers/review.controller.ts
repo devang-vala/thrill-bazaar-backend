@@ -12,6 +12,7 @@ import {
   getListingReviewStats,
   getOperatorReviewStats,
   getSellerReviewDetails,
+  getCustomerReviewDetails,
 } from "../helpers/review.helper.js";
 
 /**
@@ -47,11 +48,11 @@ export const createReviewController = async (c: Context) => {
     } = body;
 
     // Validate required fields
-    if (!bookingId || !listingId || !operatorId || !rating || !reviewTitle || !reviewText) {
+    if (!bookingId || !listingId || !operatorId || !rating || !reviewText) {
       return c.json(
         {
           success: false,
-          error: "Missing required fields: bookingId, listingId, operatorId, rating, reviewTitle, reviewText",
+          error: "Missing required fields: bookingId, listingId, operatorId, rating, reviewText",
         },
         400
       );
@@ -676,6 +677,45 @@ export const getSellerReviewDetailsController = async (c: Context) => {
     });
   } catch (error: any) {
     console.error("Error in getSellerReviewDetailsController:", error);
+    return c.json({ success: false, error: "Internal server error" }, 500);
+  }
+};
+
+/**
+ * Get customer review details with owner validation
+ * @route GET /api/reviews/customer/:id/details
+ * @access Private (review owner or admin)
+ */
+export const getCustomerReviewDetailsController = async (c: Context) => {
+  try {
+    const user = c.get("user");
+
+    if (!user) {
+      return c.json({ success: false, error: "Unauthorized" }, 401);
+    }
+
+    const reviewId = c.req.param("id");
+    if (!reviewId) {
+      return c.json({ success: false, error: "Review ID is required" }, 400);
+    }
+
+    const isAdmin = user.userType === "admin" || user.userType === "super_admin";
+
+    const result = await getCustomerReviewDetails(reviewId, user.userId, isAdmin);
+
+    if (!result.success) {
+      return c.json(
+        { success: false, error: result.error || "Failed to fetch review details" },
+        (result.statusCode as 400 | 401 | 403 | 404 | 500 | undefined) || 400
+      );
+    }
+
+    return c.json({
+      success: true,
+      data: result.data,
+    });
+  } catch (error: any) {
+    console.error("Error in getCustomerReviewDetailsController:", error);
     return c.json({ success: false, error: "Internal server error" }, 500);
   }
 };
