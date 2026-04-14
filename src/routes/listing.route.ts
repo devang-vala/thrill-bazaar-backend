@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import {
   getListings,
+  getListingFilterFacets,
   getListing,
   getListingById,
   createListing,
@@ -20,6 +21,7 @@ const listingRouter = new Hono();
 
 // Public routes (with optional auth to determine role)
 listingRouter.get("/", optionalAuth, getListings);
+listingRouter.get("/facets", optionalAuth, getListingFilterFacets);
 listingRouter.get("/slug/:slug", getListing);
 
 // Get similar listings based on category, operator, then random

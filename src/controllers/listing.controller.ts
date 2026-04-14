@@ -143,6 +143,440 @@ const buildMetadataFilterCondition = (
   }
 };
 
+type ListingFacetDimension =
+  | "category"
+  | "subcategory"
+  | "location"
+  | "seller"
+  | "metadata";
+
+const parseCsvFilter = (value?: string | null) =>
+  (value || "")
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+
+const resolveAvailableListingIds = async ({
+  formats,
+  availableOnDate,
+  dateRangeStart,
+  dateRangeEnd,
+}: {
+  formats?: string | null;
+  availableOnDate?: string | null;
+  dateRangeStart?: string | null;
+  dateRangeEnd?: string | null;
+}): Promise<string[] | null> => {
+  if (!dateRangeStart && !dateRangeEnd && !availableOnDate) {
+    return null;
+  }
+
+  const formatList = formats
+    ? formats.split(",").filter(Boolean)
+    : ["F1", "F2", "F3", "F4"];
+  const availableListingIds: string[] = [];
+
+  const enumerateUtcDateKeys = (start: Date, end: Date) => {
+    const keys: string[] = [];
+    const current = new Date(start);
+
+    while (current <= end) {
+      keys.push(current.toISOString().split("T")[0]);
+      current.setUTCDate(current.getUTCDate() + 1);
+    }
+
+    return keys;
+  };
+
+  if (dateRangeStart && dateRangeEnd) {
+    const filterDateStart = new Date(`${dateRangeStart}T00:00:00.000Z`);
+    const filterDateEnd = new Date(`${dateRangeEnd}T23:59:59.999Z`);
+
+    if (Number.isNaN(filterDateStart.getTime()) || Number.isNaN(filterDateEnd.getTime())) {
+      throw new Error("Invalid date range format. Use YYYY-MM-DD");
+    }
+
+    if (formatList.includes("F1")) {
+      const f1Slots = await prisma.listingSlot.findMany({
+        where: {
+          isActive: true,
+          availableCount: { gt: 0 },
+          formatType: "F1",
+          listing: {
+            bookingFormat: "F1",
+          },
+          batchStartDate: {
+            gte: filterDateStart,
+            lte: filterDateEnd,
+          },
+        },
+        select: {
+          listingId: true,
+        },
+        distinct: ["listingId"],
+      });
+
+      availableListingIds.push(...f1Slots.map((slot) => slot.listingId));
+    }
+
+    if (formatList.includes("F3")) {
+      const f3Slots = await prisma.listingSlot.findMany({
+        where: {
+          isActive: true,
+          availableCount: { gt: 0 },
+          formatType: "F3",
+          listing: {
+            bookingFormat: "F3",
+          },
+          slotDate: {
+            gte: filterDateStart,
+            lte: filterDateEnd,
+          },
+        },
+        select: {
+          listingId: true,
+        },
+        distinct: ["listingId"],
+      });
+
+      availableListingIds.push(...f3Slots.map((slot) => slot.listingId));
+    }
+
+    if (formatList.includes("F2") || formatList.includes("F4")) {
+      const rentalFormats = formatList.filter((format) => format === "F2" || format === "F4");
+      const selectedDateKeys = enumerateUtcDateKeys(filterDateStart, filterDateEnd);
+
+      const candidateDateRanges = await prisma.inventoryDateRange.findMany({
+        where: {
+          isActive: true,
+          listing: {
+            bookingFormat: { in: rentalFormats },
+          },
+          OR: [{ availableCount: { gt: 0 } }, { availableCount: null }],
+          availableFromDate: { lte: filterDateEnd },
+          availableToDate: { gte: filterDateStart },
+        },
+        select: {
+          listingId: true,
+          variantId: true,
+          slotDefinitionId: true,
+          availableFromDate: true,
+          availableToDate: true,
+          listing: {
+            select: {
+              bookingFormat: true,
+            },
+          },
+        },
+      });
+
+      const blockedDates = await prisma.inventoryBlockedDate.findMany({
+        where: {
+          listing: {
+            bookingFormat: { in: rentalFormats },
+          },
+          blockedDate: {
+            gte: filterDateStart,
+            lte: filterDateEnd,
+          },
+        },
+        select: {
+          listingId: true,
+          variantId: true,
+          blockedDate: true,
+        },
+      });
+
+      const groupedRanges = new Map<string, typeof candidateDateRanges>();
+      for (const range of candidateDateRanges) {
+        const slotKey =
+          range.listing.bookingFormat === "F4"
+            ? range.slotDefinitionId ?? "__no_slot__"
+            : "__no_slot__";
+        const groupKey = `${range.listingId}::${range.variantId ?? "__no_variant__"}::${slotKey}`;
+        const existing = groupedRanges.get(groupKey) ?? [];
+        existing.push(range);
+        groupedRanges.set(groupKey, existing);
+      }
+
+      const blockedDateMap = new Map<string, Set<string>>();
+      for (const blockedDate of blockedDates) {
+        const groupPrefix = `${blockedDate.listingId}::${blockedDate.variantId ?? "__no_variant__"}::`;
+        const blockedKey = blockedDate.blockedDate.toISOString().split("T")[0];
+
+        for (const groupKey of groupedRanges.keys()) {
+          if (!groupKey.startsWith(groupPrefix)) continue;
+
+          if (!blockedDateMap.has(groupKey)) {
+            blockedDateMap.set(groupKey, new Set<string>());
+          }
+          blockedDateMap.get(groupKey)!.add(blockedKey);
+        }
+      }
+
+      for (const [groupKey, ranges] of groupedRanges.entries()) {
+        const coveredKeys = new Set<string>();
+        const blockedKeys = blockedDateMap.get(groupKey) ?? new Set<string>();
+
+        for (const range of ranges) {
+          const overlappingStart =
+            range.availableFromDate > filterDateStart ? range.availableFromDate : filterDateStart;
+          const overlappingEnd =
+            range.availableToDate < filterDateEnd ? range.availableToDate : filterDateEnd;
+
+          if (overlappingStart > overlappingEnd) continue;
+
+          for (const dateKey of enumerateUtcDateKeys(overlappingStart, overlappingEnd)) {
+            coveredKeys.add(dateKey);
+          }
+        }
+
+        const hasFullCoverage = selectedDateKeys.every(
+          (dateKey) => coveredKeys.has(dateKey) && !blockedKeys.has(dateKey),
+        );
+
+        if (hasFullCoverage) {
+          availableListingIds.push(groupKey.split("::")[0]);
+        }
+      }
+    }
+
+    return Array.from(new Set(availableListingIds));
+  }
+
+  if (availableOnDate) {
+    const filterDate = new Date(`${availableOnDate}T00:00:00.000Z`);
+    if (Number.isNaN(filterDate.getTime())) {
+      throw new Error("Invalid date format. Use YYYY-MM-DD");
+    }
+
+    const nextDay = new Date(filterDate);
+    nextDay.setDate(nextDay.getDate() + 1);
+    const activityFormats = formatList.filter((format) => format === "F1" || format === "F3");
+    const rentalFormats = formatList.filter((format) => format === "F2" || format === "F4");
+
+    if (activityFormats.length > 0) {
+      const activitySlots = await prisma.listingSlot.findMany({
+        where: {
+          isActive: true,
+          availableCount: { gt: 0 },
+          listing: {
+            bookingFormat: { in: activityFormats },
+          },
+          OR: [
+            {
+              formatType: "F1",
+              batchStartDate: { lte: filterDate },
+              batchEndDate: { gte: filterDate },
+            },
+            {
+              formatType: "F3",
+              slotDate: {
+                gte: filterDate,
+                lt: nextDay,
+              },
+            },
+          ],
+        },
+        select: {
+          listingId: true,
+        },
+        distinct: ["listingId"],
+      });
+
+      availableListingIds.push(...activitySlots.map((slot) => slot.listingId));
+    }
+
+    if (rentalFormats.length > 0) {
+      const rentalDateRanges = await prisma.inventoryDateRange.findMany({
+        where: {
+          isActive: true,
+          listing: {
+            bookingFormat: { in: rentalFormats },
+          },
+          OR: [{ availableCount: { gt: 0 } }, { availableCount: null }],
+          availableFromDate: { lte: filterDate },
+          availableToDate: { gte: filterDate },
+        },
+        select: {
+          listingId: true,
+        },
+        distinct: ["listingId"],
+      });
+
+      availableListingIds.push(...rentalDateRanges.map((range) => range.listingId));
+    }
+
+    return Array.from(new Set(availableListingIds));
+  }
+
+  return null;
+};
+
+const buildListingsWhereClause = async (
+  c: Context,
+  excludedDimensions: Set<ListingFacetDimension> = new Set(),
+) => {
+  const status = c.req.query("status");
+  const searchTerm = (c.req.query("search") || c.req.query("q") || "").trim();
+  const startPrimaryDivisions = c.req.query("startPrimaryDivisions");
+  const startSecondaryDivisions = c.req.query("startSecondaryDivisions");
+  const endPrimaryDivisions = c.req.query("endPrimaryDivisions");
+  const endSecondaryDivisions = c.req.query("endSecondaryDivisions");
+  const categories = c.req.query("categories");
+  const subcategories = c.req.query("subcategories");
+  const sellers = c.req.query("sellers");
+  const formats = c.req.query("formats");
+  const metadataFilters = c.req.query("metadata");
+  const availableOnDate = c.req.query("availableOnDate");
+  const dateRangeStart = c.req.query("dateRangeStart");
+  const dateRangeEnd = c.req.query("dateRangeEnd");
+  const whereClause: any = {};
+  const user = c.get("user");
+  const sellerIds = excludedDimensions.has("seller") ? [] : parseCsvFilter(sellers);
+  const isViewingOwnListings =
+    user && sellerIds.length > 0 && sellerIds.includes(user.userId);
+
+  if (status) {
+    whereClause.status = status;
+  } else if (!isViewingOwnListings && (!user || user.role === "customer" || user.userType === "customer")) {
+    whereClause.status = "active";
+  }
+
+  if (!excludedDimensions.has("location")) {
+    const startPrimaryIds = parseCsvFilter(startPrimaryDivisions);
+    const startSecondaryIds = parseCsvFilter(startSecondaryDivisions);
+    const endPrimaryIds = parseCsvFilter(endPrimaryDivisions);
+    const endSecondaryIds = parseCsvFilter(endSecondaryDivisions);
+
+    if (startPrimaryIds.length > 0) whereClause.startPrimaryDivisionId = { in: startPrimaryIds };
+    if (startSecondaryIds.length > 0) whereClause.startSecondaryDivisionId = { in: startSecondaryIds };
+    if (endPrimaryIds.length > 0) whereClause.endPrimaryDivisionId = { in: endPrimaryIds };
+    if (endSecondaryIds.length > 0) whereClause.endSecondaryDivisionId = { in: endSecondaryIds };
+  }
+
+  if (!excludedDimensions.has("category")) {
+    const categoryIds = parseCsvFilter(categories);
+    if (categoryIds.length > 0) whereClause.categoryId = { in: categoryIds };
+  }
+
+  if (!excludedDimensions.has("subcategory")) {
+    const subCategoryIds = parseCsvFilter(subcategories);
+    if (subCategoryIds.length > 0) whereClause.subCatId = { in: subCategoryIds };
+  }
+
+  if (!excludedDimensions.has("seller") && sellerIds.length > 0) {
+    whereClause.operatorId = { in: sellerIds };
+  }
+
+  if (formats) {
+    const formatList = formats.split(",").filter(Boolean);
+    if (formatList.length > 0) whereClause.bookingFormat = { in: formatList };
+  }
+
+  if (searchTerm) {
+    whereClause.OR = [
+      { listingName: { contains: searchTerm, mode: "insensitive" } },
+      { listingSlug: { contains: searchTerm, mode: "insensitive" } },
+      { startLocationName: { contains: searchTerm, mode: "insensitive" } },
+      { startPrimaryDivision: { division_name: { contains: searchTerm, mode: "insensitive" } } },
+      { startSecondaryDivision: { division_name: { contains: searchTerm, mode: "insensitive" } } },
+      { endPrimaryDivision: { division_name: { contains: searchTerm, mode: "insensitive" } } },
+      { endSecondaryDivision: { division_name: { contains: searchTerm, mode: "insensitive" } } },
+      { category: { categoryName: { contains: searchTerm, mode: "insensitive" } } },
+      { subCategory: { subCatName: { contains: searchTerm, mode: "insensitive" } } },
+      {
+        operator: {
+          OR: [
+            { firstName: { contains: searchTerm, mode: "insensitive" } },
+            { lastName: { contains: searchTerm, mode: "insensitive" } },
+            { email: { contains: searchTerm, mode: "insensitive" } },
+            {
+              operatorProfile: {
+                companyName: {
+                  contains: searchTerm,
+                  mode: "insensitive",
+                },
+              },
+            },
+          ],
+        },
+      },
+    ];
+  }
+
+  if (!excludedDimensions.has("metadata") && metadataFilters) {
+    try {
+      const parsedMetadata = JSON.parse(metadataFilters);
+      if (
+        parsedMetadata &&
+        typeof parsedMetadata === "object" &&
+        !Array.isArray(parsedMetadata) &&
+        Object.keys(parsedMetadata).length > 0
+      ) {
+        const metadataEntries = Object.entries(parsedMetadata).filter(
+          ([, value]) =>
+            value !== null &&
+            value !== undefined &&
+            value !== "" &&
+            (!Array.isArray(value) || value.length > 0),
+        );
+
+        if (metadataEntries.length > 0) {
+          const fieldDefinitions = await prisma.listingMetadataFieldDefinition.findMany({
+            where: {
+              fieldKey: { in: metadataEntries.map(([key]) => key) },
+              isFilter: true,
+            },
+            select: {
+              fieldKey: true,
+              fieldType: true,
+            },
+          });
+
+          const fieldTypeByKey = new Map(
+            fieldDefinitions.map((fieldDefinition) => [
+              fieldDefinition.fieldKey,
+              fieldDefinition.fieldType,
+            ]),
+          );
+
+          const metadataConditions = metadataEntries
+            .map(([key, value]) =>
+              buildMetadataFilterCondition(key, value, fieldTypeByKey.get(key)),
+            )
+            .filter(Boolean);
+
+          if (metadataConditions.length > 0) {
+            const existingAndConditions = Array.isArray(whereClause.AND)
+              ? whereClause.AND
+              : whereClause.AND
+                ? [whereClause.AND]
+                : [];
+
+            whereClause.AND = [...existingAndConditions, ...metadataConditions];
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Error parsing metadata filters:", err);
+    }
+  }
+
+  const availableListingIds = await resolveAvailableListingIds({
+    formats,
+    availableOnDate,
+    dateRangeStart,
+    dateRangeEnd,
+  });
+
+  if (availableListingIds) {
+    whereClause.id = { in: availableListingIds };
+  }
+
+  return whereClause;
+};
+
 /**
  * Common include object for badges - reusable across endpoints
  */
@@ -254,6 +688,7 @@ export const getListings = async (c: Context) => {
 
     // Get category and seller filter parameters
     const categories = c.req.query("categories"); // comma-separated category IDs
+    const subcategories = c.req.query("subcategories"); // comma-separated sub-category IDs
     const sellers = c.req.query("sellers"); // comma-separated operator/seller IDs
 
     // Get format filter parameters
@@ -328,6 +763,13 @@ export const getListings = async (c: Context) => {
       }
     }
 
+    if (subcategories) {
+      const subCategoryIds = subcategories.split(",").filter(Boolean);
+      if (subCategoryIds.length > 0) {
+        whereClause.subCatId = { in: subCategoryIds };
+      }
+    }
+
     // Add seller/operator filter (sellerIds already parsed above)
     if (sellerIds.length > 0) {
       whereClause.operatorId = { in: sellerIds };
@@ -369,6 +811,11 @@ export const getListings = async (c: Context) => {
         {
           category: {
             categoryName: { contains: searchTerm, mode: "insensitive" },
+          },
+        },
+        {
+          subCategory: {
+            subCatName: { contains: searchTerm, mode: "insensitive" },
           },
         },
         {
@@ -829,6 +1276,12 @@ export const getListings = async (c: Context) => {
               categoryName: true,
             },
           },
+          subCategory: {
+            select: {
+              id: true,
+              subCatName: true,
+            },
+          },
           operator: {
             select: {
               id: true,
@@ -1022,6 +1475,101 @@ export const getListings = async (c: Context) => {
   } catch (error) {
     console.error("Get listings error:", error);
     return c.json({ error: "Failed to fetch listings" }, 500);
+  }
+};
+
+export const getListingFilterFacets = async (c: Context) => {
+  try {
+    const [categoryWhere, subcategoryWhere, locationWhere, sellerWhere] =
+      await Promise.all([
+        buildListingsWhereClause(c, new Set(["category", "subcategory", "metadata"])),
+        buildListingsWhereClause(c, new Set(["subcategory"])),
+        buildListingsWhereClause(c, new Set(["location"])),
+        buildListingsWhereClause(c, new Set(["seller"])),
+      ]);
+
+    const [categoryMatches, subcategoryMatches, locationMatches, sellerMatches] =
+      await Promise.all([
+        prisma.listing.findMany({
+          where: categoryWhere,
+          select: {
+            categoryId: true,
+          },
+          distinct: ["categoryId"],
+        }),
+        prisma.listing.findMany({
+          where: subcategoryWhere,
+          select: {
+            subCatId: true,
+          },
+          distinct: ["subCatId"],
+        }),
+        prisma.listing.findMany({
+          where: locationWhere,
+          select: {
+            startPrimaryDivisionId: true,
+            startSecondaryDivisionId: true,
+          },
+          distinct: ["startPrimaryDivisionId", "startSecondaryDivisionId"],
+        }),
+        prisma.listing.findMany({
+          where: sellerWhere,
+          select: {
+            operatorId: true,
+          },
+          distinct: ["operatorId"],
+        }),
+      ]);
+
+    return c.json({
+      success: true,
+      data: {
+        categoryIds: Array.from(
+          new Set(
+            categoryMatches
+              .map((listing) => listing.categoryId)
+              .filter((value): value is string => Boolean(value)),
+          ),
+        ),
+        subcategoryIds: Array.from(
+          new Set(
+            subcategoryMatches
+              .map((listing) => listing.subCatId)
+              .filter((value): value is string => Boolean(value)),
+          ),
+        ),
+        operatorIds: Array.from(
+          new Set(
+            sellerMatches
+              .map((listing) => listing.operatorId)
+              .filter((value): value is string => Boolean(value)),
+          ),
+        ),
+        primaryDivisionIds: Array.from(
+          new Set(
+            locationMatches
+              .map((listing) => listing.startPrimaryDivisionId)
+              .filter((value): value is string => Boolean(value)),
+          ),
+        ),
+        secondaryDivisionIds: Array.from(
+          new Set(
+            locationMatches
+              .map((listing) => listing.startSecondaryDivisionId)
+              .filter((value): value is string => Boolean(value)),
+          ),
+        ),
+      },
+    });
+  } catch (error) {
+    console.error("Get listing filter facets error:", error);
+
+    const message = error instanceof Error ? error.message : "";
+    if (message.includes("Invalid date")) {
+      return c.json({ error: message }, 400);
+    }
+
+    return c.json({ error: "Failed to fetch listing facets" }, 500);
   }
 };
 
