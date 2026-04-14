@@ -56,6 +56,7 @@ model Listing {
   subCategory              SubCategory?               @relation(fields: [subCatId], references: [id], onDelete: Restrict)
   slotDefinitions          SlotDefinition[]           @relation("ListingToSlotDefinition")
   reviews                  Review[]
+  wishlistItems            WishlistItem[]
 
   // Badge and Tag relations
   badges ListingBadge[]
