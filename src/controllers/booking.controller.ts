@@ -71,10 +71,9 @@ const buildCancellationReason = (
 const ADMIN_RESCHEDULE_ACTIVITY_STATUS = {
   PENDING: "RESCHEDULE_PENDING",
   APPROVED: "RESCHEDULE_APPROVED",
+  IN_PROGRESS: "RESCHEDULE_INPROGRESS",
   REJECTED: "RESCHEDULE_REJECTED",
 } as const;
-
-const APPROVED_RESCHEDULE_STATUSES = ["approved", "approved_with_charge"] as const;
 
 const getAdminActivityStatus = (
   bookingStatus: string | null | undefined,
@@ -88,8 +87,12 @@ const getAdminActivityStatus = (
       return ADMIN_RESCHEDULE_ACTIVITY_STATUS.PENDING;
     }
 
-    if (APPROVED_RESCHEDULE_STATUSES.includes(normalizedRescheduleStatus as (typeof APPROVED_RESCHEDULE_STATUSES)[number])) {
+    if (normalizedRescheduleStatus === "approved") {
       return ADMIN_RESCHEDULE_ACTIVITY_STATUS.APPROVED;
+    }
+
+    if (normalizedRescheduleStatus === "approved_with_charge") {
+      return ADMIN_RESCHEDULE_ACTIVITY_STATUS.IN_PROGRESS;
     }
 
     if (normalizedRescheduleStatus === "rejected") {
@@ -1791,6 +1794,7 @@ export const getAdminBookings = async (c: Context) => {
       normalizedActivityStatus === "CONFIRMED" ||
       normalizedActivityStatus === ADMIN_RESCHEDULE_ACTIVITY_STATUS.PENDING ||
       normalizedActivityStatus === ADMIN_RESCHEDULE_ACTIVITY_STATUS.APPROVED ||
+      normalizedActivityStatus === ADMIN_RESCHEDULE_ACTIVITY_STATUS.IN_PROGRESS ||
       normalizedActivityStatus === ADMIN_RESCHEDULE_ACTIVITY_STATUS.REJECTED;
 
     if (normalizedActivityStatus && normalizedActivityStatus !== "ALL") {
@@ -2245,6 +2249,7 @@ export const getAdminBookings = async (c: Context) => {
           (rescheduleCountMap.approved || 0) +
           (rescheduleCountMap.approved_with_charge || 0) +
           (rescheduleCountMap.rejected || 0),
+        rescheduleInProgress: rescheduleCountMap.approved_with_charge || 0,
         unsettled: paymentCountMap.PENDING || 0,
         settlementIssues: paymentCountMap.SETTLEMENT_ISSUE || 0,
       },
@@ -2259,6 +2264,7 @@ export const getAdminBookings = async (c: Context) => {
           "NO_SHOW",
           ADMIN_RESCHEDULE_ACTIVITY_STATUS.PENDING,
           ADMIN_RESCHEDULE_ACTIVITY_STATUS.APPROVED,
+          ADMIN_RESCHEDULE_ACTIVITY_STATUS.IN_PROGRESS,
           ADMIN_RESCHEDULE_ACTIVITY_STATUS.REJECTED,
         ],
         paymentStatuses: [
