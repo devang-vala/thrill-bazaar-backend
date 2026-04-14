@@ -206,3 +206,8 @@ export type UserAddress = Prisma.UserAddressModel
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model WishlistItem
+ * 
+ */
+export type WishlistItem = Prisma.WishlistItemModel
