@@ -9,6 +9,7 @@ import {
 } from "../helpers/validation.helper.js";
 import {
   getCategoryById,
+  getCategoryBySlug,
   getAllCategories,
   createCategory,
   updateCategoryById,
@@ -193,13 +194,15 @@ export const getCategoriesByListingType = async (c: Context) => {
 
 export const getCategory = async (c: Context) => {
   try {
-    const categoryId = c.req.param("id");
+    const categoryIdentifier = c.req.param("id");
 
-    if (!categoryId) {
-      return c.json({ error: "Category ID is required" }, 400);
+    if (!categoryIdentifier) {
+      return c.json({ error: "Category identifier is required" }, 400);
     }
 
-    const category = await getCategoryById(categoryId);
+    const category =
+      (await getCategoryById(categoryIdentifier)) ||
+      (await getCategoryBySlug(categoryIdentifier));
 
     if (!category) {
       return c.json({ error: "Category not found" }, 404);

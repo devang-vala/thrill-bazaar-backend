@@ -52,14 +52,19 @@ export const getPrimaryDivisions = async (c: Context) => {
  */
 export const getPrimaryDivision = async (c: Context) => {
   try {
-    const divisionId = c.req.param("id");
+    const divisionIdentifier = c.req.param("id");
 
-    if (!divisionId) {
-      return c.json({ error: "Primary division ID is required" }, 400);
+    if (!divisionIdentifier) {
+      return c.json({ error: "Primary division identifier is required" }, 400);
     }
 
-    const primaryDivision = await prisma.primaryDivision.findUnique({
-      where: { primary_division_id: divisionId },
+    const primaryDivision = await prisma.primaryDivision.findFirst({
+      where: {
+        OR: [
+          { primary_division_id: divisionIdentifier },
+          { primaryslug: divisionIdentifier },
+        ],
+      },
       include: {
         country: true,
         secondaryDivisions: {
