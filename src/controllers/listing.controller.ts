@@ -1794,6 +1794,8 @@ export const getListing = async (c: Context) => {
           currency: true,
           taxRate: true,
           advanceBookingPercentage: true,
+          platformCommissionPercentage: true,
+          tcsPercentage: true,
           metadata: true,
           startLocationName: true,
           startLocationCoordinates: true,
@@ -2001,10 +2003,16 @@ export const getListing = async (c: Context) => {
       };
     });
 
-    // Check if user is admin
+    // Check access: admins or listing owner (operator) can see all variants
     const isAdmin = user && (user.userType === "admin" || user.userType === "super_admin");
+    const isOwner =
+      user &&
+      user.userType === "operator" &&
+      listing.operator?.id &&
+      user.userId === listing.operator.id;
+    const canSeeAllVariants = Boolean(isAdmin || isOwner);
 
-    if (!isAdmin) {
+    if (!canSeeAllVariants) {
       // Remove admin-specific fields for non-admin users (public/customers)
       // Note: Sellers see rejection reason through their own listings query
       const { approvedByAdminId, approvedAt, ...publicListing } = listing;
@@ -2024,7 +2032,7 @@ export const getListing = async (c: Context) => {
       });
     }
 
-    // Admin gets all data
+    // Admin/owner gets all data
     return c.json({
       success: true,
       data: {
@@ -2228,6 +2236,12 @@ export const getListingById = async (c: Context) => {
 
     // If user is not admin, remove admin-specific fields
     const isAdmin = user && (user.userType === "admin" || user.userType === "super_admin");
+    const isOwner =
+      user &&
+      user.userType === "operator" &&
+      listing.operator?.id &&
+      user.userId === listing.operator.id;
+    const canSeeAllVariants = Boolean(isAdmin || isOwner);
 
     // Avoid stale status/rejection reason for authenticated users.
     if (user) {
@@ -2236,7 +2250,7 @@ export const getListingById = async (c: Context) => {
       c.header('Cache-Control', 'public, max-age=180, s-maxage=180');
     }
 
-    if (!isAdmin) {
+    if (!canSeeAllVariants) {
       // Remove admin-specific sensitive fields for non-admin users
       const { approvedByAdminId, approvedAt, ...publicListing } = listing;
       const variantsForPublic =
@@ -2265,7 +2279,7 @@ export const getListingById = async (c: Context) => {
       });
     }
 
-    // Admin gets all data including rejection reason
+    // Admin/owner gets all data including rejection reason
     return c.json({
       success: true,
       data: {

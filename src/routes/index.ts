@@ -37,6 +37,8 @@ import badgeRouter from "./badge.route.js";
 import tagRouter from "./tag.route.js";
 import settingsRouter from "./settings.route.js";
 import offerPromocodeRouter from "./offerPromocode.route.js";
+import wishlistRouter from "./wishlist.route.js";
+import razorpayRouter from "./razorpay.route.js";
 
 const router = new Hono();
 
@@ -119,5 +121,11 @@ router.route("/settings", settingsRouter);
 
 // Mount offers routes
 router.route("/offers-promocodes", offerPromocodeRouter);
+
+// Mount wishlist routes
+router.route("/wishlist", wishlistRouter);
+
+// Mount Razorpay payment routes
+router.route("/payments/razorpay", razorpayRouter);
 
 export default router;

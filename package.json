@@ -21,6 +21,7 @@
     "meilisearch": "^0.54.0",
     "multer": "^2.0.2",
     "node-fetch": "^3.3.2",
+    "razorpay": "^2.9.6",
     "twilio": "^5.10.4",
     "zod": "^4.1.13"
   },
