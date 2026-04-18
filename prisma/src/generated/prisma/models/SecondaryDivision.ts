@@ -39,6 +39,7 @@ export type SecondaryDivisionMinAggregateOutputType = {
   secondary_division_id: string | null
   primary_division_id: string | null
   division_name: string | null
+  secondaryslug: string | null
   latitude: number | null
   longitude: number | null
 }
@@ -47,6 +48,7 @@ export type SecondaryDivisionMaxAggregateOutputType = {
   secondary_division_id: string | null
   primary_division_id: string | null
   division_name: string | null
+  secondaryslug: string | null
   latitude: number | null
   longitude: number | null
 }
@@ -55,6 +57,7 @@ export type SecondaryDivisionCountAggregateOutputType = {
   secondary_division_id: number
   primary_division_id: number
   division_name: number
+  secondaryslug: number
   latitude: number
   longitude: number
   _all: number
@@ -75,6 +78,7 @@ export type SecondaryDivisionMinAggregateInputType = {
   secondary_division_id?: true
   primary_division_id?: true
   division_name?: true
+  secondaryslug?: true
   latitude?: true
   longitude?: true
 }
@@ -83,6 +87,7 @@ export type SecondaryDivisionMaxAggregateInputType = {
   secondary_division_id?: true
   primary_division_id?: true
   division_name?: true
+  secondaryslug?: true
   latitude?: true
   longitude?: true
 }
@@ -91,6 +96,7 @@ export type SecondaryDivisionCountAggregateInputType = {
   secondary_division_id?: true
   primary_division_id?: true
   division_name?: true
+  secondaryslug?: true
   latitude?: true
   longitude?: true
   _all?: true
@@ -186,6 +192,7 @@ export type SecondaryDivisionGroupByOutputType = {
   secondary_division_id: string
   primary_division_id: string
   division_name: string
+  secondaryslug: string | null
   latitude: number
   longitude: number
   _count: SecondaryDivisionCountAggregateOutputType | null
@@ -217,6 +224,7 @@ export type SecondaryDivisionWhereInput = {
   secondary_division_id?: Prisma.StringFilter<"SecondaryDivision"> | string
   primary_division_id?: Prisma.StringFilter<"SecondaryDivision"> | string
   division_name?: Prisma.StringFilter<"SecondaryDivision"> | string
+  secondaryslug?: Prisma.StringNullableFilter<"SecondaryDivision"> | string | null
   latitude?: Prisma.FloatFilter<"SecondaryDivision"> | number
   longitude?: Prisma.FloatFilter<"SecondaryDivision"> | number
   listingsEnd?: Prisma.ListingListRelationFilter
@@ -228,6 +236,7 @@ export type SecondaryDivisionOrderByWithRelationInput = {
   secondary_division_id?: Prisma.SortOrder
   primary_division_id?: Prisma.SortOrder
   division_name?: Prisma.SortOrder
+  secondaryslug?: Prisma.SortOrderInput | Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   listingsEnd?: Prisma.ListingOrderByRelationAggregateInput
@@ -237,6 +246,7 @@ export type SecondaryDivisionOrderByWithRelationInput = {
 
 export type SecondaryDivisionWhereUniqueInput = Prisma.AtLeast<{
   secondary_division_id?: string
+  secondaryslug?: string
   AND?: Prisma.SecondaryDivisionWhereInput | Prisma.SecondaryDivisionWhereInput[]
   OR?: Prisma.SecondaryDivisionWhereInput[]
   NOT?: Prisma.SecondaryDivisionWhereInput | Prisma.SecondaryDivisionWhereInput[]
@@ -247,12 +257,13 @@ export type SecondaryDivisionWhereUniqueInput = Prisma.AtLeast<{
   listingsEnd?: Prisma.ListingListRelationFilter
   listingsStart?: Prisma.ListingListRelationFilter
   primaryDivision?: Prisma.XOR<Prisma.PrimaryDivisionScalarRelationFilter, Prisma.PrimaryDivisionWhereInput>
-}, "secondary_division_id">
+}, "secondary_division_id" | "secondaryslug">
 
 export type SecondaryDivisionOrderByWithAggregationInput = {
   secondary_division_id?: Prisma.SortOrder
   primary_division_id?: Prisma.SortOrder
   division_name?: Prisma.SortOrder
+  secondaryslug?: Prisma.SortOrderInput | Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   _count?: Prisma.SecondaryDivisionCountOrderByAggregateInput
@@ -269,6 +280,7 @@ export type SecondaryDivisionScalarWhereWithAggregatesInput = {
   secondary_division_id?: Prisma.StringWithAggregatesFilter<"SecondaryDivision"> | string
   primary_division_id?: Prisma.StringWithAggregatesFilter<"SecondaryDivision"> | string
   division_name?: Prisma.StringWithAggregatesFilter<"SecondaryDivision"> | string
+  secondaryslug?: Prisma.StringNullableWithAggregatesFilter<"SecondaryDivision"> | string | null
   latitude?: Prisma.FloatWithAggregatesFilter<"SecondaryDivision"> | number
   longitude?: Prisma.FloatWithAggregatesFilter<"SecondaryDivision"> | number
 }
@@ -276,6 +288,7 @@ export type SecondaryDivisionScalarWhereWithAggregatesInput = {
 export type SecondaryDivisionCreateInput = {
   secondary_division_id?: string
   division_name: string
+  secondaryslug?: string | null
   latitude: number
   longitude: number
   listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndSecondaryDivisionInput
@@ -287,6 +300,7 @@ export type SecondaryDivisionUncheckedCreateInput = {
   secondary_division_id?: string
   primary_division_id: string
   division_name: string
+  secondaryslug?: string | null
   latitude: number
   longitude: number
   listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndSecondaryDivisionInput
@@ -296,6 +310,7 @@ export type SecondaryDivisionUncheckedCreateInput = {
 export type SecondaryDivisionUpdateInput = {
   secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   listingsEnd?: Prisma.ListingUpdateManyWithoutEndSecondaryDivisionNestedInput
@@ -307,6 +322,7 @@ export type SecondaryDivisionUncheckedUpdateInput = {
   secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndSecondaryDivisionNestedInput
@@ -317,6 +333,7 @@ export type SecondaryDivisionCreateManyInput = {
   secondary_division_id?: string
   primary_division_id: string
   division_name: string
+  secondaryslug?: string | null
   latitude: number
   longitude: number
 }
@@ -324,6 +341,7 @@ export type SecondaryDivisionCreateManyInput = {
 export type SecondaryDivisionUpdateManyMutationInput = {
   secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
 }
@@ -332,6 +350,7 @@ export type SecondaryDivisionUncheckedUpdateManyInput = {
   secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
 }
@@ -355,6 +374,7 @@ export type SecondaryDivisionCountOrderByAggregateInput = {
   secondary_division_id?: Prisma.SortOrder
   primary_division_id?: Prisma.SortOrder
   division_name?: Prisma.SortOrder
+  secondaryslug?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
 }
@@ -368,6 +388,7 @@ export type SecondaryDivisionMaxOrderByAggregateInput = {
   secondary_division_id?: Prisma.SortOrder
   primary_division_id?: Prisma.SortOrder
   division_name?: Prisma.SortOrder
+  secondaryslug?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
 }
@@ -376,6 +397,7 @@ export type SecondaryDivisionMinOrderByAggregateInput = {
   secondary_division_id?: Prisma.SortOrder
   primary_division_id?: Prisma.SortOrder
   division_name?: Prisma.SortOrder
+  secondaryslug?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
 }
@@ -470,6 +492,7 @@ export type FloatFieldUpdateOperationsInput = {
 export type SecondaryDivisionCreateWithoutListingsEndInput = {
   secondary_division_id?: string
   division_name: string
+  secondaryslug?: string | null
   latitude: number
   longitude: number
   listingsStart?: Prisma.ListingCreateNestedManyWithoutStartSecondaryDivisionInput
@@ -480,6 +503,7 @@ export type SecondaryDivisionUncheckedCreateWithoutListingsEndInput = {
   secondary_division_id?: string
   primary_division_id: string
   division_name: string
+  secondaryslug?: string | null
   latitude: number
   longitude: number
   listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartSecondaryDivisionInput
@@ -493,6 +517,7 @@ export type SecondaryDivisionCreateOrConnectWithoutListingsEndInput = {
 export type SecondaryDivisionCreateWithoutListingsStartInput = {
   secondary_division_id?: string
   division_name: string
+  secondaryslug?: string | null
   latitude: number
   longitude: number
   listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndSecondaryDivisionInput
@@ -503,6 +528,7 @@ export type SecondaryDivisionUncheckedCreateWithoutListingsStartInput = {
   secondary_division_id?: string
   primary_division_id: string
   division_name: string
+  secondaryslug?: string | null
   latitude: number
   longitude: number
   listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndSecondaryDivisionInput
@@ -527,6 +553,7 @@ export type SecondaryDivisionUpdateToOneWithWhereWithoutListingsEndInput = {
 export type SecondaryDivisionUpdateWithoutListingsEndInput = {
   secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   listingsStart?: Prisma.ListingUpdateManyWithoutStartSecondaryDivisionNestedInput
@@ -537,6 +564,7 @@ export type SecondaryDivisionUncheckedUpdateWithoutListingsEndInput = {
   secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartSecondaryDivisionNestedInput
@@ -556,6 +584,7 @@ export type SecondaryDivisionUpdateToOneWithWhereWithoutListingsStartInput = {
 export type SecondaryDivisionUpdateWithoutListingsStartInput = {
   secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   listingsEnd?: Prisma.ListingUpdateManyWithoutEndSecondaryDivisionNestedInput
@@ -566,6 +595,7 @@ export type SecondaryDivisionUncheckedUpdateWithoutListingsStartInput = {
   secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndSecondaryDivisionNestedInput
@@ -574,6 +604,7 @@ export type SecondaryDivisionUncheckedUpdateWithoutListingsStartInput = {
 export type SecondaryDivisionCreateWithoutPrimaryDivisionInput = {
   secondary_division_id?: string
   division_name: string
+  secondaryslug?: string | null
   latitude: number
   longitude: number
   listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndSecondaryDivisionInput
@@ -583,6 +614,7 @@ export type SecondaryDivisionCreateWithoutPrimaryDivisionInput = {
 export type SecondaryDivisionUncheckedCreateWithoutPrimaryDivisionInput = {
   secondary_division_id?: string
   division_name: string
+  secondaryslug?: string | null
   latitude: number
   longitude: number
   listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndSecondaryDivisionInput
@@ -622,6 +654,7 @@ export type SecondaryDivisionScalarWhereInput = {
   secondary_division_id?: Prisma.StringFilter<"SecondaryDivision"> | string
   primary_division_id?: Prisma.StringFilter<"SecondaryDivision"> | string
   division_name?: Prisma.StringFilter<"SecondaryDivision"> | string
+  secondaryslug?: Prisma.StringNullableFilter<"SecondaryDivision"> | string | null
   latitude?: Prisma.FloatFilter<"SecondaryDivision"> | number
   longitude?: Prisma.FloatFilter<"SecondaryDivision"> | number
 }
@@ -629,6 +662,7 @@ export type SecondaryDivisionScalarWhereInput = {
 export type SecondaryDivisionCreateManyPrimaryDivisionInput = {
   secondary_division_id?: string
   division_name: string
+  secondaryslug?: string | null
   latitude: number
   longitude: number
 }
@@ -636,6 +670,7 @@ export type SecondaryDivisionCreateManyPrimaryDivisionInput = {
 export type SecondaryDivisionUpdateWithoutPrimaryDivisionInput = {
   secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   listingsEnd?: Prisma.ListingUpdateManyWithoutEndSecondaryDivisionNestedInput
@@ -645,6 +680,7 @@ export type SecondaryDivisionUpdateWithoutPrimaryDivisionInput = {
 export type SecondaryDivisionUncheckedUpdateWithoutPrimaryDivisionInput = {
   secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndSecondaryDivisionNestedInput
@@ -654,6 +690,7 @@ export type SecondaryDivisionUncheckedUpdateWithoutPrimaryDivisionInput = {
 export type SecondaryDivisionUncheckedUpdateManyWithoutPrimaryDivisionInput = {
   secondary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
+  secondaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
 }
@@ -702,6 +739,7 @@ export type SecondaryDivisionSelect<ExtArgs extends runtime.Types.Extensions.Int
   secondary_division_id?: boolean
   primary_division_id?: boolean
   division_name?: boolean
+  secondaryslug?: boolean
   latitude?: boolean
   longitude?: boolean
   listingsEnd?: boolean | Prisma.SecondaryDivision$listingsEndArgs<ExtArgs>
@@ -714,6 +752,7 @@ export type SecondaryDivisionSelectCreateManyAndReturn<ExtArgs extends runtime.T
   secondary_division_id?: boolean
   primary_division_id?: boolean
   division_name?: boolean
+  secondaryslug?: boolean
   latitude?: boolean
   longitude?: boolean
   primaryDivision?: boolean | Prisma.PrimaryDivisionDefaultArgs<ExtArgs>
@@ -723,6 +762,7 @@ export type SecondaryDivisionSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   secondary_division_id?: boolean
   primary_division_id?: boolean
   division_name?: boolean
+  secondaryslug?: boolean
   latitude?: boolean
   longitude?: boolean
   primaryDivision?: boolean | Prisma.PrimaryDivisionDefaultArgs<ExtArgs>
@@ -732,11 +772,12 @@ export type SecondaryDivisionSelectScalar = {
   secondary_division_id?: boolean
   primary_division_id?: boolean
   division_name?: boolean
+  secondaryslug?: boolean
   latitude?: boolean
   longitude?: boolean
 }
 
-export type SecondaryDivisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"secondary_division_id" | "primary_division_id" | "division_name" | "latitude" | "longitude", ExtArgs["result"]["secondaryDivision"]>
+export type SecondaryDivisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"secondary_division_id" | "primary_division_id" | "division_name" | "secondaryslug" | "latitude" | "longitude", ExtArgs["result"]["secondaryDivision"]>
 export type SecondaryDivisionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listingsEnd?: boolean | Prisma.SecondaryDivision$listingsEndArgs<ExtArgs>
   listingsStart?: boolean | Prisma.SecondaryDivision$listingsStartArgs<ExtArgs>
@@ -761,6 +802,7 @@ export type $SecondaryDivisionPayload<ExtArgs extends runtime.Types.Extensions.I
     secondary_division_id: string
     primary_division_id: string
     division_name: string
+    secondaryslug: string | null
     latitude: number
     longitude: number
   }, ExtArgs["result"]["secondaryDivision"]>
@@ -1192,6 +1234,7 @@ export interface SecondaryDivisionFieldRefs {
   readonly secondary_division_id: Prisma.FieldRef<"SecondaryDivision", 'String'>
   readonly primary_division_id: Prisma.FieldRef<"SecondaryDivision", 'String'>
   readonly division_name: Prisma.FieldRef<"SecondaryDivision", 'String'>
+  readonly secondaryslug: Prisma.FieldRef<"SecondaryDivision", 'String'>
   readonly latitude: Prisma.FieldRef<"SecondaryDivision", 'Float'>
   readonly longitude: Prisma.FieldRef<"SecondaryDivision", 'Float'>
 }

@@ -161,6 +161,7 @@ export const indexListing = async (listingId: string) => {
             operatorId: listing.operatorId,
             operatorName,
             categoryId: listing.categoryId,
+            categorySlug: listing.category?.categorySlug || "",
             categoryName: listing.category?.categoryName || "",
             subCatId: listing.subCatId,
             subCategoryName: listing.subCategory?.subCatName || "",

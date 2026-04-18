@@ -28,6 +28,7 @@ export type PrimaryDivisionMinAggregateOutputType = {
   country_id: string | null
   division_name: string | null
   division_code: string | null
+  primaryslug: string | null
 }
 
 export type PrimaryDivisionMaxAggregateOutputType = {
@@ -35,6 +36,7 @@ export type PrimaryDivisionMaxAggregateOutputType = {
   country_id: string | null
   division_name: string | null
   division_code: string | null
+  primaryslug: string | null
 }
 
 export type PrimaryDivisionCountAggregateOutputType = {
@@ -42,6 +44,7 @@ export type PrimaryDivisionCountAggregateOutputType = {
   country_id: number
   division_name: number
   division_code: number
+  primaryslug: number
   _all: number
 }
 
@@ -51,6 +54,7 @@ export type PrimaryDivisionMinAggregateInputType = {
   country_id?: true
   division_name?: true
   division_code?: true
+  primaryslug?: true
 }
 
 export type PrimaryDivisionMaxAggregateInputType = {
@@ -58,6 +62,7 @@ export type PrimaryDivisionMaxAggregateInputType = {
   country_id?: true
   division_name?: true
   division_code?: true
+  primaryslug?: true
 }
 
 export type PrimaryDivisionCountAggregateInputType = {
@@ -65,6 +70,7 @@ export type PrimaryDivisionCountAggregateInputType = {
   country_id?: true
   division_name?: true
   division_code?: true
+  primaryslug?: true
   _all?: true
 }
 
@@ -145,6 +151,7 @@ export type PrimaryDivisionGroupByOutputType = {
   country_id: string
   division_name: string
   division_code: string
+  primaryslug: string | null
   _count: PrimaryDivisionCountAggregateOutputType | null
   _min: PrimaryDivisionMinAggregateOutputType | null
   _max: PrimaryDivisionMaxAggregateOutputType | null
@@ -173,6 +180,7 @@ export type PrimaryDivisionWhereInput = {
   country_id?: Prisma.StringFilter<"PrimaryDivision"> | string
   division_name?: Prisma.StringFilter<"PrimaryDivision"> | string
   division_code?: Prisma.StringFilter<"PrimaryDivision"> | string
+  primaryslug?: Prisma.StringNullableFilter<"PrimaryDivision"> | string | null
   listingsEnd?: Prisma.ListingListRelationFilter
   listingsStart?: Prisma.ListingListRelationFilter
   country?: Prisma.XOR<Prisma.CountryScalarRelationFilter, Prisma.CountryWhereInput>
@@ -184,6 +192,7 @@ export type PrimaryDivisionOrderByWithRelationInput = {
   country_id?: Prisma.SortOrder
   division_name?: Prisma.SortOrder
   division_code?: Prisma.SortOrder
+  primaryslug?: Prisma.SortOrderInput | Prisma.SortOrder
   listingsEnd?: Prisma.ListingOrderByRelationAggregateInput
   listingsStart?: Prisma.ListingOrderByRelationAggregateInput
   country?: Prisma.CountryOrderByWithRelationInput
@@ -192,6 +201,7 @@ export type PrimaryDivisionOrderByWithRelationInput = {
 
 export type PrimaryDivisionWhereUniqueInput = Prisma.AtLeast<{
   primary_division_id?: string
+  primaryslug?: string
   AND?: Prisma.PrimaryDivisionWhereInput | Prisma.PrimaryDivisionWhereInput[]
   OR?: Prisma.PrimaryDivisionWhereInput[]
   NOT?: Prisma.PrimaryDivisionWhereInput | Prisma.PrimaryDivisionWhereInput[]
@@ -202,13 +212,14 @@ export type PrimaryDivisionWhereUniqueInput = Prisma.AtLeast<{
   listingsStart?: Prisma.ListingListRelationFilter
   country?: Prisma.XOR<Prisma.CountryScalarRelationFilter, Prisma.CountryWhereInput>
   secondaryDivisions?: Prisma.SecondaryDivisionListRelationFilter
-}, "primary_division_id">
+}, "primary_division_id" | "primaryslug">
 
 export type PrimaryDivisionOrderByWithAggregationInput = {
   primary_division_id?: Prisma.SortOrder
   country_id?: Prisma.SortOrder
   division_name?: Prisma.SortOrder
   division_code?: Prisma.SortOrder
+  primaryslug?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PrimaryDivisionCountOrderByAggregateInput
   _max?: Prisma.PrimaryDivisionMaxOrderByAggregateInput
   _min?: Prisma.PrimaryDivisionMinOrderByAggregateInput
@@ -222,12 +233,14 @@ export type PrimaryDivisionScalarWhereWithAggregatesInput = {
   country_id?: Prisma.StringWithAggregatesFilter<"PrimaryDivision"> | string
   division_name?: Prisma.StringWithAggregatesFilter<"PrimaryDivision"> | string
   division_code?: Prisma.StringWithAggregatesFilter<"PrimaryDivision"> | string
+  primaryslug?: Prisma.StringNullableWithAggregatesFilter<"PrimaryDivision"> | string | null
 }
 
 export type PrimaryDivisionCreateInput = {
   primary_division_id?: string
   division_name: string
   division_code: string
+  primaryslug?: string | null
   listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndPrimaryDivisionInput
   listingsStart?: Prisma.ListingCreateNestedManyWithoutStartPrimaryDivisionInput
   country: Prisma.CountryCreateNestedOneWithoutPrimaryDivisionsInput
@@ -239,6 +252,7 @@ export type PrimaryDivisionUncheckedCreateInput = {
   country_id: string
   division_name: string
   division_code: string
+  primaryslug?: string | null
   listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndPrimaryDivisionInput
   listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartPrimaryDivisionInput
   secondaryDivisions?: Prisma.SecondaryDivisionUncheckedCreateNestedManyWithoutPrimaryDivisionInput
@@ -248,6 +262,7 @@ export type PrimaryDivisionUpdateInput = {
   primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingsEnd?: Prisma.ListingUpdateManyWithoutEndPrimaryDivisionNestedInput
   listingsStart?: Prisma.ListingUpdateManyWithoutStartPrimaryDivisionNestedInput
   country?: Prisma.CountryUpdateOneRequiredWithoutPrimaryDivisionsNestedInput
@@ -259,6 +274,7 @@ export type PrimaryDivisionUncheckedUpdateInput = {
   country_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndPrimaryDivisionNestedInput
   listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartPrimaryDivisionNestedInput
   secondaryDivisions?: Prisma.SecondaryDivisionUncheckedUpdateManyWithoutPrimaryDivisionNestedInput
@@ -269,12 +285,14 @@ export type PrimaryDivisionCreateManyInput = {
   country_id: string
   division_name: string
   division_code: string
+  primaryslug?: string | null
 }
 
 export type PrimaryDivisionUpdateManyMutationInput = {
   primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PrimaryDivisionUncheckedUpdateManyInput = {
@@ -282,6 +300,7 @@ export type PrimaryDivisionUncheckedUpdateManyInput = {
   country_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PrimaryDivisionListRelationFilter = {
@@ -304,6 +323,7 @@ export type PrimaryDivisionCountOrderByAggregateInput = {
   country_id?: Prisma.SortOrder
   division_name?: Prisma.SortOrder
   division_code?: Prisma.SortOrder
+  primaryslug?: Prisma.SortOrder
 }
 
 export type PrimaryDivisionMaxOrderByAggregateInput = {
@@ -311,6 +331,7 @@ export type PrimaryDivisionMaxOrderByAggregateInput = {
   country_id?: Prisma.SortOrder
   division_name?: Prisma.SortOrder
   division_code?: Prisma.SortOrder
+  primaryslug?: Prisma.SortOrder
 }
 
 export type PrimaryDivisionMinOrderByAggregateInput = {
@@ -318,6 +339,7 @@ export type PrimaryDivisionMinOrderByAggregateInput = {
   country_id?: Prisma.SortOrder
   division_name?: Prisma.SortOrder
   division_code?: Prisma.SortOrder
+  primaryslug?: Prisma.SortOrder
 }
 
 export type PrimaryDivisionScalarRelationFilter = {
@@ -417,6 +439,7 @@ export type PrimaryDivisionCreateWithoutCountryInput = {
   primary_division_id?: string
   division_name: string
   division_code: string
+  primaryslug?: string | null
   listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndPrimaryDivisionInput
   listingsStart?: Prisma.ListingCreateNestedManyWithoutStartPrimaryDivisionInput
   secondaryDivisions?: Prisma.SecondaryDivisionCreateNestedManyWithoutPrimaryDivisionInput
@@ -426,6 +449,7 @@ export type PrimaryDivisionUncheckedCreateWithoutCountryInput = {
   primary_division_id?: string
   division_name: string
   division_code: string
+  primaryslug?: string | null
   listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndPrimaryDivisionInput
   listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartPrimaryDivisionInput
   secondaryDivisions?: Prisma.SecondaryDivisionUncheckedCreateNestedManyWithoutPrimaryDivisionInput
@@ -465,12 +489,14 @@ export type PrimaryDivisionScalarWhereInput = {
   country_id?: Prisma.StringFilter<"PrimaryDivision"> | string
   division_name?: Prisma.StringFilter<"PrimaryDivision"> | string
   division_code?: Prisma.StringFilter<"PrimaryDivision"> | string
+  primaryslug?: Prisma.StringNullableFilter<"PrimaryDivision"> | string | null
 }
 
 export type PrimaryDivisionCreateWithoutListingsEndInput = {
   primary_division_id?: string
   division_name: string
   division_code: string
+  primaryslug?: string | null
   listingsStart?: Prisma.ListingCreateNestedManyWithoutStartPrimaryDivisionInput
   country: Prisma.CountryCreateNestedOneWithoutPrimaryDivisionsInput
   secondaryDivisions?: Prisma.SecondaryDivisionCreateNestedManyWithoutPrimaryDivisionInput
@@ -481,6 +507,7 @@ export type PrimaryDivisionUncheckedCreateWithoutListingsEndInput = {
   country_id: string
   division_name: string
   division_code: string
+  primaryslug?: string | null
   listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartPrimaryDivisionInput
   secondaryDivisions?: Prisma.SecondaryDivisionUncheckedCreateNestedManyWithoutPrimaryDivisionInput
 }
@@ -494,6 +521,7 @@ export type PrimaryDivisionCreateWithoutListingsStartInput = {
   primary_division_id?: string
   division_name: string
   division_code: string
+  primaryslug?: string | null
   listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndPrimaryDivisionInput
   country: Prisma.CountryCreateNestedOneWithoutPrimaryDivisionsInput
   secondaryDivisions?: Prisma.SecondaryDivisionCreateNestedManyWithoutPrimaryDivisionInput
@@ -504,6 +532,7 @@ export type PrimaryDivisionUncheckedCreateWithoutListingsStartInput = {
   country_id: string
   division_name: string
   division_code: string
+  primaryslug?: string | null
   listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndPrimaryDivisionInput
   secondaryDivisions?: Prisma.SecondaryDivisionUncheckedCreateNestedManyWithoutPrimaryDivisionInput
 }
@@ -528,6 +557,7 @@ export type PrimaryDivisionUpdateWithoutListingsEndInput = {
   primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingsStart?: Prisma.ListingUpdateManyWithoutStartPrimaryDivisionNestedInput
   country?: Prisma.CountryUpdateOneRequiredWithoutPrimaryDivisionsNestedInput
   secondaryDivisions?: Prisma.SecondaryDivisionUpdateManyWithoutPrimaryDivisionNestedInput
@@ -538,6 +568,7 @@ export type PrimaryDivisionUncheckedUpdateWithoutListingsEndInput = {
   country_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartPrimaryDivisionNestedInput
   secondaryDivisions?: Prisma.SecondaryDivisionUncheckedUpdateManyWithoutPrimaryDivisionNestedInput
 }
@@ -557,6 +588,7 @@ export type PrimaryDivisionUpdateWithoutListingsStartInput = {
   primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingsEnd?: Prisma.ListingUpdateManyWithoutEndPrimaryDivisionNestedInput
   country?: Prisma.CountryUpdateOneRequiredWithoutPrimaryDivisionsNestedInput
   secondaryDivisions?: Prisma.SecondaryDivisionUpdateManyWithoutPrimaryDivisionNestedInput
@@ -567,6 +599,7 @@ export type PrimaryDivisionUncheckedUpdateWithoutListingsStartInput = {
   country_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndPrimaryDivisionNestedInput
   secondaryDivisions?: Prisma.SecondaryDivisionUncheckedUpdateManyWithoutPrimaryDivisionNestedInput
 }
@@ -575,6 +608,7 @@ export type PrimaryDivisionCreateWithoutSecondaryDivisionsInput = {
   primary_division_id?: string
   division_name: string
   division_code: string
+  primaryslug?: string | null
   listingsEnd?: Prisma.ListingCreateNestedManyWithoutEndPrimaryDivisionInput
   listingsStart?: Prisma.ListingCreateNestedManyWithoutStartPrimaryDivisionInput
   country: Prisma.CountryCreateNestedOneWithoutPrimaryDivisionsInput
@@ -585,6 +619,7 @@ export type PrimaryDivisionUncheckedCreateWithoutSecondaryDivisionsInput = {
   country_id: string
   division_name: string
   division_code: string
+  primaryslug?: string | null
   listingsEnd?: Prisma.ListingUncheckedCreateNestedManyWithoutEndPrimaryDivisionInput
   listingsStart?: Prisma.ListingUncheckedCreateNestedManyWithoutStartPrimaryDivisionInput
 }
@@ -609,6 +644,7 @@ export type PrimaryDivisionUpdateWithoutSecondaryDivisionsInput = {
   primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingsEnd?: Prisma.ListingUpdateManyWithoutEndPrimaryDivisionNestedInput
   listingsStart?: Prisma.ListingUpdateManyWithoutStartPrimaryDivisionNestedInput
   country?: Prisma.CountryUpdateOneRequiredWithoutPrimaryDivisionsNestedInput
@@ -619,6 +655,7 @@ export type PrimaryDivisionUncheckedUpdateWithoutSecondaryDivisionsInput = {
   country_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndPrimaryDivisionNestedInput
   listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartPrimaryDivisionNestedInput
 }
@@ -627,12 +664,14 @@ export type PrimaryDivisionCreateManyCountryInput = {
   primary_division_id?: string
   division_name: string
   division_code: string
+  primaryslug?: string | null
 }
 
 export type PrimaryDivisionUpdateWithoutCountryInput = {
   primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingsEnd?: Prisma.ListingUpdateManyWithoutEndPrimaryDivisionNestedInput
   listingsStart?: Prisma.ListingUpdateManyWithoutStartPrimaryDivisionNestedInput
   secondaryDivisions?: Prisma.SecondaryDivisionUpdateManyWithoutPrimaryDivisionNestedInput
@@ -642,6 +681,7 @@ export type PrimaryDivisionUncheckedUpdateWithoutCountryInput = {
   primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   listingsEnd?: Prisma.ListingUncheckedUpdateManyWithoutEndPrimaryDivisionNestedInput
   listingsStart?: Prisma.ListingUncheckedUpdateManyWithoutStartPrimaryDivisionNestedInput
   secondaryDivisions?: Prisma.SecondaryDivisionUncheckedUpdateManyWithoutPrimaryDivisionNestedInput
@@ -651,6 +691,7 @@ export type PrimaryDivisionUncheckedUpdateManyWithoutCountryInput = {
   primary_division_id?: Prisma.StringFieldUpdateOperationsInput | string
   division_name?: Prisma.StringFieldUpdateOperationsInput | string
   division_code?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryslug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -707,6 +748,7 @@ export type PrimaryDivisionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   country_id?: boolean
   division_name?: boolean
   division_code?: boolean
+  primaryslug?: boolean
   listingsEnd?: boolean | Prisma.PrimaryDivision$listingsEndArgs<ExtArgs>
   listingsStart?: boolean | Prisma.PrimaryDivision$listingsStartArgs<ExtArgs>
   country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
@@ -719,6 +761,7 @@ export type PrimaryDivisionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   country_id?: boolean
   division_name?: boolean
   division_code?: boolean
+  primaryslug?: boolean
   country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["primaryDivision"]>
 
@@ -727,6 +770,7 @@ export type PrimaryDivisionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   country_id?: boolean
   division_name?: boolean
   division_code?: boolean
+  primaryslug?: boolean
   country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["primaryDivision"]>
 
@@ -735,9 +779,10 @@ export type PrimaryDivisionSelectScalar = {
   country_id?: boolean
   division_name?: boolean
   division_code?: boolean
+  primaryslug?: boolean
 }
 
-export type PrimaryDivisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"primary_division_id" | "country_id" | "division_name" | "division_code", ExtArgs["result"]["primaryDivision"]>
+export type PrimaryDivisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"primary_division_id" | "country_id" | "division_name" | "division_code" | "primaryslug", ExtArgs["result"]["primaryDivision"]>
 export type PrimaryDivisionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   listingsEnd?: boolean | Prisma.PrimaryDivision$listingsEndArgs<ExtArgs>
   listingsStart?: boolean | Prisma.PrimaryDivision$listingsStartArgs<ExtArgs>
@@ -765,6 +810,7 @@ export type $PrimaryDivisionPayload<ExtArgs extends runtime.Types.Extensions.Int
     country_id: string
     division_name: string
     division_code: string
+    primaryslug: string | null
   }, ExtArgs["result"]["primaryDivision"]>
   composites: {}
 }
@@ -1196,6 +1242,7 @@ export interface PrimaryDivisionFieldRefs {
   readonly country_id: Prisma.FieldRef<"PrimaryDivision", 'String'>
   readonly division_name: Prisma.FieldRef<"PrimaryDivision", 'String'>
   readonly division_code: Prisma.FieldRef<"PrimaryDivision", 'String'>
+  readonly primaryslug: Prisma.FieldRef<"PrimaryDivision", 'String'>
 }
     
 

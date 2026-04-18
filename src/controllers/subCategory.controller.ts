@@ -9,6 +9,7 @@ import {
 } from "../helpers/validation.helper.js";
 import {
   getSubCategoryById,
+  getSubCategoryBySlug,
   getAllSubCategories,
   getSubCategoriesByCategory,
   createSubCategory,
@@ -62,13 +63,15 @@ export const getSubCategories = async (c: Context) => {
 
 export const getSubCategory = async (c: Context) => {
   try {
-    const subCategoryId = c.req.param("id");
+    const subCategoryIdentifier = c.req.param("id");
 
-    if (!subCategoryId) {
-      return c.json({ error: "Sub-category ID is required" }, 400);
+    if (!subCategoryIdentifier) {
+      return c.json({ error: "Sub-category identifier is required" }, 400);
     }
 
-    const subCategory = await getSubCategoryById(subCategoryId);
+    const subCategory =
+      (await getSubCategoryById(subCategoryIdentifier)) ||
+      (await getSubCategoryBySlug(subCategoryIdentifier));
 
     if (!subCategory) {
       return c.json({ error: "Sub-category not found" }, 404);

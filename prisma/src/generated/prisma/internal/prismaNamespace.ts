@@ -3868,7 +3868,8 @@ export const PrimaryDivisionScalarFieldEnum = {
   primary_division_id: 'primary_division_id',
   country_id: 'country_id',
   division_name: 'division_name',
-  division_code: 'division_code'
+  division_code: 'division_code',
+  primaryslug: 'primaryslug'
 } as const
 
 export type PrimaryDivisionScalarFieldEnum = (typeof PrimaryDivisionScalarFieldEnum)[keyof typeof PrimaryDivisionScalarFieldEnum]
@@ -3942,6 +3943,7 @@ export const SecondaryDivisionScalarFieldEnum = {
   secondary_division_id: 'secondary_division_id',
   primary_division_id: 'primary_division_id',
   division_name: 'division_name',
+  secondaryslug: 'secondaryslug',
   latitude: 'latitude',
   longitude: 'longitude'
 } as const

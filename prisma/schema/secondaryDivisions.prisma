@@ -2,6 +2,7 @@ model SecondaryDivision {
   secondary_division_id String          @id @default(uuid())
   primary_division_id   String
   division_name         String
+  secondaryslug         String?         @unique
   latitude              Float
   longitude             Float
   listingsEnd           Listing[]       @relation("ListingEndSecondaryDivision")

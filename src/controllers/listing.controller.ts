@@ -156,6 +156,37 @@ const parseCsvFilter = (value?: string | null) =>
     .map((entry) => entry.trim())
     .filter(Boolean);
 
+const resolveCategoryFilterValues = async (rawValues?: string | null) => {
+  const categoryFilters = Array.from(new Set(parseCsvFilter(rawValues)));
+
+  if (categoryFilters.length === 0) {
+    return [];
+  }
+
+  const matchingCategories = await prisma.category.findMany({
+    where: {
+      OR: [
+        { id: { in: categoryFilters } },
+        { categorySlug: { in: categoryFilters } },
+      ],
+    },
+    select: {
+      id: true,
+      categorySlug: true,
+    },
+  });
+
+  const categoryIdByFilter = new Map<string, string>();
+  for (const category of matchingCategories) {
+    categoryIdByFilter.set(category.id, category.id);
+    categoryIdByFilter.set(category.categorySlug, category.id);
+  }
+
+  return categoryFilters
+    .map((value) => categoryIdByFilter.get(value))
+    .filter((value): value is string => Boolean(value));
+};
+
 const resolveAvailableListingIds = async ({
   formats,
   availableOnDate,
@@ -456,8 +487,10 @@ const buildListingsWhereClause = async (
   }
 
   if (!excludedDimensions.has("category")) {
-    const categoryIds = parseCsvFilter(categories);
-    if (categoryIds.length > 0) whereClause.categoryId = { in: categoryIds };
+    const categoryIds = await resolveCategoryFilterValues(categories);
+    if (categories) {
+      whereClause.categoryId = { in: categoryIds };
+    }
   }
 
   if (!excludedDimensions.has("subcategory")) {
@@ -757,10 +790,8 @@ export const getListings = async (c: Context) => {
 
     // Add category filter
     if (categories) {
-      const categoryIds = categories.split(",").filter(Boolean);
-      if (categoryIds.length > 0) {
-        whereClause.categoryId = { in: categoryIds };
-      }
+      const categoryIds = await resolveCategoryFilterValues(categories);
+      whereClause.categoryId = { in: categoryIds };
     }
 
     if (subcategories) {

@@ -3,6 +3,7 @@ model PrimaryDivision {
   country_id          String
   division_name       String
   division_code       String
+  primaryslug         String?             @unique
   listingsEnd         Listing[]           @relation("ListingEndPrimaryDivision")
   listingsStart       Listing[]           @relation("ListingStartPrimaryDivision")
   country             Country             @relation(fields: [country_id], references: [country_id])
