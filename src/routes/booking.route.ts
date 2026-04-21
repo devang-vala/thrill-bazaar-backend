@@ -1,5 +1,8 @@
 import { Hono } from "hono";
 import {
+  initiateBookingReservation,
+  confirmBookingReservation,
+  releaseBookingReservation,
   createBooking,
   createF1Booking,
   createF2Booking,
@@ -30,6 +33,11 @@ bookingRouter.put("/admin/:bookingId/settlement", authenticateToken, requireAdmi
 
 // Operator/Seller: Get their bookings
 bookingRouter.get("/operator/:operatorId", authenticateToken, getOperatorBookings);
+
+// Reserve inventory before payment
+bookingRouter.post("/reservations/initiate", optionalAuth, initiateBookingReservation);
+bookingRouter.post("/reservations/confirm", optionalAuth, confirmBookingReservation);
+bookingRouter.post("/reservations/:reservationId/release", optionalAuth, releaseBookingReservation);
 
 // Create comprehensive booking with all details
 bookingRouter.post("/create", optionalAuth, createBooking);

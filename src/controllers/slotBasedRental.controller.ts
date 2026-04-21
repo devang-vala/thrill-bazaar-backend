@@ -1,6 +1,7 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
 import { format } from "date-fns";
+import { getActiveDateReservationHoldCounts } from "../helpers/bookingReservation.helper.js";
 
 // 1. Get slot definitions for a listing (for F4)
 export const getSlotDefinitions = async (c: Context) => {
@@ -149,6 +150,7 @@ export const getSlotRentalAvailability = async (c: Context) => {
         bookingEndDate: true,
       },
     });
+    const holdCounts = await getActiveDateReservationHoldCounts(ranges.map((range) => range.id));
 
     const blockedDatesSet = new Set<string>();
     blockedDates.forEach((blockedDate) => {
@@ -201,12 +203,13 @@ export const getSlotRentalAvailability = async (c: Context) => {
         const bookedCount = bookedDatesCount[dateStr] || 0;
         const isBlocked = blockedDatesSet.has(dateStr);
 
+        const heldCount = holdCounts.get(`${range.id}:${dateStr}`) || 0;
         calendar[dateStr] = { 
           date: dateStr,
           dateRangeId: range.id,
           basePrice: range.basePricePerDay,
           totalCapacity,
-          availableCount: Math.max(0, totalCapacity - bookedCount),
+          availableCount: Math.max(0, totalCapacity - bookedCount - heldCount),
           bookedCount,
           isActive: !isBlocked && range.isActive,
           source: "range",
@@ -220,12 +223,13 @@ export const getSlotRentalAvailability = async (c: Context) => {
       const dateStr = format(override.date, "yyyy-MM-dd");
       const bookedCount = bookedDatesCount[dateStr] || 0;
       const isBlocked = blockedDatesSet.has(dateStr);
+      const heldCount = holdCounts.get(`${override.inventoryDateRangeId || ""}:${dateStr}`) || 0;
       calendar[dateStr] = {
         date: dateStr,
         dateRangeId: override.inventoryDateRangeId || calendar[dateStr]?.dateRangeId || "",
         basePrice: override.price,
         totalCapacity: override.totalCapacity,
-        availableCount: Math.max(0, override.availableCount - bookedCount),
+        availableCount: Math.max(0, override.availableCount - bookedCount - heldCount),
         bookedCount,
         isActive: !isBlocked,
         source: "override",

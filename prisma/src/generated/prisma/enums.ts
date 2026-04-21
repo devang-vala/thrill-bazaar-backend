@@ -118,6 +118,17 @@ export const BookingStatus = {
 export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
 
 
+export const BookingReservationStatus = {
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  COMPLETED: 'COMPLETED',
+  PAYMENT_FAILED: 'PAYMENT_FAILED',
+  RELEASED: 'RELEASED',
+  EXPIRED: 'EXPIRED'
+} as const
+
+export type BookingReservationStatus = (typeof BookingReservationStatus)[keyof typeof BookingReservationStatus]
+
+
 export const AddressType = {
   HOME: 'HOME',
   BILLING: 'BILLING',

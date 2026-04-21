@@ -1,5 +1,6 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
+import { getActiveSlotReservationHoldCounts } from "../helpers/bookingReservation.helper.js";
 
 // F3: Delete a single-day slot batch (by id)
 export const deleteSingleDaySlotBatch = async (c: Context) => {
@@ -124,8 +125,15 @@ export const getSlotBatches = async (c: Context) => {
     });
 
     console.log(`Found ${slots.length} slot batches`);
+    const holdCounts = await getActiveSlotReservationHoldCounts(slots.map((slot) => slot.id));
 
-    return c.json({ success: true, data: slots });
+    return c.json({
+      success: true,
+      data: slots.map((slot) => ({
+        ...slot,
+        availableCount: Math.max(0, (slot.availableCount || 0) - (holdCounts.get(slot.id) || 0)),
+      })),
+    });
   } catch (error) {
     console.error("Get slot batches error:", error);
     return c.json({ error: "Failed to fetch slot batches" }, 500);
@@ -189,7 +197,15 @@ export const getSlotById = async (c: Context) => {
       return c.json({ error: "Slot not found" }, 404);
     }
 
-    return c.json({ success: true, data: slot });
+    const holdCounts = await getActiveSlotReservationHoldCounts([slot.id]);
+
+    return c.json({
+      success: true,
+      data: {
+        ...slot,
+        availableCount: Math.max(0, (slot.availableCount || 0) - (holdCounts.get(slot.id) || 0)),
+      },
+    });
   } catch (error) {
     console.error("Get slot by ID error:", error);
     return c.json({ error: "Failed to fetch slot" }, 500);

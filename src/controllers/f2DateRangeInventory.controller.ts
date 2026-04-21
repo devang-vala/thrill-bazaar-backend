@@ -1,5 +1,6 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
+import { getActiveDateReservationHoldCounts } from "../helpers/bookingReservation.helper.js";
 
 // Bulk create or update F2 date ranges (day-wise rental)
 export const bulkCreateOrUpdateF2DateRanges = async (c: Context) => {
@@ -172,6 +173,7 @@ export const getF2DatesForMonth = async (c: Context) => {
 
     // Fetch active bookings that overlap with this month to calculate per-date availability
     const dateRangeIds = dateRanges.map(r => r.id);
+    const activeHoldCounts = await getActiveDateReservationHoldCounts(dateRangeIds);
     const activeBookings = await prisma.booking.findMany({
       where: {
         dateRangeId: { in: dateRangeIds },
@@ -250,12 +252,14 @@ export const getF2DatesForMonth = async (c: Context) => {
         // Check for price override
         const override = priceOverrideMap.get(dateStr);
         
-        // Get total capacity from override or range
+        // If a per-date row exists, it is the source of truth because checkout
+        // now decrements/increments that row directly for temporary holds and completed bookings.
         const totalCapacity = override?.totalCapacity ?? range.totalCapacity ?? 1; // Default to 1 if not set
-        
-        // Calculate available count based on actual bookings for this date
         const bookedCount = bookedDatesCount[dateStr] || 0;
-        const availableCount = Math.max(0, totalCapacity - bookedCount);
+        const heldCount = activeHoldCounts.get(`${range.id}:${dateStr}`) || 0;
+        const availableCount = override
+          ? Math.max(0, override.availableCount)
+          : Math.max(0, totalCapacity - bookedCount - heldCount);
         
         datesInMonth.push({
           date: dateStr,
@@ -264,6 +268,7 @@ export const getF2DatesForMonth = async (c: Context) => {
           totalCapacity: totalCapacity,
           availableCount: availableCount,
           bookedCount: bookedCount,
+          heldCount: heldCount,
           isActive: !isBlocked,
         });
         currentDate.setDate(currentDate.getDate() + 1);
