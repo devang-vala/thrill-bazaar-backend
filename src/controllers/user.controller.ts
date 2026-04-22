@@ -1313,6 +1313,7 @@ export const getOperatorsForFilter = async (c: Context) => {
         operatorProfile: {
           select: {
             companyName: true,
+            operatorSlug: true,
           },
         },
       },
@@ -1336,6 +1337,7 @@ export const getOperatorsForFilter = async (c: Context) => {
           lastName: operator.lastName,
           email: operator.email,
           companyName: operator.operatorProfile?.companyName || null,
+          operatorSlug: operator.operatorProfile?.operatorSlug || null,
           displayName,
         };
       })

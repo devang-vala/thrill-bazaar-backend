@@ -1,6 +1,7 @@
 model OperatorProfile {
   id                         String             @id @default(uuid()) @map("operator_profile_id")
   operatorId                 String             @unique @map("operator_id")
+  operatorSlug               String?            @unique @map("operator_slug")
   companyName                String             @map("company_name")
   companyLogoUrl             String?            @map("company_logo_url")
   businessRegistrationNumber String?            @map("business_registration_number")
@@ -22,6 +23,7 @@ model OperatorProfile {
   verifiedByAdmin            User?              @relation("VerifiedOperators", fields: [verifiedByAdminId], references: [id])
 
   @@index([operatorId])
+  @@index([operatorSlug])
   @@index([verificationStatus])
   @@index([verifiedByAdminId])
   @@map("operator_profiles")

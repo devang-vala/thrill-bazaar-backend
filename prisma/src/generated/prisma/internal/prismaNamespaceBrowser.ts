@@ -561,6 +561,7 @@ export type OfferPromocodeScalarFieldEnum = (typeof OfferPromocodeScalarFieldEnu
 export const OperatorProfileScalarFieldEnum = {
   id: 'id',
   operatorId: 'operatorId',
+  operatorSlug: 'operatorSlug',
   companyName: 'companyName',
   companyLogoUrl: 'companyLogoUrl',
   businessRegistrationNumber: 'businessRegistrationNumber',
