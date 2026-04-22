@@ -380,20 +380,37 @@ export const customerLogin = async (c: Context) => {
     // Sanitize phone number
     const phone = sanitizePhone(body.phone);
 
-    // Check if user exists and is a customer
+    // Find any active account already using this phone number.
     const user = await prisma.user.findFirst({
       where: {
         phone: phone,
-        userType: "customer",
         isActive: true,
       },
     });
 
-    if (!user) {
+    if (user && user.userType !== "customer") {
       return c.json(
-        { error: "Customer not found with this phone number" },
-        404
+        {
+          error:
+            "This phone number is already linked to a different account type. Please use the correct login flow for that account.",
+        },
+        409
       );
+    }
+
+    let customer = user;
+    let accountCreated = false;
+
+    if (!customer) {
+      customer = await prisma.user.create({
+        data: {
+          phone,
+          userType: "customer",
+          isVerified: false,
+          isActive: true,
+        },
+      });
+      accountCreated = true;
     }
 
     // Generate OTP
@@ -421,15 +438,21 @@ export const customerLogin = async (c: Context) => {
 
     if (smsSent) {
       return c.json({
-        message: "OTP sent successfully to your phone",
+        message: accountCreated
+          ? "New customer account created and OTP sent successfully to your phone"
+          : "OTP sent successfully to your phone",
         expiresIn: "5 minutes",
+        accountCreated,
       });
     } else {
       // Fallback for development or when Twilio is not configured
       return c.json({
-        message: "OTP generated (SMS service unavailable)",
+        message: accountCreated
+          ? "New customer account created. OTP generated because SMS service is unavailable"
+          : "OTP generated (SMS service unavailable)",
         otp: otp, // Only for development - remove in production
         expiresIn: "5 minutes",
+        accountCreated,
       });
     }
   } catch (error) {
@@ -453,7 +476,7 @@ export const customerVerifyOtp = async (c: Context) => {
 
     // Check for master OTP
     if (isMasterOtp(body.otp)) {
-      const user = await prisma.user.findFirst({
+      const existingUser = await prisma.user.findFirst({
         where: {
           phone: phone,
           userType: "customer",
@@ -461,14 +484,16 @@ export const customerVerifyOtp = async (c: Context) => {
         },
       });
 
-      if (!user) {
+      if (!existingUser) {
         return c.json({ error: "Customer not found" }, 404);
       }
 
-      // Update last login
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { lastLoginAt: new Date() },
+      const user = await prisma.user.update({
+        where: { id: existingUser.id },
+        data: {
+          lastLoginAt: new Date(),
+          isVerified: true,
+        },
       });
 
       const token = generateToken(user.id, user.userType);
@@ -531,8 +556,8 @@ export const customerVerifyOtp = async (c: Context) => {
       data: { verified: true },
     });
 
-    // Get user details
-    const user = await prisma.user.findFirst({
+    // Get user details and mark the customer verified after successful OTP login.
+    const existingUser = await prisma.user.findFirst({
       where: {
         phone: phone,
         userType: "customer",
@@ -540,14 +565,16 @@ export const customerVerifyOtp = async (c: Context) => {
       },
     });
 
-    if (!user) {
+    if (!existingUser) {
       return c.json({ error: "Customer not found" }, 404);
     }
 
-    // Update last login
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { lastLoginAt: new Date() },
+    const user = await prisma.user.update({
+      where: { id: existingUser.id },
+      data: {
+        lastLoginAt: new Date(),
+        isVerified: true,
+      },
     });
 
     const token = generateToken(user.id, user.userType);
