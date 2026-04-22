@@ -354,8 +354,8 @@ export const updateUserProfile = async (c: Context) => {
     // Prepare update data
     const updateData: any = {};
 
-    // Handle email update (for admin users)
-    if (body.email && currentUser.userType !== "customer") {
+    // Handle email update
+    if (body.email) {
       const sanitizedEmail = sanitizeEmail(body.email);
 
       // Check if email already exists (excluding current user)
