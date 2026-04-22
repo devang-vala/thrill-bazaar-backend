@@ -38,6 +38,7 @@ export type OperatorProfileSumAggregateOutputType = {
 export type OperatorProfileMinAggregateOutputType = {
   id: string | null
   operatorId: string | null
+  operatorSlug: string | null
   companyName: string | null
   companyLogoUrl: string | null
   businessRegistrationNumber: string | null
@@ -57,6 +58,7 @@ export type OperatorProfileMinAggregateOutputType = {
 export type OperatorProfileMaxAggregateOutputType = {
   id: string | null
   operatorId: string | null
+  operatorSlug: string | null
   companyName: string | null
   companyLogoUrl: string | null
   businessRegistrationNumber: string | null
@@ -76,6 +78,7 @@ export type OperatorProfileMaxAggregateOutputType = {
 export type OperatorProfileCountAggregateOutputType = {
   id: number
   operatorId: number
+  operatorSlug: number
   companyName: number
   companyLogoUrl: number
   businessRegistrationNumber: number
@@ -110,6 +113,7 @@ export type OperatorProfileSumAggregateInputType = {
 export type OperatorProfileMinAggregateInputType = {
   id?: true
   operatorId?: true
+  operatorSlug?: true
   companyName?: true
   companyLogoUrl?: true
   businessRegistrationNumber?: true
@@ -129,6 +133,7 @@ export type OperatorProfileMinAggregateInputType = {
 export type OperatorProfileMaxAggregateInputType = {
   id?: true
   operatorId?: true
+  operatorSlug?: true
   companyName?: true
   companyLogoUrl?: true
   businessRegistrationNumber?: true
@@ -148,6 +153,7 @@ export type OperatorProfileMaxAggregateInputType = {
 export type OperatorProfileCountAggregateInputType = {
   id?: true
   operatorId?: true
+  operatorSlug?: true
   companyName?: true
   companyLogoUrl?: true
   businessRegistrationNumber?: true
@@ -257,6 +263,7 @@ export type OperatorProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 export type OperatorProfileGroupByOutputType = {
   id: string
   operatorId: string
+  operatorSlug: string | null
   companyName: string
   companyLogoUrl: string | null
   businessRegistrationNumber: string | null
@@ -302,6 +309,7 @@ export type OperatorProfileWhereInput = {
   NOT?: Prisma.OperatorProfileWhereInput | Prisma.OperatorProfileWhereInput[]
   id?: Prisma.StringFilter<"OperatorProfile"> | string
   operatorId?: Prisma.StringFilter<"OperatorProfile"> | string
+  operatorSlug?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   companyName?: Prisma.StringFilter<"OperatorProfile"> | string
   companyLogoUrl?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   businessRegistrationNumber?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
@@ -326,6 +334,7 @@ export type OperatorProfileWhereInput = {
 export type OperatorProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   operatorId?: Prisma.SortOrder
+  operatorSlug?: Prisma.SortOrderInput | Prisma.SortOrder
   companyName?: Prisma.SortOrder
   companyLogoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   businessRegistrationNumber?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -350,6 +359,7 @@ export type OperatorProfileOrderByWithRelationInput = {
 export type OperatorProfileWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   operatorId?: string
+  operatorSlug?: string
   AND?: Prisma.OperatorProfileWhereInput | Prisma.OperatorProfileWhereInput[]
   OR?: Prisma.OperatorProfileWhereInput[]
   NOT?: Prisma.OperatorProfileWhereInput | Prisma.OperatorProfileWhereInput[]
@@ -372,11 +382,12 @@ export type OperatorProfileWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"OperatorProfile"> | Date | string
   operator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   verifiedByAdmin?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-}, "id" | "operatorId">
+}, "id" | "operatorId" | "operatorSlug">
 
 export type OperatorProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   operatorId?: Prisma.SortOrder
+  operatorSlug?: Prisma.SortOrderInput | Prisma.SortOrder
   companyName?: Prisma.SortOrder
   companyLogoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   businessRegistrationNumber?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -407,6 +418,7 @@ export type OperatorProfileScalarWhereWithAggregatesInput = {
   NOT?: Prisma.OperatorProfileScalarWhereWithAggregatesInput | Prisma.OperatorProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"OperatorProfile"> | string
   operatorId?: Prisma.StringWithAggregatesFilter<"OperatorProfile"> | string
+  operatorSlug?: Prisma.StringNullableWithAggregatesFilter<"OperatorProfile"> | string | null
   companyName?: Prisma.StringWithAggregatesFilter<"OperatorProfile"> | string
   companyLogoUrl?: Prisma.StringNullableWithAggregatesFilter<"OperatorProfile"> | string | null
   businessRegistrationNumber?: Prisma.StringNullableWithAggregatesFilter<"OperatorProfile"> | string | null
@@ -428,6 +440,7 @@ export type OperatorProfileScalarWhereWithAggregatesInput = {
 
 export type OperatorProfileCreateInput = {
   id?: string
+  operatorSlug?: string | null
   companyName: string
   companyLogoUrl?: string | null
   businessRegistrationNumber?: string | null
@@ -451,6 +464,7 @@ export type OperatorProfileCreateInput = {
 export type OperatorProfileUncheckedCreateInput = {
   id?: string
   operatorId: string
+  operatorSlug?: string | null
   companyName: string
   companyLogoUrl?: string | null
   businessRegistrationNumber?: string | null
@@ -472,6 +486,7 @@ export type OperatorProfileUncheckedCreateInput = {
 
 export type OperatorProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   companyLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -495,6 +510,7 @@ export type OperatorProfileUpdateInput = {
 export type OperatorProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   operatorId?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   companyLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -517,6 +533,7 @@ export type OperatorProfileUncheckedUpdateInput = {
 export type OperatorProfileCreateManyInput = {
   id?: string
   operatorId: string
+  operatorSlug?: string | null
   companyName: string
   companyLogoUrl?: string | null
   businessRegistrationNumber?: string | null
@@ -538,6 +555,7 @@ export type OperatorProfileCreateManyInput = {
 
 export type OperatorProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   companyLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -559,6 +577,7 @@ export type OperatorProfileUpdateManyMutationInput = {
 export type OperatorProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   operatorId?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   companyLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -581,6 +600,7 @@ export type OperatorProfileUncheckedUpdateManyInput = {
 export type OperatorProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   operatorId?: Prisma.SortOrder
+  operatorSlug?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   companyLogoUrl?: Prisma.SortOrder
   businessRegistrationNumber?: Prisma.SortOrder
@@ -608,6 +628,7 @@ export type OperatorProfileAvgOrderByAggregateInput = {
 export type OperatorProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   operatorId?: Prisma.SortOrder
+  operatorSlug?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   companyLogoUrl?: Prisma.SortOrder
   businessRegistrationNumber?: Prisma.SortOrder
@@ -627,6 +648,7 @@ export type OperatorProfileMaxOrderByAggregateInput = {
 export type OperatorProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   operatorId?: Prisma.SortOrder
+  operatorSlug?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   companyLogoUrl?: Prisma.SortOrder
   businessRegistrationNumber?: Prisma.SortOrder
@@ -751,6 +773,7 @@ export type OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminNestedInput 
 
 export type OperatorProfileCreateWithoutOperatorInput = {
   id?: string
+  operatorSlug?: string | null
   companyName: string
   companyLogoUrl?: string | null
   businessRegistrationNumber?: string | null
@@ -772,6 +795,7 @@ export type OperatorProfileCreateWithoutOperatorInput = {
 
 export type OperatorProfileUncheckedCreateWithoutOperatorInput = {
   id?: string
+  operatorSlug?: string | null
   companyName: string
   companyLogoUrl?: string | null
   businessRegistrationNumber?: string | null
@@ -798,6 +822,7 @@ export type OperatorProfileCreateOrConnectWithoutOperatorInput = {
 
 export type OperatorProfileCreateWithoutVerifiedByAdminInput = {
   id?: string
+  operatorSlug?: string | null
   companyName: string
   companyLogoUrl?: string | null
   businessRegistrationNumber?: string | null
@@ -820,6 +845,7 @@ export type OperatorProfileCreateWithoutVerifiedByAdminInput = {
 export type OperatorProfileUncheckedCreateWithoutVerifiedByAdminInput = {
   id?: string
   operatorId: string
+  operatorSlug?: string | null
   companyName: string
   companyLogoUrl?: string | null
   businessRegistrationNumber?: string | null
@@ -861,6 +887,7 @@ export type OperatorProfileUpdateToOneWithWhereWithoutOperatorInput = {
 
 export type OperatorProfileUpdateWithoutOperatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   companyLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -882,6 +909,7 @@ export type OperatorProfileUpdateWithoutOperatorInput = {
 
 export type OperatorProfileUncheckedUpdateWithoutOperatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   companyLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -923,6 +951,7 @@ export type OperatorProfileScalarWhereInput = {
   NOT?: Prisma.OperatorProfileScalarWhereInput | Prisma.OperatorProfileScalarWhereInput[]
   id?: Prisma.StringFilter<"OperatorProfile"> | string
   operatorId?: Prisma.StringFilter<"OperatorProfile"> | string
+  operatorSlug?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   companyName?: Prisma.StringFilter<"OperatorProfile"> | string
   companyLogoUrl?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   businessRegistrationNumber?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
@@ -945,6 +974,7 @@ export type OperatorProfileScalarWhereInput = {
 export type OperatorProfileCreateManyVerifiedByAdminInput = {
   id?: string
   operatorId: string
+  operatorSlug?: string | null
   companyName: string
   companyLogoUrl?: string | null
   businessRegistrationNumber?: string | null
@@ -965,6 +995,7 @@ export type OperatorProfileCreateManyVerifiedByAdminInput = {
 
 export type OperatorProfileUpdateWithoutVerifiedByAdminInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   companyLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -987,6 +1018,7 @@ export type OperatorProfileUpdateWithoutVerifiedByAdminInput = {
 export type OperatorProfileUncheckedUpdateWithoutVerifiedByAdminInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   operatorId?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   companyLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1008,6 +1040,7 @@ export type OperatorProfileUncheckedUpdateWithoutVerifiedByAdminInput = {
 export type OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   operatorId?: Prisma.StringFieldUpdateOperationsInput | string
+  operatorSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   companyLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1031,6 +1064,7 @@ export type OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminInput = {
 export type OperatorProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   operatorId?: boolean
+  operatorSlug?: boolean
   companyName?: boolean
   companyLogoUrl?: boolean
   businessRegistrationNumber?: boolean
@@ -1055,6 +1089,7 @@ export type OperatorProfileSelect<ExtArgs extends runtime.Types.Extensions.Inter
 export type OperatorProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   operatorId?: boolean
+  operatorSlug?: boolean
   companyName?: boolean
   companyLogoUrl?: boolean
   businessRegistrationNumber?: boolean
@@ -1079,6 +1114,7 @@ export type OperatorProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
 export type OperatorProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   operatorId?: boolean
+  operatorSlug?: boolean
   companyName?: boolean
   companyLogoUrl?: boolean
   businessRegistrationNumber?: boolean
@@ -1103,6 +1139,7 @@ export type OperatorProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type OperatorProfileSelectScalar = {
   id?: boolean
   operatorId?: boolean
+  operatorSlug?: boolean
   companyName?: boolean
   companyLogoUrl?: boolean
   businessRegistrationNumber?: boolean
@@ -1122,7 +1159,7 @@ export type OperatorProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OperatorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "operatorId" | "companyName" | "companyLogoUrl" | "businessRegistrationNumber" | "taxId" | "companyDescription" | "websiteUrl" | "socialMediaLinks" | "bankAccountDetails" | "verificationStatus" | "verificationDocuments" | "verifiedByAdminId" | "verifiedAt" | "rejectionReason" | "ratingAverage" | "totalBookings" | "createdAt" | "updatedAt", ExtArgs["result"]["operatorProfile"]>
+export type OperatorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "operatorId" | "operatorSlug" | "companyName" | "companyLogoUrl" | "businessRegistrationNumber" | "taxId" | "companyDescription" | "websiteUrl" | "socialMediaLinks" | "bankAccountDetails" | "verificationStatus" | "verificationDocuments" | "verifiedByAdminId" | "verifiedAt" | "rejectionReason" | "ratingAverage" | "totalBookings" | "createdAt" | "updatedAt", ExtArgs["result"]["operatorProfile"]>
 export type OperatorProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   verifiedByAdmin?: boolean | Prisma.OperatorProfile$verifiedByAdminArgs<ExtArgs>
@@ -1145,6 +1182,7 @@ export type $OperatorProfilePayload<ExtArgs extends runtime.Types.Extensions.Int
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     operatorId: string
+    operatorSlug: string | null
     companyName: string
     companyLogoUrl: string | null
     businessRegistrationNumber: string | null
@@ -1589,6 +1627,7 @@ export interface Prisma__OperatorProfileClient<T, Null = never, ExtArgs extends 
 export interface OperatorProfileFieldRefs {
   readonly id: Prisma.FieldRef<"OperatorProfile", 'String'>
   readonly operatorId: Prisma.FieldRef<"OperatorProfile", 'String'>
+  readonly operatorSlug: Prisma.FieldRef<"OperatorProfile", 'String'>
   readonly companyName: Prisma.FieldRef<"OperatorProfile", 'String'>
   readonly companyLogoUrl: Prisma.FieldRef<"OperatorProfile", 'String'>
   readonly businessRegistrationNumber: Prisma.FieldRef<"OperatorProfile", 'String'>
