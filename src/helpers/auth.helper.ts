@@ -1,7 +1,6 @@
 import crypto from "crypto";
 import { promisify } from "util";
 import jwt from "jsonwebtoken";
-import twilio from "twilio";
 
 // Types for authentication helper functions
 export interface JWTPayload {
@@ -11,48 +10,22 @@ export interface JWTPayload {
   iat: number;
 }
 
-export interface SMSConfig {
-  accountSid?: string;
-  authToken?: string;
-  phoneNumber?: string;
+export interface MSG91Config {
+  authKey: string;
+  templateId: string;
+  senderId: string;
 }
 
-let twilioClient: ReturnType<typeof twilio> | null = null;
+const getMsg91Config = (): MSG91Config | null => {
+  const authKey = process.env.MSG91_AUTH_KEY?.trim();
+  const templateId = process.env.MSG91_OTP_TEMPLATE_ID?.trim();
+  const senderId = process.env.MSG91_SENDER_ID?.trim() || "MSGIND";
 
-const getTwilioConfig = (): Required<SMSConfig> | null => {
-  const accountSid = process.env.TWILIO_ACCOUNT_SID?.trim();
-  const authToken = process.env.TWILIO_AUTH_TOKEN?.trim();
-  const phoneNumber = process.env.TWILIO_PHONE_NUMBER?.trim();
-
-  if (!accountSid || !authToken || !phoneNumber) {
+  if (!authKey || !templateId || authKey.startsWith("your_") || templateId.startsWith("your_")) {
     return null;
   }
 
-  // Twilio Account SID must start with AC. Without this guard, twilio()
-  // throws during client construction and can crash app startup.
-  if (!accountSid.startsWith("AC")) {
-    return null;
-  }
-
-  return {
-    accountSid,
-    authToken,
-    phoneNumber,
-  };
-};
-
-const getTwilioClient = () => {
-  if (twilioClient) {
-    return twilioClient;
-  }
-
-  const config = getTwilioConfig();
-  if (!config) {
-    return null;
-  }
-
-  twilioClient = twilio(config.accountSid, config.authToken);
-  return twilioClient;
+  return { authKey, templateId, senderId };
 };
 
 export const generateToken = (userId: string, userType: string): string => {
@@ -114,39 +87,66 @@ export const generateOtp = (): string => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
-export const sendSMS = async (
-  phone: string,
-  message: string
-): Promise<boolean> => {
-  try {
-    const config = getTwilioConfig();
-    const client = getTwilioClient();
-
-    if (!config || !client) {
-      console.warn("Twilio credentials not configured, skipping SMS");
-      return false;
-    }
-
-    await client.messages.create({
-      body: message,
-      from: config.phoneNumber,
-      to: phone,
-    });
-
-    console.log(`SMS sent successfully to ${phone}`);
-    return true;
-  } catch (error) {
-    console.error("Failed to send SMS:", error);
-    return false;
-  }
-};
-
 export const sendOtpSMS = async (
   phone: string,
   otp: string
 ): Promise<boolean> => {
-  const message = `Your Thrill Bazaar OTP is: ${otp}. Valid for 5 minutes. Do not share this code.`;
-  return sendSMS(phone, message);
+  try {
+    // If dev mode is explicitly enabled (or we are in non-production and it's not explicitly disabled),
+    // we bypass MSG91 to save credits and allow the frontend to print the OTP.
+    if (isOtpDevModeEnabled()) {
+      console.log(`[OTP Bypass] Dev Mode active. MSG91 skipped for ${phone}. OTP generated: ${otp}`);
+      return false; 
+    }
+
+    const config = getMsg91Config();
+    
+    if (!config) {
+      console.warn("MSG91 credentials not configured, skipping SMS. Check your .env file details.");
+      return false;
+    }
+
+    // MSG91 strictly requires the country code without plus sign (e.g., 919999999999)
+    let formattedPhone = phone.replace(/\D/g, "");
+    if (formattedPhone.length === 10) {
+      formattedPhone = `91${formattedPhone}`;
+    }
+
+    const payload = {
+      template_id: config.templateId,
+      sender: config.senderId,
+      short_url: "0", // disable short url checking
+      mobiles: formattedPhone, // Flow API uses "mobiles" instead of "mobile"
+      otp: otp, // Variable to fill in the template
+    };
+
+    const response = await fetch("https://control.msg91.com/api/v5/flow/", {
+      method: "POST",
+      headers: {
+        "authkey": config.authKey,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("MSG91 API error for phone", formattedPhone, "Status:", response.status, "Response:", errorText);
+      return false;
+    }
+
+    const responseData = await response.json();
+    if (responseData.type === "error") {
+      console.error("MSG91 returned an error payload:", responseData);
+      return false;
+    }
+
+    console.log(`MSG91 OTP SMS initiated successfully to ${formattedPhone}`);
+    return true;
+  } catch (error) {
+    console.error("Failed to send MSG91 OTP SMS:", error);
+    return false;
+  }
 };
 
 export const isMasterOtp = (otp: string): boolean => {
@@ -165,6 +165,11 @@ const isTruthyEnv = (value?: string): boolean => {
 };
 
 export const isOtpDevModeEnabled = (): boolean => {
+  // Respect explicit "false" even in development environment
+  if (process.env.OTP_DEV_MODE === "false" || process.env.OTP_DEV_MODE === "0") {
+    return false;
+  }
+
   return (
     process.env.NODE_ENV !== "production" ||
     isTruthyEnv(process.env.OTP_DEV_MODE) ||
@@ -253,8 +258,8 @@ export const formatUserResponse = (user: any) => {
   return userWithoutPassword;
 };
 
-export const isTwilioConfigured = (): boolean => {
-  return getTwilioConfig() !== null;
+export const isMsg91Configured = (): boolean => {
+  return getMsg91Config() !== null;
 };
 
 export const generateSecureRandom = (length: number = 32): string => {

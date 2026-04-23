@@ -13,6 +13,7 @@ import {
   sanitizeEmail,
   sanitizePhone,
   sanitizeString,
+  generateSlug,
 } from "../helpers/validation.helper.js";
 
 const cloudinary = configureCloudinary();
@@ -183,6 +184,41 @@ const normalizeOperatorListItem = (profile: any) => {
     adminReviewStatus,
     adminReview,
   };
+};
+
+const generateUniqueOperatorSlug = async (
+  db: any,
+  companyName: string,
+  currentOperatorId?: string
+) => {
+  const normalizedCompanyName = sanitizeString(companyName || "", 100);
+  const baseSlug = generateSlug(normalizedCompanyName) || "operator";
+
+  for (let counter = 0; counter < 1000; counter += 1) {
+    const candidateSlug = counter === 0 ? baseSlug : `${baseSlug}-${counter}`;
+
+    const existingProfile = await db.operatorProfile.findFirst({
+      where: {
+        operatorSlug: candidateSlug,
+        ...(currentOperatorId
+          ? {
+              operatorId: {
+                not: currentOperatorId,
+              },
+            }
+          : {}),
+      } as any,
+      select: {
+        id: true,
+      },
+    } as any);
+
+    if (!existingProfile) {
+      return candidateSlug;
+    }
+  }
+
+  return `${baseSlug}-${Date.now()}`;
 };
 
 /**
@@ -477,6 +513,7 @@ export const registerOperatorComplete = async (c: Context) => {
         where: { operatorId: userRecord.id },
         create: {
           operatorId: userRecord.id,
+          operatorSlug: await generateUniqueOperatorSlug(tx, businessName, userRecord.id),
           companyName: businessName,
           businessRegistrationNumber: registrationData.panNumber || null,
           taxId: registrationData.gstinNumber || null,
@@ -490,8 +527,9 @@ export const registerOperatorComplete = async (c: Context) => {
           bankAccountDetails: bankAccountDetails,
           verificationDocuments: allDocuments,
           verificationStatus: "PENDING",
-        },
+        } as any,
         update: {
+          operatorSlug: await generateUniqueOperatorSlug(tx, businessName, userRecord.id),
           companyName: businessName,
           businessRegistrationNumber: registrationData.panNumber || null,
           taxId: registrationData.gstinNumber || null,
@@ -505,7 +543,7 @@ export const registerOperatorComplete = async (c: Context) => {
           bankAccountDetails: bankAccountDetails,
           verificationDocuments: allDocuments,
           verificationStatus: "PENDING",
-        },
+        } as any,
       });
 
       return { user: userRecord, operatorProfile };
@@ -679,8 +717,33 @@ export const updateOperatorProfile = async (c: Context) => {
 
     const currentMetadata = getOperatorMetadata(operatorProfile);
     const currentReview = getOperatorAdminReview(operatorProfile);
+    const normalizedCompanyName =
+      body.companyName !== undefined
+        ? sanitizeString(String(body.companyName || ""), 100)
+        : undefined;
+
+    if (body.companyName !== undefined && !normalizedCompanyName) {
+      return c.json({ error: "Company name cannot be empty" }, 400);
+    }
 
     await prisma.$transaction(async (tx) => {
+      // Update company name and regenerate slug if provided
+      if (normalizedCompanyName) {
+        const nextOperatorSlug = await generateUniqueOperatorSlug(
+          tx,
+          normalizedCompanyName,
+          operatorId
+        );
+
+        await tx.operatorProfile.update({
+          where: { operatorId },
+          data: {
+            companyName: normalizedCompanyName,
+            operatorSlug: nextOperatorSlug,
+          } as any,
+        });
+      }
+
       // Update business address if provided
       if (body.businessAddress) {
         const addr = body.businessAddress;

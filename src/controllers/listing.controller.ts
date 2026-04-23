@@ -187,6 +187,51 @@ const resolveCategoryFilterValues = async (rawValues?: string | null) => {
     .filter((value): value is string => Boolean(value));
 };
 
+const resolveSellerFilterValues = async (rawValues?: string | null) => {
+  const sellerFilters = Array.from(new Set(parseCsvFilter(rawValues)));
+
+  if (sellerFilters.length === 0) {
+    return [];
+  }
+
+  const matchingOperators = await prisma.user.findMany({
+    where: {
+      userType: "operator",
+      OR: [
+        { id: { in: sellerFilters } },
+        {
+          operatorProfile: {
+            is: {
+              operatorSlug: { in: sellerFilters },
+            },
+          },
+        },
+      ],
+    },
+    select: {
+      id: true,
+      operatorProfile: {
+        select: {
+          operatorSlug: true,
+        },
+      },
+    },
+  });
+
+  const sellerIdByFilter = new Map<string, string>();
+  for (const operator of matchingOperators) {
+    sellerIdByFilter.set(operator.id, operator.id);
+
+    if (operator.operatorProfile?.operatorSlug) {
+      sellerIdByFilter.set(operator.operatorProfile.operatorSlug, operator.id);
+    }
+  }
+
+  return sellerFilters
+    .map((value) => sellerIdByFilter.get(value))
+    .filter((value): value is string => Boolean(value));
+};
+
 const resolveAvailableListingIds = async ({
   formats,
   availableOnDate,
@@ -464,7 +509,9 @@ const buildListingsWhereClause = async (
   const dateRangeEnd = c.req.query("dateRangeEnd");
   const whereClause: any = {};
   const user = c.get("user");
-  const sellerIds = excludedDimensions.has("seller") ? [] : parseCsvFilter(sellers);
+  const sellerIds = excludedDimensions.has("seller")
+    ? []
+    : await resolveSellerFilterValues(sellers);
   const isViewingOwnListings =
     user && sellerIds.length > 0 && sellerIds.includes(user.userId);
 
@@ -745,7 +792,7 @@ export const getListings = async (c: Context) => {
     const user = c.get("user");
 
     // Add seller/operator filter first (needed for determining status filter)
-    const sellerIds = sellers ? sellers.split(",").filter(Boolean) : [];
+    const sellerIds = await resolveSellerFilterValues(sellers);
     const isViewingOwnListings = user && sellerIds.length > 0 && sellerIds.includes(user.userId);
 
     if (status) {
