@@ -13,6 +13,11 @@ import { generateOtp, isMasterOtp, sendOtpSMS } from "../helpers/auth.helper.js"
 const BOOKING_DEBUG = process.env.BOOKING_DEBUG === "true";
 const BOOKING_RESERVATION_TTL_MS = 10 * 60 * 1000;
 const MAX_RAZORPAY_RECEIPT_LENGTH = 40;
+const RESERVATION_TRANSACTION_OPTIONS = {
+  isolationLevel: "Serializable" as any,
+  maxWait: 15_000,
+  timeout: 30_000,
+};
 
 const debugLog = (...args: unknown[]) => {
   if (BOOKING_DEBUG) {
@@ -254,7 +259,8 @@ const isInventoryConflictError = (message: string) => {
     normalized.includes("no longer available") ||
     normalized.includes("reservation expired") ||
     normalized.includes("can no longer be completed") ||
-    normalized.includes("date is blocked")
+    normalized.includes("date is blocked") ||
+    normalized.includes("currently locked by another checkout")
   );
 };
 
@@ -448,16 +454,50 @@ const assertNoActiveReservationConflictTx = async (tx: TxClient, prepared: Prepa
   const now = new Date();
 
   if (prepared.bookingFormat === "F1" && prepared.listingSlotId) {
-    const activeReservation = await bookingReservationDelegate(tx).findFirst({
+    const activeReservations = await bookingReservationDelegate(tx).findMany({
       where: {
         status: "PENDING_PAYMENT",
         expiresAt: { gt: now },
         listingSlotId: prepared.listingSlotId,
       },
-      select: { id: true },
+      select: { participantCount: true },
     });
 
-    if (activeReservation) {
+    const heldParticipantCount = activeReservations.reduce(
+      (sum: number, reservation: { participantCount: number }) => sum + (reservation.participantCount || 0),
+      0,
+    );
+
+    if (heldParticipantCount === 0) {
+      return;
+    }
+
+    const slot = await tx.listingSlot.findUnique({
+      where: { id: prepared.listingSlotId },
+      select: {
+        availableCount: true,
+        totalCapacity: true,
+        bookings: {
+          where: {
+            bookingStatus: { in: ["CONFIRMED", "COMPLETED"] },
+          },
+          select: { participantCount: true },
+        },
+      },
+    });
+
+    if (!slot) {
+      throw new Error("This batch is no longer available.");
+    }
+
+    const bookedParticipants = slot.bookings.reduce(
+      (sum, booking) => sum + (booking.participantCount || 0),
+      0,
+    );
+    const maxRemainingCapacity = Math.max(0, (slot.totalCapacity || 0) - bookedParticipants);
+    const effectiveAvailableCount = Math.min(Math.max(0, slot.availableCount || 0), maxRemainingCapacity);
+
+    if (effectiveAvailableCount < prepared.participantCount) {
       throw new Error("This batch is currently locked by another checkout. Please try again in a moment.");
     }
 
@@ -500,6 +540,66 @@ const assertNoActiveReservationConflictTx = async (tx: TxClient, prepared: Prepa
   }
 
   const preparedDateKey = prepared.selectedDate || normalizeDateOnlyKey(prepared.bookingStartDate);
+  if (prepared.bookingFormat === "F3") {
+    const activeReservations = await bookingReservationDelegate(tx).findMany({
+      where: {
+        status: "PENDING_PAYMENT",
+        expiresAt: { gt: now },
+        bookingFormat: "F3",
+        dateRangeId: prepared.dateRangeId,
+        selectedDate: toUtcStartOfDay(preparedDateKey),
+      },
+      select: { participantCount: true },
+    });
+
+    const heldParticipantCount = activeReservations.reduce(
+      (sum: number, reservation: { participantCount: number }) => sum + (reservation.participantCount || 0),
+      0,
+    );
+
+    if (heldParticipantCount === 0) {
+      return;
+    }
+
+    const dateRange = await tx.inventoryDateRange.findUnique({
+      where: { id: prepared.dateRangeId! },
+      select: {
+        totalCapacity: true,
+        availableCount: true,
+      },
+    });
+
+    if (!dateRange) {
+      throw new Error("Date range not found");
+    }
+
+    const bookingDate = toUtcStartOfDay(preparedDateKey);
+    const availabilityRow = await tx.listingSlotChange.findFirst({
+      where: {
+        inventoryDateRangeId: prepared.dateRangeId!,
+        date: bookingDate,
+      },
+      orderBy: { createdAt: "desc" },
+      select: { availableCount: true },
+    });
+    const bookedCounts = await getBookedDateRangeCountsTx(tx, prepared.dateRangeId!, [preparedDateKey]);
+    const bookedCount = bookedCounts.get(preparedDateKey) || 0;
+    const baselineAvailableCount =
+      dateRange.totalCapacity === null
+        ? Math.max(0, dateRange.availableCount || 0)
+        : Math.max(0, dateRange.totalCapacity - bookedCount);
+    const effectiveAvailableCount = Math.max(
+      0,
+      availabilityRow ? availabilityRow.availableCount : baselineAvailableCount,
+    );
+
+    if (effectiveAvailableCount < prepared.participantCount) {
+      throw new Error("This batch is currently locked by another checkout. Please try again in a moment.");
+    }
+
+    return;
+  }
+
   const activeReservation = await bookingReservationDelegate(tx).findFirst({
     where: {
       status: "PENDING_PAYMENT",
@@ -1236,7 +1336,7 @@ export const initiateBookingReservation = async (c: Context) => {
           expiresAt,
         },
       });
-    }, { isolationLevel: "Serializable" as any });
+    }, RESERVATION_TRANSACTION_OPTIONS);
 
     try {
       const razorpay = getRazorpayInstance();
@@ -1296,7 +1396,7 @@ export const initiateBookingReservation = async (c: Context) => {
             error?.message || "Failed to create Razorpay order.",
           );
         }
-      }, { isolationLevel: "Serializable" as any });
+      }, RESERVATION_TRANSACTION_OPTIONS);
 
       throw error;
     }
@@ -1417,7 +1517,7 @@ export const confirmBookingReservation = async (c: Context) => {
       });
 
       return { bookingId: booking.id };
-    }, { isolationLevel: "Serializable" as any });
+    }, RESERVATION_TRANSACTION_OPTIONS);
 
     return c.json({
       success: true,
@@ -1493,7 +1593,7 @@ export const releaseBookingReservation = async (c: Context) => {
         "RELEASED",
         "Customer left checkout before completing payment.",
       );
-    }, { isolationLevel: "Serializable" as any });
+    }, RESERVATION_TRANSACTION_OPTIONS);
 
     return c.json({ success: true, message: "Reservation released." });
   } catch (error: any) {
