@@ -1,5 +1,6 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
+import { getActiveSlotReservationHoldCounts } from "../helpers/bookingReservation.helper.js";
 
 // Get variants for a listing (for batch management)
 export const getVariantsForListing = async (c: Context) => {
@@ -45,6 +46,10 @@ export const getVariantsWithBatches = async (c: Context) => {
       },
     });
 
+    const holdCounts = await getActiveSlotReservationHoldCounts(
+      variants.flatMap((variant) => variant.slots.map((slot) => slot.id)),
+    );
+
     // Transform data to match frontend expectations
     const transformedVariants = variants.map((variant) => ({
       id: variant.id,
@@ -61,13 +66,14 @@ export const getVariantsWithBatches = async (c: Context) => {
           slot.availableCount === null || slot.availableCount === undefined
             ? maxRemainingCapacity
             : Math.min(Math.max(0, slot.availableCount), maxRemainingCapacity);
+        const holdCount = holdCounts.get(slot.id) || 0;
         
         return {
           id: slot.id,
           startDate: slot.batchStartDate?.toISOString() || "",
           endDate: slot.batchEndDate?.toISOString() || "",
           batchSize: slot.totalCapacity,
-          availableSlots: effectiveAvailableSlots,
+          availableSlots: Math.max(0, effectiveAvailableSlots - holdCount),
           bookings: bookedParticipants,
           price: slot.basePrice,
           status: slot.isActive ? "ACTIVE" : "PAUSED",
@@ -124,6 +130,8 @@ export const getBatchById = async (c: Context) => {
       batch.availableCount === null || batch.availableCount === undefined
         ? maxRemainingCapacity
         : Math.min(Math.max(0, batch.availableCount), maxRemainingCapacity);
+    const holdCounts = await getActiveSlotReservationHoldCounts([batch.id]);
+    const holdCount = holdCounts.get(batch.id) || 0;
     
     return c.json({ 
       success: true, 
@@ -133,7 +141,7 @@ export const getBatchById = async (c: Context) => {
         batchEndDate: batch.batchEndDate,
         basePrice: batch.basePrice,
         totalCapacity: batch.totalCapacity,
-        availableCount: effectiveAvailableCount,
+        availableCount: Math.max(0, effectiveAvailableCount - holdCount),
         isActive: batch.isActive,
         bookingsCount: bookedParticipants,
         slotDefinition: batch.slotDefinition
@@ -180,6 +188,7 @@ export const getBatchesForListingVariant = async (c: Context) => {
     });
     
     console.log(`[DEBUG] Batches found: ${batches.length} batches`);
+    const holdCounts = await getActiveSlotReservationHoldCounts(batches.map((batch) => batch.id));
     console.log("[DEBUG] Batch details:", batches.map(b => ({ 
       id: b.id, 
       variantId: b.variantId, 
@@ -188,10 +197,16 @@ export const getBatchesForListingVariant = async (c: Context) => {
       endDate: b.batchEndDate,
       price: b.basePrice,
       capacity: b.totalCapacity,
-      available: b.availableCount
+      available: Math.max(0, (b.availableCount || 0) - (holdCounts.get(b.id) || 0))
     })));
-    
-    return c.json({ success: true, data: batches });
+
+    return c.json({
+      success: true,
+      data: batches.map((batch) => ({
+        ...batch,
+        availableCount: Math.max(0, (batch.availableCount || 0) - (holdCounts.get(batch.id) || 0)),
+      })),
+    });
   } catch (error) {
     console.error("Get batches error:", error);
     return c.json({ success: false, message: "Failed to fetch batches", error: String(error) }, 500);

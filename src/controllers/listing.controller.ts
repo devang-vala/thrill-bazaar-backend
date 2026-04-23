@@ -1322,6 +1322,7 @@ export const getListings = async (c: Context) => {
           rejectionReason: true,
           basePriceDisplay: true,
           currency: true,
+          metadata: true,
           startCountryId: true,
           startPrimaryDivisionId: true,
           startSecondaryDivisionId: true,
@@ -1352,6 +1353,18 @@ export const getListings = async (c: Context) => {
             select: {
               id: true,
               categoryName: true,
+              metadataFieldDefinitions: {
+                where: {
+                  displayOrder: 10,
+                },
+                select: {
+                  fieldKey: true,
+                  fieldLabel: true,
+                  displayOrder: true,
+                },
+                take: 1,
+                orderBy: { displayOrder: "asc" },
+              },
             },
           },
           subCategory: {

@@ -1,4 +1,6 @@
 import type { Context } from "hono";
+import crypto from "crypto";
+import Razorpay from "razorpay";
 import { prisma } from "../db.js";
 import {
   calculatePaymentBreakdown,
@@ -9,6 +11,13 @@ import {
 import { generateOtp, isMasterOtp, sendOtpSMS } from "../helpers/auth.helper.js";
 
 const BOOKING_DEBUG = process.env.BOOKING_DEBUG === "true";
+const BOOKING_RESERVATION_TTL_MS = 10 * 60 * 1000;
+const MAX_RAZORPAY_RECEIPT_LENGTH = 40;
+const RESERVATION_TRANSACTION_OPTIONS = {
+  isolationLevel: "Serializable" as any,
+  maxWait: 15_000,
+  timeout: 30_000,
+};
 
 const debugLog = (...args: unknown[]) => {
   if (BOOKING_DEBUG) {
@@ -48,6 +57,181 @@ const getConvenienceFeeRateInBasisPoints = async () => {
 
 const createBookingOtp = () => generateOtp();
 
+type TxClient = Parameters<Parameters<typeof prisma.$transaction>[0]>[0];
+type SupportedBookingFormat = "F1" | "F2" | "F3" | "F4";
+type ReservationStatus = "PENDING_PAYMENT" | "COMPLETED" | "PAYMENT_FAILED" | "RELEASED" | "EXPIRED";
+
+interface PreparedReservation {
+  customerId: string;
+  listingId: string;
+  variantId?: string;
+  bookingFormat: SupportedBookingFormat;
+  listingSlotId?: string;
+  dateRangeId?: string;
+  selectedDate?: string;
+  selectedDates?: string[];
+  participantCount: number;
+  participants: any[];
+  contactDetails: any;
+  selectedAddons: Array<{ addonId: string; quantity: number }>;
+  promoCode: string | null;
+  discountAmount: number;
+  paymentMethod: string;
+  currency: string;
+  basePrice: number;
+  bookingStartDate: Date;
+  bookingEndDate: Date;
+  totalDays: number;
+  paymentBreakdown: ReturnType<typeof calculatePaymentBreakdown>;
+  pricingDetailsForBooking: Record<string, unknown>;
+  inventoryReserved: boolean;
+}
+
+const buildSafeReceipt = (incomingReceipt?: string) => {
+  const fallback = `receipt_${Date.now().toString(36)}`;
+  const raw = (incomingReceipt || fallback).trim();
+  const normalized = raw.replace(/\s+/g, "_").replace(/[^a-zA-Z0-9_-]/g, "");
+  const safe = normalized || fallback;
+  return safe.slice(0, MAX_RAZORPAY_RECEIPT_LENGTH);
+};
+
+const getRazorpayInstance = () => {
+  const key_id = process.env.RAZORPAY_API_KEY;
+  const key_secret = process.env.RAZORPAY_SECRET_KEY;
+  const isPlaceholderKey =
+    !key_id ||
+    !key_secret ||
+    key_id === "your_razorpay_api_key_here" ||
+    key_secret === "your_razorpay_secret_key_here";
+
+  if (isPlaceholderKey) {
+    throw new Error(
+      "Razorpay API keys are not configured. Replace RAZORPAY_API_KEY and RAZORPAY_SECRET_KEY in thrill-bazaar-backend/.env with real Dashboard keys."
+    );
+  }
+
+  return new Razorpay({ key_id, key_secret });
+};
+
+const verifyRazorpaySignature = (
+  razorpayOrderId: string,
+  razorpayPaymentId: string,
+  razorpaySignature: string,
+) => {
+  const secret = process.env.RAZORPAY_SECRET_KEY;
+  if (!secret) {
+    throw new Error("Razorpay secret key is not configured");
+  }
+
+  const body = `${razorpayOrderId}|${razorpayPaymentId}`;
+  const expectedSignature = crypto.createHmac("sha256", secret).update(body).digest("hex");
+  return expectedSignature === razorpaySignature;
+};
+
+const generateReservationReference = () => {
+  const year = new Date().getFullYear();
+  const random = Math.floor(Math.random() * 1000000).toString().padStart(6, "0");
+  return `RSV-${year}-${random}`;
+};
+
+const normalizeSelectedAddonRows = (selectedAddons: unknown) => {
+  if (!Array.isArray(selectedAddons)) return [] as Array<{ addonId: string; quantity: number }>;
+
+  return selectedAddons
+    .map((item) => {
+      if (!item || typeof item !== "object") return null;
+      const addonId = String((item as { addonId?: unknown }).addonId || "").trim();
+      const quantity = Number((item as { quantity?: unknown }).quantity || 0);
+
+      if (!addonId || !Number.isFinite(quantity) || quantity <= 0) {
+        return null;
+      }
+
+      return {
+        addonId,
+        quantity,
+      };
+    })
+    .filter((item): item is { addonId: string; quantity: number } => Boolean(item));
+};
+
+const normalizeSelectedDates = (selectedDates: unknown) => {
+  if (!Array.isArray(selectedDates)) return [] as string[];
+
+  return selectedDates
+    .map((value) => String(value || "").trim())
+    .filter(Boolean)
+    .sort();
+};
+
+const normalizeDateOnlyKey = (value: Date | string) => {
+  const date = value instanceof Date ? value : new Date(value);
+  return date.toISOString().split("T")[0];
+};
+
+const toUtcStartOfDay = (dateValue: string) => new Date(`${dateValue}T00:00:00.000Z`);
+
+const toJsonDateString = (value?: Date | string | null) => {
+  if (!value) return null;
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return date.toISOString();
+};
+
+const getReservationLockKeys = (prepared: PreparedReservation) => {
+  if (prepared.bookingFormat === "F1") {
+    return [`slot:${prepared.listingSlotId}`];
+  }
+
+  if (prepared.bookingFormat === "F2") {
+    return (prepared.selectedDates || []).map((selectedDate) => `range:${prepared.dateRangeId}:${selectedDate}`);
+  }
+
+  return [`range:${prepared.dateRangeId}:${prepared.selectedDate || normalizeDateOnlyKey(prepared.bookingStartDate)}`];
+};
+
+const acquireReservationLocks = async (tx: TxClient, prepared: PreparedReservation) => {
+  const lockKeys = [...new Set(getReservationLockKeys(prepared))].sort();
+
+  for (const lockKey of lockKeys) {
+    await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${lockKey}))`;
+  }
+};
+
+const buildPricingDetailsForStorage = (prepared: PreparedReservation) => ({
+  ...prepared.pricingDetailsForBooking,
+  bookingFormat: prepared.bookingFormat,
+  currency: prepared.currency,
+  basePrice: prepared.basePrice,
+  bookingStartDate: toJsonDateString(prepared.bookingStartDate),
+  bookingEndDate: toJsonDateString(prepared.bookingEndDate),
+});
+
+const buildBookingPayloadForReservation = (prepared: PreparedReservation) => ({
+  customerId: prepared.customerId,
+  listingId: prepared.listingId,
+  variantId: prepared.variantId || null,
+  bookingFormat: prepared.bookingFormat,
+  listingSlotId: prepared.listingSlotId || null,
+  dateRangeId: prepared.dateRangeId || null,
+  selectedDate: prepared.selectedDate || null,
+  selectedDates: prepared.selectedDates || [],
+  participantCount: prepared.participantCount,
+  participants: prepared.participants,
+  contactDetails: prepared.contactDetails,
+  selectedAddons: prepared.selectedAddons,
+  promoCode: prepared.promoCode,
+  discountAmount: prepared.discountAmount,
+  paymentMethod: prepared.paymentMethod,
+  currency: prepared.currency,
+  basePrice: prepared.basePrice,
+  bookingStartDate: toJsonDateString(prepared.bookingStartDate),
+  bookingEndDate: toJsonDateString(prepared.bookingEndDate),
+  totalDays: prepared.totalDays,
+});
+
+const bookingReservationDelegate = (client: any) => client.bookingReservation;
+
 const CANCELLATION_REASON_SUFFIXES = {
   customer: "cancelled by customer",
   seller: "cancelled by seller",
@@ -66,6 +250,18 @@ const buildCancellationReason = (
   const normalizedReason = stripCancellationReasonSuffix(rawReason);
   const suffix = CANCELLATION_REASON_SUFFIXES[cancelledBy];
   return normalizedReason ? `${normalizedReason} ${suffix}` : suffix;
+};
+
+const isInventoryConflictError = (message: string) => {
+  const normalized = message.toLowerCase();
+  return (
+    normalized.includes("just booked by someone else") ||
+    normalized.includes("no longer available") ||
+    normalized.includes("reservation expired") ||
+    normalized.includes("can no longer be completed") ||
+    normalized.includes("date is blocked") ||
+    normalized.includes("currently locked by another checkout")
+  );
 };
 
 const ADMIN_RESCHEDULE_ACTIVITY_STATUS = {
@@ -120,6 +316,1293 @@ const generateUniqueBookingOtp = async (excludeBookingId?: string) => {
   }
 
   throw new Error("Failed to generate a unique booking OTP");
+};
+
+const releaseReservationInventoryTx = async (
+  tx: TxClient,
+  reservation: {
+    id: string;
+    status: string;
+    inventoryReserved: boolean;
+    listingSlotId: string | null;
+    dateRangeId: string | null;
+    selectedDate: Date | null;
+    selectedDates: unknown;
+    participantCount: number;
+  },
+  nextStatus: ReservationStatus,
+  failureReason?: string,
+) => {
+  if (reservation.status !== "PENDING_PAYMENT") {
+    return;
+  }
+
+  if (reservation.inventoryReserved) {
+    if (reservation.listingSlotId) {
+      await tx.listingSlot.update({
+        where: { id: reservation.listingSlotId },
+        data: {
+          availableCount: {
+            increment: reservation.participantCount,
+          },
+        },
+      });
+    } else if (reservation.dateRangeId) {
+      const selectedDates = normalizeSelectedDates(reservation.selectedDates);
+      if (selectedDates.length > 0) {
+        for (const selectedDate of selectedDates) {
+          const slotChange = await tx.listingSlotChange.findFirst({
+            where: {
+              inventoryDateRangeId: reservation.dateRangeId,
+              date: toUtcStartOfDay(selectedDate),
+            },
+            orderBy: { createdAt: "desc" },
+          });
+
+          if (slotChange) {
+            await tx.listingSlotChange.update({
+              where: { id: slotChange.id },
+              data: {
+                availableCount: {
+                  increment: reservation.participantCount,
+                },
+                triggerType: "customer_cancel",
+              },
+            });
+          }
+        }
+      } else if (reservation.selectedDate) {
+        const slotChange = await tx.listingSlotChange.findFirst({
+          where: {
+            inventoryDateRangeId: reservation.dateRangeId,
+            date: reservation.selectedDate,
+          },
+          orderBy: { createdAt: "desc" },
+        });
+
+        if (slotChange) {
+          await tx.listingSlotChange.update({
+            where: { id: slotChange.id },
+            data: {
+              availableCount: {
+                increment: reservation.participantCount,
+              },
+              triggerType: "customer_cancel",
+            },
+          });
+        }
+      }
+    }
+  }
+
+  await bookingReservationDelegate(tx).update({
+    where: { id: reservation.id },
+    data: {
+      status: nextStatus,
+      releasedAt: new Date(),
+      failureReason: failureReason || null,
+    },
+  });
+};
+
+const releaseExpiredReservationsForPreparedBooking = async (tx: TxClient, prepared: PreparedReservation) => {
+  const now = new Date();
+  const candidates = await bookingReservationDelegate(tx).findMany({
+    where: {
+      status: "PENDING_PAYMENT",
+      expiresAt: { lte: now },
+      OR: prepared.listingSlotId
+        ? [{ listingSlotId: prepared.listingSlotId }]
+        : [{ dateRangeId: prepared.dateRangeId }],
+    },
+    select: {
+      id: true,
+      status: true,
+      inventoryReserved: true,
+      listingSlotId: true,
+      dateRangeId: true,
+      selectedDate: true,
+      selectedDates: true,
+      participantCount: true,
+    },
+  });
+
+  const preparedDateSet = new Set(prepared.selectedDates || (prepared.selectedDate ? [prepared.selectedDate] : []));
+
+  for (const reservation of candidates) {
+    if (prepared.listingSlotId) {
+      await releaseReservationInventoryTx(tx, reservation, "EXPIRED", "Reservation expired before payment.");
+      continue;
+    }
+
+    const reservationDates = normalizeSelectedDates(reservation.selectedDates);
+    const candidateDates =
+      reservationDates.length > 0
+        ? reservationDates
+        : reservation.selectedDate
+          ? [normalizeDateOnlyKey(reservation.selectedDate)]
+          : [];
+    const overlaps = candidateDates.some((dateKey) => preparedDateSet.has(dateKey));
+
+    if (overlaps) {
+      await releaseReservationInventoryTx(tx, reservation, "EXPIRED", "Reservation expired before payment.");
+    }
+  }
+};
+
+const assertNoActiveReservationConflictTx = async (tx: TxClient, prepared: PreparedReservation) => {
+  const now = new Date();
+
+  if (prepared.bookingFormat === "F1" && prepared.listingSlotId) {
+    const activeReservations = await bookingReservationDelegate(tx).findMany({
+      where: {
+        status: "PENDING_PAYMENT",
+        expiresAt: { gt: now },
+        listingSlotId: prepared.listingSlotId,
+      },
+      select: { participantCount: true },
+    });
+
+    const heldParticipantCount = activeReservations.reduce(
+      (sum: number, reservation: { participantCount: number }) => sum + (reservation.participantCount || 0),
+      0,
+    );
+
+    if (heldParticipantCount === 0) {
+      return;
+    }
+
+    const slot = await tx.listingSlot.findUnique({
+      where: { id: prepared.listingSlotId },
+      select: {
+        availableCount: true,
+        totalCapacity: true,
+        bookings: {
+          where: {
+            bookingStatus: { in: ["CONFIRMED", "COMPLETED"] },
+          },
+          select: { participantCount: true },
+        },
+      },
+    });
+
+    if (!slot) {
+      throw new Error("This batch is no longer available.");
+    }
+
+    const bookedParticipants = slot.bookings.reduce(
+      (sum, booking) => sum + (booking.participantCount || 0),
+      0,
+    );
+    const maxRemainingCapacity = Math.max(0, (slot.totalCapacity || 0) - bookedParticipants);
+    const effectiveAvailableCount = Math.min(Math.max(0, slot.availableCount || 0), maxRemainingCapacity);
+
+    if (effectiveAvailableCount < prepared.participantCount) {
+      throw new Error("This batch is currently locked by another checkout. Please try again in a moment.");
+    }
+
+    return;
+  }
+
+  if (prepared.bookingFormat === "F2") {
+    const preparedDateSet = new Set(prepared.selectedDates || []);
+    const activeReservations = await bookingReservationDelegate(tx).findMany({
+      where: {
+        status: "PENDING_PAYMENT",
+        expiresAt: { gt: now },
+        bookingFormat: "F2",
+        listingId: prepared.listingId,
+        variantId: prepared.variantId || null,
+      },
+      select: {
+        id: true,
+        selectedDate: true,
+        selectedDates: true,
+      },
+    });
+
+    for (const reservation of activeReservations) {
+      const reservationDates = normalizeSelectedDates(reservation.selectedDates);
+      const candidateDates =
+        reservationDates.length > 0
+          ? reservationDates
+          : reservation.selectedDate
+            ? [normalizeDateOnlyKey(reservation.selectedDate)]
+            : [];
+      const overlaps = candidateDates.some((dateKey) => preparedDateSet.has(dateKey));
+
+      if (overlaps) {
+        throw new Error("These dates are currently locked by another checkout. Please try again in a moment.");
+      }
+    }
+
+    return;
+  }
+
+  const preparedDateKey = prepared.selectedDate || normalizeDateOnlyKey(prepared.bookingStartDate);
+  if (prepared.bookingFormat === "F3") {
+    const activeReservations = await bookingReservationDelegate(tx).findMany({
+      where: {
+        status: "PENDING_PAYMENT",
+        expiresAt: { gt: now },
+        bookingFormat: "F3",
+        dateRangeId: prepared.dateRangeId,
+        selectedDate: toUtcStartOfDay(preparedDateKey),
+      },
+      select: { participantCount: true },
+    });
+
+    const heldParticipantCount = activeReservations.reduce(
+      (sum: number, reservation: { participantCount: number }) => sum + (reservation.participantCount || 0),
+      0,
+    );
+
+    if (heldParticipantCount === 0) {
+      return;
+    }
+
+    const dateRange = await tx.inventoryDateRange.findUnique({
+      where: { id: prepared.dateRangeId! },
+      select: {
+        totalCapacity: true,
+        availableCount: true,
+      },
+    });
+
+    if (!dateRange) {
+      throw new Error("Date range not found");
+    }
+
+    const bookingDate = toUtcStartOfDay(preparedDateKey);
+    const availabilityRow = await tx.listingSlotChange.findFirst({
+      where: {
+        inventoryDateRangeId: prepared.dateRangeId!,
+        date: bookingDate,
+      },
+      orderBy: { createdAt: "desc" },
+      select: { availableCount: true },
+    });
+    const bookedCounts = await getBookedDateRangeCountsTx(tx, prepared.dateRangeId!, [preparedDateKey]);
+    const bookedCount = bookedCounts.get(preparedDateKey) || 0;
+    const baselineAvailableCount =
+      dateRange.totalCapacity === null
+        ? Math.max(0, dateRange.availableCount || 0)
+        : Math.max(0, dateRange.totalCapacity - bookedCount);
+    const effectiveAvailableCount = Math.max(
+      0,
+      availabilityRow ? availabilityRow.availableCount : baselineAvailableCount,
+    );
+
+    if (effectiveAvailableCount < prepared.participantCount) {
+      throw new Error("This batch is currently locked by another checkout. Please try again in a moment.");
+    }
+
+    return;
+  }
+
+  const activeReservation = await bookingReservationDelegate(tx).findFirst({
+    where: {
+      status: "PENDING_PAYMENT",
+      expiresAt: { gt: now },
+      dateRangeId: prepared.dateRangeId,
+      selectedDate: toUtcStartOfDay(preparedDateKey),
+    },
+    select: { id: true },
+  });
+
+  if (activeReservation) {
+    throw new Error("This slot is currently locked by another checkout. Please try again in a moment.");
+  }
+};
+
+const getBookedDateRangeCountsTx = async (
+  tx: TxClient,
+  dateRangeId: string,
+  dateKeys: string[],
+) => {
+  const uniqueDateKeys = [...new Set(dateKeys.filter(Boolean))].sort();
+  const counts = new Map<string, number>();
+
+  if (uniqueDateKeys.length === 0) {
+    return counts;
+  }
+
+  const rangeStart = toUtcStartOfDay(uniqueDateKeys[0]);
+  const rangeEnd = toUtcStartOfDay(uniqueDateKeys[uniqueDateKeys.length - 1]);
+  const dateKeySet = new Set(uniqueDateKeys);
+
+  const bookings = await tx.booking.findMany({
+    where: {
+      dateRangeId,
+      bookingStatus: { in: ["CONFIRMED", "COMPLETED"] },
+      bookingStartDate: { lte: rangeEnd },
+      bookingEndDate: { gte: rangeStart },
+    },
+    select: {
+      participantCount: true,
+      pricingDetails: true,
+      bookingStartDate: true,
+      bookingEndDate: true,
+    },
+  });
+
+  for (const booking of bookings) {
+    const pricingDetails = booking.pricingDetails as { selectedDates?: string[] } | null;
+    const bookingDateKeys =
+      pricingDetails?.selectedDates && Array.isArray(pricingDetails.selectedDates)
+        ? pricingDetails.selectedDates.map((value) => String(value || "").trim()).filter(Boolean)
+        : [];
+
+    const normalizedBookingDates =
+      bookingDateKeys.length > 0
+        ? bookingDateKeys
+        : (() => {
+            const dates: string[] = [];
+            const currentDate = new Date(booking.bookingStartDate);
+            const endDate = new Date(booking.bookingEndDate);
+            while (currentDate <= endDate) {
+              dates.push(currentDate.toISOString().split("T")[0]);
+              currentDate.setUTCDate(currentDate.getUTCDate() + 1);
+            }
+            return dates;
+          })();
+
+    for (const dateKey of normalizedBookingDates) {
+      if (!dateKeySet.has(dateKey)) {
+        continue;
+      }
+
+      counts.set(dateKey, (counts.get(dateKey) || 0) + (booking.participantCount || 1));
+    }
+  }
+
+  return counts;
+};
+
+const ensureDateAvailabilityRowTx = async (
+  tx: TxClient,
+  input: {
+    dateRangeId: string;
+    listingId: string;
+    variantId?: string;
+    dateValue: Date;
+    price: number;
+    totalCapacity: number | null;
+    baselineAvailableCount: number;
+  },
+) => {
+  const existingSlotChange = await tx.listingSlotChange.findFirst({
+    where: {
+      inventoryDateRangeId: input.dateRangeId,
+      date: input.dateValue,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  if (existingSlotChange) {
+    return existingSlotChange;
+  }
+
+  return tx.listingSlotChange.create({
+    data: {
+      inventoryDateRangeId: input.dateRangeId,
+      listingId: input.listingId,
+      variantId: input.variantId || null,
+      date: input.dateValue,
+      price: input.price,
+      totalCapacity: input.totalCapacity || 0,
+      availableCount: input.baselineAvailableCount,
+      triggerType: "seller_update",
+    },
+  });
+};
+
+const reservePreparedInventoryTx = async (tx: TxClient, prepared: PreparedReservation) => {
+  if (prepared.bookingFormat === "F1") {
+    const slot = await tx.listingSlot.findUnique({
+      where: { id: prepared.listingSlotId! },
+      include: {
+        bookings: {
+          where: {
+            bookingStatus: { in: ["CONFIRMED", "COMPLETED"] },
+          },
+          select: { participantCount: true },
+        },
+      },
+    });
+
+    if (!slot || !slot.isActive) {
+      throw new Error("This batch is no longer available.");
+    }
+
+    const bookedParticipants = slot.bookings.reduce(
+      (sum, booking) => sum + (booking.participantCount || 0),
+      0,
+    );
+    const maxRemainingCapacity = Math.max(0, (slot.totalCapacity || 0) - bookedParticipants);
+    const effectiveAvailableCount = Math.min(Math.max(0, slot.availableCount || 0), maxRemainingCapacity);
+
+    if (effectiveAvailableCount < prepared.participantCount) {
+      throw new Error("This batch was just booked by someone else. Please reselect an available batch.");
+    }
+
+    await tx.listingSlot.update({
+      where: { id: prepared.listingSlotId! },
+      data: {
+        availableCount: effectiveAvailableCount - prepared.participantCount,
+      },
+    });
+
+    return true;
+  }
+
+  if (prepared.bookingFormat === "F2") {
+    const dateRange = await tx.inventoryDateRange.findUnique({
+      where: { id: prepared.dateRangeId! },
+      select: {
+        id: true,
+        listingId: true,
+        variantId: true,
+        basePricePerDay: true,
+        totalCapacity: true,
+        availableCount: true,
+      },
+    });
+
+    if (!dateRange) {
+      throw new Error("Date range not found");
+    }
+
+    if (
+      dateRange.totalCapacity === null ||
+      dateRange.availableCount === null ||
+      dateRange.totalCapacity <= 0
+    ) {
+      throw new Error(
+        "This rental inventory is not configured correctly. Please contact support or choose another option.",
+      );
+    }
+
+    const bookedCounts = await getBookedDateRangeCountsTx(tx, prepared.dateRangeId!, prepared.selectedDates || []);
+
+    for (const selectedDate of prepared.selectedDates || []) {
+      const dateValue = toUtcStartOfDay(selectedDate);
+      const isBlocked = await tx.inventoryBlockedDate.findFirst({
+        where: {
+          listingId: prepared.listingId,
+          variantId: prepared.variantId || undefined,
+          blockedDate: dateValue,
+        },
+      });
+
+      if (isBlocked) {
+        throw new Error(`The date ${selectedDate} is no longer available.`);
+      }
+
+      const bookedCount = bookedCounts.get(selectedDate) || 0;
+      const baselineAvailableCount = Math.max(0, (dateRange.totalCapacity || 0) - bookedCount);
+      const availabilityRow = await ensureDateAvailabilityRowTx(tx, {
+        dateRangeId: prepared.dateRangeId!,
+        listingId: prepared.listingId,
+        variantId: prepared.variantId,
+        dateValue,
+        price: Number(dateRange.basePricePerDay || 0),
+        totalCapacity: dateRange.totalCapacity,
+        baselineAvailableCount,
+      });
+      const effectiveAvailableCount = Math.max(0, availabilityRow.availableCount);
+
+      if (effectiveAvailableCount < prepared.participantCount) {
+        throw new Error(`The date ${selectedDate} was just booked by someone else. Please pick another date.`);
+      }
+
+      await tx.listingSlotChange.update({
+        where: { id: availabilityRow.id },
+        data: {
+          availableCount: {
+            decrement: prepared.participantCount,
+          },
+          triggerType: "customer_book",
+        },
+      });
+    }
+
+    return true;
+  }
+
+  const bookingDateKey = prepared.selectedDate || normalizeDateOnlyKey(prepared.bookingStartDate);
+  const bookingDate = toUtcStartOfDay(bookingDateKey);
+  const dateRange = await tx.inventoryDateRange.findUnique({
+    where: { id: prepared.dateRangeId! },
+    select: {
+      id: true,
+      listingId: true,
+      variantId: true,
+      basePricePerDay: true,
+      totalCapacity: true,
+      availableCount: true,
+    },
+  });
+
+  if (!dateRange) {
+    throw new Error("Date range not found");
+  }
+
+  const isBlocked = await tx.inventoryBlockedDate.findFirst({
+    where: {
+      listingId: prepared.listingId,
+      variantId: prepared.variantId || undefined,
+      blockedDate: bookingDate,
+    },
+  });
+
+  if (isBlocked) {
+      throw new Error("This date is blocked and not available for booking.");
+  }
+
+  const bookedCounts = await getBookedDateRangeCountsTx(tx, prepared.dateRangeId!, [bookingDateKey]);
+  const bookedCount = bookedCounts.get(bookingDateKey) || 0;
+  const baselineAvailableCount =
+    dateRange.totalCapacity === null
+      ? Math.max(0, dateRange.availableCount || 0)
+      : Math.max(0, dateRange.totalCapacity - bookedCount);
+  const availabilityRow = await ensureDateAvailabilityRowTx(tx, {
+    dateRangeId: prepared.dateRangeId!,
+    listingId: prepared.listingId,
+    variantId: prepared.variantId,
+    dateValue: bookingDate,
+    price: Number(dateRange.basePricePerDay || 0),
+    totalCapacity: dateRange.totalCapacity,
+    baselineAvailableCount,
+  });
+  const effectiveAvailableCount = Math.max(0, availabilityRow.availableCount);
+
+  if (effectiveAvailableCount < prepared.participantCount) {
+    throw new Error("This slot was just booked by someone else. Please reselect an available slot.");
+  }
+
+  await tx.listingSlotChange.update({
+    where: { id: availabilityRow.id },
+    data: {
+      availableCount: {
+        decrement: prepared.participantCount,
+      },
+      triggerType: "customer_book",
+    },
+  });
+
+  return true;
+};
+
+const prepareBookingReservation = async (body: any) => {
+  const customerId = String(body?.customerId || "").trim();
+  const listingId = String(body?.listingId || "").trim();
+  const variantId = body?.variantId ? String(body.variantId).trim() : undefined;
+  const bookingFormat = String(body?.bookingFormat || "").trim() as SupportedBookingFormat;
+  const selectedAddons = normalizeSelectedAddonRows(body?.selectedAddons);
+  const promoCode = body?.promoCode ? String(body.promoCode).trim() : null;
+  const discountAmount = Number(body?.discountAmount || 0);
+  const paymentMethod = String(body?.paymentMethod || "online").trim() || "online";
+
+  if (!customerId || !listingId || !bookingFormat) {
+    throw new Error("Missing required booking details.");
+  }
+
+  const customer = await prisma.user.findUnique({
+    where: { id: customerId },
+    select: { id: true, email: true },
+  });
+
+  if (!customer) {
+    throw new Error("Customer not found. Please login again.");
+  }
+
+  if (bookingFormat === "F1") {
+    const listingSlotId = String(body?.listingSlotId || body?.batchId || "").trim();
+    const participantCount = Number(body?.participantCount || 0);
+    if (!listingSlotId || !participantCount || !Array.isArray(body?.participants)) {
+      throw new Error("Missing slot or participant details.");
+    }
+
+    const slot = await prisma.listingSlot.findUnique({
+      where: { id: listingSlotId },
+      include: {
+        listing: {
+          select: {
+            listingName: true,
+            currency: true,
+            taxRate: true,
+            advanceBookingPercentage: true,
+            platformCommissionPercentage: true,
+            tcsPercentage: true,
+            bookingFormat: true,
+          },
+        },
+      },
+    });
+
+    if (!slot || !slot.isActive) {
+      throw new Error("Selected batch is no longer available.");
+    }
+
+    const bookingStartDate = slot.batchStartDate ? new Date(slot.batchStartDate) : slot.slotDate ? new Date(slot.slotDate) : null;
+    const bookingEndDate = slot.batchEndDate ? new Date(slot.batchEndDate) : slot.slotDate ? new Date(slot.slotDate) : null;
+
+    if (!bookingStartDate || !bookingEndDate) {
+      throw new Error("Invalid slot: missing date information.");
+    }
+
+    const totalDays = Math.max(1, Math.ceil((bookingEndDate.getTime() - bookingStartDate.getTime()) / (1000 * 60 * 60 * 24)) + 1);
+    const quantity = getQuantityForBookingFormat("F1", participantCount, totalDays);
+    const convenienceFeeRate = await getConvenienceFeeRateInBasisPoints();
+    const addonsTotal = selectedAddons.reduce((sum, addon) => sum + Number(addon.quantity || 0) * 0, 0);
+    void addonsTotal;
+
+    const paymentBreakdown = calculatePaymentBreakdown({
+      bookingFormat: "F1",
+      totalBasePrice: rupeesToPaise(slot.basePrice * Math.max(1, participantCount)),
+      quantity,
+      addonsAmount: rupeesToPaise(Number(body?.addonsTotal || 0)),
+      discountAmount: rupeesToPaise(discountAmount || 0),
+      advancePaymentPercentage: percentageToBasisPoints(slot.listing.advanceBookingPercentage, 10000),
+      paymentMethod,
+      taxRate: percentageToBasisPoints(slot.listing.taxRate, 1800),
+      convenienceFeeRate,
+      platformCommissionRate: percentageToBasisPoints(slot.listing.platformCommissionPercentage),
+      tcsRateOfCommission: percentageToBasisPoints(slot.listing.tcsPercentage),
+    });
+
+    return {
+      customerId,
+      listingId,
+      variantId,
+      bookingFormat: "F1" as const,
+      listingSlotId,
+      participantCount,
+      participants: body.participants,
+      contactDetails: body.contactDetails || {},
+      selectedAddons,
+      promoCode,
+      discountAmount,
+      paymentMethod,
+      currency: slot.listing.currency || "INR",
+      basePrice: slot.basePrice,
+      bookingStartDate,
+      bookingEndDate,
+      totalDays,
+      paymentBreakdown,
+      pricingDetailsForBooking: {
+        totalBasePrice: paymentBreakdown.totalBasePrice / 100,
+        quantity: paymentBreakdown.quantity,
+        subtotalWithTax: paymentBreakdown.subtotalWithTax / 100,
+        discountAmount: paymentBreakdown.discountAmount / 100,
+        taxAmount: paymentBreakdown.taxAmount / 100,
+        totalBaseAmount: paymentBreakdown.totalBaseAmount / 100,
+        addonsTotal: paymentBreakdown.addonsAmount / 100,
+        totalAmount: paymentBreakdown.totalAmount / 100,
+        promoCode,
+        amountPaidNow: paymentBreakdown.amountPaidOnline / 100,
+        amountPendingAtVenue: paymentBreakdown.amountToCollectOffline / 100,
+        convenienceFeeRate: paymentBreakdown.convenienceFeeRate / 100,
+        convenienceFeeAmount: paymentBreakdown.convenienceFeeAmount / 100,
+        totalPayableOnline: paymentBreakdown.totalPayableOnline / 100,
+        paymentMethod: paymentBreakdown.paymentMethod,
+        platformCommission: paymentBreakdown.platformCommission / 100,
+        tcsAmount: paymentBreakdown.tcsAmount / 100,
+        netPayToSeller: paymentBreakdown.netPayToSeller / 100,
+        totalEarnings: paymentBreakdown.totalEarnings / 100,
+      },
+      inventoryReserved: true,
+    };
+  }
+
+  if (bookingFormat === "F2") {
+    const dateRangeId = String(body?.dateRangeId || "").trim();
+    const selectedDates = normalizeSelectedDates(body?.selectedDates);
+
+    if (!dateRangeId || selectedDates.length === 0) {
+      throw new Error("Missing selected dates for this booking.");
+    }
+
+    const dateRange = await prisma.inventoryDateRange.findUnique({
+      where: { id: dateRangeId },
+      include: {
+        listing: {
+          select: {
+            listingName: true,
+            currency: true,
+            taxRate: true,
+            advanceBookingPercentage: true,
+            platformCommissionPercentage: true,
+            tcsPercentage: true,
+            bookingFormat: true,
+          },
+        },
+      },
+    });
+
+    if (!dateRange || !dateRange.isActive) {
+      throw new Error("Date range not found.");
+    }
+
+    if (
+      dateRange.totalCapacity === null ||
+      dateRange.availableCount === null ||
+      dateRange.totalCapacity <= 0
+    ) {
+      throw new Error(
+        "This rental inventory is not configured correctly. Please contact support or choose another option.",
+      );
+    }
+
+    const bookingStartDate = toUtcStartOfDay(selectedDates[0]);
+    const bookingEndDate = toUtcStartOfDay(selectedDates[selectedDates.length - 1]);
+    if (bookingStartDate < dateRange.availableFromDate || bookingEndDate > dateRange.availableToDate) {
+      throw new Error("Selected dates are outside the available date range.");
+    }
+
+    const convenienceFeeRate = await getConvenienceFeeRateInBasisPoints();
+    const paymentBreakdown = calculatePaymentBreakdown({
+      bookingFormat: "F2",
+      totalBasePrice: rupeesToPaise(Number(body?.subtotal || 0)),
+      quantity: selectedDates.length,
+      addonsAmount: rupeesToPaise(Number(body?.addonsTotal || 0)),
+      discountAmount: rupeesToPaise(discountAmount || 0),
+      advancePaymentPercentage: percentageToBasisPoints(dateRange.listing.advanceBookingPercentage, 10000),
+      paymentMethod,
+      taxRate: percentageToBasisPoints(dateRange.listing.taxRate, 1800),
+      convenienceFeeRate,
+      platformCommissionRate: percentageToBasisPoints(dateRange.listing.platformCommissionPercentage),
+      tcsRateOfCommission: percentageToBasisPoints(dateRange.listing.tcsPercentage),
+    });
+
+    return {
+      customerId,
+      listingId,
+      variantId,
+      bookingFormat: "F2" as const,
+      dateRangeId,
+      selectedDates,
+      participantCount: 1,
+      participants: Array.isArray(body?.participants) ? body.participants : [],
+      contactDetails: body.contactDetails || {},
+      selectedAddons,
+      promoCode,
+      discountAmount,
+      paymentMethod,
+      currency: dateRange.listing.currency || "INR",
+      basePrice: selectedDates.length > 0 ? Number(body?.subtotal || 0) / selectedDates.length : Number(body?.subtotal || 0),
+      bookingStartDate,
+      bookingEndDate,
+      totalDays: selectedDates.length,
+      paymentBreakdown,
+      pricingDetailsForBooking: {
+        selectedDates,
+        totalBasePrice: paymentBreakdown.totalBasePrice / 100,
+        quantity: paymentBreakdown.quantity,
+        subtotalWithTax: paymentBreakdown.subtotalWithTax / 100,
+        discountAmount: paymentBreakdown.discountAmount / 100,
+        taxAmount: paymentBreakdown.taxAmount / 100,
+        totalBaseAmount: paymentBreakdown.totalBaseAmount / 100,
+        addonsTotal: paymentBreakdown.addonsAmount / 100,
+        totalAmount: paymentBreakdown.totalAmount / 100,
+        promoCode,
+        amountPaidNow: paymentBreakdown.amountPaidOnline / 100,
+        amountPendingAtVenue: paymentBreakdown.amountToCollectOffline / 100,
+        convenienceFeeRate: paymentBreakdown.convenienceFeeRate / 100,
+        convenienceFeeAmount: paymentBreakdown.convenienceFeeAmount / 100,
+        totalPayableOnline: paymentBreakdown.totalPayableOnline / 100,
+        paymentMethod: paymentBreakdown.paymentMethod,
+        platformCommission: paymentBreakdown.platformCommission / 100,
+        tcsAmount: paymentBreakdown.tcsAmount / 100,
+        netPayToSeller: paymentBreakdown.netPayToSeller / 100,
+        totalEarnings: paymentBreakdown.totalEarnings / 100,
+      },
+      inventoryReserved: true,
+    };
+  }
+
+  const dateRangeId = String(body?.dateRangeId || "").trim();
+  const selectedDate =
+    bookingFormat === "F3"
+      ? String(body?.selectedDate || body?.selectedDates?.[0] || "").trim()
+      : normalizeSelectedDates(body?.selectedDates)[0] || "";
+  const participantCount = bookingFormat === "F3" ? Number(body?.participantCount || 0) : 1;
+
+  if (!dateRangeId || !selectedDate || !participantCount) {
+    throw new Error("Missing slot selection for this booking.");
+  }
+
+  const dateRange = await prisma.inventoryDateRange.findUnique({
+    where: { id: dateRangeId },
+    include: {
+      listing: {
+        select: {
+          listingName: true,
+          currency: true,
+          taxRate: true,
+          advanceBookingPercentage: true,
+          platformCommissionPercentage: true,
+          tcsPercentage: true,
+          bookingFormat: true,
+        },
+      },
+    },
+  });
+
+  if (!dateRange || !dateRange.isActive) {
+    throw new Error("Selected slot is no longer available.");
+  }
+
+  const bookingDate = toUtcStartOfDay(selectedDate);
+  let effectivePrice = dateRange.basePricePerDay;
+  const priceOverride = await prisma.listingSlotChange.findFirst({
+    where: {
+      inventoryDateRangeId: dateRangeId,
+      date: bookingDate,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  if (priceOverride) {
+    effectivePrice = priceOverride.price;
+  }
+
+  const totalDays = 1;
+  const quantity = getQuantityForBookingFormat(bookingFormat, participantCount, totalDays);
+  const totalBasePriceMultiplier = bookingFormat === "F3" ? Math.max(1, participantCount) : quantity;
+  const convenienceFeeRate = await getConvenienceFeeRateInBasisPoints();
+  const paymentBreakdown = calculatePaymentBreakdown({
+    bookingFormat,
+    totalBasePrice: rupeesToPaise(effectivePrice * totalBasePriceMultiplier),
+    quantity,
+    addonsAmount: rupeesToPaise(Number(body?.addonsTotal || 0)),
+    discountAmount: rupeesToPaise(discountAmount || 0),
+    advancePaymentPercentage: percentageToBasisPoints(dateRange.listing.advanceBookingPercentage, 10000),
+    paymentMethod,
+    taxRate: percentageToBasisPoints(dateRange.listing.taxRate, 1800),
+    convenienceFeeRate,
+    platformCommissionRate: percentageToBasisPoints(dateRange.listing.platformCommissionPercentage),
+    tcsRateOfCommission: percentageToBasisPoints(dateRange.listing.tcsPercentage),
+  });
+
+  return {
+    customerId,
+    listingId,
+    variantId,
+    bookingFormat,
+    dateRangeId,
+    selectedDate,
+    selectedDates: [selectedDate],
+    participantCount,
+    participants: Array.isArray(body?.participants) ? body.participants : [],
+    contactDetails: body.contactDetails || {},
+    selectedAddons,
+    promoCode,
+    discountAmount,
+    paymentMethod,
+    currency: dateRange.listing.currency || "INR",
+    basePrice: effectivePrice,
+    bookingStartDate: bookingDate,
+    bookingEndDate: bookingDate,
+    totalDays,
+    paymentBreakdown,
+    pricingDetailsForBooking: {
+      totalBasePrice: paymentBreakdown.totalBasePrice / 100,
+      quantity: paymentBreakdown.quantity,
+      subtotalWithTax: paymentBreakdown.subtotalWithTax / 100,
+      discountAmount: paymentBreakdown.discountAmount / 100,
+      taxAmount: paymentBreakdown.taxAmount / 100,
+      totalBaseAmount: paymentBreakdown.totalBaseAmount / 100,
+      addonsTotal: paymentBreakdown.addonsAmount / 100,
+      totalAmount: paymentBreakdown.totalAmount / 100,
+      promoCode,
+      amountPaidNow: paymentBreakdown.amountPaidOnline / 100,
+      amountPendingAtVenue: paymentBreakdown.amountToCollectOffline / 100,
+      convenienceFeeRate: paymentBreakdown.convenienceFeeRate / 100,
+      convenienceFeeAmount: paymentBreakdown.convenienceFeeAmount / 100,
+      totalPayableOnline: paymentBreakdown.totalPayableOnline / 100,
+      paymentMethod: paymentBreakdown.paymentMethod,
+      platformCommission: paymentBreakdown.platformCommission / 100,
+      tcsAmount: paymentBreakdown.tcsAmount / 100,
+      netPayToSeller: paymentBreakdown.netPayToSeller / 100,
+      totalEarnings: paymentBreakdown.totalEarnings / 100,
+    },
+    inventoryReserved: true,
+  };
+};
+
+const createBookingFromReservationTx = async (tx: TxClient, reservation: any) => {
+  const bookingPayload = reservation.bookingPayload as Record<string, any>;
+  const pricingDetails = reservation.pricingDetails as Record<string, any>;
+  const paymentBreakdown = pricingDetails.paymentBreakdown as Record<string, number>;
+  const bookingOtp = await generateUniqueBookingOtp();
+
+  const booking = await tx.booking.create({
+    data: {
+      bookingReference: generateBookingReference(),
+      customerId: bookingPayload.customerId,
+      listingSlotId: bookingPayload.listingSlotId || null,
+      dateRangeId: bookingPayload.dateRangeId || null,
+      bookingStartDate: new Date(bookingPayload.bookingStartDate),
+      bookingEndDate: new Date(bookingPayload.bookingEndDate),
+      participantCount: Number(bookingPayload.participantCount || 1),
+      totalDays: Number(bookingPayload.totalDays || 1),
+      basePrice: Number(bookingPayload.basePrice || 0),
+      totalAmount: Number(pricingDetails.totalAmount || 0),
+      bookingStatus: "CONFIRMED",
+      otp: bookingOtp,
+      otpVerification: false,
+      participants: bookingPayload.participants || [],
+      contactDetails: bookingPayload.contactDetails || {},
+      selectedAddons: bookingPayload.selectedAddons || [],
+      pricingDetails,
+    },
+  });
+
+  await tx.bookingPayment.create({
+    data: {
+      bookingId: booking.id,
+      totalBasePrice: Number(paymentBreakdown.totalBasePrice || 0),
+      quantity: Number(paymentBreakdown.quantity || 1),
+      taxRate: Number(paymentBreakdown.taxRate || 0),
+      subtotalWithTax: Number(paymentBreakdown.subtotalWithTax || 0),
+      discountAmount: Number(paymentBreakdown.discountAmount || 0),
+      taxAmount: Number(paymentBreakdown.taxAmount || 0),
+      totalBaseAmount: Number(paymentBreakdown.totalBaseAmount || 0),
+      addonsAmount: Number(paymentBreakdown.addonsAmount || 0),
+      totalAmount: Number(paymentBreakdown.totalAmount || 0),
+      amountPaidOnline: Number(paymentBreakdown.amountPaidOnline || 0),
+      amountToCollectOffline: Number(paymentBreakdown.amountToCollectOffline || 0),
+      convenienceFeeRate: Number(paymentBreakdown.convenienceFeeRate || 0),
+      convenienceFeeAmount: Number(paymentBreakdown.convenienceFeeAmount || 0),
+      totalPayableOnline: Number(paymentBreakdown.totalPayableOnline || 0),
+      paymentMethod: String(paymentBreakdown.paymentMethod || bookingPayload.paymentMethod || "online"),
+      platformCommissionRate: Number(paymentBreakdown.platformCommissionRate || 0),
+      platformCommission: Number(paymentBreakdown.platformCommission || 0),
+      tcsRate: Number(paymentBreakdown.tcsRate || 0),
+      tcsAmount: Number(paymentBreakdown.tcsAmount || 0),
+      netPayToSeller: Number(paymentBreakdown.netPayToSeller || 0),
+      balanceToCollect: Number(paymentBreakdown.balanceToCollect || 0),
+      totalEarnings: Number(paymentBreakdown.totalEarnings || 0),
+      settlementStatus: "PENDING",
+    },
+  });
+
+  return booking;
+};
+
+export const initiateBookingReservation = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    if (user && user.userType !== "customer") {
+      return c.json(
+        { success: false, message: "Only customers can create bookings.Please login as a customer." },
+        403,
+      );
+    }
+
+    const body = await c.req.json();
+    const prepared = await prepareBookingReservation(body);
+    const expiresAt = new Date(Date.now() + BOOKING_RESERVATION_TTL_MS);
+
+    const reservation = await prisma.$transaction(async (tx) => {
+      await acquireReservationLocks(tx, prepared);
+      await releaseExpiredReservationsForPreparedBooking(tx, prepared);
+      await assertNoActiveReservationConflictTx(tx, prepared);
+      const inventoryReserved = await reservePreparedInventoryTx(tx, prepared);
+
+      return bookingReservationDelegate(tx).create({
+        data: {
+          reservationReference: generateReservationReference(),
+          customerId: prepared.customerId,
+          listingId: prepared.listingId,
+          variantId: prepared.variantId || null,
+          bookingFormat: prepared.bookingFormat,
+          listingSlotId: prepared.listingSlotId || null,
+          dateRangeId: prepared.dateRangeId || null,
+          selectedDate: prepared.selectedDate ? toUtcStartOfDay(prepared.selectedDate) : null,
+          selectedDates: prepared.selectedDates || [],
+          participantCount: prepared.participantCount,
+          currency: prepared.currency,
+          paymentMethod: prepared.paymentMethod,
+          inventoryReserved,
+          pricingDetails: {
+            ...buildPricingDetailsForStorage(prepared),
+            paymentBreakdown: prepared.paymentBreakdown,
+          },
+          bookingPayload: buildBookingPayloadForReservation(prepared),
+          status: "PENDING_PAYMENT",
+          expiresAt,
+        },
+      });
+    }, RESERVATION_TRANSACTION_OPTIONS);
+
+    try {
+      const razorpay = getRazorpayInstance();
+      const order = await razorpay.orders.create({
+        amount: Number(prepared.paymentBreakdown.totalPayableOnline),
+        currency: prepared.currency || "INR",
+        receipt: buildSafeReceipt(reservation.reservationReference),
+        notes: {
+          reservationId: reservation.id,
+          listingId: prepared.listingId,
+          customerId: prepared.customerId,
+        },
+      });
+
+      await bookingReservationDelegate(prisma).update({
+        where: { id: reservation.id },
+        data: {
+          razorpayOrderId: order.id,
+        },
+      });
+
+      return c.json({
+        success: true,
+        data: {
+          reservationId: reservation.id,
+          reservationReference: reservation.reservationReference,
+          expiresAt: expiresAt.toISOString(),
+          orderId: order.id,
+          amount: order.amount,
+          amountInRupees: Number(order.amount) / 100,
+          currency: order.currency,
+          receipt: order.receipt,
+          razorpayKeyId: process.env.RAZORPAY_API_KEY,
+        },
+      });
+    } catch (error: any) {
+      await prisma.$transaction(async (tx) => {
+        const reservationForRelease = await bookingReservationDelegate(tx).findUnique({
+          where: { id: reservation.id },
+          select: {
+            id: true,
+            status: true,
+            inventoryReserved: true,
+            listingSlotId: true,
+            dateRangeId: true,
+            selectedDate: true,
+            selectedDates: true,
+            participantCount: true,
+          },
+        });
+
+        if (reservationForRelease) {
+          await releaseReservationInventoryTx(
+            tx,
+            reservationForRelease,
+            "PAYMENT_FAILED",
+            error?.message || "Failed to create Razorpay order.",
+          );
+        }
+      }, RESERVATION_TRANSACTION_OPTIONS);
+
+      throw error;
+    }
+  } catch (error: any) {
+    const message = error?.message || "Failed to reserve booking inventory.";
+    console.error("Error initiating booking reservation:", error);
+    return c.json(
+      { success: false, message },
+      isInventoryConflictError(message) ? 409 : 500,
+    );
+  }
+};
+
+export const confirmBookingReservation = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    if (user && user.userType !== "customer") {
+      return c.json(
+        { success: false, message: "Only customers can complete bookings.Please login as a customer." },
+        403,
+      );
+    }
+
+    const body = await c.req.json();
+    const reservationId = String(body?.reservationId || "").trim();
+    const razorpayOrderId = String(body?.razorpay_order_id || "").trim();
+    const razorpayPaymentId = String(body?.razorpay_payment_id || "").trim();
+    const razorpaySignature = String(body?.razorpay_signature || "").trim();
+
+    if (!reservationId || !razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
+      return c.json({ success: false, message: "Missing required payment verification fields" }, 400);
+    }
+
+    if (!verifyRazorpaySignature(razorpayOrderId, razorpayPaymentId, razorpaySignature)) {
+      return c.json({ success: false, message: "Payment verification failed." }, 400);
+    }
+
+    const completed = await prisma.$transaction(async (tx) => {
+      const reservation = await bookingReservationDelegate(tx).findUnique({
+        where: { id: reservationId },
+      });
+
+      if (!reservation) {
+        throw new Error("Reservation not found.");
+      }
+
+      if (reservation.status === "COMPLETED" && reservation.bookingId) {
+        return { bookingId: reservation.bookingId };
+      }
+
+      const bookingPayload = reservation.bookingPayload as Record<string, any>;
+      const preparedForLocks: PreparedReservation = {
+        customerId: String(bookingPayload.customerId || ""),
+        listingId: String(bookingPayload.listingId || ""),
+        variantId: bookingPayload.variantId || undefined,
+        bookingFormat: reservation.bookingFormat as SupportedBookingFormat,
+        listingSlotId: reservation.listingSlotId || undefined,
+        dateRangeId: reservation.dateRangeId || undefined,
+        selectedDate: bookingPayload.selectedDate || undefined,
+        selectedDates: normalizeSelectedDates(bookingPayload.selectedDates),
+        participantCount: Number(bookingPayload.participantCount || 1),
+        participants: Array.isArray(bookingPayload.participants) ? bookingPayload.participants : [],
+        contactDetails: bookingPayload.contactDetails || {},
+        selectedAddons: normalizeSelectedAddonRows(bookingPayload.selectedAddons),
+        promoCode: bookingPayload.promoCode || null,
+        discountAmount: Number(bookingPayload.discountAmount || 0),
+        paymentMethod: String(bookingPayload.paymentMethod || "online"),
+        currency: String(bookingPayload.currency || "INR"),
+        basePrice: Number(bookingPayload.basePrice || 0),
+        bookingStartDate: new Date(bookingPayload.bookingStartDate),
+        bookingEndDate: new Date(bookingPayload.bookingEndDate),
+        totalDays: Number(bookingPayload.totalDays || 1),
+        paymentBreakdown: (reservation.pricingDetails as any).paymentBreakdown,
+        pricingDetailsForBooking: reservation.pricingDetails as Record<string, unknown>,
+        inventoryReserved: reservation.inventoryReserved,
+      };
+
+      await acquireReservationLocks(tx, preparedForLocks);
+
+      if (reservation.razorpayOrderId && reservation.razorpayOrderId !== razorpayOrderId) {
+        throw new Error("Payment order does not match the reserved booking.");
+      }
+
+      if (reservation.expiresAt <= new Date()) {
+        await releaseReservationInventoryTx(
+          tx,
+          {
+            id: reservation.id,
+            status: reservation.status,
+            inventoryReserved: reservation.inventoryReserved,
+            listingSlotId: reservation.listingSlotId,
+            dateRangeId: reservation.dateRangeId,
+            selectedDate: reservation.selectedDate,
+            selectedDates: reservation.selectedDates,
+            participantCount: reservation.participantCount,
+          },
+          "EXPIRED",
+          "Payment finished after the reservation expired.",
+        );
+        throw new Error("Your reservation expired before payment was completed. Please try booking again.");
+      }
+
+      if (reservation.status !== "PENDING_PAYMENT") {
+        throw new Error("This reservation can no longer be completed.");
+      }
+
+      const booking = await createBookingFromReservationTx(tx, reservation);
+      await bookingReservationDelegate(tx).update({
+        where: { id: reservation.id },
+        data: {
+          status: "COMPLETED",
+          completedAt: new Date(),
+          razorpayOrderId,
+          razorpayPaymentId,
+          razorpaySignature,
+          bookingId: booking.id,
+        },
+      });
+
+      return { bookingId: booking.id };
+    }, RESERVATION_TRANSACTION_OPTIONS);
+
+    return c.json({
+      success: true,
+      message: "Booking confirmed successfully.",
+      data: completed,
+    });
+  } catch (error: any) {
+    const message = error?.message || "Failed to confirm booking.";
+    console.error("Error confirming booking reservation:", error);
+    return c.json(
+      { success: false, message },
+      isInventoryConflictError(message) ? 409 : 500,
+    );
+  }
+};
+
+export const releaseBookingReservation = async (c: Context) => {
+  try {
+    const reservationId = c.req.param("reservationId");
+    if (!reservationId) {
+      return c.json({ success: false, message: "Reservation ID is required." }, 400);
+    }
+
+    await prisma.$transaction(async (tx) => {
+      const reservation = await bookingReservationDelegate(tx).findUnique({
+        where: { id: reservationId },
+      });
+
+      if (!reservation || reservation.status !== "PENDING_PAYMENT") {
+        return;
+      }
+
+      const bookingPayload = reservation.bookingPayload as Record<string, any>;
+      const preparedForLocks: PreparedReservation = {
+        customerId: String(bookingPayload.customerId || ""),
+        listingId: String(bookingPayload.listingId || ""),
+        variantId: bookingPayload.variantId || undefined,
+        bookingFormat: reservation.bookingFormat as SupportedBookingFormat,
+        listingSlotId: reservation.listingSlotId || undefined,
+        dateRangeId: reservation.dateRangeId || undefined,
+        selectedDate: bookingPayload.selectedDate || undefined,
+        selectedDates: normalizeSelectedDates(bookingPayload.selectedDates),
+        participantCount: Number(bookingPayload.participantCount || 1),
+        participants: [],
+        contactDetails: {},
+        selectedAddons: [],
+        promoCode: null,
+        discountAmount: 0,
+        paymentMethod: "online",
+        currency: String(bookingPayload.currency || "INR"),
+        basePrice: Number(bookingPayload.basePrice || 0),
+        bookingStartDate: new Date(bookingPayload.bookingStartDate),
+        bookingEndDate: new Date(bookingPayload.bookingEndDate),
+        totalDays: Number(bookingPayload.totalDays || 1),
+        paymentBreakdown: (reservation.pricingDetails as any).paymentBreakdown,
+        pricingDetailsForBooking: {},
+        inventoryReserved: reservation.inventoryReserved,
+      };
+
+      await acquireReservationLocks(tx, preparedForLocks);
+      await releaseReservationInventoryTx(
+        tx,
+        {
+          id: reservation.id,
+          status: reservation.status,
+          inventoryReserved: reservation.inventoryReserved,
+          listingSlotId: reservation.listingSlotId,
+          dateRangeId: reservation.dateRangeId,
+          selectedDate: reservation.selectedDate,
+          selectedDates: reservation.selectedDates,
+          participantCount: reservation.participantCount,
+        },
+        "RELEASED",
+        "Customer left checkout before completing payment.",
+      );
+    }, RESERVATION_TRANSACTION_OPTIONS);
+
+    return c.json({ success: true, message: "Reservation released." });
+  } catch (error: any) {
+    console.error("Error releasing booking reservation:", error);
+    return c.json(
+      { success: false, message: error?.message || "Failed to release reservation." },
+      500,
+    );
+  }
 };
 
 // Create comprehensive booking with participants and addons

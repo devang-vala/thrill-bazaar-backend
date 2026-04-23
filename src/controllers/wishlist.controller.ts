@@ -1,6 +1,14 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
 
+const getErrorDetails = (error: unknown) => {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return String(error);
+};
+
 const wishlistListingSelect = {
   id: true,
   listingName: true,
@@ -233,8 +241,11 @@ export const toggleWishlist = async (c: Context) => {
     });
 
     if (existingItem) {
-      await prisma.wishlistItem.delete({
-        where: { id: existingItem.id },
+      await prisma.wishlistItem.deleteMany({
+        where: {
+          userId: user.userId,
+          listingId,
+        },
       });
 
       const listingIds = await fetchWishlistListingIds(user.userId);
@@ -260,8 +271,15 @@ export const toggleWishlist = async (c: Context) => {
       return c.json({ success: false, error: "Listing not found" }, 404);
     }
 
-    await prisma.wishlistItem.create({
-      data: {
+    await prisma.wishlistItem.upsert({
+      where: {
+        userId_listingId: {
+          userId: user.userId,
+          listingId,
+        },
+      },
+      update: {},
+      create: {
         userId: user.userId,
         listingId,
       },
@@ -278,6 +296,13 @@ export const toggleWishlist = async (c: Context) => {
     });
   } catch (error) {
     console.error("Toggle wishlist error:", error);
-    return c.json({ success: false, error: "Failed to update wishlist" }, 500);
+    return c.json(
+      {
+        success: false,
+        error: "Failed to update wishlist",
+        details: getErrorDetails(error),
+      },
+      500,
+    );
   }
 };
