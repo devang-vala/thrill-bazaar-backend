@@ -89,6 +89,14 @@ enum BookingStatus {
   NO_SHOW
 }
 
+enum BookingReservationStatus {
+  PENDING_PAYMENT
+  COMPLETED
+  PAYMENT_FAILED
+  RELEASED
+  EXPIRED
+}
+
 enum AddressType {
   HOME
   BILLING

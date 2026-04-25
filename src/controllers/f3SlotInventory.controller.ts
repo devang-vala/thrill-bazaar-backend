@@ -1,5 +1,6 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
+import { getActiveDateReservationHoldCounts } from "../helpers/bookingReservation.helper.js";
 
 // Bulk create or update F3 slots in InventoryDateRange
 export const bulkCreateOrUpdateF3Slots = async (c: Context) => {
@@ -135,6 +136,7 @@ export const getF3DatesBySlotDefinition = async (c: Context) => {
         availableCount: true,
       },
     });
+    const holdCounts = await getActiveDateReservationHoldCounts(rangeIds);
 
     // Fetch blocked dates for this listing+variant
     const blockedDates = await prisma.inventoryBlockedDate.findMany({
@@ -187,7 +189,11 @@ export const getF3DatesBySlotDefinition = async (c: Context) => {
             slotDate: new Date(currentDate),
             basePrice: override ? override.price : slot.basePricePerDay,
             totalCapacity: override ? override.totalCapacity : slot.totalCapacity,
-            availableCount: override ? override.availableCount : slot.availableCount,
+            availableCount: Math.max(
+              0,
+              (override ? override.availableCount : slot.availableCount || 0) -
+                (holdCounts.get(`${slot.id}:${dateKey}`) || 0),
+            ),
             isActive: !isBlocked, // Per-date blocking overrides range-level isActive
             hasOverride: !!override,
           });
@@ -589,6 +595,7 @@ export const getF3SlotsByDate = async (c: Context) => {
         availableCount: true,
       },
     });
+    const holdCounts = await getActiveDateReservationHoldCounts(rangeIds);
 
     // Create a map of overrides by inventoryDateRangeId
     const overridesMap = new Map<string, any>();
@@ -610,7 +617,11 @@ export const getF3SlotsByDate = async (c: Context) => {
         endTime: slot.slotDefinition?.endTime,
         basePrice: override ? override.price : slot.basePricePerDay,
         totalCapacity: override ? override.totalCapacity : slot.totalCapacity,
-        availableCount: override ? override.availableCount : slot.availableCount,
+        availableCount: Math.max(
+          0,
+          (override ? override.availableCount : slot.availableCount || 0) -
+            (holdCounts.get(`${slot.id}:${dateStr}`) || 0),
+        ),
         isActive: slot.isActive,
       };
     });
@@ -665,6 +676,7 @@ export const getF3DatesForMonth = async (c: Context) => {
         id: true,
         availableFromDate: true,
         availableToDate: true,
+        availableCount: true,
       },
       orderBy: { availableFromDate: "asc" },
     });
@@ -731,7 +743,12 @@ export const getF3DatesForMonth = async (c: Context) => {
       datesSet.delete(blockedStr);
     });
 
-    const dates = Array.from(datesSet).sort();
+    const holdCounts = await getActiveDateReservationHoldCounts(slots.map((slot) => slot.id));
+    const dates = Array.from(datesSet)
+      .filter((dateKey) =>
+        slots.some((slot) => (holdCounts.get(`${slot.id}:${dateKey}`) || 0) < (slot.availableCount || 0)),
+      )
+      .sort();
 
     return c.json({ success: true, data: dates });
   } catch (error) {

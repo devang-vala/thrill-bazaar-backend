@@ -32,6 +32,11 @@ export type ListingBadge = Prisma.ListingBadgeModel
  */
 export type BookingPayment = Prisma.BookingPaymentModel
 /**
+ * Model BookingReservation
+ * 
+ */
+export type BookingReservation = Prisma.BookingReservationModel
+/**
  * Model Booking
  * 
  */

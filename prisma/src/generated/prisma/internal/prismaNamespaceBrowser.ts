@@ -51,6 +51,7 @@ export const ModelName = {
   Badge: 'Badge',
   ListingBadge: 'ListingBadge',
   BookingPayment: 'BookingPayment',
+  BookingReservation: 'BookingReservation',
   Booking: 'Booking',
   Category: 'Category',
   SubCategory: 'SubCategory',
@@ -171,6 +172,40 @@ export const BookingPaymentScalarFieldEnum = {
 } as const
 
 export type BookingPaymentScalarFieldEnum = (typeof BookingPaymentScalarFieldEnum)[keyof typeof BookingPaymentScalarFieldEnum]
+
+
+export const BookingReservationScalarFieldEnum = {
+  id: 'id',
+  reservationReference: 'reservationReference',
+  customerId: 'customerId',
+  listingId: 'listingId',
+  variantId: 'variantId',
+  bookingFormat: 'bookingFormat',
+  listingSlotId: 'listingSlotId',
+  dateRangeId: 'dateRangeId',
+  selectedDate: 'selectedDate',
+  selectedDates: 'selectedDates',
+  participantCount: 'participantCount',
+  currency: 'currency',
+  paymentMethod: 'paymentMethod',
+  inventoryReserved: 'inventoryReserved',
+  pricingDetails: 'pricingDetails',
+  bookingPayload: 'bookingPayload',
+  status: 'status',
+  expiresAt: 'expiresAt',
+  reservedAt: 'reservedAt',
+  releasedAt: 'releasedAt',
+  completedAt: 'completedAt',
+  razorpayOrderId: 'razorpayOrderId',
+  razorpayPaymentId: 'razorpayPaymentId',
+  razorpaySignature: 'razorpaySignature',
+  bookingId: 'bookingId',
+  failureReason: 'failureReason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BookingReservationScalarFieldEnum = (typeof BookingReservationScalarFieldEnum)[keyof typeof BookingReservationScalarFieldEnum]
 
 
 export const BookingScalarFieldEnum = {

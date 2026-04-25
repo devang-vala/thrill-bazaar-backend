@@ -713,10 +713,6 @@ export type CategoryNullableScalarRelationFilter = {
   isNot?: Prisma.CategoryWhereInput | null
 }
 
-export type EnumBookingFormatFieldUpdateOperationsInput = {
-  set?: $Enums.BookingFormat
-}
-
 export type CategoryCreateNestedOneWithoutSubCategoriesInput = {
   create?: Prisma.XOR<Prisma.CategoryCreateWithoutSubCategoriesInput, Prisma.CategoryUncheckedCreateWithoutSubCategoriesInput>
   connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutSubCategoriesInput
