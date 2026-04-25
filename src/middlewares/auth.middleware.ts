@@ -43,11 +43,35 @@ export const authenticateToken = async (c: Context, next: Next) => {
 
     const decoded = jwt.verify(token, jwtSecret) as JWTPayload;
 
-    // Add user information to context for use in route handlers
+    // Always trust live account status from DB over token claims.
+    const dbUser = await prisma.user.findUnique({
+      where: { id: decoded.userId },
+      select: {
+        userType: true,
+        isActive: true,
+        isVerified: true,
+      },
+    });
+
+    if (!dbUser) {
+      return c.json({ error: "User not found" }, 401);
+    }
+
+    if (!dbUser.isActive) {
+      return c.json({ error: "This account is inactive. Please contact support." }, 403);
+    }
+
+    if (dbUser.userType === "admin" && !dbUser.isVerified) {
+      return c.json({ error: "Admin account is not verified." }, 403);
+    }
+
+    // Add live user information to context for use in route handlers.
     c.set("user", {
       userId: decoded.userId,
-      userType: decoded.userType,
-      role: decoded.role || decoded.userType, // Fallback to userType if role not present
+      userType: dbUser.userType,
+      role: dbUser.userType,
+      isActive: dbUser.isActive,
+      isVerified: dbUser.isVerified,
     });
 
     await next();

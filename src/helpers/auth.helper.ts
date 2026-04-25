@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import { promisify } from "util";
 import jwt from "jsonwebtoken";
+import { isMailConfigured } from "../services/mail.service.js";
 
 // Types for authentication helper functions
 export interface JWTPayload {
@@ -185,10 +186,8 @@ export const shouldExposeOtpValue = (
     return true;
   }
 
-  // Current operator flows do not send email OTPs through a mail provider yet,
-  // so the OTP must be returned to the frontend for verification to continue.
   if (channel === "email") {
-    return true;
+    return false;
   }
 
   // If SMS delivery is unavailable, match the customer flow by exposing the OTP.
@@ -260,6 +259,10 @@ export const formatUserResponse = (user: any) => {
 
 export const isMsg91Configured = (): boolean => {
   return getMsg91Config() !== null;
+};
+
+export const isEmailOtpConfigured = (): boolean => {
+  return isMailConfigured();
 };
 
 export const generateSecureRandom = (length: number = 32): string => {
