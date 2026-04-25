@@ -34,3 +34,4 @@ The container runs Prisma migrations first and then starts the API server.
 7. Put Nginx or an AWS load balancer in front of the container and terminate HTTPS there.
 
 If you prefer to run migrations separately, you can use a one-off container with the same image and `npx prisma migrate deploy`, but the default container command already handles it.
+.
