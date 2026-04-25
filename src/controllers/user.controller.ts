@@ -765,7 +765,7 @@ export const createAdminAccount = async (c: Context) => {
     console.log("[ADMIN_CREATE] 📧 Step 8: Sending welcome email...");
     try {
       const emailSent = await sendAccountCreatedEmail({
-        to: admin.email,
+        to: email,
         userType: "admin",
         password: generatedPassword,
         firstName: admin.firstName || undefined,
