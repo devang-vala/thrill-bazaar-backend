@@ -119,7 +119,7 @@ app.use('*', cors({
 
 //test endpoint
 app.get("/", (c) => {
-  return c.text("Hello, Thrill Bazaar Dev!");
+  return c.text("Hello 😎");
 });
 
 // Mount API routes under /api
