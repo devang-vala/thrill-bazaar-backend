@@ -1,2 +1,2 @@
-ALTER TABLE "settings"
-ADD COLUMN "convenience_fee_percentage" DOUBLE PRECISION NOT NULL DEFAULT 0;
+ALTER TABLE IF EXISTS "settings"
+ADD COLUMN IF NOT EXISTS "convenience_fee_percentage" DOUBLE PRECISION NOT NULL DEFAULT 0;
