@@ -37,16 +37,6 @@ The container runs Prisma migrations first and then starts the API server.
 
 The backend can now send OTP emails through Nodemailer using SMTP. Set these environment variables:
 
-```bash
-SMTP_HOST=smtp.your-provider.com
-SMTP_PORT=587
-SMTP_SECURE=false
-SMTP_USER=your_smtp_username
-SMTP_PASS=your_smtp_password
-MAIL_FROM_ADDRESS=noreply@yourdomain.com
-MAIL_FROM_NAME=Thrill Bazaar
-MAIL_REPLY_TO=support@yourdomain.com
-```
 
 For a domain-based sender like `noreply@yourdomain.com`, you need to configure that domain with an email provider and publish the required DNS records before production use. On AWS, the usual setup is Amazon SES with:
 
