@@ -18,7 +18,12 @@ import {
   formatUserResponse,
   calculateOtpExpiry,
   shouldExposeOtpValue,
+  isOtpDevModeEnabled,
 } from "../helpers/auth.helper.js";
+import {
+  sendOtpEmail,
+  type EmailOtpPurpose,
+} from "../services/mail.service.js";
 import {
   validateCustomerRegistration,
   validateAdminRegistration,
@@ -179,7 +184,10 @@ const verifyAdminPasswordResetToken = (token: string) => {
 
 const getEmailOtpKey = (email: string) => `email:${email}`;
 
-const createEmailOtp = async (email: string) => {
+const createEmailOtp = async (
+  email: string,
+  purpose: EmailOtpPurpose
+) => {
   const otp = generateOtp();
   const expiresAt = calculateOtpExpiry(5);
   const emailOtpKey = getEmailOtpKey(email);
@@ -198,10 +206,26 @@ const createEmailOtp = async (email: string) => {
     },
   });
 
+  const delivered = await sendOtpEmail({
+    to: email,
+    otp,
+    purpose,
+    expiresInMinutes: 5,
+  });
+
+  const devOtp = isOtpDevModeEnabled() ? otp : undefined;
+
+  if (!delivered && !devOtp) {
+    await prisma.otp.deleteMany({
+      where: { phone: emailOtpKey },
+    });
+  }
+
   return {
     otp,
     expiresAt,
-    devOtp: process.env.NODE_ENV !== "production" ? otp : undefined,
+    delivered,
+    devOtp,
   };
 };
 
@@ -645,13 +669,10 @@ export const requestOperatorOtp = async (c: Context) => {
     }
 
     const phoneOtp = generateOtp();
-    const emailOtp = generateOtp();
     const expiresAt = calculateOtpExpiry(5);
 
     // Clear existing OTPs for identifiers
     await prisma.otp.deleteMany({ where: { phone: phone } });
-    await prisma.otp.deleteMany({ where: { phone: `email:${email}` } });
-
     await prisma.otp.create({
       data: {
         phone: phone,
@@ -662,17 +683,12 @@ export const requestOperatorOtp = async (c: Context) => {
       },
     });
 
-    await prisma.otp.create({
-      data: {
-        phone: `email:${email}`,
-        otp: emailOtp,
-        expiresAt,
-        verified: false,
-        attempts: 0,
-      },
-    });
-
     const smsSent = await sendOtpSMS(phone, phoneOtp);
+    const emailOtpResult = await createEmailOtp(email, "operator_signup");
+
+    if (!emailOtpResult.delivered && !emailOtpResult.devOtp) {
+      return c.json({ error: "Unable to send email OTP right now" }, 503);
+    }
 
     const existingOperators = await prisma.user.count({
       where: {
@@ -685,7 +701,7 @@ export const requestOperatorOtp = async (c: Context) => {
       message: "OTP generated successfully",
       expiresIn: "5 minutes",
       phoneOtp: shouldExposeOtpValue("phone", smsSent) ? phoneOtp : undefined,
-      emailOtp: shouldExposeOtpValue("email", false) ? emailOtp : undefined,
+      emailOtp: emailOtpResult.devOtp,
       existingAccounts: existingOperators,
     });
   } catch (error) {
@@ -961,7 +977,11 @@ export const adminLogin = async (c: Context) => {
     }
 
     if (user.userType === "admin" && !user.isVerified) {
-      const otpResult = await createEmailOtp(email);
+      const otpResult = await createEmailOtp(email, "admin_login");
+
+      if (!otpResult.delivered && !otpResult.devOtp) {
+        return c.json({ error: "Unable to send email OTP right now" }, 503);
+      }
 
       return c.json({
         message: "OTP sent to admin email for verification",
@@ -1154,7 +1174,11 @@ export const requestAdminForgotPasswordOtp = async (c: Context) => {
       return c.json({ error: "No active admin account found for this email" }, 404);
     }
 
-    const otpResult = await createEmailOtp(email);
+    const otpResult = await createEmailOtp(email, "admin_forgot_password");
+
+    if (!otpResult.delivered && !otpResult.devOtp) {
+      return c.json({ error: "Unable to send email OTP right now" }, 503);
+    }
 
     return c.json({
       message: "OTP sent successfully",
@@ -1610,24 +1634,32 @@ export const operatorLogin = async (c: Context) => {
       const otpIdentifier = otpTarget === "phone" ? phone : email;
       const otpKey = otpTarget === "phone" ? phone : `email:${email}`;
 
-      const otp = generateOtp();
-      const expiresAt = calculateOtpExpiry(5);
-
-      // Clear existing & create new OTP
-      await prisma.otp.deleteMany({ where: { phone: otpKey } });
-      await prisma.otp.create({
-        data: {
-          phone: otpKey,
-          otp,
-          expiresAt,
-          verified: false,
-          attempts: 0,
-        },
-      });
-
       let smsSent = false;
+      let devOtp: string | undefined;
+
       if (otpTarget === "phone") {
+        const otp = generateOtp();
+        const expiresAt = calculateOtpExpiry(5);
+
+        await prisma.otp.deleteMany({ where: { phone: otpKey } });
+        await prisma.otp.create({
+          data: {
+            phone: otpKey,
+            otp,
+            expiresAt,
+            verified: false,
+            attempts: 0,
+          },
+        });
+
         smsSent = await sendOtpSMS(phone, otp);
+        devOtp = shouldExposeOtpValue(otpTarget, smsSent) ? otp : undefined;
+      } else {
+        const emailOtpResult = await createEmailOtp(email, "operator_login");
+        if (!emailOtpResult.delivered && !emailOtpResult.devOtp) {
+          return c.json({ error: "Unable to send email OTP right now" }, 503);
+        }
+        devOtp = emailOtpResult.devOtp;
       }
 
       return c.json(
@@ -1637,9 +1669,7 @@ export const operatorLogin = async (c: Context) => {
           otpSentTo: otpTarget,
           email,
           phone,
-          devOtp: shouldExposeOtpValue(otpTarget, otpTarget === "phone" ? smsSent : false)
-            ? otp
-            : undefined,
+          devOtp,
         },
         200
       );
@@ -1818,25 +1848,33 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
         const otpIdentifier = email ? email : phone;
         const otpKey = otpTarget === "phone" ? phone! : `email:${email}`;
 
-        const otp = generateOtp();
-        const expiresAt = calculateOtpExpiry(5);
-
-        // Clear existing & create new OTP
-        await prisma.otp.deleteMany({ where: { phone: otpKey } });
-        await prisma.otp.create({
-          data: {
-            phone: otpKey,
-            otp,
-            expiresAt,
-            verified: false,
-            attempts: 0,
-          },
-        });
-
         let smsSent = false;
+        let devOtp: string | undefined;
+
         if (otpTarget === "phone") {
+          const otp = generateOtp();
+          const expiresAt = calculateOtpExpiry(5);
+
+          await prisma.otp.deleteMany({ where: { phone: otpKey } });
+          await prisma.otp.create({
+            data: {
+              phone: otpKey,
+              otp,
+              expiresAt,
+              verified: false,
+              attempts: 0,
+            },
+          });
+
           smsSent = await sendOtpSMS(phone!, otp);
-        } // Email sending omitted per current system patterns
+          devOtp = shouldExposeOtpValue(otpTarget, smsSent) ? otp : undefined;
+        } else {
+          const emailOtpResult = await createEmailOtp(email!, "operator_forgot_password");
+          if (!emailOtpResult.delivered && !emailOtpResult.devOtp) {
+            return c.json({ error: "Unable to send email OTP right now" }, 503);
+          }
+          devOtp = emailOtpResult.devOtp;
+        }
 
         return c.json(
           {
@@ -1845,9 +1883,7 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
             otpSentTo: otpTarget,
             email: user.email,
             phone: user.phone,
-            devOtp: shouldExposeOtpValue(otpTarget, otpTarget === "phone" ? smsSent : false)
-              ? otp
-              : undefined,
+            devOtp,
           },
           200
         );
@@ -1882,24 +1918,32 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
       const otpTarget = emailCount > 1 ? "phone" : "email";
       const otpKey = otpTarget === "phone" ? phone : `email:${email}`;
 
-      const otp = generateOtp();
-      const expiresAt = calculateOtpExpiry(5);
-
-      // Clear existing & create new OTP
-      await prisma.otp.deleteMany({ where: { phone: otpKey } });
-      await prisma.otp.create({
-        data: {
-          phone: otpKey,
-          otp,
-          expiresAt,
-          verified: false,
-          attempts: 0,
-        },
-      });
-
       let smsSent = false;
+      let devOtp: string | undefined;
+
       if (otpTarget === "phone") {
+        const otp = generateOtp();
+        const expiresAt = calculateOtpExpiry(5);
+
+        await prisma.otp.deleteMany({ where: { phone: otpKey } });
+        await prisma.otp.create({
+          data: {
+            phone: otpKey,
+            otp,
+            expiresAt,
+            verified: false,
+            attempts: 0,
+          },
+        });
+
         smsSent = await sendOtpSMS(phone, otp);
+        devOtp = shouldExposeOtpValue(otpTarget, smsSent) ? otp : undefined;
+      } else {
+        const emailOtpResult = await createEmailOtp(email, "operator_forgot_password");
+        if (!emailOtpResult.delivered && !emailOtpResult.devOtp) {
+          return c.json({ error: "Unable to send email OTP right now" }, 503);
+        }
+        devOtp = emailOtpResult.devOtp;
       }
 
       return c.json(
@@ -1909,9 +1953,7 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
           otpSentTo: otpTarget,
           email,
           phone,
-          devOtp: shouldExposeOtpValue(otpTarget, otpTarget === "phone" ? smsSent : false)
-            ? otp
-            : undefined,
+          devOtp,
         },
         200
       );
