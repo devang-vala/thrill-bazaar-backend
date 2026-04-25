@@ -9,6 +9,7 @@ import {
   deleteListing,
   getAdminListings,
   getSimilarListings,
+  getListingSlugs,
 } from "../controllers/listing.controller.js";
 import {
   authenticateToken,
@@ -22,6 +23,7 @@ const listingRouter = new Hono();
 // Public routes (with optional auth to determine role)
 listingRouter.get("/", optionalAuth, getListings);
 listingRouter.get("/facets", optionalAuth, getListingFilterFacets);
+listingRouter.get("/slugs", getListingSlugs);
 listingRouter.get("/slug/:slug", getListing);
 
 // Get similar listings based on category, operator, then random
