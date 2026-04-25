@@ -21,8 +21,8 @@ jobs:
 
       - name: Build and Push
         run: |
-          docker build -t ramu69/tb-backend:${{ github.sha }} .
-          docker push ramu69/tb-backend:${{ github.sha }}
+          docker build -t ramu69/tb-backend:latest .
+          docker push ramu69/tb-backend:latest
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
