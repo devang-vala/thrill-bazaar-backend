@@ -230,7 +230,17 @@ const buildBookingPayloadForReservation = (prepared: PreparedReservation) => ({
   totalDays: prepared.totalDays,
 });
 
-const bookingReservationDelegate = (client: any) => client.bookingReservation;
+const bookingReservationDelegate = (client: any) => {
+  const delegate = client?.bookingReservation ?? (prisma as any)?.bookingReservation;
+
+  if (!delegate) {
+    throw new Error(
+      "Booking reservation model is unavailable in Prisma client. Run prisma generate to sync the client.",
+    );
+  }
+
+  return delegate;
+};
 
 const CANCELLATION_REASON_SUFFIXES = {
   customer: "cancelled by customer",

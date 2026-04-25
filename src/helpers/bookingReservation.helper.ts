@@ -1,5 +1,14 @@
 import { prisma } from "../db.js";
 
+type ReservationDelegate = {
+  findMany: (args: unknown) => Promise<any[]>;
+};
+
+const getBookingReservationDelegate = (): ReservationDelegate | null => {
+  const candidate = (prisma as unknown as { bookingReservation?: ReservationDelegate }).bookingReservation;
+  return candidate && typeof candidate.findMany === "function" ? candidate : null;
+};
+
 const normalizeSelectedDates = (selectedDates: unknown) => {
   if (!Array.isArray(selectedDates)) return [] as string[];
 
@@ -12,7 +21,10 @@ const normalizeSelectedDates = (selectedDates: unknown) => {
 export const getActiveSlotReservationHoldCounts = async (slotIds: string[]) => {
   if (slotIds.length === 0) return new Map<string, number>();
 
-  const reservations = await prisma.bookingReservation.findMany({
+  const bookingReservation = getBookingReservationDelegate();
+  if (!bookingReservation) return new Map<string, number>();
+
+  const reservations = await bookingReservation.findMany({
     where: {
       status: "PENDING_PAYMENT",
       expiresAt: { gt: new Date() },
@@ -39,7 +51,10 @@ export const getActiveSlotReservationHoldCounts = async (slotIds: string[]) => {
 export const getActiveDateReservationHoldCounts = async (dateRangeIds: string[]) => {
   if (dateRangeIds.length === 0) return new Map<string, number>();
 
-  const reservations = await prisma.bookingReservation.findMany({
+  const bookingReservation = getBookingReservationDelegate();
+  if (!bookingReservation) return new Map<string, number>();
+
+  const reservations = await bookingReservation.findMany({
     where: {
       status: "PENDING_PAYMENT",
       expiresAt: { gt: new Date() },
