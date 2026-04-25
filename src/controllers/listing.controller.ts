@@ -2977,3 +2977,38 @@ export const getSimilarListings = async (c: Context) => {
     return c.json({ success: false, message: "Failed to fetch similar listings", error: String(error) }, 500);
   }
 };
+
+/**
+ * Get all active listing slugs with updatedAt timestamps
+ * Lightweight endpoint for sitemap generation — no auth required
+ */
+export const getListingSlugs = async (c: Context) => {
+  try {
+    const listings = await withPrismaRetry(
+      () =>
+        prisma.listing.findMany({
+          where: {
+            status: "active",
+            listingSlug: { not: null },
+          },
+          select: {
+            listingSlug: true,
+            updatedAt: true,
+          },
+          orderBy: { updatedAt: "desc" },
+        }),
+      "getListingSlugs"
+    );
+
+    return c.json({
+      success: true,
+      data: listings.map((l) => ({
+        slug: l.listingSlug,
+        updatedAt: l.updatedAt.toISOString(),
+      })),
+    });
+  } catch (error) {
+    console.error("Get listing slugs error:", error);
+    return c.json({ success: false, message: "Failed to fetch listing slugs", error: String(error) }, 500);
+  }
+};
