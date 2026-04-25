@@ -677,61 +677,34 @@ export const getAdminAccounts = async (c: Context) => {
  */
 export const createAdminAccount = async (c: Context) => {
   try {
-    console.log("[ADMIN_CREATE] 📋 Step 1: Verifying superadmin authorization...");
     const currentUser = c.get("user");
     if (currentUser?.userType !== "super_admin") {
-      console.warn("[ADMIN_CREATE] ⚠️ Unauthorized: Requester is not super_admin", {
-        userType: currentUser?.userType,
-      });
       return c.json({ error: "Only superadmin can create admin accounts" }, 403);
     }
-    console.log("[ADMIN_CREATE] ✅ Step 1 PASSED: SuperAdmin verified");
 
-    console.log("[ADMIN_CREATE] 📋 Step 2: Parsing request body...");
     const body = (await c.req.json()) as CreateAdminRequest;
-    console.log("[ADMIN_CREATE] ✅ Step 2 PASSED: Request body received", {
-      name: body.name,
-      email: body.email,
-      isActive: body.isActive,
-    });
 
-    console.log("[ADMIN_CREATE] 📋 Step 3: Validating name...");
     if (!body.name?.trim()) {
-      console.warn("[ADMIN_CREATE] ❌ Validation failed: Name is required");
       return c.json({ error: "Name is required" }, 400);
     }
-    console.log("[ADMIN_CREATE] ✅ Step 3 PASSED: Name validated");
 
-    console.log("[ADMIN_CREATE] 📋 Step 4: Validating email...");
     if (!body.email?.trim()) {
-      console.warn("[ADMIN_CREATE] ❌ Validation failed: Email is required");
       return c.json({ error: "Email is required" }, 400);
     }
 
     const email = sanitizeEmail(body.email);
-    console.log("[ADMIN_CREATE] ✅ Step 4 PASSED: Email sanitized", { email });
 
-    console.log("[ADMIN_CREATE] 📋 Step 5: Checking if email already exists...");
     const existing = await prisma.user.findFirst({ where: { email } });
     if (existing) {
-      console.warn("[ADMIN_CREATE] ❌ Email already exists", { email });
       return c.json({ error: "User with this email already exists" }, 409);
     }
-    console.log("[ADMIN_CREATE] ✅ Step 5 PASSED: Email is unique");
 
-    console.log("[ADMIN_CREATE] 📋 Step 6: Generating password and hashing...");
     const nameParts = body.name.trim().split(/\s+/);
     const firstName = sanitizeString(nameParts[0] || "", 50) || null;
     const lastName = sanitizeString(nameParts.slice(1).join(" "), 50) || null;
     const generatedPassword = generateSystemPassword();
     const hashedPassword = await hashPassword(generatedPassword);
-    console.log("[ADMIN_CREATE] ✅ Step 6 PASSED: Password generated and hashed", {
-      firstName,
-      lastName,
-      passwordLength: generatedPassword.length,
-    });
 
-    console.log("[ADMIN_CREATE] 📋 Step 7: Creating admin in database...");
     const admin = await prisma.user.create({
       data: {
         email,
@@ -757,12 +730,7 @@ export const createAdminAccount = async (c: Context) => {
         lastLoginAt: true,
       },
     });
-    console.log("[ADMIN_CREATE] ✅ Step 7 PASSED: Admin created in database", {
-      adminId: admin.id,
-      email: admin.email,
-    });
 
-    console.log("[ADMIN_CREATE] 📧 Step 8: Sending welcome email...");
     try {
       const emailSent = await sendAccountCreatedEmail({
         to: email,
@@ -772,24 +740,15 @@ export const createAdminAccount = async (c: Context) => {
       });
 
       if (emailSent) {
-        console.log("[ADMIN_CREATE] ✅ Step 8 PASSED: Welcome email sent successfully", {
-          email: admin.email,
-        });
-      } else {
-        console.warn(
-          "[ADMIN_CREATE] ⚠️ Step 8 WARNING: Email sending returned false (SMTP may not be configured)",
-          { email: admin.email }
-        );
+        console.log("Admin welcome email sent", { email: admin.email });
       }
     } catch (emailError) {
-      console.error("[ADMIN_CREATE] ❌ Step 8 ERROR: Failed to send email", {
+      console.error("Failed to send admin welcome email", {
         email: admin.email,
         error: emailError instanceof Error ? emailError.message : String(emailError),
       });
-      // Continue with success response even if email fails - admin is already created
     }
 
-    console.log("[ADMIN_CREATE] 🎉 SUCCESS: Admin account creation completed");
     return c.json(
       {
         message: "Admin account created successfully",
@@ -799,7 +758,7 @@ export const createAdminAccount = async (c: Context) => {
       201
     );
   } catch (error) {
-    console.error("[ADMIN_CREATE] 💥 CRITICAL ERROR:", {
+    console.error("Create admin account error:", {
       error: error instanceof Error ? error.message : String(error),
       stack: error instanceof Error ? error.stack : undefined,
     });
