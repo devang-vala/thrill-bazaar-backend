@@ -2,6 +2,7 @@ import type { Context } from "hono";
 import { prisma } from "../db.js";
 import { configureCloudinary } from "../config/cloudinary.config.js";
 import { Readable } from "stream";
+import type { BookingFormat } from "../../prisma/src/generated/prisma/enums.js";
 import {
   validateCreateCategory,
   validateUpdateCategory,
@@ -465,6 +466,9 @@ export const createCategoryHandler = async (c: Context) => {
       return c.json({ error: validation.message }, 400);
     }
 
+    const categoryName = body.categoryName ?? "";
+    const bookingFormat = body.bookingFormat as BookingFormat;
+
     let categoryIconUrl = body.categoryIconUrl;
 
     if (contentType.includes("multipart/form-data")) {
@@ -481,10 +485,10 @@ export const createCategoryHandler = async (c: Context) => {
     // Sanitize inputs
     const sanitizedData = {
       listingTypeId: body.listingTypeId || null,
-      categoryName: sanitizeString(body.categoryName, 100),
+      categoryName: sanitizeString(categoryName, 100),
       categorySlug: body.categorySlug
         ? sanitizeString(body.categorySlug, 100).toLowerCase()
-        : generateSlug(body.categoryName),
+        : generateSlug(categoryName),
       categoryIconUrl: categoryIconUrl
         ? sanitizeString(categoryIconUrl, 255)
         : undefined,
@@ -492,7 +496,7 @@ export const createCategoryHandler = async (c: Context) => {
         ? sanitizeString(body.categoryDescription, 500)
         : undefined,
       displayOrder: body.displayOrder ?? 0,
-      bookingFormat: body.bookingFormat,
+      bookingFormat,
       isEndLocation: body.isEndLocation ?? false,
       isRental: body.isRental ?? false,
       hasVariantCatA: body.hasVariantCatA ?? false,
@@ -553,6 +557,8 @@ export const updateCategory = async (c: Context) => {
       return c.json({ error: validation.message }, 400);
     }
 
+    const bookingFormat = body.bookingFormat as BookingFormat | undefined;
+
     let categoryIconUrl = body.categoryIconUrl;
 
     if (contentType.includes("multipart/form-data")) {
@@ -612,7 +618,7 @@ export const updateCategory = async (c: Context) => {
       updateData.displayOrder = body.displayOrder;
     }
     if (body.bookingFormat !== undefined) {
-      updateData.bookingFormat = body.bookingFormat;
+      updateData.bookingFormat = bookingFormat;
     }
     if (body.isEndLocation !== undefined) {
       updateData.isEndLocation = body.isEndLocation;
