@@ -990,7 +990,7 @@ export const adminLogin = async (c: Context) => {
     if (user.userType === "admin" && !user.isVerified) {
       const otpResult = await createEmailOtp(email, "admin_login");
 
-      if (!otpResult.delivered && !otpResult.devOtp) {
+      if (!otpResult.delivered) {
         return c.json({ error: "Unable to send email OTP right now" }, 503);
       }
 
@@ -1000,7 +1000,6 @@ export const adminLogin = async (c: Context) => {
         email: user.email,
         expiresIn: "5 minutes",
         isPasswordSystemGenerated: user.isPasswordSystemGenerated,
-        devOtp: otpResult.devOtp,
       });
     }
 
@@ -1187,7 +1186,7 @@ export const requestAdminForgotPasswordOtp = async (c: Context) => {
 
     const otpResult = await createEmailOtp(email, "admin_forgot_password");
 
-    if (!otpResult.delivered && !otpResult.devOtp) {
+    if (!otpResult.delivered) {
       return c.json({ error: "Unable to send email OTP right now" }, 503);
     }
 
@@ -1195,7 +1194,6 @@ export const requestAdminForgotPasswordOtp = async (c: Context) => {
       message: "OTP sent successfully",
       email: user.email,
       expiresIn: "5 minutes",
-      devOtp: otpResult.devOtp,
     });
   } catch (error) {
     console.error("Admin forgot password OTP request error:", error);
