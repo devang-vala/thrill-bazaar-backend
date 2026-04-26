@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and Push
         run: |
-          docker build -t ramu69/tb-backend:latest .
+          docker build --no-cache -t ramu69/tb-backend:latest .
           docker push ramu69/tb-backend:latest
 
       - name: Deploy to EC2
