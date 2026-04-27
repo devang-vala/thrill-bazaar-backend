@@ -1,4 +1,4 @@
-## Local development he
+## Local development 
 
 ```bash
 npm install
