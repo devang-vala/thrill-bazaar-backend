@@ -62,19 +62,40 @@ const isTruthyEnv = (value?: string) => {
 };
 
 const getMailConfig = (): MailConfig | null => {
-  const host = process.env.SMTP_HOST?.trim() || "";
-  const portValue = process.env.SMTP_PORT?.trim() || "587";
-  const user = process.env.SMTP_USER?.trim() || "";
-  const pass = process.env.SMTP_PASS?.trim() || "";
-  const fromAddress = process.env.MAIL_FROM_ADDRESS?.trim() || "";
-  const fromName = process.env.MAIL_FROM_NAME?.trim() || "Thrill Bazaar";
-  const replyTo = process.env.MAIL_REPLY_TO?.trim();
+  const host =
+    process.env.BREVO_SMTP_HOST?.trim() ||
+    process.env.SMTP_HOST?.trim() ||
+    "smtp-relay.brevo.com";
+  const portValue =
+    process.env.BREVO_SMTP_PORT?.trim() ||
+    process.env.SMTP_PORT?.trim() ||
+    "587";
+  const user =
+    process.env.BREVO_SMTP_USER?.trim() ||
+    process.env.SMTP_USER?.trim() ||
+    "";
+  const pass =
+    process.env.BREVO_SMTP_KEY?.trim() ||
+    process.env.BREVO_SMTP_PASS?.trim() ||
+    process.env.SMTP_PASS?.trim() ||
+    "";
+  const fromAddress =
+    process.env.BREVO_FROM_EMAIL?.trim() ||
+    process.env.MAIL_FROM_ADDRESS?.trim() ||
+    "";
+  const fromName =
+    process.env.BREVO_FROM_NAME?.trim() ||
+    process.env.MAIL_FROM_NAME?.trim() ||
+    "Thrill Bazaar";
+  const replyTo =
+    process.env.BREVO_REPLY_TO?.trim() ||
+    process.env.MAIL_REPLY_TO?.trim();
 
   const missingOrPlaceholderFields = [
-    ["SMTP_HOST", host],
-    ["SMTP_USER", user],
-    ["SMTP_PASS", pass],
-    ["MAIL_FROM_ADDRESS", fromAddress],
+    ["BREVO_SMTP_HOST", host],
+    ["BREVO_SMTP_USER", user],
+    ["BREVO_SMTP_KEY", pass],
+    ["BREVO_FROM_EMAIL", fromAddress],
   ]
     .filter(([, value]) => isPlaceholder(value))
     .map(([key]) => key);
@@ -99,7 +120,9 @@ const getMailConfig = (): MailConfig | null => {
     return null;
   }
 
-  const secureEnv = process.env.SMTP_SECURE?.trim();
+  const secureEnv =
+    process.env.BREVO_SMTP_SECURE?.trim() ||
+    process.env.SMTP_SECURE?.trim();
   const secure =
     secureEnv === undefined || secureEnv === ""
       ? port === 465
