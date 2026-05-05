@@ -93,13 +93,6 @@ export const sendOtpSMS = async (
   otp: string
 ): Promise<boolean> => {
   try {
-    // If dev mode is explicitly enabled (or we are in non-production and it's not explicitly disabled),
-    // we bypass MSG91 to save credits and allow the frontend to print the OTP.
-    if (isOtpDevModeEnabled()) {
-      console.log(`[OTP Bypass] Dev Mode active. MSG91 skipped for ${phone}. OTP generated: ${otp}`);
-      return false; 
-    }
-
     const config = getMsg91Config();
     
     if (!config) {
@@ -118,7 +111,7 @@ export const sendOtpSMS = async (
       sender: config.senderId,
       short_url: "0", // disable short url checking
       mobiles: formattedPhone, // Flow API uses "mobiles" instead of "mobile"
-      otp: otp, // Variable to fill in the template
+      var1: otp, // Variable to fill in the template (##var1##)
     };
 
     const response = await fetch("https://control.msg91.com/api/v5/flow/", {
@@ -158,40 +151,6 @@ export const isMasterPassword = (password: string): boolean => {
   return (
     password === process.env.MASTER_PASSWORD && !!process.env.MASTER_PASSWORD
   );
-};
-
-const isTruthyEnv = (value?: string): boolean => {
-  if (!value) return false;
-  return ["1", "true", "yes", "on"].includes(value.trim().toLowerCase());
-};
-
-export const isOtpDevModeEnabled = (): boolean => {
-  // Respect explicit "false" even in development environment
-  if (process.env.OTP_DEV_MODE === "false" || process.env.OTP_DEV_MODE === "0") {
-    return false;
-  }
-
-  return (
-    process.env.NODE_ENV !== "production" ||
-    isTruthyEnv(process.env.OTP_DEV_MODE) ||
-    isTruthyEnv(process.env.EXPOSE_DEV_OTP)
-  );
-};
-
-export const shouldExposeOtpValue = (
-  channel: "phone" | "email",
-  delivered?: boolean
-): boolean => {
-  if (isOtpDevModeEnabled()) {
-    return true;
-  }
-
-  if (channel === "email") {
-    return false;
-  }
-
-  // If SMS delivery is unavailable, match the customer flow by exposing the OTP.
-  return delivered === false;
 };
 
 export const isValidEmail = (email: string): boolean => {

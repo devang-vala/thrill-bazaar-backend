@@ -17,8 +17,6 @@ import {
   isValidAdminType,
   formatUserResponse,
   calculateOtpExpiry,
-  shouldExposeOtpValue,
-  isOtpDevModeEnabled,
 } from "../helpers/auth.helper.js";
 import {
   sendOtpEmail,
@@ -224,9 +222,7 @@ const createEmailOtp = async (
     expiresInMinutes: 5,
   });
 
-  const devOtp = isOtpDevModeEnabled() ? otp : undefined;
-
-  if (!delivered && !devOtp) {
+  if (!delivered) {
     await prisma.otp.deleteMany({
       where: { phone: emailOtpKey },
     });
@@ -236,7 +232,6 @@ const createEmailOtp = async (
     otp,
     expiresAt,
     delivered,
-    devOtp,
   };
 };
 
@@ -697,7 +692,7 @@ export const requestOperatorOtp = async (c: Context) => {
     const smsSent = await sendOtpSMS(phone, phoneOtp);
     const emailOtpResult = await createEmailOtp(email, "operator_signup");
 
-    if (!emailOtpResult.delivered && !emailOtpResult.devOtp) {
+    if (!emailOtpResult.delivered) {
       return c.json({ error: "Unable to send email OTP right now" }, 503);
     }
 
@@ -711,8 +706,6 @@ export const requestOperatorOtp = async (c: Context) => {
     return c.json({
       message: "OTP generated successfully",
       expiresIn: "5 minutes",
-      phoneOtp: shouldExposeOtpValue("phone", smsSent) ? phoneOtp : undefined,
-      emailOtp: emailOtpResult.devOtp,
       existingAccounts: existingOperators,
     });
   } catch (error) {
@@ -1718,7 +1711,6 @@ export const operatorLogin = async (c: Context) => {
       const otpKey = otpTarget === "phone" ? phone : `email:${email}`;
 
       let smsSent = false;
-      let devOtp: string | undefined;
 
       if (otpTarget === "phone") {
         const otp = generateOtp();
@@ -1736,13 +1728,11 @@ export const operatorLogin = async (c: Context) => {
         });
 
         smsSent = await sendOtpSMS(phone, otp);
-        devOtp = shouldExposeOtpValue(otpTarget, smsSent) ? otp : undefined;
       } else {
         const emailOtpResult = await createEmailOtp(email, "operator_login");
-        if (!emailOtpResult.delivered && !emailOtpResult.devOtp) {
+        if (!emailOtpResult.delivered) {
           return c.json({ error: "Unable to send email OTP right now" }, 503);
         }
-        devOtp = emailOtpResult.devOtp;
       }
 
       return c.json(
@@ -1752,7 +1742,6 @@ export const operatorLogin = async (c: Context) => {
           otpSentTo: otpTarget,
           email,
           phone,
-          devOtp,
         },
         200
       );
@@ -1932,7 +1921,7 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
         const otpKey = otpTarget === "phone" ? phone! : `email:${email}`;
 
         let smsSent = false;
-        let devOtp: string | undefined;
+
 
         if (otpTarget === "phone") {
           const otp = generateOtp();
@@ -1950,13 +1939,11 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
           });
 
           smsSent = await sendOtpSMS(phone!, otp);
-          devOtp = shouldExposeOtpValue(otpTarget, smsSent) ? otp : undefined;
         } else {
           const emailOtpResult = await createEmailOtp(email!, "operator_forgot_password");
-          if (!emailOtpResult.delivered && !emailOtpResult.devOtp) {
+          if (!emailOtpResult.delivered) {
             return c.json({ error: "Unable to send email OTP right now" }, 503);
           }
-          devOtp = emailOtpResult.devOtp;
         }
 
         return c.json(
@@ -1966,7 +1953,6 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
             otpSentTo: otpTarget,
             email: user.email,
             phone: user.phone,
-            devOtp,
           },
           200
         );
@@ -2002,7 +1988,6 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
       const otpKey = otpTarget === "phone" ? phone : `email:${email}`;
 
       let smsSent = false;
-      let devOtp: string | undefined;
 
       if (otpTarget === "phone") {
         const otp = generateOtp();
@@ -2020,13 +2005,11 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
         });
 
         smsSent = await sendOtpSMS(phone, otp);
-        devOtp = shouldExposeOtpValue(otpTarget, smsSent) ? otp : undefined;
       } else {
         const emailOtpResult = await createEmailOtp(email, "operator_forgot_password");
-        if (!emailOtpResult.delivered && !emailOtpResult.devOtp) {
+        if (!emailOtpResult.delivered) {
           return c.json({ error: "Unable to send email OTP right now" }, 503);
         }
-        devOtp = emailOtpResult.devOtp;
       }
 
       return c.json(
@@ -2036,7 +2019,6 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
           otpSentTo: otpTarget,
           email,
           phone,
-          devOtp,
         },
         200
       );
