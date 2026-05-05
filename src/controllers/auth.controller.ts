@@ -17,12 +17,11 @@ import {
   isValidAdminType,
   formatUserResponse,
   calculateOtpExpiry,
-  shouldExposeOtpValue,
-  isOtpDevModeEnabled,
 } from "../helpers/auth.helper.js";
 import {
   sendOtpEmail,
   type EmailOtpPurpose,
+  sendAccountCreatedEmail,
 } from "../services/mail.service.js";
 import {
   validateCustomerRegistration,
@@ -56,7 +55,7 @@ interface CustomerRegistrationRequest {
 
 interface AdminRegistrationRequest {
   email: string;
-  password: string;
+  password?: string;
   firstName?: string;
   lastName?: string;
   userType: "operator" | "admin" | "super_admin";
@@ -127,6 +126,16 @@ interface OperatorLoginRequest {
 
 const SIGNUP_TOKEN_EXPIRY = "20m";
 const PASSWORD_RESET_TOKEN_EXPIRY = "20m";
+
+const maskEmail = (email: string) => {
+  const [name = "", domain = ""] = email.split("@");
+  if (!domain) {
+    return email;
+  }
+
+  const visibleName = name.length <= 2 ? name[0] || "*" : `${name.slice(0, 2)}***`;
+  return `${visibleName}@${domain}`;
+};
 
 const generateOperatorSignupToken = (email: string, phone: string) => {
   const jwtSecret = process.env.JWT_SECRET;
@@ -213,9 +222,7 @@ const createEmailOtp = async (
     expiresInMinutes: 5,
   });
 
-  const devOtp = isOtpDevModeEnabled() ? otp : undefined;
-
-  if (!delivered && !devOtp) {
+  if (!delivered) {
     await prisma.otp.deleteMany({
       where: { phone: emailOtpKey },
     });
@@ -225,7 +232,6 @@ const createEmailOtp = async (
     otp,
     expiresAt,
     delivered,
-    devOtp,
   };
 };
 
@@ -686,7 +692,7 @@ export const requestOperatorOtp = async (c: Context) => {
     const smsSent = await sendOtpSMS(phone, phoneOtp);
     const emailOtpResult = await createEmailOtp(email, "operator_signup");
 
-    if (!emailOtpResult.delivered && !emailOtpResult.devOtp) {
+    if (!emailOtpResult.delivered) {
       return c.json({ error: "Unable to send email OTP right now" }, 503);
     }
 
@@ -700,8 +706,6 @@ export const requestOperatorOtp = async (c: Context) => {
     return c.json({
       message: "OTP generated successfully",
       expiresIn: "5 minutes",
-      phoneOtp: shouldExposeOtpValue("phone", smsSent) ? phoneOtp : undefined,
-      emailOtp: emailOtpResult.devOtp,
       existingAccounts: existingOperators,
     });
   } catch (error) {
@@ -979,7 +983,7 @@ export const adminLogin = async (c: Context) => {
     if (user.userType === "admin" && !user.isVerified) {
       const otpResult = await createEmailOtp(email, "admin_login");
 
-      if (!otpResult.delivered && !otpResult.devOtp) {
+      if (!otpResult.delivered) {
         return c.json({ error: "Unable to send email OTP right now" }, 503);
       }
 
@@ -989,7 +993,6 @@ export const adminLogin = async (c: Context) => {
         email: user.email,
         expiresIn: "5 minutes",
         isPasswordSystemGenerated: user.isPasswordSystemGenerated,
-        devOtp: otpResult.devOtp,
       });
     }
 
@@ -1176,7 +1179,7 @@ export const requestAdminForgotPasswordOtp = async (c: Context) => {
 
     const otpResult = await createEmailOtp(email, "admin_forgot_password");
 
-    if (!otpResult.delivered && !otpResult.devOtp) {
+    if (!otpResult.delivered) {
       return c.json({ error: "Unable to send email OTP right now" }, 503);
     }
 
@@ -1184,7 +1187,6 @@ export const requestAdminForgotPasswordOtp = async (c: Context) => {
       message: "OTP sent successfully",
       email: user.email,
       expiresIn: "5 minutes",
-      devOtp: otpResult.devOtp,
     });
   } catch (error) {
     console.error("Admin forgot password OTP request error:", error);
@@ -1417,14 +1419,32 @@ export const registerAdmin = async (c: Context) => {
   try {
     const body = (await c.req.json()) as AdminRegistrationRequest;
 
+    console.info("[Admin Registration] Request received.", {
+      email: body.email ? maskEmail(body.email) : undefined,
+      userType: body.userType,
+      hasPassword: Boolean(body.password?.trim()),
+      hasFirstName: Boolean(body.firstName?.trim()),
+      hasLastName: Boolean(body.lastName?.trim()),
+    });
+
     // Validate admin registration
     const validation = validateAdminRegistration(body);
     if (!validation.isValid) {
+      console.warn("[Admin Registration] Validation failed.", {
+        email: body.email ? maskEmail(body.email) : undefined,
+        userType: body.userType,
+        message: validation.message,
+      });
       return c.json({ error: validation.message }, 400);
     }
 
     // Sanitize email
     const email = sanitizeEmail(body.email);
+
+    console.info("[Admin Registration] Checking for existing admin account.", {
+      email: maskEmail(email),
+      userType: body.userType,
+    });
 
     // Check if admin/super_admin already exists (scoped to admin types only)
     const existingUser = await prisma.user.findFirst({
@@ -1432,11 +1452,23 @@ export const registerAdmin = async (c: Context) => {
     });
 
     if (existingUser) {
+      console.warn("[Admin Registration] Duplicate admin account found.", {
+        email: maskEmail(email),
+        existingUserId: existingUser.id,
+        existingUserType: existingUser.userType,
+      });
       return c.json({ error: "Admin with this email already exists" }, 409);
     }
 
-    // Hash password using helper function
-    const hashedPassword = await hashPassword(body.password);
+    const plainPassword = body.password?.trim() || generateSystemPassword();
+    const hashedPassword = await hashPassword(plainPassword);
+    const isSystemGenerated = !body.password?.trim();
+
+    console.info("[Admin Registration] Creating admin account.", {
+      email: maskEmail(email),
+      userType: body.userType,
+      isSystemGenerated,
+    });
 
     // Create admin/operator/super_admin user
     const newUser = await prisma.user.create({
@@ -1448,7 +1480,7 @@ export const registerAdmin = async (c: Context) => {
         userType: body.userType,
         isVerified: true, // Admin users are pre-verified
         isActive: true,
-        isPasswordSystemGenerated: false,
+        isPasswordSystemGenerated: isSystemGenerated,
       },
       select: {
         id: true,
@@ -1463,8 +1495,52 @@ export const registerAdmin = async (c: Context) => {
       },
     });
 
+    console.info("[Admin Registration] Admin account created; sending account email.", {
+      userId: newUser.id,
+      email: maskEmail(email),
+      userType: newUser.userType,
+      isSystemGenerated: newUser.isPasswordSystemGenerated,
+    });
+
+    const emailSent = await sendAccountCreatedEmail({
+      to: email,
+      userType: body.userType,
+      password: plainPassword,
+      firstName: newUser.firstName || undefined,
+    });
+
+    if (!emailSent) {
+      console.warn("[Admin Registration] Account email failed; deleting created account.", {
+        userId: newUser.id,
+        email: maskEmail(email),
+        userType: newUser.userType,
+      });
+
+      await prisma.user.delete({
+        where: { id: newUser.id },
+      });
+
+      console.warn("[Admin Registration] Created account deleted after email failure.", {
+        userId: newUser.id,
+        email: maskEmail(email),
+        userType: newUser.userType,
+      });
+
+      return c.json(
+        { error: "Admin account email could not be sent. Account creation was cancelled." },
+        503
+      );
+    }
+
     // Generate JWT token
     const token = generateToken(newUser.id, newUser.userType);
+
+    console.info("[Admin Registration] Completed successfully.", {
+      userId: newUser.id,
+      email: maskEmail(email),
+      userType: newUser.userType,
+      emailSent,
+    });
 
     return c.json(
       {
@@ -1635,7 +1711,6 @@ export const operatorLogin = async (c: Context) => {
       const otpKey = otpTarget === "phone" ? phone : `email:${email}`;
 
       let smsSent = false;
-      let devOtp: string | undefined;
 
       if (otpTarget === "phone") {
         const otp = generateOtp();
@@ -1653,13 +1728,11 @@ export const operatorLogin = async (c: Context) => {
         });
 
         smsSent = await sendOtpSMS(phone, otp);
-        devOtp = shouldExposeOtpValue(otpTarget, smsSent) ? otp : undefined;
       } else {
         const emailOtpResult = await createEmailOtp(email, "operator_login");
-        if (!emailOtpResult.delivered && !emailOtpResult.devOtp) {
+        if (!emailOtpResult.delivered) {
           return c.json({ error: "Unable to send email OTP right now" }, 503);
         }
-        devOtp = emailOtpResult.devOtp;
       }
 
       return c.json(
@@ -1669,7 +1742,6 @@ export const operatorLogin = async (c: Context) => {
           otpSentTo: otpTarget,
           email,
           phone,
-          devOtp,
         },
         200
       );
@@ -1849,7 +1921,7 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
         const otpKey = otpTarget === "phone" ? phone! : `email:${email}`;
 
         let smsSent = false;
-        let devOtp: string | undefined;
+
 
         if (otpTarget === "phone") {
           const otp = generateOtp();
@@ -1867,13 +1939,11 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
           });
 
           smsSent = await sendOtpSMS(phone!, otp);
-          devOtp = shouldExposeOtpValue(otpTarget, smsSent) ? otp : undefined;
         } else {
           const emailOtpResult = await createEmailOtp(email!, "operator_forgot_password");
-          if (!emailOtpResult.delivered && !emailOtpResult.devOtp) {
+          if (!emailOtpResult.delivered) {
             return c.json({ error: "Unable to send email OTP right now" }, 503);
           }
-          devOtp = emailOtpResult.devOtp;
         }
 
         return c.json(
@@ -1883,7 +1953,6 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
             otpSentTo: otpTarget,
             email: user.email,
             phone: user.phone,
-            devOtp,
           },
           200
         );
@@ -1919,7 +1988,6 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
       const otpKey = otpTarget === "phone" ? phone : `email:${email}`;
 
       let smsSent = false;
-      let devOtp: string | undefined;
 
       if (otpTarget === "phone") {
         const otp = generateOtp();
@@ -1937,13 +2005,11 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
         });
 
         smsSent = await sendOtpSMS(phone, otp);
-        devOtp = shouldExposeOtpValue(otpTarget, smsSent) ? otp : undefined;
       } else {
         const emailOtpResult = await createEmailOtp(email, "operator_forgot_password");
-        if (!emailOtpResult.delivered && !emailOtpResult.devOtp) {
+        if (!emailOtpResult.delivered) {
           return c.json({ error: "Unable to send email OTP right now" }, 503);
         }
-        devOtp = emailOtpResult.devOtp;
       }
 
       return c.json(
@@ -1953,7 +2019,6 @@ export const requestOperatorForgotPasswordOtp = async (c: Context) => {
           otpSentTo: otpTarget,
           email,
           phone,
-          devOtp,
         },
         200
       );

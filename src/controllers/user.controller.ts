@@ -30,6 +30,7 @@ import {
   searchUsers,
   getUserCount,
 } from "../helpers/user.helper.js";
+import { sendAccountCreatedEmail } from "../services/mail.service.js";
 
 // Interfaces for request bodies
 interface UpdateProfileRequest {
@@ -730,6 +731,24 @@ export const createAdminAccount = async (c: Context) => {
       },
     });
 
+    try {
+      const emailSent = await sendAccountCreatedEmail({
+        to: email,
+        userType: "admin",
+        password: generatedPassword,
+        firstName: admin.firstName || undefined,
+      });
+
+      if (emailSent) {
+        console.log("Admin welcome email sent", { email: admin.email });
+      }
+    } catch (emailError) {
+      console.error("Failed to send admin welcome email", {
+        email: admin.email,
+        error: emailError instanceof Error ? emailError.message : String(emailError),
+      });
+    }
+
     return c.json(
       {
         message: "Admin account created successfully",
@@ -739,7 +758,10 @@ export const createAdminAccount = async (c: Context) => {
       201
     );
   } catch (error) {
-    console.error("Create admin account error:", error);
+    console.error("Create admin account error:", {
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return c.json({ error: "Internal server error" }, 500);
   }
 };

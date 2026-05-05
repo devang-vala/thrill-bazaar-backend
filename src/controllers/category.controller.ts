@@ -1,5 +1,8 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
+import { configureCloudinary } from "../config/cloudinary.config.js";
+import { Readable } from "stream";
+import type { BookingFormat } from "../../prisma/src/generated/prisma/enums.js";
 import {
   validateCreateCategory,
   validateUpdateCategory,
@@ -16,6 +19,135 @@ import {
   deleteCategoryById,
   checkCategorySlugExists,
 } from "../helpers/category.helper.js";
+
+const cloudinary = configureCloudinary();
+
+const uploadCategoryIconToCloudinary = async (file: File) => {
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
+  return new Promise<{
+    url: string;
+    publicId: string;
+  }>((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: "thrill-bazaar/categories",
+        resource_type: "image",
+        transformation: [{ width: 512, height: 512, crop: "limit" }],
+      },
+      (error, result) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+
+        resolve({
+          url: result?.secure_url || "",
+          publicId: result?.public_id || "",
+        });
+      }
+    );
+
+    const readableStream = new Readable();
+    readableStream.push(buffer);
+    readableStream.push(null);
+    readableStream.pipe(uploadStream);
+  });
+};
+
+const deleteFromCloudinary = async (publicId: string): Promise<boolean> => {
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
+    return result.result === "ok";
+  } catch (error) {
+    console.error("Cloudinary delete error:", error);
+    return false;
+  }
+};
+
+const parseBooleanField = (value: unknown): boolean | undefined => {
+  if (typeof value === "boolean") {
+    return value;
+  }
+
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+    if (["true", "1", "yes", "on"].includes(normalized)) return true;
+    if (["false", "0", "no", "off"].includes(normalized)) return false;
+  }
+
+  return undefined;
+};
+
+const parseNumberField = (value: unknown): number | undefined => {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === "string" && value.trim() !== "") {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : undefined;
+  }
+
+  return undefined;
+};
+
+const normalizeCategoryBody = (body: Record<string, unknown>) => ({
+  listingTypeId:
+    typeof body.listingTypeId === "string" ? body.listingTypeId : undefined,
+  categoryName:
+    typeof body.categoryName === "string" ? body.categoryName : undefined,
+  categorySlug:
+    typeof body.categorySlug === "string" ? body.categorySlug : undefined,
+  categoryIconUrl:
+    typeof body.categoryIconUrl === "string" ? body.categoryIconUrl : undefined,
+  categoryDescription:
+    typeof body.categoryDescription === "string"
+      ? body.categoryDescription
+      : undefined,
+  displayOrder: parseNumberField(body.displayOrder),
+  bookingFormat:
+    typeof body.bookingFormat === "string" ? body.bookingFormat : undefined,
+  isEndLocation: parseBooleanField(body.isEndLocation),
+  isRental: parseBooleanField(body.isRental),
+  hasVariantCatA: parseBooleanField(body.hasVariantCatA),
+  isInclusionsExclusionsAllowed: parseBooleanField(
+    body.isInclusionsExclusionsAllowed
+  ),
+  isAddonsAllowed: parseBooleanField(body.isAddonsAllowed),
+  isBookingOptionAllowed: parseBooleanField(body.isBookingOptionAllowed),
+  isFaqAllowed: parseBooleanField(body.isFaqAllowed),
+  isDayWiseAllowed: parseBooleanField(body.isDayWiseAllowed),
+  isActive: parseBooleanField(body.isActive),
+});
+
+const readCategoryRequestBody = async (c: Context) => {
+  const contentType = c.req.header("content-type") || "";
+
+  if (contentType.includes("multipart/form-data")) {
+    return {
+      rawBody: (await c.req.parseBody()) as Record<string, unknown>,
+      contentType,
+    };
+  }
+
+  try {
+    return {
+      rawBody: (await c.req.json()) as Record<string, unknown>,
+      contentType,
+    };
+  } catch (jsonError) {
+    try {
+      return {
+        rawBody: (await c.req.parseBody()) as Record<string, unknown>,
+        contentType: "multipart/form-data",
+      };
+    } catch {
+      throw jsonError;
+    }
+  }
+};
 
 export interface CreateCategoryRequest {
   listingTypeId?: string;
@@ -323,8 +455,10 @@ export const paginateCategories = async (c: Context) => {
  * Create a new category
  */
 export const createCategoryHandler = async (c: Context) => {
+  let uploadedIconPublicId: string | null = null;
   try {
-    const body = (await c.req.json()) as CreateCategoryRequest;
+    const { rawBody, contentType } = await readCategoryRequestBody(c);
+    const body = normalizeCategoryBody(rawBody);
 
     // Validate request body
     const validation = validateCreateCategory(body);
@@ -332,29 +466,46 @@ export const createCategoryHandler = async (c: Context) => {
       return c.json({ error: validation.message }, 400);
     }
 
+    const categoryName = body.categoryName ?? "";
+    const bookingFormat = body.bookingFormat as BookingFormat;
+
+    let categoryIconUrl = body.categoryIconUrl;
+
+    if (contentType.includes("multipart/form-data")) {
+      const iconFile =
+        rawBody.categoryIconFile || rawBody.categoryIcon || rawBody.icon;
+
+      if (iconFile instanceof File && iconFile.size > 0) {
+        const uploadResult = await uploadCategoryIconToCloudinary(iconFile);
+        categoryIconUrl = uploadResult.url;
+        uploadedIconPublicId = uploadResult.publicId;
+      }
+    }
+
     // Sanitize inputs
     const sanitizedData = {
       listingTypeId: body.listingTypeId || null,
-      categoryName: sanitizeString(body.categoryName, 100),
+      categoryName: sanitizeString(categoryName, 100),
       categorySlug: body.categorySlug
         ? sanitizeString(body.categorySlug, 100).toLowerCase()
-        : generateSlug(body.categoryName),
-      categoryIconUrl: body.categoryIconUrl
-        ? sanitizeString(body.categoryIconUrl, 255)
+        : generateSlug(categoryName),
+      categoryIconUrl: categoryIconUrl
+        ? sanitizeString(categoryIconUrl, 255)
         : undefined,
       categoryDescription: body.categoryDescription
         ? sanitizeString(body.categoryDescription, 500)
         : undefined,
-      displayOrder: body.displayOrder || 0,
-      bookingFormat: body.bookingFormat,
-      isEndLocation: body.isEndLocation || false,
-      isRental: body.isRental || false,
-      hasVariantCatA: body.hasVariantCatA || false,
-      isInclusionsExclusionsAllowed: body.isInclusionsExclusionsAllowed || false,
-      isAddonsAllowed: body.isAddonsAllowed || false,
-      isBookingOptionAllowed: body.isBookingOptionAllowed || false,
-      isFaqAllowed: body.isFaqAllowed || false,
-      isDayWiseAllowed: body.isDayWiseAllowed || false,
+      displayOrder: body.displayOrder ?? 0,
+      bookingFormat,
+      isEndLocation: body.isEndLocation ?? false,
+      isRental: body.isRental ?? false,
+      hasVariantCatA: body.hasVariantCatA ?? false,
+      isInclusionsExclusionsAllowed:
+        body.isInclusionsExclusionsAllowed ?? false,
+      isAddonsAllowed: body.isAddonsAllowed ?? false,
+      isBookingOptionAllowed: body.isBookingOptionAllowed ?? false,
+      isFaqAllowed: body.isFaqAllowed ?? false,
+      isDayWiseAllowed: body.isDayWiseAllowed ?? false,
       isActive: body.isActive !== undefined ? body.isActive : true,
     };
 
@@ -363,6 +514,9 @@ export const createCategoryHandler = async (c: Context) => {
       sanitizedData.categorySlug
     );
     if (existingCategory) {
+      if (uploadedIconPublicId) {
+        await deleteFromCloudinary(uploadedIconPublicId);
+      }
       return c.json({ error: "Category slug already exists" }, 409);
     }
 
@@ -379,14 +533,19 @@ export const createCategoryHandler = async (c: Context) => {
     );
   } catch (error) {
     console.error("Create category error:", error);
+    if (uploadedIconPublicId) {
+      await deleteFromCloudinary(uploadedIconPublicId);
+    }
     return c.json({ error: "Failed to create category" }, 500);
   }
 };
 
 export const updateCategory = async (c: Context) => {
+  let uploadedIconPublicId: string | null = null;
   try {
     const categoryId = c.req.param("id");
-    const body = (await c.req.json()) as UpdateCategoryRequest;
+    const { rawBody, contentType } = await readCategoryRequestBody(c);
+    const body = normalizeCategoryBody(rawBody);
 
     if (!categoryId) {
       return c.json({ error: "Category ID is required" }, 400);
@@ -396,6 +555,21 @@ export const updateCategory = async (c: Context) => {
     const validation = validateUpdateCategory(body);
     if (!validation.isValid) {
       return c.json({ error: validation.message }, 400);
+    }
+
+    const bookingFormat = body.bookingFormat as BookingFormat | undefined;
+
+    let categoryIconUrl = body.categoryIconUrl;
+
+    if (contentType.includes("multipart/form-data")) {
+      const iconFile =
+        rawBody.categoryIconFile || rawBody.categoryIcon || rawBody.icon;
+
+      if (iconFile instanceof File && iconFile.size > 0) {
+        const uploadResult = await uploadCategoryIconToCloudinary(iconFile);
+        categoryIconUrl = uploadResult.url;
+        uploadedIconPublicId = uploadResult.publicId;
+      }
     }
 
     // Check if category exists
@@ -424,12 +598,15 @@ export const updateCategory = async (c: Context) => {
         categoryId
       );
       if (slugExists) {
+        if (uploadedIconPublicId) {
+          await deleteFromCloudinary(uploadedIconPublicId);
+        }
         return c.json({ error: "Category slug already exists" }, 409);
       }
     }
-    if (body.categoryIconUrl !== undefined) {
-      updateData.categoryIconUrl = body.categoryIconUrl
-        ? sanitizeString(body.categoryIconUrl, 255)
+    if (categoryIconUrl !== undefined) {
+      updateData.categoryIconUrl = categoryIconUrl
+        ? sanitizeString(categoryIconUrl, 255)
         : null;
     }
     if (body.categoryDescription !== undefined) {
@@ -441,7 +618,7 @@ export const updateCategory = async (c: Context) => {
       updateData.displayOrder = body.displayOrder;
     }
     if (body.bookingFormat !== undefined) {
-      updateData.bookingFormat = body.bookingFormat;
+      updateData.bookingFormat = bookingFormat;
     }
     if (body.isEndLocation !== undefined) {
       updateData.isEndLocation = body.isEndLocation;
@@ -481,6 +658,9 @@ export const updateCategory = async (c: Context) => {
     });
   } catch (error) {
     console.error("Update category error:", error);
+    if (uploadedIconPublicId) {
+      await deleteFromCloudinary(uploadedIconPublicId);
+    }
     return c.json({ error: "Failed to update category" }, 500);
   }
 };

@@ -59,20 +59,15 @@ export const validateAdminRegistration = (data: {
     };
   }
 
-  if (!data.password) {
-    return {
-      isValid: false,
-      message: "Password is required for admin registration",
-    };
-  }
-
   if (!isValidEmail(data.email)) {
     return { isValid: false, message: "Invalid email format" };
   }
 
-  const passwordValidation = validatePassword(data.password);
-  if (!passwordValidation.isValid) {
-    return passwordValidation;
+  if (data.password) {
+    const passwordValidation = validatePassword(data.password);
+    if (!passwordValidation.isValid) {
+      return passwordValidation;
+    }
   }
 
   if (!data.userType || !isValidAdminType(data.userType)) {
