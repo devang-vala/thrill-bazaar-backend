@@ -274,21 +274,31 @@ const ADMIN_RESCHEDULE_ACTIVITY_STATUS = {
 const getAdminActivityStatus = (
   bookingStatus: string | null | undefined,
   latestRescheduleStatus: string | null | undefined,
+  latestReschedulePaymentRequired?: boolean | null,
+  latestRescheduleChangedAt?: Date | string | null,
+  lastRescheduledAt?: Date | string | null,
 ) => {
   const normalizedBookingStatus = String(bookingStatus || "").toUpperCase();
   const normalizedRescheduleStatus = String(latestRescheduleStatus || "").toLowerCase();
+  const processedAt = lastRescheduledAt ? new Date(lastRescheduledAt).getTime() : NaN;
+  const latestChangeAt = latestRescheduleChangedAt ? new Date(latestRescheduleChangedAt).getTime() : NaN;
+  const isLatestRescheduleProcessed =
+    Number.isFinite(processedAt) &&
+    (!Number.isFinite(latestChangeAt) || processedAt >= latestChangeAt);
 
   if (normalizedBookingStatus === "CONFIRMED") {
     if (normalizedRescheduleStatus === "pending") {
       return ADMIN_RESCHEDULE_ACTIVITY_STATUS.PENDING;
     }
 
-    if (normalizedRescheduleStatus === "approved") {
+    if (normalizedRescheduleStatus === "approved" || isLatestRescheduleProcessed) {
       return ADMIN_RESCHEDULE_ACTIVITY_STATUS.APPROVED;
     }
 
     if (normalizedRescheduleStatus === "approved_with_charge") {
-      return ADMIN_RESCHEDULE_ACTIVITY_STATUS.IN_PROGRESS;
+      return latestReschedulePaymentRequired === false
+        ? ADMIN_RESCHEDULE_ACTIVITY_STATUS.APPROVED
+        : ADMIN_RESCHEDULE_ACTIVITY_STATUS.IN_PROGRESS;
     }
 
     if (normalizedRescheduleStatus === "rejected") {
@@ -3517,6 +3527,8 @@ export const getAdminBookings = async (c: Context) => {
       participantCount: true,
       totalAmount: true,
       bookingStatus: true,
+      rescheduleCount: true,
+      lastRescheduledAt: true,
       createdAt: true,
       updatedAt: true,
       customer: {
@@ -3541,7 +3553,9 @@ export const getAdminBookings = async (c: Context) => {
         select: {
           id: true,
           status: true,
+          isPaymentRequired: true,
           createdAt: true,
+          approvedAt: true,
         },
       },
       listingSlot: {
@@ -3574,7 +3588,7 @@ export const getAdminBookings = async (c: Context) => {
       },
     } as const;
 
-    const [bookings, bookingCounts, paymentCounts, rescheduleCounts, categories] = await Promise.all([
+    const [bookings, bookingCounts, paymentCounts, rescheduleCounts, rescheduleInProgressCandidates, categories] = await Promise.all([
       prisma.booking.findMany({
         where: whereClause,
         select: bookingSelect,
@@ -3599,6 +3613,21 @@ export const getAdminBookings = async (c: Context) => {
         by: ["status"],
         _count: {
           _all: true,
+        },
+      }),
+      prisma.reschedule.findMany({
+        where: {
+          status: "approved_with_charge",
+          isPaymentRequired: true,
+        },
+        select: {
+          createdAt: true,
+          approvedAt: true,
+          booking: {
+            select: {
+              lastRescheduledAt: true,
+            },
+          },
         },
       }),
       prisma.listing.findMany({
@@ -3632,6 +3661,17 @@ export const getAdminBookings = async (c: Context) => {
     const rescheduleCountMap = Object.fromEntries(
       rescheduleCounts.map((entry) => [entry.status, entry._count._all])
     ) as Record<string, number>;
+    const rescheduleInProgressCount = rescheduleInProgressCandidates.filter((reschedule) => {
+      const processedAt = reschedule.booking?.lastRescheduledAt
+        ? new Date(reschedule.booking.lastRescheduledAt).getTime()
+        : NaN;
+      const latestChangeAt = new Date(reschedule.approvedAt || reschedule.createdAt).getTime();
+
+      return !(
+        Number.isFinite(processedAt) &&
+        (!Number.isFinite(latestChangeAt) || processedAt >= latestChangeAt)
+      );
+    }).length;
 
     const mappedBookings = bookings.map((booking) => {
       const listing = booking.listingSlot?.listing || booking.dateRange?.listing;
@@ -3640,6 +3680,9 @@ export const getAdminBookings = async (c: Context) => {
       const adminActivityStatus = getAdminActivityStatus(
         booking.bookingStatus,
         latestReschedule?.status,
+        latestReschedule?.isPaymentRequired,
+        latestReschedule?.approvedAt || latestReschedule?.createdAt,
+        booking.lastRescheduledAt,
       );
       const slotStart =
         booking.listingSlot?.slotDefinition?.startTime ||
@@ -3661,6 +3704,8 @@ export const getAdminBookings = async (c: Context) => {
         totalAmount: Number(booking.totalAmount),
         bookingStatus: booking.bookingStatus,
         adminActivityStatus,
+        rescheduleCount: booking.rescheduleCount,
+        lastRescheduledAt: booking.lastRescheduledAt,
         createdAt: booking.createdAt,
         updatedAt: booking.updatedAt,
         slotStart,
@@ -3690,7 +3735,9 @@ export const getAdminBookings = async (c: Context) => {
           ? {
               id: latestReschedule.id,
               status: latestReschedule.status,
+              isPaymentRequired: latestReschedule.isPaymentRequired,
               createdAt: latestReschedule.createdAt,
+              approvedAt: latestReschedule.approvedAt,
             }
           : null,
       };
@@ -3732,7 +3779,7 @@ export const getAdminBookings = async (c: Context) => {
           (rescheduleCountMap.approved || 0) +
           (rescheduleCountMap.approved_with_charge || 0) +
           (rescheduleCountMap.rejected || 0),
-        rescheduleInProgress: rescheduleCountMap.approved_with_charge || 0,
+        rescheduleInProgress: rescheduleInProgressCount,
         unsettled: paymentCountMap.PENDING || 0,
         settlementIssues: paymentCountMap.SETTLEMENT_ISSUE || 0,
       },
