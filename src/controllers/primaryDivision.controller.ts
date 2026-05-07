@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import { prisma } from "../db.js";
+import { prisma, withPrismaRetry } from "../db.js";
 
 export interface CreatePrimaryDivisionRequest {
   country_id: string;
@@ -25,16 +25,20 @@ export const getPrimaryDivisions = async (c: Context) => {
       whereClause.country_id = country_id;
     }
 
-    const primaryDivisions = await prisma.primaryDivision.findMany({
-      where: whereClause,
-      orderBy: {
-        division_name: "asc",
-      },
-      include: {
-        country: true,
-        secondaryDivisions: true,
-      },
-    });
+    const primaryDivisions = await withPrismaRetry(
+      () =>
+        prisma.primaryDivision.findMany({
+          where: whereClause,
+          orderBy: {
+            division_name: "asc",
+          },
+          include: {
+            country: true,
+            secondaryDivisions: true,
+          },
+        }),
+      "getPrimaryDivisions.findMany"
+    );
 
     return c.json({
       success: true,
@@ -43,6 +47,17 @@ export const getPrimaryDivisions = async (c: Context) => {
     });
   } catch (error) {
     console.error("Get primary divisions error:", error);
+    const maybeCode = (error as { code?: unknown })?.code;
+    if (maybeCode === "P1001") {
+      return c.json(
+        {
+          error:
+            "Database is temporarily unavailable. Please try again after the connection is restored.",
+        },
+        503
+      );
+    }
+
     return c.json({ error: "Failed to fetch primary divisions" }, 500);
   }
 };
@@ -58,22 +73,26 @@ export const getPrimaryDivision = async (c: Context) => {
       return c.json({ error: "Primary division identifier is required" }, 400);
     }
 
-    const primaryDivision = await prisma.primaryDivision.findFirst({
-      where: {
-        OR: [
-          { primary_division_id: divisionIdentifier },
-          { primaryslug: divisionIdentifier },
-        ],
-      },
-      include: {
-        country: true,
-        secondaryDivisions: {
-          orderBy: {
-            division_name: "asc",
+    const primaryDivision = await withPrismaRetry(
+      () =>
+        prisma.primaryDivision.findFirst({
+          where: {
+            OR: [
+              { primary_division_id: divisionIdentifier },
+              { primaryslug: divisionIdentifier },
+            ],
           },
-        },
-      },
-    });
+          include: {
+            country: true,
+            secondaryDivisions: {
+              orderBy: {
+                division_name: "asc",
+              },
+            },
+          },
+        }),
+      "getPrimaryDivision.findFirst"
+    );
 
     if (!primaryDivision) {
       return c.json({ error: "Primary division not found" }, 404);
@@ -85,6 +104,17 @@ export const getPrimaryDivision = async (c: Context) => {
     });
   } catch (error) {
     console.error("Get primary division error:", error);
+    const maybeCode = (error as { code?: unknown })?.code;
+    if (maybeCode === "P1001") {
+      return c.json(
+        {
+          error:
+            "Database is temporarily unavailable. Please try again after the connection is restored.",
+        },
+        503
+      );
+    }
+
     return c.json({ error: "Failed to fetch primary division" }, 500);
   }
 };

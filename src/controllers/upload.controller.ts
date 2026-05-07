@@ -107,7 +107,7 @@ export const uploadImages = async (c: Context) => {
     }
 
     // Validate file types and sizes
-    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
     const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     
     for (const file of fileArray) {
@@ -121,7 +121,7 @@ export const uploadImages = async (c: Context) => {
       if (file.size > MAX_FILE_SIZE) {
         console.error(`❌ File too large: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
         return c.json({ 
-          error: `File ${file.name} is too large. Maximum size: 10MB` 
+          error: `File ${file.name} is too large. Maximum size: 50MB` 
         }, 400);
       }
     }
