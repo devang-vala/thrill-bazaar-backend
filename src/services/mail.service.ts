@@ -5,7 +5,8 @@ export type EmailOtpPurpose =
   | "admin_forgot_password"
   | "operator_signup"
   | "operator_login"
-  | "operator_forgot_password";
+  | "operator_forgot_password"
+  | "seller_account_access";
 
 interface MailConfig {
   host: string;
@@ -193,6 +194,11 @@ const getPurposeText = (purpose: EmailOtpPurpose) => {
       return {
         subject: "Thrill Bazaar operator password reset OTP",
         action: "reset your operator password",
+      };
+    case "seller_account_access":
+      return {
+        subject: "Thrill Bazaar seller account access verification OTP",
+        action: "verify your identity for account access changes requested by the superadmin",
       };
   }
 };

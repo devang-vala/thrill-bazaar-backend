@@ -129,13 +129,24 @@ export const sendOtpSMS = async (
       return false;
     }
 
-    const responseData = await response.json();
+    const responseText = await response.text();
+    let responseData: any = {};
+    try {
+      responseData = JSON.parse(responseText);
+    } catch (e) {
+      console.warn("MSG91 returned non-JSON response:", responseText);
+      // If it's a 200 OK and non-JSON, it might just be a success string/ID
+      if (!response.ok) {
+        return false;
+      }
+    }
+
     if (responseData.type === "error") {
       console.error("MSG91 returned an error payload:", responseData);
       return false;
     }
 
-    console.log(`MSG91 OTP SMS initiated successfully to ${formattedPhone}`);
+    console.log(`MSG91 OTP SMS initiated successfully to ${formattedPhone}. Response:`, responseText);
     return true;
   } catch (error) {
     console.error("Failed to send MSG91 OTP SMS:", error);

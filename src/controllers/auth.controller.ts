@@ -463,28 +463,19 @@ export const customerLogin = async (c: Context) => {
       },
     });
 
-    // Send OTP via Twilio SMS
     const smsSent = await sendOtpSMS(phone, otp);
 
-    if (smsSent) {
-      return c.json({
-        message: accountCreated
-          ? "New customer account created and OTP sent successfully to your phone"
-          : "OTP sent successfully to your phone",
-        expiresIn: "5 minutes",
-        accountCreated,
-      });
-    } else {
-      // Fallback for development or when Twilio is not configured
-      return c.json({
-        message: accountCreated
-          ? "New customer account created. OTP generated because SMS service is unavailable"
-          : "OTP generated (SMS service unavailable)",
-        otp: otp, // Only for development - remove in production
-        expiresIn: "5 minutes",
-        accountCreated,
-      });
+    if (!smsSent) {
+      return c.json({ error: "Failed to send OTP SMS. Please try again later." }, 500);
     }
+
+    return c.json({
+      message: accountCreated
+        ? "New customer account created and OTP sent successfully to your phone"
+        : "OTP sent successfully to your phone",
+      expiresIn: "5 minutes",
+      accountCreated,
+    });
   } catch (error) {
     console.error("Customer login error:", error);
     return c.json({ error: "Internal server error" }, 500);
