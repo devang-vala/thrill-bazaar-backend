@@ -2191,7 +2191,15 @@ export const getOperatorDashboardSummary = async (c: Context) => {
       }
     }
 
-    const policyChecklist = SELLER_POLICY_TYPES.map((policyType) => {
+    const hasRentalListings = liveListingsRaw.some(
+      (listing) => listing.bookingFormat === "F2" || listing.bookingFormat === "F4",
+    );
+
+    const visiblePolicyTypes = SELLER_POLICY_TYPES.filter(
+      (policyType) => policyType !== "exchange" || hasRentalListings,
+    );
+
+    const policyChecklist = visiblePolicyTypes.map((policyType) => {
       const policy = policyMap.get(policyType);
 
       if (policy) {
