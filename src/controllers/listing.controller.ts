@@ -753,6 +753,18 @@ const tagsIncludeLimited = {
  */
 export const getListings = async (c: Context) => {
   try {
+    const enumerateUtcDateKeys = (start: Date, end: Date) => {
+      const keys: string[] = [];
+      const current = new Date(start);
+
+      while (current <= end) {
+        keys.push(current.toISOString().split("T")[0]);
+        current.setUTCDate(current.getUTCDate() + 1);
+      }
+
+      return keys;
+    };
+
     // Get query parameters for pagination
     const page = parseInt(c.req.query("page") || "1");
     const limit = parseInt(c.req.query("limit") || "12");
@@ -1431,6 +1443,161 @@ export const getListings = async (c: Context) => {
       shouldSortByDateClientSide || Boolean(availableOnDate || (dateRangeStart && dateRangeEnd));
 
     let nextAvailableDateMap = new Map<string, Date | null>();
+    const listingIds = listings.map((listing) => listing.id);
+    const activeBatchesCountMap = new Map<string, number>();
+    const activeDaysCountMap = new Map<string, number>();
+
+    if (listingIds.length > 0) {
+      const todayStartUtc = new Date();
+      todayStartUtc.setUTCHours(0, 0, 0, 0);
+
+      const [f1Slots, f3Slots, f2Ranges, f4Ranges, blockedDates] = await Promise.all([
+        prisma.listingSlot.findMany({
+          where: {
+            listingId: { in: listingIds },
+            isActive: true,
+            formatType: "F1",
+            availableCount: { gt: 0 },
+            OR: [
+              { batchEndDate: { gte: todayStartUtc } },
+              { batchStartDate: { gte: todayStartUtc } },
+            ],
+          },
+          select: {
+            listingId: true,
+          },
+        }),
+        prisma.listingSlot.findMany({
+          where: {
+            listingId: { in: listingIds },
+            isActive: true,
+            formatType: "F3",
+            availableCount: { gt: 0 },
+            slotDate: { gte: todayStartUtc },
+          },
+          select: {
+            listingId: true,
+            slotDate: true,
+          },
+        }),
+        prisma.inventoryDateRange.findMany({
+          where: {
+            listingId: { in: listingIds },
+            isActive: true,
+            slotDefinitionId: null,
+            OR: [{ availableCount: { gt: 0 } }, { availableCount: null }],
+            availableToDate: { gte: todayStartUtc },
+          },
+          select: {
+            listingId: true,
+            availableFromDate: true,
+            availableToDate: true,
+          },
+        }),
+        prisma.inventoryDateRange.findMany({
+          where: {
+            listingId: { in: listingIds },
+            isActive: true,
+            slotDefinitionId: { not: null },
+            OR: [{ availableCount: { gt: 0 } }, { availableCount: null }],
+            availableToDate: { gte: todayStartUtc },
+          },
+          select: {
+            listingId: true,
+            availableFromDate: true,
+            availableToDate: true,
+          },
+        }),
+        prisma.inventoryBlockedDate.findMany({
+          where: {
+            listingId: { in: listingIds },
+            blockedDate: { gte: todayStartUtc },
+          },
+          select: {
+            listingId: true,
+            blockedDate: true,
+          },
+        }),
+      ]);
+
+      for (const slot of f1Slots) {
+        activeBatchesCountMap.set(
+          slot.listingId,
+          (activeBatchesCountMap.get(slot.listingId) || 0) + 1,
+        );
+      }
+
+      const addCoverageDates = (
+        coverageMap: Map<string, Set<string>>,
+        listingId: string,
+        startDate: Date,
+        endDate: Date,
+      ) => {
+        const coverage = coverageMap.get(listingId) ?? new Set<string>();
+        for (const dateKey of enumerateUtcDateKeys(startDate, endDate)) {
+          coverage.add(dateKey);
+        }
+        coverageMap.set(listingId, coverage);
+      };
+
+      const f2CoverageMap = new Map<string, Set<string>>();
+      const f3CoverageMap = new Map<string, Set<string>>();
+      const f4CoverageMap = new Map<string, Set<string>>();
+      const blockedDateMap = new Map<string, Set<string>>();
+
+      for (const blockedDate of blockedDates) {
+        const listingBlockedDates = blockedDateMap.get(blockedDate.listingId) ?? new Set<string>();
+        listingBlockedDates.add(blockedDate.blockedDate.toISOString().split("T")[0]);
+        blockedDateMap.set(blockedDate.listingId, listingBlockedDates);
+      }
+
+      for (const slot of f3Slots) {
+        if (!slot.slotDate) continue;
+        addCoverageDates(f3CoverageMap, slot.listingId, slot.slotDate, slot.slotDate);
+      }
+
+      for (const range of f2Ranges) {
+        const effectiveStart =
+          range.availableFromDate > todayStartUtc ? range.availableFromDate : todayStartUtc;
+        addCoverageDates(
+          f2CoverageMap,
+          range.listingId,
+          effectiveStart,
+          range.availableToDate,
+        );
+      }
+
+      for (const range of f4Ranges) {
+        const effectiveStart =
+          range.availableFromDate > todayStartUtc ? range.availableFromDate : todayStartUtc;
+        addCoverageDates(
+          f4CoverageMap,
+          range.listingId,
+          effectiveStart,
+          range.availableToDate,
+        );
+      }
+
+      for (const [listingId, coverage] of f2CoverageMap.entries()) {
+        const blocked = blockedDateMap.get(listingId) ?? new Set<string>();
+        activeDaysCountMap.set(
+          listingId,
+          [...coverage].filter((dateKey) => !blocked.has(dateKey)).length,
+        );
+      }
+
+      for (const [listingId, coverage] of f3CoverageMap.entries()) {
+        activeDaysCountMap.set(listingId, coverage.size);
+      }
+
+      for (const [listingId, coverage] of f4CoverageMap.entries()) {
+        const blocked = blockedDateMap.get(listingId) ?? new Set<string>();
+        activeDaysCountMap.set(
+          listingId,
+          [...coverage].filter((dateKey) => !blocked.has(dateKey)).length,
+        );
+      }
+    }
 
     if (shouldIncludeNextAvailableDate) {
       const now = new Date();
@@ -1519,9 +1686,16 @@ export const getListings = async (c: Context) => {
     }
 
     // Add nextAvailableDate to each listing
-    let responseData = listings.map(listing => ({
+    let responseData = listings.map((listing) => ({
       ...listing,
-      nextAvailableDate: nextAvailableDateMap.get(listing.id) || null
+      nextAvailableDate: nextAvailableDateMap.get(listing.id) || null,
+      activeBatchesCount: listing.bookingFormat === "F1" ? activeBatchesCountMap.get(listing.id) || 0 : 0,
+      activeDaysCount:
+        listing.bookingFormat === "F2" ||
+        listing.bookingFormat === "F3" ||
+        listing.bookingFormat === "F4"
+          ? activeDaysCountMap.get(listing.id) || 0
+          : 0,
     }));
 
     // Apply date-based sorting if needed (client-side sorting after fetching dates)
