@@ -2845,6 +2845,7 @@ export const getUserBookings = async (c: Context) => {
                     firstName: true,
                     lastName: true,
                     phone: true,
+                    alternatePhone: true,
                     operatorProfile: {
                       select: {
                         companyName: true,
@@ -2916,6 +2917,7 @@ export const getUserBookings = async (c: Context) => {
                     firstName: true,
                     lastName: true,
                     phone: true,
+                    alternatePhone: true,
                     operatorProfile: {
                       select: {
                         companyName: true,
@@ -2973,6 +2975,12 @@ export const getUserBookings = async (c: Context) => {
         },
         review: true,
         payment: true,
+        customer: {
+          select: {
+            email: true,
+            phone: true,
+          },
+        },
         reschedules: {
           orderBy: { createdAt: "desc" },
           take: 1,
@@ -3037,9 +3045,30 @@ export const getBookingWithReschedules = async (c: Context) => {
                 startLocationName: true,
                 endLocationName: true,
                 startGoogleMapsUrl: true,
+                startCountry: true,
+                startPrimaryDivision: true,
+                startSecondaryDivision: true,
+                endCountry: true,
+                endPrimaryDivision: true,
+                endSecondaryDivision: true,
                 operatorId: true,
                 bookingFormat: true,
                 addons: true, // Include addons to enrich selectedAddons
+                operator: {
+                  select: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    phone: true,
+                    alternatePhone: true,
+                    email: true,
+                    operatorProfile: {
+                      select: {
+                        companyName: true,
+                      },
+                    },
+                  },
+                },
                 category: {
                   select: {
                     categoryName: true,
@@ -3086,6 +3115,12 @@ export const getBookingWithReschedules = async (c: Context) => {
                 endTime: true,
               },
             },
+            variant: {
+              select: {
+                id: true,
+                variantName: true,
+              },
+            },
           },
         },
         dateRange: {
@@ -3099,9 +3134,30 @@ export const getBookingWithReschedules = async (c: Context) => {
                 startLocationName: true,
                 endLocationName: true,
                 startGoogleMapsUrl: true,
+                startCountry: true,
+                startPrimaryDivision: true,
+                startSecondaryDivision: true,
+                endCountry: true,
+                endPrimaryDivision: true,
+                endSecondaryDivision: true,
                 operatorId: true,
                 bookingFormat: true,
                 addons: true, // Include addons to enrich selectedAddons
+                operator: {
+                  select: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    phone: true,
+                    alternatePhone: true,
+                    email: true,
+                    operatorProfile: {
+                      select: {
+                        companyName: true,
+                      },
+                    },
+                  },
+                },
                 category: {
                   select: {
                     categoryName: true,
@@ -3146,6 +3202,12 @@ export const getBookingWithReschedules = async (c: Context) => {
               select: {
                 startTime:  true,
                 endTime: true,
+              },
+            },
+            variant: {
+              select: {
+                id: true,
+                variantName: true,
               },
             },
           },
