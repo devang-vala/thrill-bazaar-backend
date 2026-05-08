@@ -30,7 +30,7 @@ import {
   searchUsers,
   getUserCount,
 } from "../helpers/user.helper.js";
-import { sendAccountCreatedEmail } from "../services/mail.service.js";
+import { sendAccountCreatedEmail, sendOtpEmail } from "../services/mail.service.js";
 
 // Interfaces for request bodies
 interface UpdateProfileRequest {
@@ -879,11 +879,29 @@ export const requestOperatorAccountAccessOtp = async (c: Context) => {
       createOtpRecordForIdentifier(getEmailOtpKey(email)),
     ]);
 
+    // Send OTP via MSG91 SMS
     const smsSent = await sendOtpSMS(phone, phoneOtp);
-    const devMode = process.env.NODE_ENV !== "production";
+    if (!smsSent) {
+      return c.json({ error: "Failed to send OTP SMS to seller's phone. Please try again later." }, 500);
+    }
+
+    // Send OTP via Brevo email
+    const emailSent = await sendOtpEmail({
+      to: email,
+      otp: emailOtp,
+      purpose: "seller_account_access",
+      expiresInMinutes: OTP_EXPIRY_MINUTES,
+    });
+    if (!emailSent) {
+      console.warn(
+        `[SellerAccountAccess] Email OTP could not be sent to ${email}. SMS was sent successfully.`
+      );
+    }
 
     return c.json({
-      message: "Seller verification OTPs generated successfully",
+      message: emailSent
+        ? "Seller verification OTPs sent to phone and email successfully"
+        : "Seller verification OTP sent to phone. Email delivery may be delayed — check spam or retry.",
       expiresIn: `${OTP_EXPIRY_MINUTES} minutes`,
       target: {
         userId: targetUser.id,
@@ -894,8 +912,6 @@ export const requestOperatorAccountAccessOtp = async (c: Context) => {
           targetUser.email ||
           "Seller",
       },
-      devPhoneOtp: devMode || !smsSent ? phoneOtp : undefined,
-      devEmailOtp: devMode ? emailOtp : undefined,
     });
   } catch (error) {
     console.error("Request operator account access OTP error:", error);
