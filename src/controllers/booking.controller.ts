@@ -3151,6 +3151,7 @@ export const getBookingWithReschedules = async (c: Context) => {
           },
         },
         payment: true,
+        review: true,
         reschedules: {
           orderBy: { createdAt: "desc" },
           include: {

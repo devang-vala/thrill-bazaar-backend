@@ -3,6 +3,8 @@ import { prisma, withPrismaRetry } from "../db.js";
 import { sanitizeString, generateSlug } from "../helpers/validation.helper.js";
 import meilisearchService from "../services/meilisearch.service.js";
 
+type SupportedBookingFormat = "F1" | "F2" | "F3" | "F4";
+
 const normalizeMetadataBoolean = (value: unknown): boolean | null => {
   if (typeof value === "boolean") {
     return value;
@@ -2369,9 +2371,68 @@ export const createListing = async (c: Context) => {
       }, 401);
     }
 
+    const categoryId = typeof body.categoryId === "string" ? body.categoryId.trim() : "";
+
+    if (!categoryId) {
+      return c.json({
+        success: false,
+        error: "Category ID is required to create a listing.",
+      }, 400);
+    }
+
+    const category = await prisma.category.findUnique({
+      where: { id: categoryId },
+      select: {
+        id: true,
+        bookingFormat: true,
+        isActive: true,
+      },
+    });
+
+    if (!category) {
+      return c.json({
+        success: false,
+        error: "Selected category was not found.",
+      }, 404);
+    }
+
+    if (!category.isActive) {
+      return c.json({
+        success: false,
+        error: "Selected category is not active.",
+      }, 400);
+    }
+
+    if (body.subCatId) {
+      const subCategory = await prisma.subCategory.findUnique({
+        where: { id: body.subCatId },
+        select: {
+          id: true,
+          categoryId: true,
+          isActive: true,
+        },
+      });
+
+      if (!subCategory || subCategory.categoryId !== category.id) {
+        return c.json({
+          success: false,
+          error: "Selected subcategory does not belong to the selected category.",
+        }, 400);
+      }
+
+      if (!subCategory.isActive) {
+        return c.json({
+          success: false,
+          error: "Selected subcategory is not active.",
+        }, 400);
+      }
+    }
+
+    const categoryBookingFormat = category.bookingFormat as SupportedBookingFormat;
+
     const listingData: any = {
       operatorId: user.userId, // Always use authenticated user's ID
-      categoryId: body.categoryId || null,
+      categoryId,
       subCatId: body.subCatId || null,
       listingName: body.listingName ? sanitizeString(body.listingName, 255) : "Untitled Listing",
       listingSlug: body.listingSlug
@@ -2381,7 +2442,7 @@ export const createListing = async (c: Context) => {
       frontImageUrl: body.frontImageUrl
         ? sanitizeString(body.frontImageUrl, 500)
         : null,
-      bookingFormat: body.bookingFormat || "F1",
+      bookingFormat: categoryBookingFormat,
       hasMultipleOptions: body.hasMultipleOptions || false,
       status: "pending_approval", // Set status to pending_approval by default
       startLocationName: body.startLocationName
@@ -2399,7 +2460,7 @@ export const createListing = async (c: Context) => {
       metadata: body.metadata || undefined,
     };
     // After existing listingData preparation
-    if (body.bookingFormat === "F2" || body.bookingFormat === "F4") {
+    if (categoryBookingFormat === "F2" || categoryBookingFormat === "F4") {
       // Store rental-specific data in metadata
       listingData.metadata = {
         ...listingData.metadata,
@@ -2520,6 +2581,46 @@ export const updateListing = async (c: Context) => {
     }
 
     const updateData: any = {};
+
+    if (body.bookingFormat !== undefined || body.categoryId !== undefined) {
+      const categoryIdForFormat =
+        typeof body.categoryId === "string" && body.categoryId.trim()
+          ? body.categoryId.trim()
+          : existingListing.categoryId;
+
+      if (!categoryIdForFormat) {
+        return c.json({
+          success: false,
+          error: "A category is required to determine the listing booking format.",
+        }, 400);
+      }
+
+      const category = await prisma.category.findUnique({
+        where: { id: categoryIdForFormat },
+        select: {
+          id: true,
+          bookingFormat: true,
+          isActive: true,
+        },
+      });
+
+      if (!category) {
+        return c.json({
+          success: false,
+          error: "Selected category was not found.",
+        }, 404);
+      }
+
+      if (!category.isActive) {
+        return c.json({
+          success: false,
+          error: "Selected category is not active.",
+        }, 400);
+      }
+
+      updateData.categoryId = category.id;
+      updateData.bookingFormat = category.bookingFormat;
+    }
 
     if (body.listingName !== undefined) {
       updateData.listingName = sanitizeString(body.listingName, 255);

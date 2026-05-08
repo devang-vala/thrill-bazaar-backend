@@ -1775,6 +1775,16 @@ export const getOperatorSettlements = async (c: Context) => {
               bookingEndDate: true,
               createdAt: true,
               participantCount: true,
+              participants: true,
+              customer: {
+                select: {
+                  firstName: true,
+                  lastName: true,
+                  email: true,
+                  phone: true,
+                  gender: true,
+                },
+              },
               listingSlot: {
                 select: {
                   startTime: true,
@@ -1894,6 +1904,15 @@ export const getOperatorSettlements = async (c: Context) => {
         category: listing?.category?.categoryName || null,
         currency: listing?.currency || "INR",
         participantCount: payment.booking.participantCount,
+        participants: Array.isArray(payment.booking.participants)
+          ? payment.booking.participants
+          : [],
+        customerName:
+          `${payment.booking.customer?.firstName || ""} ${payment.booking.customer?.lastName || ""}`.trim() ||
+          "Customer",
+        customerPhone: payment.booking.customer?.phone || null,
+        customerEmail: payment.booking.customer?.email || null,
+        customerGender: payment.booking.customer?.gender || null,
         totalEarnings: payment.totalEarnings,
         balanceToCollect: payment.balanceToCollect,
         netPayToSeller: payment.netPayToSeller,

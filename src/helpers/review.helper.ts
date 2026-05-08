@@ -64,26 +64,7 @@ export const validateReviewText = (text: string): boolean => {
   return text.length >= 10; // Minimum 10 characters for meaningful review
 };
 
-const buildReviewTitle = (reviewText: string, rating: number): string => {
-  const cleanedText = reviewText.replace(/\s+/g, " ").trim();
-
-  if (cleanedText) {
-    const normalized = cleanedText.endsWith(".")
-      ? cleanedText.slice(0, -1)
-      : cleanedText;
-    return normalized.slice(0, 200);
-  }
-
-  const labels = {
-    1: "Poor experience",
-    2: "Fair experience",
-    3: "Good experience",
-    4: "Very good experience",
-    5: "Excellent experience",
-  } as const;
-
-  return labels[rating as keyof typeof labels] || "Customer review";
-};
+const DEFAULT_REVIEW_TITLE = "REVIEW";
 
 // ===== Helper Functions =====
 
@@ -133,17 +114,9 @@ export const createReview = async (
   input: CreateReviewInput
 ): Promise<{ success: boolean; review?: any; error?: string }> => {
   try {
-    const resolvedTitle =
-      (input.reviewTitle || "").trim() || buildReviewTitle(input.reviewText, input.rating);
-
     // Validate rating
     if (!validateRating(input.rating)) {
       return { success: false, error: "Rating must be an integer between 1 and 5" };
-    }
-
-    // Validate title
-    if (!validateReviewTitle(resolvedTitle)) {
-      return { success: false, error: "Review title must be between 1 and 200 characters" };
     }
 
     // Validate text
@@ -171,7 +144,7 @@ export const createReview = async (
       return { success: false, error: "Booking does not belong to this listing" };
     }
 
-    // Create review
+    // Create review (default: not flagged)
     const review = await prisma.review.create({
       data: {
         bookingId: input.bookingId,
@@ -179,10 +152,10 @@ export const createReview = async (
         customerId: input.customerId,
         operatorId: input.operatorId,
         rating: input.rating,
-        reviewTitle: resolvedTitle,
+        reviewTitle: DEFAULT_REVIEW_TITLE,
         reviewText: input.reviewText,
         reviewImages: input.reviewImages || [],
-        isFlagged: true,
+        // rely on Prisma default isFlagged = false
       },
       include: {
         customer: {
@@ -207,6 +180,20 @@ export const createReview = async (
   } catch (error: any) {
     console.error("Error creating review:", error);
     return { success: false, error: error.message || "Failed to create review" };
+  }
+};
+
+/**
+ * Get number of currently flagged reviews (for admin dashboard)
+ */
+export const getFlaggedReviewsCount = async (whereOverrides: any = {}) => {
+  try {
+    const where = { isFlagged: true, ...whereOverrides };
+    const count = await prisma.review.count({ where });
+    return count;
+  } catch (error) {
+    console.error("Error fetching flagged reviews count:", error);
+    return 0;
   }
 };
 
@@ -305,7 +292,6 @@ export const getReviews = async (
       const normalizedSearchTerm = searchTerm.trim();
 
       where.OR = [
-        { reviewTitle: { contains: normalizedSearchTerm, mode: "insensitive" } },
         { reviewText: { contains: normalizedSearchTerm, mode: "insensitive" } },
         {
           customer: {
@@ -340,8 +326,9 @@ export const getReviews = async (
       // Admin-moderated reviews are hidden from customer/public views.
       where.isModerated = false;
 
-      // Reviews not approved by seller are hidden from customer/public views.
-      where.isFlagged = true;
+      // Seller-hidden/flagged reviews should be hidden from public views.
+      // Only show reviews that are NOT flagged.
+      where.isFlagged = false;
     }
 
     if (isOperator && viewer.userId) {
@@ -456,10 +443,6 @@ export const updateReview = async (
       return { success: false, error: "Rating must be an integer between 1 and 5" };
     }
 
-    if (input.reviewTitle !== undefined && !validateReviewTitle(input.reviewTitle)) {
-      return { success: false, error: "Review title must be between 1 and 200 characters" };
-    }
-
     if (input.reviewText !== undefined && !validateReviewText(input.reviewText)) {
       return { success: false, error: "Review text must be at least 10 characters long" };
     }
@@ -469,7 +452,7 @@ export const updateReview = async (
       where: { id: reviewId },
       data: {
         ...(input.rating !== undefined && { rating: input.rating }),
-        ...(input.reviewTitle !== undefined && { reviewTitle: input.reviewTitle }),
+        reviewTitle: DEFAULT_REVIEW_TITLE,
         ...(input.reviewText !== undefined && { reviewText: input.reviewText }),
         ...(input.reviewImages !== undefined && { reviewImages: input.reviewImages }),
       },
@@ -532,7 +515,7 @@ export const deleteReview = async (
 export const moderateReview = async (
   reviewId: string,
   input: ModerateReviewInput
-): Promise<{ success: boolean; review?: any; error?: string }> => {
+): Promise<{ success: boolean; review?: any; flagsCount?: number; error?: string }> => {
   try {
     const review = await prisma.review.findUnique({
       where: { id: reviewId },
@@ -570,7 +553,9 @@ export const moderateReview = async (
       },
     });
 
-    return { success: true, review: updatedReview };
+    const flagsCount = await getFlaggedReviewsCount();
+
+    return { success: true, review: updatedReview, flagsCount };
   } catch (error: any) {
     console.error("Error moderating review:", error);
     return { success: false, error: error.message || "Failed to moderate review" };
@@ -585,7 +570,7 @@ export const updateReviewFlagStatus = async (
   operatorId: string,
   isFlagged: boolean,
   flaggedReason?: string
-): Promise<{ success: boolean; review?: any; error?: string }> => {
+): Promise<{ success: boolean; review?: any; flagsCount?: number; error?: string }> => {
   try {
     // Check if review exists and belongs to the operator
     const review = await prisma.review.findUnique({
@@ -609,7 +594,9 @@ export const updateReviewFlagStatus = async (
       },
     });
 
-    return { success: true, review: updatedReview };
+    const flagsCount = await getFlaggedReviewsCount();
+
+    return { success: true, review: updatedReview, flagsCount };
   } catch (error: any) {
     console.error("Error updating review flag status:", error);
     return { success: false, error: error.message || "Failed to update flag status" };
@@ -733,7 +720,7 @@ export const getListingReviewStats = async (listingId: string) => {
       where: {
         listingId,
         isModerated: false, // Only count non-moderated reviews
-        isFlagged: true, // Hide seller-hidden reviews from customer-facing stats
+        isFlagged: false, // Exclude seller-hidden/flagged reviews from customer-facing stats
       },
       _count: {
         rating: true,

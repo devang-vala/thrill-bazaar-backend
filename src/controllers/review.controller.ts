@@ -7,6 +7,7 @@ import {
   deleteReview,
   moderateReview,
   updateReviewFlagStatus,
+  getFlaggedReviewsCount,
   updateReplyReview,
   toggleHelpfulVote,
   getListingReviewStats,
@@ -42,7 +43,6 @@ export const createReviewController = async (c: Context) => {
       listingId,
       operatorId,
       rating,
-      reviewTitle,
       reviewText,
       reviewImages,
     } = body;
@@ -72,7 +72,6 @@ export const createReviewController = async (c: Context) => {
       customerId: user.userId,
       operatorId,
       rating,
-      reviewTitle,
       reviewText,
       reviewImages: reviewImages || [],
     });
@@ -402,7 +401,10 @@ export const moderateReviewController = async (c: Context) => {
     return c.json({
       success: true,
       message: isModerated ? "Review moderated successfully" : "Review moderation removed",
-      data: result.review,
+      data: {
+        review: result.review,
+        flagsCount: (result as any).flagsCount ?? undefined,
+      },
     });
   } catch (error: any) {
     console.error("Error in moderateReviewController:", error);
@@ -477,7 +479,10 @@ export const updateReviewFlagController = async (c: Context) => {
     return c.json({
       success: true,
       message: "Review flag status updated successfully",
-      data: result.review,
+      data: {
+        review: result.review,
+        flagsCount: (result as any).flagsCount ?? undefined,
+      },
     });
   } catch (error: any) {
     console.error("Error in updateReviewFlagController:", error);
@@ -677,6 +682,25 @@ export const getSellerReviewDetailsController = async (c: Context) => {
     });
   } catch (error: any) {
     console.error("Error in getSellerReviewDetailsController:", error);
+    return c.json({ success: false, error: "Internal server error" }, 500);
+  }
+};
+
+/**
+ * Get flagged reviews count (Admin only)
+ * @route GET /api/reviews/stats/flags/count
+ */
+export const getFlaggedReviewsCountController = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    if (!user || (user.userType !== "admin" && user.userType !== "super_admin")) {
+      return c.json({ success: false, error: "Unauthorized" }, 401);
+    }
+
+    const count = await getFlaggedReviewsCount();
+    return c.json({ success: true, data: { flagsCount: count } });
+  } catch (error: any) {
+    console.error("Error fetching flagged reviews count:", error);
     return c.json({ success: false, error: "Internal server error" }, 500);
   }
 };

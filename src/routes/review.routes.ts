@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { authenticateToken, optionalAuth } from "../middlewares/auth.middleware.js";
+import { authenticateToken, optionalAuth, requireAdmin } from "../middlewares/auth.middleware.js";
 import {
   createReviewController,
   getReviewController,
@@ -14,6 +14,7 @@ import {
   getOperatorReviewStatsController,
   getSellerReviewDetailsController,
   getCustomerReviewDetailsController,
+  getFlaggedReviewsCountController,
 } from "../controllers/review.controller.js";
 
 const reviewRoutes = new Hono();
@@ -56,6 +57,9 @@ reviewRoutes.get("/:id", optionalAuth, getReviewController);
  * @access  Public
  */
 reviewRoutes.get("/stats/listing/:listingId", getListingReviewStatsController);
+
+// Admin: get total flagged reviews count
+reviewRoutes.get("/stats/flags/count", authenticateToken, requireAdmin, getFlaggedReviewsCountController );
 
 /**
  * @route   GET /api/reviews/stats/operator/:operatorId
