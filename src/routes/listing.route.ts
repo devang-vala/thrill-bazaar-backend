@@ -11,6 +11,7 @@ import {
   getSimilarListings,
   getListingSlugs,
 } from "../controllers/listing.controller.js";
+import { getListingAvailabilitySummary } from "../controllers/listingAvailability.controller.js";
 import {
   authenticateToken,
   requireAnyAdmin,
@@ -24,6 +25,7 @@ const listingRouter = new Hono();
 listingRouter.get("/", optionalAuth, getListings);
 listingRouter.get("/facets", optionalAuth, getListingFilterFacets);
 listingRouter.get("/slugs", getListingSlugs);
+listingRouter.get("/:listingId/availability-summary", optionalAuth, getListingAvailabilitySummary);
 listingRouter.get("/slug/:slug", getListing);
 
 // Get similar listings based on category, operator, then random
