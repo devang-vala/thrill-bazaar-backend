@@ -16,12 +16,66 @@ export const bulkCreateOrUpdateF3Slots = async (c: Context) => {
     }
 
     // Sort dates to get start and end
-    const sortedDates = dates.map(d => new Date(d)).sort((a, b) => a.getTime() - b.getTime());
+    const sortedDates = (dates as string[]).map((d) => new Date(d)).sort((a, b) => a.getTime() - b.getTime());
     const startDate = sortedDates[0];
     const endDate = sortedDates[sortedDates.length - 1];
 
-    // Check if a range already exists that overlaps with this range
-    const existingSlot = await prisma.inventoryDateRange.findFirst({
+    // --- FIX: Check if an existing range FULLY CONTAINS all requested dates.
+    // If yes, write per-date overrides (listingSlotChange) instead of modifying the range
+    // boundaries — this prevents shrinking a 10-20 range to 12-17 when only 12-17 is updated.
+    const containingRange = await prisma.inventoryDateRange.findFirst({
+      where: {
+        listingId,
+        variantId: variantId || null,
+        slotDefinitionId,
+        availableFromDate: { lte: startDate },
+        availableToDate: { gte: endDate },
+        isActive: true,
+      },
+    });
+
+    if (containingRange) {
+      // All requested dates are inside an existing range — write per-date overrides only
+      const overrides = await Promise.all(
+        sortedDates.map(async (targetDate: Date) => {
+          const existing = await prisma.listingSlotChange.findFirst({
+            where: {
+              inventoryDateRangeId: containingRange.id,
+              date: targetDate,
+              listingId,
+            },
+          });
+          if (existing) {
+            return prisma.listingSlotChange.update({
+              where: { id: existing.id },
+              data: {
+                price: Number(basePrice),
+                totalCapacity: Number(totalCapacity),
+                availableCount: Number(totalCapacity),
+                triggerType: "seller_update",
+              },
+            });
+          } else {
+            return prisma.listingSlotChange.create({
+              data: {
+                inventoryDateRangeId: containingRange.id,
+                listingId,
+                variantId: variantId || null,
+                date: targetDate,
+                price: Number(basePrice),
+                totalCapacity: Number(totalCapacity),
+                availableCount: Number(totalCapacity),
+                triggerType: "seller_update",
+              },
+            });
+          }
+        })
+      );
+      return c.json({ success: true, data: overrides, count: overrides.length });
+    }
+
+    // Check if a range partially overlaps with the new range
+    const overlappingRange = await prisma.inventoryDateRange.findFirst({
       where: {
         listingId,
         variantId: variantId || null,
@@ -50,13 +104,15 @@ export const bulkCreateOrUpdateF3Slots = async (c: Context) => {
     });
 
     let result;
-    if (existingSlot) {
-      // Update existing slot
+    if (overlappingRange) {
+      // Partial overlap: EXPAND the range to cover both old and new boundaries (never shrink)
+      const newFrom = overlappingRange.availableFromDate < startDate ? overlappingRange.availableFromDate : startDate;
+      const newTo = overlappingRange.availableToDate > endDate ? overlappingRange.availableToDate : endDate;
       result = await prisma.inventoryDateRange.update({
-        where: { id: existingSlot.id },
+        where: { id: overlappingRange.id },
         data: {
-          availableFromDate: startDate,
-          availableToDate: endDate,
+          availableFromDate: newFrom,
+          availableToDate: newTo,
           basePricePerDay: Number(basePrice),
           totalCapacity: Number(totalCapacity),
           availableCount: Number(totalCapacity),
@@ -64,7 +120,7 @@ export const bulkCreateOrUpdateF3Slots = async (c: Context) => {
         },
       });
     } else {
-      // Create new slot range
+      // No overlap — create a brand new range
       result = await prisma.inventoryDateRange.create({
         data: {
           listingId,
