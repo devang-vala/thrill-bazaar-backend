@@ -150,7 +150,6 @@ export const uploadImages = async (c: Context) => {
             {
               folder: "thrill-bazaar/uploads",
               resource_type: "auto",
-              headers: { "Cache-Control": "public, max-age=31536000" },
               ...(isImage
                 ? {
                     transformation: [
