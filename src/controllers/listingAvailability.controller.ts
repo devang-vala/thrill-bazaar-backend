@@ -84,9 +84,9 @@ const buildBookedDateCounts = (
       pricingDetails?.selectedDates && Array.isArray(pricingDetails.selectedDates)
         ? pricingDetails.selectedDates.filter(Boolean)
         : enumerateDateKeys(
-            toUtcStartOfDay(booking.bookingStartDate),
-            toUtcStartOfDay(booking.bookingEndDate),
-          );
+          toUtcStartOfDay(booking.bookingStartDate),
+          toUtcStartOfDay(booking.bookingEndDate),
+        );
 
     for (const selectedDate of selectedDates) {
       const key = `${booking.dateRangeId}:${selectedDate}`;
@@ -108,17 +108,19 @@ async function calculateActivitySummary(
       listingId,
       formatType: bookingFormat,
       isActive: true,
-      ...(variantIds.length > 0 ? { variantId: { in: variantIds } } : {}),
+      ...(variantIds.length > 0
+        ? { OR: [{ variantId: { in: variantIds } }, { variantId: null }] }
+        : {}),
       ...(bookingFormat === "F1"
         ? {
-            OR: [
-              { batchEndDate: { gte: todayStartUtc } },
-              { batchStartDate: { gte: todayStartUtc } },
-            ],
-          }
+          OR: [
+            { batchEndDate: { gte: todayStartUtc } },
+            { batchStartDate: { gte: todayStartUtc } },
+          ],
+        }
         : {
-            slotDate: { gte: todayStartUtc },
-          }),
+          slotDate: { gte: todayStartUtc },
+        }),
     },
     select: {
       id: true,
@@ -157,19 +159,21 @@ async function calculateActivitySummary(
 
 async function calculateRentalSummary(
   listingId: string,
-  bookingFormat: "F2" | "F4",
+  bookingFormat: "F2" | "F3" | "F4",
   variantIds: string[],
   todayStartUtc: Date,
 ) {
-  const isSlotBasedRental = bookingFormat === "F4";
+  const isSlotBased = bookingFormat === "F3" || bookingFormat === "F4";
 
   const ranges = await prisma.inventoryDateRange.findMany({
     where: {
       listingId,
       isActive: true,
       availableToDate: { gte: todayStartUtc },
-      ...(variantIds.length > 0 ? { variantId: { in: variantIds } } : {}),
-      ...(isSlotBasedRental
+      ...(variantIds.length > 0
+        ? { OR: [{ variantId: { in: variantIds } }, { variantId: null }] }
+        : {}),
+      ...(isSlotBased
         ? { slotDefinitionId: { not: null } }
         : { slotDefinitionId: null }),
     },
@@ -188,7 +192,9 @@ async function calculateRentalSummary(
     where: {
       listingId,
       date: { gte: todayStartUtc },
-      ...(variantIds.length > 0 ? { variantId: { in: variantIds } } : {}),
+      ...(variantIds.length > 0
+        ? { OR: [{ variantId: { in: variantIds } }, { variantId: null }] }
+        : {}),
     },
     select: {
       id: true,
@@ -209,7 +215,7 @@ async function calculateRentalSummary(
   });
 
   const filteredOverrides = overrides.filter((override) =>
-    isSlotBasedRental
+    isSlotBased
       ? Boolean(override.inventoryDateRange?.slotDefinitionId)
       : !override.inventoryDateRange?.slotDefinitionId,
   );
@@ -218,7 +224,9 @@ async function calculateRentalSummary(
     where: {
       listingId,
       blockedDate: { gte: todayStartUtc },
-      ...(variantIds.length > 0 ? { variantId: { in: variantIds } } : {}),
+      ...(variantIds.length > 0
+        ? { OR: [{ variantId: { in: variantIds } }, { variantId: null }] }
+        : {}),
     },
     select: {
       variantId: true,
@@ -231,17 +239,17 @@ async function calculateRentalSummary(
     rangeIds.length === 0
       ? Promise.resolve([])
       : prisma.booking.findMany({
-          where: {
-            dateRangeId: { in: rangeIds },
-            bookingStatus: { in: [...ACTIVE_BOOKING_STATUSES] },
-          },
-          select: {
-            dateRangeId: true,
-            pricingDetails: true,
-            bookingStartDate: true,
-            bookingEndDate: true,
-          },
-        }),
+        where: {
+          dateRangeId: { in: rangeIds },
+          bookingStatus: { in: [...ACTIVE_BOOKING_STATUSES] },
+        },
+        select: {
+          dateRangeId: true,
+          pricingDetails: true,
+          bookingStartDate: true,
+          bookingEndDate: true,
+        },
+      }),
     getActiveDateReservationHoldCounts(rangeIds),
   ]);
 
@@ -339,36 +347,42 @@ export const getListingAvailabilitySummary = async (c: Context) => {
 
     let minPriceMap = new Map<string, number>();
 
-    if (listing.bookingFormat === "F1" || listing.bookingFormat === "F3") {
+    if (listing.bookingFormat === "F1") {
       minPriceMap = await calculateActivitySummary(
         listingId,
         listing.bookingFormat,
         variantIds,
         todayStartUtc,
       );
-    } else if (listing.bookingFormat === "F2" || listing.bookingFormat === "F4") {
+    } else if (
+      listing.bookingFormat === "F2" ||
+      listing.bookingFormat === "F3" ||
+      listing.bookingFormat === "F4"
+    ) {
       minPriceMap = await calculateRentalSummary(
         listingId,
-        listing.bookingFormat,
+        listing.bookingFormat as "F2" | "F3" | "F4",
         variantIds,
         todayStartUtc,
       );
     }
 
-    const variants =
+    const variants: VariantSummary[] =
       variantIds.length > 0
         ? variantIds.map((variantId) => {
-            const fromPrice = minPriceMap.get(toVariantKey(variantId)) ?? null;
-            return {
-              variantId,
-              fromPrice,
-              hasAvailability: fromPrice !== null,
-              operationStatus: (fromPrice !== null ? "active" : "inactive") as OperationStatus,
-            };
-          })
-        : [
-            buildEmptySummary(null),
-          ];
+          // Check variant-specific price first, then null-variantId inventory (applies to all variants)
+          const inventoryPrice =
+            minPriceMap.get(toVariantKey(variantId)) ??
+            minPriceMap.get("__default__") ??
+            null;
+          return {
+            variantId,
+            fromPrice: inventoryPrice,
+            hasAvailability: inventoryPrice !== null,
+            operationStatus: (inventoryPrice !== null ? "active" : "inactive") as OperationStatus,
+          };
+        })
+        : [buildEmptySummary(null)];
 
     const overallMinPrice = variants.reduce<number | null>((lowest, variant) => {
       if (variant.fromPrice === null) return lowest;
@@ -376,14 +390,16 @@ export const getListingAvailabilitySummary = async (c: Context) => {
       return lowest;
     }, null);
 
+    const hasAnyInventory = variants.some((v) => v.hasAvailability);
+
     return c.json({
       success: true,
       data: {
         listingId,
         bookingFormat: listing.bookingFormat,
         fromPrice: overallMinPrice,
-        hasAvailability: overallMinPrice !== null,
-        operationStatus: (overallMinPrice !== null ? "active" : "inactive") as OperationStatus,
+        hasAvailability: hasAnyInventory,
+        operationStatus: (hasAnyInventory ? "active" : "inactive") as OperationStatus,
         variants,
       },
     });
@@ -392,3 +408,4 @@ export const getListingAvailabilitySummary = async (c: Context) => {
     return c.json({ success: false, message: "Failed to compute listing availability summary" }, 500);
   }
 };
+
