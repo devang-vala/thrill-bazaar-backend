@@ -430,10 +430,19 @@ const releaseExpiredReservationsForPreparedBooking = async (tx: TxClient, prepar
   const candidates = await bookingReservationDelegate(tx).findMany({
     where: {
       status: "PENDING_PAYMENT",
-      expiresAt: { lte: now },
-      OR: prepared.listingSlotId
-        ? [{ listingSlotId: prepared.listingSlotId }]
-        : [{ dateRangeId: prepared.dateRangeId }],
+      AND: [
+        {
+          OR: [
+            { expiresAt: { lte: now } },
+            { customerId: prepared.customerId },
+          ],
+        },
+        {
+          OR: prepared.listingSlotId
+            ? [{ listingSlotId: prepared.listingSlotId }]
+            : [{ dateRangeId: prepared.dateRangeId }],
+        },
+      ],
     },
     select: {
       id: true,
@@ -451,7 +460,7 @@ const releaseExpiredReservationsForPreparedBooking = async (tx: TxClient, prepar
 
   for (const reservation of candidates) {
     if (prepared.listingSlotId) {
-      await releaseReservationInventoryTx(tx, reservation, "EXPIRED", "Reservation expired before payment.");
+      await releaseReservationInventoryTx(tx, reservation, "EXPIRED", "Reservation expired or abandoned.");
       continue;
     }
 
@@ -465,7 +474,7 @@ const releaseExpiredReservationsForPreparedBooking = async (tx: TxClient, prepar
     const overlaps = candidateDates.some((dateKey) => preparedDateSet.has(dateKey));
 
     if (overlaps) {
-      await releaseReservationInventoryTx(tx, reservation, "EXPIRED", "Reservation expired before payment.");
+      await releaseReservationInventoryTx(tx, reservation, "EXPIRED", "Reservation expired or abandoned.");
     }
   }
 };
