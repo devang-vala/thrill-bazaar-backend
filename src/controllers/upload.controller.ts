@@ -4,6 +4,13 @@ import { Readable } from "stream";
 
 const cloudinary = configureCloudinary();
 
+const insertTransformation = (url: string, transformation: string) => {
+  const marker = '/upload/';
+  const idx = url.indexOf(marker);
+  if (idx === -1) return url;
+  return url.slice(0, idx + marker.length) + transformation + '/' + url.slice(idx + marker.length);
+};
+
 /**
  * Helper function to extract all File objects from parsed multipart body
  * Handles various field naming patterns that different clients might use
@@ -143,11 +150,14 @@ export const uploadImages = async (c: Context) => {
             {
               folder: "thrill-bazaar/uploads",
               resource_type: "auto",
-              ...(isImage ? {
-                transformation: [
-                  { width: 1500, height: 1500, crop: "limit", quality: "auto:good" }
-                ],
-              } : {}),
+              headers: { "Cache-Control": "public, max-age=31536000" },
+              ...(isImage
+                ? {
+                    transformation: [
+                      { width: 1500, height: 1500, crop: "limit", quality: "auto:good" },
+                    ],
+                  }
+                : {}),
             },
             (error, result) => {
               if (error) {
@@ -155,8 +165,14 @@ export const uploadImages = async (c: Context) => {
                 reject(error);
               } else {
                 console.log(`  ✅ Upload successful for ${file.name}: ${result?.secure_url}`);
+                const secureUrl: string = result?.secure_url || "";
+                // Provide a convenient auto-formatted URL for clients
+                const transformed = isImage
+                  ? insertTransformation(secureUrl, `w_1500,c_limit,f_auto,q_auto:good`)
+                  : secureUrl;
                 resolve({
-                  url: result?.secure_url,
+                  url: secureUrl,
+                  transformedUrl: transformed,
                   publicId: result?.public_id,
                   format: result?.format,
                   width: result?.width,

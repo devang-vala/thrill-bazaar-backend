@@ -2,6 +2,7 @@ import type { Context } from "hono";
 import { prisma } from "../db.js";
 import { configureCloudinary } from "../config/cloudinary.config.js";
 import { Readable } from "stream";
+import sharp from "sharp";
 import type { BookingFormat } from "../../prisma/src/generated/prisma/enums.js";
 import {
   validateCreateCategory,
@@ -26,6 +27,13 @@ const uploadCategoryIconToCloudinary = async (file: File) => {
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
+  // Process image with sharp to constrain size and preserve quality.
+  // Convert to WebP for good compression while keeping visual fidelity.
+  const processedBuffer = await sharp(buffer)
+    .resize({ width: 512, height: 512, fit: "inside", withoutEnlargement: true })
+    .webp({ quality: 85 })
+    .toBuffer();
+
   return new Promise<{
     url: string;
     publicId: string;
@@ -34,7 +42,11 @@ const uploadCategoryIconToCloudinary = async (file: File) => {
       {
         folder: "thrill-bazaar/categories",
         resource_type: "image",
-        transformation: [{ width: 512, height: 512, crop: "limit" }],
+        // Ensure Cloudinary serves optimal delivery format and respects quality
+        transformation: [
+          { width: 512, height: 512, crop: "limit" },
+          { fetch_format: "auto", quality: "auto:best" },
+        ],
       },
       (error, result) => {
         if (error) {
@@ -49,9 +61,8 @@ const uploadCategoryIconToCloudinary = async (file: File) => {
       }
     );
 
-    const readableStream = new Readable();
-    readableStream.push(buffer);
-    readableStream.push(null);
+    // Stream processed buffer to Cloudinary
+    const readableStream = Readable.from(processedBuffer);
     readableStream.pipe(uploadStream);
   });
 };
