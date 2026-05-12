@@ -159,11 +159,11 @@ async function calculateActivitySummary(
 
 async function calculateRentalSummary(
   listingId: string,
-  bookingFormat: "F2" | "F4",
+  bookingFormat: "F2" | "F3" | "F4",
   variantIds: string[],
   todayStartUtc: Date,
 ) {
-  const isSlotBasedRental = bookingFormat === "F4";
+  const isSlotBased = bookingFormat === "F3" || bookingFormat === "F4";
 
   const ranges = await prisma.inventoryDateRange.findMany({
     where: {
@@ -173,7 +173,7 @@ async function calculateRentalSummary(
       ...(variantIds.length > 0
         ? { OR: [{ variantId: { in: variantIds } }, { variantId: null }] }
         : {}),
-      ...(isSlotBasedRental
+      ...(isSlotBased
         ? { slotDefinitionId: { not: null } }
         : { slotDefinitionId: null }),
     },
@@ -215,7 +215,7 @@ async function calculateRentalSummary(
   });
 
   const filteredOverrides = overrides.filter((override) =>
-    isSlotBasedRental
+    isSlotBased
       ? Boolean(override.inventoryDateRange?.slotDefinitionId)
       : !override.inventoryDateRange?.slotDefinitionId,
   );
@@ -347,17 +347,21 @@ export const getListingAvailabilitySummary = async (c: Context) => {
 
     let minPriceMap = new Map<string, number>();
 
-    if (listing.bookingFormat === "F1" || listing.bookingFormat === "F3") {
+    if (listing.bookingFormat === "F1") {
       minPriceMap = await calculateActivitySummary(
         listingId,
         listing.bookingFormat,
         variantIds,
         todayStartUtc,
       );
-    } else if (listing.bookingFormat === "F2" || listing.bookingFormat === "F4") {
+    } else if (
+      listing.bookingFormat === "F2" ||
+      listing.bookingFormat === "F3" ||
+      listing.bookingFormat === "F4"
+    ) {
       minPriceMap = await calculateRentalSummary(
         listingId,
-        listing.bookingFormat,
+        listing.bookingFormat as "F2" | "F3" | "F4",
         variantIds,
         todayStartUtc,
       );

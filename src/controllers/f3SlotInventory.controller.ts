@@ -403,7 +403,6 @@ export const updateF3SlotDateOverride = async (c: Context) => {
         slotDefinitionId,
         availableFromDate: { lte: targetDate },
         availableToDate: { gte: targetDate },
-        isActive: true,
       },
     });
 
@@ -439,7 +438,14 @@ export const updateF3SlotDateOverride = async (c: Context) => {
       // Update existing override - only update provided fields
       const updated = await prisma.listingSlotChange.update({
         where: { id: existingOverride.id },
-        data: updateData,
+        data: {
+          ...updateData,
+          inventoryDateRange: {
+            update: {
+              isActive: true,
+            },
+          },
+        },
       });
       return c.json({ success: true, data: updated, message: "Override updated successfully" });
     } else {
@@ -455,6 +461,12 @@ export const updateF3SlotDateOverride = async (c: Context) => {
           availableCount: totalCapacity !== undefined ? Number(totalCapacity) : (inventoryRange.availableCount || 0),
           triggerType: "seller_update",
         },
+      });
+
+      // Also ensure the parent range is active
+      await prisma.inventoryDateRange.update({
+        where: { id: inventoryRange.id },
+        data: { isActive: true },
       });
       return c.json({ success: true, data: created, message: "Override created successfully" });
     }
