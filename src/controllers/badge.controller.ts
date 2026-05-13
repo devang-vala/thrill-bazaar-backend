@@ -24,7 +24,6 @@ const uploadToCloudinary = async (file: File, folder: string = "badges"): Promis
       {
         folder: `thrill-bazaar/${folder}`,
         resource_type: "image",
-        transformation: [{ width: 200, height: 200, crop: "limit" }], // Limit badge icon size
       },
       (error, result) => {
         if (error) {

@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import {
   getListingMedia,
   createListingMedia,
+  replaceListingMedia,
   updateListingMedia,
 } from "../controllers/listingMedia.controller.js";
 import {
@@ -14,6 +15,7 @@ const listingMediaRouter = new Hono();
 // listingMediaRouter.use(authenticateToken);
 // listingMediaRouter.use(requireAnyAdmin);
 
+listingMediaRouter.post("/", replaceListingMedia);
 listingMediaRouter.post("/get", getListingMedia);
 listingMediaRouter.post("/create", createListingMedia);
 listingMediaRouter.put("/:id", updateListingMedia);

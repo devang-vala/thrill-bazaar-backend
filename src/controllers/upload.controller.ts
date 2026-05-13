@@ -11,6 +11,10 @@ const insertTransformation = (url: string, transformation: string) => {
   return url.slice(0, idx + marker.length) + transformation + '/' + url.slice(idx + marker.length);
 };
 
+const buildOptimizedImageUrl = (url: string) => {
+  return insertTransformation(url, "f_auto,q_auto");
+};
+
 /**
  * Helper function to extract all File objects from parsed multipart body
  * Handles various field naming patterns that different clients might use
@@ -150,13 +154,6 @@ export const uploadImages = async (c: Context) => {
             {
               folder: "thrill-bazaar/uploads",
               resource_type: "auto",
-              ...(isImage
-                ? {
-                    transformation: [
-                      { width: 1500, height: 1500, crop: "limit", quality: "auto:good" },
-                    ],
-                  }
-                : {}),
             },
             (error, result) => {
               if (error) {
@@ -166,9 +163,7 @@ export const uploadImages = async (c: Context) => {
                 console.log(`  ✅ Upload successful for ${file.name}: ${result?.secure_url}`);
                 const secureUrl: string = result?.secure_url || "";
                 // Provide a convenient auto-formatted URL for clients
-                const transformed = isImage
-                  ? insertTransformation(secureUrl, `w_1500,c_limit,f_auto,q_auto:good`)
-                  : secureUrl;
+                const transformed = isImage ? buildOptimizedImageUrl(secureUrl) : secureUrl;
                 resolve({
                   url: secureUrl,
                   transformedUrl: transformed,
