@@ -117,22 +117,14 @@ export const uploadImages = async (c: Context) => {
       return c.json({ error: "No valid image files provided" }, 400);
     }
 
-    // Validate file types and sizes
-    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
-    const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    // Validate file types
+    const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/avif', 'image/gif', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     
     for (const file of fileArray) {
       if (!ALLOWED_TYPES.includes(file.type)) {
         console.error(`❌ Invalid file type: ${file.type} for ${file.name}`);
         return c.json({ 
-          error: `Invalid file type for ${file.name}. Allowed types: JPEG, PNG, WebP, GIF, PDF, DOC, DOCX` 
-        }, 400);
-      }
-      
-      if (file.size > MAX_FILE_SIZE) {
-        console.error(`❌ File too large: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
-        return c.json({ 
-          error: `File ${file.name} is too large. Maximum size: 50MB` 
+          error: `Invalid file type for ${file.name}. Allowed types: JPEG, PNG, WebP, AVIF, GIF, PDF, DOC, DOCX` 
         }, 400);
       }
     }
@@ -231,7 +223,6 @@ export const uploadIcon = async (c: Context) => {
     }
 
     // Only allow SVG files for icons
-    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB (SVGs are typically small)
     const ALLOWED_TYPE = 'image/svg+xml';
     
     for (const file of fileArray) {
@@ -239,13 +230,6 @@ export const uploadIcon = async (c: Context) => {
         console.error(`❌ Invalid file type: ${file.type} for ${file.name}`);
         return c.json({ 
           error: `Invalid file type for ${file.name}. Only SVG files are allowed for icons.` 
-        }, 400);
-      }
-      
-      if (file.size > MAX_FILE_SIZE) {
-        console.error(`❌ File too large: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
-        return c.json({ 
-          error: `File ${file.name} is too large. Maximum size: 2MB` 
         }, 400);
       }
     }
