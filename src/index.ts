@@ -139,13 +139,6 @@ app.use('*', cors({
   maxAge: 600,
 }));
 
-// Middleware to handle large payloads (must come after CORS)
-app.use('*', async (c, next) => {
-  // Set body size limit context
-  c.env.maxBodySize = MAX_BODY_SIZE;
-  await next();
-});
-
 //test endpoint
 app.get("/", (c) => {
   return c.text("Hellooooo 😎");
