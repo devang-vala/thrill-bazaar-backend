@@ -15,6 +15,11 @@ const buildOptimizedImageUrl = (url: string) => {
   return insertTransformation(url, "f_auto,q_auto");
 };
 
+// Constants for validation
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+const MAX_FILES_PER_REQUEST = 10;
+const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/avif', 'image/gif', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+
 /**
  * Helper function to extract all File objects from parsed multipart body
  * Handles various field naming patterns that different clients might use
@@ -117,15 +122,29 @@ export const uploadImages = async (c: Context) => {
       return c.json({ error: "No valid image files provided" }, 400);
     }
 
+    if (fileArray.length > MAX_FILES_PER_REQUEST) {
+      return c.json({ 
+        error: `Too many files. Maximum ${MAX_FILES_PER_REQUEST} files per request allowed.` 
+      }, 400);
+    }
+
     // Validate file types
-    const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/avif', 'image/gif', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-    
     for (const file of fileArray) {
       if (!ALLOWED_TYPES.includes(file.type)) {
         console.error(`❌ Invalid file type: ${file.type} for ${file.name}`);
         return c.json({ 
           error: `Invalid file type for ${file.name}. Allowed types: JPEG, PNG, WebP, AVIF, GIF, PDF, DOC, DOCX` 
         }, 400);
+      }
+    }
+
+    // Validate file sizes
+    for (const file of fileArray) {
+      if (file.size > MAX_FILE_SIZE) {
+        console.error(`❌ File too large: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
+        return c.json({ 
+          error: `File ${file.name} is too large. Maximum size is ${MAX_FILE_SIZE / 1024 / 1024}MB. Current size: ${(file.size / 1024 / 1024).toFixed(2)}MB`
+        }, 413);
       }
     }
 

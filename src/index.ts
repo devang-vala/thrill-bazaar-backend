@@ -10,6 +10,9 @@ import { cors } from "hono/cors";
 import { configureCloudinary, cloudinarySecrets } from "./config/cloudinary.config.js";
 import { initMeilisearch } from "./services/meilisearch.service.js";
 const cloudinary = configureCloudinary();
+
+// Configure max body size (50MB for image uploads)
+const MAX_BODY_SIZE = 50 * 1024 * 1024; // 50MB
 // console.log("Cloudinary Secrets Loaded:", cloudinarySecrets);
 
 const ensureBookingReasonColumn = async () => {
@@ -113,9 +116,35 @@ initMeilisearch().catch(err => {
 
 const app = new Hono();
 
+// Enhanced CORS configuration for production
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'https://www.thrillbazaar.com',
+  'https://thrillbazaar.com',
+  'https://api.thrillbazaar.com'
+];
+
 app.use('*', cors({
-  origin: '*',
+  origin: (origin) => {
+    // Allow requests from specified origins or wildcard
+    if (!origin) return '*'; // Allow requests without origin header
+    if (allowedOrigins.includes(origin)) return origin;
+    return process.env.NODE_ENV === 'production' ? undefined : '*';
+  },
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+  exposeHeaders: ['Content-Length'],
+  credentials: true,
+  maxAge: 600,
 }));
+
+// Middleware to handle large payloads (must come after CORS)
+app.use('*', async (c, next) => {
+  // Set body size limit context
+  c.env.maxBodySize = MAX_BODY_SIZE;
+  await next();
+});
 
 //test endpoint
 app.get("/", (c) => {
@@ -135,10 +164,13 @@ const startServer = async () => {
     {
       fetch: app.fetch,
       port: process.env.PORT ? Number(process.env.PORT) : 3000,
+      // Note: For @hono/node-server, body size limits are handled by Node.js
+      // Configure via environment or use middleware approach
     },
     (info) => {
       const boundPort = info?.port ?? process.env.PORT ?? 3000;
       console.log(`Server is running on http://localhost:${boundPort}`);
+      console.log(`Max upload size: ${(MAX_BODY_SIZE / 1024 / 1024).toFixed(0)}MB`);
     }
   );
 };
