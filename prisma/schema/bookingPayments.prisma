@@ -4,14 +4,14 @@ model BookingPayment {
 
   // Basic info (varies by booking format)
   // F1: numberOfDays, F2: numberOfDays, F3: numberOfParticipants, F4: numberOfDays
-  totalBasePrice Int @map("total_base_price") // TOTAL base price (with price overrides) in paise
+  totalBasePrice Int @map("total_base_price") // Tax-inclusive base subtotal in paise
   quantity       Int // Number of days (F1/F2/F4) or participants (F3) - for display
   taxRate        Int @map("tax_rate") // Tax rate in basis points (1800 = 18%)
 
   // Payment calculation breakdown (all values stored in paise)
-  subtotalWithTax    Int @map("subtotal_with_tax") // Total Base Price + Tax
+  subtotalWithTax    Int @map("subtotal_with_tax") // Canonical tax-inclusive base subtotal
   discountAmount    Int @map("discount_amount") // Discount applied (promo code etc)
-  taxAmount         Int @map("tax_amount") // Tax on base price
+  taxAmount         Int @map("tax_amount") // Derived tax portion of subtotalWithTax
   totalBaseAmount   Int @map("total_base_amount") // Subtotal WITH Tax - Discount
   addonsAmount      Int @map("addons_amount") // Total of all addon costs
   totalAmount       Int @map("total_amount") // Total Base Amount + Addons
