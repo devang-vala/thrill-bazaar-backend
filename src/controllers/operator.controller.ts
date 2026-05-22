@@ -782,6 +782,23 @@ export const updateOperatorProfile = async (c: Context) => {
         });
       }
 
+      // Update operator name if provided
+      if (body.firstName !== undefined || body.lastName !== undefined) {
+        const updateData: any = {};
+        if (body.firstName !== undefined) {
+          updateData.firstName = sanitizeString(String(body.firstName || ""), 100);
+        }
+        if (body.lastName !== undefined) {
+          updateData.lastName = sanitizeString(String(body.lastName || ""), 100);
+        }
+        if (Object.keys(updateData).length > 0) {
+          await tx.user.update({
+            where: { id: operatorId },
+            data: updateData,
+          });
+        }
+      }
+
       // Update selected category IDs if provided
       if (Array.isArray(body.selectedCategoryIds)) {
         await tx.user.update({
