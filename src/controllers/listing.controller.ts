@@ -2060,6 +2060,11 @@ export const getListing = async (c: Context) => {
               firstName: true,
               lastName: true,
               email: true,
+              operatorProfile: {
+                select: {
+                  companyName: true,
+                },
+              },
               policies: {
                 select: {
                   id: true,
