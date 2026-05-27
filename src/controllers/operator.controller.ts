@@ -15,6 +15,7 @@ import {
   sanitizeString,
   generateSlug,
 } from "../helpers/validation.helper.js";
+import { checkPhoneExists } from "../helpers/user.helper.js";
 
 const cloudinary = configureCloudinary();
 
@@ -726,6 +727,48 @@ export const updateOperatorProfile = async (c: Context) => {
       return c.json({ error: "Company name cannot be empty" }, 400);
     }
 
+    const currentUser = await prisma.user.findUnique({
+      where: { id: operatorId },
+      select: { phone: true, alternatePhone: true },
+    });
+
+    if (!currentUser) {
+      return c.json({ error: "User not found" }, 404);
+    }
+
+    const contactUpdateData: any = {};
+
+    if (body.phone !== undefined) {
+      const phoneValue = String(body.phone || "");
+      if (!phoneValue.trim()) {
+        return c.json({ error: "Primary phone cannot be empty" }, 400);
+      }
+
+      const sanitizedPhone = sanitizePhone(phoneValue);
+      const phoneExists = await checkPhoneExists(sanitizedPhone, operatorId);
+      if (phoneExists) {
+        return c.json({ error: "Phone number already exists" }, 409);
+      }
+
+      contactUpdateData.phone = sanitizedPhone;
+    }
+
+    if (body.alternatePhone !== undefined) {
+      const alternatePhoneValue = String(body.alternatePhone || "");
+      if (alternatePhoneValue.trim()) {
+        const sanitizedAlternatePhone = sanitizePhone(alternatePhoneValue);
+        const primaryPhoneToCompare = contactUpdateData.phone || currentUser.phone;
+
+        if (primaryPhoneToCompare && sanitizedAlternatePhone === primaryPhoneToCompare) {
+          return c.json({ error: "Alternate phone cannot be same as primary phone" }, 400);
+        }
+
+        contactUpdateData.alternatePhone = sanitizedAlternatePhone;
+      } else {
+        contactUpdateData.alternatePhone = null;
+      }
+    }
+
     await prisma.$transaction(async (tx) => {
       // Update company name and regenerate slug if provided
       if (normalizedCompanyName) {
@@ -838,7 +881,7 @@ export const updateOperatorProfile = async (c: Context) => {
 
       await tx.user.update({
         where: { id: operatorId },
-        data: { isVerified: false },
+        data: { ...contactUpdateData, isVerified: false },
       });
     });
 
