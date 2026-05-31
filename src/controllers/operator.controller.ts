@@ -15,7 +15,6 @@ import {
   sanitizeString,
   generateSlug,
 } from "../helpers/validation.helper.js";
-import { checkPhoneExists } from "../helpers/user.helper.js";
 
 const cloudinary = configureCloudinary();
 
@@ -729,47 +728,52 @@ export const updateOperatorProfile = async (c: Context) => {
 
     const currentUser = await prisma.user.findUnique({
       where: { id: operatorId },
-      select: { phone: true, alternatePhone: true },
+      select: { id: true },
     });
 
     if (!currentUser) {
       return c.json({ error: "User not found" }, 404);
     }
 
+    const hasContact1 = body.contact1 !== undefined || body.phone !== undefined;
+    const hasContact2 = body.contact2 !== undefined || body.alternatePhone !== undefined;
+    const contact1Input = body.contact1 !== undefined ? body.contact1 : body.phone;
+    const contact2Input = body.contact2 !== undefined ? body.contact2 : body.alternatePhone;
     const contactUpdateData: any = {};
 
-    if (body.phone !== undefined) {
-      const phoneValue = String(body.phone || "");
-      if (!phoneValue.trim()) {
-        return c.json({ error: "Primary phone cannot be empty" }, 400);
+    if (hasContact1) {
+      const contact1Value = String(contact1Input || "");
+      if (!contact1Value.trim()) {
+        return c.json({ error: "Contact 01 cannot be empty" }, 400);
       }
 
-      const sanitizedPhone = sanitizePhone(phoneValue);
-      const phoneExists = await checkPhoneExists(sanitizedPhone, operatorId);
-      if (phoneExists) {
-        return c.json({ error: "Phone number already exists" }, 409);
-      }
-
-      contactUpdateData.phone = sanitizedPhone;
+      contactUpdateData.contact1 = sanitizePhone(contact1Value);
     }
 
-    if (body.alternatePhone !== undefined) {
-      const alternatePhoneValue = String(body.alternatePhone || "");
-      if (alternatePhoneValue.trim()) {
-        const sanitizedAlternatePhone = sanitizePhone(alternatePhoneValue);
-        const primaryPhoneToCompare = contactUpdateData.phone || currentUser.phone;
-
-        if (primaryPhoneToCompare && sanitizedAlternatePhone === primaryPhoneToCompare) {
-          return c.json({ error: "Alternate phone cannot be same as primary phone" }, 400);
-        }
-
-        contactUpdateData.alternatePhone = sanitizedAlternatePhone;
-      } else {
-        contactUpdateData.alternatePhone = null;
-      }
+    if (hasContact2) {
+      const contact2Value = String(contact2Input || "");
+      contactUpdateData.contact2 = contact2Value.trim() ? sanitizePhone(contact2Value) : null;
     }
 
-    await prisma.$transaction(async (tx) => {
+    if (
+      contactUpdateData.contact1 &&
+      contactUpdateData.contact2 &&
+      contactUpdateData.contact1 === contactUpdateData.contact2
+    ) {
+      return c.json({ error: "Contact 02 cannot be same as Contact 01" }, 400);
+    }
+
+    const shouldResetVerification =
+      normalizedCompanyName !== undefined ||
+      body.businessAddress !== undefined ||
+      body.bankAccountDetails !== undefined ||
+      body.gstinNumber !== undefined ||
+      body.firstName !== undefined ||
+      body.lastName !== undefined ||
+      Array.isArray(body.selectedCategoryIds) ||
+      Array.isArray(body.certifications);
+
+    const updatedOperatorProfile = await prisma.$transaction(async (tx) => {
       // Update company name and regenerate slug if provided
       if (normalizedCompanyName) {
         const nextOperatorSlug = await generateUniqueOperatorSlug(
@@ -825,6 +829,13 @@ export const updateOperatorProfile = async (c: Context) => {
         });
       }
 
+      if (Object.keys(contactUpdateData).length > 0) {
+        await tx.operatorProfile.update({
+          where: { operatorId },
+          data: contactUpdateData,
+        } as any);
+      }
+
       // Update operator name if provided
       if (body.firstName !== undefined || body.lastName !== undefined) {
         const updateData: any = {};
@@ -859,33 +870,56 @@ export const updateOperatorProfile = async (c: Context) => {
         };
       }
 
-      // Reset verification status to PENDING for admin re-review
-      const nextReview = {
-        ...currentReview,
-        state: "PENDING" as OperatorAdminReviewState,
-        requestChangesNote: null,
-        requestChangesAt: null,
-        requestChangesByAdminId: null,
-      };
+      if (shouldResetVerification) {
+        // Reset verification status to PENDING for admin re-review
+        const nextReview = {
+          ...currentReview,
+          state: "PENDING" as OperatorAdminReviewState,
+          requestChangesNote: null,
+          requestChangesAt: null,
+          requestChangesByAdminId: null,
+        };
 
-      await tx.operatorProfile.update({
-        where: { operatorId },
-        data: {
-          verificationStatus: "PENDING",
-          verificationDocuments: {
-            ...updatedMetadata,
-            adminReview: nextReview,
+        await tx.operatorProfile.update({
+          where: { operatorId },
+          data: {
+            verificationStatus: "PENDING",
+            verificationDocuments: {
+              ...updatedMetadata,
+              adminReview: nextReview,
+            },
           },
-        },
-      });
+        });
 
-      await tx.user.update({
-        where: { id: operatorId },
-        data: { ...contactUpdateData, isVerified: false },
+        await tx.user.update({
+          where: { id: operatorId },
+          data: { isVerified: false },
+        });
+      } else if (Array.isArray(body.certifications)) {
+        await tx.operatorProfile.update({
+          where: { operatorId },
+          data: { verificationDocuments: updatedMetadata },
+        });
+      }
+
+      return tx.operatorProfile.findUnique({
+        where: { operatorId },
+        select: {
+          id: true,
+          operatorId: true,
+          contact1: true,
+          contact2: true,
+          verificationStatus: true,
+        },
       });
     });
 
-    return c.json({ message: "Profile updated successfully. Your profile will be re-verified by admin." });
+    return c.json({
+      message: shouldResetVerification
+        ? "Profile updated successfully. Your profile will be re-verified by admin."
+        : "Profile updated successfully.",
+      operatorProfile: updatedOperatorProfile,
+    });
   } catch (error) {
     console.error("Update operator profile error:", error);
     return c.json({ error: "Internal server error" }, 500);

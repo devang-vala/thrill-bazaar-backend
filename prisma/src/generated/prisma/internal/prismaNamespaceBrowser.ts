@@ -602,6 +602,8 @@ export const OperatorProfileScalarFieldEnum = {
   businessRegistrationNumber: 'businessRegistrationNumber',
   taxId: 'taxId',
   companyDescription: 'companyDescription',
+  contact1: 'contact1',
+  contact2: 'contact2',
   websiteUrl: 'websiteUrl',
   socialMediaLinks: 'socialMediaLinks',
   bankAccountDetails: 'bankAccountDetails',

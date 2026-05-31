@@ -234,6 +234,23 @@ const resolveSellerFilterValues = async (rawValues?: string | null) => {
     .filter((value): value is string => Boolean(value));
 };
 
+const normalizeOperatorContacts = (operator: any) => {
+  if (!operator) return operator;
+
+  const contact1 = operator.operatorProfile?.contact1 || operator.contact1 || null;
+  const contact2 = operator.operatorProfile?.contact2 || operator.contact2 || null;
+  const { operatorProfile, ...operatorData } = operator;
+
+  return {
+    ...operatorData,
+    operatorProfile,
+    contact1,
+    contact2,
+    phone: contact1,
+    alternatePhone: contact2,
+  };
+};
+
 const resolveAvailableListingIds = async ({
   formats,
   availableOnDate,
@@ -1320,11 +1337,10 @@ export const getListings = async (c: Context) => {
       }
     }
 
-    const [totalCount, listings] = await Promise.all([
-      prisma.listing.count({
-        where: whereClause,
-      }),
-      prisma.listing.findMany({
+    const totalCount = await prisma.listing.count({
+      where: whereClause,
+    });
+    const listings = await prisma.listing.findMany({
         where: whereClause,
         select: {
           id: true,
@@ -1438,8 +1454,7 @@ export const getListings = async (c: Context) => {
         orderBy: orderByClause,
         skip,
         take: limit,
-      }),
-    ]);
+    });
 
     const shouldIncludeNextAvailableDate =
       shouldSortByDateClientSide || Boolean(availableOnDate || (dateRangeStart && dateRangeEnd));
@@ -1453,74 +1468,76 @@ export const getListings = async (c: Context) => {
       const todayStartUtc = new Date();
       todayStartUtc.setUTCHours(0, 0, 0, 0);
 
-      const [f1Slots, f3Slots, f2Ranges, f4Ranges, blockedDates] = await Promise.all([
-        prisma.listingSlot.findMany({
-          where: {
-            listingId: { in: listingIds },
-            isActive: true,
-            formatType: "F1",
-            availableCount: { gt: 0 },
-            OR: [
-              { batchEndDate: { gte: todayStartUtc } },
-              { batchStartDate: { gte: todayStartUtc } },
-            ],
-          },
-          select: {
-            listingId: true,
-          },
-        }),
-        prisma.listingSlot.findMany({
-          where: {
-            listingId: { in: listingIds },
-            isActive: true,
-            formatType: "F3",
-            availableCount: { gt: 0 },
-            slotDate: { gte: todayStartUtc },
-          },
-          select: {
-            listingId: true,
-            slotDate: true,
-          },
-        }),
-        prisma.inventoryDateRange.findMany({
-          where: {
-            listingId: { in: listingIds },
-            isActive: true,
-            slotDefinitionId: null,
-            OR: [{ availableCount: { gt: 0 } }, { availableCount: null }],
-            availableToDate: { gte: todayStartUtc },
-          },
-          select: {
-            listingId: true,
-            availableFromDate: true,
-            availableToDate: true,
-          },
-        }),
-        prisma.inventoryDateRange.findMany({
-          where: {
-            listingId: { in: listingIds },
-            isActive: true,
-            slotDefinitionId: { not: null },
-            OR: [{ availableCount: { gt: 0 } }, { availableCount: null }],
-            availableToDate: { gte: todayStartUtc },
-          },
-          select: {
-            listingId: true,
-            availableFromDate: true,
-            availableToDate: true,
-          },
-        }),
-        prisma.inventoryBlockedDate.findMany({
-          where: {
-            listingId: { in: listingIds },
-            blockedDate: { gte: todayStartUtc },
-          },
-          select: {
-            listingId: true,
-            blockedDate: true,
-          },
-        }),
-      ]);
+      const f1Slots = await prisma.listingSlot.findMany({
+        where: {
+          listingId: { in: listingIds },
+          isActive: true,
+          formatType: "F1",
+          availableCount: { gt: 0 },
+          OR: [
+            { batchEndDate: { gte: todayStartUtc } },
+            { batchStartDate: { gte: todayStartUtc } },
+          ],
+        },
+        select: {
+          listingId: true,
+        },
+      });
+
+      const f3Slots = await prisma.listingSlot.findMany({
+        where: {
+          listingId: { in: listingIds },
+          isActive: true,
+          formatType: "F3",
+          availableCount: { gt: 0 },
+          slotDate: { gte: todayStartUtc },
+        },
+        select: {
+          listingId: true,
+          slotDate: true,
+        },
+      });
+
+      const f2Ranges = await prisma.inventoryDateRange.findMany({
+        where: {
+          listingId: { in: listingIds },
+          isActive: true,
+          slotDefinitionId: null,
+          OR: [{ availableCount: { gt: 0 } }, { availableCount: null }],
+          availableToDate: { gte: todayStartUtc },
+        },
+        select: {
+          listingId: true,
+          availableFromDate: true,
+          availableToDate: true,
+        },
+      });
+
+      const f4Ranges = await prisma.inventoryDateRange.findMany({
+        where: {
+          listingId: { in: listingIds },
+          isActive: true,
+          slotDefinitionId: { not: null },
+          OR: [{ availableCount: { gt: 0 } }, { availableCount: null }],
+          availableToDate: { gte: todayStartUtc },
+        },
+        select: {
+          listingId: true,
+          availableFromDate: true,
+          availableToDate: true,
+        },
+      });
+
+      const blockedDates = await prisma.inventoryBlockedDate.findMany({
+        where: {
+          listingId: { in: listingIds },
+          blockedDate: { gte: todayStartUtc },
+        },
+        select: {
+          listingId: true,
+          blockedDate: true,
+        },
+      });
 
       for (const slot of f1Slots) {
         activeBatchesCountMap.set(
@@ -2330,16 +2347,22 @@ export const getListingById = async (c: Context) => {
             subCatName: true,
           },
         },
-        operator: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-            phone: true,
-            alternatePhone: true,
+          operator: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true,
+              phone: true,
+              alternatePhone: true,
+              operatorProfile: {
+                select: {
+                  contact1: true,
+                  contact2: true,
+                },
+              },
+            },
           },
-        },
         startCountry: {
           select: {
             country_id: true,
@@ -2443,6 +2466,11 @@ export const getListingById = async (c: Context) => {
       return c.json({ success: false, message: "Listing not found" }, 404);
     }
 
+    const listingWithOperatorContacts: any = {
+      ...listing,
+      operator: normalizeOperatorContacts((listing as any).operator),
+    };
+
     // Only fetch variant field definitions if category has variant fields
     let variantFieldDefinitions = null;
     const categoryId = listing.categoryId;
@@ -2493,20 +2521,20 @@ export const getListingById = async (c: Context) => {
 
     if (!canSeeAllVariants) {
       // Remove admin-specific sensitive fields for non-admin users
-      const { approvedByAdminId, approvedAt, ...publicListing } = listing;
+      const { approvedByAdminId, approvedAt, ...publicListing } = listingWithOperatorContacts;
       const variantsForPublic =
-        listing.status === "active"
+        listingWithOperatorContacts.status === "active"
           ? (publicListing.variants || []).filter((variant: any) => variant.approvalStatus === "approved")
           : publicListing.variants;
 
       // Also filter out inactive badges/tags and assignedByAdminId for non-admins
-      const filteredBadges = listing.badges
-        .filter(b => b.isActive)
-        .map(({ assignedByAdminId, ...rest }) => rest);
+      const filteredBadges = listingWithOperatorContacts.badges
+        .filter((b: any) => b.isActive)
+        .map(({ assignedByAdminId, ...rest }: any) => rest);
 
-      const filteredTags = listing.tags
-        .filter(t => t.isActive)
-        .map(({ assignedByAdminId, ...rest }) => rest);
+      const filteredTags = listingWithOperatorContacts.tags
+        .filter((t: any) => t.isActive)
+        .map(({ assignedByAdminId, ...rest }: any) => rest);
 
       return c.json({
         success: true,
@@ -2525,6 +2553,7 @@ export const getListingById = async (c: Context) => {
       success: true,
       data: {
         ...listing,
+        operator: listingWithOperatorContacts.operator,
         variantFieldDefinitions,
       },
     });
