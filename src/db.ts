@@ -6,7 +6,30 @@ const globalForPrisma = globalThis as typeof globalThis & {
 	prismaConnectPromise?: Promise<void>;
 };
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient();
+const buildPrismaDatasourceUrl = () => {
+	const rawUrl = process.env.DATABASE_URL;
+	if (!rawUrl) return rawUrl;
+
+	try {
+		const url = new URL(rawUrl);
+		const isSupabasePooler = url.hostname.includes("pooler.supabase.com");
+		if (isSupabasePooler && !url.searchParams.has("connection_limit")) {
+			url.searchParams.set("connection_limit", process.env.PRISMA_CONNECTION_LIMIT || "1");
+		}
+		if (isSupabasePooler && !url.searchParams.has("pool_timeout")) {
+			url.searchParams.set("pool_timeout", process.env.PRISMA_POOL_TIMEOUT || "20");
+		}
+		return url.toString();
+	} catch {
+		return rawUrl;
+	}
+};
+
+export const prisma =
+	globalForPrisma.prisma ??
+	new PrismaClient({
+		datasourceUrl: buildPrismaDatasourceUrl(),
+	});
 
 if (process.env.NODE_ENV !== "production") {
 	globalForPrisma.prisma = prisma;

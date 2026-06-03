@@ -7,6 +7,8 @@ model OperatorProfile {
   businessRegistrationNumber String?            @map("business_registration_number")
   taxId                      String?            @map("tax_id")
   companyDescription         String?            @map("company_description")
+  contact1                   String?            @map("contact1")
+  contact2                   String?            @map("contact2")
   websiteUrl                 String?            @map("website_url")
   socialMediaLinks           Json?              @map("social_media_links")
   bankAccountDetails         Json?              @map("bank_account_details")
