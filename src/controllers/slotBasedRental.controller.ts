@@ -2,6 +2,7 @@ import type { Context } from "hono";
 import { prisma } from "../db.js";
 import { format } from "date-fns";
 import { getActiveDateReservationHoldCounts } from "../helpers/bookingReservation.helper.js";
+import { upsertListingPriceCache } from "../utils/pricingCache.js";
 
 // 1. Get slot definitions for a listing (for F4)
 export const getSlotDefinitions = async (c: Context) => {
@@ -76,6 +77,8 @@ export const createSlotDateRange = async (c: Context) => {
         basePricePerDay: Number(basePricePerDay),
       },
     });
+
+    await upsertListingPriceCache(listingId);
 
     return c.json({ success: true, data: range });
   } catch (error) {
@@ -258,6 +261,8 @@ export const updateSlotDateRange = async (c: Context) => {
       },
     });
 
+    await upsertListingPriceCache(updatedRange.listingId);
+
     return c.json({ success: true, data: updatedRange });
   } catch (error) {
     console.error("Error updating slot date range:", error);
@@ -269,10 +274,18 @@ export const updateSlotDateRange = async (c: Context) => {
 export const deleteSlotDateRange = async (c: Context) => {
   try {
     const rangeId = c.req.param("rangeId");
+    const range = await prisma.inventoryDateRange.findUnique({
+      where: { id: rangeId },
+      select: { listingId: true },
+    });
 
     await prisma.inventoryDateRange.delete({
       where: { id: rangeId },
     });
+
+    if (range) {
+      await upsertListingPriceCache(range.listingId);
+    }
 
     return c.json({ success: true });
   } catch (error) {
@@ -324,6 +337,8 @@ export const upsertSlotPriceOverride = async (c: Context) => {
       },
     });
 
+    await upsertListingPriceCache(listingId);
+
     return c.json({ success: true, message: "Price override saved" });
   } catch (error) {
     console.error("Error upserting slot price override:", error);
@@ -359,6 +374,8 @@ export const deleteSlotPriceOverride = async (c: Context) => {
         triggerType: "seller_update",
       },
     });
+
+    await upsertListingPriceCache(listingId);
 
     return c.json({ success: true, message: "Price override deleted" });
   } catch (error) {

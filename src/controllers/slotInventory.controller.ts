@@ -1,6 +1,7 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
 import { getActiveSlotReservationHoldCounts } from "../helpers/bookingReservation.helper.js";
+import { upsertListingPriceCache } from "../utils/pricingCache.js";
 
 // F3: Delete a single-day slot batch (by id)
 export const deleteSingleDaySlotBatch = async (c: Context) => {
@@ -9,7 +10,14 @@ export const deleteSingleDaySlotBatch = async (c: Context) => {
     if (!id) {
       return c.json({ error: "Missing slot batch id" }, 400);
     }
+    const slot = await prisma.listingSlot.findUnique({
+      where: { id },
+      select: { listingId: true },
+    });
     await prisma.listingSlot.delete({ where: { id } });
+    if (slot) {
+      await upsertListingPriceCache(slot.listingId);
+    }
     return c.json({ success: true });
   } catch (error) {
     console.error("Delete F3 slot batch error:", error);
@@ -30,6 +38,8 @@ export const blockSlot = async (c: Context) => {
       data: { isActive: false },
     });
 
+    await upsertListingPriceCache(updated.listingId);
+
     return c.json({ success: true, data: updated });
   } catch (error) {
     console.error("Block slot error:", error);
@@ -49,6 +59,8 @@ export const unblockSlot = async (c: Context) => {
       where: { id: slotId },
       data: { isActive: true },
     });
+
+    await upsertListingPriceCache(updated.listingId);
 
     return c.json({ success: true, data: updated });
   } catch (error) {
@@ -164,6 +176,7 @@ export const updateSingleDaySlotBatch = async (c: Context) => {
       where: { id },
       data: updateData,
     });
+    await upsertListingPriceCache(updated.listingId);
     return c.json({ success: true, data: updated });
   } catch (error) {
     console.error("Update F3 slot batch error:", error);
@@ -488,6 +501,8 @@ export const bulkCreateOrUpdateSlots = async (c: Context) => {
       })
     );
 
+    await upsertListingPriceCache(listingId);
+
     return c.json({ success: true, data: results, count: results.length });
   } catch (error) {
     console.error("Bulk create/update slots error:", error);
@@ -530,6 +545,7 @@ export const createSingleDaySlotBatch = async (c: Context) => {
         formatType: "F3",
       },
     });
+    await upsertListingPriceCache(listingId);
     return c.json({ success: true, data: slot });
   } catch (error) {
     console.error("Create F3 slot batch error:", error);

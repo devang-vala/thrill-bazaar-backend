@@ -1,6 +1,7 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
 import { getActiveDateReservationHoldCounts } from "../helpers/bookingReservation.helper.js";
+import { upsertListingPriceCache } from "../utils/pricingCache.js";
 
 // Bulk create or update F2 date ranges (day-wise rental)
 export const bulkCreateOrUpdateF2DateRanges = async (c: Context) => {
@@ -51,6 +52,8 @@ export const bulkCreateOrUpdateF2DateRanges = async (c: Context) => {
         isActive: true,
       },
     });
+
+    await upsertListingPriceCache(listingId);
 
     return c.json({ 
       success: true, 
@@ -368,6 +371,8 @@ export const blockF2DateRange = async (c: Context) => {
       data: { availableCount: 0 },
     });
 
+    await upsertListingPriceCache(updated.listingId);
+
     return c.json({ success: true, data: updated });
   } catch (error) {
     console.error("Block F2 date range error:", error);
@@ -393,6 +398,8 @@ export const unblockF2DateRange = async (c: Context) => {
       data: { availableCount: dateRange.totalCapacity },
     });
 
+    await upsertListingPriceCache(updated.listingId);
+
     return c.json({ success: true, data: updated });
   } catch (error) {
     console.error("Unblock F2 date range error:", error);
@@ -404,10 +411,18 @@ export const unblockF2DateRange = async (c: Context) => {
 export const deleteF2DateRange = async (c: Context) => {
   try {
     const { dateRangeId } = await c.req.json();
+    const dateRange = await prisma.inventoryDateRange.findUnique({
+      where: { id: dateRangeId },
+      select: { listingId: true },
+    });
 
     await prisma.inventoryDateRange.delete({
       where: { id: dateRangeId },
     });
+
+    if (dateRange) {
+      await upsertListingPriceCache(dateRange.listingId);
+    }
 
     return c.json({ success: true, message: "Date range deleted" });
   } catch (error) {
@@ -436,6 +451,8 @@ export const updateF2DateRange = async (c: Context) => {
       where: { id: dateRangeId },
       data: updateData,
     });
+
+    await upsertListingPriceCache(updated.listingId);
 
     return c.json({ success: true, data: updated });
   } catch (error) {
