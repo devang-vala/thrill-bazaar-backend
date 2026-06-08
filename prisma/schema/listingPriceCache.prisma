@@ -1,0 +1,10 @@
+model ListingPriceCache {
+  listingId  String    @id @map("listing_id")
+  fromPrice  Int?      @map("from_price")
+  validUntil DateTime? @map("valid_until")
+  computedAt DateTime  @default(now()) @map("computed_at")
+  listing    Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([validUntil])
+  @@map("listings_price_cache")
+}

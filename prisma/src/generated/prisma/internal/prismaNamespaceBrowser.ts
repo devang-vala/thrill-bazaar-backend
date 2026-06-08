@@ -66,6 +66,7 @@ export const ModelName = {
   ListingMetadataFieldDefinition: 'ListingMetadataFieldDefinition',
   ListingMetadataFieldOptions: 'ListingMetadataFieldOptions',
   ListingPolicy: 'ListingPolicy',
+  ListingPriceCache: 'ListingPriceCache',
   ListingSlotChange: 'ListingSlotChange',
   ListingSlot: 'ListingSlot',
   ListingType: 'ListingType',
@@ -428,6 +429,16 @@ export const ListingPolicyScalarFieldEnum = {
 } as const
 
 export type ListingPolicyScalarFieldEnum = (typeof ListingPolicyScalarFieldEnum)[keyof typeof ListingPolicyScalarFieldEnum]
+
+
+export const ListingPriceCacheScalarFieldEnum = {
+  listingId: 'listingId',
+  fromPrice: 'fromPrice',
+  validUntil: 'validUntil',
+  computedAt: 'computedAt'
+} as const
+
+export type ListingPriceCacheScalarFieldEnum = (typeof ListingPriceCacheScalarFieldEnum)[keyof typeof ListingPriceCacheScalarFieldEnum]
 
 
 export const ListingSlotChangeScalarFieldEnum = {

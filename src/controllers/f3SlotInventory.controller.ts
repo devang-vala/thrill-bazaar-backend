@@ -1,6 +1,7 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
 import { getActiveDateReservationHoldCounts } from "../helpers/bookingReservation.helper.js";
+import { upsertListingPriceCache } from "../utils/pricingCache.js";
 
 // Bulk create or update F3 slots in InventoryDateRange
 export const bulkCreateOrUpdateF3Slots = async (c: Context) => {
@@ -71,6 +72,7 @@ export const bulkCreateOrUpdateF3Slots = async (c: Context) => {
           }
         })
       );
+      await upsertListingPriceCache(listingId);
       return c.json({ success: true, data: overrides, count: overrides.length });
     }
 
@@ -136,6 +138,7 @@ export const bulkCreateOrUpdateF3Slots = async (c: Context) => {
       });
     }
 
+    await upsertListingPriceCache(listingId);
     return c.json({ success: true, data: result, count: 1 });
   } catch (error) {
     console.error("Bulk create/update F3 slots error:", error);
@@ -351,6 +354,7 @@ export const blockF3Slot = async (c: Context) => {
       },
     });
 
+    await upsertListingPriceCache(listingId);
     return c.json({ success: true, data: block });
   } catch (error) {
     console.error("Block F3 slot error:", error);
@@ -377,6 +381,7 @@ export const unblockF3Slot = async (c: Context) => {
       },
     });
 
+    await upsertListingPriceCache(listingId);
     return c.json({ success: true, message: "Date unblocked successfully" });
   } catch (error) {
     console.error("Unblock F3 slot error:", error);
@@ -447,6 +452,7 @@ export const updateF3SlotDateOverride = async (c: Context) => {
           },
         },
       });
+      await upsertListingPriceCache(listingId);
       return c.json({ success: true, data: updated, message: "Override updated successfully" });
     } else {
       // Create new override - use provided values or fall back to base range values
@@ -468,6 +474,7 @@ export const updateF3SlotDateOverride = async (c: Context) => {
         where: { id: inventoryRange.id },
         data: { isActive: true },
       });
+      await upsertListingPriceCache(listingId);
       return c.json({ success: true, data: created, message: "Override created successfully" });
     }
   } catch (error) {
@@ -517,6 +524,7 @@ export const removeF3SlotDateOverride = async (c: Context) => {
       return c.json({ success: true, message: "No override found to remove" });
     }
 
+    await upsertListingPriceCache(listingId);
     return c.json({ success: true, message: "Override removed successfully" });
   } catch (error) {
     console.error("Remove F3/F4 slot date override error:", error);
@@ -531,11 +539,20 @@ export const deleteF3Slot = async (c: Context) => {
     if (!id) {
       return c.json({ error: "Missing slot ID" }, 400);
     }
-    
+
+    const slot = await prisma.inventoryDateRange.findUnique({
+      where: { id },
+      select: { listingId: true },
+    });
+
     await prisma.inventoryDateRange.delete({
       where: { id },
     });
-    
+
+    if (slot) {
+      await upsertListingPriceCache(slot.listingId);
+    }
+
     return c.json({ success: true, message: "F3 slot deleted successfully" });
   } catch (error) {
     console.error("Delete F3 slot error:", error);
@@ -577,7 +594,8 @@ export const updateF3Slot = async (c: Context) => {
       where: { id },
       data: updateData,
     });
-    
+
+    await upsertListingPriceCache(updated.listingId);
     return c.json({ success: true, data: updated });
   } catch (error) {
     console.error("Update F3 slot error:", error);

@@ -39,6 +39,7 @@ import settingsRouter from "./settings.route.js";
 import offerPromocodeRouter from "./offerPromocode.route.js";
 import wishlistRouter from "./wishlist.route.js";
 import razorpayRouter from "./razorpay.route.js";
+import cronRouter from "./cron.route.js";
 
 const router = new Hono();
 
@@ -127,5 +128,8 @@ router.route("/wishlist", wishlistRouter);
 
 // Mount Razorpay payment routes
 router.route("/payments/razorpay", razorpayRouter);
+
+// Mount cron routes
+router.route("/cron", cronRouter);
 
 export default router;

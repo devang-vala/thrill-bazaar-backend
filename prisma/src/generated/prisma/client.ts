@@ -134,6 +134,11 @@ export type ListingMetadataFieldOptions = Prisma.ListingMetadataFieldOptionsMode
  */
 export type ListingPolicy = Prisma.ListingPolicyModel
 /**
+ * Model ListingPriceCache
+ * 
+ */
+export type ListingPriceCache = Prisma.ListingPriceCacheModel
+/**
  * Model ListingSlotChange
  * 
  */

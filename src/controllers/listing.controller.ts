@@ -1,4 +1,5 @@
 import type { Context } from "hono";
+import { Prisma } from "../../prisma/src/generated/prisma/client.js";
 import { prisma, withPrismaRetry } from "../db.js";
 import { sanitizeString, generateSlug } from "../helpers/validation.helper.js";
 import meilisearchService from "../services/meilisearch.service.js";
@@ -1704,9 +1705,22 @@ export const getListings = async (c: Context) => {
       }
     }
 
+    const priceCacheRows =
+      listingIds.length > 0
+        ? await prisma.$queryRaw<Array<{ listing_id: string; from_price: number | null }>>`
+            SELECT "listing_id", "from_price"
+            FROM "listings_price_cache"
+            WHERE "listing_id" IN (${Prisma.join(listingIds)})
+          `
+        : [];
+    const fromPriceByListingId = new Map(
+      priceCacheRows.map((row) => [row.listing_id, row.from_price]),
+    );
+
     // Add nextAvailableDate to each listing
     let responseData = listings.map((listing) => ({
       ...listing,
+      fromPrice: fromPriceByListingId.get(listing.id) ?? null,
       nextAvailableDate: nextAvailableDateMap.get(listing.id) || null,
       activeBatchesCount: listing.bookingFormat === "F1" ? activeBatchesCountMap.get(listing.id) || 0 : 0,
       activeDaysCount:
