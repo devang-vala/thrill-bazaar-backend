@@ -22,7 +22,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "D:\\ThrillBazaar\\thrill-bazaar-backend\\prisma\\src\\generated\\prisma",
+      "value": "D:\\Thrill-Bazaar\\thrill-bazaar-backend\\prisma\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -36,7 +36,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\ThrillBazaar\\thrill-bazaar-backend\\prisma\\schema\\schema.prisma",
+    "sourceFilePath": "D:\\Thrill-Bazaar\\thrill-bazaar-backend\\prisma\\schema\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../schema",
@@ -46,7 +46,6 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

@@ -1352,6 +1352,11 @@ export const getListings = async (c: Context) => {
           status: true,
           rejectionReason: true,
           basePriceDisplay: true,
+          priceCache: {
+            select: {
+              fromPrice: true
+            }
+          },
           currency: true,
           metadata: true,
           startCountryId: true,
@@ -2058,6 +2063,11 @@ export const getListing = async (c: Context) => {
           bookingFormat: true,
           status: true,
           basePriceDisplay: true,
+          priceCache: {
+            select: {
+              fromPrice: true
+            }
+          },
           currency: true,
           taxRate: true,
           advanceBookingPercentage: true,
@@ -2355,6 +2365,7 @@ export const getListingById = async (c: Context) => {
             },
           },
         },
+        priceCache: true,
         subCategory: {
           select: {
             id: true,
