@@ -3328,6 +3328,9 @@ export const getListingSlugs = async (c: Context) => {
           select: {
             listingSlug: true,
             updatedAt: true,
+            categoryId: true,
+            subCatId: true,
+            operatorId: true,
           },
           orderBy: { updatedAt: "desc" },
         }),
@@ -3339,6 +3342,9 @@ export const getListingSlugs = async (c: Context) => {
       data: listings.map((l) => ({
         slug: l.listingSlug,
         updatedAt: l.updatedAt.toISOString(),
+        categoryId: l.categoryId,
+        subCategoryId: l.subCatId,
+        sellerId: l.operatorId,
       })),
     });
   } catch (error) {

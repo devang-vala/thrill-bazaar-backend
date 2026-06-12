@@ -9,6 +9,8 @@ import apiRouter from "./routes/index.js";
 import { cors } from "hono/cors";
 import { configureCloudinary, cloudinarySecrets } from "./config/cloudinary.config.js";
 import { initMeilisearch } from "./services/meilisearch.service.js";
+import cron from "node-cron";
+import { syncAllListingPrices } from "./services/cron.service.js";
 const cloudinary = configureCloudinary();
 
 // Configure max body size (50MB for image uploads)
@@ -152,6 +154,12 @@ const startServer = async () => {
   await ensureBookingReasonColumn();
   await ensureBookingPaymentConcernColumns();
   await ensureBookingPaymentSettlementModeColumn();
+
+  // Initialize background cron jobs
+  console.log("Setting up background cron jobs...");
+  cron.schedule("0 * * * *", () => {
+    syncAllListingPrices();
+  });
 
   serve(
     {
