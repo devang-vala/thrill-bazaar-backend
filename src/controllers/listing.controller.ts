@@ -2632,6 +2632,7 @@ export const createListing = async (c: Context) => {
       basePriceDisplay: body.basePriceDisplay || 0,
       currency: body.currency || "INR",
       metadata: body.metadata || undefined,
+      status: body.status === "draft" ? "draft" : "pending_approval",
     };
     // After existing listingData preparation
     if (categoryBookingFormat === "F2" || categoryBookingFormat === "F4") {
@@ -2817,6 +2818,19 @@ export const updateListing = async (c: Context) => {
       updateData.hasMultipleOptions = body.hasMultipleOptions;
     }
     if (body.status !== undefined) {
+      if (
+        body.status === "draft" &&
+        existingListing.status !== "draft" &&
+        user &&
+        user.userType !== "admin" &&
+        user.userType !== "super_admin"
+      ) {
+        return c.json({
+          success: false,
+          error: "Cannot save a non-draft listing as draft through this endpoint.",
+        }, 409);
+      }
+
       updateData.status = body.status;
 
       // Persist rejection reason when admin blocks or requests changes.
