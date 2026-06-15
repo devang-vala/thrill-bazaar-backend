@@ -2618,7 +2618,6 @@ export const createListing = async (c: Context) => {
         : null,
       bookingFormat: categoryBookingFormat,
       hasMultipleOptions: body.hasMultipleOptions || false,
-      status: "pending_approval", // Set status to pending_approval by default
       startLocationName: body.startLocationName
         ? sanitizeString(body.startLocationName, 255)
         : undefined,
