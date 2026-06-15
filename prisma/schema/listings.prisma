@@ -57,6 +57,7 @@ model Listing {
   slotDefinitions          SlotDefinition[]           @relation("ListingToSlotDefinition")
   reviews                  Review[]
   wishlistItems            WishlistItem[]
+  priceCache               ListingPriceCache?
 
   // Badge and Tag relations
   badges ListingBadge[]

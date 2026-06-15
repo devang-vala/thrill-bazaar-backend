@@ -1,3 +1,8 @@
+import type { Context } from "hono";
+import { addDays, format, isAfter, isBefore, isEqual } from "date-fns";
+import { prisma } from "../db.js";
+import { upsertListingPriceCache } from "../utils/pricingCache.js";
+
 // 5. Upsert per-day price override (just store override, do not touch ranges)
 export const upsertPerDayPriceOverride = async (c: Context) => {
   const { listingId, variantId, date, price, availableCount, totalCapacity, inventoryDateRangeId } = await c.req.json();
@@ -85,6 +90,7 @@ export const upsertPerDayPriceOverride = async (c: Context) => {
       },
     });
   }
+  await upsertListingPriceCache(listingId);
   return c.json({ success: true });
 };
 // 6. Remove per-day price override
@@ -99,6 +105,7 @@ export const removePerDayOverride = async (c: Context) => {
       date: changeDate,
     },
   });
+  await upsertListingPriceCache(listingId);
   return c.json({ success: true });
 };
 // API: Get raw date ranges for a listing+variant
@@ -111,10 +118,6 @@ export const getRentalDateRangesRaw = async (c: Context) => {
   });
   return c.json({ success: true, data: ranges });
 };
-import type { Context } from "hono";
-import { prisma } from "../db.js";
-import { addDays, format, isAfter, isBefore, isEqual } from "date-fns";
-
 // Helper: Generate all dates in a range
 function getDatesInRange(start: Date, end: Date): string[] {
   const dates = [];
@@ -319,6 +322,7 @@ export const upsertRentalDateRange = async (c: Context) => {
       isActive: true,
     },
   });
+  await upsertListingPriceCache(listingId);
   return c.json({ success: true, data: range });
 };
 
@@ -337,6 +341,7 @@ export const blockRentalDate = async (c: Context) => {
       createdByOperatorId,
     },
   });
+  await upsertListingPriceCache(listingId);
   return c.json({ success: true, data: block });
 };
 
@@ -350,5 +355,6 @@ export const unblockRentalDate = async (c: Context) => {
       blockedDate: new Date(blockedDate),
     },
   });
+  await upsertListingPriceCache(listingId);
   return c.json({ success: true });
 };

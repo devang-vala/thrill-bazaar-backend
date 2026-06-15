@@ -1,5 +1,6 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
+import { upsertListingPriceCache } from "../utils/pricingCache.js";
 
 export const createInventoryDateRange = async (c: Context) => {
   try {
@@ -22,6 +23,8 @@ export const createInventoryDateRange = async (c: Context) => {
     const range = await prisma.inventoryDateRange.create({
       data: rangeData,
     });
+
+    await upsertListingPriceCache(body.listingId);
 
     return c.json({
       success: true,

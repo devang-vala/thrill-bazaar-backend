@@ -44,6 +44,8 @@ export type OperatorProfileMinAggregateOutputType = {
   businessRegistrationNumber: string | null
   taxId: string | null
   companyDescription: string | null
+  contact1: string | null
+  contact2: string | null
   websiteUrl: string | null
   verificationStatus: $Enums.VerificationStatus | null
   verifiedByAdminId: string | null
@@ -64,6 +66,8 @@ export type OperatorProfileMaxAggregateOutputType = {
   businessRegistrationNumber: string | null
   taxId: string | null
   companyDescription: string | null
+  contact1: string | null
+  contact2: string | null
   websiteUrl: string | null
   verificationStatus: $Enums.VerificationStatus | null
   verifiedByAdminId: string | null
@@ -84,6 +88,8 @@ export type OperatorProfileCountAggregateOutputType = {
   businessRegistrationNumber: number
   taxId: number
   companyDescription: number
+  contact1: number
+  contact2: number
   websiteUrl: number
   socialMediaLinks: number
   bankAccountDetails: number
@@ -119,6 +125,8 @@ export type OperatorProfileMinAggregateInputType = {
   businessRegistrationNumber?: true
   taxId?: true
   companyDescription?: true
+  contact1?: true
+  contact2?: true
   websiteUrl?: true
   verificationStatus?: true
   verifiedByAdminId?: true
@@ -139,6 +147,8 @@ export type OperatorProfileMaxAggregateInputType = {
   businessRegistrationNumber?: true
   taxId?: true
   companyDescription?: true
+  contact1?: true
+  contact2?: true
   websiteUrl?: true
   verificationStatus?: true
   verifiedByAdminId?: true
@@ -159,6 +169,8 @@ export type OperatorProfileCountAggregateInputType = {
   businessRegistrationNumber?: true
   taxId?: true
   companyDescription?: true
+  contact1?: true
+  contact2?: true
   websiteUrl?: true
   socialMediaLinks?: true
   bankAccountDetails?: true
@@ -269,6 +281,8 @@ export type OperatorProfileGroupByOutputType = {
   businessRegistrationNumber: string | null
   taxId: string | null
   companyDescription: string | null
+  contact1: string | null
+  contact2: string | null
   websiteUrl: string | null
   socialMediaLinks: runtime.JsonValue | null
   bankAccountDetails: runtime.JsonValue | null
@@ -315,6 +329,8 @@ export type OperatorProfileWhereInput = {
   businessRegistrationNumber?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   taxId?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   companyDescription?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
+  contact1?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
+  contact2?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   websiteUrl?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   socialMediaLinks?: Prisma.JsonNullableFilter<"OperatorProfile">
   bankAccountDetails?: Prisma.JsonNullableFilter<"OperatorProfile">
@@ -340,6 +356,8 @@ export type OperatorProfileOrderByWithRelationInput = {
   businessRegistrationNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   taxId?: Prisma.SortOrderInput | Prisma.SortOrder
   companyDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  contact1?: Prisma.SortOrderInput | Prisma.SortOrder
+  contact2?: Prisma.SortOrderInput | Prisma.SortOrder
   websiteUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   socialMediaLinks?: Prisma.SortOrderInput | Prisma.SortOrder
   bankAccountDetails?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -368,6 +386,8 @@ export type OperatorProfileWhereUniqueInput = Prisma.AtLeast<{
   businessRegistrationNumber?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   taxId?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   companyDescription?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
+  contact1?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
+  contact2?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   websiteUrl?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   socialMediaLinks?: Prisma.JsonNullableFilter<"OperatorProfile">
   bankAccountDetails?: Prisma.JsonNullableFilter<"OperatorProfile">
@@ -393,6 +413,8 @@ export type OperatorProfileOrderByWithAggregationInput = {
   businessRegistrationNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   taxId?: Prisma.SortOrderInput | Prisma.SortOrder
   companyDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  contact1?: Prisma.SortOrderInput | Prisma.SortOrder
+  contact2?: Prisma.SortOrderInput | Prisma.SortOrder
   websiteUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   socialMediaLinks?: Prisma.SortOrderInput | Prisma.SortOrder
   bankAccountDetails?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -424,6 +446,8 @@ export type OperatorProfileScalarWhereWithAggregatesInput = {
   businessRegistrationNumber?: Prisma.StringNullableWithAggregatesFilter<"OperatorProfile"> | string | null
   taxId?: Prisma.StringNullableWithAggregatesFilter<"OperatorProfile"> | string | null
   companyDescription?: Prisma.StringNullableWithAggregatesFilter<"OperatorProfile"> | string | null
+  contact1?: Prisma.StringNullableWithAggregatesFilter<"OperatorProfile"> | string | null
+  contact2?: Prisma.StringNullableWithAggregatesFilter<"OperatorProfile"> | string | null
   websiteUrl?: Prisma.StringNullableWithAggregatesFilter<"OperatorProfile"> | string | null
   socialMediaLinks?: Prisma.JsonNullableWithAggregatesFilter<"OperatorProfile">
   bankAccountDetails?: Prisma.JsonNullableWithAggregatesFilter<"OperatorProfile">
@@ -446,6 +470,8 @@ export type OperatorProfileCreateInput = {
   businessRegistrationNumber?: string | null
   taxId?: string | null
   companyDescription?: string | null
+  contact1?: string | null
+  contact2?: string | null
   websiteUrl?: string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -470,6 +496,8 @@ export type OperatorProfileUncheckedCreateInput = {
   businessRegistrationNumber?: string | null
   taxId?: string | null
   companyDescription?: string | null
+  contact1?: string | null
+  contact2?: string | null
   websiteUrl?: string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -492,6 +520,8 @@ export type OperatorProfileUpdateInput = {
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -516,6 +546,8 @@ export type OperatorProfileUncheckedUpdateInput = {
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -539,6 +571,8 @@ export type OperatorProfileCreateManyInput = {
   businessRegistrationNumber?: string | null
   taxId?: string | null
   companyDescription?: string | null
+  contact1?: string | null
+  contact2?: string | null
   websiteUrl?: string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -561,6 +595,8 @@ export type OperatorProfileUpdateManyMutationInput = {
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -583,6 +619,8 @@ export type OperatorProfileUncheckedUpdateManyInput = {
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -606,6 +644,8 @@ export type OperatorProfileCountOrderByAggregateInput = {
   businessRegistrationNumber?: Prisma.SortOrder
   taxId?: Prisma.SortOrder
   companyDescription?: Prisma.SortOrder
+  contact1?: Prisma.SortOrder
+  contact2?: Prisma.SortOrder
   websiteUrl?: Prisma.SortOrder
   socialMediaLinks?: Prisma.SortOrder
   bankAccountDetails?: Prisma.SortOrder
@@ -634,6 +674,8 @@ export type OperatorProfileMaxOrderByAggregateInput = {
   businessRegistrationNumber?: Prisma.SortOrder
   taxId?: Prisma.SortOrder
   companyDescription?: Prisma.SortOrder
+  contact1?: Prisma.SortOrder
+  contact2?: Prisma.SortOrder
   websiteUrl?: Prisma.SortOrder
   verificationStatus?: Prisma.SortOrder
   verifiedByAdminId?: Prisma.SortOrder
@@ -654,6 +696,8 @@ export type OperatorProfileMinOrderByAggregateInput = {
   businessRegistrationNumber?: Prisma.SortOrder
   taxId?: Prisma.SortOrder
   companyDescription?: Prisma.SortOrder
+  contact1?: Prisma.SortOrder
+  contact2?: Prisma.SortOrder
   websiteUrl?: Prisma.SortOrder
   verificationStatus?: Prisma.SortOrder
   verifiedByAdminId?: Prisma.SortOrder
@@ -779,6 +823,8 @@ export type OperatorProfileCreateWithoutOperatorInput = {
   businessRegistrationNumber?: string | null
   taxId?: string | null
   companyDescription?: string | null
+  contact1?: string | null
+  contact2?: string | null
   websiteUrl?: string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -801,6 +847,8 @@ export type OperatorProfileUncheckedCreateWithoutOperatorInput = {
   businessRegistrationNumber?: string | null
   taxId?: string | null
   companyDescription?: string | null
+  contact1?: string | null
+  contact2?: string | null
   websiteUrl?: string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -828,6 +876,8 @@ export type OperatorProfileCreateWithoutVerifiedByAdminInput = {
   businessRegistrationNumber?: string | null
   taxId?: string | null
   companyDescription?: string | null
+  contact1?: string | null
+  contact2?: string | null
   websiteUrl?: string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -851,6 +901,8 @@ export type OperatorProfileUncheckedCreateWithoutVerifiedByAdminInput = {
   businessRegistrationNumber?: string | null
   taxId?: string | null
   companyDescription?: string | null
+  contact1?: string | null
+  contact2?: string | null
   websiteUrl?: string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -893,6 +945,8 @@ export type OperatorProfileUpdateWithoutOperatorInput = {
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -915,6 +969,8 @@ export type OperatorProfileUncheckedUpdateWithoutOperatorInput = {
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -957,6 +1013,8 @@ export type OperatorProfileScalarWhereInput = {
   businessRegistrationNumber?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   taxId?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   companyDescription?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
+  contact1?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
+  contact2?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   websiteUrl?: Prisma.StringNullableFilter<"OperatorProfile"> | string | null
   socialMediaLinks?: Prisma.JsonNullableFilter<"OperatorProfile">
   bankAccountDetails?: Prisma.JsonNullableFilter<"OperatorProfile">
@@ -980,6 +1038,8 @@ export type OperatorProfileCreateManyVerifiedByAdminInput = {
   businessRegistrationNumber?: string | null
   taxId?: string | null
   companyDescription?: string | null
+  contact1?: string | null
+  contact2?: string | null
   websiteUrl?: string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1001,6 +1061,8 @@ export type OperatorProfileUpdateWithoutVerifiedByAdminInput = {
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1024,6 +1086,8 @@ export type OperatorProfileUncheckedUpdateWithoutVerifiedByAdminInput = {
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1046,6 +1110,8 @@ export type OperatorProfileUncheckedUpdateManyWithoutVerifiedByAdminInput = {
   businessRegistrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   taxId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   socialMediaLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bankAccountDetails?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1070,6 +1136,8 @@ export type OperatorProfileSelect<ExtArgs extends runtime.Types.Extensions.Inter
   businessRegistrationNumber?: boolean
   taxId?: boolean
   companyDescription?: boolean
+  contact1?: boolean
+  contact2?: boolean
   websiteUrl?: boolean
   socialMediaLinks?: boolean
   bankAccountDetails?: boolean
@@ -1095,6 +1163,8 @@ export type OperatorProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   businessRegistrationNumber?: boolean
   taxId?: boolean
   companyDescription?: boolean
+  contact1?: boolean
+  contact2?: boolean
   websiteUrl?: boolean
   socialMediaLinks?: boolean
   bankAccountDetails?: boolean
@@ -1120,6 +1190,8 @@ export type OperatorProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   businessRegistrationNumber?: boolean
   taxId?: boolean
   companyDescription?: boolean
+  contact1?: boolean
+  contact2?: boolean
   websiteUrl?: boolean
   socialMediaLinks?: boolean
   bankAccountDetails?: boolean
@@ -1145,6 +1217,8 @@ export type OperatorProfileSelectScalar = {
   businessRegistrationNumber?: boolean
   taxId?: boolean
   companyDescription?: boolean
+  contact1?: boolean
+  contact2?: boolean
   websiteUrl?: boolean
   socialMediaLinks?: boolean
   bankAccountDetails?: boolean
@@ -1159,7 +1233,7 @@ export type OperatorProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OperatorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "operatorId" | "operatorSlug" | "companyName" | "companyLogoUrl" | "businessRegistrationNumber" | "taxId" | "companyDescription" | "websiteUrl" | "socialMediaLinks" | "bankAccountDetails" | "verificationStatus" | "verificationDocuments" | "verifiedByAdminId" | "verifiedAt" | "rejectionReason" | "ratingAverage" | "totalBookings" | "createdAt" | "updatedAt", ExtArgs["result"]["operatorProfile"]>
+export type OperatorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "operatorId" | "operatorSlug" | "companyName" | "companyLogoUrl" | "businessRegistrationNumber" | "taxId" | "companyDescription" | "contact1" | "contact2" | "websiteUrl" | "socialMediaLinks" | "bankAccountDetails" | "verificationStatus" | "verificationDocuments" | "verifiedByAdminId" | "verifiedAt" | "rejectionReason" | "ratingAverage" | "totalBookings" | "createdAt" | "updatedAt", ExtArgs["result"]["operatorProfile"]>
 export type OperatorProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   verifiedByAdmin?: boolean | Prisma.OperatorProfile$verifiedByAdminArgs<ExtArgs>
@@ -1188,6 +1262,8 @@ export type $OperatorProfilePayload<ExtArgs extends runtime.Types.Extensions.Int
     businessRegistrationNumber: string | null
     taxId: string | null
     companyDescription: string | null
+    contact1: string | null
+    contact2: string | null
     websiteUrl: string | null
     socialMediaLinks: runtime.JsonValue | null
     bankAccountDetails: runtime.JsonValue | null
@@ -1633,6 +1709,8 @@ export interface OperatorProfileFieldRefs {
   readonly businessRegistrationNumber: Prisma.FieldRef<"OperatorProfile", 'String'>
   readonly taxId: Prisma.FieldRef<"OperatorProfile", 'String'>
   readonly companyDescription: Prisma.FieldRef<"OperatorProfile", 'String'>
+  readonly contact1: Prisma.FieldRef<"OperatorProfile", 'String'>
+  readonly contact2: Prisma.FieldRef<"OperatorProfile", 'String'>
   readonly websiteUrl: Prisma.FieldRef<"OperatorProfile", 'String'>
   readonly socialMediaLinks: Prisma.FieldRef<"OperatorProfile", 'Json'>
   readonly bankAccountDetails: Prisma.FieldRef<"OperatorProfile", 'Json'>

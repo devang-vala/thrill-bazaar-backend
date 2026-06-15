@@ -68,8 +68,6 @@ export const initMeilisearch = async () => {
                 "operatorName",
                 "categoryName",
                 "subCategoryName",
-                "startLocationName",
-                "endLocationName",
                 "startPrimaryDivisionName",
                 "startSecondaryDivisionName",
                 "endPrimaryDivisionName",
@@ -131,7 +129,7 @@ export const indexListing = async (listingId: string) => {
             include: {
                 category: true,
                 subCategory: true,
-                operator: { select: { firstName: true, lastName: true } },
+                operator: { select: { firstName: true, lastName: true, operatorProfile: { select: { companyName: true } } } },
                 startPrimaryDivision: true,
                 startSecondaryDivision: true,
                 endPrimaryDivision: true,
@@ -151,7 +149,7 @@ export const indexListing = async (listingId: string) => {
         }
 
         const overview = listing.content.find(c => c.contentType === 'overview')?.contentText || "";
-        const operatorName = [listing.operator?.firstName, listing.operator?.lastName].filter(Boolean).join(" ") || "";
+        const operatorName = listing.operator?.operatorProfile?.companyName || "";
 
         const document = {
             id: listing.id,
@@ -165,8 +163,6 @@ export const indexListing = async (listingId: string) => {
             categoryName: listing.category?.categoryName || "",
             subCatId: listing.subCatId,
             subCategoryName: listing.subCategory?.subCatName || "",
-            startLocationName: listing.startLocationName,
-            endLocationName: listing.endLocationName,
             startPrimaryDivisionId: listing.startPrimaryDivisionId,
             startPrimaryDivisionName: listing.startPrimaryDivision?.division_name || "",
             startSecondaryDivisionId: listing.startSecondaryDivisionId,

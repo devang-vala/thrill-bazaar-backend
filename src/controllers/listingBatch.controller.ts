@@ -1,6 +1,7 @@
 import type { Context } from "hono";
 import { prisma } from "../db.js";
 import { getActiveSlotReservationHoldCounts } from "../helpers/bookingReservation.helper.js";
+import { upsertListingPriceCache } from "../utils/pricingCache.js";
 
 // Get variants for a listing (for batch management)
 export const getVariantsForListing = async (c: Context) => {
@@ -240,6 +241,7 @@ export const createBatch = async (c: Context) => {
         isActive: true,
       },
     });
+    await upsertListingPriceCache(listingId);
     return c.json({ success: true, data: batch }, 201);
   } catch (error) {
     console.error("Create batch error:", error);
@@ -329,6 +331,7 @@ export const updateBatch = async (c: Context) => {
       data,
     });
     
+    await upsertListingPriceCache(batch.listingId);
     return c.json({ success: true, data: batch });
   } catch (error) {
     console.error("Update batch error:", error);
@@ -345,6 +348,7 @@ export const toggleBatchActive = async (c: Context) => {
       where: { id: batchId },
       data: { isActive: body.isActive },
     });
+    await upsertListingPriceCache(batch.listingId);
     return c.json({ success: true, data: batch });
   } catch (error) {
     console.error("Toggle batch error:", error);
@@ -356,7 +360,14 @@ export const toggleBatchActive = async (c: Context) => {
 export const deleteBatch = async (c: Context) => {
   try {
     const batchId = c.req.param("batchId");
+    const batch = await prisma.listingSlot.findUnique({
+      where: { id: batchId },
+      select: { listingId: true },
+    });
     await prisma.listingSlot.delete({ where: { id: batchId } });
+    if (batch) {
+      await upsertListingPriceCache(batch.listingId);
+    }
     return c.json({ success: true });
   } catch (error) {
     console.error("Delete batch error:", error);

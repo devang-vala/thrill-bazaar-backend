@@ -407,6 +407,7 @@ export const ModelName = {
   ListingMetadataFieldDefinition: 'ListingMetadataFieldDefinition',
   ListingMetadataFieldOptions: 'ListingMetadataFieldOptions',
   ListingPolicy: 'ListingPolicy',
+  ListingPriceCache: 'ListingPriceCache',
   ListingSlotChange: 'ListingSlotChange',
   ListingSlot: 'ListingSlot',
   ListingType: 'ListingType',
@@ -444,7 +445,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "badge" | "listingBadge" | "bookingPayment" | "bookingReservation" | "booking" | "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "offerPromocode" | "operatorProfile" | "otp" | "primaryDivision" | "reschedule" | "review" | "reviewHelpfulVote" | "secondaryDivision" | "setting" | "slotDefinition" | "tag" | "listingTag" | "userAddress" | "user" | "wishlistItem"
+    modelProps: "badge" | "listingBadge" | "bookingPayment" | "bookingReservation" | "booking" | "category" | "subCategory" | "country" | "inventoryBlockedDate" | "inventoryDateRange" | "listingAddon" | "listingContent" | "listingFaq" | "listingInclusionExclusion" | "listingMedia" | "listingMetadataFieldDefinition" | "listingMetadataFieldOptions" | "listingPolicy" | "listingPriceCache" | "listingSlotChange" | "listingSlot" | "listingType" | "listingVariantMetadataFieldDefinition" | "listingVariantMetadataFieldOptions" | "listingVariant" | "listing" | "offerPromocode" | "operatorProfile" | "otp" | "primaryDivision" | "reschedule" | "review" | "reviewHelpfulVote" | "secondaryDivision" | "setting" | "slotDefinition" | "tag" | "listingTag" | "userAddress" | "user" | "wishlistItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1777,6 +1778,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ListingPolicyCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ListingPolicyCountAggregateOutputType> | number
+        }
+      }
+    }
+    ListingPriceCache: {
+      payload: Prisma.$ListingPriceCachePayload<ExtArgs>
+      fields: Prisma.ListingPriceCacheFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ListingPriceCacheFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingPriceCachePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ListingPriceCacheFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingPriceCachePayload>
+        }
+        findFirst: {
+          args: Prisma.ListingPriceCacheFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingPriceCachePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ListingPriceCacheFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingPriceCachePayload>
+        }
+        findMany: {
+          args: Prisma.ListingPriceCacheFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingPriceCachePayload>[]
+        }
+        create: {
+          args: Prisma.ListingPriceCacheCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingPriceCachePayload>
+        }
+        createMany: {
+          args: Prisma.ListingPriceCacheCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ListingPriceCacheCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingPriceCachePayload>[]
+        }
+        delete: {
+          args: Prisma.ListingPriceCacheDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingPriceCachePayload>
+        }
+        update: {
+          args: Prisma.ListingPriceCacheUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingPriceCachePayload>
+        }
+        deleteMany: {
+          args: Prisma.ListingPriceCacheDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ListingPriceCacheUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ListingPriceCacheUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingPriceCachePayload>[]
+        }
+        upsert: {
+          args: Prisma.ListingPriceCacheUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingPriceCachePayload>
+        }
+        aggregate: {
+          args: Prisma.ListingPriceCacheAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListingPriceCache>
+        }
+        groupBy: {
+          args: Prisma.ListingPriceCacheGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingPriceCacheGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ListingPriceCacheCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ListingPriceCacheCountAggregateOutputType> | number
         }
       }
     }
@@ -3771,6 +3846,16 @@ export const ListingPolicyScalarFieldEnum = {
 export type ListingPolicyScalarFieldEnum = (typeof ListingPolicyScalarFieldEnum)[keyof typeof ListingPolicyScalarFieldEnum]
 
 
+export const ListingPriceCacheScalarFieldEnum = {
+  listingId: 'listingId',
+  fromPrice: 'fromPrice',
+  validUntil: 'validUntil',
+  computedAt: 'computedAt'
+} as const
+
+export type ListingPriceCacheScalarFieldEnum = (typeof ListingPriceCacheScalarFieldEnum)[keyof typeof ListingPriceCacheScalarFieldEnum]
+
+
 export const ListingSlotChangeScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
@@ -3943,6 +4028,8 @@ export const OperatorProfileScalarFieldEnum = {
   businessRegistrationNumber: 'businessRegistrationNumber',
   taxId: 'taxId',
   companyDescription: 'companyDescription',
+  contact1: 'contact1',
+  contact2: 'contact2',
   websiteUrl: 'websiteUrl',
   socialMediaLinks: 'socialMediaLinks',
   bankAccountDetails: 'bankAccountDetails',
@@ -4685,6 +4772,7 @@ export type GlobalOmitConfig = {
   listingMetadataFieldDefinition?: Prisma.ListingMetadataFieldDefinitionOmit
   listingMetadataFieldOptions?: Prisma.ListingMetadataFieldOptionsOmit
   listingPolicy?: Prisma.ListingPolicyOmit
+  listingPriceCache?: Prisma.ListingPriceCacheOmit
   listingSlotChange?: Prisma.ListingSlotChangeOmit
   listingSlot?: Prisma.ListingSlotOmit
   listingType?: Prisma.ListingTypeOmit

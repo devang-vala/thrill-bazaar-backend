@@ -66,6 +66,7 @@ export const ModelName = {
   ListingMetadataFieldDefinition: 'ListingMetadataFieldDefinition',
   ListingMetadataFieldOptions: 'ListingMetadataFieldOptions',
   ListingPolicy: 'ListingPolicy',
+  ListingPriceCache: 'ListingPriceCache',
   ListingSlotChange: 'ListingSlotChange',
   ListingSlot: 'ListingSlot',
   ListingType: 'ListingType',
@@ -430,6 +431,16 @@ export const ListingPolicyScalarFieldEnum = {
 export type ListingPolicyScalarFieldEnum = (typeof ListingPolicyScalarFieldEnum)[keyof typeof ListingPolicyScalarFieldEnum]
 
 
+export const ListingPriceCacheScalarFieldEnum = {
+  listingId: 'listingId',
+  fromPrice: 'fromPrice',
+  validUntil: 'validUntil',
+  computedAt: 'computedAt'
+} as const
+
+export type ListingPriceCacheScalarFieldEnum = (typeof ListingPriceCacheScalarFieldEnum)[keyof typeof ListingPriceCacheScalarFieldEnum]
+
+
 export const ListingSlotChangeScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',
@@ -602,6 +613,8 @@ export const OperatorProfileScalarFieldEnum = {
   businessRegistrationNumber: 'businessRegistrationNumber',
   taxId: 'taxId',
   companyDescription: 'companyDescription',
+  contact1: 'contact1',
+  contact2: 'contact2',
   websiteUrl: 'websiteUrl',
   socialMediaLinks: 'socialMediaLinks',
   bankAccountDetails: 'bankAccountDetails',
