@@ -104,6 +104,7 @@ interface AdminResetPasswordRequest {
 interface OperatorOtpRequest {
   email: string;
   phone: string;
+  channel?: "email" | "phone" | "both";
 }
 
 interface OperatorOtpVerifyRequest {
@@ -665,26 +666,31 @@ export const requestOperatorOtp = async (c: Context) => {
       );
     }
 
-    const phoneOtp = generateOtp();
-    const expiresAt = calculateOtpExpiry(5);
+    let phoneDevOtp, emailDevOtp;
 
-    // Clear existing OTPs for identifiers
-    await prisma.otp.deleteMany({ where: { phone: phone } });
-    await prisma.otp.create({
-      data: {
-        phone: phone,
-        otp: phoneOtp,
-        expiresAt,
-        verified: false,
-        attempts: 0,
-      },
-    });
+    if (!body.channel || body.channel === "phone" || body.channel === "both") {
+      const phoneOtp = generateOtp();
+      const expiresAt = calculateOtpExpiry(5);
+      await prisma.otp.deleteMany({ where: { phone: phone } });
+      await prisma.otp.create({
+        data: {
+          phone: phone,
+          otp: phoneOtp,
+          expiresAt,
+          verified: false,
+          attempts: 0,
+        },
+      });
+      const smsSent = await sendOtpSMS(phone, phoneOtp);
+      phoneDevOtp = process.env.NODE_ENV !== "production" ? phoneOtp : undefined;
+    }
 
-    const smsSent = await sendOtpSMS(phone, phoneOtp);
-    const emailOtpResult = await createEmailOtp(email, "operator_signup");
-
-    if (!emailOtpResult.delivered) {
-      return c.json({ error: "Unable to send email OTP right now" }, 503);
+    if (!body.channel || body.channel === "email" || body.channel === "both") {
+      const emailOtpResult = await createEmailOtp(email, "operator_signup");
+      if (!emailOtpResult.delivered) {
+        return c.json({ error: "Unable to send email OTP right now" }, 503);
+      }
+      emailDevOtp = process.env.NODE_ENV !== "production" ? emailOtpResult.otp : undefined;
     }
 
     const existingOperators = await prisma.user.count({
@@ -698,6 +704,8 @@ export const requestOperatorOtp = async (c: Context) => {
       message: "OTP generated successfully",
       expiresIn: "5 minutes",
       existingAccounts: existingOperators,
+      phoneOtp: phoneDevOtp,
+      emailOtp: emailDevOtp,
     });
   } catch (error) {
     console.error("Operator OTP request error:", error);

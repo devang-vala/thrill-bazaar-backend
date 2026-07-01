@@ -101,10 +101,8 @@ export const sendOtpSMS = async (
     }
 
     // MSG91 strictly requires the country code without plus sign (e.g., 919999999999)
-    let formattedPhone = phone.replace(/\D/g, "");
-    if (formattedPhone.length === 10) {
-      formattedPhone = `91${formattedPhone}`;
-    }
+    // We assume 'phone' already includes the country code (e.g. +91... or +1...).
+    const formattedPhone = phone.replace(/\D/g, "");
 
     const payload = {
       template_id: config.templateId,
