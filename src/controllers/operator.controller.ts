@@ -397,7 +397,7 @@ export const registerOperatorComplete = async (c: Context) => {
     // only collects Bank Details and Certifications on Step 2.
 
     // Hash password (may be skipped when continuing onboarding)
-    const hashedPassword = registrationData.password
+    const hashedPassword = (registrationData.password && registrationData.password !== "Placeholder@123")
       ? await hashPassword(registrationData.password)
       : null;
 
