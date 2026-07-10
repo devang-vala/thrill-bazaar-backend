@@ -2786,6 +2786,187 @@ export const createListing = async (c: Context) => {
 };
 
 /**
+ * Create or update the authenticated operator's draft listing from the first
+ * seller create-listing screen.
+ */
+export const upsertDraftListing = async (c: Context) => {
+  try {
+    const body = await c.req.json();
+    const user = c.get("user");
+
+    if (!user?.userId) {
+      return c.json({
+        success: false,
+        error: "Authentication required. Operator ID is mandatory.",
+      }, 401);
+    }
+
+    const categoryId = typeof body.categoryId === "string" ? body.categoryId.trim() : "";
+    const draftListingId = typeof body.listingId === "string" ? body.listingId.trim() : "";
+
+    if (!categoryId) {
+      return c.json({
+        success: false,
+        error: "Category ID is required to create a draft listing.",
+      }, 400);
+    }
+
+    const category = await prisma.category.findUnique({
+      where: { id: categoryId },
+      select: {
+        id: true,
+        bookingFormat: true,
+        isActive: true,
+      },
+    });
+
+    if (!category) {
+      return c.json({
+        success: false,
+        error: "Selected category was not found.",
+      }, 404);
+    }
+
+    if (!category.isActive) {
+      return c.json({
+        success: false,
+        error: "Selected category is not active.",
+      }, 400);
+    }
+
+    const subCatId =
+      typeof body.subCatId === "string" && body.subCatId.trim()
+        ? body.subCatId.trim()
+        : null;
+
+    if (subCatId) {
+      const subCategory = await prisma.subCategory.findUnique({
+        where: { id: subCatId },
+        select: {
+          id: true,
+          categoryId: true,
+          isActive: true,
+        },
+      });
+
+      if (!subCategory || subCategory.categoryId !== category.id) {
+        return c.json({
+          success: false,
+          error: "Selected subcategory does not belong to the selected category.",
+        }, 400);
+      }
+
+      if (!subCategory.isActive) {
+        return c.json({
+          success: false,
+          error: "Selected subcategory is not active.",
+        }, 400);
+      }
+    }
+
+    const listingName = body.listingName
+      ? sanitizeString(body.listingName, 255)
+      : "Untitled Draft";
+    const frontImageUrl = body.frontImageUrl
+      ? sanitizeString(body.frontImageUrl, 500)
+      : null;
+
+    const draftData: any = {
+      operatorId: user.userId,
+      categoryId: category.id,
+      subCatId,
+      listingName,
+      frontImageUrl,
+      bookingFormat: category.bookingFormat,
+      hasMultipleOptions: Boolean(body.hasMultipleOptions),
+      status: "draft",
+    };
+
+    let listing;
+
+    if (draftListingId) {
+      const existingDraft = await prisma.listing.findUnique({
+        where: { id: draftListingId },
+        select: {
+          id: true,
+          operatorId: true,
+          status: true,
+          listingSlug: true,
+        },
+      });
+
+      if (!existingDraft) {
+        return c.json({
+          success: false,
+          error: "Draft listing not found.",
+        }, 404);
+      }
+
+      if (existingDraft.operatorId !== user.userId) {
+        return c.json({
+          success: false,
+          error: "Not authorized to update this draft listing.",
+        }, 403);
+      }
+
+      if (existingDraft.status !== "draft") {
+        return c.json({
+          success: false,
+          error: "Only draft listings can be updated from this endpoint.",
+        }, 409);
+      }
+
+      listing = await prisma.listing.update({
+        where: { id: draftListingId },
+        data: draftData,
+        include: {
+          category: true,
+          subCategory: true,
+          operator: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+        },
+      });
+    } else {
+      listing = await prisma.listing.create({
+        data: {
+          ...draftData,
+          listingSlug: generateSlug(listingName || "untitled-draft") + "-" + Date.now(),
+        },
+        include: {
+          category: true,
+          subCategory: true,
+          operator: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+        },
+      });
+    }
+
+    return c.json({
+      success: true,
+      message: draftListingId ? "Draft listing updated successfully" : "Draft listing created successfully",
+      data: listing,
+    }, draftListingId ? 200 : 201);
+  } catch (error) {
+    console.error("Upsert draft listing error:", error);
+    return c.json({
+      success: false,
+      error: "Failed to save draft listing",
+      message: error instanceof Error ? error.message : "Unknown error",
+    }, 500);
+  }
+};
+
+/**
  * Update a listing
  */
 export const updateListing = async (c: Context) => {

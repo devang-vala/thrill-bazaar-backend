@@ -5,6 +5,7 @@ import {
   getListing,
   getListingById,
   createListing,
+  upsertDraftListing,
   updateListing,
   deleteListing,
   getAdminListings,
@@ -41,6 +42,7 @@ listingRouter.get("/:slug", getListing);
 listingRouter.post("/admin/all", authenticateToken, requireAdmin, getAdminListings);
 
 // Protected routes - require authentication
+listingRouter.post("/draft", authenticateToken, requireAnyAdmin, upsertDraftListing);
 listingRouter.post("/", authenticateToken, requireAnyAdmin, createListing);
 listingRouter.put("/:id", authenticateToken, requireAnyAdmin, updateListing);
 listingRouter.delete("/:id", authenticateToken, requireAnyAdmin, deleteListing);
