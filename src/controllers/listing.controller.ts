@@ -24,6 +24,121 @@ const normalizeMetadataBoolean = (value: unknown): boolean | null => {
   return null;
 };
 
+const normalizeTextCharacters = (value: unknown): string => {
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return String(value)
+    .normalize("NFKC")
+    .replace(/[^\u0000-\u007E]/g, (char) => LATIN_CONFUSABLES[char] || char);
+};
+
+const LATIN_CONFUSABLES: Record<string, string> = {
+  "Ꭺ": "A",
+  "Ꭿ": "A",
+  "Ꮋ": "H",
+  "Ꮎ": "O",
+  "Ꮓ": "Z",
+  "Ꮤ": "W",
+  "Ꮯ": "C",
+  "Ꮮ": "L",
+  "Ꮲ": "P",
+  "Ꮶ": "K",
+  "Ꮹ": "G",
+  "Ᏼ": "B",
+  "Ꭰ": "D",
+  "Ꭱ": "R",
+  "Ꭲ": "T",
+  "Ꭵ": "i",
+  "Ꮄ": "d",
+  "Ꮇ": "m",
+  "ጀ": "x",
+  "Ꮑ": "n",
+  "Ꮒ": "h",
+  "Ꮧ": "a",
+  "Ꮥ": "s",
+  "Ꮰ": "j",
+  "Ꮼ": "u",
+  "Ᏸ": "b",
+  "Ꮗ": "w",
+  "Ꮛ": "e",
+  "Ꮢ": "r",
+  "Ꮙ": "v",
+  "Ꮞ": "s",
+  "Ꮖ": "t",
+  "Ꮿ": "y",
+  "А": "A",
+  "В": "B",
+  "С": "C",
+  "Е": "E",
+  "Н": "H",
+  "І": "I",
+  "Ј": "J",
+  "К": "K",
+  "М": "M",
+  "О": "O",
+  "Р": "P",
+  "Т": "T",
+  "Х": "X",
+  "У": "Y",
+  "а": "a",
+  "е": "e",
+  "і": "i",
+  "ј": "j",
+  "к": "k",
+  "м": "m",
+  "о": "o",
+  "р": "p",
+  "с": "c",
+  "т": "t",
+  "у": "y",
+  "х": "x",
+  "Α": "A",
+  "Β": "B",
+  "Ε": "E",
+  "Ζ": "Z",
+  "Η": "H",
+  "Ι": "I",
+  "Κ": "K",
+  "Μ": "M",
+  "Ν": "N",
+  "Ο": "O",
+  "Ρ": "P",
+  "Τ": "T",
+  "Υ": "Y",
+  "Χ": "X",
+  "α": "a",
+  "ι": "i",
+  "κ": "k",
+  "ο": "o",
+  "ρ": "p",
+  "τ": "t",
+  "υ": "u",
+  "χ": "x",
+};
+
+const normalizeMetadataText = (value: unknown): unknown => {
+  if (typeof value === "string") {
+    return normalizeTextCharacters(value);
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => normalizeMetadataText(item));
+  }
+
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).map(([key, item]) => [
+        key,
+        normalizeMetadataText(item),
+      ]),
+    );
+  }
+
+  return value;
+};
+
 const buildMetadataFilterCondition = (
   fieldKey: string,
   rawValue: unknown,
@@ -3104,8 +3219,9 @@ export const updateListing = async (c: Context) => {
       console.log('=== METADATA UPDATE DEBUG ===');
       console.log('Incoming body.metadata:', JSON.stringify(body.metadata, null, 2));
 
-      const incomingMetadata = typeof body.metadata === 'string' ? JSON.parse(body.metadata) : body.metadata;
-      const existingMetadata = existingListing.metadata as any || {};
+      const rawIncomingMetadata = typeof body.metadata === 'string' ? JSON.parse(body.metadata) : body.metadata;
+      const incomingMetadata = normalizeMetadataText(rawIncomingMetadata) as Record<string, any>;
+      const existingMetadata = normalizeMetadataText(existingListing.metadata as any || {}) as Record<string, any>;
 
       console.log('Existing metadata from DB:', JSON.stringify(existingMetadata, null, 2));
       console.log('Incoming metadata (parsed):', JSON.stringify(incomingMetadata, null, 2));
