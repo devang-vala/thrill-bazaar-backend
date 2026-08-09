@@ -1453,6 +1453,18 @@ export const getListings = async (c: Context) => {
       }
     }
 
+    // Fetch only filterable metadata field definitions for the queried categories
+    const filterableMetadataFields = await prisma.listingMetadataFieldDefinition.findMany({
+      where: {
+        isFilter: true,
+      },
+      select: {
+        fieldKey: true,
+      },
+    });
+
+    const filterableFieldKeys = new Set(filterableMetadataFields.map(f => f.fieldKey));
+
     const totalCount = await prisma.listing.count({
       where: whereClause,
     });
@@ -1506,14 +1518,13 @@ export const getListings = async (c: Context) => {
               categoryName: true,
               metadataFieldDefinitions: {
                 where: {
-                  displayOrder: 10,
+                  isFilter: true,
                 },
                 select: {
                   fieldKey: true,
                   fieldLabel: true,
                   displayOrder: true,
                 },
-                take: 1,
                 orderBy: { displayOrder: "asc" },
               },
             },
@@ -1575,6 +1586,23 @@ export const getListings = async (c: Context) => {
         orderBy: orderByClause,
         skip,
         take: limit,
+    });
+
+    // Filter metadata to only include filterable fields
+    const processedListings = listings.map(listing => {
+      if (listing.metadata && typeof listing.metadata === 'object') {
+        const filteredMetadata: Record<string, any> = {};
+        for (const [key, value] of Object.entries(listing.metadata)) {
+          if (filterableFieldKeys.has(key)) {
+            filteredMetadata[key] = value;
+          }
+        }
+        return {
+          ...listing,
+          metadata: filteredMetadata,
+        };
+      }
+      return listing;
     });
 
     const shouldIncludeNextAvailableDate =
@@ -1837,8 +1865,8 @@ export const getListings = async (c: Context) => {
       priceCacheRows.map((row) => [row.listing_id, row.from_price]),
     );
 
-    // Add nextAvailableDate to each listing
-    let responseData = listings.map((listing) => ({
+    // Add nextAvailableDate to each listing (use processedListings with filtered metadata)
+    let responseData = processedListings.map((listing) => ({
       ...listing,
       fromPrice: fromPriceByListingId.get(listing.id) ?? null,
       nextAvailableDate: nextAvailableDateMap.get(listing.id) || null,
