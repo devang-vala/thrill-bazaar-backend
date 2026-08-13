@@ -3298,7 +3298,7 @@ export type $ReschedulePayload<ExtArgs extends runtime.Types.Extensions.Internal
 export type RescheduleGetPayload<S extends boolean | null | undefined | RescheduleDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ReschedulePayload, S>
 
 export type RescheduleCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<RescheduleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<RescheduleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: RescheduleCountAggregateInputType | true
   }
 
@@ -3772,6 +3772,7 @@ export type RescheduleFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    * Filter, which Reschedule to fetch.
    */
   where: Prisma.RescheduleWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -3794,6 +3795,7 @@ export type RescheduleFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    * Filter, which Reschedule to fetch.
    */
   where: Prisma.RescheduleWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -3846,6 +3848,7 @@ export type RescheduleFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Filter by unique combinations of Reschedules.
    */
   distinct?: Prisma.RescheduleScalarFieldEnum | Prisma.RescheduleScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -3898,6 +3901,7 @@ export type RescheduleFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    * Filter by unique combinations of Reschedules.
    */
   distinct?: Prisma.RescheduleScalarFieldEnum | Prisma.RescheduleScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -3945,6 +3949,7 @@ export type RescheduleFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   skip?: number
   distinct?: Prisma.RescheduleScalarFieldEnum | Prisma.RescheduleScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -3967,6 +3972,7 @@ export type RescheduleCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * The data needed to create a Reschedule.
    */
   data: Prisma.XOR<Prisma.RescheduleCreateInput, Prisma.RescheduleUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -4027,6 +4033,7 @@ export type RescheduleUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Choose, which Reschedule to update.
    */
   where: Prisma.RescheduleWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -4105,6 +4112,7 @@ export type RescheduleUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * In case the Reschedule was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.RescheduleUpdateInput, Prisma.RescheduleUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -4127,6 +4135,7 @@ export type RescheduleDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Filter which Reschedule to delete.
    */
   where: Prisma.RescheduleWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

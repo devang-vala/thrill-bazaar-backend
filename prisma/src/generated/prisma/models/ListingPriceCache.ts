@@ -466,7 +466,7 @@ export type $ListingPriceCachePayload<ExtArgs extends runtime.Types.Extensions.I
 export type ListingPriceCacheGetPayload<S extends boolean | null | undefined | ListingPriceCacheDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ListingPriceCachePayload, S>
 
 export type ListingPriceCacheCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ListingPriceCacheFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ListingPriceCacheFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ListingPriceCacheCountAggregateInputType | true
   }
 
@@ -911,6 +911,7 @@ export type ListingPriceCacheFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    * Filter, which ListingPriceCache to fetch.
    */
   where: Prisma.ListingPriceCacheWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -933,6 +934,7 @@ export type ListingPriceCacheFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    * Filter, which ListingPriceCache to fetch.
    */
   where: Prisma.ListingPriceCacheWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -985,6 +987,7 @@ export type ListingPriceCacheFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Filter by unique combinations of ListingPriceCaches.
    */
   distinct?: Prisma.ListingPriceCacheScalarFieldEnum | Prisma.ListingPriceCacheScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1037,6 +1040,7 @@ export type ListingPriceCacheFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    * Filter by unique combinations of ListingPriceCaches.
    */
   distinct?: Prisma.ListingPriceCacheScalarFieldEnum | Prisma.ListingPriceCacheScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1084,6 +1088,7 @@ export type ListingPriceCacheFindManyArgs<ExtArgs extends runtime.Types.Extensio
    */
   skip?: number
   distinct?: Prisma.ListingPriceCacheScalarFieldEnum | Prisma.ListingPriceCacheScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1106,6 +1111,7 @@ export type ListingPriceCacheCreateArgs<ExtArgs extends runtime.Types.Extensions
    * The data needed to create a ListingPriceCache.
    */
   data: Prisma.XOR<Prisma.ListingPriceCacheCreateInput, Prisma.ListingPriceCacheUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1166,6 +1172,7 @@ export type ListingPriceCacheUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Choose, which ListingPriceCache to update.
    */
   where: Prisma.ListingPriceCacheWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1244,6 +1251,7 @@ export type ListingPriceCacheUpsertArgs<ExtArgs extends runtime.Types.Extensions
    * In case the ListingPriceCache was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ListingPriceCacheUpdateInput, Prisma.ListingPriceCacheUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1266,6 +1274,7 @@ export type ListingPriceCacheDeleteArgs<ExtArgs extends runtime.Types.Extensions
    * Filter which ListingPriceCache to delete.
    */
   where: Prisma.ListingPriceCacheWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

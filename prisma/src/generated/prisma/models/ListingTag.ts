@@ -885,7 +885,7 @@ export type $ListingTagPayload<ExtArgs extends runtime.Types.Extensions.Internal
 export type ListingTagGetPayload<S extends boolean | null | undefined | ListingTagDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ListingTagPayload, S>
 
 export type ListingTagCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ListingTagFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ListingTagFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ListingTagCountAggregateInputType | true
   }
 
@@ -1336,6 +1336,7 @@ export type ListingTagFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    * Filter, which ListingTag to fetch.
    */
   where: Prisma.ListingTagWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1358,6 +1359,7 @@ export type ListingTagFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    * Filter, which ListingTag to fetch.
    */
   where: Prisma.ListingTagWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1410,6 +1412,7 @@ export type ListingTagFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Filter by unique combinations of ListingTags.
    */
   distinct?: Prisma.ListingTagScalarFieldEnum | Prisma.ListingTagScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1462,6 +1465,7 @@ export type ListingTagFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    * Filter by unique combinations of ListingTags.
    */
   distinct?: Prisma.ListingTagScalarFieldEnum | Prisma.ListingTagScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1509,6 +1513,7 @@ export type ListingTagFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   skip?: number
   distinct?: Prisma.ListingTagScalarFieldEnum | Prisma.ListingTagScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1531,6 +1536,7 @@ export type ListingTagCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * The data needed to create a ListingTag.
    */
   data: Prisma.XOR<Prisma.ListingTagCreateInput, Prisma.ListingTagUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1591,6 +1597,7 @@ export type ListingTagUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Choose, which ListingTag to update.
    */
   where: Prisma.ListingTagWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1669,6 +1676,7 @@ export type ListingTagUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * In case the ListingTag was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ListingTagUpdateInput, Prisma.ListingTagUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1691,6 +1699,7 @@ export type ListingTagDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Filter which ListingTag to delete.
    */
   where: Prisma.ListingTagWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

@@ -43,6 +43,42 @@ import cronRouter from "./cron.route.js";
 
 const router = new Hono();
 
+/**
+ * Public reference data (categories, divisions, operator directory) changes rarely but is
+ * requested on every catalog page load. Serving it with a shared cache header lets the
+ * browser and any CDN in front of the API reuse it instead of re-querying every time.
+ *
+ * Only applied to unauthenticated GETs that did not already set Cache-Control, so
+ * per-user responses are never cached.
+ */
+const PUBLIC_REFERENCE_DATA_PATHS = [
+  "/api/categories",
+  "/api/sub-categories",
+  "/api/listing-types",
+  "/api/countries",
+  "/api/primary-divisions",
+  "/api/secondary-divisions",
+  "/api/user/operators",
+];
+
+router.use("*", async (c, next) => {
+  await next();
+
+  if (c.req.method !== "GET") return;
+  if (c.res.status !== 200) return;
+  if (c.res.headers.get("Cache-Control")) return;
+  if (c.req.header("Authorization")) return;
+
+  const pathname = new URL(c.req.url).pathname;
+  const isPublicReferenceData = PUBLIC_REFERENCE_DATA_PATHS.some(
+    (publicPath) => pathname === publicPath || pathname.startsWith(`${publicPath}/`),
+  );
+
+  if (isPublicReferenceData) {
+    c.res.headers.set("Cache-Control", "public, max-age=600, s-maxage=600");
+  }
+});
+
 // Test endpoint to verify API router is working
 router.get("/", (c) => c.text("API root"));
 

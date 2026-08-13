@@ -1902,7 +1902,7 @@ export type $ReviewPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type ReviewGetPayload<S extends boolean | null | undefined | ReviewDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ReviewPayload, S>
 
 export type ReviewCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ReviewFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ReviewFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ReviewCountAggregateInputType | true
   }
 
@@ -2366,6 +2366,7 @@ export type ReviewFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Filter, which Review to fetch.
    */
   where: Prisma.ReviewWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2388,6 +2389,7 @@ export type ReviewFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions
    * Filter, which Review to fetch.
    */
   where: Prisma.ReviewWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2440,6 +2442,7 @@ export type ReviewFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Filter by unique combinations of Reviews.
    */
   distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2492,6 +2495,7 @@ export type ReviewFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    * Filter by unique combinations of Reviews.
    */
   distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2539,6 +2543,7 @@ export type ReviewFindManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   skip?: number
   distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2561,6 +2566,7 @@ export type ReviewCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * The data needed to create a Review.
    */
   data: Prisma.XOR<Prisma.ReviewCreateInput, Prisma.ReviewUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2621,6 +2627,7 @@ export type ReviewUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Choose, which Review to update.
    */
   where: Prisma.ReviewWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2699,6 +2706,7 @@ export type ReviewUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * In case the Review was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ReviewUpdateInput, Prisma.ReviewUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2721,6 +2729,7 @@ export type ReviewDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Filter which Review to delete.
    */
   where: Prisma.ReviewWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

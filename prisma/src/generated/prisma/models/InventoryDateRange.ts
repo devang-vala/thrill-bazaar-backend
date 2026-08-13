@@ -1818,7 +1818,7 @@ export type $InventoryDateRangePayload<ExtArgs extends runtime.Types.Extensions.
 export type InventoryDateRangeGetPayload<S extends boolean | null | undefined | InventoryDateRangeDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$InventoryDateRangePayload, S>
 
 export type InventoryDateRangeCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<InventoryDateRangeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<InventoryDateRangeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: InventoryDateRangeCountAggregateInputType | true
   }
 
@@ -2279,6 +2279,7 @@ export type InventoryDateRangeFindUniqueArgs<ExtArgs extends runtime.Types.Exten
    * Filter, which InventoryDateRange to fetch.
    */
   where: Prisma.InventoryDateRangeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2301,6 +2302,7 @@ export type InventoryDateRangeFindUniqueOrThrowArgs<ExtArgs extends runtime.Type
    * Filter, which InventoryDateRange to fetch.
    */
   where: Prisma.InventoryDateRangeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2353,6 +2355,7 @@ export type InventoryDateRangeFindFirstArgs<ExtArgs extends runtime.Types.Extens
    * Filter by unique combinations of InventoryDateRanges.
    */
   distinct?: Prisma.InventoryDateRangeScalarFieldEnum | Prisma.InventoryDateRangeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2405,6 +2408,7 @@ export type InventoryDateRangeFindFirstOrThrowArgs<ExtArgs extends runtime.Types
    * Filter by unique combinations of InventoryDateRanges.
    */
   distinct?: Prisma.InventoryDateRangeScalarFieldEnum | Prisma.InventoryDateRangeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2452,6 +2456,7 @@ export type InventoryDateRangeFindManyArgs<ExtArgs extends runtime.Types.Extensi
    */
   skip?: number
   distinct?: Prisma.InventoryDateRangeScalarFieldEnum | Prisma.InventoryDateRangeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2474,6 +2479,7 @@ export type InventoryDateRangeCreateArgs<ExtArgs extends runtime.Types.Extension
    * The data needed to create a InventoryDateRange.
    */
   data: Prisma.XOR<Prisma.InventoryDateRangeCreateInput, Prisma.InventoryDateRangeUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2534,6 +2540,7 @@ export type InventoryDateRangeUpdateArgs<ExtArgs extends runtime.Types.Extension
    * Choose, which InventoryDateRange to update.
    */
   where: Prisma.InventoryDateRangeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2612,6 +2619,7 @@ export type InventoryDateRangeUpsertArgs<ExtArgs extends runtime.Types.Extension
    * In case the InventoryDateRange was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.InventoryDateRangeUpdateInput, Prisma.InventoryDateRangeUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2634,6 +2642,7 @@ export type InventoryDateRangeDeleteArgs<ExtArgs extends runtime.Types.Extension
    * Filter which InventoryDateRange to delete.
    */
   where: Prisma.InventoryDateRangeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

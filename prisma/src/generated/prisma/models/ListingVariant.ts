@@ -1374,7 +1374,7 @@ export type $ListingVariantPayload<ExtArgs extends runtime.Types.Extensions.Inte
 export type ListingVariantGetPayload<S extends boolean | null | undefined | ListingVariantDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ListingVariantPayload, S>
 
 export type ListingVariantCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ListingVariantFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ListingVariantFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ListingVariantCountAggregateInputType | true
   }
 
@@ -1830,6 +1830,7 @@ export type ListingVariantFindUniqueArgs<ExtArgs extends runtime.Types.Extension
    * Filter, which ListingVariant to fetch.
    */
   where: Prisma.ListingVariantWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1852,6 +1853,7 @@ export type ListingVariantFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ex
    * Filter, which ListingVariant to fetch.
    */
   where: Prisma.ListingVariantWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1904,6 +1906,7 @@ export type ListingVariantFindFirstArgs<ExtArgs extends runtime.Types.Extensions
    * Filter by unique combinations of ListingVariants.
    */
   distinct?: Prisma.ListingVariantScalarFieldEnum | Prisma.ListingVariantScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1956,6 +1959,7 @@ export type ListingVariantFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
    * Filter by unique combinations of ListingVariants.
    */
   distinct?: Prisma.ListingVariantScalarFieldEnum | Prisma.ListingVariantScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2003,6 +2007,7 @@ export type ListingVariantFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    */
   skip?: number
   distinct?: Prisma.ListingVariantScalarFieldEnum | Prisma.ListingVariantScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2025,6 +2030,7 @@ export type ListingVariantCreateArgs<ExtArgs extends runtime.Types.Extensions.In
    * The data needed to create a ListingVariant.
    */
   data: Prisma.XOR<Prisma.ListingVariantCreateInput, Prisma.ListingVariantUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2085,6 +2091,7 @@ export type ListingVariantUpdateArgs<ExtArgs extends runtime.Types.Extensions.In
    * Choose, which ListingVariant to update.
    */
   where: Prisma.ListingVariantWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2163,6 +2170,7 @@ export type ListingVariantUpsertArgs<ExtArgs extends runtime.Types.Extensions.In
    * In case the ListingVariant was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ListingVariantUpdateInput, Prisma.ListingVariantUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2185,6 +2193,7 @@ export type ListingVariantDeleteArgs<ExtArgs extends runtime.Types.Extensions.In
    * Filter which ListingVariant to delete.
    */
   where: Prisma.ListingVariantWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

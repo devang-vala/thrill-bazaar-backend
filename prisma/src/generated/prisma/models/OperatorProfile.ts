@@ -1283,7 +1283,7 @@ export type $OperatorProfilePayload<ExtArgs extends runtime.Types.Extensions.Int
 export type OperatorProfileGetPayload<S extends boolean | null | undefined | OperatorProfileDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$OperatorProfilePayload, S>
 
 export type OperatorProfileCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<OperatorProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<OperatorProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: OperatorProfileCountAggregateInputType | true
   }
 
@@ -1747,6 +1747,7 @@ export type OperatorProfileFindUniqueArgs<ExtArgs extends runtime.Types.Extensio
    * Filter, which OperatorProfile to fetch.
    */
   where: Prisma.OperatorProfileWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1769,6 +1770,7 @@ export type OperatorProfileFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.E
    * Filter, which OperatorProfile to fetch.
    */
   where: Prisma.OperatorProfileWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1821,6 +1823,7 @@ export type OperatorProfileFindFirstArgs<ExtArgs extends runtime.Types.Extension
    * Filter by unique combinations of OperatorProfiles.
    */
   distinct?: Prisma.OperatorProfileScalarFieldEnum | Prisma.OperatorProfileScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1873,6 +1876,7 @@ export type OperatorProfileFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ex
    * Filter by unique combinations of OperatorProfiles.
    */
   distinct?: Prisma.OperatorProfileScalarFieldEnum | Prisma.OperatorProfileScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1920,6 +1924,7 @@ export type OperatorProfileFindManyArgs<ExtArgs extends runtime.Types.Extensions
    */
   skip?: number
   distinct?: Prisma.OperatorProfileScalarFieldEnum | Prisma.OperatorProfileScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1942,6 +1947,7 @@ export type OperatorProfileCreateArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data needed to create a OperatorProfile.
    */
   data: Prisma.XOR<Prisma.OperatorProfileCreateInput, Prisma.OperatorProfileUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2002,6 +2008,7 @@ export type OperatorProfileUpdateArgs<ExtArgs extends runtime.Types.Extensions.I
    * Choose, which OperatorProfile to update.
    */
   where: Prisma.OperatorProfileWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2080,6 +2087,7 @@ export type OperatorProfileUpsertArgs<ExtArgs extends runtime.Types.Extensions.I
    * In case the OperatorProfile was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.OperatorProfileUpdateInput, Prisma.OperatorProfileUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2102,6 +2110,7 @@ export type OperatorProfileDeleteArgs<ExtArgs extends runtime.Types.Extensions.I
    * Filter which OperatorProfile to delete.
    */
   where: Prisma.OperatorProfileWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

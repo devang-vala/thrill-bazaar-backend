@@ -833,7 +833,7 @@ export type $InventoryBlockedDatePayload<ExtArgs extends runtime.Types.Extension
 export type InventoryBlockedDateGetPayload<S extends boolean | null | undefined | InventoryBlockedDateDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$InventoryBlockedDatePayload, S>
 
 export type InventoryBlockedDateCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<InventoryBlockedDateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<InventoryBlockedDateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: InventoryBlockedDateCountAggregateInputType | true
   }
 
@@ -1283,6 +1283,7 @@ export type InventoryBlockedDateFindUniqueArgs<ExtArgs extends runtime.Types.Ext
    * Filter, which InventoryBlockedDate to fetch.
    */
   where: Prisma.InventoryBlockedDateWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1305,6 +1306,7 @@ export type InventoryBlockedDateFindUniqueOrThrowArgs<ExtArgs extends runtime.Ty
    * Filter, which InventoryBlockedDate to fetch.
    */
   where: Prisma.InventoryBlockedDateWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1357,6 +1359,7 @@ export type InventoryBlockedDateFindFirstArgs<ExtArgs extends runtime.Types.Exte
    * Filter by unique combinations of InventoryBlockedDates.
    */
   distinct?: Prisma.InventoryBlockedDateScalarFieldEnum | Prisma.InventoryBlockedDateScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1409,6 +1412,7 @@ export type InventoryBlockedDateFindFirstOrThrowArgs<ExtArgs extends runtime.Typ
    * Filter by unique combinations of InventoryBlockedDates.
    */
   distinct?: Prisma.InventoryBlockedDateScalarFieldEnum | Prisma.InventoryBlockedDateScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1456,6 +1460,7 @@ export type InventoryBlockedDateFindManyArgs<ExtArgs extends runtime.Types.Exten
    */
   skip?: number
   distinct?: Prisma.InventoryBlockedDateScalarFieldEnum | Prisma.InventoryBlockedDateScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1478,6 +1483,7 @@ export type InventoryBlockedDateCreateArgs<ExtArgs extends runtime.Types.Extensi
    * The data needed to create a InventoryBlockedDate.
    */
   data: Prisma.XOR<Prisma.InventoryBlockedDateCreateInput, Prisma.InventoryBlockedDateUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1538,6 +1544,7 @@ export type InventoryBlockedDateUpdateArgs<ExtArgs extends runtime.Types.Extensi
    * Choose, which InventoryBlockedDate to update.
    */
   where: Prisma.InventoryBlockedDateWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1616,6 +1623,7 @@ export type InventoryBlockedDateUpsertArgs<ExtArgs extends runtime.Types.Extensi
    * In case the InventoryBlockedDate was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.InventoryBlockedDateUpdateInput, Prisma.InventoryBlockedDateUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1638,6 +1646,7 @@ export type InventoryBlockedDateDeleteArgs<ExtArgs extends runtime.Types.Extensi
    * Filter which InventoryBlockedDate to delete.
    */
   where: Prisma.InventoryBlockedDateWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

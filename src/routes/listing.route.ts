@@ -12,7 +12,10 @@ import {
   getSimilarListings,
   getListingSlugs,
 } from "../controllers/listing.controller.js";
-import { getListingAvailabilitySummary } from "../controllers/listingAvailability.controller.js";
+import {
+  getListingAvailabilitySummary,
+  getListingAvailabilitySummaries,
+} from "../controllers/listingAvailability.controller.js";
 import {
   authenticateToken,
   requireAnyAdmin,
@@ -26,6 +29,8 @@ const listingRouter = new Hono();
 listingRouter.get("/", optionalAuth, getListings);
 listingRouter.get("/facets", optionalAuth, getListingFilterFacets);
 listingRouter.get("/slugs", getListingSlugs);
+// Batched variant used by listing grids — must stay above the "/:slug" catch-all.
+listingRouter.get("/availability-summaries", optionalAuth, getListingAvailabilitySummaries);
 listingRouter.get("/:listingId/availability-summary", optionalAuth, getListingAvailabilitySummary);
 listingRouter.get("/slug/:slug", getListing);
 

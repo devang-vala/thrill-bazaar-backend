@@ -1077,7 +1077,7 @@ export type $ListingSlotChangePayload<ExtArgs extends runtime.Types.Extensions.I
 export type ListingSlotChangeGetPayload<S extends boolean | null | undefined | ListingSlotChangeDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ListingSlotChangePayload, S>
 
 export type ListingSlotChangeCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ListingSlotChangeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ListingSlotChangeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ListingSlotChangeCountAggregateInputType | true
   }
 
@@ -1531,6 +1531,7 @@ export type ListingSlotChangeFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    * Filter, which ListingSlotChange to fetch.
    */
   where: Prisma.ListingSlotChangeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1553,6 +1554,7 @@ export type ListingSlotChangeFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    * Filter, which ListingSlotChange to fetch.
    */
   where: Prisma.ListingSlotChangeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1605,6 +1607,7 @@ export type ListingSlotChangeFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Filter by unique combinations of ListingSlotChanges.
    */
   distinct?: Prisma.ListingSlotChangeScalarFieldEnum | Prisma.ListingSlotChangeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1657,6 +1660,7 @@ export type ListingSlotChangeFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    * Filter by unique combinations of ListingSlotChanges.
    */
   distinct?: Prisma.ListingSlotChangeScalarFieldEnum | Prisma.ListingSlotChangeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1704,6 +1708,7 @@ export type ListingSlotChangeFindManyArgs<ExtArgs extends runtime.Types.Extensio
    */
   skip?: number
   distinct?: Prisma.ListingSlotChangeScalarFieldEnum | Prisma.ListingSlotChangeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1726,6 +1731,7 @@ export type ListingSlotChangeCreateArgs<ExtArgs extends runtime.Types.Extensions
    * The data needed to create a ListingSlotChange.
    */
   data: Prisma.XOR<Prisma.ListingSlotChangeCreateInput, Prisma.ListingSlotChangeUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1786,6 +1792,7 @@ export type ListingSlotChangeUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Choose, which ListingSlotChange to update.
    */
   where: Prisma.ListingSlotChangeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1864,6 +1871,7 @@ export type ListingSlotChangeUpsertArgs<ExtArgs extends runtime.Types.Extensions
    * In case the ListingSlotChange was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ListingSlotChangeUpdateInput, Prisma.ListingSlotChangeUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1886,6 +1894,7 @@ export type ListingSlotChangeDeleteArgs<ExtArgs extends runtime.Types.Extensions
    * Filter which ListingSlotChange to delete.
    */
   where: Prisma.ListingSlotChangeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

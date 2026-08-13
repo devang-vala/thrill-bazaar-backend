@@ -2039,7 +2039,7 @@ export type $ListingSlotPayload<ExtArgs extends runtime.Types.Extensions.Interna
 export type ListingSlotGetPayload<S extends boolean | null | undefined | ListingSlotDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ListingSlotPayload, S>
 
 export type ListingSlotCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ListingSlotFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ListingSlotFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ListingSlotCountAggregateInputType | true
   }
 
@@ -2502,6 +2502,7 @@ export type ListingSlotFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    * Filter, which ListingSlot to fetch.
    */
   where: Prisma.ListingSlotWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2524,6 +2525,7 @@ export type ListingSlotFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    * Filter, which ListingSlot to fetch.
    */
   where: Prisma.ListingSlotWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2576,6 +2578,7 @@ export type ListingSlotFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Filter by unique combinations of ListingSlots.
    */
   distinct?: Prisma.ListingSlotScalarFieldEnum | Prisma.ListingSlotScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2628,6 +2631,7 @@ export type ListingSlotFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    * Filter by unique combinations of ListingSlots.
    */
   distinct?: Prisma.ListingSlotScalarFieldEnum | Prisma.ListingSlotScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2675,6 +2679,7 @@ export type ListingSlotFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   skip?: number
   distinct?: Prisma.ListingSlotScalarFieldEnum | Prisma.ListingSlotScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2697,6 +2702,7 @@ export type ListingSlotCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * The data needed to create a ListingSlot.
    */
   data: Prisma.XOR<Prisma.ListingSlotCreateInput, Prisma.ListingSlotUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2757,6 +2763,7 @@ export type ListingSlotUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Choose, which ListingSlot to update.
    */
   where: Prisma.ListingSlotWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2835,6 +2842,7 @@ export type ListingSlotUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * In case the ListingSlot was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ListingSlotUpdateInput, Prisma.ListingSlotUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2857,6 +2865,7 @@ export type ListingSlotDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Filter which ListingSlot to delete.
    */
   where: Prisma.ListingSlotWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

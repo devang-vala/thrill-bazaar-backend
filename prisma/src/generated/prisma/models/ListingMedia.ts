@@ -696,7 +696,7 @@ export type $ListingMediaPayload<ExtArgs extends runtime.Types.Extensions.Intern
 export type ListingMediaGetPayload<S extends boolean | null | undefined | ListingMediaDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ListingMediaPayload, S>
 
 export type ListingMediaCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ListingMediaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ListingMediaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ListingMediaCountAggregateInputType | true
   }
 
@@ -1145,6 +1145,7 @@ export type ListingMediaFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.
    * Filter, which ListingMedia to fetch.
    */
   where: Prisma.ListingMediaWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1167,6 +1168,7 @@ export type ListingMediaFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exte
    * Filter, which ListingMedia to fetch.
    */
   where: Prisma.ListingMediaWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1219,6 +1221,7 @@ export type ListingMediaFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
    * Filter by unique combinations of ListingMedias.
    */
   distinct?: Prisma.ListingMediaScalarFieldEnum | Prisma.ListingMediaScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1271,6 +1274,7 @@ export type ListingMediaFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
    * Filter by unique combinations of ListingMedias.
    */
   distinct?: Prisma.ListingMediaScalarFieldEnum | Prisma.ListingMediaScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1318,6 +1322,7 @@ export type ListingMediaFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   skip?: number
   distinct?: Prisma.ListingMediaScalarFieldEnum | Prisma.ListingMediaScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1340,6 +1345,7 @@ export type ListingMediaCreateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * The data needed to create a ListingMedia.
    */
   data: Prisma.XOR<Prisma.ListingMediaCreateInput, Prisma.ListingMediaUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1400,6 +1406,7 @@ export type ListingMediaUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Choose, which ListingMedia to update.
    */
   where: Prisma.ListingMediaWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1478,6 +1485,7 @@ export type ListingMediaUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * In case the ListingMedia was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ListingMediaUpdateInput, Prisma.ListingMediaUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1500,6 +1508,7 @@ export type ListingMediaDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Filter which ListingMedia to delete.
    */
   where: Prisma.ListingMediaWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

@@ -498,7 +498,7 @@ export type $ListingInclusionExclusionPayload<ExtArgs extends runtime.Types.Exte
 export type ListingInclusionExclusionGetPayload<S extends boolean | null | undefined | ListingInclusionExclusionDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ListingInclusionExclusionPayload, S>
 
 export type ListingInclusionExclusionCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ListingInclusionExclusionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ListingInclusionExclusionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ListingInclusionExclusionCountAggregateInputType | true
   }
 
@@ -945,6 +945,7 @@ export type ListingInclusionExclusionFindUniqueArgs<ExtArgs extends runtime.Type
    * Filter, which ListingInclusionExclusion to fetch.
    */
   where: Prisma.ListingInclusionExclusionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -967,6 +968,7 @@ export type ListingInclusionExclusionFindUniqueOrThrowArgs<ExtArgs extends runti
    * Filter, which ListingInclusionExclusion to fetch.
    */
   where: Prisma.ListingInclusionExclusionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1019,6 +1021,7 @@ export type ListingInclusionExclusionFindFirstArgs<ExtArgs extends runtime.Types
    * Filter by unique combinations of ListingInclusionExclusions.
    */
   distinct?: Prisma.ListingInclusionExclusionScalarFieldEnum | Prisma.ListingInclusionExclusionScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1071,6 +1074,7 @@ export type ListingInclusionExclusionFindFirstOrThrowArgs<ExtArgs extends runtim
    * Filter by unique combinations of ListingInclusionExclusions.
    */
   distinct?: Prisma.ListingInclusionExclusionScalarFieldEnum | Prisma.ListingInclusionExclusionScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1118,6 +1122,7 @@ export type ListingInclusionExclusionFindManyArgs<ExtArgs extends runtime.Types.
    */
   skip?: number
   distinct?: Prisma.ListingInclusionExclusionScalarFieldEnum | Prisma.ListingInclusionExclusionScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1140,6 +1145,7 @@ export type ListingInclusionExclusionCreateArgs<ExtArgs extends runtime.Types.Ex
    * The data needed to create a ListingInclusionExclusion.
    */
   data: Prisma.XOR<Prisma.ListingInclusionExclusionCreateInput, Prisma.ListingInclusionExclusionUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1200,6 +1206,7 @@ export type ListingInclusionExclusionUpdateArgs<ExtArgs extends runtime.Types.Ex
    * Choose, which ListingInclusionExclusion to update.
    */
   where: Prisma.ListingInclusionExclusionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1278,6 +1285,7 @@ export type ListingInclusionExclusionUpsertArgs<ExtArgs extends runtime.Types.Ex
    * In case the ListingInclusionExclusion was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ListingInclusionExclusionUpdateInput, Prisma.ListingInclusionExclusionUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1300,6 +1308,7 @@ export type ListingInclusionExclusionDeleteArgs<ExtArgs extends runtime.Types.Ex
    * Filter which ListingInclusionExclusion to delete.
    */
   where: Prisma.ListingInclusionExclusionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

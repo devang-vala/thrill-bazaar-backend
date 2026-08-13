@@ -1011,7 +1011,7 @@ export type $BookingReservationPayload<ExtArgs extends runtime.Types.Extensions.
 export type BookingReservationGetPayload<S extends boolean | null | undefined | BookingReservationDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$BookingReservationPayload, S>
 
 export type BookingReservationCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<BookingReservationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<BookingReservationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: BookingReservationCountAggregateInputType | true
   }
 
@@ -1475,6 +1475,7 @@ export type BookingReservationFindUniqueArgs<ExtArgs extends runtime.Types.Exten
    * Filter, which BookingReservation to fetch.
    */
   where: Prisma.BookingReservationWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1493,6 +1494,7 @@ export type BookingReservationFindUniqueOrThrowArgs<ExtArgs extends runtime.Type
    * Filter, which BookingReservation to fetch.
    */
   where: Prisma.BookingReservationWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1541,6 +1543,7 @@ export type BookingReservationFindFirstArgs<ExtArgs extends runtime.Types.Extens
    * Filter by unique combinations of BookingReservations.
    */
   distinct?: Prisma.BookingReservationScalarFieldEnum | Prisma.BookingReservationScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1589,6 +1592,7 @@ export type BookingReservationFindFirstOrThrowArgs<ExtArgs extends runtime.Types
    * Filter by unique combinations of BookingReservations.
    */
   distinct?: Prisma.BookingReservationScalarFieldEnum | Prisma.BookingReservationScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1632,6 +1636,7 @@ export type BookingReservationFindManyArgs<ExtArgs extends runtime.Types.Extensi
    */
   skip?: number
   distinct?: Prisma.BookingReservationScalarFieldEnum | Prisma.BookingReservationScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1650,6 +1655,7 @@ export type BookingReservationCreateArgs<ExtArgs extends runtime.Types.Extension
    * The data needed to create a BookingReservation.
    */
   data: Prisma.XOR<Prisma.BookingReservationCreateInput, Prisma.BookingReservationUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1702,6 +1708,7 @@ export type BookingReservationUpdateArgs<ExtArgs extends runtime.Types.Extension
    * Choose, which BookingReservation to update.
    */
   where: Prisma.BookingReservationWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1772,6 +1779,7 @@ export type BookingReservationUpsertArgs<ExtArgs extends runtime.Types.Extension
    * In case the BookingReservation was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.BookingReservationUpdateInput, Prisma.BookingReservationUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1790,6 +1798,7 @@ export type BookingReservationDeleteArgs<ExtArgs extends runtime.Types.Extension
    * Filter which BookingReservation to delete.
    */
   where: Prisma.BookingReservationWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

@@ -775,7 +775,7 @@ export type $SubCategoryPayload<ExtArgs extends runtime.Types.Extensions.Interna
 export type SubCategoryGetPayload<S extends boolean | null | undefined | SubCategoryDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$SubCategoryPayload, S>
 
 export type SubCategoryCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<SubCategoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<SubCategoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: SubCategoryCountAggregateInputType | true
   }
 
@@ -1225,6 +1225,7 @@ export type SubCategoryFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    * Filter, which SubCategory to fetch.
    */
   where: Prisma.SubCategoryWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1247,6 +1248,7 @@ export type SubCategoryFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    * Filter, which SubCategory to fetch.
    */
   where: Prisma.SubCategoryWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1299,6 +1301,7 @@ export type SubCategoryFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Filter by unique combinations of SubCategories.
    */
   distinct?: Prisma.SubCategoryScalarFieldEnum | Prisma.SubCategoryScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1351,6 +1354,7 @@ export type SubCategoryFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    * Filter by unique combinations of SubCategories.
    */
   distinct?: Prisma.SubCategoryScalarFieldEnum | Prisma.SubCategoryScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1398,6 +1402,7 @@ export type SubCategoryFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   skip?: number
   distinct?: Prisma.SubCategoryScalarFieldEnum | Prisma.SubCategoryScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1420,6 +1425,7 @@ export type SubCategoryCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * The data needed to create a SubCategory.
    */
   data: Prisma.XOR<Prisma.SubCategoryCreateInput, Prisma.SubCategoryUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1480,6 +1486,7 @@ export type SubCategoryUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Choose, which SubCategory to update.
    */
   where: Prisma.SubCategoryWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1558,6 +1565,7 @@ export type SubCategoryUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * In case the SubCategory was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.SubCategoryUpdateInput, Prisma.SubCategoryUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1580,6 +1588,7 @@ export type SubCategoryDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Filter which SubCategory to delete.
    */
   where: Prisma.SubCategoryWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

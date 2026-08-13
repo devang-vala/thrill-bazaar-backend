@@ -655,7 +655,7 @@ export type $ListingVariantMetadataFieldOptionsPayload<ExtArgs extends runtime.T
 export type ListingVariantMetadataFieldOptionsGetPayload<S extends boolean | null | undefined | ListingVariantMetadataFieldOptionsDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ListingVariantMetadataFieldOptionsPayload, S>
 
 export type ListingVariantMetadataFieldOptionsCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ListingVariantMetadataFieldOptionsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ListingVariantMetadataFieldOptionsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ListingVariantMetadataFieldOptionsCountAggregateInputType | true
   }
 
@@ -1104,6 +1104,7 @@ export type ListingVariantMetadataFieldOptionsFindUniqueArgs<ExtArgs extends run
    * Filter, which ListingVariantMetadataFieldOptions to fetch.
    */
   where: Prisma.ListingVariantMetadataFieldOptionsWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1126,6 +1127,7 @@ export type ListingVariantMetadataFieldOptionsFindUniqueOrThrowArgs<ExtArgs exte
    * Filter, which ListingVariantMetadataFieldOptions to fetch.
    */
   where: Prisma.ListingVariantMetadataFieldOptionsWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1178,6 +1180,7 @@ export type ListingVariantMetadataFieldOptionsFindFirstArgs<ExtArgs extends runt
    * Filter by unique combinations of ListingVariantMetadataFieldOptions.
    */
   distinct?: Prisma.ListingVariantMetadataFieldOptionsScalarFieldEnum | Prisma.ListingVariantMetadataFieldOptionsScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1230,6 +1233,7 @@ export type ListingVariantMetadataFieldOptionsFindFirstOrThrowArgs<ExtArgs exten
    * Filter by unique combinations of ListingVariantMetadataFieldOptions.
    */
   distinct?: Prisma.ListingVariantMetadataFieldOptionsScalarFieldEnum | Prisma.ListingVariantMetadataFieldOptionsScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1277,6 +1281,7 @@ export type ListingVariantMetadataFieldOptionsFindManyArgs<ExtArgs extends runti
    */
   skip?: number
   distinct?: Prisma.ListingVariantMetadataFieldOptionsScalarFieldEnum | Prisma.ListingVariantMetadataFieldOptionsScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1299,6 +1304,7 @@ export type ListingVariantMetadataFieldOptionsCreateArgs<ExtArgs extends runtime
    * The data needed to create a ListingVariantMetadataFieldOptions.
    */
   data: Prisma.XOR<Prisma.ListingVariantMetadataFieldOptionsCreateInput, Prisma.ListingVariantMetadataFieldOptionsUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1359,6 +1365,7 @@ export type ListingVariantMetadataFieldOptionsUpdateArgs<ExtArgs extends runtime
    * Choose, which ListingVariantMetadataFieldOptions to update.
    */
   where: Prisma.ListingVariantMetadataFieldOptionsWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1437,6 +1444,7 @@ export type ListingVariantMetadataFieldOptionsUpsertArgs<ExtArgs extends runtime
    * In case the ListingVariantMetadataFieldOptions was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ListingVariantMetadataFieldOptionsUpdateInput, Prisma.ListingVariantMetadataFieldOptionsUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1459,6 +1467,7 @@ export type ListingVariantMetadataFieldOptionsDeleteArgs<ExtArgs extends runtime
    * Filter which ListingVariantMetadataFieldOptions to delete.
    */
   where: Prisma.ListingVariantMetadataFieldOptionsWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

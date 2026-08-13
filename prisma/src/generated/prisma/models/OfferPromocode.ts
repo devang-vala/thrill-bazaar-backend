@@ -1370,7 +1370,7 @@ export type $OfferPromocodePayload<ExtArgs extends runtime.Types.Extensions.Inte
 export type OfferPromocodeGetPayload<S extends boolean | null | undefined | OfferPromocodeDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$OfferPromocodePayload, S>
 
 export type OfferPromocodeCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<OfferPromocodeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<OfferPromocodeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: OfferPromocodeCountAggregateInputType | true
   }
 
@@ -1830,6 +1830,7 @@ export type OfferPromocodeFindUniqueArgs<ExtArgs extends runtime.Types.Extension
    * Filter, which OfferPromocode to fetch.
    */
   where: Prisma.OfferPromocodeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1852,6 +1853,7 @@ export type OfferPromocodeFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ex
    * Filter, which OfferPromocode to fetch.
    */
   where: Prisma.OfferPromocodeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1904,6 +1906,7 @@ export type OfferPromocodeFindFirstArgs<ExtArgs extends runtime.Types.Extensions
    * Filter by unique combinations of OfferPromocodes.
    */
   distinct?: Prisma.OfferPromocodeScalarFieldEnum | Prisma.OfferPromocodeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1956,6 +1959,7 @@ export type OfferPromocodeFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
    * Filter by unique combinations of OfferPromocodes.
    */
   distinct?: Prisma.OfferPromocodeScalarFieldEnum | Prisma.OfferPromocodeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2003,6 +2007,7 @@ export type OfferPromocodeFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    */
   skip?: number
   distinct?: Prisma.OfferPromocodeScalarFieldEnum | Prisma.OfferPromocodeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2025,6 +2030,7 @@ export type OfferPromocodeCreateArgs<ExtArgs extends runtime.Types.Extensions.In
    * The data needed to create a OfferPromocode.
    */
   data: Prisma.XOR<Prisma.OfferPromocodeCreateInput, Prisma.OfferPromocodeUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2081,6 +2087,7 @@ export type OfferPromocodeUpdateArgs<ExtArgs extends runtime.Types.Extensions.In
    * Choose, which OfferPromocode to update.
    */
   where: Prisma.OfferPromocodeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2155,6 +2162,7 @@ export type OfferPromocodeUpsertArgs<ExtArgs extends runtime.Types.Extensions.In
    * In case the OfferPromocode was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.OfferPromocodeUpdateInput, Prisma.OfferPromocodeUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2177,6 +2185,7 @@ export type OfferPromocodeDeleteArgs<ExtArgs extends runtime.Types.Extensions.In
    * Filter which OfferPromocode to delete.
    */
   where: Prisma.OfferPromocodeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

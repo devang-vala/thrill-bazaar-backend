@@ -1431,7 +1431,7 @@ export type $BookingPaymentPayload<ExtArgs extends runtime.Types.Extensions.Inte
 export type BookingPaymentGetPayload<S extends boolean | null | undefined | BookingPaymentDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$BookingPaymentPayload, S>
 
 export type BookingPaymentCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<BookingPaymentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<BookingPaymentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: BookingPaymentCountAggregateInputType | true
   }
 
@@ -1903,6 +1903,7 @@ export type BookingPaymentFindUniqueArgs<ExtArgs extends runtime.Types.Extension
    * Filter, which BookingPayment to fetch.
    */
   where: Prisma.BookingPaymentWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1925,6 +1926,7 @@ export type BookingPaymentFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ex
    * Filter, which BookingPayment to fetch.
    */
   where: Prisma.BookingPaymentWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1977,6 +1979,7 @@ export type BookingPaymentFindFirstArgs<ExtArgs extends runtime.Types.Extensions
    * Filter by unique combinations of BookingPayments.
    */
   distinct?: Prisma.BookingPaymentScalarFieldEnum | Prisma.BookingPaymentScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2029,6 +2032,7 @@ export type BookingPaymentFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
    * Filter by unique combinations of BookingPayments.
    */
   distinct?: Prisma.BookingPaymentScalarFieldEnum | Prisma.BookingPaymentScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2076,6 +2080,7 @@ export type BookingPaymentFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    */
   skip?: number
   distinct?: Prisma.BookingPaymentScalarFieldEnum | Prisma.BookingPaymentScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2098,6 +2103,7 @@ export type BookingPaymentCreateArgs<ExtArgs extends runtime.Types.Extensions.In
    * The data needed to create a BookingPayment.
    */
   data: Prisma.XOR<Prisma.BookingPaymentCreateInput, Prisma.BookingPaymentUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2158,6 +2164,7 @@ export type BookingPaymentUpdateArgs<ExtArgs extends runtime.Types.Extensions.In
    * Choose, which BookingPayment to update.
    */
   where: Prisma.BookingPaymentWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2236,6 +2243,7 @@ export type BookingPaymentUpsertArgs<ExtArgs extends runtime.Types.Extensions.In
    * In case the BookingPayment was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.BookingPaymentUpdateInput, Prisma.BookingPaymentUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -2258,6 +2266,7 @@ export type BookingPaymentDeleteArgs<ExtArgs extends runtime.Types.Extensions.In
    * Filter which BookingPayment to delete.
    */
   where: Prisma.BookingPaymentWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

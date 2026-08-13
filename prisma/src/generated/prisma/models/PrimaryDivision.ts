@@ -818,7 +818,7 @@ export type $PrimaryDivisionPayload<ExtArgs extends runtime.Types.Extensions.Int
 export type PrimaryDivisionGetPayload<S extends boolean | null | undefined | PrimaryDivisionDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$PrimaryDivisionPayload, S>
 
 export type PrimaryDivisionCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<PrimaryDivisionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<PrimaryDivisionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: PrimaryDivisionCountAggregateInputType | true
   }
 
@@ -1267,6 +1267,7 @@ export type PrimaryDivisionFindUniqueArgs<ExtArgs extends runtime.Types.Extensio
    * Filter, which PrimaryDivision to fetch.
    */
   where: Prisma.PrimaryDivisionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1289,6 +1290,7 @@ export type PrimaryDivisionFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.E
    * Filter, which PrimaryDivision to fetch.
    */
   where: Prisma.PrimaryDivisionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1341,6 +1343,7 @@ export type PrimaryDivisionFindFirstArgs<ExtArgs extends runtime.Types.Extension
    * Filter by unique combinations of PrimaryDivisions.
    */
   distinct?: Prisma.PrimaryDivisionScalarFieldEnum | Prisma.PrimaryDivisionScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1393,6 +1396,7 @@ export type PrimaryDivisionFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ex
    * Filter by unique combinations of PrimaryDivisions.
    */
   distinct?: Prisma.PrimaryDivisionScalarFieldEnum | Prisma.PrimaryDivisionScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1440,6 +1444,7 @@ export type PrimaryDivisionFindManyArgs<ExtArgs extends runtime.Types.Extensions
    */
   skip?: number
   distinct?: Prisma.PrimaryDivisionScalarFieldEnum | Prisma.PrimaryDivisionScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1462,6 +1467,7 @@ export type PrimaryDivisionCreateArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data needed to create a PrimaryDivision.
    */
   data: Prisma.XOR<Prisma.PrimaryDivisionCreateInput, Prisma.PrimaryDivisionUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1522,6 +1528,7 @@ export type PrimaryDivisionUpdateArgs<ExtArgs extends runtime.Types.Extensions.I
    * Choose, which PrimaryDivision to update.
    */
   where: Prisma.PrimaryDivisionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1600,6 +1607,7 @@ export type PrimaryDivisionUpsertArgs<ExtArgs extends runtime.Types.Extensions.I
    * In case the PrimaryDivision was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.PrimaryDivisionUpdateInput, Prisma.PrimaryDivisionUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1622,6 +1630,7 @@ export type PrimaryDivisionDeleteArgs<ExtArgs extends runtime.Types.Extensions.I
    * Filter which PrimaryDivision to delete.
    */
   where: Prisma.PrimaryDivisionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

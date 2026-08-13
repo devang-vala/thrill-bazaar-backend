@@ -586,7 +586,7 @@ export type $CountryPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type CountryGetPayload<S extends boolean | null | undefined | CountryDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$CountryPayload, S>
 
 export type CountryCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<CountryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<CountryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: CountryCountAggregateInputType | true
   }
 
@@ -1032,6 +1032,7 @@ export type CountryFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Filter, which Country to fetch.
    */
   where: Prisma.CountryWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1054,6 +1055,7 @@ export type CountryFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extension
    * Filter, which Country to fetch.
    */
   where: Prisma.CountryWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1106,6 +1108,7 @@ export type CountryFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Filter by unique combinations of Countries.
    */
   distinct?: Prisma.CountryScalarFieldEnum | Prisma.CountryScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1158,6 +1161,7 @@ export type CountryFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions
    * Filter by unique combinations of Countries.
    */
   distinct?: Prisma.CountryScalarFieldEnum | Prisma.CountryScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1205,6 +1209,7 @@ export type CountryFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   skip?: number
   distinct?: Prisma.CountryScalarFieldEnum | Prisma.CountryScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1227,6 +1232,7 @@ export type CountryCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * The data needed to create a Country.
    */
   data: Prisma.XOR<Prisma.CountryCreateInput, Prisma.CountryUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1283,6 +1289,7 @@ export type CountryUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Choose, which Country to update.
    */
   where: Prisma.CountryWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1357,6 +1364,7 @@ export type CountryUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * In case the Country was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.CountryUpdateInput, Prisma.CountryUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1379,6 +1387,7 @@ export type CountryDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Filter which Country to delete.
    */
   where: Prisma.CountryWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
