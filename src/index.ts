@@ -143,6 +143,7 @@ app.use('*', cors({
 }));
 
 //test endpoint
+// Trigger rebuild for Vercel CORS
 app.get("/", (c) => {
   return c.text("Hellooooo 😎");
 });
