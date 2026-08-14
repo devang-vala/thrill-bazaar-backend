@@ -541,7 +541,7 @@ export type $ListingPolicyPayload<ExtArgs extends runtime.Types.Extensions.Inter
 export type ListingPolicyGetPayload<S extends boolean | null | undefined | ListingPolicyDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ListingPolicyPayload, S>
 
 export type ListingPolicyCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ListingPolicyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ListingPolicyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ListingPolicyCountAggregateInputType | true
   }
 
@@ -988,6 +988,7 @@ export type ListingPolicyFindUniqueArgs<ExtArgs extends runtime.Types.Extensions
    * Filter, which ListingPolicy to fetch.
    */
   where: Prisma.ListingPolicyWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1010,6 +1011,7 @@ export type ListingPolicyFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ext
    * Filter, which ListingPolicy to fetch.
    */
   where: Prisma.ListingPolicyWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1062,6 +1064,7 @@ export type ListingPolicyFindFirstArgs<ExtArgs extends runtime.Types.Extensions.
    * Filter by unique combinations of ListingPolicies.
    */
   distinct?: Prisma.ListingPolicyScalarFieldEnum | Prisma.ListingPolicyScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1114,6 +1117,7 @@ export type ListingPolicyFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exte
    * Filter by unique combinations of ListingPolicies.
    */
   distinct?: Prisma.ListingPolicyScalarFieldEnum | Prisma.ListingPolicyScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1161,6 +1165,7 @@ export type ListingPolicyFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   skip?: number
   distinct?: Prisma.ListingPolicyScalarFieldEnum | Prisma.ListingPolicyScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1183,6 +1188,7 @@ export type ListingPolicyCreateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * The data needed to create a ListingPolicy.
    */
   data: Prisma.XOR<Prisma.ListingPolicyCreateInput, Prisma.ListingPolicyUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1243,6 +1249,7 @@ export type ListingPolicyUpdateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Choose, which ListingPolicy to update.
    */
   where: Prisma.ListingPolicyWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1321,6 +1328,7 @@ export type ListingPolicyUpsertArgs<ExtArgs extends runtime.Types.Extensions.Int
    * In case the ListingPolicy was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ListingPolicyUpdateInput, Prisma.ListingPolicyUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1343,6 +1351,7 @@ export type ListingPolicyDeleteArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Filter which ListingPolicy to delete.
    */
   where: Prisma.ListingPolicyWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

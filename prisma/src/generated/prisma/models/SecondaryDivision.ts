@@ -812,7 +812,7 @@ export type $SecondaryDivisionPayload<ExtArgs extends runtime.Types.Extensions.I
 export type SecondaryDivisionGetPayload<S extends boolean | null | undefined | SecondaryDivisionDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$SecondaryDivisionPayload, S>
 
 export type SecondaryDivisionCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<SecondaryDivisionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<SecondaryDivisionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: SecondaryDivisionCountAggregateInputType | true
   }
 
@@ -1261,6 +1261,7 @@ export type SecondaryDivisionFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    * Filter, which SecondaryDivision to fetch.
    */
   where: Prisma.SecondaryDivisionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1283,6 +1284,7 @@ export type SecondaryDivisionFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    * Filter, which SecondaryDivision to fetch.
    */
   where: Prisma.SecondaryDivisionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1335,6 +1337,7 @@ export type SecondaryDivisionFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Filter by unique combinations of SecondaryDivisions.
    */
   distinct?: Prisma.SecondaryDivisionScalarFieldEnum | Prisma.SecondaryDivisionScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1387,6 +1390,7 @@ export type SecondaryDivisionFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    * Filter by unique combinations of SecondaryDivisions.
    */
   distinct?: Prisma.SecondaryDivisionScalarFieldEnum | Prisma.SecondaryDivisionScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1434,6 +1438,7 @@ export type SecondaryDivisionFindManyArgs<ExtArgs extends runtime.Types.Extensio
    */
   skip?: number
   distinct?: Prisma.SecondaryDivisionScalarFieldEnum | Prisma.SecondaryDivisionScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1456,6 +1461,7 @@ export type SecondaryDivisionCreateArgs<ExtArgs extends runtime.Types.Extensions
    * The data needed to create a SecondaryDivision.
    */
   data: Prisma.XOR<Prisma.SecondaryDivisionCreateInput, Prisma.SecondaryDivisionUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1516,6 +1522,7 @@ export type SecondaryDivisionUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Choose, which SecondaryDivision to update.
    */
   where: Prisma.SecondaryDivisionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1594,6 +1601,7 @@ export type SecondaryDivisionUpsertArgs<ExtArgs extends runtime.Types.Extensions
    * In case the SecondaryDivision was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.SecondaryDivisionUpdateInput, Prisma.SecondaryDivisionUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1616,6 +1624,7 @@ export type SecondaryDivisionDeleteArgs<ExtArgs extends runtime.Types.Extensions
    * Filter which SecondaryDivision to delete.
    */
   where: Prisma.SecondaryDivisionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

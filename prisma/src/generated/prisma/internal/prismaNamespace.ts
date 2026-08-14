@@ -3539,6 +3539,14 @@ export const BadgeScalarFieldEnum = {
 export type BadgeScalarFieldEnum = (typeof BadgeScalarFieldEnum)[keyof typeof BadgeScalarFieldEnum]
 
 
+export const RelationLoadStrategy = {
+  query: 'query',
+  join: 'join'
+} as const
+
+export type RelationLoadStrategy = (typeof RelationLoadStrategy)[keyof typeof RelationLoadStrategy]
+
+
 export const ListingBadgeScalarFieldEnum = {
   id: 'id',
   listingId: 'listingId',

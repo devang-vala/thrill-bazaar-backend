@@ -711,7 +711,7 @@ export type $UserAddressPayload<ExtArgs extends runtime.Types.Extensions.Interna
 export type UserAddressGetPayload<S extends boolean | null | undefined | UserAddressDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$UserAddressPayload, S>
 
 export type UserAddressCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<UserAddressFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<UserAddressFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: UserAddressCountAggregateInputType | true
   }
 
@@ -1163,6 +1163,7 @@ export type UserAddressFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    * Filter, which UserAddress to fetch.
    */
   where: Prisma.UserAddressWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1185,6 +1186,7 @@ export type UserAddressFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    * Filter, which UserAddress to fetch.
    */
   where: Prisma.UserAddressWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1237,6 +1239,7 @@ export type UserAddressFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Filter by unique combinations of UserAddresses.
    */
   distinct?: Prisma.UserAddressScalarFieldEnum | Prisma.UserAddressScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1289,6 +1292,7 @@ export type UserAddressFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    * Filter by unique combinations of UserAddresses.
    */
   distinct?: Prisma.UserAddressScalarFieldEnum | Prisma.UserAddressScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1336,6 +1340,7 @@ export type UserAddressFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   skip?: number
   distinct?: Prisma.UserAddressScalarFieldEnum | Prisma.UserAddressScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1358,6 +1363,7 @@ export type UserAddressCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * The data needed to create a UserAddress.
    */
   data: Prisma.XOR<Prisma.UserAddressCreateInput, Prisma.UserAddressUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1418,6 +1424,7 @@ export type UserAddressUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Choose, which UserAddress to update.
    */
   where: Prisma.UserAddressWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1496,6 +1503,7 @@ export type UserAddressUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * In case the UserAddress was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.UserAddressUpdateInput, Prisma.UserAddressUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1518,6 +1526,7 @@ export type UserAddressDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Filter which UserAddress to delete.
    */
   where: Prisma.UserAddressWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

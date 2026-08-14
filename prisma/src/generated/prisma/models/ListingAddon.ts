@@ -447,7 +447,7 @@ export type $ListingAddonPayload<ExtArgs extends runtime.Types.Extensions.Intern
 export type ListingAddonGetPayload<S extends boolean | null | undefined | ListingAddonDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ListingAddonPayload, S>
 
 export type ListingAddonCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ListingAddonFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ListingAddonFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ListingAddonCountAggregateInputType | true
   }
 
@@ -893,6 +893,7 @@ export type ListingAddonFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.
    * Filter, which ListingAddon to fetch.
    */
   where: Prisma.ListingAddonWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -915,6 +916,7 @@ export type ListingAddonFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exte
    * Filter, which ListingAddon to fetch.
    */
   where: Prisma.ListingAddonWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -967,6 +969,7 @@ export type ListingAddonFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
    * Filter by unique combinations of ListingAddons.
    */
   distinct?: Prisma.ListingAddonScalarFieldEnum | Prisma.ListingAddonScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1019,6 +1022,7 @@ export type ListingAddonFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
    * Filter by unique combinations of ListingAddons.
    */
   distinct?: Prisma.ListingAddonScalarFieldEnum | Prisma.ListingAddonScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1066,6 +1070,7 @@ export type ListingAddonFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   skip?: number
   distinct?: Prisma.ListingAddonScalarFieldEnum | Prisma.ListingAddonScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1088,6 +1093,7 @@ export type ListingAddonCreateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * The data needed to create a ListingAddon.
    */
   data: Prisma.XOR<Prisma.ListingAddonCreateInput, Prisma.ListingAddonUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1148,6 +1154,7 @@ export type ListingAddonUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Choose, which ListingAddon to update.
    */
   where: Prisma.ListingAddonWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1226,6 +1233,7 @@ export type ListingAddonUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * In case the ListingAddon was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ListingAddonUpdateInput, Prisma.ListingAddonUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1248,6 +1256,7 @@ export type ListingAddonDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Filter which ListingAddon to delete.
    */
   where: Prisma.ListingAddonWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

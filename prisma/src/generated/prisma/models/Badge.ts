@@ -915,7 +915,7 @@ export type $BadgePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type BadgeGetPayload<S extends boolean | null | undefined | BadgeDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$BadgePayload, S>
 
 export type BadgeCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<BadgeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<BadgeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: BadgeCountAggregateInputType | true
   }
 
@@ -1368,6 +1368,7 @@ export type BadgeFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Filter, which Badge to fetch.
    */
   where: Prisma.BadgeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1390,6 +1391,7 @@ export type BadgeFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    * Filter, which Badge to fetch.
    */
   where: Prisma.BadgeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1442,6 +1444,7 @@ export type BadgeFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Filter by unique combinations of Badges.
    */
   distinct?: Prisma.BadgeScalarFieldEnum | Prisma.BadgeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1494,6 +1497,7 @@ export type BadgeFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    * Filter by unique combinations of Badges.
    */
   distinct?: Prisma.BadgeScalarFieldEnum | Prisma.BadgeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1541,6 +1545,7 @@ export type BadgeFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   skip?: number
   distinct?: Prisma.BadgeScalarFieldEnum | Prisma.BadgeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1563,6 +1568,7 @@ export type BadgeCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * The data needed to create a Badge.
    */
   data: Prisma.XOR<Prisma.BadgeCreateInput, Prisma.BadgeUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1623,6 +1629,7 @@ export type BadgeUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Choose, which Badge to update.
    */
   where: Prisma.BadgeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1701,6 +1708,7 @@ export type BadgeUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * In case the Badge was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.BadgeUpdateInput, Prisma.BadgeUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1723,6 +1731,7 @@ export type BadgeDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Filter which Badge to delete.
    */
   where: Prisma.BadgeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

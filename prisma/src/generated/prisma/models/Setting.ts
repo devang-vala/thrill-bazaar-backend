@@ -508,7 +508,7 @@ export type $SettingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type SettingGetPayload<S extends boolean | null | undefined | SettingDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$SettingPayload, S>
 
 export type SettingCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<SettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<SettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: SettingCountAggregateInputType | true
   }
 
@@ -953,6 +953,7 @@ export type SettingFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Filter, which Setting to fetch.
    */
   where: Prisma.SettingWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -971,6 +972,7 @@ export type SettingFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extension
    * Filter, which Setting to fetch.
    */
   where: Prisma.SettingWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1019,6 +1021,7 @@ export type SettingFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Filter by unique combinations of Settings.
    */
   distinct?: Prisma.SettingScalarFieldEnum | Prisma.SettingScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1067,6 +1070,7 @@ export type SettingFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions
    * Filter by unique combinations of Settings.
    */
   distinct?: Prisma.SettingScalarFieldEnum | Prisma.SettingScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1110,6 +1114,7 @@ export type SettingFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   skip?: number
   distinct?: Prisma.SettingScalarFieldEnum | Prisma.SettingScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1128,6 +1133,7 @@ export type SettingCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * The data needed to create a Setting.
    */
   data: Prisma.XOR<Prisma.SettingCreateInput, Prisma.SettingUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1180,6 +1186,7 @@ export type SettingUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Choose, which Setting to update.
    */
   where: Prisma.SettingWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1250,6 +1257,7 @@ export type SettingUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * In case the Setting was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.SettingUpdateInput, Prisma.SettingUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1268,6 +1276,7 @@ export type SettingDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Filter which Setting to delete.
    */
   where: Prisma.SettingWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

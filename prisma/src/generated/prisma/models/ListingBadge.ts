@@ -885,7 +885,7 @@ export type $ListingBadgePayload<ExtArgs extends runtime.Types.Extensions.Intern
 export type ListingBadgeGetPayload<S extends boolean | null | undefined | ListingBadgeDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ListingBadgePayload, S>
 
 export type ListingBadgeCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ListingBadgeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ListingBadgeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ListingBadgeCountAggregateInputType | true
   }
 
@@ -1336,6 +1336,7 @@ export type ListingBadgeFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.
    * Filter, which ListingBadge to fetch.
    */
   where: Prisma.ListingBadgeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1358,6 +1359,7 @@ export type ListingBadgeFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exte
    * Filter, which ListingBadge to fetch.
    */
   where: Prisma.ListingBadgeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1410,6 +1412,7 @@ export type ListingBadgeFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
    * Filter by unique combinations of ListingBadges.
    */
   distinct?: Prisma.ListingBadgeScalarFieldEnum | Prisma.ListingBadgeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1462,6 +1465,7 @@ export type ListingBadgeFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
    * Filter by unique combinations of ListingBadges.
    */
   distinct?: Prisma.ListingBadgeScalarFieldEnum | Prisma.ListingBadgeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1509,6 +1513,7 @@ export type ListingBadgeFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   skip?: number
   distinct?: Prisma.ListingBadgeScalarFieldEnum | Prisma.ListingBadgeScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1531,6 +1536,7 @@ export type ListingBadgeCreateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * The data needed to create a ListingBadge.
    */
   data: Prisma.XOR<Prisma.ListingBadgeCreateInput, Prisma.ListingBadgeUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1591,6 +1597,7 @@ export type ListingBadgeUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Choose, which ListingBadge to update.
    */
   where: Prisma.ListingBadgeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1669,6 +1676,7 @@ export type ListingBadgeUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * In case the ListingBadge was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ListingBadgeUpdateInput, Prisma.ListingBadgeUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1691,6 +1699,7 @@ export type ListingBadgeDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Filter which ListingBadge to delete.
    */
   where: Prisma.ListingBadgeWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

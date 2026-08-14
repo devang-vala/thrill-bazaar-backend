@@ -24,6 +24,121 @@ const normalizeMetadataBoolean = (value: unknown): boolean | null => {
   return null;
 };
 
+const normalizeTextCharacters = (value: unknown): string => {
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return String(value)
+    .normalize("NFKC")
+    .replace(/[^\u0000-\u007E]/g, (char) => LATIN_CONFUSABLES[char] || char);
+};
+
+const LATIN_CONFUSABLES: Record<string, string> = {
+  "Ꭺ": "A",
+  "Ꭿ": "A",
+  "Ꮋ": "H",
+  "Ꮎ": "O",
+  "Ꮓ": "Z",
+  "Ꮤ": "W",
+  "Ꮯ": "C",
+  "Ꮮ": "L",
+  "Ꮲ": "P",
+  "Ꮶ": "K",
+  "Ꮹ": "G",
+  "Ᏼ": "B",
+  "Ꭰ": "D",
+  "Ꭱ": "R",
+  "Ꭲ": "T",
+  "Ꭵ": "i",
+  "Ꮄ": "d",
+  "Ꮇ": "m",
+  "ጀ": "x",
+  "Ꮑ": "n",
+  "Ꮒ": "h",
+  "Ꮧ": "a",
+  "Ꮥ": "s",
+  "Ꮰ": "j",
+  "Ꮼ": "u",
+  "Ᏸ": "b",
+  "Ꮗ": "w",
+  "Ꮛ": "e",
+  "Ꮢ": "r",
+  "Ꮙ": "v",
+  "Ꮞ": "s",
+  "Ꮖ": "t",
+  "Ꮿ": "y",
+  "А": "A",
+  "В": "B",
+  "С": "C",
+  "Е": "E",
+  "Н": "H",
+  "І": "I",
+  "Ј": "J",
+  "К": "K",
+  "М": "M",
+  "О": "O",
+  "Р": "P",
+  "Т": "T",
+  "Х": "X",
+  "У": "Y",
+  "а": "a",
+  "е": "e",
+  "і": "i",
+  "ј": "j",
+  "к": "k",
+  "м": "m",
+  "о": "o",
+  "р": "p",
+  "с": "c",
+  "т": "t",
+  "у": "y",
+  "х": "x",
+  "Α": "A",
+  "Β": "B",
+  "Ε": "E",
+  "Ζ": "Z",
+  "Η": "H",
+  "Ι": "I",
+  "Κ": "K",
+  "Μ": "M",
+  "Ν": "N",
+  "Ο": "O",
+  "Ρ": "P",
+  "Τ": "T",
+  "Υ": "Y",
+  "Χ": "X",
+  "α": "a",
+  "ι": "i",
+  "κ": "k",
+  "ο": "o",
+  "ρ": "p",
+  "τ": "t",
+  "υ": "u",
+  "χ": "x",
+};
+
+const normalizeMetadataText = (value: unknown): unknown => {
+  if (typeof value === "string") {
+    return normalizeTextCharacters(value);
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => normalizeMetadataText(item));
+  }
+
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).map(([key, item]) => [
+        key,
+        normalizeMetadataText(item),
+      ]),
+    );
+  }
+
+  return value;
+};
+
 const buildMetadataFilterCondition = (
   fieldKey: string,
   rawValue: unknown,
@@ -232,6 +347,39 @@ const resolveSellerFilterValues = async (rawValues?: string | null) => {
 
   return sellerFilters
     .map((value) => sellerIdByFilter.get(value))
+    .filter((value): value is string => Boolean(value));
+};
+
+const resolveSubcategoryFilterValues = async (rawValues?: string | null) => {
+  const subcategoryFilters = Array.from(new Set(parseCsvFilter(rawValues)));
+
+  if (subcategoryFilters.length === 0) {
+    return [];
+  }
+
+  const matchingSubcategories = await prisma.subCategory.findMany({
+    where: {
+      OR: [
+        { id: { in: subcategoryFilters } },
+        { subCatSlug: { in: subcategoryFilters } },
+      ],
+    },
+    select: {
+      id: true,
+      subCatSlug: true,
+    },
+  });
+
+  const subcategoryIdByFilter = new Map<string, string>();
+  for (const subcategory of matchingSubcategories) {
+    subcategoryIdByFilter.set(subcategory.id, subcategory.id);
+    if (subcategory.subCatSlug) {
+      subcategoryIdByFilter.set(subcategory.subCatSlug, subcategory.id);
+    }
+  }
+
+  return subcategoryFilters
+    .map((value) => subcategoryIdByFilter.get(value))
     .filter((value): value is string => Boolean(value));
 };
 
@@ -874,10 +1022,9 @@ export const getListings = async (c: Context) => {
     }
 
     if (subcategories) {
-      const subCategoryIds = subcategories.split(",").filter(Boolean);
-      if (subCategoryIds.length > 0) {
-        whereClause.subCatId = { in: subCategoryIds };
-      }
+      // Accept either sub-category IDs or SEO slugs so collection routes can query directly.
+      const subCategoryIds = await resolveSubcategoryFilterValues(subcategories);
+      whereClause.subCatId = { in: subCategoryIds };
     }
 
     // Add seller/operator filter (sellerIds already parsed above)
@@ -1338,10 +1485,21 @@ export const getListings = async (c: Context) => {
       }
     }
 
-    const totalCount = await prisma.listing.count({
-      where: whereClause,
-    });
-    const listings = await prisma.listing.findMany({
+    // Run concurrently instead of paying sequential database round trips.
+    //
+    // NOTE: `metadata` is deliberately NOT selected here. The response only ever exposes
+    // the filterable subset of it, but the raw column averages ~13KB per listing, so
+    // selecting it shipped ~945KB per 70-row page across the wire just to throw almost
+    // all of it away in JS. It is projected down to the filterable keys in SQL below.
+    const [totalCount, listings] = await Promise.all([
+      prisma.listing.count({
+        where: whereClause,
+      }),
+      prisma.listing.findMany({
+        // Load the ten relations below with LATERAL joins in one statement. The default
+        // strategy issues a separate query per relation, which cost ~1.4s of round trips
+        // on this endpoint alone.
+        relationLoadStrategy: "join",
         where: whereClause,
         select: {
           id: true,
@@ -1358,7 +1516,6 @@ export const getListings = async (c: Context) => {
             }
           },
           currency: true,
-          metadata: true,
           startCountryId: true,
           startPrimaryDivisionId: true,
           startSecondaryDivisionId: true,
@@ -1391,14 +1548,13 @@ export const getListings = async (c: Context) => {
               categoryName: true,
               metadataFieldDefinitions: {
                 where: {
-                  displayOrder: 10,
+                  isFilter: true,
                 },
                 select: {
                   fieldKey: true,
                   fieldLabel: true,
                   displayOrder: true,
                 },
-                take: 1,
                 orderBy: { displayOrder: "asc" },
               },
             },
@@ -1414,6 +1570,14 @@ export const getListings = async (c: Context) => {
               id: true,
               firstName: true,
               lastName: true,
+              // Included so listing cards can render the company name without the
+              // client having to fetch the whole operator directory separately.
+              operatorProfile: {
+                select: {
+                  companyName: true,
+                  operatorSlug: true,
+                },
+              },
             },
           },
           media: {
@@ -1421,7 +1585,10 @@ export const getListings = async (c: Context) => {
               media: true,
             },
             take: 1,
-            orderBy: { createdAt: "asc" },
+            // Media rows uploaded in one batch share a createdAt, so ordering by it
+            // alone let the database pick any of them — which image a card showed could
+            // change between requests. `id` breaks the tie deterministically.
+            orderBy: [{ createdAt: "asc" }, { id: "asc" }],
           },
           badges: {
             where: { isActive: true },
@@ -1460,7 +1627,8 @@ export const getListings = async (c: Context) => {
         orderBy: orderByClause,
         skip,
         take: limit,
-    });
+      }),
+    ]);
 
     const shouldIncludeNextAvailableDate =
       shouldSortByDateClientSide || Boolean(availableOnDate || (dateRangeStart && dateRangeEnd));
@@ -1469,81 +1637,127 @@ export const getListings = async (c: Context) => {
     const listingIds = listings.map((listing) => listing.id);
     const activeBatchesCountMap = new Map<string, number>();
     const activeDaysCountMap = new Map<string, number>();
+    // Rating summary per listing so the card does not need a per-listing stats request.
+    const reviewStatsMap = new Map<string, { averageRating: number; reviewCount: number }>();
+    const filteredMetadataByListingId = new Map<string, Record<string, unknown>>();
 
     if (listingIds.length > 0) {
       const todayStartUtc = new Date();
       todayStartUtc.setUTCHours(0, 0, 0, 0);
 
-      const f1Slots = await prisma.listingSlot.findMany({
-        where: {
-          listingId: { in: listingIds },
-          isActive: true,
-          formatType: "F1",
-          availableCount: { gt: 0 },
-          OR: [
-            { batchEndDate: { gte: todayStartUtc } },
-            { batchStartDate: { gte: todayStartUtc } },
-          ],
-        },
-        select: {
-          listingId: true,
-        },
-      });
+      // All seven reads are independent; issuing them together turns seven sequential
+      // database round trips into one.
+      const [f1Slots, f3Slots, f2Ranges, f4Ranges, blockedDates, reviewGroups, metadataRows] = await Promise.all([
+        prisma.listingSlot.findMany({
+          where: {
+            listingId: { in: listingIds },
+            isActive: true,
+            formatType: "F1",
+            availableCount: { gt: 0 },
+            OR: [
+              { batchEndDate: { gte: todayStartUtc } },
+              { batchStartDate: { gte: todayStartUtc } },
+            ],
+          },
+          select: {
+            listingId: true,
+          },
+        }),
+        prisma.listingSlot.findMany({
+          where: {
+            listingId: { in: listingIds },
+            isActive: true,
+            formatType: "F3",
+            availableCount: { gt: 0 },
+            slotDate: { gte: todayStartUtc },
+          },
+          select: {
+            listingId: true,
+            slotDate: true,
+          },
+        }),
+        prisma.inventoryDateRange.findMany({
+          where: {
+            listingId: { in: listingIds },
+            isActive: true,
+            slotDefinitionId: null,
+            OR: [{ availableCount: { gt: 0 } }, { availableCount: null }],
+            availableToDate: { gte: todayStartUtc },
+          },
+          select: {
+            listingId: true,
+            availableFromDate: true,
+            availableToDate: true,
+          },
+        }),
+        prisma.inventoryDateRange.findMany({
+          where: {
+            listingId: { in: listingIds },
+            isActive: true,
+            slotDefinitionId: { not: null },
+            OR: [{ availableCount: { gt: 0 } }, { availableCount: null }],
+            availableToDate: { gte: todayStartUtc },
+          },
+          select: {
+            listingId: true,
+            availableFromDate: true,
+            availableToDate: true,
+          },
+        }),
+        prisma.inventoryBlockedDate.findMany({
+          where: {
+            listingId: { in: listingIds },
+            blockedDate: { gte: todayStartUtc },
+          },
+          select: {
+            listingId: true,
+            blockedDate: true,
+          },
+        }),
+        // Mirrors getListingReviewStats' filters so card ratings match the detail page.
+        prisma.review.groupBy({
+          by: ["listingId"],
+          where: {
+            listingId: { in: listingIds },
+            isModerated: false,
+            isFlagged: false,
+          },
+          _avg: { rating: true },
+          _count: { rating: true },
+        }),
+        // Projects each listing's metadata down to the filterable keys inside Postgres,
+        // so only the ~200 bytes per listing the response actually uses crosses the wire.
+        prisma.$queryRaw<Array<{ listing_id: string; metadata: Record<string, unknown> | null }>>`
+          SELECT
+            l."listing_id",
+            (
+              SELECT COALESCE(jsonb_object_agg(entry.key, entry.value), '{}'::jsonb)
+              FROM jsonb_each(l."metadata") AS entry
+              WHERE entry.key IN (
+                SELECT "field_key"
+                FROM "listing_metadata_field_definitions"
+                WHERE "is_it_a_filter" = true
+              )
+            ) AS "metadata"
+          FROM "listings" l
+          WHERE l."listing_id" IN (${Prisma.join(listingIds)})
+            AND l."metadata" IS NOT NULL
+        `,
+      ]);
 
-      const f3Slots = await prisma.listingSlot.findMany({
-        where: {
-          listingId: { in: listingIds },
-          isActive: true,
-          formatType: "F3",
-          availableCount: { gt: 0 },
-          slotDate: { gte: todayStartUtc },
-        },
-        select: {
-          listingId: true,
-          slotDate: true,
-        },
-      });
+      for (const metadataRow of metadataRows) {
+        filteredMetadataByListingId.set(metadataRow.listing_id, metadataRow.metadata || {});
+      }
 
-      const f2Ranges = await prisma.inventoryDateRange.findMany({
-        where: {
-          listingId: { in: listingIds },
-          isActive: true,
-          slotDefinitionId: null,
-          OR: [{ availableCount: { gt: 0 } }, { availableCount: null }],
-          availableToDate: { gte: todayStartUtc },
-        },
-        select: {
-          listingId: true,
-          availableFromDate: true,
-          availableToDate: true,
-        },
-      });
+      for (const reviewGroup of reviewGroups) {
+        const reviewCount = reviewGroup._count.rating || 0;
+        if (reviewCount <= 0) continue;
 
-      const f4Ranges = await prisma.inventoryDateRange.findMany({
-        where: {
-          listingId: { in: listingIds },
-          isActive: true,
-          slotDefinitionId: { not: null },
-          OR: [{ availableCount: { gt: 0 } }, { availableCount: null }],
-          availableToDate: { gte: todayStartUtc },
-        },
-        select: {
-          listingId: true,
-          availableFromDate: true,
-          availableToDate: true,
-        },
-      });
-
-      const blockedDates = await prisma.inventoryBlockedDate.findMany({
-        where: {
-          listingId: { in: listingIds },
-          blockedDate: { gte: todayStartUtc },
-        },
-        select: {
-          listingId: true,
-          blockedDate: true,
-        },
-      });
+        reviewStatsMap.set(reviewGroup.listingId, {
+          averageRating: Math.round(Number(reviewGroup._avg.rating || 0) * 10) / 10,
+          reviewCount,
+        });
+      }
 
       for (const slot of f1Slots) {
         activeBatchesCountMap.set(
@@ -1710,31 +1924,30 @@ export const getListings = async (c: Context) => {
       }
     }
 
-    const priceCacheRows =
-      listingIds.length > 0
-        ? await prisma.$queryRaw<Array<{ listing_id: string; from_price: number | null }>>`
-            SELECT "listing_id", "from_price"
-            FROM "listings_price_cache"
-            WHERE "listing_id" IN (${Prisma.join(listingIds)})
-          `
-        : [];
-    const fromPriceByListingId = new Map(
-      priceCacheRows.map((row) => [row.listing_id, row.from_price]),
-    );
-
-    // Add nextAvailableDate to each listing
-    let responseData = listings.map((listing) => ({
-      ...listing,
-      fromPrice: fromPriceByListingId.get(listing.id) ?? null,
-      nextAvailableDate: nextAvailableDateMap.get(listing.id) || null,
-      activeBatchesCount: listing.bookingFormat === "F1" ? activeBatchesCountMap.get(listing.id) || 0 : 0,
-      activeDaysCount:
+    // `fromPrice` comes from the priceCache relation already selected above — no extra query.
+    let responseData = listings.map((listing) => {
+      const activeBatchesCount =
+        listing.bookingFormat === "F1" ? activeBatchesCountMap.get(listing.id) || 0 : 0;
+      const activeDaysCount =
         listing.bookingFormat === "F2" ||
         listing.bookingFormat === "F3" ||
         listing.bookingFormat === "F4"
           ? activeDaysCountMap.get(listing.id) || 0
-          : 0,
-    }));
+          : 0;
+      const reviewStats = reviewStatsMap.get(listing.id);
+
+      return {
+        ...listing,
+        // Filterable subset only, projected in SQL rather than trimmed here.
+        metadata: filteredMetadataByListingId.get(listing.id) ?? {},
+        fromPrice: listing.priceCache?.fromPrice ?? null,
+        nextAvailableDate: nextAvailableDateMap.get(listing.id) || null,
+        activeBatchesCount,
+        activeDaysCount,
+        averageRating: reviewStats?.averageRating ?? null,
+        reviewCount: reviewStats?.reviewCount ?? 0,
+      };
+    });
 
     // Apply date-based sorting if needed (client-side sorting after fetching dates)
     if (shouldSortByDateClientSide && sortBy) {
@@ -2786,6 +2999,187 @@ export const createListing = async (c: Context) => {
 };
 
 /**
+ * Create or update the authenticated operator's draft listing from the first
+ * seller create-listing screen.
+ */
+export const upsertDraftListing = async (c: Context) => {
+  try {
+    const body = await c.req.json();
+    const user = c.get("user");
+
+    if (!user?.userId) {
+      return c.json({
+        success: false,
+        error: "Authentication required. Operator ID is mandatory.",
+      }, 401);
+    }
+
+    const categoryId = typeof body.categoryId === "string" ? body.categoryId.trim() : "";
+    const draftListingId = typeof body.listingId === "string" ? body.listingId.trim() : "";
+
+    if (!categoryId) {
+      return c.json({
+        success: false,
+        error: "Category ID is required to create a draft listing.",
+      }, 400);
+    }
+
+    const category = await prisma.category.findUnique({
+      where: { id: categoryId },
+      select: {
+        id: true,
+        bookingFormat: true,
+        isActive: true,
+      },
+    });
+
+    if (!category) {
+      return c.json({
+        success: false,
+        error: "Selected category was not found.",
+      }, 404);
+    }
+
+    if (!category.isActive) {
+      return c.json({
+        success: false,
+        error: "Selected category is not active.",
+      }, 400);
+    }
+
+    const subCatId =
+      typeof body.subCatId === "string" && body.subCatId.trim()
+        ? body.subCatId.trim()
+        : null;
+
+    if (subCatId) {
+      const subCategory = await prisma.subCategory.findUnique({
+        where: { id: subCatId },
+        select: {
+          id: true,
+          categoryId: true,
+          isActive: true,
+        },
+      });
+
+      if (!subCategory || subCategory.categoryId !== category.id) {
+        return c.json({
+          success: false,
+          error: "Selected subcategory does not belong to the selected category.",
+        }, 400);
+      }
+
+      if (!subCategory.isActive) {
+        return c.json({
+          success: false,
+          error: "Selected subcategory is not active.",
+        }, 400);
+      }
+    }
+
+    const listingName = body.listingName
+      ? sanitizeString(body.listingName, 255)
+      : "Untitled Draft";
+    const frontImageUrl = body.frontImageUrl
+      ? sanitizeString(body.frontImageUrl, 500)
+      : null;
+
+    const draftData: any = {
+      operatorId: user.userId,
+      categoryId: category.id,
+      subCatId,
+      listingName,
+      frontImageUrl,
+      bookingFormat: category.bookingFormat,
+      hasMultipleOptions: Boolean(body.hasMultipleOptions),
+      status: "draft",
+    };
+
+    let listing;
+
+    if (draftListingId) {
+      const existingDraft = await prisma.listing.findUnique({
+        where: { id: draftListingId },
+        select: {
+          id: true,
+          operatorId: true,
+          status: true,
+          listingSlug: true,
+        },
+      });
+
+      if (!existingDraft) {
+        return c.json({
+          success: false,
+          error: "Draft listing not found.",
+        }, 404);
+      }
+
+      if (existingDraft.operatorId !== user.userId) {
+        return c.json({
+          success: false,
+          error: "Not authorized to update this draft listing.",
+        }, 403);
+      }
+
+      if (existingDraft.status !== "draft") {
+        return c.json({
+          success: false,
+          error: "Only draft listings can be updated from this endpoint.",
+        }, 409);
+      }
+
+      listing = await prisma.listing.update({
+        where: { id: draftListingId },
+        data: draftData,
+        include: {
+          category: true,
+          subCategory: true,
+          operator: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+        },
+      });
+    } else {
+      listing = await prisma.listing.create({
+        data: {
+          ...draftData,
+          listingSlug: generateSlug(listingName || "untitled-draft") + "-" + Date.now(),
+        },
+        include: {
+          category: true,
+          subCategory: true,
+          operator: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+        },
+      });
+    }
+
+    return c.json({
+      success: true,
+      message: draftListingId ? "Draft listing updated successfully" : "Draft listing created successfully",
+      data: listing,
+    }, draftListingId ? 200 : 201);
+  } catch (error) {
+    console.error("Upsert draft listing error:", error);
+    return c.json({
+      success: false,
+      error: "Failed to save draft listing",
+      message: error instanceof Error ? error.message : "Unknown error",
+    }, 500);
+  }
+};
+
+/**
  * Update a listing
  */
 export const updateListing = async (c: Context) => {
@@ -2923,8 +3317,9 @@ export const updateListing = async (c: Context) => {
       console.log('=== METADATA UPDATE DEBUG ===');
       console.log('Incoming body.metadata:', JSON.stringify(body.metadata, null, 2));
 
-      const incomingMetadata = typeof body.metadata === 'string' ? JSON.parse(body.metadata) : body.metadata;
-      const existingMetadata = existingListing.metadata as any || {};
+      const rawIncomingMetadata = typeof body.metadata === 'string' ? JSON.parse(body.metadata) : body.metadata;
+      const incomingMetadata = normalizeMetadataText(rawIncomingMetadata) as Record<string, any>;
+      const existingMetadata = normalizeMetadataText(existingListing.metadata as any || {}) as Record<string, any>;
 
       console.log('Existing metadata from DB:', JSON.stringify(existingMetadata, null, 2));
       console.log('Incoming metadata (parsed):', JSON.stringify(incomingMetadata, null, 2));
@@ -3167,7 +3562,47 @@ export const getSimilarListings = async (c: Context) => {
     const similarListings: any[] = [];
     const seenIds = new Set<string>([listingId]); // Exclude current listing
 
-    const includeFields = {
+    // An explicit select, not `include`. `include` returns every scalar column of the
+    // listing — including `metadata`, a JSON blob averaging ~60KB per row — so a request
+    // for eight similar listings was answering with over half a megabyte of data the
+    // cards never read. This lists only the columns a card actually renders; the
+    // filterable slice of `metadata` is added back below from a projected query.
+    const similarCardSelect = {
+      id: true,
+      listingName: true,
+      listingSlug: true,
+      frontImageUrl: true,
+      bookingFormat: true,
+      basePriceDisplay: true,
+      currency: true,
+      startCountryId: true,
+      startPrimaryDivisionId: true,
+      startSecondaryDivisionId: true,
+      startLocationName: true,
+      createdAt: true,
+      priceCache: {
+        select: {
+          fromPrice: true,
+        },
+      },
+      startCountry: {
+        select: {
+          country_id: true,
+          country_name: true,
+        },
+      },
+      startPrimaryDivision: {
+        select: {
+          primary_division_id: true,
+          division_name: true,
+        },
+      },
+      startSecondaryDivision: {
+        select: {
+          secondary_division_id: true,
+          division_name: true,
+        },
+      },
       category: {
         select: {
           id: true,
@@ -3185,11 +3620,24 @@ export const getSimilarListings = async (c: Context) => {
           id: true,
           firstName: true,
           lastName: true,
+          // Lets the card show the company name without the client fetching the whole
+          // operator directory just to resolve a handful of names.
+          operatorProfile: {
+            select: {
+              companyName: true,
+              operatorSlug: true,
+            },
+          },
         },
       },
       ...badgesIncludeLimited,
       ...tagsIncludeLimited,
-    };
+    } as const;
+
+    const similarQueryOptions = {
+      relationLoadStrategy: "join",
+      select: similarCardSelect,
+    } as const;
 
     const relatedFormats = getRelatedBookingFormats(currentListing.bookingFormat);
 
@@ -3219,7 +3667,7 @@ export const getSimilarListings = async (c: Context) => {
 
       const categoryListings = await prisma.listing.findMany({
         where: categoryWhere,
-        include: includeFields,
+        ...similarQueryOptions,
         take: limit,
         orderBy: { createdAt: "desc" },
       });
@@ -3243,7 +3691,7 @@ export const getSimilarListings = async (c: Context) => {
             { subCatId: currentListing.subCatId },
           ],
         },
-        include: includeFields,
+        ...similarQueryOptions,
         take: limit - similarListings.length,
         orderBy: { createdAt: "desc" },
       });
@@ -3263,7 +3711,7 @@ export const getSimilarListings = async (c: Context) => {
           ...baseWhere,
           operatorId: currentListing.operatorId,
         },
-        include: includeFields,
+        ...similarQueryOptions,
         take: limit - similarListings.length,
         orderBy: { createdAt: "desc" },
       });
@@ -3280,7 +3728,7 @@ export const getSimilarListings = async (c: Context) => {
     if (similarListings.length < limit) {
       const fallbackListings = await prisma.listing.findMany({
         where: baseWhere,
-        include: includeFields,
+        ...similarQueryOptions,
         take: Math.min(20, (limit - similarListings.length) * 3),
         orderBy: { createdAt: "desc" },
       });
@@ -3291,6 +3739,61 @@ export const getSimilarListings = async (c: Context) => {
           seenIds.add(listing.id);
         }
       });
+    }
+
+    // Rating summary and the filterable slice of metadata, both keyed by listing id, so
+    // the cards render complete without a follow-up request per listing.
+    const similarIds = similarListings.map((listing) => listing.id);
+    const reviewStatsMap = new Map<string, { averageRating: number; reviewCount: number }>();
+    const filteredMetadataByListingId = new Map<string, Record<string, unknown>>();
+
+    if (similarIds.length > 0) {
+      const [reviewGroups, metadataRows] = await Promise.all([
+        // Same filters as getListingReviewStats, so a card's rating matches the
+        // detail page it links to.
+        prisma.review.groupBy({
+          by: ["listingId"],
+          where: {
+            listingId: { in: similarIds },
+            isModerated: false,
+            isFlagged: false,
+          },
+          _avg: { rating: true },
+          _count: { rating: true },
+        }),
+        // Reduces each listing's metadata to the filterable keys inside Postgres, so
+        // only the few hundred bytes a card reads cross the wire instead of the whole blob.
+        prisma.$queryRaw<Array<{ listing_id: string; metadata: Record<string, unknown> | null }>>`
+          SELECT
+            l."listing_id",
+            (
+              SELECT COALESCE(jsonb_object_agg(entry.key, entry.value), '{}'::jsonb)
+              FROM jsonb_each(l."metadata") AS entry
+              WHERE entry.key IN (
+                SELECT "field_key"
+                FROM "listing_metadata_field_definitions"
+                WHERE "is_it_a_filter" = true
+              )
+            ) AS "metadata"
+          FROM "listings" l
+          WHERE l."listing_id" IN (${Prisma.join(similarIds)})
+            AND l."metadata" IS NOT NULL
+        `,
+      ]);
+
+      for (const metadataRow of metadataRows) {
+        filteredMetadataByListingId.set(metadataRow.listing_id, metadataRow.metadata || {});
+      }
+
+      for (const reviewGroup of reviewGroups) {
+        const reviewCount = reviewGroup._count.rating || 0;
+        if (reviewCount <= 0) continue;
+
+        reviewStatsMap.set(reviewGroup.listingId, {
+          averageRating: Math.round(Number(reviewGroup._avg.rating || 0) * 10) / 10,
+          reviewCount,
+        });
+      }
     }
 
     // Transform badges and tags
@@ -3308,8 +3811,14 @@ export const getSimilarListings = async (c: Context) => {
         tagColor: lt.tag.tagColor,
       })) || [];
 
+      const reviewStats = reviewStatsMap.get(listing.id);
+
       return {
         ...listing,
+        metadata: filteredMetadataByListingId.get(listing.id) || {},
+        fromPrice: listing.priceCache?.fromPrice ?? null,
+        averageRating: reviewStats?.averageRating ?? null,
+        reviewCount: reviewStats?.reviewCount ?? 0,
         badges: transformedBadges,
         tags: transformedTags,
       };

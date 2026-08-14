@@ -588,7 +588,7 @@ export type $ReviewHelpfulVotePayload<ExtArgs extends runtime.Types.Extensions.I
 export type ReviewHelpfulVoteGetPayload<S extends boolean | null | undefined | ReviewHelpfulVoteDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ReviewHelpfulVotePayload, S>
 
 export type ReviewHelpfulVoteCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ReviewHelpfulVoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ReviewHelpfulVoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ReviewHelpfulVoteCountAggregateInputType | true
   }
 
@@ -1034,6 +1034,7 @@ export type ReviewHelpfulVoteFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    * Filter, which ReviewHelpfulVote to fetch.
    */
   where: Prisma.ReviewHelpfulVoteWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1056,6 +1057,7 @@ export type ReviewHelpfulVoteFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    * Filter, which ReviewHelpfulVote to fetch.
    */
   where: Prisma.ReviewHelpfulVoteWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1108,6 +1110,7 @@ export type ReviewHelpfulVoteFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Filter by unique combinations of ReviewHelpfulVotes.
    */
   distinct?: Prisma.ReviewHelpfulVoteScalarFieldEnum | Prisma.ReviewHelpfulVoteScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1160,6 +1163,7 @@ export type ReviewHelpfulVoteFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    * Filter by unique combinations of ReviewHelpfulVotes.
    */
   distinct?: Prisma.ReviewHelpfulVoteScalarFieldEnum | Prisma.ReviewHelpfulVoteScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1207,6 +1211,7 @@ export type ReviewHelpfulVoteFindManyArgs<ExtArgs extends runtime.Types.Extensio
    */
   skip?: number
   distinct?: Prisma.ReviewHelpfulVoteScalarFieldEnum | Prisma.ReviewHelpfulVoteScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1229,6 +1234,7 @@ export type ReviewHelpfulVoteCreateArgs<ExtArgs extends runtime.Types.Extensions
    * The data needed to create a ReviewHelpfulVote.
    */
   data: Prisma.XOR<Prisma.ReviewHelpfulVoteCreateInput, Prisma.ReviewHelpfulVoteUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1289,6 +1295,7 @@ export type ReviewHelpfulVoteUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Choose, which ReviewHelpfulVote to update.
    */
   where: Prisma.ReviewHelpfulVoteWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1367,6 +1374,7 @@ export type ReviewHelpfulVoteUpsertArgs<ExtArgs extends runtime.Types.Extensions
    * In case the ReviewHelpfulVote was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ReviewHelpfulVoteUpdateInput, Prisma.ReviewHelpfulVoteUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1389,6 +1397,7 @@ export type ReviewHelpfulVoteDeleteArgs<ExtArgs extends runtime.Types.Extensions
    * Filter which ReviewHelpfulVote to delete.
    */
   where: Prisma.ReviewHelpfulVoteWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

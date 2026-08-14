@@ -1,6 +1,10 @@
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
+  // Enables `relationLoadStrategy: "join"`, which fetches a query's relations with
+  // LATERAL joins in a single statement instead of one round trip per relation.
+  // Opt-in per query — every existing query keeps the default "query" strategy.
+  previewFeatures = ["relationJoins"]
 }
 
 datasource db {

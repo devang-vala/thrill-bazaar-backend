@@ -935,7 +935,7 @@ export type $SlotDefinitionPayload<ExtArgs extends runtime.Types.Extensions.Inte
 export type SlotDefinitionGetPayload<S extends boolean | null | undefined | SlotDefinitionDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$SlotDefinitionPayload, S>
 
 export type SlotDefinitionCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<SlotDefinitionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<SlotDefinitionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: SlotDefinitionCountAggregateInputType | true
   }
 
@@ -1386,6 +1386,7 @@ export type SlotDefinitionFindUniqueArgs<ExtArgs extends runtime.Types.Extension
    * Filter, which SlotDefinition to fetch.
    */
   where: Prisma.SlotDefinitionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1408,6 +1409,7 @@ export type SlotDefinitionFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ex
    * Filter, which SlotDefinition to fetch.
    */
   where: Prisma.SlotDefinitionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1460,6 +1462,7 @@ export type SlotDefinitionFindFirstArgs<ExtArgs extends runtime.Types.Extensions
    * Filter by unique combinations of SlotDefinitions.
    */
   distinct?: Prisma.SlotDefinitionScalarFieldEnum | Prisma.SlotDefinitionScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1512,6 +1515,7 @@ export type SlotDefinitionFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
    * Filter by unique combinations of SlotDefinitions.
    */
   distinct?: Prisma.SlotDefinitionScalarFieldEnum | Prisma.SlotDefinitionScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1559,6 +1563,7 @@ export type SlotDefinitionFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    */
   skip?: number
   distinct?: Prisma.SlotDefinitionScalarFieldEnum | Prisma.SlotDefinitionScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1581,6 +1586,7 @@ export type SlotDefinitionCreateArgs<ExtArgs extends runtime.Types.Extensions.In
    * The data needed to create a SlotDefinition.
    */
   data: Prisma.XOR<Prisma.SlotDefinitionCreateInput, Prisma.SlotDefinitionUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1641,6 +1647,7 @@ export type SlotDefinitionUpdateArgs<ExtArgs extends runtime.Types.Extensions.In
    * Choose, which SlotDefinition to update.
    */
   where: Prisma.SlotDefinitionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1719,6 +1726,7 @@ export type SlotDefinitionUpsertArgs<ExtArgs extends runtime.Types.Extensions.In
    * In case the SlotDefinition was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.SlotDefinitionUpdateInput, Prisma.SlotDefinitionUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1741,6 +1749,7 @@ export type SlotDefinitionDeleteArgs<ExtArgs extends runtime.Types.Extensions.In
    * Filter which SlotDefinition to delete.
    */
   where: Prisma.SlotDefinitionWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

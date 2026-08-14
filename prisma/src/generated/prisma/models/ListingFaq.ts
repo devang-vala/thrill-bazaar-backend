@@ -447,7 +447,7 @@ export type $ListingFaqPayload<ExtArgs extends runtime.Types.Extensions.Internal
 export type ListingFaqGetPayload<S extends boolean | null | undefined | ListingFaqDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$ListingFaqPayload, S>
 
 export type ListingFaqCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<ListingFaqFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<ListingFaqFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: ListingFaqCountAggregateInputType | true
   }
 
@@ -893,6 +893,7 @@ export type ListingFaqFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    * Filter, which ListingFaq to fetch.
    */
   where: Prisma.ListingFaqWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -915,6 +916,7 @@ export type ListingFaqFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    * Filter, which ListingFaq to fetch.
    */
   where: Prisma.ListingFaqWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -967,6 +969,7 @@ export type ListingFaqFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Filter by unique combinations of ListingFaqs.
    */
   distinct?: Prisma.ListingFaqScalarFieldEnum | Prisma.ListingFaqScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1019,6 +1022,7 @@ export type ListingFaqFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    * Filter by unique combinations of ListingFaqs.
    */
   distinct?: Prisma.ListingFaqScalarFieldEnum | Prisma.ListingFaqScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1066,6 +1070,7 @@ export type ListingFaqFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   skip?: number
   distinct?: Prisma.ListingFaqScalarFieldEnum | Prisma.ListingFaqScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1088,6 +1093,7 @@ export type ListingFaqCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * The data needed to create a ListingFaq.
    */
   data: Prisma.XOR<Prisma.ListingFaqCreateInput, Prisma.ListingFaqUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1148,6 +1154,7 @@ export type ListingFaqUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Choose, which ListingFaq to update.
    */
   where: Prisma.ListingFaqWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1226,6 +1233,7 @@ export type ListingFaqUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * In case the ListingFaq was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.ListingFaqUpdateInput, Prisma.ListingFaqUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1248,6 +1256,7 @@ export type ListingFaqDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Filter which ListingFaq to delete.
    */
   where: Prisma.ListingFaqWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

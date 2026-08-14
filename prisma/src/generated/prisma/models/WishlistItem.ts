@@ -588,7 +588,7 @@ export type $WishlistItemPayload<ExtArgs extends runtime.Types.Extensions.Intern
 export type WishlistItemGetPayload<S extends boolean | null | undefined | WishlistItemDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$WishlistItemPayload, S>
 
 export type WishlistItemCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<WishlistItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<WishlistItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: WishlistItemCountAggregateInputType | true
   }
 
@@ -1034,6 +1034,7 @@ export type WishlistItemFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.
    * Filter, which WishlistItem to fetch.
    */
   where: Prisma.WishlistItemWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1056,6 +1057,7 @@ export type WishlistItemFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exte
    * Filter, which WishlistItem to fetch.
    */
   where: Prisma.WishlistItemWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1108,6 +1110,7 @@ export type WishlistItemFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
    * Filter by unique combinations of WishlistItems.
    */
   distinct?: Prisma.WishlistItemScalarFieldEnum | Prisma.WishlistItemScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1160,6 +1163,7 @@ export type WishlistItemFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
    * Filter by unique combinations of WishlistItems.
    */
   distinct?: Prisma.WishlistItemScalarFieldEnum | Prisma.WishlistItemScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1207,6 +1211,7 @@ export type WishlistItemFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   skip?: number
   distinct?: Prisma.WishlistItemScalarFieldEnum | Prisma.WishlistItemScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1229,6 +1234,7 @@ export type WishlistItemCreateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * The data needed to create a WishlistItem.
    */
   data: Prisma.XOR<Prisma.WishlistItemCreateInput, Prisma.WishlistItemUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1289,6 +1295,7 @@ export type WishlistItemUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Choose, which WishlistItem to update.
    */
   where: Prisma.WishlistItemWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1367,6 +1374,7 @@ export type WishlistItemUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * In case the WishlistItem was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.WishlistItemUpdateInput, Prisma.WishlistItemUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1389,6 +1397,7 @@ export type WishlistItemDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Filter which WishlistItem to delete.
    */
   where: Prisma.WishlistItemWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

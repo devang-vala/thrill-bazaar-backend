@@ -481,7 +481,7 @@ export type $OtpPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type OtpGetPayload<S extends boolean | null | undefined | OtpDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$OtpPayload, S>
 
 export type OtpCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<OtpFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+  Omit<OtpFindManyArgs, 'select' | 'include' | 'distinct' | 'omit' | 'relationLoadStrategy'> & {
     select?: OtpCountAggregateInputType | true
   }
 
@@ -925,6 +925,7 @@ export type OtpFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Filter, which Otp to fetch.
    */
   where: Prisma.OtpWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -943,6 +944,7 @@ export type OtpFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.In
    * Filter, which Otp to fetch.
    */
   where: Prisma.OtpWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -991,6 +993,7 @@ export type OtpFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Filter by unique combinations of Otps.
    */
   distinct?: Prisma.OtpScalarFieldEnum | Prisma.OtpScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1039,6 +1042,7 @@ export type OtpFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Filter by unique combinations of Otps.
    */
   distinct?: Prisma.OtpScalarFieldEnum | Prisma.OtpScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1082,6 +1086,7 @@ export type OtpFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   skip?: number
   distinct?: Prisma.OtpScalarFieldEnum | Prisma.OtpScalarFieldEnum[]
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1100,6 +1105,7 @@ export type OtpCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    * The data needed to create a Otp.
    */
   data: Prisma.XOR<Prisma.OtpCreateInput, Prisma.OtpUncheckedCreateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1152,6 +1158,7 @@ export type OtpUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    * Choose, which Otp to update.
    */
   where: Prisma.OtpWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1222,6 +1229,7 @@ export type OtpUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    * In case the Otp was found with the provided `where` argument, update it with this data.
    */
   update: Prisma.XOR<Prisma.OtpUpdateInput, Prisma.OtpUncheckedUpdateInput>
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**
@@ -1240,6 +1248,7 @@ export type OtpDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    * Filter which Otp to delete.
    */
   where: Prisma.OtpWhereUniqueInput
+  relationLoadStrategy?: Prisma.RelationLoadStrategy
 }
 
 /**

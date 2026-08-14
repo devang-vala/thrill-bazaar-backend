@@ -97,20 +97,24 @@ const buildBookedDateCounts = (
   return bookedDateCounts;
 };
 
-async function calculateActivitySummary(
-  listingId: string,
+/**
+ * Computes the per-variant minimum bookable price for every supplied activity listing
+ * in a single pair of queries, keyed by listing id.
+ */
+async function calculateActivitySummaries(
+  listingIds: string[],
   bookingFormat: "F1" | "F3",
-  variantIds: string[],
+  variantIdsByListingId: Map<string, string[]>,
   todayStartUtc: Date,
 ) {
+  const minPriceMapByListingId = new Map<string, Map<string, number>>();
+  if (listingIds.length === 0) return minPriceMapByListingId;
+
   const activitySlots = await prisma.listingSlot.findMany({
     where: {
-      listingId,
+      listingId: { in: listingIds },
       formatType: bookingFormat,
       isActive: true,
-      ...(variantIds.length > 0
-        ? { OR: [{ variantId: { in: variantIds } }, { variantId: null }] }
-        : {}),
       ...(bookingFormat === "F1"
         ? {
           OR: [
@@ -124,6 +128,7 @@ async function calculateActivitySummary(
     },
     select: {
       id: true,
+      listingId: true,
       variantId: true,
       basePrice: true,
       availableCount: true,
@@ -134,9 +139,19 @@ async function calculateActivitySummary(
   });
 
   const holdCounts = await getActiveSlotReservationHoldCounts(activitySlots.map((slot) => slot.id));
-  const minPriceMap = new Map<string, number>();
 
   for (const slot of activitySlots) {
+    // The single-listing query restricted slots to the listing's own variants (or
+    // variant-less inventory); keep that behaviour when batching.
+    const listingVariantIds = variantIdsByListingId.get(slot.listingId) || [];
+    if (
+      listingVariantIds.length > 0 &&
+      slot.variantId !== null &&
+      !listingVariantIds.includes(slot.variantId)
+    ) {
+      continue;
+    }
+
     const effectiveAvailableCount = Math.max(
       0,
       Number(slot.availableCount || 0) - Number(holdCounts.get(slot.id) || 0),
@@ -151,90 +166,108 @@ async function calculateActivitySummary(
       continue;
     }
 
+    let minPriceMap = minPriceMapByListingId.get(slot.listingId);
+    if (!minPriceMap) {
+      minPriceMap = new Map<string, number>();
+      minPriceMapByListingId.set(slot.listingId, minPriceMap);
+    }
+
     updateVariantMinPrice(minPriceMap, slot.variantId, slot.basePrice);
   }
 
-  return minPriceMap;
+  return minPriceMapByListingId;
 }
 
-async function calculateRentalSummary(
-  listingId: string,
+/**
+ * Batched counterpart of the per-listing rental summary. Every read is done once for
+ * the whole set of listings and the results are grouped by listing id afterwards.
+ */
+async function calculateRentalSummaries(
+  listingIds: string[],
   bookingFormat: "F2" | "F3" | "F4",
-  variantIds: string[],
+  variantIdsByListingId: Map<string, string[]>,
   todayStartUtc: Date,
 ) {
+  const minPriceMapByListingId = new Map<string, Map<string, number>>();
+  if (listingIds.length === 0) return minPriceMapByListingId;
+
   const isSlotBased = bookingFormat === "F3" || bookingFormat === "F4";
 
-  const ranges = await prisma.inventoryDateRange.findMany({
-    where: {
-      listingId,
-      isActive: true,
-      availableToDate: { gte: todayStartUtc },
-      ...(variantIds.length > 0
-        ? { OR: [{ variantId: { in: variantIds } }, { variantId: null }] }
-        : {}),
-      ...(isSlotBased
-        ? { slotDefinitionId: { not: null } }
-        : { slotDefinitionId: null }),
-    },
-    select: {
-      id: true,
-      variantId: true,
-      slotDefinitionId: true,
-      availableFromDate: true,
-      availableToDate: true,
-      basePricePerDay: true,
-      totalCapacity: true,
-    },
-  });
+  const isVariantAllowed = (listingId: string, variantId: string | null) => {
+    if (variantId === null) return true;
+    const listingVariantIds = variantIdsByListingId.get(listingId) || [];
+    return listingVariantIds.length === 0 || listingVariantIds.includes(variantId);
+  };
 
-  const overrides = await prisma.listingSlotChange.findMany({
-    where: {
-      listingId,
-      date: { gte: todayStartUtc },
-      ...(variantIds.length > 0
-        ? { OR: [{ variantId: { in: variantIds } }, { variantId: null }] }
-        : {}),
-    },
-    select: {
-      id: true,
-      inventoryDateRangeId: true,
-      variantId: true,
-      date: true,
-      price: true,
-      totalCapacity: true,
-      availableCount: true,
-      inventoryDateRange: {
-        select: {
-          id: true,
-          variantId: true,
-          slotDefinitionId: true,
+  const [ranges, overrides, blockedDates] = await Promise.all([
+    prisma.inventoryDateRange.findMany({
+      where: {
+        listingId: { in: listingIds },
+        isActive: true,
+        availableToDate: { gte: todayStartUtc },
+        ...(isSlotBased
+          ? { slotDefinitionId: { not: null } }
+          : { slotDefinitionId: null }),
+      },
+      select: {
+        id: true,
+        listingId: true,
+        variantId: true,
+        slotDefinitionId: true,
+        availableFromDate: true,
+        availableToDate: true,
+        basePricePerDay: true,
+        totalCapacity: true,
+      },
+    }),
+    prisma.listingSlotChange.findMany({
+      where: {
+        listingId: { in: listingIds },
+        date: { gte: todayStartUtc },
+      },
+      select: {
+        id: true,
+        listingId: true,
+        inventoryDateRangeId: true,
+        variantId: true,
+        date: true,
+        price: true,
+        totalCapacity: true,
+        availableCount: true,
+        inventoryDateRange: {
+          select: {
+            id: true,
+            variantId: true,
+            slotDefinitionId: true,
+          },
         },
       },
-    },
-  });
+    }),
+    prisma.inventoryBlockedDate.findMany({
+      where: {
+        listingId: { in: listingIds },
+        blockedDate: { gte: todayStartUtc },
+      },
+      select: {
+        listingId: true,
+        variantId: true,
+        blockedDate: true,
+      },
+    }),
+  ]);
 
-  const filteredOverrides = overrides.filter((override) =>
-    isSlotBased
-      ? Boolean(override.inventoryDateRange?.slotDefinitionId)
-      : !override.inventoryDateRange?.slotDefinitionId,
+  const filteredOverrides = overrides.filter(
+    (override) =>
+      isVariantAllowed(override.listingId, override.variantId) &&
+      (isSlotBased
+        ? Boolean(override.inventoryDateRange?.slotDefinitionId)
+        : !override.inventoryDateRange?.slotDefinitionId),
+  );
+  const applicableRanges = ranges.filter((range) =>
+    isVariantAllowed(range.listingId, range.variantId),
   );
 
-  const blockedDates = await prisma.inventoryBlockedDate.findMany({
-    where: {
-      listingId,
-      blockedDate: { gte: todayStartUtc },
-      ...(variantIds.length > 0
-        ? { OR: [{ variantId: { in: variantIds } }, { variantId: null }] }
-        : {}),
-    },
-    select: {
-      variantId: true,
-      blockedDate: true,
-    },
-  });
-
-  const rangeIds = ranges.map((range) => range.id);
+  const rangeIds = applicableRanges.map((range) => range.id);
   const [activeBookings, holdCounts] = await Promise.all([
     rangeIds.length === 0
       ? Promise.resolve([])
@@ -254,15 +287,25 @@ async function calculateRentalSummary(
   ]);
 
   const bookedDateCounts = buildBookedDateCounts(activeBookings);
+  // Blocked dates are tracked per listing + variant, since ids are only unique per listing.
   const blockedDateMap = new Map<string, Set<string>>();
   const overriddenRangeDates = new Set<string>();
-  const minPriceMap = new Map<string, number>();
+
+  const getMinPriceMap = (listingId: string) => {
+    let minPriceMap = minPriceMapByListingId.get(listingId);
+    if (!minPriceMap) {
+      minPriceMap = new Map<string, number>();
+      minPriceMapByListingId.set(listingId, minPriceMap);
+    }
+    return minPriceMap;
+  };
 
   for (const blockedDate of blockedDates) {
-    const variantKey = toVariantKey(blockedDate.variantId);
-    const existing = blockedDateMap.get(variantKey) ?? new Set<string>();
+    if (!isVariantAllowed(blockedDate.listingId, blockedDate.variantId)) continue;
+    const blockedKey = `${blockedDate.listingId}::${toVariantKey(blockedDate.variantId)}`;
+    const existing = blockedDateMap.get(blockedKey) ?? new Set<string>();
     existing.add(toDateKey(blockedDate.blockedDate));
-    blockedDateMap.set(variantKey, existing);
+    blockedDateMap.set(blockedKey, existing);
   }
 
   for (const override of filteredOverrides) {
@@ -271,9 +314,10 @@ async function calculateRentalSummary(
     }
   }
 
-  for (const range of ranges) {
-    const variantKey = toVariantKey(range.variantId);
-    const blockedVariantDates = blockedDateMap.get(variantKey) ?? new Set<string>();
+  for (const range of applicableRanges) {
+    const blockedVariantDates =
+      blockedDateMap.get(`${range.listingId}::${toVariantKey(range.variantId)}`) ??
+      new Set<string>();
     const effectiveStart =
       range.availableFromDate > todayStartUtc ? range.availableFromDate : todayStartUtc;
 
@@ -287,16 +331,16 @@ async function calculateRentalSummary(
       const remainingCount = totalCapacity - bookedCount - heldCount;
 
       if (remainingCount <= 0) continue;
-      updateVariantMinPrice(minPriceMap, range.variantId, range.basePricePerDay);
+      updateVariantMinPrice(getMinPriceMap(range.listingId), range.variantId, range.basePricePerDay);
     }
   }
 
   for (const override of filteredOverrides) {
     const derivedVariantId = override.variantId ?? override.inventoryDateRange?.variantId ?? null;
-    const variantKey = toVariantKey(derivedVariantId);
     const dateKey = toDateKey(override.date);
+    const blockedKey = `${override.listingId}::${toVariantKey(derivedVariantId)}`;
 
-    if ((blockedDateMap.get(variantKey) ?? new Set<string>()).has(dateKey)) {
+    if ((blockedDateMap.get(blockedKey) ?? new Set<string>()).has(dateKey)) {
       continue;
     }
 
@@ -311,10 +355,133 @@ async function calculateRentalSummary(
     const remainingCount = availableCount - bookedCount - heldCount;
 
     if (remainingCount <= 0) continue;
-    updateVariantMinPrice(minPriceMap, derivedVariantId, override.price);
+    updateVariantMinPrice(getMinPriceMap(override.listingId), derivedVariantId, override.price);
   }
 
-  return minPriceMap;
+  return minPriceMapByListingId;
+}
+
+const buildListingSummary = (
+  listingId: string,
+  bookingFormat: string,
+  variantIds: string[],
+  minPriceMap: Map<string, number>,
+) => {
+  const variants: VariantSummary[] =
+    variantIds.length > 0
+      ? variantIds.map((variantId) => {
+        // Check variant-specific price first, then null-variantId inventory (applies to all variants)
+        const inventoryPrice =
+          minPriceMap.get(toVariantKey(variantId)) ??
+          minPriceMap.get("__default__") ??
+          null;
+        return {
+          variantId,
+          fromPrice: inventoryPrice,
+          hasAvailability: inventoryPrice !== null,
+          operationStatus: (inventoryPrice !== null ? "active" : "inactive") as OperationStatus,
+        };
+      })
+      : [buildEmptySummary(null)];
+
+  const overallMinPrice = variants.reduce<number | null>((lowest, variant) => {
+    if (variant.fromPrice === null) return lowest;
+    if (lowest === null || variant.fromPrice < lowest) return variant.fromPrice;
+    return lowest;
+  }, null);
+
+  const hasAnyInventory = variants.some((v) => v.hasAvailability);
+
+  return {
+    listingId,
+    bookingFormat,
+    fromPrice: overallMinPrice,
+    hasAvailability: hasAnyInventory,
+    operationStatus: (hasAnyInventory ? "active" : "inactive") as OperationStatus,
+    variants,
+  };
+};
+
+/**
+ * Computes availability summaries for a set of listings using batched queries — the
+ * grid needs one summary per visible card, and doing that as N separate requests was
+ * the dominant source of network waterfall on the collection pages.
+ */
+async function computeAvailabilitySummaries(listingIds: string[]) {
+  if (listingIds.length === 0) return [];
+
+  const listings = await prisma.listing.findMany({
+    where: { id: { in: listingIds } },
+    select: {
+      id: true,
+      bookingFormat: true,
+      variants: {
+        select: {
+          id: true,
+        },
+        orderBy: { variantOrder: "asc" },
+      },
+    },
+  });
+
+  if (listings.length === 0) return [];
+
+  const todayStartUtc = toUtcStartOfDay();
+  const variantIdsByListingId = new Map<string, string[]>(
+    listings.map((listing) => [listing.id, listing.variants.map((variant) => variant.id)]),
+  );
+
+  const idsByFormat = new Map<string, string[]>();
+  for (const listing of listings) {
+    if (!listing.bookingFormat) continue;
+    const existing = idsByFormat.get(listing.bookingFormat) ?? [];
+    existing.push(listing.id);
+    idsByFormat.set(listing.bookingFormat, existing);
+  }
+
+  const [f1Prices, f2Prices, f3Prices, f4Prices] = await Promise.all([
+    calculateActivitySummaries(
+      idsByFormat.get("F1") ?? [],
+      "F1",
+      variantIdsByListingId,
+      todayStartUtc,
+    ),
+    calculateRentalSummaries(
+      idsByFormat.get("F2") ?? [],
+      "F2",
+      variantIdsByListingId,
+      todayStartUtc,
+    ),
+    calculateRentalSummaries(
+      idsByFormat.get("F3") ?? [],
+      "F3",
+      variantIdsByListingId,
+      todayStartUtc,
+    ),
+    calculateRentalSummaries(
+      idsByFormat.get("F4") ?? [],
+      "F4",
+      variantIdsByListingId,
+      todayStartUtc,
+    ),
+  ]);
+
+  const pricesByFormat: Record<string, Map<string, Map<string, number>>> = {
+    F1: f1Prices,
+    F2: f2Prices,
+    F3: f3Prices,
+    F4: f4Prices,
+  };
+
+  return listings.map((listing) =>
+    buildListingSummary(
+      listing.id,
+      listing.bookingFormat ?? "",
+      variantIdsByListingId.get(listing.id) ?? [],
+      (listing.bookingFormat ? pricesByFormat[listing.bookingFormat]?.get(listing.id) : null) ??
+        new Map<string, number>(),
+    ),
+  );
 }
 
 export const getListingAvailabilitySummary = async (c: Context) => {
@@ -324,88 +491,69 @@ export const getListingAvailabilitySummary = async (c: Context) => {
       return c.json({ success: false, message: "listingId is required" }, 400);
     }
 
-    const listing = await prisma.listing.findUnique({
-      where: { id: listingId },
-      select: {
-        id: true,
-        bookingFormat: true,
-        variants: {
-          select: {
-            id: true,
-          },
-          orderBy: { variantOrder: "asc" },
-        },
-      },
-    });
+    const [summary] = await computeAvailabilitySummaries([listingId]);
 
-    if (!listing) {
+    if (!summary) {
       return c.json({ success: false, message: "Listing not found" }, 404);
     }
 
-    const variantIds = listing.variants.map((variant) => variant.id);
-    const todayStartUtc = toUtcStartOfDay();
-
-    let minPriceMap = new Map<string, number>();
-
-    if (listing.bookingFormat === "F1") {
-      minPriceMap = await calculateActivitySummary(
-        listingId,
-        listing.bookingFormat,
-        variantIds,
-        todayStartUtc,
-      );
-    } else if (
-      listing.bookingFormat === "F2" ||
-      listing.bookingFormat === "F3" ||
-      listing.bookingFormat === "F4"
-    ) {
-      minPriceMap = await calculateRentalSummary(
-        listingId,
-        listing.bookingFormat as "F2" | "F3" | "F4",
-        variantIds,
-        todayStartUtc,
-      );
-    }
-
-    const variants: VariantSummary[] =
-      variantIds.length > 0
-        ? variantIds.map((variantId) => {
-          // Check variant-specific price first, then null-variantId inventory (applies to all variants)
-          const inventoryPrice =
-            minPriceMap.get(toVariantKey(variantId)) ??
-            minPriceMap.get("__default__") ??
-            null;
-          return {
-            variantId,
-            fromPrice: inventoryPrice,
-            hasAvailability: inventoryPrice !== null,
-            operationStatus: (inventoryPrice !== null ? "active" : "inactive") as OperationStatus,
-          };
-        })
-        : [buildEmptySummary(null)];
-
-    const overallMinPrice = variants.reduce<number | null>((lowest, variant) => {
-      if (variant.fromPrice === null) return lowest;
-      if (lowest === null || variant.fromPrice < lowest) return variant.fromPrice;
-      return lowest;
-    }, null);
-
-    const hasAnyInventory = variants.some((v) => v.hasAvailability);
-
     return c.json({
       success: true,
-      data: {
-        listingId,
-        bookingFormat: listing.bookingFormat,
-        fromPrice: overallMinPrice,
-        hasAvailability: hasAnyInventory,
-        operationStatus: (hasAnyInventory ? "active" : "inactive") as OperationStatus,
-        variants,
-      },
+      data: summary,
     });
   } catch (error) {
     console.error("Get listing availability summary error:", error);
     return c.json({ success: false, message: "Failed to compute listing availability summary" }, 500);
+  }
+};
+
+const MAX_BATCH_AVAILABILITY_LISTINGS = 60;
+
+/**
+ * GET /listings/availability-summaries?listingIds=a,b,c
+ * Returns a summary per requested listing so a grid can hydrate every card at once.
+ */
+export const getListingAvailabilitySummaries = async (c: Context) => {
+  try {
+    const rawListingIds = c.req.query("listingIds") || "";
+    const listingIds = Array.from(
+      new Set(
+        rawListingIds
+          .split(",")
+          .map((listingId) => listingId.trim())
+          .filter(Boolean),
+      ),
+    );
+
+    if (listingIds.length === 0) {
+      return c.json({ success: true, data: [] });
+    }
+
+    if (listingIds.length > MAX_BATCH_AVAILABILITY_LISTINGS) {
+      return c.json(
+        {
+          success: false,
+          message: `A maximum of ${MAX_BATCH_AVAILABILITY_LISTINGS} listingIds can be requested at once`,
+        },
+        400,
+      );
+    }
+
+    const summaries = await computeAvailabilitySummaries(listingIds);
+
+    if (!c.get("user")) {
+      c.header("Cache-Control", "public, max-age=60, s-maxage=60");
+    } else {
+      c.header("Cache-Control", "no-store");
+    }
+
+    return c.json({ success: true, data: summaries });
+  } catch (error) {
+    console.error("Get listing availability summaries error:", error);
+    return c.json(
+      { success: false, message: "Failed to compute listing availability summaries" },
+      500,
+    );
   }
 };
 
