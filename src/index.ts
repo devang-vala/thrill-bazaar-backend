@@ -148,6 +148,10 @@ app.get("/", (c) => {
   return c.text("Hellooooo 😎");
 });
 
+app.get("/cors-test", (c) => {
+  return c.text("DEPLOYMENT_SUCCESSFUL");
+});
+
 // Mount API routes under /api
 app.route("/api", apiRouter);
 
