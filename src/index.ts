@@ -124,7 +124,8 @@ const allowedOrigins = [
   'http://localhost:3001',
   'https://www.thrillbazaar.com',
   'https://thrillbazaar.com',
-  'https://api.thrillbazaar.com'
+  'https://api.thrillbazaar.com',
+  'https://thrill-bazaar-frontend-ten.vercel.app'
 ];
 
 app.use('*', cors({
